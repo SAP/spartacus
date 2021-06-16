@@ -72,14 +72,6 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should call url service with given array of commands', () => {
-      const commands = ['testString', { cxRoute: 'testRoute' }];
-      const resultPath = ['testString', 'testPath'];
-      spyOn(urlService, 'transform').and.returnValue(resultPath);
-      service.go(commands);
-      expect(urlService.transform).toHaveBeenCalledWith(commands);
-    });
-
     it('should return Promise for the Angular navigation', () => {
       const navigationPromise = Promise.resolve(true);
       const queryParams = { test: true };
@@ -88,6 +80,14 @@ describe('RoutingService', () => {
       const result = service.go(['url'], { queryParams });
       expect(router.navigate).toHaveBeenCalledWith(['url'], { queryParams });
       expect(result).toBe(navigationPromise);
+    });
+
+    it('should call url service with given array of commands', () => {
+      const commands = ['testString', { cxRoute: 'testRoute' }];
+      const resultPath = ['testString', 'testPath'];
+      spyOn(urlService, 'transform').and.returnValue(resultPath);
+      service.go(commands);
+      expect(urlService.transform).toHaveBeenCalledWith(commands);
     });
   });
 
