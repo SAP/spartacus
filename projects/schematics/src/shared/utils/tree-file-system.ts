@@ -57,7 +57,7 @@ export class TreeFileSystem implements FileSystemHost {
   }
 
   writeFileSync(filePath: string, fileText: string): void {
-    if (this.tree.exists(filePath)) {
+    if (this.fileExistsSync(filePath)) {
       const currentContent = this.readFileSync(filePath);
       // prevent the unnecessary Angular logs about the files being updated
       if (currentContent === fileText) {
