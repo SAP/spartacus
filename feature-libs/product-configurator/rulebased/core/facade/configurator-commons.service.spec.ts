@@ -105,6 +105,11 @@ class MockconfiguratorUtilsService {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
   }
+  getConfigurationFromState(
+    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+  ): Configurator.Configuration | undefined {
+    return configurationState.value;
+  }
 }
 
 class MockConfiguratorCartService {

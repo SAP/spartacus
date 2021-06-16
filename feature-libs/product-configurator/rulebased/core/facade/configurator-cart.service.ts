@@ -18,6 +18,7 @@ import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
@@ -27,7 +28,8 @@ export class ConfiguratorCartService {
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutService: CheckoutService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -62,12 +64,10 @@ export class ConfiguratorCartService {
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) => {
-                  //It's safe to assume we got the cartState.value after we required
-                  //a loaded cart
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
                     userId: userId,
                     cartId: this.commonConfigUtilsService.getCartId(
-                      cartState.value!
+                      cartState.value
                     ),
                     cartEntryNumber: owner.id,
                     owner: owner,
@@ -83,11 +83,15 @@ export class ConfiguratorCartService {
       }),
       filter(
         (configurationState) =>
-          configurationState.value != undefined &&
+          configurationState.value !== undefined &&
           this.isConfigurationCreated(configurationState.value)
       ),
       //save to assume configuration is defined after previous filter
-      map((configurationState) => configurationState.value!)
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
   /**
@@ -124,11 +128,15 @@ export class ConfiguratorCartService {
       }),
       filter(
         (configurationState) =>
-          configurationState.value != undefined &&
+          configurationState.value !== undefined &&
           this.isConfigurationCreated(configurationState.value)
       ),
       //save to assume configuration is defined after previous filter
-      map((configurationState) => configurationState.value!)
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
 
@@ -156,7 +164,7 @@ export class ConfiguratorCartService {
             //a loaded cart
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value!),
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
               productCode: productCode,
               quantity: 1,
               configId: configId,
@@ -189,7 +197,7 @@ export class ConfiguratorCartService {
             //a loaded cart
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value!),
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
               cartEntryNumber: configuration.owner.id,
               configuration: configuration,
             };
@@ -208,7 +216,9 @@ export class ConfiguratorCartService {
     //It's safe to assume we got the cart.value after we required
     //a loaded cart
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => cartState.value!.entries),
+      map((cartState) => {
+        return cartState.value ? cartState.value.entries : [];
+      }),
       map((entries) =>
         entries
           ? entries.filter((entry) =>

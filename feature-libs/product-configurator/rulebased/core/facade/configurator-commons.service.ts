@@ -264,7 +264,9 @@ export class ConfiguratorCommonsService {
           )
       ),
       //save to assume configuration is defined after previous filter
-      map((configurationState) => configurationState.value!)
+      map((configurationState) =>
+        this.configuratorUtils.getConfigurationFromState(configurationState)
+      )
     );
   }
 

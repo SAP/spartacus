@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { StateUtils } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
 
 /**
@@ -44,7 +45,11 @@ export class ConfiguratorUtilsService {
 
     //we can safely assumed that a group exists, as we know the ID belongs to a
     //group part of the configuration
-    return groupFound!;
+    if (groupFound) {
+      return groupFound;
+    } else {
+      throw new Error('Group could not be found ' + groupId);
+    }
   }
 
   protected getGroupByIdIfPresent(
@@ -178,6 +183,23 @@ export class ConfiguratorUtilsService {
     }
     return haveFoundGroup;
   }
+  /**
+   * Retrieves the configuration from state, and throws an error in case the configuration is
+   * not available
+   * @param configurationState Process loader state containing product configuration
+   * @returns The actual product configuration
+   */
+  getConfigurationFromState(
+    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+  ): Configurator.Configuration {
+    const configuration = configurationState.value;
+    if (configuration) {
+      return configuration;
+    } else {
+      throw new Error('Configuration must be defined at this point');
+    }
+  }
+
   protected buildGroupForExtract(
     group: Configurator.Group
   ): Configurator.Group {

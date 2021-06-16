@@ -71,13 +71,18 @@ export class ConfiguratorGroupsService {
       .subscribe((configuration) =>
         //This method is only called if an incomplete group exists
         //therefore we can assume that its ID is defined
-        this.navigateToGroup(
-          configuration,
-          this.configuratorGroupStatusService.getFirstIncompleteGroup(
+        {
+          const groupId = this.configuratorGroupStatusService.getFirstIncompleteGroup(
             configuration
-          )?.id!,
-          true
-        )
+          )?.id;
+          if (groupId) {
+            this.navigateToGroup(configuration, groupId, true);
+          } else {
+            throw new Error(
+              'At this point we expect to see an incomplete group'
+            );
+          }
+        }
       );
   }
 
@@ -92,15 +97,16 @@ export class ConfiguratorGroupsService {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
-      .subscribe((configuration) =>
+      .subscribe((configuration) => {
+        const groupId = this.getFirstConflictGroup(configuration)?.id;
         // This method is only called if a conflict group exists
         // therefore we can assume that the id is defined
-        this.navigateToGroup(
-          configuration,
-          this.getFirstConflictGroup(configuration)?.id!,
-          true
-        )
-      );
+        if (groupId) {
+          this.navigateToGroup(configuration, groupId, true);
+        } else {
+          throw new Error('At this point we expect a conflict group');
+        }
+      });
   }
 
   /**
@@ -304,7 +310,7 @@ export class ConfiguratorGroupsService {
       switchMap((currentGroupId) => {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
-            let nextGroup = undefined;
+            let nextGroup;
             configuration?.flatGroups?.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
