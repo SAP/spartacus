@@ -30,6 +30,11 @@ class MockRoutingParamsService {
   }
 }
 
+class MockLocation implements Partial<MockLocation> {
+  back = jasmine.createSpy('back');
+  forward = jasmine.createSpy('forward');
+}
+
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
@@ -46,6 +51,7 @@ describe('RoutingService', () => {
         WindowRef,
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: RoutingParamsService, useClass: MockRoutingParamsService },
+        { provide: Location, useClass: MockLocation },
       ],
     });
 
@@ -55,6 +61,7 @@ describe('RoutingService', () => {
     urlService = TestBed.inject(SemanticPathService);
     routingParamsService = TestBed.inject(RoutingParamsService);
     router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
     spyOn(store, 'dispatch');
   });
 
@@ -168,6 +175,11 @@ describe('RoutingService', () => {
         })
       );
     });
+
+    it('should call Location.back', () => {
+      service.back();
+      expect(location.back).toHaveBeenCalled();
+    });
   });
 
   describe('forward', () => {
@@ -176,6 +188,11 @@ describe('RoutingService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteForwardAction()
       );
+    });
+
+    it('should call Location.forward', () => {
+      service.forward();
+      expect(location.forward).toHaveBeenCalled();
     });
   });
 
