@@ -180,10 +180,11 @@ export class OrderOverviewComponent {
         const addressCard = { title: textTitle, text: ['-'] };
 
         if (deliveryAddress) {
-          addressCard.text = [
-            deliveryAddress.formattedAddress,
-            deliveryAddress.country.name,
-          ];
+          const formattedAddress = this.normalizeFormattedAddress(
+            deliveryAddress.formattedAddress
+          );
+
+          addressCard.text = [formattedAddress, deliveryAddress.country.name];
 
           Object.assign(addressCard, {
             textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
@@ -254,5 +255,15 @@ export class OrderOverviewComponent {
     const year = date[3];
 
     return month + ' ' + day + ' ' + year;
+  }
+
+  private normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
+
+    const newFormattedAddress = addresses.filter(Boolean).join(', ');
+
+    return newFormattedAddress;
   }
 }

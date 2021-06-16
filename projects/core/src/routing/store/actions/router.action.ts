@@ -13,7 +13,6 @@ export class RouteGoAction implements Action {
   constructor(
     public payload: {
       path: string[];
-      query?: object;
       extras?: NavigationExtras;
     }
   ) {}
