@@ -580,7 +580,13 @@ function addLibraryAssets(
         },
       },
     };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    const initialContent = tree.read(path)?.toString(UTF_8) ?? '';
+    const toUpdate = JSON.stringify(updatedAngularJson, null, 2);
+    // prevent the unnecessary Angular logs about the files being updated
+    if (initialContent !== toUpdate) {
+      tree.overwrite(path, toUpdate);
+    }
   };
 }
 
@@ -625,12 +631,17 @@ export function addLibraryStyles(
     const toAdd = `@import "${stylingConfig.importStyle}";`;
 
     if (tree.exists(libraryScssPath)) {
-      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      let content = initialContent;
+
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
 
-      tree.overwrite(libraryScssPath, content);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (initialContent !== content) {
+        tree.overwrite(libraryScssPath, content);
+      }
       return tree;
     }
 
@@ -784,7 +795,7 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+function shouldAddDependency(
   dependency: NodeDependency,
   packageJson?: any
 ): boolean {
