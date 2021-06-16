@@ -38,6 +38,11 @@ export class AuthRedirectService implements OnDestroy {
 
   protected subscription: Subscription;
 
+  /**
+   * Fallback url used when cannot navigate to the saved redirect url.
+   */
+  protected readonly FALLBACK_REDIRECT_URL: string = '/';
+
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -58,12 +63,12 @@ export class AuthRedirectService implements OnDestroy {
       .getRedirectUrl()
       .pipe(take(1))
       .subscribe((redirectUrl) => {
-        redirectUrl ??= '/';
+        redirectUrl ??= this.FALLBACK_REDIRECT_URL;
         this.routing.goByUrl(redirectUrl).then((navSucceeded) => {
-          // Navigation might not succeed, i.e. when some guard blocks it returning false
-          // Then let's retry the redirect with a different, fallback url:
+          // Navigation might not succeed, i.e. when some guard blocks it, returning false.
+          // Then let's retry the redirect with the fallback url:
           if (!navSucceeded) {
-            this.routing.goByUrl('/');
+            this.routing.goByUrl(this.FALLBACK_REDIRECT_URL);
           }
         });
         this.clearRedirectUrl();
