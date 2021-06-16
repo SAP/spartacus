@@ -170,21 +170,37 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent()', () => {
-      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+    describe('should call getOrderCurrentDateCardContent()', () => {
+      it('with empty date', () => {
+        spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
 
-      const date = component['getDate'](new Date());
+        component
+          .getOrderCurrentDateCardContent()
+          .subscribe((data) => {
+            expect(data).toBeTruthy();
+            expect(data.title).toEqual('test');
+            expect(data.text).toEqual(['-']);
+          })
+          .unsubscribe();
 
-      component
-        .getOrderCurrentDateCardContent()
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([date]);
-        })
-        .unsubscribe();
+        expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+      });
 
-      expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+      it('with current date', () => {
+        spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+        const date = component['getDate'](new Date());
+
+        component
+          .getOrderCurrentDateCardContent(new Date().toISOString())
+          .subscribe((data) => {
+            expect(data).toBeTruthy();
+            expect(data.title).toEqual('test');
+            expect(data.text).toEqual([date]);
+          })
+          .unsubscribe();
+
+        expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
+      });
     });
 
     it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
