@@ -160,8 +160,6 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            //It's safe to assume we got the cart.value after we required
-            //a loaded cart
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cartState.value),
@@ -193,8 +191,6 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            //It's safe to assume we got the cart.value after we required
-            //a loaded cart
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
               userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cartState.value),
@@ -213,8 +209,6 @@ export class ConfiguratorCartService {
    * @returns True if and only if there is at least one cart entry with product configuration issues
    */
   activeCartHasIssues(): Observable<boolean> {
-    //It's safe to assume we got the cart.value after we required
-    //a loaded cart
     return this.activeCartService.requireLoadedCart().pipe(
       map((cartState) => {
         return cartState.value ? cartState.value.entries : [];
@@ -240,12 +234,12 @@ export class ConfiguratorCartService {
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {
-    //It's safe to assume we got the cart.value after we required
-    //a loaded cart
+    const configuration = configurationState.value;
     return (
-      !this.isConfigurationCreated(configurationState.value!) &&
-      !configurationState.loading &&
-      !configurationState.error
+      configuration === undefined ||
+      (!this.isConfigurationCreated(configuration) &&
+        !configurationState.loading &&
+        !configurationState.error)
     );
   }
 }
