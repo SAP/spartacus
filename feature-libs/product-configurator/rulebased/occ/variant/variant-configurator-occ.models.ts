@@ -7,7 +7,7 @@ export namespace OccConfigurator {
     /**
      * @member {string} [configId]
      */
-    configId?: string;
+    configId: string;
     /**
      * @member {boolean} [complete]
      */
@@ -62,20 +62,20 @@ export namespace OccConfigurator {
     consistent?: boolean;
     attributes?: Attribute[];
     description?: string;
-    groupType?: GroupType;
+    groupType: GroupType;
     id?: string;
     name?: string;
     subGroups?: Group[];
   }
 
   export interface Attribute {
-    name?: string;
+    name: string;
     langDepName?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
     value?: string;
-    key?: string;
+    key: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];
@@ -130,7 +130,7 @@ export namespace OccConfigurator {
   }
 
   export interface GroupOverview {
-    id?: string;
+    id: string;
     groupDescription?: string;
     characteristicValues?: CharacteristicOverview[];
     subGroups?: GroupOverview[];
@@ -141,8 +141,8 @@ export namespace OccConfigurator {
     value: string;
   }
   export interface Image {
-    imageType?: ImageType;
-    format?: ImageFormatType;
+    imageType: ImageType;
+    format: ImageFormatType;
     url?: string;
     altText?: string;
     galleryIndex?: number;
