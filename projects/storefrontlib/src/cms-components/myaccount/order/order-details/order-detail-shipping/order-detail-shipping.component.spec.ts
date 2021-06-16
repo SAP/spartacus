@@ -1,8 +1,12 @@
 import { DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
-import { LoaderState } from '../../../../../../../core/src/state/utils/loader/loader-state';
+import {
+  I18nTestingModule,
+  Order,
+  ReplenishmentOrder,
+  StateUtils,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';
@@ -20,14 +24,14 @@ const mockOrder: Order = {
   },
 };
 
-const mockState: LoaderState<Order> = {
+const mockState: StateUtils.LoaderState<Order> = {
   loading: false,
   error: false,
   success: true,
   value: mockOrder,
 };
 
-const mockStateWithError: LoaderState<Order> = {
+const mockStateWithError: StateUtils.LoaderState<Order> = {
   loading: false,
   error: true,
   success: true,
@@ -60,7 +64,7 @@ const mockState$ = new BehaviorSubject(mockState);
 const mockOrder$ = new BehaviorSubject(mockOrder);
 
 class MockOrderDetailsService {
-  getOrderDetailsState(): Observable<LoaderState<Order>> {
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
     return mockState$.asObservable();
   }
   getOrderDetails(): Observable<Order> {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
-import { LoaderState } from '../../../../../../core/src/state/utils/loader/loader-state';
+import { StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -38,7 +38,7 @@ export class OrderDetailsService {
     );
   }
 
-  getOrderDetailsState(): Observable<LoaderState<Order>> {
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetailsState())
     );

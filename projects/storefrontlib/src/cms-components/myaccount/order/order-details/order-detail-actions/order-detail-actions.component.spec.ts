@@ -7,8 +7,8 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  StateUtils,
 } from '@spartacus/core';
-import { LoaderState } from '../../../../../../../core/src/state/utils/loader/loader-state';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';
@@ -20,14 +20,14 @@ const mockOrder: Order = {
   cancellable: false,
 };
 
-const mockState: LoaderState<Order> = {
+const mockState: StateUtils.LoaderState<Order> = {
   loading: false,
   error: false,
   success: true,
   value: mockOrder,
 };
 
-const mockStateWithError: LoaderState<Order> = {
+const mockStateWithError: StateUtils.LoaderState<Order> = {
   loading: false,
   error: true,
   success: true,
@@ -44,7 +44,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockOrderDetailsService {
-  getOrderDetailsState(): Observable<LoaderState<Order>> {
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
     return mockState$.asObservable();
   }
 }
