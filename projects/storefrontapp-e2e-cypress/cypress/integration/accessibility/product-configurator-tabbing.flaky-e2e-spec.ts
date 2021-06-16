@@ -19,13 +19,18 @@ const containerSelectorOverviewForm = 'main';
 const CAMERA_MODE = 'CAMERA_MODE';
 const CAMERA_COLOR = 'CAMERA_COLOR';
 const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
+const CAMERA_PIXELS = 'CAMERA_PIXELS';
+
 // attribute types
 const RADIO_GROUP = 'radioGroup';
 const CHECKBOX_LIST = 'checkBoxList';
+
 // attribute values
 const CAMERA_MODE_PROFESSIONAL = 'P';
 const CAMERA_COLOR_METALLIC = 'METALLIC';
 const CAMERA_SD_CARD_SDXC = 'SDXC';
+const CAMERA_PIXELS_P8 = 'P8';
+
 // group names
 const SPECIFICATION = 'Specification';
 
@@ -98,6 +103,8 @@ context('Product Configuration', () => {
       );
 
       configuration.clickOnNextBtn(SPECIFICATION);
+      configuration.checkFocus(CAMERA_PIXELS, RADIO_GROUP, CAMERA_PIXELS_P8);
+
       configuration.selectAttribute(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
