@@ -148,10 +148,10 @@ export class ConfiguratorStorefrontUtilsService {
    * Persist the keyboard focus state for the given key.
    * The focus is stored globally or for the given group.
    *
-   * @param {string | undefined} key - key
+   * @param {string} key - key
    * @param {string} group? - Group
    */
-  setFocus(key: string | undefined, group?: string): void {
+  setFocus(key?: string, group?: string): void {
     if (key) {
       this.keyboardFocusService.set(key, group);
     }

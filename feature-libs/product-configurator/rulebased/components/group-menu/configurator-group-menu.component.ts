@@ -346,9 +346,9 @@ export class ConfiguratorGroupMenuComponent {
    * Persists the keyboard focus state for the given key
    * from the main group menu by back navigation.
    *
-   * @param {string | undefined} currentGroupId - Current group ID
+   * @param {string} currentGroupId - Current group ID
    */
-  setFocusForMainMenu(currentGroupId: string | undefined): void {
+  setFocusForMainMenu(currentGroupId?: string): void {
     let key: string | undefined = currentGroupId;
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       configuration?.groups?.forEach((group) => {
@@ -369,11 +369,11 @@ export class ConfiguratorGroupMenuComponent {
    * from the subgroup menu by forwards navigation.
    *
    * @param {Configurator.Group} group - Group
-   * @param {string | undefined} currentGroupId - Current group ID
+   * @param {string} currentGroupId - Current group ID
    */
   setFocusForSubGroup(
     group: Configurator.Group,
-    currentGroupId: string | undefined
+    currentGroupId?: string
   ): void {
     let key: string | undefined = 'cx-menu-back';
     if (this.containsSelectedGroup(group, currentGroupId)) {
@@ -386,12 +386,12 @@ export class ConfiguratorGroupMenuComponent {
    * Verifies whether the parent group contains a selected group.
    *
    * @param {Configurator.Group} group - Group
-   * @param {string | undefined} currentGroupId - Current group ID
+   * @param {string} currentGroupId - Current group ID
    * @returns {boolean} - 'true' if the parent group contains a selected group, otherwise 'false'
    */
   containsSelectedGroup(
     group: Configurator.Group,
-    currentGroupId: string | undefined
+    currentGroupId?: string
   ): boolean {
     let isCurrentGroupFound = false;
     group?.subGroups?.forEach((subGroup) => {
