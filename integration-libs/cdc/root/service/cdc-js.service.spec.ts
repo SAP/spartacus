@@ -62,10 +62,6 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-/*class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  update = createSpy().and.returnValue(of(undefined));
-}*/
-
 class MockCdcUserProfileAdapter implements Partial<CdcUserProfileAdapter> {
   update = createSpy().and.returnValue(of(undefined));
 }
@@ -304,9 +300,10 @@ describe('CdcJsService', () => {
       expect(cdcUserProfileAdapter.update).toHaveBeenCalledWith(
         OCC_USER_ID_CURRENT,
         {
-        firstName: response.profile.firstName,
-        lastName: response.profile.lastName,
-      });
+          firstName: response.profile.firstName,
+          lastName: response.profile.lastName,
+        }
+      );
     });
 
     it('should not update personal details when response is empty', () => {
