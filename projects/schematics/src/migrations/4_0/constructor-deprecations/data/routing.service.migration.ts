@@ -1,5 +1,7 @@
 import {
+  ANGULAR_COMMON,
   ANGULAR_ROUTER,
+  LOCATION,
   NGRX_STORE,
   ROUTER,
   ROUTING_PARAMS_SERVICE,
@@ -20,5 +22,8 @@ export const ROUTING_SERVICE_MIGRATION: ConstructorDeprecation = {
     { className: SEMANTIC_PATH_SERVICE, importPath: SPARTACUS_CORE },
     { className: ROUTING_PARAMS_SERVICE, importPath: SPARTACUS_CORE },
   ],
-  addParams: [{ className: ROUTER, importPath: ANGULAR_ROUTER }],
+  addParams: [
+    { className: ROUTER, importPath: ANGULAR_ROUTER },
+    { className: LOCATION, importPath: ANGULAR_COMMON },
+  ],
 };
