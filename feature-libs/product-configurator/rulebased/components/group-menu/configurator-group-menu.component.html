@@ -10,9 +10,11 @@
               class="cx-menu-back"
               role="tab"
               [attr.aria-selected]="false"
-              [cxFocus]="{ autofocus: true }"
+              [cxFocus]="{ key: 'cx-menu-back' }"
               (click)="navigateUp()"
-              (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
+              (keydown)="
+                switchGroupOnArrowPress($event, groupIndex, group, currentGroup)
+              "
             >
               <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
               {{ 'configurator.button.back' | cxTranslate }}
@@ -25,19 +27,18 @@
             role="tab"
             [class.DISABLED]="!group.configurable"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
-            [class.active]="isGroupSelected(currentGroup.id, group.id)"
+            [class.active]="isGroupSelected(group.id, currentGroup.id)"
             [class.disable]="!group.configurable"
-            [attr.aria-selected]="isGroupSelected(currentGroup.id, group.id)"
+            [attr.aria-selected]="isGroupSelected(group.id, currentGroup.id)"
             [attr.aria-controls]="createAriaControls(group.id)"
             [cxFocus]="{
-              key: group.id,
-              autofocus:
-                isGroupSelected(currentGroup.id, group.id) ||
-                containsSelectedGroup(currentGroup.id, group)
+              key: group.id
             }"
             (click)="click(group)"
-            [tabindex]="getTabIndex(currentGroup.id, group)"
-            (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
+            [tabindex]="getTabIndex(group, currentGroup.id)"
+            (keydown)="
+              switchGroupOnArrowPress($event, groupIndex, group, currentGroup)
+            "
           >
             <span title="{{ group.description }}">{{ group.description }}</span>
             <div class="groupIndicators">
