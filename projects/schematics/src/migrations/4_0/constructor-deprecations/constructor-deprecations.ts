@@ -94,6 +94,7 @@ import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-component.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_CHILDREN_COMPONENT_MIGRATION,
@@ -163,6 +164,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
+  UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
