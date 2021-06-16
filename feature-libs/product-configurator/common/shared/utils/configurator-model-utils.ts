@@ -10,23 +10,11 @@ export class ConfiguratorModelUtils {
    * @returns Owner key
    */
   static getOwnerKey(
-    ownerType: CommonConfigurator.OwnerType | undefined,
-    ownerId: string | undefined
+    ownerType?: CommonConfigurator.OwnerType,
+    ownerId?: string
   ): string {
-    if (ownerType === CommonConfigurator.OwnerType.PRODUCT) {
-      if (!ownerId) {
-        throw new Error('We expect a product code!');
-      }
-    } else if (ownerType === CommonConfigurator.OwnerType.CART_ENTRY) {
-      if (!ownerId) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else if (ownerType === CommonConfigurator.OwnerType.ORDER_ENTRY) {
-      if (!ownerId) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else {
-      throw new Error('We expect an owner type!');
+    if (!ownerId || !ownerType) {
+      throw new Error('We expect an owner ID and an owner type');
     }
     return ownerType + '/' + ownerId;
   }

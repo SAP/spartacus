@@ -287,36 +287,61 @@ describe('ConfiguratorGroupsService', () => {
     ).toBe(productConfigurationWithConflicts.flatGroups[0]);
   });
 
-  it('should go to conflict solver', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfigurationWithConflicts)
-    );
-    classUnderTest.navigateToConflictSolver(
-      productConfigurationWithConflicts.owner
-    );
+  describe('navigateToConflictSolver', () => {
+    it('should go to conflict solver', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      classUnderTest.navigateToConflictSolver(
+        productConfigurationWithConflicts.owner
+      );
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfigurationWithConflicts,
-        groupId: productConfigurationWithConflicts.flatGroups[0].id,
-        parentGroupId: productConfigurationWithConflicts.groups[0].id,
-      })
-    );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: productConfigurationWithConflicts,
+          groupId: productConfigurationWithConflicts.flatGroups[0].id,
+          parentGroupId: productConfigurationWithConflicts.groups[0].id,
+        })
+      );
+    });
+    it('should not navigate in case no conflict group is present', () => {
+      const consistentConfiguration = ConfiguratorTestUtils.createConfiguration(
+        '1'
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(consistentConfiguration)
+      );
+      classUnderTest.navigateToConflictSolver(consistentConfiguration.owner);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
   });
 
-  it('should go to first incomplete group', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
+  describe('navigateToFirstIncompleteGroup', () => {
+    it('should go to first incomplete group', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: productConfiguration.flatGroups[0].id,
-        parentGroupId: undefined,
-      })
-    );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: productConfiguration,
+          groupId: productConfiguration.flatGroups[0].id,
+          parentGroupId: undefined,
+        })
+      );
+    });
+    it('should not navigate in case no incomplete group is present', () => {
+      const completeConfiguration = ConfiguratorTestUtils.createConfiguration(
+        '1'
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(completeConfiguration)
+      );
+      classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should delegate calls for parent group to the facade utils service', () => {

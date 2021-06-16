@@ -19,18 +19,6 @@ describe('ConfiguratorModelUtils', () => {
         undefined
       );
     }).toThrow();
-    expect(function () {
-      ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.CART_ENTRY,
-        undefined
-      );
-    }).toThrow();
-    expect(function () {
-      ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.ORDER_ENTRY,
-        undefined
-      );
-    }).toThrow();
   });
 
   it('should create initial owner with key defined and default owner type defined', () => {
