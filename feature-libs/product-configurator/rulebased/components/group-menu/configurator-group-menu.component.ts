@@ -315,11 +315,13 @@ export class ConfiguratorGroupMenuComponent {
    * @param {KeyboardEvent} event - Keyboard event
    * @param {string} groupIndex - Group index
    * @param {Configurator.Group} group - Group
+   * @param {Configurator.Group} currentGroup - Current group
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
-    group?: Configurator.Group
+    group: Configurator.Group,
+    currentGroup: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configGroupMenuService.switchGroupOnArrowPress(
@@ -330,33 +332,73 @@ export class ConfiguratorGroupMenuComponent {
     } else if (this.isForwardsNavigation(event)) {
       if (group && this.hasSubGroups(group)) {
         this.click(group);
+        this.setFocusForSubGroup(group, currentGroup?.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
+        this.setFocusForMainMenu(currentGroup?.id);
       }
     }
   }
 
   /**
-   * Verifies whether the parent group contains a selected group.
+   * Persists the keyboard focus state for the given key
+   * from the main group menu by back navigation.
    *
    * @param {string} currentGroupId - Current group ID
+   */
+  setFocusForMainMenu(currentGroupId?: string): void {
+    let key: string | undefined = currentGroupId;
+    this.configuration$.pipe(take(1)).subscribe((configuration) => {
+      configuration?.groups?.forEach((group) => {
+        if (
+          group?.subGroups?.length !== 1 &&
+          (this.isGroupSelected(group?.id, currentGroupId) ||
+            this.containsSelectedGroup(group, currentGroupId))
+        ) {
+          key = group?.id;
+        }
+      });
+    });
+    this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Persists the keyboard focus state for the given key
+   * from the subgroup menu by forwards navigation.
+   *
    * @param {Configurator.Group} group - Group
+   * @param {string} currentGroupId - Current group ID
+   */
+  setFocusForSubGroup(
+    group: Configurator.Group,
+    currentGroupId?: string
+  ): void {
+    let key: string | undefined = 'cx-menu-back';
+    if (this.containsSelectedGroup(group, currentGroupId)) {
+      key = currentGroupId;
+    }
+    this.configUtils.setFocus(key);
+  }
+
+  /**
+   * Verifies whether the parent group contains a selected group.
+   *
+   * @param {Configurator.Group} group - Group
+   * @param {string} currentGroupId - Current group ID
    * @returns {boolean} - 'true' if the parent group contains a selected group, otherwise 'false'
    */
   containsSelectedGroup(
-    currentGroupId: string,
-    group: Configurator.Group
+    group: Configurator.Group,
+    currentGroupId?: string
   ): boolean {
     let isCurrentGroupFound = false;
-    if (this.hasSubGroups(group)) {
-      group?.subGroups?.forEach((subGroup) => {
-        if (this.isGroupSelected(subGroup.id, currentGroupId)) {
-          isCurrentGroupFound = true;
-        }
-      });
-    }
+    group?.subGroups?.forEach((subGroup) => {
+      if (this.isGroupSelected(subGroup.id, currentGroupId)) {
+        isCurrentGroupFound = true;
+      }
+    });
     return isCurrentGroupFound;
   }
 
@@ -364,14 +406,14 @@ export class ConfiguratorGroupMenuComponent {
    * Retrieves the tab index depending on if the the current group is selected
    * or the parent group contains the selected group.
    *
-   * @param {string} currentGroupId - Current group ID
    * @param {Configurator.Group} group - Group
+   * @param {string} currentGroupId - Current group ID
    * @returns {number} - tab index
    */
-  getTabIndex(currentGroupId: string, group: Configurator.Group): number {
+  getTabIndex(group: Configurator.Group, currentGroupId: string): number {
     if (
-      !this.isGroupSelected(currentGroupId, group.id) &&
-      !this.containsSelectedGroup(currentGroupId, group)
+      !this.isGroupSelected(group.id, currentGroupId) &&
+      !this.containsSelectedGroup(group, currentGroupId)
     ) {
       return -1;
     } else {
@@ -382,12 +424,12 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Verifies whether the current group is selected.
    *
-   * @param {string} currentGroupId - Current group ID
    * @param {string} groupId - group ID
+   * @param {string} currentGroupId - Current group ID
    * @returns {boolean} - 'true' if the current group is selected, otherwise 'false'
    */
-  isGroupSelected(currentGroupId?: string, groupId?: string): boolean {
-    return currentGroupId === groupId;
+  isGroupSelected(groupId?: string, currentGroupId?: string): boolean {
+    return groupId === currentGroupId;
   }
 
   /**
