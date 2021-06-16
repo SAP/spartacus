@@ -1,8 +1,9 @@
 import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
 import { BudgetDetailsCellComponent } from '../budget/details-cell/budget-details-cell.component';
-import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE } from '../constants';
 import { ItemService } from '../shared/item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
