@@ -94,7 +94,7 @@ import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
-import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
+import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_CHILDREN_COMPONENT_MIGRATION,
@@ -159,7 +159,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   AUTH_REDIRECT_SERVICE_MIGRATION,
   PROTECTED_ROUTES_SERVICE_MIGRATION,
   PRODUCT_LIST_ITEM_COMPONENT_MIGRATION,
-  PRODUCT_LIST_COMPONENT_MIGRATION,
+  PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
   PRODUCT_GRID_ITEM_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
