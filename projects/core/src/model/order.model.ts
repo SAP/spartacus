@@ -32,6 +32,7 @@ export interface OrderEntry {
   returnableQuantity?: number;
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
+  promotions?: PromotionResult[];
 }
 
 export interface CancelOrReturnRequestEntryInput {

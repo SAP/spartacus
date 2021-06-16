@@ -3,9 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   BaseSiteService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
   CmsService,
   CurrencyService,
   FeatureConfigService,
@@ -42,10 +39,6 @@ export class CxApiService {
     @Optional() public auth: AuthService,
     // cart
     @Optional() public cart: ActiveCartService,
-    // checkout
-    @Optional() public checkout: CheckoutService,
-    @Optional() public checkoutDelivery: CheckoutDeliveryService,
-    @Optional() public checkoutPayment: CheckoutPaymentService,
     // cms
     @Optional() public cms: CmsService,
     @Optional() public pageMeta: PageMetaService,
