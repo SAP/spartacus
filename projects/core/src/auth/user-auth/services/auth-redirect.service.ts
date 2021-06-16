@@ -58,11 +58,14 @@ export class AuthRedirectService implements OnDestroy {
       .getRedirectUrl()
       .pipe(take(1))
       .subscribe((redirectUrl) => {
-        if (redirectUrl === undefined) {
-          this.routing.go('/');
-        } else {
-          this.routing.goByUrl(redirectUrl);
-        }
+        redirectUrl ??= '/';
+        this.routing.goByUrl(redirectUrl).then((navSucceeded) => {
+          // Navigation might not succeed, i.e. when some guard blocks it returning false
+          // Then let's retry the redirect with a different, fallback url:
+          if (!navSucceeded) {
+            this.routing.goByUrl('/');
+          }
+        });
         this.clearRedirectUrl();
       });
   }

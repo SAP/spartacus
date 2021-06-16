@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Navigation, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -8,8 +8,8 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = jasmine.createSpy('go');
-  goByUrl = jasmine.createSpy('goByUrl');
+  go = () => Promise.resolve(true);
+  goByUrl = () => Promise.resolve(true);
 }
 
 class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
@@ -60,19 +60,38 @@ describe('AuthRedirectService', () => {
   });
 
   describe('redirect', () => {
-    it('should redirect by to the saved redirect URL', () => {
+    it('should redirect by to the saved redirect URL', fakeAsync(() => {
       authRedirectStorageService.setRedirectUrl('/redirect/url');
+      spyOn(routingService, 'goByUrl').and.returnValue(Promise.resolve(true));
       service.redirect();
       expect(authRedirectStorageService.getRedirectUrl).toHaveBeenCalled();
       expect(routingService.goByUrl).toHaveBeenCalledWith('/redirect/url');
-    });
+      tick();
+      expect(routingService.goByUrl).toHaveBeenCalledTimes(1);
+    }));
 
-    it('should redirect to home page when there was no saved redirect URL', () => {
+    it('should redirect to home page when there was no saved redirect URL', fakeAsync(() => {
       authRedirectStorageService.setRedirectUrl(undefined);
+      spyOn(routingService, 'goByUrl').and.returnValue(Promise.resolve(true));
       service.redirect();
       expect(authRedirectStorageService.getRedirectUrl).toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalledWith('/');
-    });
+      expect(routingService.goByUrl).toHaveBeenCalledWith('/');
+      tick();
+      expect(routingService.goByUrl).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should redirect to home page when the navigation to the saved redirect URL was unsuccessful', fakeAsync(() => {
+      authRedirectStorageService.setRedirectUrl('/redirect/url');
+      const goByUrlSpy: jasmine.Spy = spyOn(
+        routingService,
+        'goByUrl'
+      ).and.returnValue(Promise.resolve(false));
+      service.redirect();
+      expect(authRedirectStorageService.getRedirectUrl).toHaveBeenCalled();
+      expect(goByUrlSpy.calls.argsFor(0)).toEqual(['/redirect/url']);
+      tick();
+      expect(goByUrlSpy.calls.argsFor(1)).toEqual(['/']);
+    }));
 
     it('should clear saved redirect URL', () => {
       service.redirect();
