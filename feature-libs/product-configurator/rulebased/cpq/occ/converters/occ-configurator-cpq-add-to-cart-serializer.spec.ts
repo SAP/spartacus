@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from 'feature-libs/product-configurator/common';
+} from '@spartacus/product-configurator/common';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 import { OccConfiguratorCpqAddToCartSerializer } from './occ-configurator-cpq-add-to-cart-serializer';
 

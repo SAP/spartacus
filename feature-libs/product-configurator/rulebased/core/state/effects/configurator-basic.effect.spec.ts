@@ -9,6 +9,8 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of, throwError } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -18,9 +20,7 @@ import {
   GROUP_ID_5,
   GROUP_ID_6,
   GROUP_ID_7,
-} from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+} from '../../../shared/testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';

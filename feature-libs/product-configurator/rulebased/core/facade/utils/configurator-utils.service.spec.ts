@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { StateUtils } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
@@ -343,6 +344,23 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(configurationForSendingChanges.updateType).toBe(
         Configurator.UpdateType.ATTRIBUTE
       );
+    });
+  });
+
+  describe('getConfigurationFromState', () => {
+    it('should retrieve configuration from state', () => {
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {
+        value: productConfiguration,
+      };
+      expect(classUnderTest.getConfigurationFromState(configurationState)).toBe(
+        productConfiguration
+      );
+    });
+    it('should throw error in case no configuration is present in state', () => {
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {};
+      expect(() =>
+        classUnderTest.getConfigurationFromState(configurationState)
+      ).toThrowError();
     });
   });
 });
