@@ -35,7 +35,7 @@ export class SortingComponent {
 
   get selectedLabel() {
     return (
-      this.sortOptions.find((sort) => sort.code === this.selectedOption)
+      this.sortOptions?.find((sort) => sort.code === this.selectedOption)
         ?.name ?? this.sortLabels?.[this.selectedOption]
     );
   }
