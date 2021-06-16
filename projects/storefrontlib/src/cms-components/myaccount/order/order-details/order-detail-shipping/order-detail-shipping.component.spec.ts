@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { LoaderState } from '../../../../../../../core/src/state/utils/loader/loader-state';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { LoaderState } from '../../../../../../core/src/state/utils/loader/loader-state';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,

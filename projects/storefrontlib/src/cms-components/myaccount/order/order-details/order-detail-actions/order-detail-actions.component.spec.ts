@@ -8,7 +8,7 @@ import {
   I18nTestingModule,
   Order,
 } from '@spartacus/core';
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { LoaderState } from '../../../../../../../core/src/state/utils/loader/loader-state';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';
