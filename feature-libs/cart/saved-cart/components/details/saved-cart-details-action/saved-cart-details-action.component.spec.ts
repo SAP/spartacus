@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -49,10 +48,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockClearCheckoutService implements Partial<ClearCheckoutService> {
-  resetCheckoutProcesses(): void {}
-}
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
@@ -69,7 +64,6 @@ describe('SavedCartDetailsActionComponent', () => {
   let savedCartFacade: SavedCartFacade;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
-  let clearCheckoutService: ClearCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,10 +85,6 @@ describe('SavedCartDetailsActionComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: ClearCheckoutService,
-          useClass: MockClearCheckoutService,
-        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
@@ -105,14 +95,12 @@ describe('SavedCartDetailsActionComponent', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    clearCheckoutService = TestBed.inject(ClearCheckoutService);
 
     spyOn(savedCartFacade, 'restoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearRestoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearSaveCart').and.stub();
     spyOn(routingService, 'go').and.stub();
     spyOn(launchDialogService, 'openDialog').and.stub();
-    spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
 
     fixture.detectChanges();
   });
@@ -142,7 +130,6 @@ describe('SavedCartDetailsActionComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'savedCarts' });
     expect(savedCartFacade.clearRestoreSavedCart).toHaveBeenCalled();
     expect(savedCartFacade.clearSaveCart).toHaveBeenCalled();
-    expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
   });
 
   it('should NOT trigger a redirection and a reset process onRestoreComplete', () => {
@@ -153,7 +140,6 @@ describe('SavedCartDetailsActionComponent', () => {
     });
     expect(savedCartFacade.clearRestoreSavedCart).not.toHaveBeenCalled();
     expect(savedCartFacade.clearSaveCart).not.toHaveBeenCalled();
-    expect(clearCheckoutService.resetCheckoutProcesses).not.toHaveBeenCalled();
   });
 
   it('should trigger an open dialog to delete a saved cart', () => {

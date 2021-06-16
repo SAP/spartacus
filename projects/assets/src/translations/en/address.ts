@@ -53,4 +53,14 @@ export const address = {
     shipTo: 'Ship To',
     billTo: 'Bill To',
   },
+  addressSuggestion: {
+    verifyYourAddress: 'Verify your address',
+    ensureAccuracySuggestChange:
+      'To ensure delivery accuracy, we suggest the change selected below.',
+    chooseAddressToUse: 'Please choose which address you would like to use:',
+    suggestedAddress: 'Suggested address',
+    enteredAddress: 'Entered address',
+    editAddress: 'Edit address',
+    saveAddress: 'Save address',
+  },
 };

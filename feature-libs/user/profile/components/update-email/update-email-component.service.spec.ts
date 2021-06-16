@@ -144,7 +144,6 @@ describe('UpdateEmailComponentService', () => {
         authService.coreLogout().then(() => {
           expect(routingService.go).toHaveBeenCalledWith(
             { cxRoute: 'login' },
-            undefined,
             {
               state: {
                 newUid: 'tester@sap.com',

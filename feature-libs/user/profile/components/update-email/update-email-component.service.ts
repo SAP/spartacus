@@ -78,11 +78,14 @@ export class UpdateEmailComponentService {
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
-      this.routingService.go({ cxRoute: 'login' }, undefined, {
-        state: {
-          newUid,
-        },
-      });
+      this.routingService.go(
+        { cxRoute: 'login' },
+        {
+          state: {
+            newUid,
+          },
+        }
+      );
     });
   }
 
