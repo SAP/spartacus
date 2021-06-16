@@ -401,16 +401,6 @@ export interface OccEndpoints {
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for set delivery address to cart
-   * @deprecated since 4.0, use checkout feature lib instead.
-   */
-  setDeliveryAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for place order
-   * @deprecated since 4.0, use checkout feature lib instead.
-   */
-  placeOrder?: string | OccEndpoint;
-  /**
    * Endpoint to schedule a replenishment order
    *
    * * @member {string}
