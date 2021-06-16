@@ -40,11 +40,12 @@ export class OccConfiguratorVariantOverviewNormalizer
     source: OccConfigurator.GroupOverview
   ): Configurator.GroupOverview[] {
     const result: Configurator.GroupOverview[] = [];
-    const characteristicValues: OccConfigurator.CharacteristicOverview[] =
-      source.characteristicValues;
-    const subGroups: OccConfigurator.GroupOverview[] = source.subGroups;
-
-    result.push({
+    const characteristicValues:
+      | OccConfigurator.CharacteristicOverview[]
+      | undefined = source.characteristicValues;
+    const subGroups: OccConfigurator.GroupOverview[] | undefined =
+      source.subGroups;
+    const group: Configurator.GroupOverview = {
       id: source.id,
       groupDescription: source.groupDescription,
       attributes: characteristicValues
@@ -55,15 +56,19 @@ export class OccConfiguratorVariantOverviewNormalizer
             };
           })
         : [],
-    });
-    this.setGeneralDescription(result[0]);
+    };
+
+    this.setGeneralDescription(group);
     if (subGroups) {
+      const resultSubGroups: Configurator.GroupOverview[] = [];
       subGroups.forEach((subGroup) =>
         this.convertGroup(subGroup).forEach((groupArray) =>
-          result.push(groupArray)
+          resultSubGroups.push(groupArray)
         )
       );
+      group.subGroups = resultSubGroups;
     }
+    result.push(group);
     return result;
   }
 
