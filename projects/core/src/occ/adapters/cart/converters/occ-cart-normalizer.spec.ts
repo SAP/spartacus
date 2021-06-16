@@ -1,11 +1,27 @@
 import { TestBed } from '@angular/core/testing';
+import { PromotionResult } from '../../../../model/cart.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccCartNormalizer } from './occ-cart-normalizer';
+import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 class MockConverterService {
   convert() {}
 }
+
+const mockPromotions: PromotionResult[] = [
+  {
+    promotion: {
+      code: 'product_percentage_discount',
+    },
+  },
+];
+class MockOrderEntryPromotionsService {
+  getProductPromotion() {
+    return mockPromotions;
+  }
+}
+
 describe('OccCartNormalizer', () => {
   let occCartNormalizer: OccCartNormalizer;
   let converter: ConverterService;
@@ -15,6 +31,10 @@ describe('OccCartNormalizer', () => {
       providers: [
         OccCartNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        {
+          provide: OrderEntryPromotionsService,
+          useClass: MockOrderEntryPromotionsService,
+        },
       ],
     });
 
@@ -37,6 +57,7 @@ describe('OccCartNormalizer', () => {
     };
     const result = occCartNormalizer.convert(cart);
     expect(result.entries[0].product.code).toBe('test1converted');
+    expect(result.entries[0].promotions).toEqual(mockPromotions);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
 

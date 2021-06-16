@@ -2,11 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  CheckoutActions,
-  OrderEntry,
-} from '@spartacus/core';
+import { CheckoutActions } from '@spartacus/checkout/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfiguratorType,

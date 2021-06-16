@@ -2,9 +2,9 @@
   <ng-container
     *ngIf="order.consignments?.length || order.unconsignedEntries?.length"
   >
-    <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
-      <cx-promotions [promotions]="orderPromotions"></cx-promotions>
-    </ng-container>
+    <cx-promotions
+      [promotions]="order.appliedOrderPromotions || []"
+    ></cx-promotions>
   </ng-container>
 
   <!-- consigned entries -->
