@@ -88,23 +88,21 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    if (owner.type) {
-      switch (owner.type) {
-        case CommonConfigurator.OwnerType.PRODUCT: {
-          return this.getOrCreateConfigurationForProduct(owner);
-        }
-        case CommonConfigurator.OwnerType.CART_ENTRY: {
-          return this.configuratorCartService.readConfigurationForCartEntry(
-            owner
-          );
-        }
-        case CommonConfigurator.OwnerType.ORDER_ENTRY: {
-          return this.configuratorCartService.readConfigurationForOrderEntry(
-            owner
-          );
-        }
+    switch (owner.type) {
+      case CommonConfigurator.OwnerType.PRODUCT: {
+        return this.getOrCreateConfigurationForProduct(owner);
       }
-    } else throw new Error('At this point the owner type needs to be defined');
+      case CommonConfigurator.OwnerType.CART_ENTRY: {
+        return this.configuratorCartService.readConfigurationForCartEntry(
+          owner
+        );
+      }
+      case CommonConfigurator.OwnerType.ORDER_ENTRY: {
+        return this.configuratorCartService.readConfigurationForOrderEntry(
+          owner
+        );
+      }
+    }
   }
 
   /**

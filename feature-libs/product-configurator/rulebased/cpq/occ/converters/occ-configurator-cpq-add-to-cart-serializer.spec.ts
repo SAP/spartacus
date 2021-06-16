@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorType } from 'feature-libs/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from 'feature-libs/product-configurator/common';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 import { OccConfiguratorCpqAddToCartSerializer } from './occ-configurator-cpq-add-to-cart-serializer';
 
@@ -24,6 +27,7 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
       key: 'A',
       id: PRODUCT_CODE,
       configuratorType: ConfiguratorType.CPQ,
+      type: CommonConfigurator.OwnerType.PRODUCT,
     },
   };
 

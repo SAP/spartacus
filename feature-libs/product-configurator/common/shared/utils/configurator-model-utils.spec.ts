@@ -33,10 +33,10 @@ describe('ConfiguratorModelUtils', () => {
     }).toThrow();
   });
 
-  it('should create initial owner with only key defined', () => {
+  it('should create initial owner with key defined and default owner type defined', () => {
     const owner = ConfiguratorModelUtils.createInitialOwner();
     expect(owner.key).toBe('INITIAL');
-    expect(owner.type).toBeUndefined();
+    expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
     expect(owner.id).toBe('INITIAL');
   });
 
