@@ -76,13 +76,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   constructor(router: Router, renderer: Renderer2, elemRef: ElementRef);
 
   constructor(
-    router: Router,
-    renderer: Renderer2,
-    elemRef: ElementRef,
-    hamburgerMenuService: HamburgerMenuService
-  );
-
-  constructor(
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
@@ -115,7 +108,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   resetOnMenuCollapse(): void {
     this.subscriptions.add(
-      this.hamburgerMenuService.isExpanded
+      this.hamburgerMenuService?.isExpanded
         .pipe(distinctUntilChanged())
         .subscribe((isExpanded: boolean) => {
           //only react when expanded and proper number of nav node are present.
