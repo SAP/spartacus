@@ -109,40 +109,35 @@ export class ConfiguratorGroupStatusService {
     visitedGroupIds: string[]
   ) {
     const subGroups: string[] = [];
-    //TODO CHHI
-    if (parentGroup) {
-      if (parentGroup?.subGroups) {
-        parentGroup.subGroups.forEach((subGroup) => {
-          //The current group is not set to visited yet, therefore we have to exclude it in the check
-          if (subGroup.id === groupId) {
-            return;
-          }
-          subGroups.push(subGroup.id);
-        });
+    parentGroup.subGroups.forEach((subGroup) => {
+      //The current group is not set to visited yet, therefore we have to exclude it in the check
+      if (subGroup.id === groupId) {
+        return;
       }
+      subGroups.push(subGroup.id);
+    });
 
-      this.areGroupsVisited(configuration.owner, subGroups)
-        .pipe(take(1))
-        .subscribe((isVisited) => {
-          if (isVisited) {
-            visitedGroupIds.push(parentGroup.id);
-            const grandParentGroup = this.configuratorUtilsService.getParentGroup(
+    this.areGroupsVisited(configuration.owner, subGroups)
+      .pipe(take(1))
+      .subscribe((isVisited) => {
+        if (isVisited) {
+          visitedGroupIds.push(parentGroup.id);
+          const grandParentGroup = this.configuratorUtilsService.getParentGroup(
+            configuration.groups,
+            this.configuratorUtilsService.getGroupById(
               configuration.groups,
-              this.configuratorUtilsService.getGroupById(
-                configuration.groups,
-                parentGroup.id
-              )
+              parentGroup.id
+            )
+          );
+          if (grandParentGroup) {
+            this.getParentGroupStatusVisited(
+              configuration,
+              parentGroup.id,
+              grandParentGroup,
+              visitedGroupIds
             );
-            if (grandParentGroup) {
-              this.getParentGroupStatusVisited(
-                configuration,
-                parentGroup.id,
-                grandParentGroup,
-                visitedGroupIds
-              );
-            }
           }
-        });
-    }
+        }
+      });
   }
 }
