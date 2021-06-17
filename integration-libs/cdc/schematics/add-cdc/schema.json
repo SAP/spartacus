@@ -15,6 +15,11 @@
       "type": "boolean",
       "description": "Lazy load the CDC feature.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["CDC"]
     }
   },
   "required": []

@@ -8,10 +8,10 @@ import {
   Occ,
   TITLE_NORMALIZER,
   User,
+  UserSignUp,
   USER_NORMALIZER,
   USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-  UserSignUp,
 } from '@spartacus/core';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
@@ -55,7 +55,7 @@ describe('OccUserAdapter', () => {
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -72,8 +72,8 @@ describe('OccUserAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('user', {
+        urlParams: { userId: user.customerId },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -101,9 +101,12 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'userUpdateProfile',
+        {
+          urlParams: { userId: user.customerId },
+        }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -140,7 +143,7 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('userRegister');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -178,7 +181,7 @@ describe('OccUserAdapter', () => {
           req.serializeBody() === `guid=${guid}&password=${pwd}`
         );
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('userRegister');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -199,7 +202,7 @@ describe('OccUserAdapter', () => {
           req.serializeBody() === `userId=${testUserId}`
         );
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'userForgotPassword'
       );
 
@@ -221,7 +224,7 @@ describe('OccUserAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'userResetPassword'
       );
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
@@ -245,9 +248,12 @@ describe('OccUserAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: 'testUserId',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'userCloseAccount',
+        {
+          urlParams: { userId: 'testUserId' },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
@@ -274,8 +280,8 @@ describe('OccUserAdapter', () => {
       });
 
       expect(
-        occEnpointsService.getUrl
-      ).toHaveBeenCalledWith('userUpdateLoginId', { userId });
+        occEnpointsService.buildUrl
+      ).toHaveBeenCalledWith('userUpdateLoginId', { urlParams: { userId } });
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');
@@ -303,8 +309,8 @@ describe('OccUserAdapter', () => {
       });
 
       expect(
-        occEnpointsService.getUrl
-      ).toHaveBeenCalledWith('userUpdatePassword', { userId });
+        occEnpointsService.buildUrl
+      ).toHaveBeenCalledWith('userUpdatePassword', { urlParams: { userId } });
 
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
@@ -335,7 +341,7 @@ describe('OccUserAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('titles');
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('titles');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(titlesList);

@@ -6,6 +6,8 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@spartacus/tracking/personalization/core": "personalization",
+      "@spartacus/checkout": "checkout",
       "@ngrx/store": "store",
       "rxjs": "rxjs"
     }

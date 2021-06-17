@@ -130,6 +130,7 @@ describe('SavedCart Actions', () => {
   describe('RestoreSavedCart Actions', () => {
     describe('RestoreSavedCart', () => {
       it('should create the action', () => {
+        // TODO(BRIAN): remove / breaking change - will remove before merge
         const action = new SavedCartActions.RestoreSavedCart({
           userId: mockUserId,
           cartId: mockCartId,

@@ -1,20 +1,22 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
+  SavedCartFacade,
+  SavedCartFormType,
+} from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   Translatable,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action.component';
 
-const mockCartId = 'test-cart';
+// const mockCartId = 'test-cart';
 const mockSavedCart: Cart = {
   name: 'test-cart-name',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
@@ -49,19 +51,14 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockSavedCartFormLaunchDialogService
-  implements Partial<SavedCartFormLaunchDialogService> {
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
+    _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): Observable<any> {
+    _vcr?: ViewContainerRef
+  ) {
     return of();
   }
-}
-
-class MockClearCheckoutService implements Partial<ClearCheckoutService> {
-  resetCheckoutProcesses(): void {}
 }
 
 describe('SavedCartDetailsActionComponent', () => {
@@ -69,8 +66,7 @@ describe('SavedCartDetailsActionComponent', () => {
   let fixture: ComponentFixture<SavedCartDetailsActionComponent>;
   let savedCartFacade: SavedCartFacade;
   let routingService: RoutingService;
-  let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
-  let clearCheckoutService: ClearCheckoutService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -92,14 +88,7 @@ describe('SavedCartDetailsActionComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
-        },
-        {
-          provide: ClearCheckoutService,
-          useClass: MockClearCheckoutService,
-        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
@@ -108,17 +97,13 @@ describe('SavedCartDetailsActionComponent', () => {
 
     savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
-    savedCartFormLaunchDialogService = TestBed.inject(
-      SavedCartFormLaunchDialogService
-    );
-    clearCheckoutService = TestBed.inject(ClearCheckoutService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     spyOn(savedCartFacade, 'restoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearRestoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearSaveCart').and.stub();
     spyOn(routingService, 'go').and.stub();
-    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
-    spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     fixture.detectChanges();
   });
@@ -127,10 +112,11 @@ describe('SavedCartDetailsActionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should trigger a restore saved cart', () => {
-    component.restoreSavedCart(mockCartId);
-    expect(savedCartFacade.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
-  });
+  // TODO(BRIAN): remove / breaking change - will remove before merge
+  // it('should trigger a restore saved cart', () => {
+  //   component.restoreSavedCart(mockCartId);
+  //   expect(savedCartFacade.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
+  // });
 
   it('should trigger onRestoreComplete when there was a successful restored cart', () => {
     spyOn(component, 'onRestoreComplete').and.stub();
@@ -148,7 +134,6 @@ describe('SavedCartDetailsActionComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'savedCarts' });
     expect(savedCartFacade.clearRestoreSavedCart).toHaveBeenCalled();
     expect(savedCartFacade.clearSaveCart).toHaveBeenCalled();
-    expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
   });
 
   it('should NOT trigger a redirection and a reset process onRestoreComplete', () => {
@@ -159,18 +144,18 @@ describe('SavedCartDetailsActionComponent', () => {
     });
     expect(savedCartFacade.clearRestoreSavedCart).not.toHaveBeenCalled();
     expect(savedCartFacade.clearSaveCart).not.toHaveBeenCalled();
-    expect(clearCheckoutService.resetCheckoutProcesses).not.toHaveBeenCalled();
   });
 
   it('should trigger an open dialog to delete a saved cart', () => {
-    component.openDialog(mockSavedCart);
+    component.openDialog(mockSavedCart, SavedCartFormType.DELETE);
 
-    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SAVED_CART,
       component.element,
       component['vcr'],
       {
         cart: mockSavedCart,
-        layoutOption: 'delete',
+        layoutOption: SavedCartFormType.DELETE,
       }
     );
   });

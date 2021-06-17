@@ -5,12 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import {
-  Cart,
-  ClearCheckoutService,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
+import { Cart, RoutingService, TranslationService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -39,8 +34,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected translation: TranslationService,
-    protected savedCartService: SavedCartFacade,
-    protected clearCheckoutService: ClearCheckoutService
+    protected savedCartService: SavedCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +55,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // TODO: remove / breaking change?
+  // TODO(BRIAN): remove / breaking change - will remove before merge
   restoreSavedCart(event: Event, cartId: string): void {
     this.savedCartService.restoreSavedCart(cartId);
     event.stopPropagation();
@@ -71,7 +65,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     if (success) {
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();
-      this.clearCheckoutService.resetCheckoutProcesses();
     }
   }
 

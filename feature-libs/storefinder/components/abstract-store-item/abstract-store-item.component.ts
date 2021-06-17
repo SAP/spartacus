@@ -1,5 +1,5 @@
 import { Input, Directive } from '@angular/core';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -7,12 +7,12 @@ export class AbstractStoreItemComponent {
   @Input()
   location;
 
-  constructor(protected storeDataService: StoreDataService) {}
+  constructor(protected storeFinderService: StoreFinderService) {}
 
   getDirections(location: any): string {
     const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
-    const latitude = this.storeDataService.getStoreLatitude(location);
-    const longitude = this.storeDataService.getStoreLongitude(location);
+    const latitude = this.storeFinderService.getStoreLatitude(location);
+    const longitude = this.storeFinderService.getStoreLongitude(location);
     return google_map_url + latitude + ',' + longitude;
   }
 

@@ -205,14 +205,13 @@ export class SavedCartService implements SavedCartFacade {
    *
    * @param cartId
    */
-  restoreSavedCart(cartId: string, cloneSavedCart: boolean): void {
+  restoreSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         return this.store.dispatch(
           new SavedCartActions.RestoreSavedCart({
             userId,
             cartId,
-            cloneSavedCart,
           })
         );
       },

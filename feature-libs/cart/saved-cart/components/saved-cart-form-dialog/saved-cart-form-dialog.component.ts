@@ -16,7 +16,6 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -83,8 +82,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected eventService: EventService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected clearCheckoutService: ClearCheckoutService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -123,12 +121,16 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   saveOrEditCart(cartId: string): void {
+    const name = this.form.get('name')?.value;
+    // TODO(#12660): Remove default value once backend is updated
+    const description = this.form.get('description')?.value || '-';
+
     switch (this.layoutOption) {
       case SavedCartFormType.SAVE: {
         this.savedCartService.saveCart({
           cartId,
-          saveCartName: this.form.get('name')?.value,
-          saveCartDescription: this.form.get('description')?.value,
+          saveCartName: name,
+          saveCartDescription: description,
         });
 
         break;
@@ -137,8 +139,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       case SavedCartFormType.EDIT: {
         this.savedCartService.editSavedCart({
           cartId,
-          saveCartName: this.form.get('name')?.value,
-          saveCartDescription: this.form.get('description')?.value,
+          saveCartName: name,
+          saveCartDescription: description,
         });
 
         break;
@@ -151,7 +153,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   restoreSavedCart(cartId: string): void {
-    this.savedCartService.restoreSavedCart(cartId, this.isCloneSavedCart);
+    this.savedCartService.restoreSavedCart(cartId);
   }
 
   close(reason: string): void {
@@ -176,7 +178,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
         case SavedCartFormType.SAVE: {
           this.close('Successfully saved cart');
-          this.clearCheckoutService.resetCheckoutProcesses();
           this.savedCartService.clearSaveCart();
 
           this.globalMessageService.add(

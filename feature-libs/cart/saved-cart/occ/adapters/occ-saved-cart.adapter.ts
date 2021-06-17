@@ -67,18 +67,22 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('savedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('savedCart', {
+      urlParams: { userId, cartId },
+    });
   }
 
   protected getSavedCartListEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('savedCarts', { userId });
+    return this.occEndpoints.buildUrl('savedCarts', { urlParams: { userId } });
   }
 
   protected getRestoreSavedCartEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('restoreSavedCart', {
+      urlParams: { userId, cartId },
+    });
   }
 
   protected getSaveCartEndpoint(
@@ -87,15 +91,19 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     saveCartName: string,
     saveCartDescription: string
   ): string {
-    return this.occEndpoints.getUrl('saveCart', {
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription,
+    return this.occEndpoints.buildUrl('saveCart', {
+      urlParams: {
+        userId,
+        cartId,
+        saveCartName,
+        saveCartDescription,
+      },
     });
   }
 
   protected getCloneSavedCartEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('cloneSavedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('cloneSavedCart', {
+      urlParams: { userId, cartId },
+    });
   }
 }

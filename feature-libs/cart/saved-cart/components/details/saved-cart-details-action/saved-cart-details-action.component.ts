@@ -10,15 +10,10 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import {
-  Cart,
-  ClearCheckoutService,
-  GlobalMessageService,
-  RoutingService,
-} from '@spartacus/core';
+import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -39,9 +34,8 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef,
-    protected clearCheckoutService: ClearCheckoutService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +46,7 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     );
   }
 
-  // TODO: ask if it's a breaking change / REMOVE
+  // TODO(BRIAN): remove / breaking change - will remove before merge
   // restoreSavedCart(cartId: string): void {
   //   this.savedCartService.restoreSavedCart(cartId);
   // }
@@ -60,15 +54,16 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
   onRestoreComplete(success: boolean): void {
     if (success) {
       this.routingService.go({ cxRoute: 'savedCarts' });
-      this.savedCartService.clearCloneSavedCart();
+      // TODO(BRIAN): remove / breaking change - will remove before merge
+      // this.savedCartService.clearCloneSavedCart();
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();
-      this.clearCheckoutService.resetCheckoutProcesses();
     }
   }
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
-    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
       { cart, layoutOption: type }
