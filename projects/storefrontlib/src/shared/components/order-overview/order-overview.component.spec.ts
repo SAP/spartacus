@@ -278,8 +278,6 @@ describe('OrderOverviewComponent', () => {
 
       const date = mockOrder.created.toDateString();
 
-      console.log('date ', date);
-
       component
         .getOrderCurrentDateCardContent(date)
         .subscribe((data) => {
