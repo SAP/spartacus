@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Cart,
-  CheckoutService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   StateUtils,
@@ -81,7 +81,7 @@ class MockActiveCartService {
   }
 }
 
-class MockCheckoutService {
+class MockCheckoutFacade {
   isLoading(): Observable<boolean> {
     return checkoutLoadingObs;
   }
@@ -116,8 +116,8 @@ describe('ConfiguratorCartService', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutService,
-            useClass: MockCheckoutService,
+            provide: CheckoutFacade,
+            useClass: MockCheckoutFacade,
           },
           {
             provide: UserIdService,
