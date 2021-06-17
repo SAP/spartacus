@@ -7,12 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import {
-  Cart,
-  ClearCheckoutService,
-  GlobalMessageService,
-  RoutingService,
-} from '@spartacus/core';
+import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -36,7 +31,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected vcr: ViewContainerRef,
-    protected clearCheckoutService: ClearCheckoutService,
     protected launchDialogService: LaunchDialogService
   ) {}
 
@@ -57,7 +51,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
       this.routingService.go({ cxRoute: 'savedCarts' });
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();
-      this.clearCheckoutService.resetCheckoutProcesses();
     }
   }
 
