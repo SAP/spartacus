@@ -10,7 +10,7 @@ export const defaultCostCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       orgCostCenter: {
-        paths: ['/organization/cost-centers'],
+        paths: ['organization/cost-centers'],
       },
       orgCostCenterCreate: {
         paths: ['organization/cost-centers/create'],
