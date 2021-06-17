@@ -73,7 +73,7 @@ function incrementQuantity() {
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
   cy.get('cx-storefront.stop-navigating');
   if (mobile) {
-    cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+    cy.get('cx-searchbox cx-icon[aria-label="Search"]').click();
 
     createProductQuery(
       QUERY_ALIAS.PRODUCE_CODE,
