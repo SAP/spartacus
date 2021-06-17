@@ -14,6 +14,7 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -55,6 +56,15 @@ export class UserReplenishmentOrderService {
     return this.store.pipe(
       select(UsersSelectors.getReplenishmentOrderDetailsValue)
     );
+  }
+
+  /**
+   * Returns an order details state
+   */
+  getReplenishmentOrderDetailsState(): Observable<
+    LoaderState<ReplenishmentOrder>
+  > {
+    return this.store.pipe(select(UsersSelectors.getReplenishmentOrderState));
   }
 
   /**
