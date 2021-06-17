@@ -4,17 +4,19 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   CheckoutStepService,
   PaymentMethodComponent as CorePaymentMethodComponent,
-} from '@spartacus/storefront';
+} from '@spartacus/checkout/components';
 import {
   UserPaymentService,
-  CheckoutService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
   GlobalMessageService,
   TranslationService,
   ActiveCartService,
   PaymentDetails,
 } from '@spartacus/core';
+import {
+  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -23,7 +25,8 @@ import {
 })
 export class DpPaymentMethodComponent
   extends CorePaymentMethodComponent
-  implements OnInit {
+  implements OnInit
+{
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
