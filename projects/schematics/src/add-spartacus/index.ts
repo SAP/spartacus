@@ -226,7 +226,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies()),
+      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
 
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
