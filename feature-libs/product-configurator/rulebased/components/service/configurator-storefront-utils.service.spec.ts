@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
+import { WindowRef } from '@spartacus/core';
 
 let isGroupVisited: Observable<boolean> = of(false);
 
@@ -29,6 +30,7 @@ describe('ConfigUtilsService', () => {
     CommonConfigurator.OwnerType.PRODUCT,
     'testProduct'
   );
+  let windowRef: WindowRef;
   let keyboardFocusService: KeyboardFocusService;
   let querySelectorOriginal: any;
 
@@ -46,6 +48,8 @@ describe('ConfigUtilsService', () => {
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
+    spyOn(windowRef, 'isBrowser').and.returnValue(true);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
@@ -77,11 +81,11 @@ describe('ConfigUtilsService', () => {
     spyOn(theElement, 'getBoundingClientRect').and.returnValue(
       new DOMRect(100, 2000, 100, 100)
     );
-    spyOn(window, 'scroll').and.callThrough();
+    spyOn(windowRef.nativeWindow, 'scroll').and.callThrough();
     classUnderTest.scrollToConfigurationElement(
       '.VariantConfigurationTemplate'
     );
-    expect(window.scroll).toHaveBeenCalledWith(0, 0);
+    expect(windowRef.nativeWindow.scroll).toHaveBeenCalledWith(0, 0);
   });
 
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
@@ -147,6 +151,20 @@ describe('ConfigUtilsService', () => {
       spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('createGroupId', () => {
+    it('should return empty string because group ID is null', () => {
+      expect(classUnderTest.createGroupId(null)).toBeUndefined();
+    });
+
+    it('should return empty string because group ID is undefined', () => {
+      expect(classUnderTest.createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
     });
   });
 });
