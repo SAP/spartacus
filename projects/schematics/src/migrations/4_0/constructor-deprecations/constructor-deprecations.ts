@@ -1,10 +1,15 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
+import { ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION } from './data/abstract-store-item.component.migration';
 import {
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V2,
 } from './data/add-to-saved-cart.component.migration';
+import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog.component.migration';
+import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
+import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION } from './data/address-book.component.service.migration';
+import { ADDRESS_FORM_COMPONENT_MIGRATION } from './data/address-form.component.migration';
 import {
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V1,
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V2,
@@ -17,6 +22,7 @@ import { ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/asm-auth-http-hea
 import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.service.migration';
 import { AUTH_REDIRECT_SERVICE_MIGRATION } from './data/auth-redirect.service.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
+import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details.component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import {
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
@@ -28,6 +34,7 @@ import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
+import { CHECKOUT_EVENT_MODULE_MIGRATION } from './data/checkout-event.module.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
 import {
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
@@ -35,10 +42,15 @@ import {
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
 } from './data/cms-components.service.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
+import {
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
+} from './data/google-map-renderer.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
+import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
 import { CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION } from './data/configurator-issues-notification.component.migration';
 import { CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION } from './data/configurator-storefront-utils.service.migration';
 import { CONFIGURATOR_FORM_COMPONENT_MIGRATION } from './data/configurator-form.component.migration';
@@ -54,11 +66,18 @@ import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-ev
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
+import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
+import { SCHEDULE_COMPONENT_MIGRATION } from './data/schedule.component.migration';
+import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
+import { STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION } from './data/store-finder-list-item.component.migration';
+import { STORE_FINDER_LIST_COMPONENT_MIGRATION } from './data/store-finder-list.component.migration';
+import { STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION } from './data/store-finder-store-description.component.migration';
+import { STORE_FINDER_SERVICE_MIGRATION } from './data/store-finder.service.migration';
 import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V2,
@@ -82,7 +101,8 @@ import {
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
 } from './data/saved-cart-details-overview.component.migration';
-import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
+import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
+import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
 import {
@@ -92,6 +112,7 @@ import {
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
+import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 
@@ -119,6 +140,22 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  STORE_FINDER_SERVICE_MIGRATION,
+  ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION,
+  SCHEDULE_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_COMPONENT_MIGRATION,
+  STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
+  CONFIGURATOR_CART_SERVICE_MIGRATION,
+  ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION,
+  ADDRESS_BOOK_COMPONENT_MIGRATION,
+  ADDRESS_FORM_COMPONENT_MIGRATION,
+  USER_ADDRESS_SERVICE_MIGRATION,
+  CHECKOUT_EVENT_MODULE_MIGRATION,
+  SAVED_CART_LIST_COMPONENT_MIGRATION,
+  SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION,
   QUALTRICS_LOADER_SERVICE_MIGRATION,
   LOGIN_REGISTER_COMPONENT_MIGRATION,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
@@ -163,6 +200,9 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
+  ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
+  CART_DETAILS_COMPONENT_MIGRATION,
+  ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
