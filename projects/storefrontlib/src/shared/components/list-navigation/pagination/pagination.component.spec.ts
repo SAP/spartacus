@@ -17,7 +17,7 @@ const mockActivatedRoute = {
   },
 };
 
-xdescribe('PaginationComponent', () => {
+describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
   let debugEl: DebugElement;
