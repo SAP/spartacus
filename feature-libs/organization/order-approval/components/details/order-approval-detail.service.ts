@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService } from '@spartacus/core';
+import { Order, RoutingService, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { Observable } from 'rxjs';
@@ -60,5 +60,20 @@ export class OrderApprovalDetailService {
    */
   getOrderApproval(): Observable<OrderApproval> {
     return this.orderApproval$;
+  }
+
+  /**
+   * Returns the approval details state
+   */
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return this.orderApproval$.pipe(
+      switchMap(() => this.getOrderDetails()),
+      map((order) => {
+        return {
+          error: false,
+          value: order,
+        } as StateUtils.LoaderState<Order>;
+      })
+    );
   }
 }
