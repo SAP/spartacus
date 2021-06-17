@@ -33,11 +33,27 @@ export const STORE_FINDER_LIST_COMPONENT_MIGRATION: ConstructorDeprecation = {
       className: STORE_DATA_SERVICE,
       importPath: SPARTACUS_STOREFINDER,
     },
+    {
+      className: DOCUMENT,
+      literalInference: ANY_TYPE,
+      injectionToken: {
+        token: DOCUMENT_STRING,
+        importPath: ANGULAR_COMMON,
+      },
+    },
   ],
   addParams: [
     {
       className: STORE_FINDER_SERVICE,
       importPath: SPARTACUS_STOREFINDER,
+    },
+    {
+      className: DOCUMENT,
+      literalInference: ANY_TYPE,
+      injectionToken: {
+        token: DOCUMENT_STRING,
+        importPath: ANGULAR_COMMON,
+      },
     },
   ],
 };
