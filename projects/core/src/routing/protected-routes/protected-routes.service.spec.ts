@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
-import { ProtectedRoutesGuard } from './protected-routes.guard';
+import { UrlParsingService } from '../configurable-routes/url-translation/url-parsing.service';
 import { ProtectedRoutesService } from './protected-routes.service';
+
+class MockUrlParsingService implements Partial<UrlParsingService> {
+  matchPath(urlSegments: string[], pathSegments: string[]): boolean {
+    return urlSegments.join('/') === pathSegments.join('/');
+  }
+}
 
 describe('ProtectedRoutesService', () => {
   let service: ProtectedRoutesService;
@@ -13,10 +19,13 @@ describe('ProtectedRoutesService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        ProtectedRoutesGuard,
         {
           provide: RoutingConfig,
           useValue: mockConfig,
+        },
+        {
+          provide: UrlParsingService,
+          useClass: MockUrlParsingService,
         },
       ],
     });
@@ -101,57 +110,6 @@ describe('ProtectedRoutesService', () => {
         expect(service.isUrlProtected(['login'])).toBe(false);
         expect(service.isUrlProtected(['cart'])).toBe(true);
         expect(service.isUrlProtected(['register'])).toBe(false);
-      });
-    });
-
-    describe('when global protection is enabled and url marked as NOT protected contains route params', () => {
-      beforeEach(() => {
-        beforeEachWithConfig({
-          protected: true,
-          routes: {
-            product: {
-              paths: ['product/:productName/:productCode'],
-              protected: false,
-            },
-          },
-        });
-      });
-
-      it('should return false for each of aliases', () => {
-        expect(service.isUrlProtected(['product', '1234'])).toBe(true);
-        expect(service.isUrlProtected(['product', 'camera', '1234'])).toBe(
-          false
-        );
-        expect(
-          service.isUrlProtected(['product', 'camera', '1234', 'test-test'])
-        ).toBe(true);
-      });
-    });
-
-    describe('when global protection is enabled and url marked as NOT protected has configured route aliases', () => {
-      beforeEach(() => {
-        beforeEachWithConfig({
-          protected: true,
-          routes: {
-            product: {
-              paths: [
-                'product/:productCode',
-                'product/:productName/:productCode',
-              ],
-              protected: false,
-            },
-          },
-        });
-      });
-
-      it('should return false for each of aliases', () => {
-        expect(service.isUrlProtected(['product', '1234'])).toBe(false);
-        expect(service.isUrlProtected(['product', 'camera', '1234'])).toBe(
-          false
-        );
-        expect(
-          service.isUrlProtected(['product', 'camera', '1234', 'test-test'])
-        ).toBe(true);
       });
     });
   });

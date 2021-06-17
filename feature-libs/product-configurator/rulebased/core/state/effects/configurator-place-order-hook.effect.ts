@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { ActiveCartService, CheckoutActions } from '@spartacus/core';
+import { CheckoutActions } from '@spartacus/checkout/core';
+import { ActiveCartService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
