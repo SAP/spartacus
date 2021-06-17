@@ -97,15 +97,17 @@ export class VariantConfiguratorOccAdapter
       VARIANT_CONFIGURATOR_SERIALIZER
     );
 
-    return this.http.patch(url, occConfiguration).pipe(
-      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
-      })
-    );
+    return this.http
+      .patch<OccConfigurator.Configuration>(url, occConfiguration)
+      .pipe(
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: configuration.owner,
+          };
+        })
+      );
   }
 
   addToCart(
@@ -261,7 +263,7 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get(url)
+      .get<OccConfigurator.Overview>(url)
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );

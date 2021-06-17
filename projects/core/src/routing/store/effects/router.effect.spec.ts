@@ -46,9 +46,7 @@ describe('Router Effects', () => {
       spyOn(router, 'navigate');
       spyOn(router, 'navigateByUrl');
       effects.navigate$.subscribe(() => {
-        expect(router.navigate).toHaveBeenCalledWith(['/test'], {
-          queryParams: undefined,
-        });
+        expect(router.navigate).toHaveBeenCalledWith(['/test'], {});
       });
     });
   });

@@ -1,0 +1,104 @@
+<div class="cx-dialog-header modal-header">
+  <div class="cx-dialog-title modal-title">
+    {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
+  </div>
+  <button
+    type="button"
+    class="close"
+    [attr.aria-label]="'common.close' | cxTranslate"
+    (click)="closeModal()"
+  >
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</div>
+<div class="cx-dialog-body modal-body" ngForm>
+  <div class="container">
+    <div class="row">
+      <div class="cx-dialog-info col-md-12">
+        <p>
+          {{ 'addressSuggestion.ensureAccuracySuggestChange' | cxTranslate }}
+          {{ 'addressSuggestion.chooseAddressToUse' | cxTranslate }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cx-dialog-options col-md-12">
+        <div
+          class="form-check"
+          *ngFor="let suggestedAddress of suggestedAddresses; let i = index"
+        >
+          <input
+            class="form-check-input"
+            type="radio"
+            name="selectedAddress"
+            [(ngModel)]="selectedAddress"
+            [value]="suggestedAddress"
+            [id]="'suggested-addresses--suggested-' + i"
+          />
+          <label
+            class="form-check-label cx-dialog-label"
+            [for]="'suggested-addresses--suggested-' + i"
+          >
+            {{ 'addressSuggestion.suggestedAddress' | cxTranslate }}
+            {{ suggestedAddresses?.length > 1 ? i + 1 : null }}
+          </label>
+          <div class="cx-dialog-suggested">
+            {{ suggestedAddress?.firstName }} {{ suggestedAddress?.lastName
+            }}<br />
+            {{ suggestedAddress?.line1 }}<br />
+            <span>{{ suggestedAddress?.line2 }}</span
+            ><br />
+            {{ suggestedAddress?.town }} {{ suggestedAddress?.region?.isocode
+            }}<br />
+            {{ suggestedAddress?.postalCode }}
+          </div>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="selectedAddress"
+            [(ngModel)]="selectedAddress"
+            [value]="enteredAddress"
+            id="suggested-addresses--entered"
+          />
+          <label
+            class="form-check-label cx-dialog-label"
+            for="suggested-addresses--entered"
+          >
+            {{ 'addressSuggestion.enteredAddress' | cxTranslate }}
+          </label>
+          <div class="cx-dialog-entered">
+            {{ enteredAddress?.firstName }} {{ enteredAddress?.lastName }}<br />
+            {{ enteredAddress?.line1 }}<br />
+            <span>{{ enteredAddress?.line2 }}</span
+            ><br />
+            {{ enteredAddress?.town }} {{ enteredAddress?.region?.isocode
+            }}<br />
+            {{ enteredAddress?.postalCode }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cx-dialog-actions col-sm-12 col-md-6 offset-md-6">
+        <button
+          class="btn btn-secondary btn-block cx-dialog-buttons"
+          (click)="closeModal()"
+        >
+          {{ 'addressSuggestion.editAddress' | cxTranslate }}
+        </button>
+        <button
+          cxAutoFocus
+          class="btn btn-primary btn-block cx-dialog-buttons"
+          (click)="closeModal(selectedAddress)"
+        >
+          {{ 'addressSuggestion.saveAddress' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
