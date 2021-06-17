@@ -38,11 +38,11 @@ export namespace CommonConfigurator {
   /**
    * Possible types of owners: Product, cart or order entry
    */
-  export enum OwnerType {    
+  export enum OwnerType {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
     ORDER_ENTRY = 'orderEntry',
-    INITIAL = 'initial'
+    INITIAL = 'initial',
   }
 }
 

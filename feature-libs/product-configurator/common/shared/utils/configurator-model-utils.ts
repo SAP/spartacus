@@ -1,6 +1,6 @@
 import {
   CommonConfigurator,
-  ConfiguratorType
+  ConfiguratorType,
 } from '../../core/model/common-configurator.model';
 
 export class ConfiguratorModelUtils {
