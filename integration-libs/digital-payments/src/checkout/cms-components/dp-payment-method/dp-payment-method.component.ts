@@ -42,7 +42,6 @@ export class DpPaymentMethodComponent
     this.selectPaymentMethod(paymentDetails);
     this.next();
   }
-
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
