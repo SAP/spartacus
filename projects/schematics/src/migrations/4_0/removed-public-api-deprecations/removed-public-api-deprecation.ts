@@ -102,6 +102,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_SETUP,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
@@ -109,6 +110,7 @@ import {
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
+  STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
@@ -778,6 +780,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
+  // projects/core/src/routing/store/actions/router.action.ts
+  {
+    node: ROUTING_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `The following '${ROUTING_ACTIONS}' has been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please just use the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
+  },
   {
     node: 'PageEventModule',
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -793,10 +801,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
   },
+  // feature-libs/storefinder/core/facade/store-data.service.ts
   {
-    node: ROUTING_ACTIONS,
-    importPath: SPARTACUS_CORE,
-    comment: `The following '${ROUTING_ACTIONS}' has been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please just use the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
+    node: STORE_DATA_SERVICE,
+    importPath: SPARTACUS_STOREFINDER,
+    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
 ];
 
