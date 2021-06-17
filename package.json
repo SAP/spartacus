@@ -71,11 +71,8 @@
     "release:cart:with-changelog": "cd feature-libs/cart && release-it && cd ../..",
     "release:cdc:with-changelog": "cd integration-libs/cdc && release-it && cd ../..",
     "release:cds:with-changelog": "cd integration-libs/cds && release-it && cd ../..",
-
     "release:checkout:with-changelog": "cd feature-libs/checkout && release-it && cd ../..",
-
     "release:digital-payments:with-changelog": "cd integration-libs/digital-payments && release-it && cd ../..",
-
     "release:schematics:with-changelog": "cd projects/schematics && release-it && cd ../..",
     "release:incubator:with-changelog": "cd projects/incubator && release-it && cd ../..",
     "release:setup:with-changelog": "cd core-libs/setup && release-it && cd ../..",
