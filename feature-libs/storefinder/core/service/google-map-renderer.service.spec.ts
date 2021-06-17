@@ -2,7 +2,7 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ScriptLoader } from '@spartacus/core';
 import { defaultStoreFinderConfig as config } from '../config/default-store-finder-config';
 import { StoreFinderConfig } from '../config/store-finder-config';
-import { StoreDataService } from '../facade/store-data.service';
+import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
@@ -42,7 +42,7 @@ class ScriptLoaderMock {
   }
 }
 
-class StoreDataServiceMock {
+class StoreFinderServiceMock {
   getStoreLatitude(_location: any): number {
     return 10;
   }
@@ -55,7 +55,7 @@ describe('GoogleMapRendererService', () => {
   let googleMapRendererService: GoogleMapRendererService;
 
   let scriptLoaderMock: ScriptLoader;
-  let storeDataServiceMock: StoreDataService;
+  let storeFinderServiceMock: StoreFinderService;
   let mapDomElement: HTMLElement;
 
   beforeEach(() => {
@@ -64,8 +64,8 @@ describe('GoogleMapRendererService', () => {
         GoogleMapRendererService,
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
         {
-          provide: StoreDataService,
-          useClass: StoreDataServiceMock,
+          provide: StoreFinderService,
+          useClass: StoreFinderServiceMock,
         },
         {
           provide: StoreFinderConfig,
@@ -77,14 +77,14 @@ describe('GoogleMapRendererService', () => {
     mapDomElement = document.createElement('div');
     scriptLoaderMock = bed.inject(ScriptLoader);
     googleMapRendererService = bed.inject(GoogleMapRendererService);
-    storeDataServiceMock = bed.inject(StoreDataService);
+    storeFinderServiceMock = bed.inject(StoreFinderService);
   });
 
   it('should render map', fakeAsync(() => {
     // given
     spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
+    spyOn(storeFinderServiceMock, 'getStoreLatitude').and.callThrough();
+    spyOn(storeFinderServiceMock, 'getStoreLongitude').and.callThrough();
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -96,8 +96,8 @@ describe('GoogleMapRendererService', () => {
       attributes: { type: 'text/javascript' },
       callback: jasmine.any(Function) as any,
     });
-    expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
+    expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
+    expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
 
     tick();
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
@@ -109,15 +109,15 @@ describe('GoogleMapRendererService', () => {
     tick();
 
     spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
+    spyOn(storeFinderServiceMock, 'getStoreLatitude').and.callThrough();
+    spyOn(storeFinderServiceMock, 'getStoreLongitude').and.callThrough();
 
     // when rendering the map one more time
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
 
     // then google js is not loaded again
     expect(scriptLoaderMock.embedScript).toHaveBeenCalledTimes(0);
-    expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
+    expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
+    expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
   }));
 });
