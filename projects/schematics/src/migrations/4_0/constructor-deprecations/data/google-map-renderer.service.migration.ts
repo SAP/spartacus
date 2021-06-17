@@ -41,11 +41,19 @@ export const GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1: ConstructorDeprecation = 
       className: STORE_DATA_SERVICE,
       importPath: SPARTACUS_STOREFINDER,
     },
+    {
+      className: SCRIPT_LOADER,
+      importPath: SPARTACUS_CORE,
+    },
   ],
   addParams: [
     {
       className: STORE_FINDER_SERVICE,
       importPath: SPARTACUS_STOREFINDER,
+    },
+    {
+      className: SCRIPT_LOADER,
+      importPath: SPARTACUS_CORE,
     },
   ],
 };

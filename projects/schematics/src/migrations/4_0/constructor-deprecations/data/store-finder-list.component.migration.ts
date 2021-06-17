@@ -1,4 +1,8 @@
 import {
+  ANGULAR_COMMON,
+  ANY_TYPE,
+  DOCUMENT,
+  DOCUMENT_STRING,
   SPARTACUS_STOREFINDER,
   STORE_DATA_SERVICE,
   STORE_FINDER_LIST_COMPONENT,
@@ -14,6 +18,14 @@ export const STORE_FINDER_LIST_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: STORE_DATA_SERVICE,
       importPath: SPARTACUS_STOREFINDER,
+    },
+    {
+      className: DOCUMENT,
+      literalInference: ANY_TYPE,
+      injectionToken: {
+        token: DOCUMENT_STRING,
+        importPath: ANGULAR_COMMON,
+      },
     },
   ],
   removeParams: [
