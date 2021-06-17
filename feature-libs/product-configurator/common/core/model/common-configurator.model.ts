@@ -42,7 +42,6 @@ export namespace CommonConfigurator {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
     ORDER_ENTRY = 'orderEntry',
-    INITIAL = 'initial',
   }
 }
 
