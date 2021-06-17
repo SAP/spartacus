@@ -1,4 +1,3 @@
-import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
@@ -66,9 +65,7 @@ describe('ScheduleComponent', () => {
 
   it('should render the schedule', () => {
     component.location = mockLocation;
-    component.ngOnChanges({
-      location: new SimpleChange(undefined, {}, false),
-    });
+    component.ngOnInit();
     fixture.detectChanges();
 
     // then verify the rendered schedule
@@ -91,9 +88,7 @@ describe('ScheduleComponent', () => {
     component.location = {};
 
     // when
-    component.ngOnChanges({
-      location: new SimpleChange(undefined, {}, false),
-    });
+    component.ngOnInit();
     fixture.detectChanges();
 
     // then verify the schedule has not been rendered
