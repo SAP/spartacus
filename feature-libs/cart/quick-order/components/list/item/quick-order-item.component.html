@@ -24,7 +24,7 @@
 
       <div class="cx-value">
         {{
-          ('quickOrderList.' + entry.product.stock.stockLevelStatus
+          ('quickOrderList.' + entry.product?.stock?.stockLevelStatus
             | cxTranslate) || '-'
         }}
       </div>
@@ -43,7 +43,7 @@
       </span>
       <cx-item-counter
         [control]="quantityControl"
-        [max]="entry.product.stock.stockLevel"
+        [max]="entry.product?.stock?.stockLevel"
       ></cx-item-counter>
     </div>
 

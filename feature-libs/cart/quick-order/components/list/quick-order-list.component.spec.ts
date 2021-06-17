@@ -1,22 +1,43 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { QuickOrderListComponent } from './quick-order-list.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OrderEntry } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+import { QuickOrderService } from '../../core/services/quick-order.service';
+import { QuickOrderListComponent } from './quick-order-list.component';
 
-// describe('QuickOrderListComponent', () => {
-//   let component: QuickOrderListComponent;
-//   let fixture: ComponentFixture<QuickOrderListComponent>;
+const mockentries: OrderEntry[] = [
+  {
+    quantity: 1,
+    product: { name: 'mockProduct', code: 'mockCode' },
+  },
+];
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [QuickOrderListComponent],
-//     }).compileComponents();
-//   });
+const mockentries$ = new BehaviorSubject<OrderEntry[]>(mockentries);
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(QuickOrderListComponent);
-//     component = fixture.componentInstance;
-//   });
+class MockQuickOrderService implements Partial<QuickOrderService> {
+  getEntries(): BehaviorSubject<OrderEntry[]> {
+    return mockentries$;
+  }
+}
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+describe('QuickOrderListComponent', () => {
+  let component: QuickOrderListComponent;
+  let fixture: ComponentFixture<QuickOrderListComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [QuickOrderListComponent],
+      providers: [
+        { provide: QuickOrderService, useClass: MockQuickOrderService },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(QuickOrderListComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

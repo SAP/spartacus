@@ -33,8 +33,10 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.quantityControl.valueChanges.subscribe(() => {
-        console.log(this.quantityControl.value);
-        // this.quickOrderService.updateEntryQuantity(this.index, quantity)
+        this.quickOrderService.updateEntryQuantity(
+          this.index,
+          this.quantityControl.value
+        );
       })
     );
   }

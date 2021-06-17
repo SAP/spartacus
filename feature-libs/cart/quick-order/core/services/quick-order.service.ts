@@ -2,20 +2,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
-  Cart,
   OrderEntry,
   Product,
   UserIdService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
-// import { QuickOrderEntry } from '../model/quick-order-entry.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuickOrderService {
+  productAdded$: Subject<void> = new Subject<void>();
+
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
@@ -40,7 +40,6 @@ export class QuickOrderService {
     // TODO
     this.quickOrderAdapter.search(productCode).subscribe(
       (product: Product) => {
-        console.log('product', product);
         const entry = this.generateOrderEntry(product);
         this.addEntry(entry);
       },
@@ -60,9 +59,8 @@ export class QuickOrderService {
   /**
    * Load a list of entries
    */
-  loadEntries(entries: OrderEntry[]): void {
+  loadEntries(entries: OrderEntry[] = []): void {
     this.entries$.next(entries);
-    console.log('loadEntries', entries);
   }
 
   /**
@@ -87,50 +85,6 @@ export class QuickOrderService {
   }
 
   /**
-   * Create new cart
-   */
-  createCart(): Observable<Cart> {
-    return this.userIdService.takeUserId().pipe(
-      switchMap((userId) => {
-        console.log('createCart', userId);
-        return this.quickOrderAdapter.createCart(userId);
-      })
-    );
-  }
-
-  /**
-   * Add entries to active cart
-   */
-  // addToCart(cartCode: string, cartGuid?: string): Observable<Cart[]> {
-  // return combineLatest([
-  //   this.userIdService.takeUserId(),
-  //   this.getEntries(),
-  // ]).pipe(
-  //   switchMap(([userId, entries]) => {
-  //     console.log(userId, entries);
-  //     const newEntries: QuickOrderEntry[] = (entries || []).map(
-  //       (entry: OrderEntry) => {
-  //         return {
-  //           quantity: entry.quantity,
-  //           product: {
-  //             code: entry?.product?.code,
-  //           },
-  //         } as QuickOrderEntry;
-  //       }
-  //     );
-
-  //     const cart = userId === 'anonymous' ? cartGuid : cartCode;
-
-  //     return this.quickOrderAdapter.addToCart(
-  //       userId,
-  //       cart as string,
-  //       newEntries
-  //     );
-  //   })
-  // );
-  // }
-
-  /**
    * Generate Order Entry from Product
    */
   protected generateOrderEntry(product: Product): OrderEntry {
@@ -147,7 +101,6 @@ export class QuickOrderService {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
-    console.log(entries);
 
     if (entry.product?.code && this.isProductOnTheList(entry.product.code)) {
       const entryIndex = entries.findIndex(
@@ -162,6 +115,7 @@ export class QuickOrderService {
     }
 
     this.entries$.next([...entries, ...[entry]]);
+    this.productAdded$.next();
   }
 
   /**

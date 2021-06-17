@@ -3,6 +3,7 @@ import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
+  StorageSyncType,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { QuickOrderService } from './quick-order.service';
@@ -35,6 +36,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
+        storageType: StorageSyncType.SESSION_STORAGE,
         onRead: (state) => this.onRead(state),
       })
     );
@@ -44,7 +46,6 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
    * Initializes the synchronization between state and browser storage.
    */
   getProductsList(): boolean {
-    console.log(this.readStateFromStorage());
     return this.readStateFromStorage();
   }
 
@@ -52,9 +53,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    */
-  protected onRead(state: any) {
-    console.log('onRead', state);
-
+  protected onRead(state: any): void {
     this.quicOrderService.loadEntries(state);
   }
 

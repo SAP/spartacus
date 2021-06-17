@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActiveCartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-// import { switchMap } from 'rxjs/operators';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderService } from '../../core/services/quick-order.service';
 
@@ -12,6 +11,7 @@ import { QuickOrderService } from '../../core/services/quick-order.service';
 })
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string> = this.activeCartService.getActiveCartId();
+  entries$ = this.quickOrderService.getEntries();
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -28,28 +28,9 @@ export class QuickOrderComponent implements OnInit {
   }
 
   addToCart(): void {
-    // this.activeCartService
-    //   .getActiveCartId()
-    //   .pipe(
-    //     switchMap((cartId) => {
-    //       if (cartId) {
-    //         return this.quickOrderService.addToCart(cartId);
-    //       } else {
-    //         // Need to do it via multicart
-    //         return this.quickOrderService.createCart().pipe(
-    //           switchMap((cart: Cart) => {
-    //             console.log(cart);
-    //             return this.quickOrderService.addToCart(
-    //               cart?.code as string,
-    //               cart?.guid as string
-    //             );
-    //           })
-    //         );
-    //       }
-    //     })
-    //   )
-    //   .subscribe(() => {
-    //     this.quickOrderService.clearList();
-    //   });
+    this.entries$.subscribe((entries) => {
+      this.activeCartService.addEntries(entries);
+      this.quickOrderService.clearList();
+    });
   }
 }

@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
 import { QuickOrderService } from '../../core/services/quick-order.service';
 
 @Component({
@@ -8,29 +14,32 @@ import { QuickOrderService } from '../../core/services/quick-order.service';
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderFormComponent implements OnInit {
+export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
+
+  protected subscription = new Subscription();
 
   constructor(protected quickOrderService: QuickOrderService) {}
 
   ngOnInit(): void {
     this.build();
+    this.subscription.add(this.watchProductAdd());
   }
 
-  search(event: Event): void {
+  search(event?: Event): void {
     if (this.form.invalid) {
       return;
     }
 
-    event.preventDefault();
+    event?.preventDefault();
 
     const productCode = this.form.get('product')?.value;
     this.quickOrderService.search(productCode);
   }
 
-  clear(event: Event): void {
-    event.preventDefault();
+  clear(event?: Event): void {
+    event?.preventDefault();
     this.form.reset();
   }
 
@@ -39,5 +48,13 @@ export class QuickOrderFormComponent implements OnInit {
     form.setControl('product', new FormControl(null));
 
     this.form = form;
+  }
+
+  protected watchProductAdd(): Subscription {
+    return this.quickOrderService.productAdded$.subscribe(() => this.clear());
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
