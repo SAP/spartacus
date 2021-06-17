@@ -3,8 +3,8 @@ import {
   ConfiguratorType,
 } from '../../core/model/common-configurator.model';
 
+const initialIndicator = 'INITIAL';
 export class ConfiguratorModelUtils {
-  static initialIndicator = 'INITIAL';
   /**
    * Compiles a unique key for a configuration owner from id and type
    * @param owner Specifies the owner of a product configuration
@@ -26,9 +26,9 @@ export class ConfiguratorModelUtils {
    */
   static createInitialOwner(): CommonConfigurator.Owner {
     return {
-      key: this.initialIndicator,
-      configuratorType: this.initialIndicator,
-      id: this.initialIndicator,
+      key: initialIndicator,
+      configuratorType: initialIndicator,
+      id: initialIndicator,
       type: CommonConfigurator.OwnerType.PRODUCT,
     };
   }
@@ -38,7 +38,7 @@ export class ConfiguratorModelUtils {
    * @returns Is owner initial?
    */
   static isInitialOwner(owner: CommonConfigurator.Owner): boolean {
-    return owner.configuratorType === this.initialIndicator;
+    return owner.configuratorType === initialIndicator;
   }
 
   /**
