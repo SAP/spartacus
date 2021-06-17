@@ -51,7 +51,11 @@ describe('MyCouponsComponentService', () => {
         cxRoute: 'search',
         params: { query: RELEVANCE },
       },
-      { couponcode: 'CouponForAllProduct' }
+      {
+        queryParams: {
+          couponcode: 'CouponForAllProduct',
+        },
+      }
     );
   });
 
@@ -64,7 +68,11 @@ describe('MyCouponsComponentService', () => {
           query: RELEVANCE + CUSTOMER_COUPON_CODE + 'CouponForPartProduct',
         },
       },
-      { couponcode: 'CouponForPartProduct' }
+      {
+        queryParams: {
+          couponcode: 'CouponForPartProduct',
+        },
+      }
     );
   });
 

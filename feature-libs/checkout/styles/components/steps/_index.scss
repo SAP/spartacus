@@ -1,0 +1,33 @@
+@import './progress';
+@import './payment/index';
+@import './review/index';
+@import './shipping-address/index';
+@import './shipping-method/index';
+@import './type/index';
+
+$checkout-components-allowlist: cx-payment-method, cx-payment-methods,
+  cx-checkout-progress, cx-checkout-progress-mobile-top,
+  cx-checkout-progress-mobile-bottom, cx-delivery-mode, cx-shipping-address,
+  cx-address-form, cx-billing-address-form, cx-payment-form, cx-review-submit,
+  cx-guest-register-form, cx-suggested-addresses-dialog, cx-payment-type,
+  cx-cost-center !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $checkout-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $checkout-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

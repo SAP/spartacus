@@ -1,8 +1,10 @@
 export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
+    orderNumber: 'Order Number',
     replenishmentId: 'Replenishment #',
     purchaseOrderId: 'Purchase Order #',
+    purchaseOrderNumber: 'Purchase Order Number',
     emptyPurchaseOrderId: 'None',
     none: 'None {{value}}',
     placed: 'Placed',
@@ -11,10 +13,14 @@ export const myAccount = {
     costCenter: 'Cost Center',
     costCenterAndUnit: 'Cost Center / Unit',
     costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
+    methodOfPayment: 'Method of Payment',
     payByAccount: 'Pay by Account',
     paidByCreditCard: '(paid by credit card)',
     status: 'Status',
+    active: 'Active',
     shippedOn: 'Shipped on',
+    shippingMethod: 'Shipping Method',
+    placedOn: 'Placed on',
     startOn: 'Start On',
     nextOrderDate: 'Next Order Date',
     frequency: 'Frequency',
@@ -123,26 +129,6 @@ export const myAccount = {
     closeMyAccount: 'CLOSE MY ACCOUNT',
     accountClosedSuccessfully: 'Account closed with success',
     accountClosedFailure: 'Failed to close account',
-  },
-
-  // @deprecated the updateEmailForm labels are moved to the user lib and will be dropped with the next major release
-  updateEmailForm: {
-    newEmailAddress: {
-      label: 'New email address',
-      placeholder: 'Enter email',
-    },
-    confirmNewEmailAddress: {
-      label: 'Confirm new email address',
-      placeholder: 'Enter email',
-    },
-    enterValidEmail: 'Please enter a valid email.',
-    bothEmailMustMatch: 'Both emails must match',
-    password: {
-      label: 'Password',
-      placeholder: 'Enter password',
-    },
-    pleaseInputPassword: 'Please input password',
-    emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
   },
 
   updatePasswordForm: {

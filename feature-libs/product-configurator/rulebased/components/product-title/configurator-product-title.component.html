@@ -1,92 +1,39 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="cx-general-product-info">
     <div class="cx-title">
-      <ng-container *cxFeatureLevel="'!3.3'">
-        {{ product.name }}
-      </ng-container>
-      <ng-container *cxFeatureLevel="'3.3'">
-        <span> {{ product.name }} </span>
-      </ng-container>
+      <span> {{ product.name }} </span>
     </div>
-    <ng-container *cxFeatureLevel="'!3.3'">
-      <a
-        role="link"
-        (click)="triggerDetails()"
-        (keyup)="clickOnEnter($event)"
-        tabindex="0"
-      >
-        <ng-container *ngIf="!showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showMore' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        </ng-container>
+    <button (click)="triggerDetails()">
+      <ng-container *ngIf="!showMore">
+        <div class="cx-toggle-details-link-text">
+          {{ 'configurator.header.showMore' | cxTranslate }}
+        </div>
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+      </ng-container>
 
-        <ng-container *ngIf="showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showLess' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
-        </ng-container>
-      </a>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'3.3'">
-      <button (click)="triggerDetails()">
-        <ng-container *ngIf="!showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showMore' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        </ng-container>
-
-        <ng-container *ngIf="showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showLess' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
-        </ng-container>
-      </button>
-    </ng-container>
+      <ng-container *ngIf="showMore">
+        <div class="cx-toggle-details-link-text">
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
+        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+      </ng-container>
+    </button>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image">
-        <ng-container *cxFeatureLevel="'!3.3'">
-          <img
-            [alt]="getProductImageAlt(product)"
-            [src]="getProductImageURL(product)"
-          />
-        </ng-container>
-        <!-- TODO: update feature level to the release we are publishing with-->
-        <ng-container *cxFeatureLevel="'3.3'">
-          <cx-media
-            [container]="product?.images?.PRIMARY"
-            format="product"
-          ></cx-media>
-        </ng-container>
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
       </div>
       <div class="cx-details-content">
         <div class="cx-detail-title">
-          <ng-container *cxFeatureLevel="'!3.3'">
-            {{ product.name }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.name"> {{ product.name }} </span>
-          </ng-container>
+          <span *ngIf="product.name"> {{ product.name }} </span>
         </div>
         <div class="cx-code">
-          <ng-container *cxFeatureLevel="'!3.3'">
-            {{ product.code }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.code"> {{ product.code }} </span>
-          </ng-container>
+          <span *ngIf="product.code"> {{ product.code }} </span>
         </div>
         <div class="cx-description">
-          <ng-container *cxFeatureLevel="'!3.3'">
-            {{ product.description }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.description"> {{ product.description }} </span>
-          </ng-container>
+          <span *ngIf="product.description"> {{ product.description }} </span>
         </div>
       </div>
     </div>

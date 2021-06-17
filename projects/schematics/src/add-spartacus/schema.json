@@ -33,7 +33,8 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile"
+          "Profile",
+          "Checkout"
         ],
         "type": "string"
       },
@@ -123,6 +124,10 @@
           {
             "value": "Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
           }
         ]
       }
@@ -154,6 +159,10 @@
       "type": "string",
       "description": "A comma-separated list of languages to use in Spartacus",
       "default": "en"
+    },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
     },
     "useMetaTags": {
       "type": "boolean",
