@@ -15,6 +15,7 @@ import {
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
+import { StorefrontOutlets } from './storefront-outlets.model';
 
 @Component({
   selector: 'cx-storefront',
@@ -23,6 +24,8 @@ import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.se
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
+
+  readonly StorefrontOutlets = StorefrontOutlets;
 
   @HostBinding('class.start-navigating') startNavigating;
   @HostBinding('class.stop-navigating') stopNavigating;
