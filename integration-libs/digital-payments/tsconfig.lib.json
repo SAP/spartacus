@@ -11,11 +11,38 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/assets": ["dist/assets"]
+      "@spartacus/assets": [
+        "dist/assets"
+      ],
+      "@spartacus/core": [
+        "dist/core"
+      ],
+      "@spartacus/storefront": [
+        "dist/storefrontlib"
+      ],
+      "@spartacus/checkout/assets": [
+        "dist/checkout/assets"
+      ],
+      "@spartacus/checkout/components": [
+        "dist/checkout/components"
+      ],
+      "@spartacus/checkout/core": [
+        "dist/checkout/core"
+      ],
+      "@spartacus/checkout": [
+        "dist/checkout"
+      ],
+      "@spartacus/checkout/occ": [
+        "dist/checkout/occ"
+      ],
+      "@spartacus/checkout/root": [
+        "dist/checkout/root"
+      ]
     }
   },
   "angularCompilerOptions": {
@@ -25,5 +52,8 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ]
 }
