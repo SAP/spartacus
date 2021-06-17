@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Order, StateUtils } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -8,5 +10,7 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailShippingComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  state$ = this.orderDetailsService.getOrderDetailsState();
+  state$: Observable<
+    StateUtils.LoaderState<Order>
+  > = this.orderDetailsService.getOrderDetailsState();
 }
