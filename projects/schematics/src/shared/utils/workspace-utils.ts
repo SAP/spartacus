@@ -1,6 +1,5 @@
 import { JsonParseMode, parseJson } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
 import {
   ProjectType,
   WorkspaceProject,
@@ -28,6 +27,21 @@ export function getSourceRoot(
   }
 
   return sourceRoot;
+}
+
+/*
+ * Was removed from schematics@12, we should revisit and probably switch to getWorkspace from angular/cli/uitils
+ */
+function getWorkspaceAngular(host: Tree): WorkspaceSchema {
+  const possibleFiles = ['/angular.json', '/.angular.json'];
+  const path = possibleFiles.filter((path) => host.exists(path))[0];
+  const configBuffer = host.read(path);
+  if (configBuffer === null) {
+    throw new SchematicsException(`Could not find (${path})`);
+  }
+  const content = configBuffer.toString();
+
+  return (parseJson(content, JsonParseMode.Loose) as {}) as WorkspaceSchema;
 }
 
 export function getWorkspace(
