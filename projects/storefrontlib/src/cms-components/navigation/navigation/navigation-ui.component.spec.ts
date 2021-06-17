@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { NavigationUiConfig } from './config/navigation-ui-config';
 
 @Component({
   selector: 'cx-icon',
@@ -23,6 +24,10 @@ class MockGenericLinkComponent {
   @Input() target: string;
   @Input() title: string;
 }
+
+const mockConfig: NavigationUiConfig = {
+  resetMenuOnClose: false,
+};
 
 const childLength = 9;
 
@@ -94,6 +99,7 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
+    navigationComponent.config = mockConfig;
   });
 
   describe('calculate columns', () => {
