@@ -9,6 +9,7 @@ context('Express checkout', () => {
 
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+      cy.clearLocalStorageMemory(); // avoid restoring the local storage in the desktop run after the mobile run
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
       user = getSampleUser();
       Cypress.log({

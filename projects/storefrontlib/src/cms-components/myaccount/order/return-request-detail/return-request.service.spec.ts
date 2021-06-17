@@ -146,7 +146,6 @@ describe('ReturnRequestService', () => {
     service.backToList();
     expect(routingService.go).toHaveBeenCalledWith(
       { cxRoute: 'orders' },
-      null,
       {
         state: {
           activeTab: 1,
