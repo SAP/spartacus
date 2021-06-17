@@ -2,12 +2,12 @@ import { PaymentDetails } from '@spartacus/core';
 import { DigitalPaymentActions } from '../actions';
 import { Action } from '@ngrx/store';
 
-export const initialState: PaymentDetails = {};
+export const initialState: PaymentDetails | undefined = undefined;
 
 export function reducer(
   state = initialState,
   action: Action //DigitalPaymentActions.CheckoutPaymentDetailsAction
-): PaymentDetails {
+): PaymentDetails | undefined {
   const act = action as DigitalPaymentActions.CheckoutPaymentDetailsAction;
   switch (act.type) {
     case DigitalPaymentActions.LOAD_CHECKOUT_PAYMENT_DETAILS: {
