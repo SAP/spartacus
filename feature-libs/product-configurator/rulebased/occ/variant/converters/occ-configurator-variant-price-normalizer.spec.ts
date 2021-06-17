@@ -9,7 +9,7 @@ class MockConverterService {
   convert() {}
 }
 
-fdescribe('OccConfiguratorVariantPriceNormalizer', () => {
+describe('OccConfiguratorVariantPriceNormalizer', () => {
   let classUnderTest: OccConfiguratorVariantPriceNormalizer;
 
   function createValueSupplements(
@@ -275,7 +275,7 @@ fdescribe('OccConfiguratorVariantPriceNormalizer', () => {
       expect(result.groups[0].subGroups[0].attributes.length).toBe(3);
     });
 
-    fit('should return a converted configuration with two groups with more than one subgroup', () => {
+    it('should return a converted configuration with two groups with more than one subgroup', () => {
       const source: OccConfigurator.Prices = createOccConfiguratorPrices(
         true,
         2,

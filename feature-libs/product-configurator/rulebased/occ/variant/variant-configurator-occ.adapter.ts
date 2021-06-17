@@ -237,7 +237,16 @@ export class VariantConfiguratorOccAdapter
             (configValue) => configValue?.valueCode === value?.valueCode
           );
           if (configValue) {
-            Object.assign({ valuePrice: value?.valuePrice }, configValue);
+            /**
+            const result = Object.assign({valuePrice: value?.valuePrice}, configValue);
+            configValue = {
+              ...result
+            };
+            console.log(configValue);
+             */
+
+            configValue.valuePrice = value?.valuePrice;
+            console.log(configValue);
           }
         });
       });
