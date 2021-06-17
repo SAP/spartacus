@@ -729,6 +729,16 @@ export const UNITS_ROUTING_CONFIG = 'unitsRoutingConfig';
 export const USER_GROUP_ROUTING_CONFIG = 'userGroupRoutingConfig';
 export const USER_ROUTING_CONFIG = 'userRoutingConfig';
 
+export const DEFAULT_BUDGET_ROUTING_CONFIG = 'defaultBudgetRoutingConfig';
+export const DEFAULT_COST_CENTER_ROUTING_CONFIG =
+  'defaultCostCenterRoutingConfig';
+export const DEFAULT_PERMISSION_ROUTING_CONFIG =
+  'defaultPermissionRoutingConfig';
+export const DEFAULT_UNITS_ROUTING_CONFIG = 'defaultUnitsRoutingConfig';
+export const DEFAULT_USER_GROUP_ROUTING_CONFIG =
+  'defaultUserGroupRoutingConfig';
+export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
+
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
