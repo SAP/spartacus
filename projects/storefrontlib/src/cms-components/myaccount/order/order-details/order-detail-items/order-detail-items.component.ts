@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Consignment,
-  PromotionLocation,
-  PromotionResult,
-} from '@spartacus/core';
+import { Consignment, PromotionLocation } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
@@ -18,24 +13,18 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected promotionService: PromotionService
-  ) {}
+  constructor(protected orderDetailsService: OrderDetailsService) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
+
   order$: Observable<any> = this.orderDetailsService
     .getOrderDetails()
     .pipe(map((order) => (Object.keys(order).length ? order : null)));
-  orderPromotions$: Observable<PromotionResult[]>;
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
