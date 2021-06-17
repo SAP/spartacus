@@ -24,7 +24,6 @@ import {
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/src/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -100,14 +99,6 @@ const mockProduct = {
   },
 };
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
-}
-
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -142,10 +133,6 @@ describe('CartItemComponent', () => {
         providers: [
           {
             provide: ControlContainer,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
       }).compileComponents();
