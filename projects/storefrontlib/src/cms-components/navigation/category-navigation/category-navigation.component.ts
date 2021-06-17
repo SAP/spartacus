@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
+import { mergeMap } from 'rxjs/operators';
+import { NavigationUiConfig } from '../navigation/config/navigation-ui-config';
 
 @Component({
   selector: 'cx-category-navigation',
@@ -21,4 +23,18 @@ export class CategoryNavigationComponent {
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService
   ) {}
+
+  /**
+   * Returns navigation-ui config information.
+   */
+  getNavUIConfig(): Observable<NavigationUiConfig> {
+    return this.componentData.data$.pipe(
+      mergeMap((data: CmsNavigationComponent) => {
+        let config: NavigationUiConfig = {
+          resetMenuOnClose: Boolean(data?.resetMenuOnClose),
+        };
+        return of(config);
+      })
+    );
+  }
 }
