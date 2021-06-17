@@ -24,6 +24,7 @@ export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `${SPARTACUS_ORGANIZATION}/administration/root`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
@@ -708,6 +709,13 @@ export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
 export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
 export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
 export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
+
+export const BUDGET_ROUTING_CONFIG = 'budgetRoutingConfig';
+export const COST_CENTER_ROUTING_CONFIG = 'costCenterRoutingConfig';
+export const PERMISSION_ROUTING_CONFIG = 'permissionRoutingConfig';
+export const UNITS_ROUTING_CONFIG = 'unitsRoutingConfig';
+export const USER_GROUP_ROUTING_CONFIG = 'userGroupRoutingConfig';
+export const USER_ROUTING_CONFIG = 'userRoutingConfig';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
