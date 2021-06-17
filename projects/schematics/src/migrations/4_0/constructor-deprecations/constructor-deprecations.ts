@@ -1,6 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
+import { ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION } from './data/abstract-store-item.component.migration';
 import {
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V2,
@@ -41,6 +42,10 @@ import {
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
 } from './data/cms-components.service.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
+import {
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
+} from './data/google-map-renderer.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -67,6 +72,12 @@ import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration'
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
+import { SCHEDULE_COMPONENT_MIGRATION } from './data/schedule.component.migration';
+import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
+import { STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION } from './data/store-finder-list-item.component.migration';
+import { STORE_FINDER_LIST_COMPONENT_MIGRATION } from './data/store-finder-list.component.migration';
+import { STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION } from './data/store-finder-store-description.component.migration';
+import { STORE_FINDER_SERVICE_MIGRATION } from './data/store-finder.service.migration';
 import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V2,
@@ -92,7 +103,6 @@ import {
 } from './data/saved-cart-details-overview.component.migration';
 import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
 import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
-import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
 import {
@@ -131,6 +141,14 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  STORE_FINDER_SERVICE_MIGRATION,
+  ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION,
+  SCHEDULE_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_COMPONENT_MIGRATION,
+  STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
   CONFIGURATOR_CART_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_MIGRATION,
