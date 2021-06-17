@@ -71,17 +71,15 @@ export class OrderOverviewComponent {
   }
 
   getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.nextOrderDate')
-      .pipe(
-        filter(() => Boolean(isoDate)),
-        map((textTitle) => {
-          return {
-            title: textTitle,
-            text: [isoDate],
-          };
-        })
-      );
+    return this.translation.translate('orderDetails.nextOrderDate').pipe(
+      filter(() => Boolean(isoDate)),
+      map((textTitle) => {
+        return {
+          title: textTitle,
+          text: [isoDate],
+        };
+      })
+    );
   }
 
   getOrderCodeCardContent(orderCode: string): Observable<Card> {
@@ -95,17 +93,15 @@ export class OrderOverviewComponent {
   }
 
   getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.placedOn')
-      .pipe(
-        filter(() => Boolean(isoDate)),
-        map((textTitle) => {
-          return {
-            title: textTitle,
-            text: [isoDate],
-          };
-        })
-      );
+    return this.translation.translate('orderDetails.placedOn').pipe(
+      filter(() => Boolean(isoDate)),
+      map((textTitle) => {
+        return {
+          title: textTitle,
+          text: [isoDate],
+        };
+      })
+    );
   }
 
   getOrderStatusCardContent(status: string): Observable<Card> {
