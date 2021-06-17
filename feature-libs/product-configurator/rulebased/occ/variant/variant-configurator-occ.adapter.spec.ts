@@ -33,6 +33,14 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import {
+  ATTRIBUTE_1_CHECKBOX,
+  GROUP_ID_1,
+  productConfiguration,
+  VALUE_01,
+  VALUE_02,
+  VALUE_03,
+} from '../../shared/testing/configurator-test-data';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -42,15 +50,18 @@ class MockOccEndpointsService {
   ) {
     return this.getEndpoint(endpoint);
   }
+
   getEndpoint(url: string) {
     return url;
   }
 }
+
 class MockTranslationService {
   translate(text: string) {
     return text;
   }
 }
+
 const productCode = 'CONF_LAPTOP';
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
@@ -59,7 +70,9 @@ const documentEntryNumber = '3';
 const userId = 'Anony';
 const documentId = '82736353';
 
-const productConfiguration: Configurator.Configuration = {
+const mockProductConfiguration: Configurator.Configuration = productConfiguration;
+
+const configuration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     configId,
     ConfiguratorModelUtils.createOwner(
@@ -143,7 +156,7 @@ describe('OccConfigurationVariantAdapter', () => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    configuratorUtils.setOwnerKey(productConfiguration.owner);
+    configuratorUtils.setOwnerKey(configuration.owner);
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -157,7 +170,7 @@ describe('OccConfigurationVariantAdapter', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
-      .createConfiguration(productConfiguration.owner)
+      .createConfiguration(configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -189,7 +202,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readConfiguration endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId, productConfiguration.owner)
+      .readConfiguration(configId, groupId, configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -218,7 +231,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call updateConfiguration endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .updateConfiguration(productConfiguration)
+      .updateConfiguration(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -243,7 +256,7 @@ describe('OccConfigurationVariantAdapter', () => {
       VARIANT_CONFIGURATOR_NORMALIZER
     );
     expect(converterService.convert).toHaveBeenCalledWith(
-      productConfiguration,
+      configuration,
       VARIANT_CONFIGURATOR_SERIALIZER
     );
     mockReq.flush(productConfigurationOcc);
@@ -252,7 +265,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readPriceSummary endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .readPriceSummary(productConfiguration)
+      .readPriceSummary(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.priceSummary?.basePrice?.currencyIso).toBe(
           pricesOcc.priceSummary?.basePrice?.currencyIso
@@ -288,7 +301,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: productConfiguration.owner,
+      owner: configuration.owner,
       userId: userId,
       cartId: documentId,
       cartEntryNumber: documentEntryNumber,
@@ -329,7 +342,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-      owner: productConfiguration.owner,
+      owner: configuration.owner,
       userId: userId,
       orderId: documentId,
       orderEntryNumber: documentEntryNumber,
@@ -370,7 +383,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call updateVariantConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
-      configuration: productConfiguration,
+      configuration: configuration,
       userId: userId,
       cartId: documentId,
       cartEntryNumber: documentEntryNumber,
@@ -416,7 +429,7 @@ describe('OccConfigurationVariantAdapter', () => {
       productCode: 'Product',
       quantity: 1,
       configId: configId,
-      owner: productConfiguration.owner,
+      owner: configuration.owner,
       userId: userId,
       cartId: documentId,
     };
@@ -451,7 +464,7 @@ describe('OccConfigurationVariantAdapter', () => {
       cartEntryNumber: documentEntryNumber,
     };
     spyOn(converterService, 'pipeable').and.returnValue(() =>
-      of(productConfiguration)
+      of(configuration)
     );
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -467,7 +480,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call getVariantConfigurationOverview endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .getConfigurationOverview(productConfiguration.configId)
+      .getConfigurationOverview(configuration.configId)
       .subscribe((productConfigurationResult) => {
         expect(productConfigurationResult.configId).toBe(configId);
         done();
@@ -500,5 +513,71 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
       ConfiguratorType.VARIANT
     );
+  });
+
+  fdescribe('updateValuePrice', () => {
+    it('should update corresponding value price', () => {
+      const configGroups: Configurator.Group[] =
+        mockProductConfiguration.groups;
+      const groups: Configurator.Group[] = [
+        {
+          id: GROUP_ID_1,
+          subGroups: [],
+          attributes: [
+            {
+              name: ATTRIBUTE_1_CHECKBOX,
+              values: [
+                {
+                  valueCode: VALUE_01,
+                  valuePrice: {
+                    currencyIso: 'USD',
+                    formattedValue: '$250.00',
+                    value: 250,
+                  },
+                },
+                {
+                  valueCode: VALUE_02,
+                  valuePrice: {
+                    currencyIso: 'USD',
+                    formattedValue: '$500.00',
+                    value: 500,
+                  },
+                },
+                {
+                  valueCode: VALUE_03,
+                  valuePrice: {
+                    currencyIso: 'USD',
+                    formattedValue: '$750.00',
+                    value: 750,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      occConfiguratorVariantAdapter.updateValuePrice(configGroups, groups);
+      const group = configGroups.find(
+        (configGroup) => configGroup?.id === groups[0]?.id
+      );
+      const attribute = group.attributes.find(
+        (configAttr) => configAttr?.name === groups[0]?.attributes[0].name
+      );
+      expect(attribute.values[0].valueCode).toEqual(VALUE_01);
+      expect(attribute.values[0].valuePrice).toEqual(
+        groups[0]?.attributes[0].values[0].valuePrice
+      );
+
+      expect(attribute.values[1].valueCode).toEqual(VALUE_02);
+      expect(attribute.values[1].valuePrice).toEqual(
+        groups[0]?.attributes[0].values[1].valuePrice
+      );
+
+      expect(attribute.values[2].valueCode).toEqual(VALUE_03);
+      expect(attribute.values[2].valuePrice).toEqual(
+        groups[0]?.attributes[0].values[2].valuePrice
+      );
+    });
   });
 });

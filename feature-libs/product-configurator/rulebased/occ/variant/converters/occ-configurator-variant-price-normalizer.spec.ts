@@ -9,7 +9,7 @@ class MockConverterService {
   convert() {}
 }
 
-describe('OccConfiguratorVariantPriceNormalizer', () => {
+fdescribe('OccConfiguratorVariantPriceNormalizer', () => {
   let classUnderTest: OccConfiguratorVariantPriceNormalizer;
 
   function createValueSupplements(
@@ -67,39 +67,88 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
 
   function createSupplementsList(
     isMultiLevel: boolean,
+    amountOfGroups: number,
+    amountOfSubgroups: number,
     amountOfSupplements: number,
     amountOfValues: number
   ): OccConfigurator.Supplements[] {
     const occSupplements: OccConfigurator.Supplements[] = [];
-    let uiKey = 'group@';
-    if (isMultiLevel) {
-      uiKey += 'subGroup@';
-    }
-    for (let index = 0; index < amountOfSupplements; index++) {
-      const attributeNr = index + 1;
-      const csticUiKey = uiKey + 'attribute_' + attributeNr;
-      const occSupplement = createSupplement(
-        attributeNr,
-        csticUiKey,
-        amountOfValues
-      );
-      occSupplements.push(occSupplement);
+    for (let i = 0; i < amountOfGroups; i++) {
+      const groupNr = i + 1;
+      let uiKey = 'group' + groupNr + '@';
+      if (isMultiLevel) {
+        for (let k = 0; k < amountOfSubgroups; k++) {
+          const subgroupNr = k + 1;
+          uiKey += 'subGroup' + subgroupNr + '@';
+        }
+      }
+      for (let j = 0; j < amountOfSupplements; j++) {
+        const attributeNr = j + 1;
+        const csticUiKey = uiKey + 'attribute_' + groupNr + '_' + attributeNr;
+        const occSupplement = createSupplement(
+          attributeNr,
+          csticUiKey,
+          amountOfValues
+        );
+        occSupplements.push(occSupplement);
+      }
     }
     return occSupplements;
   }
 
   function createOccConfiguratorPrices(
+    isMultiLevel: boolean,
+    amountOfGroups: number,
+    amountOfSubgroups: number,
     amountOfSupplements: number,
     amountOfValues: number
   ): OccConfigurator.Prices {
     return {
       attributes: createSupplementsList(
-        false,
+        isMultiLevel,
+        amountOfGroups,
+        amountOfSubgroups,
         amountOfSupplements,
         amountOfValues
       ),
       priceSummary: undefined,
     };
+  }
+
+  function createGroups(
+    amountOfGroups: number,
+    amountOfSubgroups?: number
+  ): Configurator.Group[] {
+    let groups: Configurator.Group[] = [];
+
+    for (let i = 0; i < amountOfGroups; i++) {
+      const groupNr = i + 1;
+      const groupId = 'groupID-' + groupNr;
+      const group: Configurator.Group = {
+        id: groupId,
+        name: groupId,
+        subGroups: [],
+        attributes: [],
+      };
+
+      for (let j = 0; j < amountOfSubgroups; j++) {
+        const subGroupNr = j + 1;
+        const subGroupId = groupId + '@subGroupID-' + subGroupNr;
+        const subGroup: Configurator.Group = {
+          id: subGroupId,
+          name: subGroupId,
+          subGroups: [],
+          attributes: [],
+        };
+
+        if (group?.subGroups.indexOf(subGroup) === -1) {
+          group?.subGroups.push(subGroup);
+        }
+      }
+      groups.push(group);
+    }
+
+    return groups;
   }
 
   beforeEach(() => {
@@ -130,7 +179,7 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
       const occValues = createValueSupplementsList(1, 1);
       const result = classUnderTest.convertValue(occValues);
       expect(result.length).toBe(1);
-      expect(result[0].valueCode).toBe('value_1');
+      expect(result[0].valueCode).toBe('value_1_1');
       expect(result[0].valuePrice).toEqual(occValues[0].priceValue);
     });
   });
@@ -156,11 +205,138 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
     });
   });
 
+  describe('convertGroup', () => {
+    it('should return new group', () => {
+      const groups: Configurator.Group[] = createGroups(0);
+      const groupId = 'groupID-1';
+      const result = classUnderTest.convertGroup(groups, groupId);
+      expect(result.id).toEqual(groupId);
+    });
+
+    it('should return an existing group', () => {
+      const groups: Configurator.Group[] = createGroups(10);
+      const groupId = 'groupID-8';
+      const result = classUnderTest.convertGroup(groups, groupId);
+      expect(result.id).toEqual(groupId);
+    });
+
+    it('should return an existing subgroup', () => {
+      const groups: Configurator.Group[] = createGroups(5, 5);
+      const groupId = 'groupID-2@subGroupID-4';
+      const result = classUnderTest.convertGroup(groups, groupId);
+      expect(result.id).toEqual(groupId);
+    });
+  });
+
   describe('convert', () => {
-    it('should return a converted configuration', () => {
-      const source: OccConfigurator.Prices = createOccConfiguratorPrices(3, 3);
+    it('should return a converted configuration with one group without any subgroups', () => {
+      const source: OccConfigurator.Prices = createOccConfiguratorPrices(
+        false,
+        1,
+        0,
+        3,
+        3
+      );
       const result: Configurator.Configuration = classUnderTest.convert(source);
       expect(result).toBeDefined();
+      expect(result.groups.length).toBe(1);
+      expect(result.groups[0].attributes.length).toBe(3);
+    });
+
+    it('should return a converted configuration with more than one group without any subgroups', () => {
+      const source: OccConfigurator.Prices = createOccConfiguratorPrices(
+        false,
+        3,
+        0,
+        3,
+        3
+      );
+      const result: Configurator.Configuration = classUnderTest.convert(source);
+      expect(result).toBeDefined();
+      expect(result.groups.length).toBe(3);
+      expect(result.groups[0].attributes.length).toBe(3);
+      expect(result.groups[1].attributes.length).toBe(3);
+      expect(result.groups[2].attributes.length).toBe(3);
+    });
+
+    it('should return a converted configuration with one group with one subgroup', () => {
+      const source: OccConfigurator.Prices = createOccConfiguratorPrices(
+        true,
+        1,
+        1,
+        3,
+        3
+      );
+      const result: Configurator.Configuration = classUnderTest.convert(source);
+      expect(result).toBeDefined();
+      expect(result.groups.length).toBe(1);
+      expect(result.groups[0].attributes?.length).toBe(0);
+      expect(result.groups[0].subGroups.length).toBe(1);
+      expect(result.groups[0].subGroups[0].attributes.length).toBe(3);
+    });
+
+    fit('should return a converted configuration with two groups with more than one subgroup', () => {
+      const source: OccConfigurator.Prices = createOccConfiguratorPrices(
+        true,
+        2,
+        3,
+        3,
+        3
+      );
+      const result: Configurator.Configuration = classUnderTest.convert(source);
+      expect(result).toBeDefined();
+      expect(result.groups.length).toBe(2);
+      expect(result.groups[0].id).toEqual('group1');
+      expect(result.groups[0].attributes?.length).toBe(0);
+      expect(result.groups[0].subGroups.length).toBe(1);
+      expect(result.groups[0].subGroups[0].id).toEqual('group1@subGroup1');
+      expect(result.groups[0].subGroups[0].attributes.length).toBe(0);
+      expect(result.groups[0].subGroups[0].subGroups.length).toBe(1);
+      expect(result.groups[0].subGroups[0].subGroups[0].id).toEqual(
+        'group1@subGroup1@subGroup2'
+      );
+      expect(result.groups[0].subGroups[0].subGroups[0].attributes.length).toBe(
+        0
+      );
+      expect(result.groups[0].subGroups[0].subGroups[0].subGroups.length).toBe(
+        1
+      );
+      expect(result.groups[0].subGroups[0].subGroups[0].subGroups[0].id).toBe(
+        'group1@subGroup1@subGroup2@subGroup3'
+      );
+      expect(
+        result.groups[0].subGroups[0].subGroups[0].subGroups[0].attributes
+          .length
+      ).toBe(3);
+      expect(
+        result.groups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length
+      ).toBe(0);
+
+      expect(result.groups[1].id).toEqual('group2');
+      expect(result.groups[1].attributes?.length).toBe(0);
+      expect(result.groups[1].subGroups.length).toBe(1);
+      expect(result.groups[1].subGroups[0].id).toEqual('group2@subGroup1');
+      expect(result.groups[1].subGroups[0].attributes.length).toBe(0);
+      expect(result.groups[1].subGroups[0].subGroups.length).toBe(1);
+      expect(result.groups[1].subGroups[0].subGroups[0].id).toEqual(
+        'group2@subGroup1@subGroup2'
+      );
+      expect(result.groups[1].subGroups[0].subGroups[0].attributes.length).toBe(
+        0
+      );
+      expect(result.groups[1].subGroups[0].subGroups[0].subGroups.length).toBe(
+        1
+      );
+      expect(result.groups[1].subGroups[0].subGroups[0].subGroups[0].id).toBe(
+        'group2@subGroup1@subGroup2@subGroup3'
+      );
+      expect(
+        result.groups[1].subGroups[0].subGroups[0].subGroups[0].attributes
+          .length
+      ).toBe(3);
+      expect(
+        result.groups[1].subGroups[0].subGroups[0].subGroups[0].subGroups.length
+      ).toBe(0);
     });
   });
 });

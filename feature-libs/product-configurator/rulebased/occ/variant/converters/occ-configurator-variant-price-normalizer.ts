@@ -16,42 +16,58 @@ export class OccConfiguratorVariantPriceNormalizer
       groups: [],
     };
 
-    source?.attributes?.forEach((attr) => {
+    source?.attributes.forEach((attr) => {
       const uiKeys = attr?.csticUiKey.split('@');
       const attribute = this.convertAttribute(
         uiKeys.pop(),
         this.convertValue(attr?.priceSupplements)
       );
 
-      const group: Configurator.Group = {
-        id: uiKeys[0],
-        subGroups: [],
-        attributes: [],
-      };
+      const group = this.convertGroup(resultTarget?.groups, uiKeys[0]);
+
       if (uiKeys.length === 1) {
         group?.attributes.push(attribute);
       } else {
+        let subGroups = group?.subGroups;
+        let subGroupId = uiKeys[0];
         for (let index = 1; index < uiKeys.length; index++) {
-          const subGroup: Configurator.Group = {
-            id: uiKeys[index],
-            subGroups: [],
-            attributes: [],
-          };
+          subGroupId = subGroupId.concat('@');
+          subGroupId = subGroupId.concat(uiKeys[index]);
+          const subGroup = this.convertGroup(subGroups, subGroupId);
+
           if (index === uiKeys.length - 1) {
             subGroup?.attributes.push(attribute);
           }
-
-          if (group?.subGroups?.indexOf(subGroup) === -1) {
-            group?.subGroups.push(subGroup);
-          }
+          this.addGroup(subGroups, subGroup);
+          subGroups = subGroup?.subGroups;
         }
       }
-      if (resultTarget?.groups?.indexOf(group) === -1) {
-        resultTarget?.groups?.push(group);
-      }
+      this.addGroup(resultTarget?.groups, group);
     });
 
     return resultTarget;
+  }
+
+  addGroup(groups: Configurator.Group[], group: Configurator.Group) {
+    if (groups?.indexOf(group) === -1) {
+      groups?.push(group);
+    }
+  }
+
+  convertGroup(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group {
+    let group = groups?.find((group) => group.id === groupId);
+
+    if (!group) {
+      group = {
+        id: groupId,
+        subGroups: [],
+        attributes: [],
+      };
+    }
+    return group;
   }
 
   convertValue(

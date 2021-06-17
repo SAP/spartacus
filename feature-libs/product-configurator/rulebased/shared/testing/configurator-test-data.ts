@@ -27,6 +27,10 @@ export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
 export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
+export const VALUE_01 = 'VALUE_01';
+export const VALUE_02 = 'VALUE_02';
+export const VALUE_03 = 'VALUE_03';
+
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 export const mockRouterState: any = {
@@ -81,6 +85,26 @@ export const productConfiguration: Configurator.Configuration = {
           uiType: Configurator.UiType.CHECKBOXLIST,
           required: true,
           incomplete: true,
+          values: [
+            {
+              name: VALUE_01,
+              valueCode: VALUE_01,
+              valueDisplay: 'Value 01',
+              images: [],
+            },
+            {
+              name: VALUE_02,
+              valueCode: VALUE_02,
+              valueDisplay: 'Value 02',
+              images: [],
+            },
+            {
+              name: VALUE_03,
+              valueCode: VALUE_03,
+              valueDisplay: 'Value 03',
+              images: [],
+            },
+          ],
         },
       ],
       subGroups: [],
@@ -95,6 +119,26 @@ export const productConfiguration: Configurator.Configuration = {
           uiType: Configurator.UiType.RADIOBUTTON,
           required: false,
           incomplete: false,
+          values: [
+            {
+              name: VALUE_01,
+              valueCode: VALUE_01,
+              valueDisplay: 'Value 01',
+              images: [],
+            },
+            {
+              name: VALUE_02,
+              valueCode: VALUE_02,
+              valueDisplay: 'Value 02',
+              images: [],
+            },
+            {
+              name: VALUE_03,
+              valueCode: VALUE_03,
+              valueDisplay: 'Value 03',
+              images: [],
+            },
+          ],
         },
       ],
       subGroups: [],
@@ -128,6 +172,26 @@ export const productConfiguration: Configurator.Configuration = {
               uiType: Configurator.UiType.DROPDOWN,
               required: true,
               incomplete: true,
+              values: [
+                {
+                  name: VALUE_01,
+                  valueCode: VALUE_01,
+                  valueDisplay: 'Value 01',
+                  images: [],
+                },
+                {
+                  name: VALUE_02,
+                  valueCode: VALUE_02,
+                  valueDisplay: 'Value 02',
+                  images: [],
+                },
+                {
+                  name: VALUE_03,
+                  valueCode: VALUE_03,
+                  valueDisplay: 'Value 03',
+                  images: [],
+                },
+              ],
             },
           ],
         },

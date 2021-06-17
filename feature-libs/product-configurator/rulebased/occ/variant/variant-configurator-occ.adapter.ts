@@ -220,6 +220,31 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
+  updateValuePrice(
+    configGroups: Configurator.Group[],
+    groups: Configurator.Group[]
+  ) {
+    groups?.forEach((group) => {
+      const configGroup = configGroups?.find(
+        (configGroup) => configGroup?.id === group?.id
+      );
+      group?.attributes?.forEach((attribute) => {
+        const configAttribute = configGroup?.attributes.find(
+          (configAttribute) => configAttribute?.name === attribute?.name
+        );
+        attribute?.values?.forEach((value) => {
+          let configValue = configAttribute?.values.find(
+            (configValue) => configValue?.valueCode === value?.valueCode
+          );
+          if (configValue) {
+            Object.assign({ valuePrice: value?.valuePrice }, configValue);
+          }
+        });
+      });
+      this.updateValuePrice(configGroup?.subGroups, group?.subGroups);
+    });
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -236,14 +261,11 @@ export class VariantConfiguratorOccAdapter
     return this.http.get(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
       map((configResult) => {
-        console.log(configResult);
+        this.updateValuePrice(configuration.groups, configResult.groups);
 
         const result: Configurator.Configuration = {
-          configId: configuration.configId,
-          groups: [],
-          interactionState: {},
+          ...configuration,
           priceSummary: configResult.priceSummary,
-          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return result;
       }),
@@ -255,6 +277,7 @@ export class VariantConfiguratorOccAdapter
       })
     );
   }
+
   getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {
