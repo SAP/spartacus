@@ -70,6 +70,7 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CpqFeatureModule } from './features/cpq-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
@@ -97,6 +98,9 @@ if (environment.cds) {
 }
 if (environment.cpq) {
   featureModules.push(CpqFeatureModule);
+}
+if (environment.digitalPayments) {
+  featureModules.push(DigitalPaymentsFeatureModule);
 }
 
 @NgModule({
