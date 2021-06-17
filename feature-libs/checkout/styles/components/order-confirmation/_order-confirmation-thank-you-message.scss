@@ -1,0 +1,20 @@
+%cx-order-confirmation-thank-you-message {
+  .cx-order-confirmation-message {
+    text-align: var(--cx-text-align, center);
+    padding: var(--cx-padding, 2.5rem);
+
+    h2 {
+      font-weight: $font-weight-normal;
+    }
+
+    .btn-link {
+      font-size: $small-font-size;
+      font-weight: $font-weight-bold;
+      text-transform: var(--cx-text-transform, uppercase);
+    }
+  }
+
+  .cx-page-title {
+    color: var(--cx-color, var(--cx-color-text));
+  }
+}
