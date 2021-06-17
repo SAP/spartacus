@@ -9,6 +9,7 @@ export const product = {
     share: 'Share',
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
+    productPrice: 'Product price',
   },
   productList: {
     filterBy: {
@@ -21,6 +22,7 @@ export const product = {
     sortBy: 'Sort by',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
+    productSearchPagination: 'Product search pagination',
   },
   productFacetNavigation: {
     filterBy: {
@@ -36,6 +38,7 @@ export const product = {
     id: 'ID',
     showReviews: 'Show reviews',
     share: 'Share',
+    newItemPrice: 'New item price',
   },
   productReview: {
     overallRating: 'Overall Rating',
@@ -103,5 +106,10 @@ export const product = {
       subscribing:
         'Subscribing you to Out of Stock notifications for this product',
     },
+  },
+  itemCounter: {
+    removeOne: 'Remove one',
+    addOneMore: 'Add one more',
+    quantity: 'Quantity',
   },
 };

@@ -62,6 +62,7 @@ const orderEntryconfig: Configurator.Configuration = {
     )
   ),
   overview: {
+    configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
   },
 };

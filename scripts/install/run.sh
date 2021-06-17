@@ -230,6 +230,9 @@ function install_from_sources {
     printh "Creating storefinder npm package"
     ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
+    printh "Creating checkout npm package"
+    ( cd ${CLONE_DIR}/dist/checkout && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
     printh "Creating product-configurator npm package"
     ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 

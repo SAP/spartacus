@@ -24,7 +24,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'wishList',
     'saveForLaterItems',
   ],
-  address: ['addressForm', 'addressBook', 'addressCard'],
+  address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes'],
   myAccount: [
     'orderDetails',
@@ -42,15 +42,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequest',
   ],
   pwa: ['pwa'],
-  checkout: [
-    'checkout',
-    'checkoutAddress',
-    'checkoutOrderConfirmation',
-    'checkoutReview',
-    'checkoutShipping',
-    'checkoutProgress',
-    'checkoutPO',
-  ],
   product: [
     'productDetails',
     'productList',
@@ -62,6 +53,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'CMSTabParagraphContainer',
     'stockNotification',
     'TabPanelContainer',
+    'itemCounter',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin'],
 };
