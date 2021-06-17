@@ -1,0 +1,54 @@
+cx-cart-quick-form {
+  padding-bottom: 2rem;
+  padding-inline-end: 0;
+  padding-inline-start: 3rem;
+  padding-top: 2rem;
+
+  @include media-breakpoint-down(md) {
+    padding-bottom: 2rem;
+    padding-inline-end: 3rem;
+    padding-inline-start: 3rem;
+    padding-top: 0;
+  }
+
+  .cx-cart-quick-form-title {
+    @include type('5');
+    margin: 1.125rem 0;
+  }
+
+  .cx-cart-quick-form-container {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-row-gap: 10px;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+    .input-product-code {
+      grid-area: 1 / 1 / 2 / 4;
+    }
+
+    .input-quantity {
+      grid-area: 1 / 4 / 2 / 5;
+      text-align: center;
+    }
+
+    cx-form-errors {
+      grid-area: 2 / 1 / 3 / 5;
+    }
+
+    button {
+      grid-area: 3 / 1 / 3 / 5;
+    }
+
+    input {
+      // avpid native increase/decrease buttons on the numeric field
+      &[type='number']::-webkit-inner-spin-button,
+      &[type='number']::-webkit-outer-spin-button {
+        appearance: none;
+      }
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+}
