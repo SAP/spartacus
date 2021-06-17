@@ -55,6 +55,10 @@ export const SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1: ConstructorDeprec
       className: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
       importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
     },
+    {
+      className: CLEAR_CHECKOUT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
   ],
   addParams: [
     {
