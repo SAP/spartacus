@@ -227,7 +227,7 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @return {Observable<string>} ID of next group
+   * @return {Observable<string> | undefined} ID of next group
    */
   getNextGroupId(
     owner: CommonConfigurator.Owner
@@ -239,7 +239,7 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @return {Observable<string>} ID of previous group
+   * @return {Observable<string | undefined >} ID of previous group
    */
   getPreviousGroupId(
     owner: CommonConfigurator.Owner

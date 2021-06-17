@@ -1,6 +1,6 @@
 import {
   CommonConfigurator,
-  ConfiguratorType,
+  ConfiguratorType
 } from '../../core/model/common-configurator.model';
 
 export class ConfiguratorModelUtils {
@@ -28,7 +28,7 @@ export class ConfiguratorModelUtils {
       key: 'INITIAL',
       configuratorType: 'INITIAL',
       id: 'INITIAL',
-      type: CommonConfigurator.OwnerType.PRODUCT,
+      type: CommonConfigurator.OwnerType.INITIAL,
     };
   }
 
