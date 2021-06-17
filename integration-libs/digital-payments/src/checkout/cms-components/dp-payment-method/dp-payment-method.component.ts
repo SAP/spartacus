@@ -68,4 +68,8 @@ export class DpPaymentMethodComponent
 
     this.showCallbackScreen = this.isDpCallback();
   }
+  ngOnInit(): void {
+    //
+  }
 }
+
