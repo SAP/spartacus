@@ -1,7 +1,6 @@
 <cx-navigation-ui
   *ngIf="data$ | async as data"
   [node]="node$ | async"
-  [numMenuNodes]="getNumberOfNavigationOptions() | async"
   [resetMenuOnClose]="data.resetMenuOnClose"
   [ngClass]="data.styleClass"
   [wrapAfter]="data.wrapAfter"

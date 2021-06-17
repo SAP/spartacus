@@ -47,11 +47,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   @Input() resetMenuOnClose: boolean;
 
   /**
-   * This value represents the number of navigation node options we expect.
-   */
-  @Input() numMenuNodes: number;
-
-  /**
    * Indicates whether the navigation should support flyout.
    * If flyout is set to true, the
    * nested child navigation nodes will only appear on hover or focus.
@@ -111,8 +106,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.hamburgerMenuService?.isExpanded
         .pipe(distinctUntilChanged())
         .subscribe((isExpanded: boolean) => {
-          //only react when expanded and proper number of nav node are present.
-          if (isExpanded && this.node.children?.length === this.numMenuNodes) {
+          if (isExpanded) {
             if (this.openNodes?.length > 0) {
               this.reinitalizeMenu();
             }
@@ -125,19 +119,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitalizeMenu() {
-    this.closeOpenedSubMenus();
+    this.clear();
     this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
-  }
-
-  /**
-   * This method performs the action of closing all currently opened submenus and returns to the main navigation options menu.
-   */
-  closeOpenedSubMenus() {
-    let allClosed: boolean = false;
-    while (!allClosed) {
-      this.back();
-      allClosed = this.openNodes?.length === 0;
-    }
   }
 
   toggleOpen(event: UIEvent): void {
