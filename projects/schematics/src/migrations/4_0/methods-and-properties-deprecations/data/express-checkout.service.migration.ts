@@ -8,6 +8,7 @@ import {
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
+  // feature-libs/checkout/components/services/express-checkout.service.ts
   {
     class: EXPRESS_CHECKOUT_SERVICE,
     importPath: SPARTACUS_CHECKOUT_CORE,
