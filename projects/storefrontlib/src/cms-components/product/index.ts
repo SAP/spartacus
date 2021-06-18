@@ -1,5 +1,5 @@
 export * from './carousel/index';
-export * from './config/default-scroll-config';
+export * from './config/default-view-config';
 export * from './current-product.service';
 export * from './product-images/product-images.component';
 export * from './product-images/product-images.module';
