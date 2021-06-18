@@ -455,6 +455,9 @@ export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
 
+export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
+export const SCRIPT_LOADER = 'ScriptLoader';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -803,6 +806,8 @@ export const INCREMENT = 'increment';
 export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
 export const ORDER_PROMOTIONS$ = 'orderPromotions$';
+
+export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
 /***** Properties end *****/
 
