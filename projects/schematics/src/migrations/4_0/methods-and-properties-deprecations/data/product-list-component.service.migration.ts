@@ -1,7 +1,6 @@
 import {
   DEFAULT_PAGE_SIZE,
   PRODUCT_LIST_COMPONENT_SERVICE,
-  PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
