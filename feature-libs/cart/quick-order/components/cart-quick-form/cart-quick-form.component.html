@@ -1,0 +1,34 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <div class="cx-cart-quick-form-title">
+    {{ 'quickOrderCartForm.title' | cxTranslate }}
+  </div>
+  <div class="form-group">
+    <form (ngSubmit)="applyQuickOrder()" [formGroup]="orderForm">
+      <div class="cx-cart-quick-form-container">
+        <input
+          class="form-control input-product-code"
+          formControlName="productCode"
+          placeholder="{{ 'quickOrderCartForm.productCode' | cxTranslate }}"
+          type="text"
+        />
+        <input
+          [min]="min"
+          class="form-control input-quantity"
+          formControlName="quantity"
+          type="number"
+        />
+        <button
+          [class.disabled]="cartIsLoading$ | async"
+          [disabled]="(cartIsLoading$ | async) || orderForm.invalid"
+          class="btn btn-block btn-action apply-coupon-button"
+          type="submit"
+        >
+          {{ 'quickOrderCartForm.addToCart' | cxTranslate }}
+        </button>
+        <cx-form-errors
+          [control]="orderForm.get('productCode')"
+        ></cx-form-errors>
+        <cx-form-errors [control]="orderForm.get('quantity')"></cx-form-errors>
+      </div>
+    </form></div
+></ng-container>
