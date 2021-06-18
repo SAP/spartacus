@@ -14,7 +14,7 @@ import {
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
-  CLI_CART_VALIDATION_FEATURE
+  CLI_CART_VALIDATION_FEATURE,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';

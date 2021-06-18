@@ -4,6 +4,10 @@ import { CartValidationCoreModule } from '@spartacus/cart/validation/core';
 import { CartValidationOccModule } from '@spartacus/cart/validation/occ';
 
 @NgModule({
-  imports: [CartValidationCoreModule, CartValidationOccModule, CartValidationComponentsModule],
+  imports: [
+    CartValidationCoreModule,
+    CartValidationOccModule,
+    CartValidationComponentsModule,
+  ],
 })
 export class CartValidationModule {}

@@ -1,10 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Cart Validation feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Cart schematics: ng-add Cart Validation feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { CartValidationModule } from \\"@spartacus/cart/cart-validation\\";
+import { cartValidationTranslationChunksConfig, cartValidationTranslations } from \\"@spartacus/cart/cart-validation/assets\\";
+import { CartValidationRootModule } from \\"@spartacus/cart/cart-validation/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
-exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    CartValidationRootModule,
+    CartValidationModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartValidationTranslations,
+      chunks: cartValidationTranslationChunksConfig,
+    },
+  })]
+})
+export class CartValidationFeatureModule { }
+"
+`;
 
-exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup styling should create a proper scss file 1`] = `""`;
+exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { cartValidationTranslationChunksConfig, cartValidationTranslations } from \\"@spartacus/cart/cart-validation/assets\\";
+import { CartValidationRootModule, CART_VALIDATION_FEATURE } from \\"@spartacus/cart/cart-validation/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartValidationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_VALIDATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/cart-validation').then((m) => m.CartValidationModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartValidationTranslations,
+      chunks: cartValidationTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartValidationFeatureModule { }
+"
+`;
+
+exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
 exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup styling should update angular.json 1`] = `
 "{
@@ -37,7 +88,8 @@ exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup
               \\"src/assets\\"
             ],
             \\"styles\\": [
-              \\"src/styles.scss\\"
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": []
           },
@@ -101,7 +153,8 @@ exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup
               \\"src/assets\\"
             ],
             \\"styles\\": [
-              \\"src/styles.scss\\"
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": []
           }
@@ -132,10 +185,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Validation feature general setup
           }
         }
       }
-    }},
+    }
+  },
   \\"defaultProject\\": \\"schematics-test\\"
-}
-"
+}"
 `;
 
 exports[`Spartacus Cart schematics: ng-add Saved Cart feature eager loading should import appropriate modules 1`] = `

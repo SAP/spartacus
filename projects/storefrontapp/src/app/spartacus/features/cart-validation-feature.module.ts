@@ -16,7 +16,9 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_VALIDATION_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/validation').then((m) => m.CartValidationModule),
+            import('@spartacus/cart/validation').then(
+              (m) => m.CartValidationModule
+            ),
         },
       },
     }),

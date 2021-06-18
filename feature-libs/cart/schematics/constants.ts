@@ -24,6 +24,3 @@ export const SPARTACUS_CART_VALIDATION_ASSETS = `${SPARTACUS_CART_VALIDATION}/as
 export const CART_VALIDATION_TRANSLATIONS = 'cartValidationTranslations';
 export const CART_VALIDATION_TRANSLATION_CHUNKS_CONFIG =
   'cartValidationTranslationChunksConfig';
-
-
-

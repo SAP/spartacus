@@ -14,7 +14,7 @@ import {
   shouldAddFeature,
   SPARTACUS_CART,
   validateSpartacusInstallation,
-  CLI_CART_VALIDATION_FEATURE
+  CLI_CART_VALIDATION_FEATURE,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
@@ -35,7 +35,9 @@ import {
   CART_VALIDATION_ROOT_MODULE,
   SPARTACUS_CART_VALIDATION_ROOT,
   CART_VALIDATION_FEATURE_NAME_CONSTANT,
-  CART_VALIDATION_TRANSLATIONS, CART_VALIDATION_TRANSLATION_CHUNKS_CONFIG, SPARTACUS_CART_VALIDATION_ASSETS,
+  CART_VALIDATION_TRANSLATIONS,
+  CART_VALIDATION_TRANSLATION_CHUNKS_CONFIG,
+  SPARTACUS_CART_VALIDATION_ASSETS,
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
