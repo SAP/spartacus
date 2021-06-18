@@ -54,6 +54,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'stockNotification',
     'TabPanelContainer',
     'itemCounter',
+    'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin'],
 };
