@@ -26,7 +26,7 @@
                 { cxRoute: 'product', params: item.product } | cxUrl
               "
               cxModal="dismiss"
-              >{{ item.product.name }}</a
+              ><h2>{{ item.product.name }}</h2></a
             >
           </div>
           <div *ngIf="item.product.code" class="cx-code">
@@ -130,11 +130,7 @@
 
       <!-- Promotion -->
 
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
-      </ng-container>
+      <cx-promotions [promotions]="item.promotions"></cx-promotions>
 
       <!-- Actions -->
       <div

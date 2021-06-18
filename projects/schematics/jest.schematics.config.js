@@ -8,7 +8,7 @@ module.exports = {
   },
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.schematics.json',
+      tsconfig: '<rootDir>/tsconfig.schematics.json',
     }
   },
   collectCoverage: false,
@@ -17,8 +17,8 @@ module.exports = {
   coverageThreshold: {
     global: {
       statements: 90,
-      branches: 70,
-      functions: 90,
+      branches: 69,
+      functions: 88,
       lines: 90,
     },
   },

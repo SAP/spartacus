@@ -11,7 +11,7 @@ export const address = {
     },
     address1: 'Address 1',
     address2: 'Address 2 (optional)',
-    country: 'Country',
+    country: 'Country/Region',
     city: {
       label: 'City',
       placeholder: 'City',
@@ -52,5 +52,15 @@ export const address = {
     setAsDefault: 'Set as default',
     shipTo: 'Ship To',
     billTo: 'Bill To',
+  },
+  addressSuggestion: {
+    verifyYourAddress: 'Verify your address',
+    ensureAccuracySuggestChange:
+      'To ensure delivery accuracy, we suggest the change selected below.',
+    chooseAddressToUse: 'Please choose which address you would like to use:',
+    suggestedAddress: 'Suggested address',
+    enteredAddress: 'Entered address',
+    editAddress: 'Edit address',
+    saveAddress: 'Save address',
   },
 };

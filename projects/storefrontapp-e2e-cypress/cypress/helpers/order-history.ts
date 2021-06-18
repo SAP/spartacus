@@ -21,9 +21,9 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
+      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
@@ -111,7 +111,7 @@ export const orderHistoryTest = {
   },
   checkCorrectDateFormat() {
     it('should show correct date format', () => {
-      cy.intercept('GET', '/users/current/orders').as('getOrderHistoryPage');
+      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
 
       cy.visit('/my-account/orders');
 

@@ -1,0 +1,22 @@
+%cx-payment-type {
+  @include checkout-media-style();
+  padding-top: 2.375rem;
+
+  @include media-breakpoint-down(md) {
+    padding-top: 20px;
+  }
+
+  .cx-payment-type-container {
+    padding-top: 20px;
+  }
+
+  .cx-payment-type-label {
+    margin: 0 auto 0 0.75rem;
+
+    .cx-payment-type {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

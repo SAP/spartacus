@@ -20,15 +20,25 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Personalization",
-          "Tag Management System - Google Tag Manager",
-          "Tag Management System - Adobe Experience Platform Launch"
-        ],
+        "enum": ["Personalization", "TMS-GTM", "TMS-AEPL"],
         "type": "string"
       },
       "default": ["Personalization"],
-      "x-prompt": "Which Tracking features would you like to setup?"
+      "x-prompt": {
+        "message": "Which Tracking features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "Personalization", "label": "Personalization" },
+          {
+            "value": "TMS-GTM",
+            "label": "Tag Management System - Google Tag Manager"
+          },
+          {
+            "value": "TMS-AEPL",
+            "label": "Tag Management System - Adobe Experience Platform Launch"
+          }
+        ]
+      }
     }
   },
   "required": []

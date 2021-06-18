@@ -4,8 +4,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { take } from 'rxjs/operators';
-import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
@@ -16,11 +17,12 @@ export class AnonymousConsentOpenDialogComponent {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   openDialog(): void {
-    const dialog = this.anonymousConsentLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.ANONYMOUS_CONSENT,
       this.openElement,
       this.vcr
     );

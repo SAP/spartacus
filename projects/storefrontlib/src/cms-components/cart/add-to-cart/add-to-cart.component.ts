@@ -52,7 +52,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   addToCartForm = new FormGroup({
-    quantity: new FormControl(1),
+    quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
   constructor(
@@ -109,7 +109,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setStockInfo(product: Product): void {
+  protected setStockInfo(product: Product): void {
     this.quantity = 1;
     this.hasStock = Boolean(
       product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
@@ -149,7 +149,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       });
   }
 
-  private openModal() {
+  /**
+   * Provides required data and opens AddedToCartDialogComponent modal
+   */
+  protected openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,

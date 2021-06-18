@@ -32,6 +32,5 @@ import { SavedCartListComponent } from './saved-cart-list.component';
   ],
   declarations: [SavedCartListComponent],
   exports: [SavedCartListComponent],
-  entryComponents: [SavedCartListComponent],
 })
 export class SavedCartListModule {}
