@@ -92,13 +92,19 @@ export class CartQuickFormComponent implements OnInit {
         .get(CartAddEntrySuccessEvent)
         .subscribe((data: CartAddEntrySuccessEvent) => {
           let key = 'quickOrderCartForm.stockLevelReached';
+          let productTranslation;
           let messageType = GlobalMessageType.MSG_TYPE_WARNING;
 
-          if (0 < data.quantityAdded) {
+          if (data.quantityAdded && 0 < data.quantityAdded) {
             key =
               data.quantityAdded > 1
                 ? 'quickOrderCartForm.entriesWasAdded'
                 : 'quickOrderCartForm.entryWasAdded';
+
+            productTranslation =
+              data.quantityAdded > 1
+                ? 'quickOrderCartForm.products'
+                : 'quickOrderCartForm.product';
 
             messageType = GlobalMessageType.MSG_TYPE_CONFIRMATION;
           }
@@ -107,7 +113,7 @@ export class CartQuickFormComponent implements OnInit {
             {
               key,
               params: {
-                product: data.entry.product?.name,
+                product: data?.entry?.product?.name || productTranslation,
                 quantity: data.quantityAdded,
               },
             },

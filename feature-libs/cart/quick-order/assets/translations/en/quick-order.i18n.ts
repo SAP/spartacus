@@ -6,6 +6,8 @@ export const quickOrderCartForm = {
   title: 'Quick Order',
   productCode: 'Product Code',
   addToCart: 'Add To Cart',
+  product: 'Product',
+  products: 'Products',
 };
 
 export const quickOrderContainer = {

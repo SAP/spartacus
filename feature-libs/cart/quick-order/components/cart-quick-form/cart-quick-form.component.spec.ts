@@ -76,7 +76,7 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntry(_productCode: string, _quantity: number): void {}
 }
 
-describe('CartQuickFormComponent', () => {
+fdescribe('CartQuickFormComponent', () => {
   let component: CartQuickFormComponent;
   let fixture: ComponentFixture<CartQuickFormComponent>;
   let activeCartService: ActiveCartService;
@@ -114,7 +114,6 @@ describe('CartQuickFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    console.log('orderForm', component.orderForm);
   });
 
   it('should create form on init', () => {

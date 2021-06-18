@@ -20,6 +20,7 @@ import { FormErrorsModule } from '../../../shared/index';
     IconModule,
     FormErrorsModule,
   ],
+  // TODO replace once new sample data will be ready
   // providers: [
   //   provideDefaultConfig(<CmsConfig>{
   //     cmsComponents: {
