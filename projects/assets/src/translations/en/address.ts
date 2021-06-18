@@ -1,6 +1,7 @@
 export const address = {
   addressForm: {
     title: 'Title',
+    noneTitle: 'Title',
     firstName: {
       label: 'First name',
       placeholder: 'First Name',
