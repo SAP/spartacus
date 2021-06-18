@@ -47,7 +47,8 @@
         "Store-Finder",
         "Personalization",
         "Account",
-        "Profile"
+        "Profile",
+        "Checkout"
       ],
       "x-prompt": {
         "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
