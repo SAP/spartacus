@@ -20,7 +20,7 @@ import {
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
-import { defaultScrollConfig } from '../config/default-scroll-config';
+import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
@@ -45,7 +45,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     OutletModule,
   ],
   providers: [
-    provideDefaultConfig(<ViewConfig>defaultScrollConfig),
+    provideDefaultConfig(<ViewConfig>defaultViewConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
