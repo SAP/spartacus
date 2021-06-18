@@ -5,7 +5,6 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -19,7 +18,6 @@ import {
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -33,7 +31,6 @@ export class AddedToCartDialogComponent implements OnInit {
   loaded$: Observable<boolean>;
   addedEntryWasMerged$: Observable<boolean>;
   numberOfEntriesBeforeAdd: number;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -48,8 +45,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   constructor(
     protected modalService: ModalService,
-    protected cartService: ActiveCartService,
-    protected promotionService: PromotionService
+    protected cartService: ActiveCartService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -88,9 +84,6 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
     this.addedEntryWasMerged$ = this.loaded$.pipe(
       filter((loaded) => loaded),
       switchMapTo(this.cartService.getEntries()),

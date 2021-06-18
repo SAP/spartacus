@@ -7,5 +7,10 @@ export const quickOrderTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for quickOrder feature
 export const quickOrderTranslationChunksConfig: TranslationChunksConfig = {
-  quickOrder: ['quickOrderContainer', 'quickOrderForm', 'quickOrderList'],
+  quickOrder: [
+    'quickOrderCartForm',
+    'quickOrderContainer',
+    'quickOrderForm',
+    'quickOrderList',
+  ],
 };
