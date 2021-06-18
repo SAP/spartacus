@@ -65,20 +65,19 @@ describe('Infinite scroll', () => {
 
       isPaginationNotVisible();
       scrollToFooter(totalResults, true);
-      backToTopIsVisible();
+      backToTopIsVisible(true);
     });
   });
 
-  it("should enable infinite scroll and display 'Show more' button after 15th product", () => {
-    configScroll(true, 15, false);
+  it("should enable infinite scroll and display 'Show more' button after 12th product", () => {
+    configScroll(true, 12, false);
     cy.visit(testUrl);
 
     cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
       isPaginationNotVisible();
-
-      backtoTopIsNotVisible();
-      scrollToFooter(totalResults, false, 15);
+      backToTopIsVisible();
+      scrollToFooter(totalResults, true, 12);
       backToTopIsVisible(true);
     });
   });
