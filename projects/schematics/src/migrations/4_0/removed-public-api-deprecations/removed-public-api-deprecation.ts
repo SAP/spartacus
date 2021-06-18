@@ -96,6 +96,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_SETUP,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
@@ -103,6 +104,7 @@ import {
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
+  STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
@@ -792,6 +794,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'StorefrontConfig',
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+  },
+  // feature-libs/storefinder/core/facade/store-data.service.ts
+  {
+    node: STORE_DATA_SERVICE,
+    importPath: SPARTACUS_STOREFINDER,
+    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
 ];
 

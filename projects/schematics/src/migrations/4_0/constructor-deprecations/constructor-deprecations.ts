@@ -1,6 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
+import { ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION } from './data/abstract-store-item.component.migration';
 import {
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V2,
@@ -58,6 +59,10 @@ import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
+import {
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
+} from './data/google-map-renderer.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
@@ -94,9 +99,14 @@ import {
 } from './data/saved-cart-details-overview.component.migration';
 import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
 import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
+import { SCHEDULE_COMPONENT_MIGRATION } from './data/schedule.component.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
+import { STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION } from './data/store-finder-list-item.component.migration';
+import { STORE_FINDER_LIST_COMPONENT_MIGRATION } from './data/store-finder-list.component.migration';
+import { STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION } from './data/store-finder-store-description.component.migration';
+import { STORE_FINDER_SERVICE_MIGRATION } from './data/store-finder.service.migration';
 import {
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
@@ -134,6 +144,14 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  STORE_FINDER_SERVICE_MIGRATION,
+  ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION,
+  SCHEDULE_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_ITEM_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_COMPONENT_MIGRATION,
+  STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
+  GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
   CONFIGURATOR_CART_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_MIGRATION,
