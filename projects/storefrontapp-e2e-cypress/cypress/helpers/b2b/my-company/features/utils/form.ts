@@ -76,7 +76,9 @@ export function completeForm(
       getFieldBySelector(input.selector).clear().type(input[valueKey]);
     } else {
       getFieldByLabel(input).within(() => {
-        cy.get(`cx-org-form cx-date-time-picker input`).clear().type(input[valueKey]);
+        cy.get(`cx-org-form cx-date-time-picker input`)
+          .clear()
+          .type(input[valueKey]);
       });
     }
   }
