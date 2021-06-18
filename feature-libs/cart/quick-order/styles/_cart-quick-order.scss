@@ -41,7 +41,7 @@ cx-cart-quick-form {
     }
 
     input {
-      // avpid native increase/decrease buttons on the numeric field
+      // avoid native increase/decrease buttons on the numeric field
       &[type='number']::-webkit-inner-spin-button,
       &[type='number']::-webkit-outer-spin-button {
         appearance: none;
