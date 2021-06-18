@@ -18,6 +18,7 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
+  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -117,6 +118,7 @@ if (environment.cpq) {
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
+    PageTitleModule,
     BreadcrumbModule,
 
     // User Core

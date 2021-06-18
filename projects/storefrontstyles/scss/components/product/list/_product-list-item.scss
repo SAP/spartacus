@@ -32,6 +32,10 @@
     color: var(--cx-color-dark);
     text-decoration: none;
 
+    h2 {
+      @include type('5');
+    }
+
     &:hover {
       color: var(--cx-color-primary);
     }
