@@ -13,6 +13,6 @@ export const PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION: MethodPropertyDeprecation
     class: PRODUCT_LIST_COMPONENT_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: DEFAULT_PAGE_SIZE,
-    comment: `Property '${DEFAULT_PAGE_SIZE}' was removed, to modify default page size use '${PROVIDE_CONFIG_FUNCTION}' and set your default page size.`,
+    comment: `Property '${DEFAULT_PAGE_SIZE}' was removed, to modify default page size use 'view.defaultPageSize' configuration property.`,
   },
 ];
