@@ -373,7 +373,7 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual("addToCart.inStock");
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual("addToCart.inStock");
     });
   });
 });
