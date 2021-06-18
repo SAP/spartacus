@@ -153,7 +153,11 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   restoreSavedCart(cartId: string): void {
-    this.savedCartService.restoreSavedCart(cartId);
+    if (this.isCloneSavedCart) {
+      this.savedCartService.cloneSavedCart(cartId);
+    } else {
+      this.savedCartService.restoreSavedCart(cartId);
+    }
   }
 
   close(reason: string): void {

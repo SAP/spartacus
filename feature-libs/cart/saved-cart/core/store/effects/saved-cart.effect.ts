@@ -242,20 +242,19 @@ export class SavedCartEffects {
     | SavedCartActions.CloneSavedCartFail
     | SavedCartActions.CloneSavedCartSuccess
     | SavedCartActions.CloneSavedCart
-    | CartActions.LoadCartSuccess
+    | SavedCartActions.RestoreSavedCart
   > = this.actions$.pipe(
     ofType(SavedCartActions.CLONE_SAVED_CART),
     map((action: SavedCartActions.CloneSavedCart) => action.payload),
     switchMap(({ userId, cartId }) => {
       return this.savedCartConnector.cloneSavedCart(userId, cartId).pipe(
-        switchMap((savedCart: Cart) => {
+        switchMap((_) => {
           return [
-            new CartActions.LoadCartSuccess({
+            new SavedCartActions.CloneSavedCartSuccess({
               userId,
               cartId,
-              cart: savedCart,
             }),
-            new SavedCartActions.CloneSavedCartSuccess({
+            new SavedCartActions.RestoreSavedCart({
               userId,
               cartId,
             }),
