@@ -19,7 +19,7 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
-    sortByRelevance: 'Sort by Relevance',
+    sortBy: 'Sort by',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
@@ -32,7 +32,7 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
-    sortByRelevance: 'Sort by Relevance',
+    sortBy: 'Sort by',
   },
   productSummary: {
     id: 'ID',

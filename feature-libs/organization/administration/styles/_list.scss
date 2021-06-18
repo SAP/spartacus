@@ -474,8 +474,16 @@
         align-items: center;
         justify-content: flex-end;
 
-        .sort {
-          margin-inline-end: auto;
+        label {
+          align-items: center;
+          display: inline-flex;
+          span {
+            margin-inline-end: 0.5rem;
+          }
+          .sort {
+            margin-inline-end: auto;
+            min-width: 170px;
+          }
         }
 
         button {

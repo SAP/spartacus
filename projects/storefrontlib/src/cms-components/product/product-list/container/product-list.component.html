@@ -5,17 +5,16 @@
         <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
           <div class="cx-sorting top">
             <div class="row">
-              <div class="col-12 col-lg-4 mr-auto">
-                <div class="form-group cx-sort-dropdown">
+              <div class="col-12 col-lg-5 mr-auto">
+                <label class="form-group cx-sort-dropdown">
+                  <span>{{ 'productList.sortBy' | cxTranslate }}</span>
                   <cx-sorting
                     [sortOptions]="model.sorts"
                     (sortListEvent)="sortList($event)"
                     [selectedOption]="model.pagination.sort"
-                    placeholder="{{
-                      'productList.sortByRelevance' | cxTranslate
-                    }}"
+                    placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                   ></cx-sorting>
-                </div>
+                </label>
               </div>
               <div *ngIf="!isInfiniteScroll" class="col-auto">
                 <div
@@ -73,16 +72,15 @@
           <div class="cx-sorting bottom">
             <div class="row">
               <div class="col-12 col-lg-4 mr-auto">
-                <div class="form-group cx-sort-dropdown">
+                <label class="form-group cx-sort-dropdown">
+                  <span>{{ 'productList.sortBy' | cxTranslate }}</span>
                   <cx-sorting
                     [sortOptions]="model.sorts"
                     (sortListEvent)="sortList($event)"
                     [selectedOption]="model.pagination.sort"
-                    placeholder="{{
-                      'productList.sortByRelevance' | cxTranslate
-                    }}"
+                    placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                   ></cx-sorting>
-                </div>
+                </label>
               </div>
               <div
                 *ngIf="!isInfiniteScroll"
