@@ -10,6 +10,7 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -111,6 +112,12 @@ function addProductConfiguratorRulebasedFeature(
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
+    dependencyManagement: {
+      featureName: CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
+      },
+    },
   });
 }
 /**
@@ -167,6 +174,12 @@ function addProductConfiguratorTextfieldFeature(
     styles: {
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
+    },
+    dependencyManagement: {
+      featureName: CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
+      },
     },
   });
 }
