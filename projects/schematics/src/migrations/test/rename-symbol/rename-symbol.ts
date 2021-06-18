@@ -24,7 +24,7 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/storefinder/components',
   },
   {
-    // 4) For rename change
+    // 4) For name change
     previousNode: 'OtherComponent4',
     previousImportPath: '@spartacus/storefront',
     newNode: 'OtherComponentTest4',
