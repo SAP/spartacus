@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ClearCheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
@@ -32,7 +32,7 @@ export class ExpressCheckoutService {
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
-    @Optional() protected clearCheckoutService?: ClearCheckoutService
+    protected clearCheckoutService: ClearCheckoutService
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -286,22 +286,9 @@ export class ExpressCheckoutService {
     );
   }
 
-  /**
-   * @deprecated since version 3.2
-   * Use ClearCheckoutService to clear the checkout state
-   */
-  protected resetCheckoutProcesses() {
-    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
-    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
-    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
-  }
-
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
-    if (this.clearCheckoutService) {
-      this.clearCheckoutService.resetCheckoutProcesses();
-    } else {
-      this.resetCheckoutProcesses();
-    }
+    this.clearCheckoutService.resetCheckoutProcesses();
+
     return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
       map(([deliveryModeSet, paymentMethodSet]) =>
         Boolean(deliveryModeSet && paymentMethodSet)
