@@ -51,7 +51,7 @@ describe('Added to cart modal', () => {
         'contain',
         '1 item'
       );
-      cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
 
       // add same product to cart again
       cy.get('cx-add-to-cart button[type=submit]').click();
@@ -78,7 +78,7 @@ describe('Added to cart modal', () => {
         });
 
       // closing modal works
-      cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
       cy.get('cx-added-to-cart-dialog').should('not.exist');
     });
 
