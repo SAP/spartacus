@@ -16,10 +16,12 @@ SPARTACUS_PROJECTS=(
         "projects/storefrontstyles"
         "projects/schematics"
         "integration-libs/cds"
+        "integration-libs/cdc"
         "core-libs/setup"
         "feature-libs/asm"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/checkout"
         "feature-libs/smartedit"
         "feature-libs/product"
         "feature-libs/product-configurator"
@@ -53,4 +55,5 @@ SSR_PWA_APP_NAME="ssr-pwa"
 
 ADD_B2B_LIBS=false
 
-ADD_PRODUCT_CONFIGURATOR=false
+ADD_CPQ=false
+ADD_CDC=false

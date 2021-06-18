@@ -2,23 +2,23 @@
 
 @import './layout/index';
 
-// TODO (#11607) remove LoginPageTemplate from whitelist
+// TODO (#11607) remove LoginPageTemplate from allowlist
 
-// The $page-template-blacklist can be used to prevent template CSS
+// The $page-template-blocklist can be used to prevent template CSS
 // being generated.
-$page-template-blacklist: () !default;
+$page-template-blocklist: () !default;
 
-// whitelisted page template selectors are processed
-// unless (some) they are blacklisted using `$page-template-blacklist`
-$page-template-whitelist: LandingPage2Template, ContentPage1Template,
+// allowlisted page template selectors are processed
+// unless (some) that are blocklisted using `$page-template-blocklist`
+$page-template-allowlist: LandingPage2Template, ContentPage1Template,
   CategoryPageTemplate, ProductListPageTemplate, ProductGridPageTemplate,
   SearchResultsListPageTemplate, ProductDetailsPageTemplate, CartPageTemplate,
   LoginPageTemplate, MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
   CheckoutLoginPageTemplate, AccountPageTemplate !default;
 
-@each $selector in $page-template-whitelist {
+@each $selector in $page-template-allowlist {
   cx-page-layout.#{$selector} {
-    @if (index($page-template-blacklist, $selector) == null) {
+    @if (index($page-template-blocklist, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }

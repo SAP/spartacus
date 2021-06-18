@@ -54,8 +54,9 @@ export class AddToWishListComponent {
     return item;
   }
 
-  private setStockInfo(product: Product): void {
-    this.hasStock =
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
+  protected setStockInfo(product: Product): void {
+    this.hasStock = Boolean(
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
+    );
   }
 }

@@ -8,9 +8,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { ANGULAR_CORE, UTF_8 } from '../constants';
+import { UTF_8 } from '../constants';
 import {
-  getAngularVersion,
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
@@ -67,21 +66,6 @@ describe('Package utils', () => {
       if (buffer) {
         const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
         expect(packageJsonObject).toEqual(readPackageJson(appTree));
-      }
-    });
-  });
-
-  describe('getAngularVersion', () => {
-    it('should return angular version', async () => {
-      const testVersion = '5.5.5';
-      const buffer = appTree.read('package.json');
-
-      if (buffer) {
-        const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
-        packageJsonObject.dependencies[ANGULAR_CORE] = testVersion;
-        appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
-        const version = getAngularVersion(appTree);
-        expect(version).toEqual(testVersion);
       }
     });
   });

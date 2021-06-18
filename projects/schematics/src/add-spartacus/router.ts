@@ -48,9 +48,9 @@ function configureRouterModule(
             namedImports: ['RouterModule'],
           },
           content: `RouterModule.forRoot([])`,
-        });
+        }) as CallExpression;
       }
-      configureOptionsInRouterModule(routerModule as CallExpression);
+      configureOptionsInRouterModule(routerModule);
 
       saveAndFormat(sourceFile);
 

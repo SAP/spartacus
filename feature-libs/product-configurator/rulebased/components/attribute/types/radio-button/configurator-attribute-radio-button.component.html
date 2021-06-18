@@ -1,6 +1,12 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <cx-configurator-attribute-quantity
+      *ngIf="withQuantity"
+      (changeQuantity)="onChangeQuantity($event)"
+      [quantityOptions]="extractQuantityParameters()"
+    ></cx-configurator-attribute-quantity>
+
     <div class="form-check" *ngFor="let value of attribute.values">
       <input
         id="{{

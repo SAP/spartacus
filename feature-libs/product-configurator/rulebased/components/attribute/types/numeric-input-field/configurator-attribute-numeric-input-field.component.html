@@ -8,6 +8,9 @@
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
     attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
+    [cxFocus]="{
+      key: createAttributeIdForConfigurator(attribute)
+    }"
   />
   <div class="cx-validation-msg" *ngIf="mustDisplayValidationMessage()">
     {{

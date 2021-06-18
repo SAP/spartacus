@@ -2,16 +2,16 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   isDevMode,
+  OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Component({
@@ -20,23 +20,18 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
-  extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
-  attributeInputForm: FormControl;
+  extends ConfiguratorAttributeInputFieldComponent
+  implements OnInit, OnDestroy {
   numericFormatPattern: string;
   locale: string;
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
   @Input() language: string;
 
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-
   constructor(
-    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
+    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    protected config: ConfiguratorUISettingsConfig
   ) {
-    super();
+    super(config);
   }
 
   /**
@@ -72,29 +67,21 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }
+
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(
+            this.config?.productConfigurator?.updateDebounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
+        )
+      )
+      .subscribe(() => this.onChange());
   }
 
-  /**
-   * Hit when user input was changed
-   */
-  onChange(): void {
-    const event: ConfigFormUpdateEvent = this.createEventFromInput();
-
-    if (!this.attributeInputForm.invalid) {
-      this.inputChange.emit(event);
-    }
-  }
-
-  protected createEventFromInput(): ConfigFormUpdateEvent {
-    return {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        name: this.attribute.name,
-        userInput: this.attributeInputForm.value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
-      },
-    };
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   protected getInstalledLocale(locale: string): string {

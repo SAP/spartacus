@@ -25,9 +25,8 @@ export class OccUserReplenishmentOrderAdapter
   ): Observable<ReplenishmentOrder> {
     return this.http
       .get<Occ.ReplenishmentOrder>(
-        this.occEndpoints.getUrl('replenishmentOrderDetails', {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl('replenishmentOrderDetails', {
+          urlParams: { userId, replenishmentOrderCode },
         })
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
@@ -54,14 +53,10 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .get<Occ.OrderHistoryList>(
-        this.occEndpoints.getUrl(
-          'replenishmentOrderDetailsHistory',
-          {
-            userId,
-            replenishmentOrderCode,
-          },
-          params
-        )
+        this.occEndpoints.buildUrl('replenishmentOrderDetailsHistory', {
+          urlParams: { userId, replenishmentOrderCode },
+          queryParams: params,
+        })
       )
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
@@ -74,9 +69,8 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .patch<Occ.ReplenishmentOrder>(
-        this.occEndpoints.getUrl('cancelReplenishmentOrder', {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl('cancelReplenishmentOrder', {
+          urlParams: { userId, replenishmentOrderCode },
         }),
         {},
         { headers }
@@ -101,11 +95,10 @@ export class OccUserReplenishmentOrderAdapter
       params['sort'] = sort.toString();
     }
 
-    const url = this.occEndpoints.getUrl(
-      'replenishmentOrderHistory',
-      { userId },
-      params
-    );
+    const url = this.occEndpoints.buildUrl('replenishmentOrderHistory', {
+      urlParams: { userId },
+      queryParams: params,
+    });
 
     return this.http
       .get<Occ.ReplenishmentOrderList>(url)
