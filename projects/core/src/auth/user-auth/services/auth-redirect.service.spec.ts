@@ -8,7 +8,6 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
   goByUrl = () => Promise.resolve(true);
 }
 
