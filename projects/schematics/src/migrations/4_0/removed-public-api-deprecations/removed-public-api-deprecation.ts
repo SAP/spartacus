@@ -96,6 +96,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_SETUP,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
@@ -103,6 +104,7 @@ import {
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
+  STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
@@ -821,6 +823,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'EventsModule',
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+  },
+  // feature-libs/storefinder/core/facade/store-data.service.ts
+  {
+    node: STORE_DATA_SERVICE,
+    importPath: SPARTACUS_STOREFINDER,
+    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
 ];
 

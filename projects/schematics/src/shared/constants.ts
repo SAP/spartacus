@@ -40,6 +40,7 @@ export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
@@ -112,9 +113,14 @@ export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
 export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
+export const USER_ADDRESS_CONNECTOR = 'UserAddressConnector';
+export const COMMAND_SERVICE = 'CommandService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
+export const CHECKOUT_EVENT_MODULE = 'CheckoutEventModule';
+export const CHECKOUT_EVENT_BUILDER = 'CheckoutEventBuilder';
+export const CHECKOUT_EVENT_LISTENER = 'CheckoutEventListener';
 export const CMS_FEATURES_SERVICE = 'CmsFeaturesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
@@ -122,6 +128,9 @@ export const PAGE_META_SERVICE = 'PageMetaService';
 export const PAGE_META_CONFIG = 'PageMetaConfig';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
+export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
+export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
+export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
@@ -135,6 +144,8 @@ export const ORGANIZATION_PAGE_META_RESOLVER = 'OrganizationPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
+export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
 export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
 export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';
@@ -178,6 +189,8 @@ export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const SEO_CONFIG = 'SeoConfig';
+export const URL_PARSING_SERVICE = 'UrlParsingService';
+export const ROUTING_CONFIG = 'RoutingConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
@@ -254,6 +267,7 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
+export const LAUNCH_COMPONENT_SERVICE = 'LaunchComponentService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchDialogService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
@@ -262,6 +276,7 @@ export const USER_NOTIFICATION_PREFERENCE_SERVICE =
 export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
+export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
@@ -392,7 +407,6 @@ export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT =
   'SavedCartDetailsOverviewComponent ';
 export const SAVED_CART_DETAILS_SERVICE = 'SavedCartDetailsService';
 export const SAVED_CART_FACADE = 'SavedCartFacade';
-export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
   'ReplenishmentOrderCancellationLaunchDialogService';
@@ -440,6 +454,9 @@ export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
+
+export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
+export const SCRIPT_LOADER = 'ScriptLoader';
 
 /***** Classes end *****/
 
@@ -557,7 +574,9 @@ export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
 export const CUSTOMER_SEARCH_PAGE = 'CustomerSearchPage';
 export const CUSTOMER_SEARCH_OPTIONS = 'CustomerSearchOptions';
 export const ASM_UI = 'AsmUi';
+export const AUTH_FLOW_ROUTES_SERVICE = 'AuthFlowRoutesService';
 export const ASM_AUTH_HTTP_HEADER_SERVICE = 'AsmAuthHttpHeaderService';
+export const AUTH_HTTP_HEADER_SERVICE = 'AuthHttpHeaderService';
 export const TOKEN_TARGET = 'TokenTarget';
 export const ASM_AUTH_STORAGE_SERVICE = 'AsmAuthStorageService';
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
@@ -786,6 +805,8 @@ export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 export const INCREMENT = 'increment';
 export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
+export const ORDER_PROMOTIONS$ = 'orderPromotions$';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -857,6 +878,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const GO = 'go';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';
 export const OCC_ENDPOINT = 'OccEndpoint';
@@ -933,4 +955,6 @@ export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
 
 export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
+
+export const CLI_CHECKOUT_FEATURE = 'Checkout';
 /******* CLI end *******/
