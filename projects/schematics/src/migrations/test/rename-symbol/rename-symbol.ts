@@ -23,6 +23,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newNode: 'OtherComponentTest3',
     newImportPath: '@spartacus/storefinder/components',
   },
+  {
+    // 4) For rename change
+    previousNode: 'OtherComponent4',
+    previousImportPath: '@spartacus/storefront',
+    newNode: 'OtherComponentTest4',
+  },
 ];
 
 export function migrate(): Rule {
