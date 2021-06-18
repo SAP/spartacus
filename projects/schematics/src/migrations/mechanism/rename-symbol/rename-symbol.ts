@@ -36,6 +36,11 @@ export function migrateRenamedSymbols(
                 : importName;
 
               const oldAlias = namedImport.getAliasNode()?.getText();
+              let importPath = renamedSymbol.previousImportPath;
+
+              if (renamedSymbol.newImportPath) {
+                importPath = renamedSymbol.newImportPath;
+              }
 
               if (!oldAlias && renamedSymbol.newNode) {
                 namedImport.renameAlias(newNodeName);
@@ -48,7 +53,7 @@ export function migrateRenamedSymbols(
                     alias: oldAlias,
                   },
                 ],
-                moduleSpecifier: renamedSymbol.newImportPath,
+                moduleSpecifier: importPath,
               } as ImportDeclarationStructure);
 
               if ((id.getImportClause()?.getNamedImports()?.length || 0) > 1) {
