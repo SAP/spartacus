@@ -81,7 +81,7 @@ export function verifyMyCoupons() {
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
-  verifyFindProduct(CouponWithOpenCatalog, 10);
+  verifyFindProduct(CouponWithOpenCatalog, 12);
   goMyCoupon();
   verifyFindProduct(CouponWithProductCategory, 4);
   goMyCoupon();
