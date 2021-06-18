@@ -7,11 +7,10 @@
       [control]="addToCartForm.get('quantity')"
     ></cx-item-counter>
 
-    <div *ngIf="showInventory; else showLabelOnly">
-      <span class="info"
-        >{{ getInventory() }} {{ 'addToCart.inStock' | cxTranslate }}</span
-      >
-    </div>
+    <span *ngIf="showInventory; else showLabelOnly" class="info"
+      >{{ getInventory() }} {{ 'addToCart.inStock' | cxTranslate }}</span
+    >
+
     <ng-template #showLabelOnly
       ><span class="info">{{
         hasStock
