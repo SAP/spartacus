@@ -1,13 +1,13 @@
 import { DigitalPaymentActions } from '../actions';
 import { DpPaymentRequest } from '../../models';
 import { Action } from '@ngrx/store';
-export const initialState: DpPaymentRequest | undefined = undefined;
+export const initialState: DpPaymentRequest = {};
 export const emptyState: DpPaymentRequest = {};
 
 export function reducer(
   state = initialState,
   action: Action //DigitalPaymentActions.CheckoutPaymentRequestAction
-): DpPaymentRequest | undefined {
+): DpPaymentRequest {
   const act = action as DigitalPaymentActions.CheckoutPaymentRequestAction;
   switch (act.type) {
     case DigitalPaymentActions.LOAD_CHECKOUT_PAYMENT_REQUEST: {
