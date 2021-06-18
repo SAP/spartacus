@@ -20,6 +20,7 @@
           "Saved-Cart",
           "CDC",
           "CDS",
+          "Checkout",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -33,13 +34,13 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile",
-          "Checkout"
+          "Profile"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "Checkout",
         "Saved-Cart",
         "Bulk-Pricing",
         "Product-Variants",
@@ -47,8 +48,7 @@
         "Store-Finder",
         "Personalization",
         "Account",
-        "Profile",
-        "Checkout"
+        "Profile"
       ],
       "x-prompt": {
         "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
