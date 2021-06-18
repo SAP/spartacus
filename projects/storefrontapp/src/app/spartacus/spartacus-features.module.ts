@@ -18,6 +18,7 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
+  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -121,6 +122,7 @@ if (environment.digitalPayments) {
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
+    PageTitleModule,
     BreadcrumbModule,
 
     // User Core
