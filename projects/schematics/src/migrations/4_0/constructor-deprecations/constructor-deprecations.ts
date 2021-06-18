@@ -62,6 +62,7 @@ import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-ev
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
+import { MEDIA_SERVICE_MIGRATION } from './data/media.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -109,6 +110,7 @@ import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
+  MEDIA_SERVICE_MIGRATION,
   UNIT_CHILDREN_COMPONENT_MIGRATION,
   UNIT_COST_CENTERS_COMPONENT_MIGRATION,
   UNIT_USER_LIST_COMPONENT_MIGRATION,

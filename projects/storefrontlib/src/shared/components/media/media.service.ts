@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Config, Image } from '@spartacus/core';
-import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -32,17 +31,7 @@ export class MediaService {
   private _sortedFormats: { code: string; size: MediaFormatSize }[];
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
-  constructor(
-    protected config: Config,
-    /**
-     * The BreakpointService is no longer used in version 2.0 as the different size formats are
-     * driven by configuration only. There's however a change that this service will play a role
-     * in the near future, which is why we keep the constructor as-is.
-     *
-     * @deprecated
-     */
-    protected breakpointService: BreakpointService
-  ) {}
+  constructor(protected config: Config) {}
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`)
