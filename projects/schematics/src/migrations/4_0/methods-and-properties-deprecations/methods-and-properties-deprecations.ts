@@ -14,6 +14,7 @@ import {
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import {
   GET_URL_MIGRATION,
@@ -45,6 +46,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ROUTING_SERVICE_MIGRATION,
   ...CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
+  ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
