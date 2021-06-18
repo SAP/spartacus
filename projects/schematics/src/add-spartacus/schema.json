@@ -24,6 +24,7 @@
           "Order-Approval",
           "Bulk-Pricing",
           "Product-Variants",
+          "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
@@ -85,6 +86,10 @@
             "value": "Product-Variants",
             "label": "Product - Variants"
           },
+          {
+            "value": "Variant-Configurator",
+            "label": "Product Configurator - Variant Configurator"
+          },          
           {
             "value": "Textfield-Configurator",
             "label": "Product Configurator - Textfield Configurator"
