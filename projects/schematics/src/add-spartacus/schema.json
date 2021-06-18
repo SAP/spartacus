@@ -71,6 +71,10 @@
             "label": "Context-Driven Services Integration"
           },
           {
+            "value": "Checkout",
+            "label": "Checkout"
+          },
+          {
             "value": "Administration",
             "label": "Organization - Adminstration (b2b feature)"
           },
@@ -125,10 +129,6 @@
           {
             "value": "Profile",
             "label": "User - Profile"
-          },
-          {
-            "value": "Checkout",
-            "label": "Checkout"
           }
         ]
       }
