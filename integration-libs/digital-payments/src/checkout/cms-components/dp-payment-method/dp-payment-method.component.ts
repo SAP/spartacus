@@ -42,6 +42,7 @@ export class DpPaymentMethodComponent
     this.selectPaymentMethod(paymentDetails);
     this.next();
   }
+
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
@@ -67,8 +68,6 @@ export class DpPaymentMethodComponent
 
     this.showCallbackScreen = this.isDpCallback();
   }
-  ngOnInit(): void {
-    //
-  }
+
 }
 
