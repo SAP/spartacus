@@ -93,7 +93,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
    */
   ngOnInit() {
-    if (this.config.resetMenuOnClose) {
+    if (this.config?.resetMenuOnClose) {
       this.resetOnMenuCollapse();
     }
   }
@@ -107,10 +107,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.hamburgerMenuService?.isExpanded
         .pipe(distinctUntilChanged())
         .subscribe((isExpanded: boolean) => {
-          if (isExpanded) {
-            if (this.openNodes?.length > 0) {
+          if (isExpanded && this.openNodes?.length > 0) {
               this.reinitalizeMenu();
-            }
           }
         })
     );
