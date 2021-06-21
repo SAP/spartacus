@@ -12,6 +12,6 @@ export const ORDER_OVERVIEW_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
     class: ORDER_OVERVIEW_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: GET_ORDER_CURRENT_DATE_CARD_CONTENT,
-    comment: `// ${TODO_SPARTACUS} Method '${GET_ORDER_CURRENT_DATE_CARD_CONTENT}' now requires the function parameter. It is no longer optional`,
+    comment: `// ${TODO_SPARTACUS} Method '${GET_ORDER_CURRENT_DATE_CARD_CONTENT}' now requires isoDate parameter. It is no longer optional`,
   },
 ];
