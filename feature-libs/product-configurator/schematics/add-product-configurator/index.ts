@@ -112,15 +112,6 @@ function addProductConfiguratorRulebasedFeature(
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
-    //technically this is not needed, as CLI_PRODUCT_CONFIGURATOR_VC_FEATURE reflects that
-    //our library is loaded (meaning it is active anyhow at this point).
-    //Still we maintain the dependency to log that VC is deployed if the CPQ feature has been chosen
-    dependencyManagement: {
-      featureName: CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
-      },
-    },
   });
 }
 /**
