@@ -3,21 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent
+  PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/components';
 import {
   UserPaymentService,
   GlobalMessageService,
   TranslationService,
   ActiveCartService,
-  PaymentDetails
+  PaymentDetails,
 } from '@spartacus/core';
 import {
   CheckoutService,
   CheckoutDeliveryService,
-  CheckoutPaymentService
+  CheckoutPaymentService,
 } from '@spartacus/checkout/core';
-
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './dp-payment-method.component.html',
