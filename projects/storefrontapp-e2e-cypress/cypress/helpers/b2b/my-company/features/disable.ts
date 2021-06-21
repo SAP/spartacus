@@ -19,6 +19,7 @@ export function disableTest(config: MyCompanyConfig) {
         entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
+      cy.wait(`@getEntity`);
     });
 
     it('should disable/enable', () => {
