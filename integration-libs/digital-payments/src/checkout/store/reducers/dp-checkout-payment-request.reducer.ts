@@ -1,6 +1,7 @@
 import { DigitalPaymentActions } from '../actions';
 import { DpPaymentRequest } from '../../models';
 import { Action } from '@ngrx/store';
+
 export const initialState: DpPaymentRequest = {};
 export const emptyState: DpPaymentRequest = {};
 

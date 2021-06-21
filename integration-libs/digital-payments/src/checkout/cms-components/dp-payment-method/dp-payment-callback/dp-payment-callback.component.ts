@@ -53,7 +53,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         .subscribe((details) => {
           if (details && details.id) {
             this.paymentDetailsAdded.emit(details);
-          } else if (details) {
+          } else if (details === null) {
             this.globalMsgService.add(
               { key: 'dpPaymentForm.error.paymentFetch' },
               GlobalMessageType.MSG_TYPE_ERROR
