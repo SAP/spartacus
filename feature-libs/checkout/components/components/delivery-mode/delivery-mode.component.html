@@ -1,9 +1,9 @@
 <div [formGroup]="mode">
   <div class="row">
     <div class="col-md-12 col-lg-9">
-      <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+      <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
         {{ 'checkoutShipping.shippingMethod' | cxTranslate }}
-      </h3>
+      </h2>
 
       <ng-container
         *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"

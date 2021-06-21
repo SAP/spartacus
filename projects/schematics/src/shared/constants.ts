@@ -813,6 +813,8 @@ export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
 export const ORDER_PROMOTIONS$ = 'orderPromotions$';
 
+export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
