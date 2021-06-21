@@ -31,9 +31,10 @@ import {
   GROUP_ID_5,
   GROUP_ID_7,
   mockRouterState,
-  PRODUCT_CODE,
   productConfiguration,
+  PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
@@ -75,6 +76,7 @@ const simpleConfig: Configurator.Configuration = {
       subGroups: [],
     },
   ],
+  flatGroups: [],
   interactionState: {
     issueNavigationDone: false,
   },
@@ -457,19 +459,33 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
-    const groupWithConflicts = {
+    const groupWithConflicts: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(groupWithConflicts)).toBe('(2)');
-    const attributeGroup = {
+    const attributeGroup: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('3'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(attributeGroup)).toBe('');

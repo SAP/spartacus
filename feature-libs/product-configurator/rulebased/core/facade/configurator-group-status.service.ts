@@ -45,12 +45,14 @@ export class ConfiguratorGroupStatusService {
    */
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
-  ): Configurator.Group {
+  ): Configurator.Group | undefined {
     return configuration.flatGroups
-      .filter(
-        (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
-      )
-      .find((group) => !group.complete);
+      ? configuration.flatGroups
+          .filter(
+            (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
+          )
+          .find((group) => !group.complete)
+      : undefined;
   }
 
   /**
@@ -74,12 +76,14 @@ export class ConfiguratorGroupStatusService {
 
     const visitedGroupIds = [];
     visitedGroupIds.push(group.id);
-    this.getParentGroupStatusVisited(
-      configuration,
-      group.id,
-      parentGroup,
-      visitedGroupIds
-    );
+    if (parentGroup) {
+      this.getParentGroupStatusVisited(
+        configuration,
+        group.id,
+        parentGroup,
+        visitedGroupIds
+      );
+    }
 
     this.store.dispatch(
       new ConfiguratorActions.SetGroupsVisited({
@@ -104,11 +108,7 @@ export class ConfiguratorGroupStatusService {
     parentGroup: Configurator.Group,
     visitedGroupIds: string[]
   ) {
-    if (parentGroup === null) {
-      return;
-    }
-
-    const subGroups = [];
+    const subGroups: string[] = [];
     parentGroup.subGroups.forEach((subGroup) => {
       //The current group is not set to visited yet, therefore we have to exclude it in the check
       if (subGroup.id === groupId) {
@@ -122,19 +122,21 @@ export class ConfiguratorGroupStatusService {
       .subscribe((isVisited) => {
         if (isVisited) {
           visitedGroupIds.push(parentGroup.id);
-
-          this.getParentGroupStatusVisited(
-            configuration,
-            parentGroup.id,
-            this.configuratorUtilsService.getParentGroup(
+          const grandParentGroup = this.configuratorUtilsService.getParentGroup(
+            configuration.groups,
+            this.configuratorUtilsService.getGroupById(
               configuration.groups,
-              this.configuratorUtilsService.getGroupById(
-                configuration.groups,
-                parentGroup.id
-              )
-            ),
-            visitedGroupIds
+              parentGroup.id
+            )
           );
+          if (grandParentGroup) {
+            this.getParentGroupStatusVisited(
+              configuration,
+              parentGroup.id,
+              grandParentGroup,
+              visitedGroupIds
+            );
+          }
         }
       });
   }
