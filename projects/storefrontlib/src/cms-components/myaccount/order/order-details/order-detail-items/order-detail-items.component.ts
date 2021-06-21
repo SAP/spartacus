@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Consignment, PromotionLocation } from '@spartacus/core';
+import { Consignment, Order, PromotionLocation } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -17,7 +17,7 @@ export class OrderDetailItemsComponent implements OnInit {
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
-  order$: Observable<any> = this.orderDetailsService
+  order$: Observable<Order> = this.orderDetailsService
     .getOrderDetails()
     .pipe(map((order) => (Object.keys(order).length ? order : null)));
   others$: Observable<Consignment[]>;

@@ -15,6 +15,7 @@ import {
   StateWithProcess,
 } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
@@ -177,6 +178,29 @@ describe('UserReplenishmentOrderService', () => {
         new UserActions.ClearReplenishmentOrderDetails()
       );
     });
+  });
+
+  it('should be able to get order details state', () => {
+    store.dispatch(
+      new UserActions.LoadReplenishmentOrderDetails({
+        userId: mockUserId,
+        replenishmentOrderCode: mockReplenishmentOrderCode,
+      })
+    );
+
+    let state: LoaderState<ReplenishmentOrder>;
+    userReplenishmentOrderService
+      .getReplenishmentOrderDetailsState()
+      .subscribe((data) => {
+        state = data;
+      })
+      .unsubscribe();
+    expect(state).toEqual({
+      loading: true,
+      error: false,
+      success: false,
+      value: {},
+    } as LoaderState<ReplenishmentOrder>);
   });
 
   describe('Cancel a specific replenishment order', () => {
