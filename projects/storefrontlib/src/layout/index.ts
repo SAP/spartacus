@@ -7,4 +7,5 @@ export * from './launch-dialog/index';
 export * from './layout.module';
 export * from './loading/index';
 export * from './main/storefront.component';
+export * from './main/storefront-component.module';
 export * from './theme/index';
