@@ -26,5 +26,6 @@ export function reducer(
       return initialState;
     }
   }
-  return state;
+
+ return state;
 }
