@@ -76,7 +76,7 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntry(_productCode: string, _quantity: number): void {}
 }
 
-fdescribe('CartQuickFormComponent', () => {
+describe('CartQuickFormComponent', () => {
   let component: CartQuickFormComponent;
   let fixture: ComponentFixture<CartQuickFormComponent>;
   let activeCartService: ActiveCartService;
