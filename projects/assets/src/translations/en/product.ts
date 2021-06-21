@@ -65,6 +65,8 @@ export const product = {
     outOfStock: 'Out of stock',
     inStock: 'In stock',
     selectStyleAndSize: 'Select style and size to check stock',
+    removeFromCart: 'Remove Product from Cart',
+    closeModal: 'Close Modal',
   },
   TabPanelContainer: {
     tabs: {
@@ -111,5 +113,9 @@ export const product = {
     removeOne: 'Remove one',
     addOneMore: 'Add one more',
     quantity: 'Quantity',
+  },
+  productView: {
+    gridView: 'Select to change to Grid View',
+    listView: 'Select to change to List View',
   },
 };
