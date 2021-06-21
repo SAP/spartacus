@@ -10,19 +10,20 @@ import {
   GlobalMessageService,
   TranslationService,
   ActiveCartService,
-  PaymentDetails,
+  PaymentDetails
 } from '@spartacus/core';
 
 import {
   CheckoutService,
   CheckoutDeliveryService,
-  CheckoutPaymentService,
+  CheckoutPaymentService
 } from '@spartacus/checkout/core';
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './dp-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class DpPaymentMethodComponent
   extends CorePaymentMethodComponent
   implements OnInit {
