@@ -515,7 +515,7 @@ describe('OccConfigurationVariantAdapter', () => {
     );
   });
 
-  fdescribe('updateValuePrice', () => {
+  describe('updateValuePrice', () => {
     it('should update corresponding value price', () => {
       const configGroups: Configurator.Group[] =
         mockProductConfiguration.groups;

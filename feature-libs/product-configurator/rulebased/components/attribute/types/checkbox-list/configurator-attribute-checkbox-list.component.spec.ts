@@ -14,10 +14,8 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  ConfiguratorAttributeQuantityService,
-} from '../../quantity';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
