@@ -55,7 +55,6 @@ export interface OrderTypesState {
 
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
-  cardTypes: CardTypesState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }
