@@ -27,7 +27,13 @@
       "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
       "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
-      "@spartacus/tracking/tms": ["dist/tracking/tms"]
+      "@spartacus/tracking/tms": ["dist/tracking/tms"],
+      "@spartacus/checkout/assets": ["dist/checkout/assets"],
+      "@spartacus/checkout/components": ["dist/checkout/components"],
+      "@spartacus/checkout/core": ["dist/checkout/core"],
+      "@spartacus/checkout": ["dist/checkout"],
+      "@spartacus/checkout/occ": ["dist/checkout/occ"],
+      "@spartacus/checkout/root": ["dist/checkout/root"]
     }
   },
   "angularCompilerOptions": {

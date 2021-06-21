@@ -11,10 +11,12 @@ import {
   addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
   CustomConfig,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
+  SPARTACUS_TRACKING,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
@@ -94,6 +96,12 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
         content: `${CDS_MODULE}.forRoot()`,
       },
       customConfig,
+      dependencyManagement: {
+        featureName: CLI_CDS_FEATURE,
+        featureDependencies: {
+          [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+        },
+      },
     }
   );
 }

@@ -48,6 +48,5 @@ import { FormErrorsModule } from '../../../../../../shared/index';
   ],
   declarations: [CancelOrderComponent],
   exports: [CancelOrderComponent],
-  entryComponents: [CancelOrderComponent],
 })
 export class CancelOrderModule {}

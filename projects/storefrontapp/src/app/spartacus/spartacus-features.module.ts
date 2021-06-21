@@ -4,10 +4,9 @@ import {
   AuthModule,
   CartModule,
   CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -19,12 +18,11 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
+  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
   CategoryNavigationModule,
-  CheckoutComponentModule,
-  CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
@@ -40,7 +38,6 @@ import {
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
-  OrderConfirmationModule,
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
@@ -56,7 +53,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
   ReturnRequestDetailModule,
@@ -73,6 +69,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CpqFeatureModule } from './features/cpq-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
@@ -121,6 +118,7 @@ if (environment.cpq) {
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
+    PageTitleModule,
     BreadcrumbModule,
 
     // User Core
@@ -165,14 +163,8 @@ if (environment.cpq) {
     CartComponentModule,
     WishListModule,
 
-    // Checkout Core
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
+    // Cost Center
     CostCenterOccModule,
-    // Checkout UI
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
 
     // Order
     OrderHistoryModule,
@@ -183,7 +175,7 @@ if (environment.cpq) {
     ReturnRequestDetailModule,
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
+    OrderOccModule,
 
     // Page Events
     NavigationEventModule,
@@ -198,6 +190,7 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
+    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,

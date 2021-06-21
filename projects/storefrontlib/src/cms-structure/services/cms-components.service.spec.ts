@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
-import { FeatureModulesService } from './feature-modules.service';
+import { CmsFeaturesService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 let service: CmsComponentsService;
@@ -49,7 +49,7 @@ const mockComponents: string[] = [
   'exampleMapping2',
 ];
 
-class MockFeatureModulesService implements Partial<FeatureModulesService> {
+class MockCmsFeaturesService implements Partial<CmsFeaturesService> {
   private testResovler = new Subject();
 
   hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
@@ -75,7 +75,7 @@ describe('CmsComponentsService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
-        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+        { provide: CmsFeaturesService, useClass: MockCmsFeaturesService },
         {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
@@ -99,8 +99,8 @@ describe('CmsComponentsService', () => {
       });
     });
     it('should resolve features before emitting values', () => {
-      const featureModulesService = TestBed.inject<MockFeatureModulesService>(
-        FeatureModulesService as any
+      const cmsFeaturesService = TestBed.inject<MockCmsFeaturesService>(
+        CmsFeaturesService as any
       );
       const testTypes = ['feature'];
       let isDone = false;
@@ -108,7 +108,7 @@ describe('CmsComponentsService', () => {
         isDone = true;
       });
       expect(isDone).toBeFalsy();
-      featureModulesService.resolveMappingsForTest();
+      cmsFeaturesService.resolveMappingsForTest();
       expect(isDone).toBeTruthy();
     });
   });
@@ -177,15 +177,15 @@ describe('CmsComponentsService', () => {
   });
 
   describe('getModule', () => {
-    it('should call FeatureModulesService', () => {
-      const featureModulesService = TestBed.inject(FeatureModulesService);
+    it('should call CmsFeaturesService', () => {
+      const cmsFeaturesService = TestBed.inject(CmsFeaturesService);
       service.getModule('feature');
-      expect(featureModulesService.getModule).toHaveBeenCalledWith('feature');
+      expect(cmsFeaturesService.getModule).toHaveBeenCalledWith('feature');
     });
-    it('should not call FeatureModulesService if there is no such a feature', () => {
-      const featureModulesService = TestBed.inject(FeatureModulesService);
+    it('should not call CmsFeaturesService if there is no such a feature', () => {
+      const cmsFeaturesService = TestBed.inject(CmsFeaturesService);
       service.getModule('unknownType');
-      expect(featureModulesService.getModule).not.toHaveBeenCalled();
+      expect(cmsFeaturesService.getModule).not.toHaveBeenCalled();
     });
   });
 

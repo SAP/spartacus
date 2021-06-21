@@ -189,6 +189,16 @@ export interface OccEndpoints {
   // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdatePassword?: string | OccEndpoint;
   /**
+   * Update the user's profile
+   */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  userUpdateProfile?: string | OccEndpoint;
+  /**
+   * Close user account
+   */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  userCloseAccount?: string | OccEndpoint;
+  /**
    * Payment details root endpoint.
    *
    * @member {string}
@@ -329,12 +339,6 @@ export interface OccEndpoints {
    */
   consignmentTracking?: string | OccEndpoint;
   /**
-   * Endpoint for asm customer search
-   *
-   * @member {string}
-   */
-  asmCustomerSearch?: string | OccEndpoint;
-  /**
    * Endpoint for cart voucher
    *
    * @member {string}
@@ -398,10 +402,12 @@ export interface OccEndpoints {
   cancelReturn?: string | OccEndpoint;
   /**
    * Endpoint for set delivery address to cart
+   * @deprecated since 4.0, use checkout feature lib instead.
    */
   setDeliveryAddress?: string | OccEndpoint;
   /**
    * Endpoint for place order
+   * @deprecated since 4.0, use checkout feature lib instead.
    */
   placeOrder?: string | OccEndpoint;
   /**

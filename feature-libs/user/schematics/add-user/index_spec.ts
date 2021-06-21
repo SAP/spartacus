@@ -49,7 +49,6 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -222,9 +221,9 @@ describe('Spartacus User schematics: ng-add', () => {
           'collection',
           SPARTACUS_USER
         );
-        expect(
-          userTaskWithSubFeatures.options.options
-        ).toHaveProperty('features', [CLI_USER_ACCOUNT_FEATURE]);
+        expect(userTaskWithSubFeatures.options.options?.features).toEqual([
+          CLI_USER_ACCOUNT_FEATURE,
+        ]);
       });
     });
 

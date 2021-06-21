@@ -11,7 +11,17 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
+import {
+  CONFIG_ID,
+  GROUP_ID_1,
+  GROUP_ID_2,
+  GROUP_ID_3,
+  GROUP_ID_4,
+  GROUP_ID_5,
+  GROUP_ID_6,
+  GROUP_ID_7,
+} from '../../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -20,12 +30,13 @@ import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
-import * as fromConfigurationReducers from '../reducers/index';
+import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
+const groupIdA = 'a';
 
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -56,15 +67,15 @@ const groupWithSubGroup: Configurator.Group = {
   subGroups: [group],
 };
 const productConfiguration: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
   productCode: productCode,
-  owner: owner,
   complete: true,
   consistent: true,
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
-        id: 'a',
+        id: groupIdA,
         groupDescription: 'a',
         attributes: [
           {
@@ -79,9 +90,7 @@ const productConfiguration: Configurator.Configuration = {
   flatGroups: [group],
   priceSummary: {},
 };
-ConfiguratorComponentTestUtilsService.freezeProductConfiguration(
-  productConfiguration
-);
+ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -120,10 +129,7 @@ describe('ConfiguratorEffect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromConfigurationReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
 
       providers: [
@@ -194,8 +200,7 @@ describe('ConfiguratorEffect', () => {
   describe('Effect readConfiguration', () => {
     it('should emit a success action with content in case connector call goes fine', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
-        owner: owner,
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
       };
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: payloadInput,
@@ -231,7 +236,9 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('must not emit anything in case source action is not covered', () => {
-      const payloadInput = { configId: configId, owner: owner };
+      const payloadInput = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+      };
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
         payloadInput
       );
@@ -244,8 +251,7 @@ describe('ConfiguratorEffect', () => {
   describe('Effect getOverview', () => {
     it('should emit a success action with content in case connector call goes well', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
-        owner: owner,
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
       };
       const action = new ConfiguratorActions.GetConfigurationOverview(
         payloadInput
@@ -254,7 +260,7 @@ describe('ConfiguratorEffect', () => {
       const overviewSuccessAction = new ConfiguratorActions.GetConfigurationOverviewSuccess(
         {
           ownerKey: owner.key,
-          overview: productConfiguration.overview,
+          overview: productConfiguration.overview ?? { configId: CONFIG_ID },
         }
       );
       actions$ = hot('-a', { a: action });
@@ -387,7 +393,7 @@ describe('ConfiguratorEffect', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
-          currentGroup: productConfiguration.groups[0].id,
+          currentGroup: groupId,
         })
       );
       const payloadInput = productConfiguration;
@@ -448,7 +454,7 @@ describe('ConfiguratorEffect', () => {
       );
       const completion = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
-        groupId: undefined,
+        groupId: groupId,
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -458,14 +464,13 @@ describe('ConfiguratorEffect', () => {
   describe('Effect groupChange', () => {
     it('should emit ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
-        owner: owner,
       };
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,
         groupId: groupId,
-        parentGroupId: null,
+        parentGroupId: undefined,
       });
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
@@ -476,7 +481,7 @@ describe('ConfiguratorEffect', () => {
       });
       const setMenuParentGroup = new ConfiguratorActions.SetMenuParentGroup({
         entityKey: productConfiguration.owner.key,
-        menuParentGroup: null,
+        menuParentGroup: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -492,14 +497,13 @@ describe('ConfiguratorEffect', () => {
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
       readMock.and.returnValue(throwError(errorResponse));
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
-        owner: owner,
       };
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,
         groupId: groupId,
-        parentGroupId: null,
+        parentGroupId: undefined,
       });
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         {
@@ -518,35 +522,35 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('getGroupWithAttributes', () => {
-    it('should find group in single level config', () => {
-      expect(
-        configEffects.getGroupWithAttributes(productConfiguration.groups)
-      ).toBe(groupId);
-    });
-
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
+          id: GROUP_ID_1,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_2,
               attributes: [],
               subGroups: [],
             },
             {
+              id: GROUP_ID_3,
               attributes: [],
               subGroups: [],
             },
           ],
         },
         {
+          id: GROUP_ID_4,
           attributes: [],
           subGroups: productConfiguration.groups,
         },
         {
+          id: GROUP_ID_5,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_6,
               attributes: [],
               subGroups: [],
             },
@@ -559,26 +563,32 @@ describe('ConfiguratorEffect', () => {
     it('should find no group in multi level config in case no attributes exist at all', () => {
       const groups: Configurator.Group[] = [
         {
+          id: GROUP_ID_1,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_2,
               attributes: [],
               subGroups: [],
             },
             {
+              id: GROUP_ID_3,
               attributes: [],
               subGroups: [],
             },
           ],
         },
         {
+          id: GROUP_ID_5,
           attributes: [],
-          subGroups: [{ attributes: [], subGroups: [] }],
+          subGroups: [{ id: GROUP_ID_4, attributes: [], subGroups: [] }],
         },
         {
+          id: GROUP_ID_6,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_7,
               attributes: [],
               subGroups: [],
             },
@@ -586,6 +596,23 @@ describe('ConfiguratorEffect', () => {
         },
       ];
       expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
+    });
+  });
+
+  describe('getGroupWithAttributesForConfiguration', () => {
+    it('should find group in single level config', () => {
+      expect(
+        configEffects.getGroupWithAttributesForConfiguration(
+          productConfiguration
+        )
+      ).toBe(groupId);
+    });
+    it('should throw error in case configuration has no attribute at all', () => {
+      expect(function () {
+        configEffects.getGroupWithAttributesForConfiguration(
+          ConfiguratorTestUtils.createConfiguration('a', owner)
+        );
+      }).toThrow();
     });
   });
 });

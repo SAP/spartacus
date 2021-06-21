@@ -42,14 +42,14 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    id?: string;
+    id: string;
     name?: string;
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
     consistent?: boolean;
-    subGroups?: Group[];
+    subGroups: Group[];
   }
 
   export interface Configuration {
@@ -58,14 +58,14 @@ export namespace Configurator {
     complete?: boolean;
     totalNumberOfIssues?: number;
     productCode?: string;
-    groups?: Group[];
-    flatGroups?: Group[];
+    groups: Group[];
+    flatGroups: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    interactionState?: InteractionState;
+    interactionState: InteractionState;
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
@@ -81,7 +81,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
-    configId?: string;
+    configId: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
@@ -92,6 +92,7 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
@@ -132,9 +133,9 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
+    userId: string;
     cartId: string;
-    cartEntryNumber?: string;
+    cartEntryNumber: string;
     configuration: Configurator.Configuration;
   }
 

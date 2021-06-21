@@ -1,6 +1,7 @@
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
+  ExecutionOptions,
   externalSchematic,
   noop,
   Rule,
@@ -22,14 +23,46 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CLI_ASM_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
+  CLI_CDC_FEATURE,
+  CLI_CDS_FEATURE,
+  CLI_CHECKOUT_FEATURE,
+  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
+  CLI_QUALTRICS_FEATURE,
+  CLI_SMARTEDIT_FEATURE,
+  CLI_STOREFINDER_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_ASM,
+  SPARTACUS_CART,
+  SPARTACUS_CDC,
+  SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SETUP,
+  SPARTACUS_SMARTEDIT,
+  SPARTACUS_STOREFINDER,
+  SPARTACUS_TRACKING,
+  SPARTACUS_USER,
   UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
@@ -52,9 +85,10 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
+  scaffoldStructure,
 } from './workspace-utils';
 
-export interface LibraryOptions {
+export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
   lazy: boolean;
   features?: string[];
@@ -149,6 +183,35 @@ export interface AssetsConfig {
   glob: string;
 }
 
+export const packageSubFeaturesMapping: Record<string, string[]> = {
+  [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
+  [SPARTACUS_CART]: [CLI_CART_SAVED_CART_FEATURE],
+  [SPARTACUS_ORGANIZATION]: [
+    CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+    CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  ],
+  [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
+  [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
+  [SPARTACUS_PRODUCT]: [
+    CLI_PRODUCT_BULK_PRICING_FEATURE,
+    CLI_PRODUCT_VARIANTS_FEATURE,
+  ],
+  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  ],
+  [SPARTACUS_QUALTRICS]: [CLI_QUALTRICS_FEATURE],
+  [SPARTACUS_SMARTEDIT]: [CLI_SMARTEDIT_FEATURE],
+  [SPARTACUS_STOREFINDER]: [CLI_STOREFINDER_FEATURE],
+  [SPARTACUS_TRACKING]: [
+    CLI_TRACKING_PERSONALIZATION_FEATURE,
+    CLI_TRACKING_TMS_GTM_FEATURE,
+    CLI_TRACKING_TMS_AEP_FEATURE,
+  ],
+  [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
+  [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
+};
+
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
@@ -156,29 +219,58 @@ export function shouldAddFeature(
   return features.includes(feature);
 }
 
+export function prepareCliPackageAndSubFeature(
+  features: string[]
+): Record<string, string[]> {
+  return features.reduce((cliFeatures, subFeature) => {
+    const packageName = getPackageBySubFeature(subFeature);
+    const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
+
+    return { ...cliFeatures, [packageName]: subFeatures };
+  }, {} as Record<string, string[]>);
+}
+
+export function getPackageBySubFeature(subFeature: string): string {
+  for (const spartacusPackage in packageSubFeaturesMapping) {
+    if (!packageSubFeaturesMapping.hasOwnProperty(spartacusPackage)) {
+      continue;
+    }
+
+    const subFeatures = packageSubFeaturesMapping[spartacusPackage];
+    if (subFeatures.includes(subFeature)) {
+      return spartacusPackage;
+    }
+  }
+
+  throw new SchematicsException(
+    `The given '${subFeature}' doesn't contain a Spartacus package mapping.
+Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/utils/lib-utils.ts'`
+  );
+}
+
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      throw new SchematicsException(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
+      context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
+      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
       config.dependencyManagement
-        ? installRequiredSpartacusFeatures({
-            dependencyManagement: config.dependencyManagement,
-            options,
-          })
+        ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
         : noop(),
     ]);
   };
@@ -194,14 +286,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
@@ -493,7 +583,13 @@ function addLibraryAssets(
         },
       },
     };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    const initialContent = tree.read(path)?.toString(UTF_8) ?? '';
+    const toUpdate = JSON.stringify(updatedAngularJson, null, 2);
+    // prevent the unnecessary Angular logs about the files being updated
+    if (initialContent !== toUpdate) {
+      tree.overwrite(path, toUpdate);
+    }
   };
 }
 
@@ -538,12 +634,17 @@ export function addLibraryStyles(
     const toAdd = `@import "${stylingConfig.importStyle}";`;
 
     if (tree.exists(libraryScssPath)) {
-      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      let content = initialContent;
+
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
 
-      tree.overwrite(libraryScssPath, content);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (initialContent !== content) {
+        tree.overwrite(libraryScssPath, content);
+      }
       return tree;
     }
 
@@ -650,7 +751,8 @@ export function addPackageJsonDependenciesForLibrary<
       }, {} as Record<string, string[]>);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options,
-      cliFeatures
+      cliFeatures,
+      false
     );
     addSchematicsTasks(featureOptions, context);
 
@@ -661,21 +763,18 @@ export function addPackageJsonDependenciesForLibrary<
   };
 }
 
-function installRequiredSpartacusFeatures<
-  OPTIONS extends LibraryOptions
->(options: {
-  dependencyManagement: DependencyManagement;
-  options: OPTIONS;
-}): Rule {
+function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
+  dependencyManagement: DependencyManagement,
+  options: OPTIONS
+): Rule {
   return (_tree: Tree, context: SchematicContext): void => {
-    const dependencyManagement = options.dependencyManagement;
     if (!dependencyManagement) {
       return;
     }
 
     logFeatureInstallation(dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options.options,
+      options,
       dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
@@ -699,7 +798,7 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+function shouldAddDependency(
   dependency: NodeDependency,
   packageJson?: any
 ): boolean {
@@ -773,11 +872,12 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-function createSpartacusFeatureOptionsForLibrary<
+export function createSpartacusFeatureOptionsForLibrary<
   OPTIONS extends LibraryOptions
 >(
   options: OPTIONS,
-  cliFeatures: Record<string, string[]>
+  cliFeatures: Record<string, string[]>,
+  interactive = true
 ): {
   feature: string;
   options: LibraryOptions;
@@ -788,6 +888,7 @@ function createSpartacusFeatureOptionsForLibrary<
       ...options,
       // an empty array means that no library features will be installed.
       features: cliFeatures[spartacusLibrary] ?? [],
+      interactive,
     },
   }));
 }
@@ -824,11 +925,17 @@ export function runExternalSpartacusLibrary(
         `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
       );
     }
+
+    const executionOptions: Partial<ExecutionOptions> = {
+      interactive: taskOptions.options.interactive,
+    };
+
     return chain([
       externalSchematic(
         taskOptions.collection,
         taskOptions.name,
-        taskOptions.options
+        taskOptions.options,
+        executionOptions
       ),
     ])(tree, context);
   };
