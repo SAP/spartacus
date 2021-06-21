@@ -6,7 +6,6 @@ import {
   CheckoutStepsState,
   CHECKOUT_DETAILS,
 } from '../checkout-state';
-import * as fromCardTypes from './card-types.reducer';
 import * as fromCheckout from './checkout.reducer';
 import * as fromOrderTypes from './order-types.reducer';
 import * as fromPaymentTypes from './payment-types.reducer';
@@ -17,7 +16,6 @@ export function getReducers(): ActionReducerMap<CheckoutState, any> {
       CHECKOUT_DETAILS,
       fromCheckout.reducer
     ),
-    cardTypes: fromCardTypes.reducer,
     paymentTypes: fromPaymentTypes.reducer,
     orderType: fromOrderTypes.reducer,
   };

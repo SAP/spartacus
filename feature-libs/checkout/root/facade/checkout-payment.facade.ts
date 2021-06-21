@@ -17,7 +17,6 @@ export function checkoutPaymentFacadeFactory() {
       'getPaymentDetails',
       'getSetPaymentDetailsResultProcess',
       'resetSetPaymentDetailsProcess',
-      'loadSupportedCardTypes',
       'createPaymentDetails',
       'setPaymentDetails',
       'paymentProcessSuccess',
@@ -52,11 +51,6 @@ export abstract class CheckoutPaymentFacade {
    * Clear info about process of setting Payment Details
    */
   abstract resetSetPaymentDetailsProcess(): void;
-
-  /**
-   * Load the supported card types
-   */
-  abstract loadSupportedCardTypes(): void;
 
   /**
    * Create payment details using the given paymentDetails param

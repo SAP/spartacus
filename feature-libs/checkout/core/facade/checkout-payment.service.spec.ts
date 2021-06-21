@@ -8,10 +8,22 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CheckoutPaymentConnector } from '../connectors';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
+import createSpy = jasmine.createSpy;
+
+class MockCheckoutPaymentConnector
+  implements Partial<CheckoutPaymentConnector> {
+  getCardTypes = createSpy().and.returnValue(
+    of([
+      { code: 'visa', name: 'visa' },
+      { code: 'masterCard', name: 'masterCard' },
+    ])
+  );
+}
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
@@ -57,6 +69,10 @@ describe('CheckoutPaymentService', () => {
         CheckoutPaymentService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        {
+          provide: CheckoutPaymentConnector,
+          useClass: MockCheckoutPaymentConnector,
+        },
       ],
     });
 
@@ -79,17 +95,13 @@ describe('CheckoutPaymentService', () => {
   ));
 
   it('should be able to get the card types', () => {
-    store.dispatch(
-      new CheckoutActions.LoadCardTypesSuccess([
-        { code: 'visa', name: 'visa' },
-        { code: 'masterCard', name: 'masterCard' },
-      ])
-    );
-
-    let cardTypes: CardType[];
-    service.getCardTypes().subscribe((data) => {
-      cardTypes = data;
-    });
+    let cardTypes: CardType[] = [];
+    service
+      .getCardTypes()
+      .subscribe((data) => {
+        cardTypes = data;
+      })
+      .unsubscribe();
     expect(cardTypes).toEqual([
       { code: 'visa', name: 'visa' },
       { code: 'masterCard', name: 'masterCard' },
@@ -109,13 +121,6 @@ describe('CheckoutPaymentService', () => {
       })
       .unsubscribe();
     expect(tempPaymentDetails).toEqual(paymentDetails);
-  });
-
-  it('should be able to load supported cart types', () => {
-    service.loadSupportedCardTypes();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.LoadCardTypes()
-    );
   });
 
   it('should be able to create payment details', () => {
