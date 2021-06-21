@@ -210,14 +210,12 @@ describe('Checkout effect', () => {
         current: 'current',
       });
       const completion1 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
-      const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
-      const completion3 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: completion1,
         c: completion2,
-        d: completion3,
       });
 
       expect(

@@ -49,20 +49,6 @@ describe('Payment Types effect', () => {
     );
   });
 
-  describe('loadPaymentTypes$', () => {
-    it('should load the payment types', () => {
-      const action = new CheckoutActions.LoadPaymentTypes();
-      const completion = new CheckoutActions.LoadPaymentTypesSuccess(
-        mockPaymentTypes
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effect.loadPaymentTypes$).toBeObservable(expected);
-    });
-  });
-
   describe('setPaymentType$', () => {
     it('should set the payment type to cart', () => {
       const action = new CheckoutActions.SetPaymentType({
