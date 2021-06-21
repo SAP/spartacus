@@ -96,7 +96,7 @@
     "@angular/platform-browser": "^12.0.4",
     "@angular/platform-browser-dynamic": "^12.0.4",
     "@angular/platform-server": "^12.0.4",
-    "@angular/pwa": "^0.1001.0",
+    "@angular/pwa": "^12.0.5",
     "@angular/router": "^12.0.4",
     "@angular/service-worker": "^12.0.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
