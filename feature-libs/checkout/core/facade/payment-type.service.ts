@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { PaymentTypeConnector } from '../connectors';
+import { PaymentTypeConnector } from '../connectors/payment-type/payment-type.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
