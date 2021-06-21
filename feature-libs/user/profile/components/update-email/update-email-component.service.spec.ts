@@ -31,7 +31,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   setRedirectUrl = createSpy('setRedirectUrl');
 }
 
-fdescribe('UpdateEmailComponentService', () => {
+describe('UpdateEmailComponentService', () => {
   let service: UpdateEmailComponentService;
   let userService: UserEmailFacade;
   let authService: AuthService;
