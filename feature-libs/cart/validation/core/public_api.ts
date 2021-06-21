@@ -1,1 +1,1 @@
-export * from './cart-validation-core.module';
+export * from './index';
