@@ -8,6 +8,7 @@ import { ConfiguratorActions } from '../actions/index';
 export const initialState: Configurator.Configuration = {
   configId: '',
   groups: [],
+  flatGroups: [],
   interactionState: {
     currentGroup: undefined,
     groupsVisited: {},
