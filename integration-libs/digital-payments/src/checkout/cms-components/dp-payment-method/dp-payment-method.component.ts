@@ -10,13 +10,13 @@ import {
   GlobalMessageService,
   TranslationService,
   ActiveCartService,
-  PaymentDetails
+  PaymentDetails,
 } from '@spartacus/core';
 
 import {
   CheckoutService,
   CheckoutDeliveryService,
-  CheckoutPaymentService
+  CheckoutPaymentService,
 } from '@spartacus/checkout/core';
 @Component({
   selector: 'cx-payment-method',
