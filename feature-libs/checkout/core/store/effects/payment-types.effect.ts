@@ -9,27 +9,6 @@ import { CheckoutActions } from '../actions/index';
 @Injectable()
 export class PaymentTypesEffects {
   @Effect()
-  loadPaymentTypes$: Observable<
-    | CheckoutActions.LoadPaymentTypesSuccess
-    | CheckoutActions.LoadPaymentTypesFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.LOAD_PAYMENT_TYPES),
-    switchMap(() => {
-      return this.paymentTypeConnector.getPaymentTypes().pipe(
-        map(
-          (paymentTypes) =>
-            new CheckoutActions.LoadPaymentTypesSuccess(paymentTypes)
-        ),
-        catchError((error) =>
-          of(
-            new CheckoutActions.LoadPaymentTypesFail(normalizeHttpError(error))
-          )
-        )
-      );
-    })
-  );
-
-  @Effect()
   setPaymentType$: Observable<
     | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.SetPaymentTypeFail

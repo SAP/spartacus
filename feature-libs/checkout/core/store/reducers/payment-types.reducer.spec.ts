@@ -1,4 +1,3 @@
-import { PaymentType } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
 import * as fromReducer from './payment-types.reducer';
 
@@ -10,31 +9,6 @@ describe('Payment Types Reducer', () => {
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
-    });
-  });
-
-  describe('LOAD_PAYMENT_TYPES_SUCCESS action', () => {
-    it('should populate the payment types state entities', () => {
-      const paymentTypes: PaymentType[] = [
-        {
-          code: 'card',
-          displayName: 'card',
-        },
-        {
-          code: 'account',
-          displayName: 'accoun',
-        },
-      ];
-
-      const mockPaymentTypesList = {
-        card: paymentTypes[0],
-        account: paymentTypes[1],
-      };
-
-      const { initialState } = fromReducer;
-      const action = new CheckoutActions.LoadPaymentTypesSuccess(paymentTypes);
-      const state = fromReducer.reducer(initialState, action);
-      expect(state.entities).toEqual(mockPaymentTypesList);
     });
   });
 

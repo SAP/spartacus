@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { of, Subscription } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
+import { PaymentTypeConnector } from '../connectors';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -20,6 +21,15 @@ const cart = {
   paymentType: { code: 'ACCOUNT' },
   purchaseOrderNumber: 'testNumber',
 };
+
+class MockPaymentTypeConnector implements Partial<PaymentTypeConnector> {
+  getPaymentTypes() {
+    return of([
+      { code: 'account', displayName: 'account' },
+      { code: 'card', displayName: 'masterCard' },
+    ]);
+  }
+}
 
 class ActiveCartServiceStub implements Partial<ActiveCartService> {
   cart;
@@ -56,6 +66,10 @@ describe('PaymentTypeService', () => {
         PaymentTypeService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        {
+          provide: PaymentTypeConnector,
+          useClass: MockPaymentTypeConnector,
+        },
       ],
     });
 
@@ -73,14 +87,7 @@ describe('PaymentTypeService', () => {
   ));
 
   it('should be able to get the payment types if data exist', () => {
-    store.dispatch(
-      new CheckoutActions.LoadPaymentTypesSuccess([
-        { code: 'account', displayName: 'account' },
-        { code: 'card', displayName: 'masterCard' },
-      ])
-    );
-
-    let paymentTypes: PaymentType[];
+    let paymentTypes: PaymentType[] = [];
     service.getPaymentTypes().subscribe((data) => {
       paymentTypes = data;
     });
@@ -88,28 +95,6 @@ describe('PaymentTypeService', () => {
       { code: 'account', displayName: 'account' },
       { code: 'card', displayName: 'masterCard' },
     ]);
-  });
-
-  it('should be able to get the payment types after trigger data loading when they do not exist', () => {
-    spyOn(service, 'loadPaymentTypes').and.callThrough();
-
-    let types: PaymentType[];
-    service
-      .getPaymentTypes()
-      .subscribe((data) => {
-        types = data;
-      })
-      .unsubscribe();
-
-    expect(types).toEqual([]);
-    expect(service.loadPaymentTypes).toHaveBeenCalled();
-  });
-
-  it('should be able to load payment types', () => {
-    service.loadPaymentTypes();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.LoadPaymentTypes()
-    );
   });
 
   it('should be able to set selected payment type to cart', () => {
