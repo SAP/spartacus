@@ -15,7 +15,6 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CONFIG_ID } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
@@ -24,6 +23,7 @@ import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
+import { CONFIG_ID } from './../../../shared/testing/configurator-test-data';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
 
