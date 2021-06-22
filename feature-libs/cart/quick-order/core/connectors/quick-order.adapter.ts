@@ -1,14 +1,10 @@
-import { OrderEntry } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export abstract class QuickOrderAdapter {
   /**
    *
-   * Abstract method used to add items to active cart
+   * Abstract method used to search a product
    */
-  abstract addToCart(
-    userId: string,
-    cartId: string,
-    entries: OrderEntry[]
-  ): Observable<void>;
+  abstract search(productCode: string): Observable<Product>;
 }

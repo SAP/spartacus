@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from 'projects/core/src/model';
-import { Observable } from 'rxjs';
+import { QuickOrderService } from '../../core/services/quick-order.service';
 
 @Component({
   selector: 'cx-quick-order-list',
@@ -8,5 +7,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderListComponent {
-  entries$: Observable<OrderEntry[]>;
+  entries$ = this.quickOrderService.getEntries();
+
+  constructor(protected quickOrderService: QuickOrderService) {}
 }

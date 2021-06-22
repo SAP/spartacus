@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QuickOrderAdapter } from '@spartacus/cart/quick-order/core';
 import {
   ConverterService,
+  Occ,
   OccEndpointsService,
-  OrderEntry,
+  Product,
+  PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { QuickOrderAdapter } from '../../core/connectors/quick-order.adapter';
 
 @Injectable()
 export class OccQuickOrderAdapter implements QuickOrderAdapter {
@@ -16,27 +18,16 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
     protected converter: ConverterService
   ) {}
 
-  addToCart(
-    userId: string,
-    cartId: string,
-    entries: OrderEntry[]
-  ): Observable<any> {
-    return this.http.patch<any>(
-      this.getQuickOrderEndpoint(userId, cartId, entries),
-      cartId
-    );
+  search(productCode: string): Observable<Product> {
+    return this.http
+      .get<Occ.Product>(this.getQuickOrderSearchEndpoint(productCode))
+      .pipe(this.converter.pipeable(PRODUCT_NORMALIZER));
   }
 
-  protected getQuickOrderEndpoint(
-    userId: string,
-    cartId: string,
-    entries: OrderEntry[]
-  ): string {
-    return this.occEndpoints.buildUrl('addToCart', {
+  protected getQuickOrderSearchEndpoint(productCode: string): string {
+    return this.occEndpoints.buildUrl('product', {
       urlParams: {
-        userId,
-        cartId,
-        entries,
+        productCode,
       },
     });
   }

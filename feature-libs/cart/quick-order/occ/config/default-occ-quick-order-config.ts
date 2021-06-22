@@ -4,7 +4,7 @@ export const defaultOccQuickOrderConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        addToCart: 'orgUsers/${userId}/carts/${cartId}/entries',
+        product: 'orgProducts/${productCode}?fields=FULL',
       },
     },
   },
