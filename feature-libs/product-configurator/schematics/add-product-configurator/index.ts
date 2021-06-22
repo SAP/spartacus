@@ -51,7 +51,8 @@ export function addProductConfiguratorFeatures(
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features)
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features) ||
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
         ? addProductConfiguratorRulebasedFeature(options)
         : noop(),
 
@@ -141,12 +142,6 @@ function addCpqRulebasedRootModule(
       moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
       namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
     },
-    dependencyManagement: {
-      featureName: CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
-      },
-    },
   });
 }
 
@@ -176,15 +171,6 @@ function addProductConfiguratorTextfieldFeature(
     styles: {
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
-    },
-    //technically this is not needed, as CLI_PRODUCT_CONFIGURATOR_VC_FEATURE reflects that
-    //our library is loaded (meaning it is active anyhow at this point).
-    //Still we maintain the dependency to log that VC is deployed if the textfield feature has been chosen
-    dependencyManagement: {
-      featureName: CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
-      },
     },
   });
 }
