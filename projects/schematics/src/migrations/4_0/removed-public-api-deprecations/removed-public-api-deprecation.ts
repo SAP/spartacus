@@ -13,16 +13,7 @@ import {
   CMS_FEATURES_SERVICE,
   CMS_LIB_MODULE,
   CONTENT_PAGE_META_RESOLVER,
-  CUSTOMER_ACTION,
-  CUSTOMER_SEARCH,
-  CUSTOMER_SEARCH_CLASS,
   CUSTOMER_SEARCH_DATA,
-  CUSTOMER_SEARCH_FAIL,
-  CUSTOMER_SEARCH_FAIL_CLASS,
-  CUSTOMER_SEARCH_RESET,
-  CUSTOMER_SEARCH_RESET_CLASS,
-  CUSTOMER_SEARCH_SUCCESS,
-  CUSTOMER_SEARCH_SUCCESS_CLASS,
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
   DEFAULT_STATE_CONFIG,
@@ -165,60 +156,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_FAIL,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_FAIL}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_FAIL_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_FAIL_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_SUCCESS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_SUCCESS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_SUCCESS_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_SUCCESS_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_RESET,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_RESET}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_SEARCH_RESET_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_RESET_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    node: CUSTOMER_ACTION,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_ACTION}' was moved to @spartacus/asm/core.`,
   },
   // projects/core/src/asm/store/actions/logout-agent.action.ts
   {

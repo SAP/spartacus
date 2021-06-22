@@ -1,5 +1,4 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
-import { ASM_UI_UPDATE } from 'feature-libs/asm/core/store/actions/asm-ui.action';
 import {
   ASM_ADAPTER,
   ASM_AUTH_HTTP_HEADER_SERVICE,
@@ -11,13 +10,23 @@ import {
   ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
   ASM_UI_ACTION,
+  ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
   BUDGET_ROUTING_CONFIG,
   COST_CENTER_ROUTING_CONFIG,
   CS_AGENT_AUTH_SERVICE,
+  CUSTOMER_ACTION,
+  CUSTOMER_SEARCH,
+  CUSTOMER_SEARCH_CLASS,
+  CUSTOMER_SEARCH_FAIL,
+  CUSTOMER_SEARCH_FAIL_CLASS,
   CUSTOMER_SEARCH_OPTIONS,
   CUSTOMER_SEARCH_PAGE,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
+  CUSTOMER_SEARCH_RESET,
+  CUSTOMER_SEARCH_RESET_CLASS,
+  CUSTOMER_SEARCH_SUCCESS,
+  CUSTOMER_SEARCH_SUCCESS_CLASS,
   DEFAULT_BUDGET_ROUTING_CONFIG,
   DEFAULT_COST_CENTER_ROUTING_CONFIG,
   DEFAULT_PERMISSION_ROUTING_CONFIG,
@@ -224,6 +233,60 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/core/src/asm/store/actions/asm-ui.action.ts
   {
     previousNode: ASM_UI_ACTION,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_FAIL,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_FAIL_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_SUCCESS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_SUCCESS_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_RESET,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_SEARCH_RESET_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/customer.action.ts
+  {
+    previousNode: CUSTOMER_ACTION,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },
