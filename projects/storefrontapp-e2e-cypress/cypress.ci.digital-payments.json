@@ -11,7 +11,7 @@
     },
     "videoUploadOnPasses": false,
     "env": {
-      "API_URL": "https://cdc-spa-2011-2102.demo.hybris.com",
+      "API_URL": "https://localhost:9002",
       "BASE_SITE": "electronics-spa",
       "BASE_LANG": "en",
       "BASE_CURRENCY": "USD",
