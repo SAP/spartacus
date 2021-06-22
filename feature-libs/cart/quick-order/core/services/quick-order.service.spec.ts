@@ -56,7 +56,7 @@ class MockQuickOrderAdapter implements Partial<QuickOrderAdapter> {
   }
 }
 
-fdescribe('QuickOrderService', () => {
+describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let quickOrderAdapter: QuickOrderAdapter;
 

@@ -21,7 +21,7 @@ class MockQuickOrderService implements Partial<QuickOrderService> {
   loadEntries(_entries: OrderEntry[]): void {}
 }
 
-fdescribe('QuickOrderStatePersistenceService', () => {
+describe('QuickOrderStatePersistenceService', () => {
   let service: QuickOrderStatePersistenceService;
   let persistenceService: StatePersistenceService;
   let quickOrderService: QuickOrderService;
