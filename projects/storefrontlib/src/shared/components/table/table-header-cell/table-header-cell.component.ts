@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -8,7 +10,9 @@ import {
 
 @Component({
   selector: 'cx-table-header-cell',
-  template: `{{ header || (localizedHeader | cxTranslate) }}`,
+  template: `{{
+    (header | async) || (localizedHeader$ | async | cxTranslate)
+  }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableHeaderCellComponent {
@@ -17,10 +21,16 @@ export class TableHeaderCellComponent {
   /**
    * Returns the static label for the given field, if available.
    */
-  get header(): string {
-    if (typeof this.fieldOptions?.label === 'string') {
-      return <string>this.fieldOptions.label;
-    }
+  get header(): Observable<string | null> {
+    return this.outlet?.context$.pipe(
+      map((context) => {
+        if (typeof this.fieldOptions(context)?.label === 'string') {
+          return this.fieldOptions(context)?.label as string;
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
   /**
@@ -33,26 +43,19 @@ export class TableHeaderCellComponent {
    *
    * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
    */
-  get localizedHeader(): string {
-    return (
-      (this.fieldOptions?.label as TableHeader)?.i18nKey ||
-      `${this.i18nRoot}.${this.field}`
+  get localizedHeader$(): Observable<string> {
+    return this.outlet?.context$?.pipe(
+      map(
+        (context) =>
+          (this.fieldOptions(context)?.label as TableHeader)?.i18nKey ||
+          `${context?._i18nRoot}.${context?._field}`
+      )
     );
   }
 
-  protected get fieldOptions(): TableFieldOptions {
-    return this.outlet?.context._options?.cells?.[this.field];
-  }
-
-  protected get field(): string {
-    return this.outlet?.context?._field;
-  }
-
-  protected get type(): string {
-    return this.outlet?.context?._type;
-  }
-
-  protected get i18nRoot(): string {
-    return this.outlet?.context?._i18nRoot;
+  protected fieldOptions(
+    context: TableHeaderOutletContext
+  ): TableFieldOptions | undefined {
+    return context?._options?.cells?.[context?._field];
   }
 }

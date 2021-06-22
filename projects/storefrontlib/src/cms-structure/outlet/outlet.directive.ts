@@ -183,7 +183,6 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     const contextData: OutletContextData<T> = {
       reference: this.cxOutlet,
       position,
-      context: this.cxOutletContext,
       context$: this.outletContext$.asObservable(),
     };
 

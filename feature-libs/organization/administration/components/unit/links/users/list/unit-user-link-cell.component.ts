@@ -11,19 +11,24 @@ import { CellComponent } from '../../../../shared/table/cell.component';
 @Component({
   selector: 'cx-org-unit-user-link-cell',
   template: `
-    <a
-      *ngIf="hasItem && unitKey$ | async as uid"
-      [routerLink]="
-        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
-      "
-    >
-      {{ 'orgUser.roles' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="hasItem && unitKey$ | async as uid">
+      <a
+        *ngIf="context$ | async as context"
+        [routerLink]="
+          { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid, context) }
+            | cxUrl
+        "
+      >
+        {{ 'orgUser.roles' | cxTranslate }}
+      </a>
+    </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;
+  context$: Observable<TableDataOutletContext> = this.outlet.context$;
+
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected itemService: ItemService<B2BUnit>
@@ -31,7 +36,7 @@ export class UnitUserRolesCellComponent extends CellComponent {
     super(outlet);
   }
 
-  getRouterModel(uid: string): any {
-    return { ...this.outlet.context, uid };
+  getRouterModel(uid: string, context: TableDataOutletContext): any {
+    return { ...context, uid };
   }
 }

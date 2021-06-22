@@ -5,6 +5,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
 
@@ -14,7 +15,9 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
         *ngIf="linkable; else text"
-        [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
+        [routerLink]="
+          { cxRoute: route, params: getRouterModel(uid) | async } | cxUrl
+        "
         [tabIndex]="tabIndex"
       >
         <ng-container *ngTemplateOutlet="text"></ng-container>
@@ -40,7 +43,11 @@ export class LinkCellComponent extends CellComponent {
     return 0;
   }
 
-  getRouterModel(uid: string): any {
-    return { ...this.outlet.context, uid };
+  getRouterModel(uid: string): Observable<any> {
+    return this.outlet.context$.pipe(
+      map((context) => {
+        return { ...context, uid };
+      })
+    );
   }
 }

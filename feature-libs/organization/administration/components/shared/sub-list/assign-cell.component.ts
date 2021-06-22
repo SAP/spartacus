@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, first, switchMap, take } from 'rxjs/operators';
-import {
-  OutletContextData,
-  TableDataOutletContext,
-} from '@spartacus/storefront';
 import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
+import {
+  OutletContextData,
+  TableDataOutletContext,
+} from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
-import { SubListService } from './sub-list.service';
 import { CellComponent } from '../table/cell.component';
-import { Observable } from 'rxjs';
+import { SubListService } from './sub-list.service';
 
 @Component({
   selector: 'cx-org-assign-cell',
@@ -88,11 +88,12 @@ export class AssignCellComponent<T> extends CellComponent {
    * item.
    */
   protected get link(): string {
-    return (
-      this.outlet.context.code ??
-      this.outlet.context.customerId ??
-      this.outlet.context.uid
-    );
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$.subscribe((context) => (contextData = context));
+    if (contextData) {
+      return contextData.code ?? contextData.customerId ?? contextData.uid;
+    }
+    return '';
   }
 
   protected notify(item, state) {

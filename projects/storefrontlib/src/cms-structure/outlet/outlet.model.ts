@@ -30,7 +30,7 @@ export abstract class OutletContextData<T = any> {
    *
    * @deprecated since 3.0 - use `context$` observable instead
    */
-  context: T;
+  context?: T;
   /**
    * Provides outlet context as an observable
    */

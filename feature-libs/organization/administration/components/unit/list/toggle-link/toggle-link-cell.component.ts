@@ -67,10 +67,15 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   protected get item(): B2BUnit | null {
-    if (!this.outlet.context) {
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+
+    if (!contextData) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
-    return all as B2BUnit;
+    const { _field, _options, _type, _i18nRoot, ...all } = contextData;
+    return all;
   }
 }

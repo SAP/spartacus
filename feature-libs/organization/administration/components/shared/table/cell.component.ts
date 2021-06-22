@@ -17,12 +17,23 @@ export class CellComponent {
     return -1;
   }
 
-  get model(): TableDataOutletContext {
-    return this.outlet.context;
+  get model(): TableDataOutletContext | undefined {
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+    return contextData;
   }
 
-  get property(): string {
-    return this.model?.[this.outlet?.context?._field];
+  get property(): string | null {
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+    if (contextData) {
+      return this.model?.[contextData._field];
+    }
+    return null;
   }
 
   /**
@@ -41,20 +52,33 @@ export class CellComponent {
    * Helper method to access the cell options.
    */
   get cellOptions(): TableFieldOptions {
-    return (
-      this.outlet.context?._options?.cells?.[this.outlet.context?._field] ?? {}
-    );
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+    if (contextData) {
+      return contextData._options?.cells?.[contextData._field] ?? {};
+    }
+    return {};
   }
 
   /**
    * Generates the configurable route to the detail page of the given context item.
    */
   get route(): string {
-    return this.outlet.context._type + 'Details';
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+    return contextData?._type + 'Details';
   }
 
   get routeModel(): any {
-    return this.outlet.context;
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+    return contextData;
   }
 
   get type(): string {
@@ -69,10 +93,15 @@ export class CellComponent {
   }
 
   protected get item(): any {
-    if (!this.outlet.context) {
+    let contextData: TableDataOutletContext | undefined;
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
+
+    if (!contextData) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = contextData;
     return all;
   }
 }
