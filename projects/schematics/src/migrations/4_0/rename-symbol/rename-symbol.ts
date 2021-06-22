@@ -1,11 +1,17 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
+import { ASM_UI_UPDATE } from 'feature-libs/asm/core/store/actions/asm-ui.action';
 import {
   ASM_ADAPTER,
+  ASM_AUTH_HTTP_HEADER_SERVICE,
+  ASM_AUTH_STORAGE_SERVICE,
   ASM_CONFIG,
   ASM_CONNECTOR,
   ASM_MODULE,
   ASM_SERVICE,
+  ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
+  ASM_UI_ACTION,
+  ASM_UI_UPDATE_CLASS,
   BUDGET_ROUTING_CONFIG,
   COST_CENTER_ROUTING_CONFIG,
   CS_AGENT_AUTH_SERVICE,
@@ -29,6 +35,8 @@ import {
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   SPARTACUS_QUALTRICS,
   SPARTACUS_STOREFRONTLIB,
+  SYNCED_ASM_STATE,
+  TOKEN_TARGET,
   UNITS_ROUTING_CONFIG,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
@@ -168,6 +176,54 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/core/src/asm/models/asm.models.ts
   {
     previousNode: ASM_UI,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/services/asm-auth-http-header.service.ts
+  {
+    previousNode: ASM_AUTH_HTTP_HEADER_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/root`,
+  },
+  // projects/core/src/asm/services/asm-auth.service.ts
+  {
+    previousNode: TOKEN_TARGET,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/root`,
+  },
+  // projects/core/src/asm/services/asm-auth-storage.service.ts
+  {
+    previousNode: ASM_AUTH_STORAGE_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/root`,
+  },
+  // projects/core/src/asm/services/asm-state-persistence.service.ts
+  {
+    previousNode: SYNCED_ASM_STATE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/services/asm-state-persistence.service.ts
+  {
+    previousNode: ASM_STATE_PERSISTENCE_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/asm-ui.action.ts
+  {
+    previousNode: ASM_UI_UPDATE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/asm-ui.action.ts
+  {
+    previousNode: ASM_UI_UPDATE_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/asm-ui.action.ts
+  {
+    previousNode: ASM_UI_ACTION,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },

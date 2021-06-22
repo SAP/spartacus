@@ -1,15 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
-  ASM_AUTH_HTTP_HEADER_SERVICE,
-  ASM_AUTH_SERVICE,
-  ASM_AUTH_STORAGE_SERVICE,
   ASM_FEATURE,
   ASM_STATE,
-  ASM_STATE_PERSISTENCE_SERVICE,
-  ASM_UI_ACTION,
-  ASM_UI_UPDATE,
-  ASM_UI_UPDATE_CLASS,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
@@ -97,8 +90,6 @@ import {
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
-  SYNCED_ASM_STATE,
-  TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
   UPDATE_EMAIL_COMPONENT,
   UPDATE_EMAIL_FORM_COMPONENT,
@@ -174,60 +165,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
-  },
-  // projects/core/src/asm/services/asm-auth-http-header.service.ts
-  {
-    node: ASM_AUTH_HTTP_HEADER_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_AUTH_HTTP_HEADER_SERVICE}' was moved to @spartacus/asm/root.`,
-  },
-  // projects/core/src/asm/services/asm-auth.service.ts
-  {
-    node: TOKEN_TARGET,
-    importPath: SPARTACUS_CORE,
-    comment: `'${TOKEN_TARGET}' was moved to @spartacus/asm/root.`,
-  },
-  // projects/core/src/asm/services/asm-auth.service.ts
-  {
-    node: ASM_AUTH_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_AUTH_SERVICE}' was moved to @spartacus/asm/root.`,
-  },
-  // feature-libs/asm/root/services/asm-auth-storage.service.ts
-  {
-    node: ASM_AUTH_STORAGE_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_AUTH_STORAGE_SERVICE}' was moved to @spartacus/asm/root.`,
-  },
-  // projects/core/src/asm/services/asm-state-persistence.service.ts
-  {
-    node: SYNCED_ASM_STATE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${SYNCED_ASM_STATE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/services/asm-state-persistence.service.ts
-  {
-    node: ASM_STATE_PERSISTENCE_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_STATE_PERSISTENCE_SERVICE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    node: ASM_UI_UPDATE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_UI_UPDATE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    node: ASM_UI_UPDATE_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_UI_UPDATE_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    node: ASM_UI_ACTION,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_UI_ACTION}' was moved to @spartacus/asm/core.`,
   },
   // projects/core/src/asm/store/actions/customer.action.ts
   {
