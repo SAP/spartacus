@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ClearCheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
+  ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
   Address,
@@ -32,7 +32,7 @@ export class ExpressCheckoutService {
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected clearCheckoutService: ClearCheckoutService
+    protected clearCheckoutService: ClearCheckoutFacade
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
