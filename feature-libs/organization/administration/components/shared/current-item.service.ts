@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
-import { ROUTE_PARAMS } from '../constants';
 
 /**
  * Abstract Base class for all organization entities. This class simplifies
