@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  Product,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { QuickOrderService } from '../../core/services/quick-order.service';
@@ -20,7 +26,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(protected quickOrderService: QuickOrderService) {}
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected quickOrderService: QuickOrderService
+  ) {}
 
   ngOnInit(): void {
     this.build();
@@ -35,7 +44,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     event?.preventDefault();
 
     const productCode = this.form.get('product')?.value;
-    this.quickOrderService.search(productCode);
+
+    this.quickOrderService.search(productCode).subscribe(
+      (product: Product) => {
+        this.quickOrderService.addProduct(product);
+      },
+      (error: HttpErrorResponse) => {
+        this.globalMessageService.add(
+          error.error.errors[0].message,
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+    );
   }
 
   clear(event?: Event): void {

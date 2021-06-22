@@ -1,14 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import { I18nTestingModule, Product } from '@spartacus/core';
+import { Observable, of, Subject } from 'rxjs';
 import { QuickOrderService } from '../../core/services/quick-order.service';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
 const mockProductCode: string = 'mockCode';
+const mockProduct: Product = {
+  code: mockProductCode,
+};
 
 class MockQuickOrderService implements Partial<QuickOrderService> {
-  search(_code: any): void {}
+  search(_code: any): Observable<Product> {
+    return of(mockProduct);
+  }
   productAdded$ = new Subject<void>();
 }
 

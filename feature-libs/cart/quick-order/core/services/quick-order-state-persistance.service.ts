@@ -15,9 +15,9 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected quicOrderService: QuickOrderService,
-    protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService
+    protected quickOrderService: QuickOrderService,
+    protected siteContextParamsService: SiteContextParamsService,
+    protected statePersistenceService: StatePersistenceService
   ) {}
 
   /**
@@ -32,7 +32,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
-        state$: this.quicOrderService.getEntries(),
+        state$: this.quickOrderService.getEntries(),
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
@@ -54,7 +54,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
    * Used to update state from browser -> state.
    */
   protected onRead(state: any): void {
-    this.quicOrderService.loadEntries(state);
+    this.quickOrderService.loadEntries(state);
   }
 
   /**

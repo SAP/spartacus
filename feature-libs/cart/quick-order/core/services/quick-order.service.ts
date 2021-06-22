@@ -1,12 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartService,
-  OrderEntry,
-  Product,
-  UserIdService,
-} from '@spartacus/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { OrderEntry, Product } from '@spartacus/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
 
@@ -20,11 +14,7 @@ export class QuickOrderService {
     OrderEntry[]
   >([]);
 
-  constructor(
-    protected activeCartService: ActiveCartService,
-    protected quickOrderAdapter: QuickOrderAdapter,
-    protected userIdService: UserIdService
-  ) {}
+  constructor(protected quickOrderAdapter: QuickOrderAdapter) {}
 
   /**
    * Get entries
@@ -36,17 +26,8 @@ export class QuickOrderService {
   /**
    * Search product using sku
    */
-  search(productCode: string): void {
-    // TODO
-    this.quickOrderAdapter.search(productCode).subscribe(
-      (product: Product) => {
-        const entry = this.generateOrderEntry(product);
-        this.addEntry(entry);
-      },
-      (error: HttpErrorResponse) => {
-        console.log('error', error);
-      }
-    );
+  search(productCode: string): Observable<Product> {
+    return this.quickOrderAdapter.search(productCode);
   }
 
   /**
@@ -82,6 +63,14 @@ export class QuickOrderService {
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
+  }
+
+  /**
+   * Add product to the quick order list
+   */
+  addProduct(product: Product): void {
+    const entry = this.generateOrderEntry(product);
+    this.addEntry(entry);
   }
 
   /**

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartService,
@@ -17,7 +22,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
   templateUrl: './cart-quick-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartQuickFormComponent implements OnInit {
+export class CartQuickFormComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
