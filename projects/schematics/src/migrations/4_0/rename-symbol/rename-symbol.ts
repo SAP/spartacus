@@ -15,6 +15,7 @@ import {
   ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
   BUDGET_ROUTING_CONFIG,
+  CLOSE_ACCOUNT_MODULE,
   COST_CENTER_ROUTING_CONFIG,
   CS_AGENT_AUTH_SERVICE,
   CUSTOMER_ACTION,
@@ -36,6 +37,7 @@ import {
   DEFAULT_UNITS_ROUTING_CONFIG,
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
+  FORGOT_PASSWORD_MODULE,
   GET_ASM_STATE,
   GET_ASM_UI,
   GET_CUSTOMER_SEARCH_RESULTS,
@@ -52,6 +54,8 @@ import {
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
   QUALTRICS_MODULE,
+  REGISTER_COMPONENT_MODULE,
+  RESET_PASSWORD_MODULE,
   SMART_EDIT_SERVICE,
   SPARTACUS_ASM,
   SPARTACUS_CORE,
@@ -62,10 +66,14 @@ import {
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   UNITS_ROUTING_CONFIG,
+  UPDATE_EMAIL_MODULE,
+  UPDATE_PASSWORD_MODULE,
+  UPDATE_PROFILE_MODULE,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
   VARIANT_STYLE_ICONS_COMPONENT,
@@ -424,6 +432,48 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: VARIANT_STYLE_ICONS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/close-account/close-account.module.ts
+  {
+    previousNode: CLOSE_ACCOUNT_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.module.ts
+  {
+    previousNode: FORGOT_PASSWORD_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/user/register/register.module.ts
+  {
+    previousNode: REGISTER_COMPONENT_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password.module.ts
+  {
+    previousNode: RESET_PASSWORD_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.module.ts
+  {
+    previousNode: UPDATE_EMAIL_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-password/update-password.module.ts
+  {
+    previousNode: UPDATE_PASSWORD_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.module.ts
+  {
+    previousNode: UPDATE_PROFILE_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
 ];
 
