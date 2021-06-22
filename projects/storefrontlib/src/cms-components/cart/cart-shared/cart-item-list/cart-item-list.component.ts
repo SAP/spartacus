@@ -39,7 +39,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() cartId: string;
 
-  private _items: OrderEntry[] = [];
+  protected _items: OrderEntry[] = [];
   form: FormGroup = new FormGroup({});
 
   @Input('items')
