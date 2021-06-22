@@ -14,6 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ROUTING_SERVICE_MIGRATION: ConstructorDeprecation = {
+  // projects/core/src/routing/facade/routing.service.ts
   class: ROUTING_SERVICE,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
