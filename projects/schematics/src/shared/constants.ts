@@ -24,6 +24,7 @@ export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `${SPARTACUS_ORGANIZATION}/administration/root`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
@@ -43,6 +44,7 @@ export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
@@ -166,6 +168,7 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
@@ -340,6 +343,8 @@ export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const UPDATE_EMAIL_COMPONENT_SERVICE = 'UpdateEmailComponentService';
+export const USER_EMAIL_FACADE = 'UserEmailFacade';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
 export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
@@ -723,6 +728,28 @@ export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
 export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
 export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
 export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
+export const ROUTING_ACTIONS = 'RoutingActions';
+export const ROUTE_GO_ACTION = 'RouteGoAction';
+export const ROUTE_GO_BY_URL_ACTION = 'RouteGoByUrlAction';
+export const ROUTE_FORWARD_ACTION = 'RouteForwardAction';
+export const ROUTE_BACK_ACTION = 'RouteBackAction';
+
+export const BUDGET_ROUTING_CONFIG = 'budgetRoutingConfig';
+export const COST_CENTER_ROUTING_CONFIG = 'costCenterRoutingConfig';
+export const PERMISSION_ROUTING_CONFIG = 'permissionRoutingConfig';
+export const UNITS_ROUTING_CONFIG = 'unitsRoutingConfig';
+export const USER_GROUP_ROUTING_CONFIG = 'userGroupRoutingConfig';
+export const USER_ROUTING_CONFIG = 'userRoutingConfig';
+
+export const DEFAULT_BUDGET_ROUTING_CONFIG = 'defaultBudgetRoutingConfig';
+export const DEFAULT_COST_CENTER_ROUTING_CONFIG =
+  'defaultCostCenterRoutingConfig';
+export const DEFAULT_PERMISSION_ROUTING_CONFIG =
+  'defaultPermissionRoutingConfig';
+export const DEFAULT_UNITS_ROUTING_CONFIG = 'defaultUnitsRoutingConfig';
+export const DEFAULT_USER_GROUP_ROUTING_CONFIG =
+  'defaultUserGroupRoutingConfig';
+export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
@@ -844,6 +871,8 @@ export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
 export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
 export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
 export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
+export const GET_ORDER_CURRENT_DATE_CARD_CONTENT =
+  'getOrderCurrentDateCardContent';
 
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
