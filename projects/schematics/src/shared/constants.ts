@@ -166,6 +166,7 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
@@ -454,6 +455,9 @@ export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
+
+export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
+export const SCRIPT_LOADER = 'ScriptLoader';
 
 /***** Classes end *****/
 
@@ -804,6 +808,8 @@ export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
 export const ORDER_PROMOTIONS$ = 'orderPromotions$';
 
+export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -839,6 +845,8 @@ export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
 export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
 export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
 export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
+export const GET_ORDER_CURRENT_DATE_CARD_CONTENT =
+  'getOrderCurrentDateCardContent';
 
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';

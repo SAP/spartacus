@@ -106,7 +106,7 @@ export interface RenamedSymbol {
   previousNode: string;
   previousImportPath: string;
   newNode?: string;
-  newImportPath: string;
+  newImportPath?: string;
 }
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
