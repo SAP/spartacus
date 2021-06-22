@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { QuickOrderService } from '../../core/services/quick-order.service';
+import { QuickOrderService } from '@spartacus/cart/quick-order/core';
 
 @Component({
   selector: 'cx-quick-order-form',

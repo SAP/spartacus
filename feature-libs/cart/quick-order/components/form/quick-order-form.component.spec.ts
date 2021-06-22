@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
-import { QuickOrderService } from '../../core/services/quick-order.service';
+import { QuickOrderService } from '@spartacus/cart/quick-order/core';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
 const mockProductCode: string = 'mockCode';

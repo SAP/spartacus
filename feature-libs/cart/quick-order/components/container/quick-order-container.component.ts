@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
-import { QuickOrderService } from '../../core/services/quick-order.service';
+import {
+  QuickOrderService,
+  QuickOrderStatePersistenceService,
+} from '@spartacus/cart/quick-order/core';
 
 @Component({
   selector: 'cx-quick-order-container',
@@ -10,8 +12,8 @@ import { QuickOrderService } from '../../core/services/quick-order.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderComponent implements OnInit {
-  cartId$: Observable<string> = this.activeCartService.getActiveCartId();
-  entries$ = this.quickOrderService.getEntries();
+  cartId$: Observable<string>;
+  entries$: Observable<OrderEntry[]>;
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -20,6 +22,9 @@ export class QuickOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cartId$ = this.activeCartService.getActiveCartId();
+    this.entries$ = this.quickOrderService.getEntries();
+
     this.quickOrderStatePersistenceService.initSync();
   }
 

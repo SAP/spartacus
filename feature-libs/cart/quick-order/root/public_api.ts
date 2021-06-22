@@ -1,1 +1,1 @@
-export * from './quick-order-root.module';
+export * from './index';

@@ -3,7 +3,7 @@
     <div class="quick-order-list-item-product-image">
       <a [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl">
         <cx-media
-          [container]="entry.product.images?.PRIMARY"
+          [container]="entry?.product?.images?.PRIMARY"
           format="cartIcon"
         ></cx-media>
       </a>

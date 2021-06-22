@@ -12,7 +12,7 @@ import {
   I18nTestingModule,
   Translatable,
 } from '@spartacus/core';
-import { FormErrorsModule } from 'projects/storefrontlib/src/shared';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CartQuickFormComponent } from './cart-quick-form.component';
 

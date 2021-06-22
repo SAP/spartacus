@@ -2,9 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, MediaModule } from '@spartacus/storefront';
-import { I18nModule } from 'projects/core/src/i18n';
-import { UrlModule } from 'projects/core/src/routing';
 import { QuickOrderItemComponent } from './item/quick-order-item.component';
 import { QuickOrderListComponent } from './quick-order-list.component';
 

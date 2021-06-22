@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { I18nModule } from 'projects/core/src/i18n';
 import { CartQuickFormComponent } from './cart-quick-form.component';
 
 @NgModule({

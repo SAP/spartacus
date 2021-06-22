@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { QuickOrderFormModule } from '../form/quick-order-form.module';
-import { QuickOrderListModule } from '../list';
+import { QuickOrderListModule } from '../list/quick-order-list.module';
 import { QuickOrderComponent } from './quick-order-container.component';
 
 @NgModule({
