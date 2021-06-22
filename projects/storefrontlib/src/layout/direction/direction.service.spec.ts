@@ -17,7 +17,7 @@ class MockLanguageService implements Partial<LanguageService> {
 }
 
 class MockConfigInitializerService {
-  getStableConfig() {}
+  getStable() {}
 }
 
 describe('DirectionService', () => {
@@ -76,8 +76,8 @@ describe('DirectionService', () => {
   describe('getDirection', () => {
     describe('without default', () => {
       beforeEach(async () => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
-          Promise.resolve({
+        spyOn(configInitializerService, 'getStable').and.returnValue(
+          of({
             direction: {
               detect: true,
               ltrLanguages: ['en', 'de'],
@@ -85,7 +85,7 @@ describe('DirectionService', () => {
             },
           })
         );
-        await service.initialize();
+        service.initialize();
       });
 
       it('should return LTR direction for ltr language', () => {
@@ -103,15 +103,15 @@ describe('DirectionService', () => {
 
     describe('with default', () => {
       beforeEach(async () => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {
               detect: true,
               default: DirectionMode.RTL,
             },
-          }).toPromise()
+          })
         );
-        await service.initialize();
+        service.initialize();
       });
       it('should return default direction for unknown language direction', () => {
         expect(service.getDirection('unknown')).toBe(DirectionMode.RTL);
@@ -124,15 +124,15 @@ describe('DirectionService', () => {
       beforeEach(() => {
         spyOn(languageService, 'getActive').and.callThrough();
         spyOn(service, 'setDirection');
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: false, default: DirectionMode.LTR },
-          }).toPromise()
+          })
         );
       });
 
       it('should set the default configured direction', async () => {
-        await service.initialize();
+        service.initialize();
 
         expect(languageService.getActive).not.toHaveBeenCalled();
         expect(service.setDirection).toHaveBeenCalledWith(
@@ -144,10 +144,10 @@ describe('DirectionService', () => {
 
     describe('when `detect` config is true', () => {
       beforeEach(() => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: true, default: DirectionMode.LTR },
-          }).toPromise()
+          })
         );
       });
 
@@ -159,7 +159,7 @@ describe('DirectionService', () => {
         spyOn(service, 'setDirection');
         spyOn(service, 'getDirection').and.returnValue(TEST_DIRECTION);
 
-        await service.initialize();
+        service.initialize();
 
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE);
         expect(service.setDirection).toHaveBeenCalledWith(
@@ -184,7 +184,7 @@ describe('DirectionService', () => {
           TEST_DIRECTION_2
         );
 
-        await service.initialize();
+        service.initialize();
 
         mockActiveLanguage$.next(TEST_LANGUAGE_1);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_1);

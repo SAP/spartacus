@@ -892,6 +892,8 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
+export const GET_STABLE_CONFIG = 'getStableConfig';
+export const GET_STABLE = 'getStable';
 
 /***** APIs end *****/
 

@@ -14,7 +14,7 @@ export function cdcJsFactory(
   configInit: ConfigInitializerService
 ) {
   const func = () =>
-    configInit.getStableConfig('context', 'cdc').then(() => {
+    configInit.getStable('context', 'cdc').subscribe(() => {
       cdcJsService.initialize();
     });
   return func;

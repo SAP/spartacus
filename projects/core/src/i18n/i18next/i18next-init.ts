@@ -14,9 +14,9 @@ export function i18nextInit(
   httpClient: HttpClient,
   serverRequestOrigin: string,
   siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
-): () => Promise<any> {
+): () => any {
   return () =>
-    configInit.getStableConfig('i18n').then((config) => {
+    configInit.getStable('i18n').subscribe((config) => {
       let i18nextConfig: InitOptions = {
         ns: [], // don't preload any namespaces
         fallbackLng: config.i18n.fallbackLang,

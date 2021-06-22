@@ -9,7 +9,7 @@ export function cartStatePersistenceFactory(
   configInit: ConfigInitializerService
 ) {
   const result = () =>
-    configInit.getStableConfig('context').then(() => {
+    configInit.getStable('context').subscribe(() => {
       cartStatePersistenceService.initSync();
     });
   return result;

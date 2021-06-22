@@ -20,7 +20,7 @@ export function checkOAuthParamsInUrl(
   configInit: ConfigInitializerService
 ) {
   const result = () =>
-    configInit.getStableConfig().then(() => {
+    configInit.getStable().subscribe(() => {
       // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
       authService.checkOAuthParamsInUrl();
     });
