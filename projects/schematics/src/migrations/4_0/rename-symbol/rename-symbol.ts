@@ -5,8 +5,10 @@ import {
   ASM_AUTH_STORAGE_SERVICE,
   ASM_CONFIG,
   ASM_CONNECTOR,
+  ASM_FEATURE,
   ASM_MODULE,
   ASM_SERVICE,
+  ASM_STATE,
   ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
   ASM_UI_ACTION,
@@ -18,6 +20,7 @@ import {
   CUSTOMER_ACTION,
   CUSTOMER_SEARCH,
   CUSTOMER_SEARCH_CLASS,
+  CUSTOMER_SEARCH_DATA,
   CUSTOMER_SEARCH_FAIL,
   CUSTOMER_SEARCH_FAIL_CLASS,
   CUSTOMER_SEARCH_OPTIONS,
@@ -33,6 +36,8 @@ import {
   DEFAULT_UNITS_ROUTING_CONFIG,
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
+  LOGOUT_CUSTOMER_SUPPORT_AGENT,
+  LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   PERMISSION_ROUTING_CONFIG,
   QUALTRICS_COMPONENT,
   QUALTRICS_CONFIG,
@@ -44,6 +49,7 @@ import {
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   SPARTACUS_QUALTRICS,
   SPARTACUS_STOREFRONTLIB,
+  STATE_WITH_ASM,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   UNITS_ROUTING_CONFIG,
@@ -287,6 +293,42 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/core/src/asm/store/actions/customer.action.ts
   {
     previousNode: CUSTOMER_ACTION,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/logout-agent.action.ts
+  {
+    previousNode: LOGOUT_CUSTOMER_SUPPORT_AGENT,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/actions/logout-agent.action.ts
+  {
+    previousNode: LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/asm-state.ts
+  {
+    previousNode: ASM_FEATURE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/asm-state.ts
+  {
+    previousNode: CUSTOMER_SEARCH_DATA,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/asm-state.ts
+  {
+    previousNode: STATE_WITH_ASM,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/asm-state.ts
+  {
+    previousNode: ASM_STATE,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },

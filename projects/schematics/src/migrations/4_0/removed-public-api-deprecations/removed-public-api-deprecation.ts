@@ -1,8 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
-  ASM_FEATURE,
-  ASM_STATE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
@@ -13,7 +11,6 @@ import {
   CMS_FEATURES_SERVICE,
   CMS_LIB_MODULE,
   CONTENT_PAGE_META_RESOLVER,
-  CUSTOMER_SEARCH_DATA,
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
   DEFAULT_STATE_CONFIG,
@@ -35,8 +32,6 @@ import {
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
-  LOGOUT_CUSTOMER_SUPPORT_AGENT,
-  LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   MAIN_MODULE,
   MINI_LOGIN_TRANSLATION_CHUNK,
   OCC_MODULE,
@@ -77,7 +72,6 @@ import {
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
   SPARTACUS_USER_PROFILE_COMPONENTS,
-  STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
@@ -156,42 +150,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
-  },
-  // projects/core/src/asm/store/actions/logout-agent.action.ts
-  {
-    node: LOGOUT_CUSTOMER_SUPPORT_AGENT,
-    importPath: SPARTACUS_CORE,
-    comment: `'${LOGOUT_CUSTOMER_SUPPORT_AGENT}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/actions/logout-agent.action.ts
-  {
-    node: LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/asm-state.ts
-  {
-    node: ASM_FEATURE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_FEATURE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/asm-state.ts
-  {
-    node: CUSTOMER_SEARCH_DATA,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_DATA}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/asm-state.ts
-  {
-    node: STATE_WITH_ASM,
-    importPath: SPARTACUS_CORE,
-    comment: `'${STATE_WITH_ASM}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/asm-state.ts
-  {
-    node: ASM_STATE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_STATE}' was moved to @spartacus/asm/core.`,
   },
 
   // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
