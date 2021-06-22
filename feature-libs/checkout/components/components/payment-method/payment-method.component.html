@@ -1,7 +1,7 @@
 <ng-container *ngIf="cards$ | async as cards">
-  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
-  </h3>
+  </h2>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
       *ngIf="

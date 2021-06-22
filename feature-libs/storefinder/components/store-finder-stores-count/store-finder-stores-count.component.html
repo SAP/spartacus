@@ -11,7 +11,7 @@
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
       >
         <a [routerLink]="['../country', country.isoCode]" class="btn-link">
-          <div class="cx-title">
+          <h2 class="cx-title">
             <span
               [ngClass]="
                 country?.storeCountDataList
@@ -31,7 +31,7 @@
               class="cx-country-count"
               >({{ country.count }})</span
             >
-          </div>
+          </h2>
         </a>
       </div>
     </div>
