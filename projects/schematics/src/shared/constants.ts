@@ -24,6 +24,7 @@ export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `${SPARTACUS_ORGANIZATION}/administration/root`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
@@ -729,6 +730,23 @@ export const ROUTE_GO_ACTION = 'RouteGoAction';
 export const ROUTE_GO_BY_URL_ACTION = 'RouteGoByUrlAction';
 export const ROUTE_FORWARD_ACTION = 'RouteForwardAction';
 export const ROUTE_BACK_ACTION = 'RouteBackAction';
+
+export const BUDGET_ROUTING_CONFIG = 'budgetRoutingConfig';
+export const COST_CENTER_ROUTING_CONFIG = 'costCenterRoutingConfig';
+export const PERMISSION_ROUTING_CONFIG = 'permissionRoutingConfig';
+export const UNITS_ROUTING_CONFIG = 'unitsRoutingConfig';
+export const USER_GROUP_ROUTING_CONFIG = 'userGroupRoutingConfig';
+export const USER_ROUTING_CONFIG = 'userRoutingConfig';
+
+export const DEFAULT_BUDGET_ROUTING_CONFIG = 'defaultBudgetRoutingConfig';
+export const DEFAULT_COST_CENTER_ROUTING_CONFIG =
+  'defaultCostCenterRoutingConfig';
+export const DEFAULT_PERMISSION_ROUTING_CONFIG =
+  'defaultPermissionRoutingConfig';
+export const DEFAULT_UNITS_ROUTING_CONFIG = 'defaultUnitsRoutingConfig';
+export const DEFAULT_USER_GROUP_ROUTING_CONFIG =
+  'defaultUserGroupRoutingConfig';
+export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
