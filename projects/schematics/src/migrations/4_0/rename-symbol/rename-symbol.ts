@@ -15,6 +15,7 @@ import {
   ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
   BUDGET_ROUTING_CONFIG,
+  CLOSE_ACCOUNT_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
   COST_CENTER_ROUTING_CONFIG,
   CS_AGENT_AUTH_SERVICE,
@@ -45,6 +46,7 @@ import {
   GET_CUSTOMER_SEARCH_RESULTS_LOADING,
   LOGIN_FORM_MODULE,
   LOGIN_MODULE,
+  LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
@@ -56,6 +58,7 @@ import {
   QUALTRICS_COMPONENT,
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
+  QUALTRICS_LOADER_SERVICE,
   QUALTRICS_MODULE,
   REGISTER_COMPONENT_MODULE,
   RESET_PASSWORD_MODULE,
@@ -134,6 +137,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'defaultScrollConfig',
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
+  },
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  {
+    previousNode: QUALTRICS_LOADER_SERVICE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
   // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
   {
@@ -494,6 +503,18 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
   {
     previousNode: LOGIN_REGISTER_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
+  {
+    previousNode: CLOSE_ACCOUNT_COMPONENT,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
+  {
+    previousNode: LOGIN_REGISTER_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },

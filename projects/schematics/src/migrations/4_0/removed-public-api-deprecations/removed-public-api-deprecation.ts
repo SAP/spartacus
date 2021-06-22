@@ -5,7 +5,6 @@ import {
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
   CART_PAGE_META_RESOLVER,
-  CLOSE_ACCOUNT_COMPONENT,
   CLOSE_ACCOUNT_MODAL_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
   CMS_FEATURES_SERVICE,
@@ -25,7 +24,6 @@ import {
   LOGIN_FORM_MODULE,
   LOGIN_FORM_TRANSLATION_CHUNK,
   LOGIN_MODULE,
-  LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
   MAIN_MODULE,
   MINI_LOGIN_TRANSLATION_CHUNK,
@@ -37,7 +35,6 @@ import {
   PRODUCT_VARIANT_GUARD,
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
-  QUALTRICS_LOADER_SERVICE,
   REGISTER_COMPONENT,
   REGISTER_COMPONENT_MODULE,
   REGISTER_TRANSLATION_CHUNK,
@@ -88,12 +85,6 @@ import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
-  {
-    node: QUALTRICS_LOADER_SERVICE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${QUALTRICS_LOADER_SERVICE}' was moved to @spartacus/qualtrics/components.`,
-  },
   {
     node: B2C_STOREFRONT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -279,12 +270,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
-  {
-    node: CLOSE_ACCOUNT_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${CLOSE_ACCOUNT_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
-  },
   // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
   {
     node: CLOSE_ACCOUNT_MODAL_COMPONENT,
@@ -302,12 +287,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: LOGIN_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${LOGIN_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
-  },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
-  {
-    node: LOGIN_REGISTER_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${LOGIN_REGISTER_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'.`,
   },
   // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
   {
