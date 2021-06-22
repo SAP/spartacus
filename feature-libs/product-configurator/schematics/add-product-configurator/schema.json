@@ -20,7 +20,11 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["VC-Configurator", "CPQ-Configurator", "Textfield-Configurator"],
+        "enum": [
+          "VC-Configurator",
+          "CPQ-Configurator",
+          "Textfield-Configurator"
+        ],
         "type": "string"
       },
       "x-prompt": {
@@ -30,7 +34,7 @@
           {
             "value": "VC-Configurator",
             "label": "Variant Configurator"
-          },          
+          },
           {
             "value": "CPQ-Configurator",
             "label": "CPQ Configurator (b2b feature)"
