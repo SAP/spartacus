@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "target": "es2015",
     "module": "es2020",

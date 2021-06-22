@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -168,7 +168,7 @@ describe('ConfigurationFormComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockLanguageService = {
       getAll: () => of([]),
       getActive: jasmine.createSpy().and.returnValue(of('en')),
