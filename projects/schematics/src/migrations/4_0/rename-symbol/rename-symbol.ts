@@ -36,6 +36,10 @@ import {
   DEFAULT_UNITS_ROUTING_CONFIG,
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
+  GET_ASM_UI,
+  GET_CUSTOMER_SEARCH_RESULTS,
+  GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
+  GET_CUSTOMER_SEARCH_RESULTS_LOADING,
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   PERMISSION_ROUTING_CONFIG,
@@ -329,6 +333,36 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/core/src/asm/store/asm-state.ts
   {
     previousNode: ASM_STATE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
+  {
+    previousNode: GET_ASM_UI,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
+  {
+    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
+  {
+    previousNode: GET_CUSTOMER_SEARCH_RESULTS,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
+  {
+    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
+  {
+    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },

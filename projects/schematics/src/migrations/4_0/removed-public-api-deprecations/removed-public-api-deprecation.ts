@@ -20,10 +20,6 @@ import {
   FORGOT_PASSWORD_COMPONENT,
   FORGOT_PASSWORD_MODULE,
   GET_ASM_STATE,
-  GET_ASM_UI,
-  GET_CUSTOMER_SEARCH_RESULTS,
-  GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
-  GET_CUSTOMER_SEARCH_RESULTS_LOADING,
   ITEM,
   LOGIN_COMPONENT,
   LOGIN_FORM_COMPONENT,
@@ -150,37 +146,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
-  },
-
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    node: GET_ASM_UI,
-    importPath: SPARTACUS_CORE,
-    comment: `'${GET_ASM_UI}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    node: GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    node: GET_CUSTOMER_SEARCH_RESULTS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${GET_CUSTOMER_SEARCH_RESULTS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    node: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
-    importPath: SPARTACUS_CORE,
-    comment: `'${GET_CUSTOMER_SEARCH_RESULTS_LOADING}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    node: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
-    importPath: SPARTACUS_CORE,
-    comment: `'${GET_CUSTOMER_SEARCH_RESULTS_LOADING}' was moved to @spartacus/asm/core.`,
   },
   // projects/core/src/asm/store/selectors/feature.selector.ts
   {
