@@ -26,10 +26,15 @@ import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
   GROUP_ID_1,
+  GROUP_ID_2,
+  GROUP_ID_4,
+  GROUP_ID_5,
+  GROUP_ID_7,
   mockRouterState,
-  PRODUCT_CODE,
   productConfiguration,
+  PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
@@ -71,6 +76,7 @@ const simpleConfig: Configurator.Configuration = {
       subGroups: [],
     },
   ],
+  flatGroups: [],
   interactionState: {
     issueNavigationDone: false,
   },
@@ -194,6 +200,7 @@ let productConfigurationObservable;
 let isConflictGroupType;
 let directionService: DirectionService;
 let direction: DirectionMode;
+let configUtils: ConfiguratorStorefrontUtilsService;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -234,10 +241,6 @@ describe('ConfigurationGroupMenuComponent', () => {
             useClass: MockConfiguratorGroupService,
           },
           {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: ConfiguratorStorefrontUtilsService,
-          },
-          {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
@@ -262,6 +265,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       HamburgerMenuService as Type<HamburgerMenuService>
     );
     spyOn(hamburgerMenuService, 'toggle').and.stub();
+
+    configUtils = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    spyOn(configUtils, 'setFocus').and.stub();
 
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
@@ -451,19 +459,33 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
-    const groupWithConflicts = {
+    const groupWithConflicts: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(groupWithConflicts)).toBe('(2)');
-    const attributeGroup = {
+    const attributeGroup: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('3'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(attributeGroup)).toBe('');
@@ -845,114 +867,216 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   describe('switchGroupOnArrowPress', () => {
-    it('should focus next group items', () => {
+    beforeEach(() => {
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       initialize();
+    });
 
+    it('should focus next group items', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowUp',
       });
 
-      component.switchGroupOnArrowPress(event, 0);
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
       expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
     });
 
     it('should focus previous group items', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowDown',
       });
 
-      component.switchGroupOnArrowPress(event, 0);
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
       expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
     });
+  });
 
-    describe('LTR direction', () => {
-      it('should navigate back to parent group', () => {
-        productConfigurationObservable = of(mockProductConfiguration);
-        routerStateObservable = of(mockRouterState);
-        mockDirection = DirectionMode.LTR;
-        initialize();
-        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+  describe('LTR direction', () => {
+    it('should navigate back to parent group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockDirection = DirectionMode.LTR;
+      initialize();
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
 
-        let event = new KeyboardEvent('keydown', {
-          code: 'ArrowLeft',
-        });
-
-        component.switchGroupOnArrowPress(event, 0);
-        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
-        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      let event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
       });
 
-      it('should navigate to subgroups', () => {
-        productConfigurationObservable = of(mockProductConfiguration);
-        routerStateObservable = of(mockRouterState);
-        mockDirection = DirectionMode.LTR;
-        initialize();
-        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
-          false
-        );
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
 
-        let event = new KeyboardEvent('keydown', {
-          code: 'ArrowRight',
-        });
-
-        component.switchGroupOnArrowPress(
-          event,
-          0,
-          mockProductConfiguration.groups[2]
-        );
-
-        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-      });
+      component.switchGroupOnArrowPress(event, 0, undefined, currentGroup);
+      expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
     });
 
-    describe('RTL direction', () => {
-      it('should navigate back to parent group', () => {
-        productConfigurationObservable = of(mockProductConfiguration);
-        routerStateObservable = of(mockRouterState);
-        mockDirection = DirectionMode.RTL;
-        initialize();
-        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+    it('should navigate to subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockDirection = DirectionMode.LTR;
+      initialize();
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
 
-        let event = new KeyboardEvent('keydown', {
-          code: 'ArrowRight',
-        });
-
-        component.switchGroupOnArrowPress(event, 0);
-        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
-        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      let event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
       });
 
-      it('should navigate to subgroups', () => {
-        productConfigurationObservable = of(mockProductConfiguration);
-        routerStateObservable = of(mockRouterState);
-        mockDirection = DirectionMode.RTL;
-        initialize();
-        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
-          false
-        );
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
 
-        let event = new KeyboardEvent('keydown', {
-          code: 'ArrowLeft',
-        });
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
 
-        component.switchGroupOnArrowPress(
-          event,
-          0,
-          mockProductConfiguration.groups[2]
-        );
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    });
+  });
 
-        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  describe('RTL direction', () => {
+    it('should navigate back to parent group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockDirection = DirectionMode.RTL;
+      initialize();
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+
+      let event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
       });
+
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, undefined, currentGroup);
+      expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    });
+
+    it('should navigate to subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockDirection = DirectionMode.RTL;
+      initialize();
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+
+      let event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
+
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    });
+  });
+
+  describe('setFocusForMainMenu', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should set focus to a group that does not contain any subgroups`', () => {
+      component.setFocusForMainMenu(GROUP_ID_2);
+      expect(configUtils.setFocus).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_2);
+    });
+
+    it('should set focus to a child group if the parent group contains only one subgroup', () => {
+      component.setFocusForMainMenu(GROUP_ID_4);
+      expect(configUtils.setFocus).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
+    });
+
+    it('should set focus to parent group that contains a current selected group', () => {
+      component.setFocusForMainMenu(GROUP_ID_7);
+      expect(configUtils.setFocus).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_5);
+    });
+  });
+
+  describe('setFocusForSubGroup', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
+    it('should set focus for back button', () => {
+      component.setFocusForSubGroup(
+        mockProductConfiguration.groups[0],
+        'groupId-111'
+      );
+      expect(configUtils.setFocus).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledWith('cx-menu-back');
+    });
+
+    it('should set focus for selected subgroup', () => {
+      component.setFocusForSubGroup(
+        mockProductConfiguration.groups[2],
+        GROUP_ID_4
+      );
+      expect(configUtils.setFocus).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
+    });
+  });
+
+  describe('containsSelectedGroup', () => {
+    it('should return `false` because group does not contain any subgroups', () => {
+      expect(
+        component.containsSelectedGroup(
+          mockProductConfiguration.groups[0],
+          GROUP_ID_5
+        )
+      ).toBe(false);
+    });
+    it('should return `false` because group does not contain any subgroup with the current group ID', () => {
+      expect(
+        component.containsSelectedGroup(
+          mockProductConfiguration.groups[2],
+          GROUP_ID_5
+        )
+      ).toBe(false);
+    });
+
+    it('should return `true` because group contains a subgroup with the current group ID', () => {
+      expect(
+        component.containsSelectedGroup(
+          mockProductConfiguration.groups[2],
+          GROUP_ID_4
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('isGroupSelected', () => {
+    it('should return `false` because the current group ID is not equal group ID', () => {
+      expect(component.isGroupSelected('groupId-100', 'groupId-99')).toBe(
+        false
+      );
+    });
+
+    it('should return `true` because the current group ID is equal group ID', () => {
+      expect(component.isGroupSelected('groupId-100', 'groupId-100')).toBe(
+        true
+      );
     });
   });
 

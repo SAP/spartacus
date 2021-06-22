@@ -97,15 +97,17 @@ export class VariantConfiguratorOccAdapter
       VARIANT_CONFIGURATOR_SERIALIZER
     );
 
-    return this.http.patch(url, occConfiguration).pipe(
-      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
-      })
-    );
+    return this.http
+      .patch<OccConfigurator.Configuration>(url, occConfiguration)
+      .pipe(
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: configuration.owner,
+          };
+        })
+      );
   }
 
   addToCart(
@@ -203,6 +205,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           groups: [],
+          flatGroups: [],
           interactionState: {},
           overview: overview,
           owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -236,19 +239,10 @@ export class VariantConfiguratorOccAdapter
       ),
       map((pricingResult) => {
         const result: Configurator.Configuration = {
-          configId: configuration.configId,
-          groups: [],
-          interactionState: {},
+          ...configuration,
           priceSummary: pricingResult,
-          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return result;
-      }),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
       })
     );
   }
@@ -261,7 +255,7 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get(url)
+      .get<OccConfigurator.Overview>(url)
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );

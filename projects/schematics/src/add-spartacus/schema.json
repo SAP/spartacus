@@ -20,6 +20,7 @@
           "Saved-Cart",
           "CDC",
           "CDS",
+          "Checkout",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -39,6 +40,7 @@
       },
       "default": [
         "ASM",
+        "Checkout",
         "Saved-Cart",
         "Bulk-Pricing",
         "Product-Variants",
@@ -67,6 +69,10 @@
           {
             "value": "CDS",
             "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
           },
           {
             "value": "Administration",
