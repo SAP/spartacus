@@ -65,7 +65,7 @@ class MockTranslationService {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
 describe('SavedCartListComponent', () => {

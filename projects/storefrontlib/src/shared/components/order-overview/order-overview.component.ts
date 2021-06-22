@@ -52,11 +52,9 @@ export class OrderOverviewComponent {
     return this.translation.translate('orderDetails.startOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
-        const date = this.getDate(new Date(isoDate));
-
         return {
           title: textTitle,
-          text: [date],
+          text: [isoDate],
         };
       })
     );
@@ -76,11 +74,9 @@ export class OrderOverviewComponent {
     return this.translation.translate('orderDetails.nextOrderDate').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
-        const date = this.getDate(new Date(isoDate));
-
         return {
           title: textTitle,
-          text: [date],
+          text: [isoDate],
         };
       })
     );
@@ -96,20 +92,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  getOrderCurrentDateCardContent(isoDate?: string): Observable<Card> {
+  getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
     return this.translation.translate('orderDetails.placedOn').pipe(
+      filter(() => Boolean(isoDate)),
       map((textTitle) => {
-        let date: string;
-
-        if (Boolean(isoDate)) {
-          date = this.getDate(new Date(isoDate));
-        } else {
-          date = this.getDate(new Date());
-        }
-
         return {
           title: textTitle,
-          text: [date],
+          text: [isoDate],
         };
       })
     );
@@ -224,16 +213,6 @@ export class OrderOverviewComponent {
         text: [billingAddress.formattedAddress, billingAddress.country.name],
       }))
     );
-  }
-
-  private getDate(givenDate: Date): string {
-    const date = givenDate.toDateString().split(' ');
-
-    const month = date[1];
-    const day = date[2];
-    const year = date[3];
-
-    return month + ' ' + day + ' ' + year;
   }
 
   private normalizeFormattedAddress(formattedAddress: string): string {
