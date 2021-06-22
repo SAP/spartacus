@@ -8,6 +8,7 @@ export const costCenterConfig: MyCompanyConfig = {
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
       label: 'Name',
