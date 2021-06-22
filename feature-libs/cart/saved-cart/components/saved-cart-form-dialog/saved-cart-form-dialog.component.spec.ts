@@ -69,13 +69,19 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
     saveCartName?: string;
     saveCartDescription?: string;
   }): void {}
+  restoreSavedCart(_cartId: string): void {}
+  cloneSavedCart(_cartId: string): void {}
   deleteSavedCart(_cartId: string): void {}
   clearSaveCart(): void {}
   clearRestoreSavedCart(): void {}
+  clearCloneSavedCart(): void {}
   getSaveCartProcessSuccess(): Observable<boolean> {
     return of();
   }
   getSaveCartProcessLoading(): Observable<boolean> {
+    return of();
+  }
+  getRestoreSavedCartProcessSuccess(): Observable<boolean> {
     return of();
   }
 }
@@ -191,6 +197,28 @@ describe('SavedCartFormDialogComponent', () => {
     expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
   });
 
+  it('should trigger restore saved cart with no cloning', () => {
+    spyOn(savedCartService, 'restoreSavedCart');
+    spyOn(savedCartService, 'cloneSavedCart');
+
+    component.isCloneSavedCart = false;
+
+    component.restoreSavedCart(mockCartId);
+    expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.cloneSavedCart).not.toHaveBeenCalled();
+  });
+
+  it('should trigger restore saved cart with cloning', () => {
+    spyOn(savedCartService, 'restoreSavedCart');
+    spyOn(savedCartService, 'cloneSavedCart');
+
+    component.isCloneSavedCart = true;
+
+    component.restoreSavedCart(mockCartId);
+    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
+  });
+
   it('should close dialog on close method', () => {
     spyOn(launchDialogService, 'closeDialog');
     component.close(mockSuccessDeleteCloseReason);
@@ -198,6 +226,12 @@ describe('SavedCartFormDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockSuccessDeleteCloseReason
     );
+  });
+
+  it('should trigger toggleIsCloneSavedCart()', () => {
+    component.isCloneSavedCart = true;
+    component.toggleIsCloneSavedCart();
+    expect(component.isCloneSavedCart).toBeFalsy();
   });
 
   // TODO(#12660): Remove once backend is updated
@@ -264,6 +298,16 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('should trigger onComplete when there was a successful delete saved cart event', () => {
       spyOn(eventService, 'get').and.returnValue(of(mockDeleteSavedCartEvent));
+      component.ngOnInit();
+      expect(component.onComplete).toHaveBeenCalled();
+    });
+
+    it('should trigger onComplete when there was a successful restore cart', () => {
+      spyOn(
+        savedCartService,
+        'getRestoreSavedCartProcessSuccess'
+      ).and.returnValue(of(true));
+
       component.ngOnInit();
       expect(component.onComplete).toHaveBeenCalled();
     });
@@ -334,6 +378,30 @@ describe('SavedCartFormDialogComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+
+    it('when successfully restoring a cart', () => {
+      spyOn(routingService, 'go');
+      spyOn(savedCartService, 'clearSaveCart');
+      spyOn(savedCartService, 'clearCloneSavedCart');
+      spyOn(savedCartService, 'clearRestoreSavedCart');
+
+      mockDialogData$.next({
+        ...mockFilledDialogData,
+        layoutOption: 'restore',
+      });
+
+      component.onComplete(true);
+
+      expect(component.close).toHaveBeenCalledWith(
+        'Successfully restored saved cart'
+      );
+      expect(savedCartService.clearSaveCart).toHaveBeenCalled();
+      expect(savedCartService.clearCloneSavedCart).toHaveBeenCalled();
+      expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'savedCarts',
+      });
     });
   });
 

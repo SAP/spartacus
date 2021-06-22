@@ -105,15 +105,16 @@
 
           <div
             *ngIf="layoutOption === savedCartFormType.RESTORE"
-            class="cx-saved-cart-form-row"
+            class="cx-copy-saved-cart-row"
           >
             <input
-              id="copy-saved-cart"
+              id="cx-copy-saved-cart"
               type="checkbox"
+              class="cx-copy-saved-cart-input"
               [checked]="isCloneSavedCart"
               (change)="toggleIsCloneSavedCart()"
             />
-            <label for="copy-saved-cart" class="abc">{{
+            <label for="cx-copy-saved-cart" class="cx-copy-saved-cart-label">{{
               'savedCartDialog.keepCopySavedCart' | cxTranslate
             }}</label>
           </div>

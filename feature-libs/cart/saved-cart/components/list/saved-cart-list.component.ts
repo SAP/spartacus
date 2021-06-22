@@ -1,13 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { Cart, RoutingService, TranslationService } from '@spartacus/core';
+import {
+  SavedCartFacade,
+  SavedCartFormType,
+} from '@spartacus/cart/saved-cart/root';
+import { Cart, RoutingService } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-saved-cart-list',
@@ -16,6 +23,8 @@ import { map } from 'rxjs/operators';
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+
+  @ViewChild('element') element: ElementRef;
 
   isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
@@ -33,19 +42,24 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   );
   constructor(
     protected routing: RoutingService,
-    protected translation: TranslationService,
-    protected savedCartService: SavedCartFacade
+    // TODO(BRIAN): add deprecations
+    // protected translation: TranslationService,
+    protected savedCartService: SavedCartFacade,
+    // TODO(BRIAN): add deprecations
+    protected vcr: ViewContainerRef,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
 
-    this.subscription.add(
-      this.savedCartService
-        .getRestoreSavedCartProcessSuccess()
-        .subscribe((success) => this.onRestoreComplete(success))
-    );
+    // TODO(BRIAN): deprecation
+    // this.subscription.add(
+    //   this.savedCartService
+    //     .getRestoreSavedCartProcessSuccess()
+    //     .subscribe((success) => this.onRestoreComplete(success))
+    // );
   }
 
   goToSavedCartDetails(cart: Cart): void {
@@ -56,17 +70,32 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   }
 
   // TODO(BRIAN): remove / breaking change - will remove before merge
-  restoreSavedCart(event: Event, cartId: string): void {
-    this.savedCartService.restoreSavedCart(cartId);
+  // restoreSavedCart(event: Event, cartId: string): void {
+  //   this.savedCartService.restoreSavedCart(cartId);
+  //   event.stopPropagation();
+  // }
+
+  openDialog(event: Event, cart: Cart): void {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.SAVED_CART,
+      this.element,
+      this.vcr,
+      { cart, layoutOption: SavedCartFormType.RESTORE }
+    );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
     event.stopPropagation();
   }
 
-  onRestoreComplete(success: boolean): void {
-    if (success) {
-      this.savedCartService.clearRestoreSavedCart();
-      this.savedCartService.clearSaveCart();
-    }
-  }
+  // TODO(BRIAN): deprecation
+  // onRestoreComplete(success: boolean): void {
+  //   if (success) {
+  //     this.savedCartService.clearRestoreSavedCart();
+  //     this.savedCartService.clearSaveCart();
+  //   }
+  // }
 
   ngOnDestroy(): void {
     this.savedCartService.clearSavedCarts();

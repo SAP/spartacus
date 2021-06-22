@@ -118,6 +118,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onComplete(success))
     );
+
+    this.subscription.add(
+      this.savedCartService
+        .getRestoreSavedCartProcessSuccess()
+        .subscribe((success) => this.onComplete(success))
+    );
   }
 
   saveOrEditCart(cartId: string): void {
@@ -213,13 +219,23 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
           break;
         }
+
+        case SavedCartFormType.RESTORE: {
+          this.close('Successfully restored saved cart');
+          this.routingService.go({ cxRoute: 'savedCarts' });
+
+          this.savedCartService.clearCloneSavedCart();
+          this.savedCartService.clearSaveCart();
+          this.savedCartService.clearRestoreSavedCart();
+
+          break;
+        }
       }
     }
   }
 
   toggleIsCloneSavedCart() {
-    this.isCloneSavedCart = !this.isCloneSavedCart;
-    console.log(this.isCloneSavedCart);
+    return (this.isCloneSavedCart = !this.isCloneSavedCart);
   }
 
   protected build(cart?: Cart) {

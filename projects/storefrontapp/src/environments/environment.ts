@@ -16,10 +16,10 @@ import { Environment } from './models/environment.model';
 // TODO(BRIAN): remove / breaking change - will remove before merge
 export const environment: Environment = {
   production: false,
-  occBaseUrl: 'https://40.76.109.9:9002' ?? buildProcess.env.CX_BASE_URL,
+  occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
-  b2b: true ?? false,
+  b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
 };
