@@ -8,6 +8,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
 const configId = '192826';
@@ -415,6 +416,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for a general group', () => {
     const generalGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(generalGroupName),
       name: generalGroupName,
     };
 
@@ -424,6 +426,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict header group', () => {
     const conflictHeaderGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictHeaderGroupName),
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       name: conflictHeaderGroupName,
     };
@@ -436,6 +439,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict group and should store conflict explanation in group.name', () => {
     const conflictGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictGroupName),
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
       description: conflictExplanation,

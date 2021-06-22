@@ -49,10 +49,6 @@ describe('PaginationComponent', () => {
     };
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   describe('isCurrent', () => {
     it('should return true for current page = 1', () => {
       component.pagination.currentPage = 1;
