@@ -20,6 +20,7 @@
           "Saved-Cart",
           "CDC",
           "CDS",
+          "Checkout",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -33,13 +34,13 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile",
-          "Checkout"
+          "Profile"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "Checkout",
         "Saved-Cart",
         "Bulk-Pricing",
         "Product-Variants",
@@ -68,6 +69,10 @@
           {
             "value": "CDS",
             "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
           },
           {
             "value": "Administration",
@@ -124,10 +129,6 @@
           {
             "value": "Profile",
             "label": "User - Profile"
-          },
-          {
-            "value": "Checkout",
-            "label": "Checkout"
           }
         ]
       }
