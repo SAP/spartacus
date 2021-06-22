@@ -1,18 +1,12 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
-  ASM_ADAPTER,
   ASM_AUTH_HTTP_HEADER_SERVICE,
   ASM_AUTH_SERVICE,
   ASM_AUTH_STORAGE_SERVICE,
-  ASM_CONFIG,
-  ASM_CONNECTOR,
   ASM_FEATURE,
-  ASM_MODULE,
-  ASM_SERVICE,
   ASM_STATE,
   ASM_STATE_PERSISTENCE_SERVICE,
-  ASM_UI,
   ASM_UI_ACTION,
   ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
@@ -26,16 +20,12 @@ import {
   CMS_FEATURES_SERVICE,
   CMS_LIB_MODULE,
   CONTENT_PAGE_META_RESOLVER,
-  CS_AGENT_AUTH_SERVICE,
   CUSTOMER_ACTION,
   CUSTOMER_SEARCH,
   CUSTOMER_SEARCH_CLASS,
   CUSTOMER_SEARCH_DATA,
   CUSTOMER_SEARCH_FAIL,
   CUSTOMER_SEARCH_FAIL_CLASS,
-  CUSTOMER_SEARCH_OPTIONS,
-  CUSTOMER_SEARCH_PAGE,
-  CUSTOMER_SEARCH_PAGE_NORMALIZER,
   CUSTOMER_SEARCH_RESET,
   CUSTOMER_SEARCH_RESET_CLASS,
   CUSTOMER_SEARCH_SUCCESS,
@@ -78,7 +68,6 @@ import {
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
   QUALTRICS_LOADER_SERVICE,
-  QUALTRICS_MODULE,
   REGISTER_COMPONENT,
   REGISTER_COMPONENT_MODULE,
   REGISTER_TRANSLATION_CHUNK,
@@ -135,12 +124,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${QUALTRICS_LOADER_SERVICE}' was moved to @spartacus/qualtrics/components.`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.module.ts
-  {
-    node: QUALTRICS_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${QUALTRICS_MODULE}' was moved to @spartacus/qualtrics/components and renamed to 'QualtricsComponentsModule'.`,
-  },
   {
     node: B2C_STOREFRONT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -185,72 +168,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
-  },
-  // projects/storefrontlib/src/cms-components/asm/asm.module.ts
-  {
-    node: ASM_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/components.`,
-  },
-  // projects/core/src/asm/asm.module.ts
-  {
-    node: ASM_MODULE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/config/asm-config.ts
-  {
-    node: ASM_CONFIG,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_CONFIG}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/connectors/asm.adapter.ts
-  {
-    node: ASM_ADAPTER,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_ADAPTER}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/connectors/asm.connector.ts
-  {
-    node: ASM_CONNECTOR,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_CONNECTOR}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/connectors/converters.ts
-  {
-    node: CUSTOMER_SEARCH_PAGE_NORMALIZER,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_PAGE_NORMALIZER}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/facade/asm.service.ts
-  {
-    node: ASM_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_SERVICE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/facade/csagent-auth.service.ts
-  {
-    node: CS_AGENT_AUTH_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CS_AGENT_AUTH_SERVICE}' was moved to @spartacus/asm/root.`,
-  },
-  // projects/core/src/asm/models/asm.models.ts
-  {
-    node: CUSTOMER_SEARCH_PAGE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_PAGE}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/models/asm.models.ts
-  {
-    node: CUSTOMER_SEARCH_OPTIONS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${CUSTOMER_SEARCH_OPTIONS}' was moved to @spartacus/asm/core.`,
-  },
-  // projects/core/src/asm/models/asm.models.ts
-  {
-    node: ASM_UI,
-    importPath: SPARTACUS_CORE,
-    comment: `'${ASM_UI}' was moved to @spartacus/asm/core.`,
   },
   // projects/core/src/asm/services/asm-auth-http-header.service.ts
   {
