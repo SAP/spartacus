@@ -13,7 +13,6 @@
 import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 import { Environment } from './models/environment.model';
 
-// TODO(BRIAN): remove / breaking change - will remove before merge
 export const environment: Environment = {
   production: false,
   occBaseUrl: buildProcess.env.CX_BASE_URL,

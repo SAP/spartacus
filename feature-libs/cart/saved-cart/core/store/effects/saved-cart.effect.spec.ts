@@ -187,54 +187,6 @@ describe('SavedCart Effects', () => {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
-    // TODO(BRIAN): remove / breaking change - will remove before merge
-    // it('should restore a saved cart and make it active and save current active cart, and keeps a cloned copy of the previously saved cart', () => {
-    //   const action = new SavedCartActions.RestoreSavedCart({
-    //     userId: mockUserId,
-    //     cartId: mockCartId,
-    //   });
-
-    //   const completion1 = new SavedCartActions.EditSavedCart({
-    //     userId: mockUserId,
-    //     cartId: mockActiveCart.code,
-    //     saveCartName: '',
-    //     saveCartDescription: '',
-    //   });
-    //   const completion2 = new CartActions.SetActiveCartId(mockCartId);
-    //   const completion3 = new CartActions.LoadCartSuccess({
-    //     userId: mockUserId,
-    //     cartId: mockCartId,
-    //     cart: mockSavedCarts[0],
-    //   });
-    //   const completion4 = new SavedCartActions.RestoreSavedCartSuccess({
-    //     userId: mockUserId,
-    //     cartId: mockCartId,
-    //   });
-
-    //   actions$ = hot('-a', { a: action });
-    //   const expected = cold('-(bcde)', {
-    //     b: completion1,
-    //     c: completion2,
-    //     d: completion3,
-    //     e: completion4,
-    //   });
-
-    //   expect(effects.restoreSavedCart$).toBeObservable(expected);
-    //   expect(connector.restoreSavedCart).toHaveBeenCalledWith(
-    //     mockUserId,
-    //     mockCartId
-    //   );
-    //   expect(globalMessageService.add).toHaveBeenCalledWith(
-    //     {
-    //       key: 'savedCartList.swapCartWithActiveCart',
-    //       params: {
-    //         cartName: mockCartId,
-    //         previousCartName: mockActiveCart.code,
-    //       },
-    //     },
-    //     GlobalMessageType.MSG_TYPE_CONFIRMATION
-    //   );
-    // });
 
     it('should restore a saved cart and make it active without saving active cart when entries are empty', () => {
       activeCart$.next({ ...mockActiveCart, entries: [] });
@@ -363,12 +315,11 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
       });
 
-      const completion1 = new CartActions.LoadCartSuccess({
+      const completion1 = new SavedCartActions.CloneSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
-        cart: mockSavedCarts[0],
       });
-      const completion2 = new SavedCartActions.CloneSavedCartSuccess({
+      const completion2 = new SavedCartActions.RestoreSavedCart({
         userId: mockUserId,
         cartId: mockCartId,
       });
