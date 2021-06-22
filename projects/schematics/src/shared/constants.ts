@@ -731,6 +731,11 @@ export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
 export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
 export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
 export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
+export const ROUTING_ACTIONS = 'RoutingActions';
+export const ROUTE_GO_ACTION = 'RouteGoAction';
+export const ROUTE_GO_BY_URL_ACTION = 'RouteGoByUrlAction';
+export const ROUTE_FORWARD_ACTION = 'RouteForwardAction';
+export const ROUTE_BACK_ACTION = 'RouteBackAction';
 
 export const BUDGET_ROUTING_CONFIG = 'budgetRoutingConfig';
 export const COST_CENTER_ROUTING_CONFIG = 'costCenterRoutingConfig';
