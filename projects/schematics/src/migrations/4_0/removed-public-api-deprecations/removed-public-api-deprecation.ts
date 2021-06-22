@@ -89,6 +89,12 @@ import {
   RESET_PASSWORD_COMPONENT,
   RESET_PASSWORD_FORM_COMPONENT,
   RESET_PASSWORD_MODULE,
+  ROUTE_BACK_ACTION,
+  ROUTE_FORWARD_ACTION,
+  ROUTE_GO_ACTION,
+  ROUTE_GO_BY_URL_ACTION,
+  ROUTING_ACTIONS,
+  ROUTING_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
   SMART_EDIT_SERVICE,
@@ -808,6 +814,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: UPDATE_PROFILE_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/routing/store/actions/router.action.ts
+  {
+    node: ROUTING_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `The following ngrx '${ROUTING_ACTIONS}' have been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please use instead the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
   },
   {
     node: 'PageEventModule',
