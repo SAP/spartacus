@@ -36,6 +36,7 @@ import {
   DEFAULT_UNITS_ROUTING_CONFIG,
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
+  GET_ASM_STATE,
   GET_ASM_UI,
   GET_CUSTOMER_SEARCH_RESULTS,
   GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
@@ -43,6 +44,10 @@ import {
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   PERMISSION_ROUTING_CONFIG,
+  PERSONALIZATION_ACTION,
+  PERSONALIZATION_CONFIG,
+  PERSONALIZATION_CONTEXT,
+  PERSONALIZATION_CONTEXT_SERVICE,
   QUALTRICS_COMPONENT,
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
@@ -53,6 +58,7 @@ import {
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   SPARTACUS_QUALTRICS,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_TRACKING,
   STATE_WITH_ASM,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
@@ -365,6 +371,36 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/store/selectors/feature.selector.ts
+  {
+    previousNode: GET_ASM_STATE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/personalization/config/personalization-config.ts
+  {
+    previousNode: PERSONALIZATION_CONFIG,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_TRACKING}/personalization/root`,
+  },
+  // projects/core/src/personalization/services/personalization-context.service.ts
+  {
+    previousNode: PERSONALIZATION_CONTEXT_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_TRACKING}/personalization/core`,
+  },
+  // projects/core/src/personalization/model/personalization-context.model.ts
+  {
+    previousNode: PERSONALIZATION_ACTION,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_TRACKING}/personalization/core`,
+  },
+  // projects/core/src/personalization/model/personalization-context.model.ts
+  {
+    previousNode: PERSONALIZATION_CONTEXT,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_TRACKING}/personalization/core`,
   },
 ];
 
