@@ -297,35 +297,17 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${FORGOT_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed and introduced in new 'ForgotPasswordService'. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/user/login/login.module.ts
-  {
-    node: LOGIN_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${LOGIN_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
-  },
   // projects/storefrontlib/src/cms-components/user/login/login.component.ts
   {
     node: LOGIN_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${LOGIN_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
-  {
-    node: LOGIN_REGISTER_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${LOGIN_REGISTER_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
-  },
   // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
   {
     node: LOGIN_REGISTER_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${LOGIN_REGISTER_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'.`,
-  },
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.module.ts
-  {
-    node: LOGIN_FORM_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${LOGIN_FORM_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
   },
   // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
   {

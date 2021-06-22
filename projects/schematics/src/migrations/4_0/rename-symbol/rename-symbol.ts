@@ -43,6 +43,9 @@ import {
   GET_CUSTOMER_SEARCH_RESULTS,
   GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
   GET_CUSTOMER_SEARCH_RESULTS_LOADING,
+  LOGIN_FORM_MODULE,
+  LOGIN_MODULE,
+  LOGIN_REGISTER_MODULE,
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   PERMISSION_ROUTING_CONFIG,
@@ -66,6 +69,7 @@ import {
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER_ACCOUNT_COMPONENTS,
   SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   SYNCED_ASM_STATE,
@@ -474,6 +478,24 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: UPDATE_PROFILE_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/user/login/login.module.ts
+  {
+    previousNode: LOGIN_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-form/login-form.module.ts
+  {
+    previousNode: LOGIN_FORM_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
+  {
+    previousNode: LOGIN_REGISTER_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
 ];
 
