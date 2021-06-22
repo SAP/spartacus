@@ -52,11 +52,14 @@ import {
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
   QUALTRICS_MODULE,
+  SMART_EDIT_SERVICE,
   SPARTACUS_ASM,
   SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
+  SPARTACUS_PRODUCT,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_TRACKING,
   STATE_WITH_ASM,
@@ -65,6 +68,8 @@ import {
   UNITS_ROUTING_CONFIG,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
+  VARIANT_STYLE_ICONS_COMPONENT,
+  VARIANT_STYLE_ICONS_MODULE,
 } from '../../../shared/constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
@@ -401,6 +406,24 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: PERSONALIZATION_CONTEXT,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_TRACKING}/personalization/core`,
+  },
+  // projects/core/src/smart-edit/services/smart-edit.service.ts
+  {
+    previousNode: SMART_EDIT_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_SMARTEDIT}/core`,
+  },
+  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
+  {
+    previousNode: VARIANT_STYLE_ICONS_COMPONENT,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
+  },
+  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
+  {
+    previousNode: VARIANT_STYLE_ICONS_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
 ];
 

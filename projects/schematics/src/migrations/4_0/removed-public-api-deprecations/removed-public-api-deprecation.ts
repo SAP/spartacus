@@ -53,7 +53,6 @@ import {
   ROUTING_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
-  SMART_EDIT_SERVICE,
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
@@ -81,8 +80,6 @@ import {
   VARIANT_COLOR_SELECTOR_MODULE,
   VARIANT_SIZE_SELECTOR_COMPONENT,
   VARIANT_SIZE_SELECTOR_MODULE,
-  VARIANT_STYLE_ICONS_COMPONENT,
-  VARIANT_STYLE_ICONS_MODULE,
   VARIANT_STYLE_SELECTOR_COMPONENT,
   VARIANT_STYLE_SELECTOR_MODULE,
   VIEW_CONFIG_MODULE,
@@ -163,12 +160,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead.`,
   },
-  // projects/core/src/smart-edit/services/smart-edit.service.ts
-  {
-    node: SMART_EDIT_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${SMART_EDIT_SERVICE}' was moved to @spartacus/smartedit/core.`,
-  },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
@@ -222,18 +213,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: VARIANT_STYLE_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_STYLE_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantStyleSelectorModule from @spartacus/product/variants/components as a replacement.`,
-  },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
-  {
-    node: VARIANT_STYLE_ICONS_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_STYLE_ICONS_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantStyleIconsComponent from @spartacus/product/variants/root as a replacement.`,
-  },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
-  {
-    node: VARIANT_STYLE_ICONS_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_STYLE_ICONS_MODULE}' was removed from @spartacus/storefront. Use ProductVariantStyleIconsModule from @spartacus/product/variants/root as a replacement.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts
   {
