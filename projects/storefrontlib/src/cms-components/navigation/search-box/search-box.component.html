@@ -3,11 +3,11 @@
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     autocomplete="off"
-    attr.aria-label="{{ 'searchBox.ariaLabelInput' | cxTranslate }}"
     aria-describedby="initialDescription"
     aria-controls="results"
     aria-autocomplete="both"
     aria-activedescendant=""
+    [attr.aria-label]="'common.search' | cxTranslate"
     (focus)="open()"
     (click)="open()"
     (input)="search(searchInput.value)"
@@ -24,7 +24,7 @@
   />
 
   <button
-    attr.aria-label="{{ 'searchBox.resetLabel' | cxTranslate }}"
+    [attr.aria-label]="'common.reset' | cxTranslate"
     (mousedown)="clear(searchInput)"
     (keydown.enter)="clear(searchInput)"
     class="reset"

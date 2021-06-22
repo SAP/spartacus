@@ -177,6 +177,7 @@ describe('CpqConfiguratorRestAdapter', () => {
         key: owner.key,
         id: owner.id,
         configuratorType: ConfiguratorType.CPQ,
+        type: CommonConfigurator.OwnerType.PRODUCT,
       })
       .subscribe(
         () => {},

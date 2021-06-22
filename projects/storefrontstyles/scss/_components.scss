@@ -10,7 +10,6 @@ $layout-components-allowlist: () !default;
 $product-components-allowlist: () !default;
 $user-components-allowlist: () !default;
 $cart-components-allowlist: () !default;
-$checkout-components-allowlist: () !default;
 $content-components-allowlist: () !default;
 $misc-components-allowlist: () !default;
 $pwa-components-allowlist: () !default;
@@ -25,7 +24,6 @@ $selectors: mergeAll(
     $content-components-allowlist,
     $product-components-allowlist,
     $cart-components-allowlist,
-    $checkout-components-allowlist,
     $user-components-allowlist,
     $myaccount-components-allowlist,
     $pwa-components-allowlist,

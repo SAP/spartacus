@@ -32,6 +32,12 @@ import { Test2Component } from "@spartacus/core";
 const array = [OtherComponent3, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
 
+const fileWithRename = `import { OtherComponent4, Test1Component } from "@spartacus/storefront";
+import { Test2Component } from "@spartacus/core";
+
+const array = [OtherComponent4, Test1Component, Test2Component];`;
+// -----------------------------------------------------------------------
+
 describe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
@@ -112,5 +118,14 @@ describe('renamed symbols', () => {
       const content = appTree.readContent('/src/index.ts');
       expect(content).toMatchSnapshot();
     });
+  });
+
+  it('Should only rename node', async () => {
+    writeFile(host, '/src/index.ts', fileWithRename);
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toMatchSnapshot();
   });
 });

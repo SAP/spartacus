@@ -2,8 +2,8 @@ import { PRODUCT_LISTING } from './data-configuration';
 import { clickFacet, searchUrlPrefix } from './product-search';
 
 const scrollDuration = 5000;
-const defaultNumberOfProducts = 10;
-let defaultProductLimit = 10;
+const defaultNumberOfProducts = 12;
+let defaultProductLimit = 12;
 
 const defaultQueryName = `query_relevance`;
 const defaultQueryAlias = `@${defaultQueryName}`;

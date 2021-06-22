@@ -43,7 +43,7 @@ const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 
 const group1: Configurator.Group = {
-  id: GROUP_ID_1,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
   name: GROUP_NAME,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -55,13 +55,13 @@ const group1: Configurator.Group = {
     {
       name: ATTRIBUTE_NAME_2,
       uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
+      userInput: undefined,
     },
   ],
 };
 
 const group2: Configurator.Group = {
-  id: GROUP_ID_2,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_2),
   name: GROUP_NAME_2,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
@@ -83,10 +83,10 @@ const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
-let configCartObservable;
-let configOrderObservable;
-let isStableObservable;
-let cartObs;
+let configCartObservable: Observable<Configurator.Configuration>;
+let configOrderObservable: Observable<Configurator.Configuration>;
+let isStableObservable: Observable<boolean>;
+let cartObs: Observable<Cart>;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
@@ -104,6 +104,11 @@ class MockconfiguratorUtilsService {
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
+  }
+  getConfigurationFromState(
+    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+  ): Configurator.Configuration | undefined {
+    return configurationState.value;
   }
 }
 
@@ -383,7 +388,7 @@ describe('ConfiguratorCommonsService', () => {
           CONFIG_ID,
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: {},
+        overview: { configId: CONFIG_ID },
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)
