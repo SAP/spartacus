@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  CheckFacade,
   CheckoutDetails,
   ClearCheckoutDataEvent,
   ClearCheckoutMiscDataEvent,
@@ -15,15 +16,15 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, switchMap, take } from 'rxjs/operators';
+import { skip, switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 @Injectable()
-export class CheckService {
+export class CheckService implements CheckFacade {
   protected checkoutQuery: Query<
     CheckoutDetails | undefined
   > = this.query.create(
-    () =>
-      combineLatest([
+    () => {
+      return combineLatest([
         this.userIdService.takeUserId(),
         this.activeCartService.getActiveCartId(),
       ]).pipe(
@@ -35,14 +36,16 @@ export class CheckService {
             return of(undefined);
           }
         })
-      ),
+      );
+    },
     {
       reloadOn: [LanguageSetEvent, CurrencySetEvent],
       resetOn: [
         ClearCheckoutMiscDataEvent,
         ClearCheckoutDataEvent,
-        this.userIdService.getUserId(),
-        this.activeCartService.getActiveCartId().pipe(distinctUntilChanged()),
+        // Skipping 1 emission as this streams are using `ReplySubject` under the hood, so the reset was triggered at the begging
+        this.userIdService.getUserId().pipe(skip(1)),
+        this.activeCartService.getActiveCartId().pipe(skip(1)),
       ],
     }
   );

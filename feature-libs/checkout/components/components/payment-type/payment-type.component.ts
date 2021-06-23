@@ -12,7 +12,7 @@ import {
   PaymentType,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
@@ -34,6 +34,7 @@ export class PaymentTypeComponent {
   typeSelected$: Observable<string> = this.paymentTypeService
     .getSelectedPaymentType()
     .pipe(
+      tap((selected) => console.log(selected)),
       filter(isNotUndefined),
       distinctUntilChanged(),
       tap((selected) => {
@@ -70,10 +71,13 @@ export class PaymentTypeComponent {
     // set po number to cart
     const poNumInput = this._poNumberInput.nativeElement.value;
     if (this.typeSelected && poNumInput !== this.cartPoNumber) {
-      this.paymentTypeService.setPaymentType(this.typeSelected, poNumInput);
+      this.paymentTypeService
+        .setPaymentType(this.typeSelected, poNumInput)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.checkoutStepService.next(this.activatedRoute);
+        });
     }
-
-    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {

@@ -15,8 +15,8 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { combineLatest, Observable, throwError } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { PaymentTypeConnector } from '../connectors/payment-type/payment-type.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
@@ -34,29 +34,39 @@ export class PaymentTypeService implements PaymentTypeFacade {
 
   protected setPaymentTypeCommand: Command<any> = this.command.create(
     (payload) => {
-      return this.paymentTypeConnector
-        .setPaymentType(
-          payload.userId,
-          payload.cartId,
-          payload.typeCode,
-          payload.poNumber
-        )
-        .pipe(
-          tap((data) => {
-            //! Unique endpoint optimization (other checkout endpoints doesn't return cart)
-            this.checkoutStore.dispatch(
-              new CartActions.LoadCartSuccess({
-                cart: data,
-                userId: payload.userId,
-                cartId: payload.cartId,
-              })
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          //! What about guest checkout? Why it is not allowed?
+          if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
+            return this.paymentTypeConnector.setPaymentType(
+              userId,
+              cartId,
+              payload.typeCode,
+              payload.poNumber
             );
-            //! We clear everything? We should just reset the checkout data from backend
-            this.checkoutStore.dispatch(
-              new CheckoutActions.ClearCheckoutData()
-            );
-          })
-        );
+          } else {
+            return throwError({
+              message: 'error message',
+            });
+          }
+        }),
+        tap((data) => {
+          //! Unique endpoint optimization (other checkout endpoints doesn't return cart)
+          this.checkoutStore.dispatch(
+            new CartActions.LoadCartSuccess({
+              cart: data,
+              userId: payload.userId,
+              cartId: payload.cartId,
+            })
+          );
+          //! We clear everything? We should just reset the checkout data from backend
+          this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
+        })
+      );
     }
   );
 
@@ -85,26 +95,11 @@ export class PaymentTypeService implements PaymentTypeFacade {
    * @param typeCode
    * @param poNumber : purchase order number
    */
-  // TODO: Better return
-  // TODO: Move cartId and userId to command
   // TODO: Multiple layers interface
-  setPaymentType(typeCode: string, poNumber?: string): void {
-    let cartId: string | undefined;
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => (cartId = activeCartId));
-
-    this.userIdService.invokeWithUserId((userId) => {
-      //! What about guest checkout? Why it is not allowed?
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.setPaymentTypeCommand.execute({
-          userId,
-          cartId,
-          typeCode,
-          poNumber,
-        });
-      }
+  setPaymentType(typeCode: string, poNumber?: string): Observable<unknown> {
+    return this.setPaymentTypeCommand.execute({
+      typeCode,
+      poNumber,
     });
   }
 
