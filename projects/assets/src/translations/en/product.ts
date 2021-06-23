@@ -47,8 +47,8 @@ export const product = {
     rating: 'Rating',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
-    more: 'More',
-    less: 'Less',
+    more: 'Show More Reviews',
+    less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
   },
