@@ -1,7 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { shareReplay } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
-import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ComponentDecorator } from '../decorators/component-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
@@ -24,36 +23,7 @@ export class DynamicAttributeService {
     .getMulti(SlotDecorator)
     .pipe(shareReplay(1));
 
-  constructor(
-    // TODO: remove this SmartEditService in 4.0
-    protected smartEditService?: SmartEditService,
-    protected unifiedInjector?: UnifiedInjector
-  ) {}
-
-  /**
-   * @deprecated since 3.2, use functions addAttributesToComponent and addAttributesToSlot instead
-   *
-   * Add dynamic attributes to DOM.
-   * @param element: slot or cms component element
-   * @param renderer
-   * @param cmsRenderingContext: an object containing properties in each cms item response data
-   */
-  addDynamicAttributes(
-    element: Element,
-    renderer: Renderer2,
-    cmsRenderingContext: {
-      componentData?: ContentSlotComponentData;
-      slotData?: ContentSlotData;
-    }
-  ): void {
-    this.addAttributesToComponent(
-      element,
-      renderer,
-      cmsRenderingContext.componentData
-    );
-
-    this.addAttributesToSlot(element, renderer, cmsRenderingContext.slotData);
-  }
+  constructor(protected unifiedInjector: UnifiedInjector) {}
 
   /**
    * Add dynamic attributes to CMS component element

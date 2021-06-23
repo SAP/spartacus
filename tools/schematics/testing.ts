@@ -8,6 +8,7 @@ import semver from 'semver';
 const featureLibsFolders: string[] = [
   'asm',
   'cart',
+  'checkout',
   'organization',
   'product',
   'product-configurator',
@@ -17,11 +18,17 @@ const featureLibsFolders: string[] = [
   'tracking',
   'user',
 ];
+
+const integrationLibsFolders: string[] = ['cdc', 'cds'];
+
 const commands = [
   'publish',
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
+  'build checkout/schematics',
+  'build cdc/schematics',
+  'build cds/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -41,11 +48,12 @@ const buildLibRegEx = new RegExp('build (.*?)/schematics');
 let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
-  console.log('Starting verdaccio');
+  console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   console.log('Pointing npm to verdaccio');
   execSync(`npm config set @spartacus:registry http://localhost:4873/`);
+  execSync(`npx wait-on http://localhost:4873/`);
   return res;
 }
 
@@ -119,14 +127,22 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 }
 
 function testAllSchematics(): void {
-  execSync('yarn --cwd projects/schematics run test', {
+  execSync('yarn --cwd projects/schematics run test --coverage', {
     stdio: 'inherit',
   });
 
   featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
+    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
       stdio: 'inherit',
     })
+  );
+  integrationLibsFolders.forEach((lib) =>
+    execSync(
+      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+      {
+        stdio: 'inherit',
+      }
+    )
   );
 }
 
@@ -140,6 +156,9 @@ async function executeCommand(command: Command): Promise<void> {
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
+    case 'build checkout/schematics':
+    case 'build cdc/schematics':
+    case 'build cds/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
@@ -169,10 +188,6 @@ let verdaccioProcess: ChildProcess | undefined;
 async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
-    // Give time for verdaccio to boot up
-    console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 15`);
-
     while (true) {
       const response: { command: Command } = await prompt({
         name: 'command',

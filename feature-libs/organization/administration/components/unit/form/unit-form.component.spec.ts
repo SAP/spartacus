@@ -105,50 +105,48 @@ describe('UnitFormComponent', () => {
   it('should disable parentOrgUnit form control', () => {
     component.createChildUnit = true;
     component.units$.subscribe().unsubscribe();
-    expect(component.formGroup.get('parentOrgUnit.uid').disabled).toBeTruthy();
+    expect(component.form.get('parentOrgUnit.uid').disabled).toBeTruthy();
   });
 
   describe('autoSelect uid', () => {
     beforeEach(() => {
-      component.formGroup.get('parentOrgUnit.uid').setValue(null);
+      component.form.get('parentOrgUnit.uid').setValue(null);
     });
 
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
-      expect(component.formGroup.get('parentOrgUnit.uid').value).toEqual(
-        'test'
-      );
+      expect(component.form.get('parentOrgUnit.uid').value).toEqual('test');
     });
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
-      expect(component.formGroup.get('parentOrgUnit.uid').value).toBeNull();
+      expect(component.form.get('parentOrgUnit.uid').value).toBeNull();
     });
   });
 
   describe('createUidWithName', () => {
     it('should set uid field value if empty based on provided name value', () => {
-      component.formGroup.get('name').patchValue('Unit Test Value');
-      component.formGroup.get('uid').patchValue(undefined);
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue(undefined);
       component.createUidWithName(
-        component.formGroup.get('name'),
-        component.formGroup.get('uid')
+        component.form.get('name'),
+        component.form.get('uid')
       );
 
-      expect(component.formGroup.get('uid').value).toEqual('unit-test-value');
+      expect(component.form.get('uid').value).toEqual('unit-test-value');
     });
 
     it('should prevent setting uid if value is provided for this field', () => {
-      component.formGroup.get('name').patchValue('Unit Test Value');
-      component.formGroup.get('uid').patchValue('test uid');
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue('test uid');
       component.createUidWithName(
-        component.formGroup.get('name'),
-        component.formGroup.get('uid')
+        component.form.get('name'),
+        component.form.get('uid')
       );
 
-      expect(component.formGroup.get('uid').value).toEqual('test uid');
+      expect(component.form.get('uid').value).toEqual('test uid');
     });
   });
 });

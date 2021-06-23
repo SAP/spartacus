@@ -7,7 +7,7 @@
     class="form-control"
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
-    (change)="onSelect()"
+    (change)="onSelect(attributeDropDownForm.value)"
   >
     <option
       *ngFor="let item of attribute.values"
@@ -18,4 +18,9 @@
       {{ item.valueDisplay }}
     </option>
   </select>
+  <cx-configurator-attribute-quantity
+    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
+    *ngIf="withQuantity"
+  ></cx-configurator-attribute-quantity>
 </div>

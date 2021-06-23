@@ -1,4 +1,8 @@
 %cx-configurator-attribute-drop-down {
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
+
+  cx-configurator-attribute-quantity {
+    padding-block-start: 1rem;
+  }
 }

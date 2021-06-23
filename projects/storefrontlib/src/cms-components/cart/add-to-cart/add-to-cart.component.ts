@@ -42,7 +42,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   maxQuantity: number;
   modalRef: ModalRef;
 
-  hasStock = false;
+  hasStock: boolean | undefined = false;
 
   showInventory: boolean;
 
@@ -52,7 +52,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   addToCartForm = new FormGroup({
-    quantity: new FormControl(1),
+    quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
   constructor(
@@ -89,7 +89,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     });
 
     if (this.product) {
-      this.productCode = this.product.code;
+      this.productCode = this.product.code ? this.product.code : '';
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
@@ -109,12 +109,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setStockInfo(product: Product): void {
+  protected setStockInfo(product: Product): void {
     this.quantity = 1;
-    this.hasStock =
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
-    if (this.hasStock && product.stock.stockLevel) {
-      this.maxQuantity = product.stock.stockLevel;
+    this.hasStock = Boolean(
+      product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
+    );
+    if (this.hasStock && product.stock?.stockLevel) {
+      this.maxQuantity = product.stock?.stockLevel;
     } else {
       this.maxQuantity = 0;
     }
@@ -122,7 +123,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   getInventory(): string {
     //When backoffice forces 'In Stock' status, DO NOT display inventory.
-    if (this.hasStock && this.maxQuantity == 0) {
+    if (this.hasStock && this.maxQuantity === 0) {
       return '';
     } else {
       return this.maxQuantity + '';
@@ -148,7 +149,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       });
   }
 
-  private openModal() {
+  /**
+   * Provides required data and opens AddedToCartDialogComponent modal
+   */
+  protected openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,

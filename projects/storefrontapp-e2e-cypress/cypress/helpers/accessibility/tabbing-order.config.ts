@@ -171,24 +171,16 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_ELEMENT,
     },
     {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Basics',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Specification',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Display',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Lens',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Options',
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       value: 'attributeRadioButtonForm',
@@ -219,6 +211,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   productConfigurationOverview: [
     {
       value: 'show more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
       type: TabbingOrderTypes.LINK,
     },
     {
