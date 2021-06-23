@@ -35,7 +35,6 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
-    "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
