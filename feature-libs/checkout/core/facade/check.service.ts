@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CheckoutDetails } from '@spartacus/checkout/root';
+import {
+  CheckoutDetails,
+  ClearCheckoutDataEvent,
+  ClearCheckoutMiscDataEvent,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   CommandService,
@@ -10,10 +14,6 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import {
-  ClearCheckoutDataEvent,
-  ClearCheckoutMiscDataEvent,
-} from 'feature-libs/checkout/root';
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
