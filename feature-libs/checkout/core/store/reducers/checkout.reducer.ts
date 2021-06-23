@@ -1,6 +1,5 @@
 import {
   Address,
-  Cart,
   DeliveryMode,
   Order,
   ReplenishmentOrder,
@@ -9,7 +8,7 @@ import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
-  poNumber: { po: undefined, costCenter: undefined },
+  poNumber: { costCenter: undefined },
   address: {},
   deliveryMode: {
     supported: {},
@@ -24,21 +23,9 @@ export function reducer(
   action:
     | CheckoutActions.CheckoutAction
     | CheckoutActions.CheckoutClearMiscsData
-    | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.ReplenishmentOrderActions
 ): CheckoutStepsState {
   switch (action.type) {
-    case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
-      const cart: Cart = action.payload;
-      return {
-        ...state,
-        poNumber: {
-          ...state.poNumber,
-          po: cart.purchaseOrderNumber,
-        },
-      };
-    }
-
     case CheckoutActions.SET_COST_CENTER_SUCCESS: {
       return {
         ...state,

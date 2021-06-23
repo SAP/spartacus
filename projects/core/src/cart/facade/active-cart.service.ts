@@ -162,6 +162,7 @@ export class ActiveCartService implements OnDestroy {
   /**
    * Returns active cart id
    */
+  // TODO: Can it be undefined?
   getActiveCartId(): Observable<string> {
     return this.activeCart$.pipe(
       withLatestFrom(this.userIdService.getUserId()),

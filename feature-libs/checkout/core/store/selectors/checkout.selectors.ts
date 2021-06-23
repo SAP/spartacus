@@ -117,14 +117,6 @@ export const getCheckoutLoading: MemoizedSelector<
   StateUtils.loaderLoadingSelector(state)
 );
 
-export const getPoNumer: MemoizedSelector<
-  StateWithCheckout,
-  string | undefined
-> = createSelector(
-  getCheckoutSteps,
-  (state: CheckoutStepsState) => state.poNumber.po
-);
-
 export const getCostCenter: MemoizedSelector<
   StateWithCheckout,
   string | undefined

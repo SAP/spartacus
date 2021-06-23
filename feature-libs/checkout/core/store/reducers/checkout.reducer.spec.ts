@@ -20,19 +20,6 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('SET_PAYMENT_TYPE_SUCCESS action', () => {
-    it('should set po number to cart', () => {
-      const { initialState } = fromCheckout;
-
-      const action = new CheckoutActions.SetPaymentTypeSuccess({
-        code: 'testCart',
-        purchaseOrderNumber: 'testNumber',
-      });
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.poNumber.po).toEqual('testNumber');
-    });
-  });
-
   describe('SET_COST_CENTER_SUCCESS action', () => {
     it('should set cost center to cart', () => {
       const { initialState } = fromCheckout;
