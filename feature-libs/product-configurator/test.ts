@@ -1,8 +1,10 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
-// do NOT re-order imports - ZONE MUST BE IMPORTED FIRST!
+
+// Monkey-patches must be imported as the first:
 import 'zone.js';
 import 'zone.js/testing';
-// all other imports
+// Monkey-patches end
+
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
