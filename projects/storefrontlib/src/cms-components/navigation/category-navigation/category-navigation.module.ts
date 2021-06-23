@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { defaultCategoryNavigationConfig } from './config/navigation.config';
+import { defaultCategoryNavigationConfig } from '../navigation/config/navigation.config';
 
 @NgModule({
   imports: [CommonModule, NavigationModule],
