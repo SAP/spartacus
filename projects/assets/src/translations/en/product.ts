@@ -63,7 +63,6 @@ export const product = {
     proceedToCheckout: 'proceed to checkout',
     quantity: 'Qty',
     outOfStock: 'Out of stock',
-    ariaLabelOutOfStock: 'This item is Out of stock',
     inStock: 'In stock',
     selectStyleAndSize: 'Select style and size to check stock',
     removeFromCart: 'Remove Product from Cart',
@@ -83,7 +82,6 @@ export const product = {
     anonymous: 'Sign in to add to wish list',
   },
   stockNotification: {
-    ariaLabelDisabledButton: 'This button is disabled, sign in to enable',
     notifyMe: 'NOTIFY ME',
     stopNotify: 'STOP NOTIFICATION',
     getNotify: 'Get notified when this product is available.',
