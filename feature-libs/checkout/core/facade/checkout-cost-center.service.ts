@@ -84,10 +84,9 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   }
 
   /**
-   * Get cost center id from cart
+   * Get cost center from cart
    */
   getCostCenter(): Observable<CostCenter | undefined> {
-    // TODO: Why we won't return whole cost center with addresses from here?
     return this.checkService
       .getCheckoutDetails()
       .pipe(map((state) => state?.data?.costCenter));
