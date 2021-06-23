@@ -99,7 +99,7 @@ export class AuthRedirectService implements OnDestroy {
   /**
    * Save the url as the redirect url, unless it's a part of the user login flow.
    */
-  protected setRedirectUrl(url: string): void {
+  setRedirectUrl(url: string): void {
     if (!this.authFlowRoutesService.isAuthFlow(url)) {
       this.authRedirectStorageService.setRedirectUrl(url);
     }
