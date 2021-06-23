@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -8,7 +9,6 @@ import {
   PROCESS_FEATURE,
   StateUtils,
 } from '@spartacus/core';
-import { CheckoutDetails } from '../../models/checkout.model';
 import {
   CHECKOUT_DETAILS,
   PLACED_ORDER_PROCESS_ID,

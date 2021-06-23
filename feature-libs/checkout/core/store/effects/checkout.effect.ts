@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   AuthActions,
   CartActions,
@@ -23,7 +24,6 @@ import { CheckoutConnector } from '../../connectors/checkout/checkout.connector'
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()

@@ -13,3 +13,11 @@ export class OrderPlacedEvent extends CxEvent {
    */
   code: string;
 }
+
+export class ClearCheckoutDataEvent extends CxEvent {
+  static readonly type = 'ClearCheckoutDataEvent';
+}
+
+export class ClearCheckoutMiscDataEvent extends CxEvent {
+  static readonly type = 'ClearCheckoutMiscDataEvent';
+}
