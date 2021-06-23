@@ -117,6 +117,7 @@ import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/express-checkout.service.migration copy';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_CHILDREN_COMPONENT_MIGRATION,
@@ -207,6 +208,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_DETAILS_COMPONENT_MIGRATION,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   EXPRESS_CHECKOUT_SERVICE_MIGRATION,
+  EXPRESS_CHECKOUT_SERVICE_CONSTRUCTOR_DEPRECATION,
 ];
 
 export function migrate(): Rule {
