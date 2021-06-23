@@ -836,6 +836,8 @@ export const ORDER_PROMOTIONS$ = 'orderPromotions$';
 
 export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
+export const SORT_CODE = 'sortCode';
+export const TABLE_HEADER = 'TableHeader';
 /***** Properties end *****/
 
 /***** APIs start *****/
