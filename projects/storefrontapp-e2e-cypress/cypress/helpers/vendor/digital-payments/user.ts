@@ -11,7 +11,6 @@ export const my_user = {
     country: 'AD',
   },
   payment: {
-    card: 'MasterCard',
     number: '5105105105105100',
     expires: {
       month: '08',
