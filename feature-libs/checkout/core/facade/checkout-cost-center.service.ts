@@ -9,6 +9,7 @@ import {
   CartActions,
   Command,
   CommandService,
+  CostCenter,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
@@ -85,10 +86,10 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  getCostCenter(): Observable<string | undefined> {
+  getCostCenter(): Observable<CostCenter | undefined> {
     // TODO: Why we won't return whole cost center with addresses from here?
     return this.checkService
       .getCheckoutDetails()
-      .pipe(map((state) => state?.data?.costCenter?.code));
+      .pipe(map((state) => state?.data?.costCenter));
   }
 }

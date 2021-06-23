@@ -92,7 +92,7 @@ describe('CheckoutCostCenterService', () => {
       .getCostCenter()
       .pipe(take(1))
       .subscribe((data) => {
-        expect(data).toEqual('testCodeCenter');
+        expect(data).toEqual({ code: 'testCodeCenter' });
         done();
       });
   });

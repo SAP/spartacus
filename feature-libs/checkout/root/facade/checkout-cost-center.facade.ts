@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { CostCenter, facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
@@ -26,5 +26,5 @@ export abstract class CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  abstract getCostCenter(): Observable<string | undefined>;
+  abstract getCostCenter(): Observable<CostCenter | undefined>;
 }

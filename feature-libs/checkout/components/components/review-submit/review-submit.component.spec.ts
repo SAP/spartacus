@@ -23,7 +23,6 @@ import {
   PaymentType,
   PromotionLocation,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -172,15 +171,10 @@ class MockPaymentTypeService {
   }
 }
 
-class MockCheckoutCostCenterService {
-  getCostCenter(): Observable<string> {
-    return of(mockCostCenter.code);
-  }
-}
-
-class MockUserCostCenterService {
-  getActiveCostCenters(): Observable<CostCenter[]> {
-    return of([mockCostCenter]);
+class MockCheckoutCostCenterService
+  implements Partial<CheckoutCostCenterFacade> {
+  getCostCenter(): Observable<CostCenter | undefined> {
+    return of(mockCostCenter);
   }
 }
 
@@ -233,10 +227,6 @@ describe('ReviewSubmitComponent', () => {
           {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
-          },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
           },
         ],
       }).compileComponents();

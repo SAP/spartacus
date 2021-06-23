@@ -22,11 +22,14 @@ const mockCostCenters: CostCenter[] = [
   },
 ];
 
-class MockCheckoutCostCenterService {
-  getCostCenter(): Observable<string> {
-    return of(mockCostCenters[0].code);
+class MockCheckoutCostCenterService
+  implements Partial<CheckoutCostCenterFacade> {
+  getCostCenter(): Observable<CostCenter | undefined> {
+    return of(mockCostCenters[0]);
   }
-  setCostCenter(_costCenterId: string): void {}
+  setCostCenter(_costCenterId: string): Observable<unknown> {
+    return of({});
+  }
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);

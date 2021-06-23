@@ -21,11 +21,10 @@ import {
   PromotionLocation,
   TranslationService,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -46,8 +45,7 @@ export class ReviewSubmitComponent {
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
+    protected checkoutCostCenterService: CheckoutCostCenterFacade
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -107,16 +105,7 @@ export class ReviewSubmitComponent {
   }
 
   get costCenter$(): Observable<CostCenter | undefined> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => Boolean(costCenters)),
-      switchMap((costCenters) => {
-        return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((code) => {
-            return costCenters.find((cc) => cc.code === code);
-          })
-        );
-      })
-    );
+    return this.checkoutCostCenterService.getCostCenter();
   }
 
   getShippingAddressCard(

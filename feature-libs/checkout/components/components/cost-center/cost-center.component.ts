@@ -30,10 +30,10 @@ export class CostCenterComponent {
       withLatestFrom(this.checkoutCostCenterService.getCostCenter()),
       filter(([costCenters]) => Boolean(costCenters)),
       tap(([costCenters, cartCostCenter]) => {
-        if (!Boolean(cartCostCenter)) {
+        if (!Boolean(cartCostCenter?.code)) {
           this.setCostCenter(costCenters[0].code as string);
         } else {
-          this.costCenterId = cartCostCenter;
+          this.costCenterId = cartCostCenter?.code;
         }
       }),
       map(([costCenters]) => costCenters)

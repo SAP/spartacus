@@ -1,5 +1,6 @@
 import {
   Address,
+  CostCenter,
   DeliveryMode,
   PaymentDetails,
   PaymentType,
@@ -11,5 +12,5 @@ export type CheckoutDetails = {
   paymentInfo: PaymentDetails;
   paymentType?: PaymentType; // TODO: Use augmentation for b2b stuff?
   purchaseOrderNumber?: string;
-  costCenter?: any;
+  costCenter?: CostCenter;
 };
