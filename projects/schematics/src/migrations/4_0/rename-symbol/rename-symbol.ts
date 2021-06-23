@@ -8,9 +8,12 @@ import {
   DEFAULT_UNITS_ROUTING_CONFIG,
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
+  EXPRESS_CHECKOUT_SERVICE,
   PERMISSION_ROUTING_CONFIG,
+  SPARTACUS_CHECKOUT_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
+  SPARTACUS_STOREFRONTLIB,
   UNITS_ROUTING_CONFIG,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
@@ -66,6 +69,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'defaultScrollConfig',
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
+  },
+  // feature-libs/checkout/components/services/express-checkout.service.ts
+  {
+    previousNode: EXPRESS_CHECKOUT_SERVICE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
   },
 ];
 
