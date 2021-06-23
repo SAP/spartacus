@@ -84,3 +84,11 @@ export class RestoreSavedCartFailEvent extends SavedCartEvent {
   saveCartDescription?: string;
   saveTime: string;
 }
+
+export class EditSavedCartEvent extends SaveCartEvent {}
+export class EditSavedCartSuccessEvent extends SaveCartSuccessEvent {}
+export class EditSavedCartFailEvent extends SaveCartFailEvent {}
+
+export class CloneSavedCartEvent extends RestoreSavedCartEvent {}
+export class CloneSavedCartSuccessEvent extends RestoreSavedCartSuccessEvent {}
+export class CloneSavedCartFailEvent extends RestoreSavedCartFailEvent {}
