@@ -13,23 +13,22 @@ export class ActivatedRoutesService {
   /**
    * Array of currently activated routes (from the root route to the leaf route).
    */
-  readonly routes$: Observable<
-    ActivatedRouteSnapshot[]
-  > = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    // eslint-disable-next-line import/no-deprecated
-    startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
-    map(() => {
-      let route = this.router.routerState.snapshot.root;
-      const routes: ActivatedRouteSnapshot[] = [route];
+  readonly routes$: Observable<ActivatedRouteSnapshot[]> =
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      // eslint-disable-next-line import/no-deprecated
+      startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
+      map(() => {
+        let route = this.router.routerState.snapshot.root;
+        const routes: ActivatedRouteSnapshot[] = [route];
 
-      // traverse to the leaf route:
-      while ((route = route.firstChild)) {
-        routes.push(route);
-      }
+        // traverse to the leaf route:
+        while ((route = route.firstChild)) {
+          routes.push(route);
+        }
 
-      return routes;
-    }),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+        return routes;
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 }

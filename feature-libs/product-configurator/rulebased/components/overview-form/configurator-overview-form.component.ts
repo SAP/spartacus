@@ -18,9 +18,8 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorOverviewFormComponent {
   attributeOverviewType = Configurator.AttributeOverviewType;
 
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
           routerData.owner

@@ -144,12 +144,10 @@ export class PopoverDirective {
    * Method creates instance and pass parameters to popover component.
    */
   renderPopover() {
-    const containerFactory = this.componentFactoryResolver.resolveComponentFactory(
-      PopoverComponent
-    );
-    this.popoverContainer = this.viewContainer.createComponent(
-      containerFactory
-    );
+    const containerFactory =
+      this.componentFactoryResolver.resolveComponentFactory(PopoverComponent);
+    this.popoverContainer =
+      this.viewContainer.createComponent(containerFactory);
 
     const componentInstance = this.popoverContainer.instance;
     if (componentInstance) {
@@ -160,9 +158,12 @@ export class PopoverDirective {
       componentInstance.position = this.cxPopoverOptions?.placement;
       componentInstance.customClass = this.cxPopoverOptions?.class;
       componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
-      componentInstance.positionOnScroll = this.cxPopoverOptions?.positionOnScroll;
-      componentInstance.displayCloseButton = this.cxPopoverOptions?.displayCloseButton;
-      componentInstance.autoPositioning = this.cxPopoverOptions?.autoPositioning;
+      componentInstance.positionOnScroll =
+        this.cxPopoverOptions?.positionOnScroll;
+      componentInstance.displayCloseButton =
+        this.cxPopoverOptions?.displayCloseButton;
+      componentInstance.autoPositioning =
+        this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
         this.renderer.appendChild(

@@ -41,12 +41,13 @@ const ownerCartRelated = ConfiguratorModelUtils.createOwner(
   CART_ENTRY_NUMBER
 );
 
-const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: 'anonymous',
-  cartId: CART_GUID,
-  cartEntryNumber: CART_ENTRY_NUMBER,
-  owner: ownerCartRelated,
-};
+const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: 'anonymous',
+    cartId: CART_GUID,
+    cartEntryNumber: CART_ENTRY_NUMBER,
+    owner: ownerCartRelated,
+  };
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
@@ -117,9 +118,9 @@ class MockUserIdService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
-  const mockConfigLoaderStateReturned = createSpy(
-    'select'
-  ).and.returnValue(() => of(loaderState));
+  const mockConfigLoaderStateReturned = createSpy('select').and.returnValue(
+    () => of(loaderState)
+  );
   const mockConfigLoaderStateNothingPresent = createSpy(
     'select'
   ).and.returnValue(() => of(loaderStateNothingPresent));
@@ -197,9 +198,8 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
-    const configurationFromStore = serviceUnderTest.readConfigurationForCartEntry(
-      ownerCartRelated
-    );
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForCartEntry(ownerCartRelated);
 
     expect(configurationFromStore).toBeDefined();
 

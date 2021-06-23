@@ -17,15 +17,14 @@ export class ConfiguratorCartEntryInfoComponent {
 
   readonly orderEntry$: Observable<OrderEntry> = this.cartItemContext.item$;
 
-  readonly quantityControl$: Observable<FormControl> = this.cartItemContext
-    .quantityControl$;
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext.quantityControl$;
 
   readonly readonly$: Observable<boolean> = this.cartItemContext.readonly$;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.

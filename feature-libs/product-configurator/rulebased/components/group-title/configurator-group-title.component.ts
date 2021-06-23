@@ -13,21 +13,23 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupTitleComponent {
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      )
-    );
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        )
+      );
 
-  displayedGroup$: Observable<Configurator.Group> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-      )
-    );
+  displayedGroup$: Observable<Configurator.Group> =
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+        )
+      );
 
   iconTypes = ICON_TYPE;
 

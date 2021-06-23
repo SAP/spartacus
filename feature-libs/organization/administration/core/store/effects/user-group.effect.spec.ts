@@ -353,9 +353,8 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadPermissionFail action if permissions not loaded', () => {
-      userGroupConnector.getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
-      );
+      userGroupConnector.getAvailableOrderApprovalPermissions =
+        createSpy().and.returnValue(throwError(httpErrorResponse));
       const action = new UserGroupActions.LoadPermissions({
         userId,
         userGroupId,
@@ -400,9 +399,8 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
-      userGroupConnector.assignOrderApprovalPermission = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
-      );
+      userGroupConnector.assignOrderApprovalPermission =
+        createSpy().and.returnValue(throwError(httpErrorResponse));
       const action = new UserGroupActions.AssignPermission({
         userId,
         userGroupId,
@@ -445,9 +443,8 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
-      userGroupConnector.unassignOrderApprovalPermission = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
-      );
+      userGroupConnector.unassignOrderApprovalPermission =
+        createSpy().and.returnValue(throwError(httpErrorResponse));
       const action = new UserGroupActions.UnassignPermission({
         userId,
         userGroupId,

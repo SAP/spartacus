@@ -19,7 +19,8 @@ describe('Login', () => {
       });
       login.loginUser();
 
-      const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+      const tokenRevocationRequestAlias =
+        login.listenForTokenRevocationRequest();
       login.signOutUser();
       cy.wait(tokenRevocationRequestAlias);
     });

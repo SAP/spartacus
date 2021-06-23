@@ -482,9 +482,8 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should not change the format when line 2 exist in address', () => {
-      const address = component['normalizeFormattedAddress'](
-        mockFormattedAddress
-      );
+      const address =
+        component['normalizeFormattedAddress'](mockFormattedAddress);
 
       expect(address).toEqual(mockFormattedAddress);
     });

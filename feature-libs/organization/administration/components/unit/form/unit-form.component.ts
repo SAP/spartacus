@@ -63,9 +63,7 @@ export class UnitFormComponent implements OnInit {
     )
   );
 
-  approvalProcess$: Observable<
-    B2BApprovalProcess[]
-  > = this.unitService
+  approvalProcess$: Observable<B2BApprovalProcess[]> = this.unitService
     .getApprovalProcesses()
     .pipe(filter((items) => items?.length > 0));
 

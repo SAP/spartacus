@@ -25,7 +25,8 @@ export class BasePageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
-    CanonicalPageResolver {
+    CanonicalPageResolver
+{
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
@@ -56,9 +57,7 @@ export class BasePageMetaResolver
   /**
    * Breadcrumb for the home page.
    */
-  protected homeBreadcrumb$: Observable<
-    BreadcrumbMeta[]
-  > = this.translation
+  protected homeBreadcrumb$: Observable<BreadcrumbMeta[]> = this.translation
     .translate('common.home')
     .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
 

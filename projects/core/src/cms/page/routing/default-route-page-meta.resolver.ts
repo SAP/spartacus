@@ -14,7 +14,8 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export abstract class DefaultRoutePageMetaResolver
-  implements RouteBreadcrumbResolver {
+  implements RouteBreadcrumbResolver
+{
   constructor(protected translation: TranslationService) {}
 
   /**

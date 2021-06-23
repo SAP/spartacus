@@ -160,10 +160,11 @@ describe('ConfiguratorGroupsService', () => {
       });
     });
     it('should return undefined if menu parent group is not availaible in uiState', (done) => {
-      const configurationWoMenuParentGroup = ConfiguratorTestUtils.createConfiguration(
-        CONFIG_ID,
-        ConfiguratorModelUtils.createInitialOwner()
-      );
+      const configurationWoMenuParentGroup =
+        ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        );
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configurationWoMenuParentGroup)
       );
@@ -305,9 +306,8 @@ describe('ConfiguratorGroupsService', () => {
       );
     });
     it('should not navigate in case no conflict group is present', () => {
-      const consistentConfiguration = ConfiguratorTestUtils.createConfiguration(
-        '1'
-      );
+      const consistentConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(consistentConfiguration)
       );
@@ -332,9 +332,8 @@ describe('ConfiguratorGroupsService', () => {
       );
     });
     it('should not navigate in case no incomplete group is present', () => {
-      const completeConfiguration = ConfiguratorTestUtils.createConfiguration(
-        '1'
-      );
+      const completeConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(completeConfiguration)
       );

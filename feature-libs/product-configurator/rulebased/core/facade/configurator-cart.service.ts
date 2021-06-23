@@ -64,14 +64,15 @@ export class ConfiguratorCartService {
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) => {
-                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-                    userId: userId,
-                    cartId: this.commonConfigUtilsService.getCartId(
-                      cartState.value
-                    ),
-                    cartEntryNumber: owner.id,
-                    owner: owner,
-                  };
+                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+                    {
+                      userId: userId,
+                      cartId: this.commonConfigUtilsService.getCartId(
+                        cartState.value
+                      ),
+                      cartEntryNumber: owner.id,
+                      owner: owner,
+                    };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
                       readFromCartEntryParameters
@@ -113,12 +114,13 @@ export class ConfiguratorCartService {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-            userId: OCC_USER_ID_CURRENT,
-            orderId: ownerIdParts.documentId,
-            orderEntryNumber: ownerIdParts.entryNumber,
-            owner: owner,
-          };
+          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+            {
+              userId: OCC_USER_ID_CURRENT,
+              orderId: ownerIdParts.documentId,
+              orderEntryNumber: ownerIdParts.entryNumber,
+              owner: owner,
+            };
           this.store.dispatch(
             new ConfiguratorActions.ReadOrderEntryConfiguration(
               readFromOrderEntryParameters
@@ -191,12 +193,15 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-              userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
-              cartEntryNumber: configuration.owner.id,
-              configuration: configuration,
-            };
+            const parameters: Configurator.UpdateConfigurationForCartEntryParameters =
+              {
+                userId: userId,
+                cartId: this.commonConfigUtilsService.getCartId(
+                  cartState.value
+                ),
+                cartEntryNumber: configuration.owner.id,
+                configuration: configuration,
+              };
 
             this.store.dispatch(
               new ConfiguratorActions.UpdateCartEntry(parameters)

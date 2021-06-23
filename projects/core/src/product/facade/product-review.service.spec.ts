@@ -39,8 +39,8 @@ describe('ReviewService', () => {
 
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of([mockReview])
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of([mockReview])
       );
       let result: Review[];
       service.getByProductCode('testId').subscribe((reviews) => {
@@ -50,8 +50,8 @@ describe('ReviewService', () => {
     });
 
     it('should be able to load product reviews if reviews not exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(undefined)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(undefined)
       );
       service.getByProductCode('testId').subscribe().unsubscribe();
 

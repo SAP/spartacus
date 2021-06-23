@@ -100,16 +100,18 @@ describe('SelectFocusUtility', () => {
 
     describe('hide by css', () => {
       it('should find 5 focusable elements which are not hidden by css', () => {
-        const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
-          .nativeElement;
+        const host: HTMLElement = fixture.debugElement.query(
+          By.css('#e')
+        ).nativeElement;
         host.classList.remove('hide');
         fixture.detectChanges();
         expect(service.findFocusable(host).length).toEqual(5);
       });
 
       it('should not find focusable elements hidden by CSS', () => {
-        const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
-          .nativeElement;
+        const host: HTMLElement = fixture.debugElement.query(
+          By.css('#e')
+        ).nativeElement;
         host.classList.add('hide');
         const button1 = fixture.debugElement.query(By.css('#e4')).nativeElement;
         const button2 = fixture.debugElement.query(By.css('#e5')).nativeElement;
@@ -119,15 +121,17 @@ describe('SelectFocusUtility', () => {
       });
 
       it('should find hidden focusable elements if asked specifically', () => {
-        const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
-          .nativeElement;
+        const host: HTMLElement = fixture.debugElement.query(
+          By.css('#e')
+        ).nativeElement;
         host.classList.add('hide');
         expect(service.findFocusable(host, undefined, true).length).toEqual(5);
       });
 
       it('should skip hidden focusable elements for first focusable', () => {
-        const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
-          .nativeElement;
+        const host: HTMLElement = fixture.debugElement.query(
+          By.css('#e')
+        ).nativeElement;
         host.classList.add('hide');
         const button1 = fixture.debugElement.query(By.css('#e4')).nativeElement;
         expect(service.findFirstFocusable(host)).toEqual(button1);

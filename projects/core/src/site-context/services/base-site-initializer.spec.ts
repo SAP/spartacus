@@ -20,7 +20,8 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(mockSiteContextConfig);
 }
 

@@ -108,7 +108,8 @@ describe('SearchBoxComponent', () => {
   }
 
   class SearchBoxComponentServiceSpy
-    implements Partial<SearchBoxComponentService> {
+    implements Partial<SearchBoxComponentService>
+  {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{

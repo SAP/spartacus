@@ -4,7 +4,8 @@ import { MerchandisingFacet } from '../model/merchandising-facet.model';
 
 @Injectable({ providedIn: 'root' })
 export class MerchandisingFacetNormalizer
-  implements Converter<Breadcrumb[], MerchandisingFacet[]> {
+  implements Converter<Breadcrumb[], MerchandisingFacet[]>
+{
   convert(
     source: Breadcrumb[],
     target: MerchandisingFacet[] = []

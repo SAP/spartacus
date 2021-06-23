@@ -7,7 +7,8 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
-  implements Converter<Cpq.Configuration, Configurator.Overview> {
+  implements Converter<Cpq.Configuration, Configurator.Overview>
+{
   protected readonly NO_OPTION_SELECTED = 0;
 
   constructor(
@@ -22,9 +23,8 @@ export class CpqConfiguratorOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       productCode: source.productSystemId,
-      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        source
-      ),
+      priceSummary:
+        this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: source.tabs
         ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
         .filter((tab) => tab.attributes.length > 0),
@@ -72,11 +72,8 @@ export class CpqConfiguratorOverviewNormalizer
         ...ovValue,
         type: attributeOverviewType,
       });
-      ovAttr[
-        index
-      ].attribute = this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-        attr
-      );
+      ovAttr[index].attribute =
+        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attr);
     });
     return ovAttr;
   }
@@ -136,10 +133,11 @@ export class CpqConfiguratorOverviewNormalizer
         currency
       ),
     };
-    ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      ovValue.quantity,
-      ovValue.valuePrice
-    );
+    ovValue.valuePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        ovValue.quantity,
+        ovValue.valuePrice
+      );
     return ovValue;
   }
 
@@ -157,10 +155,11 @@ export class CpqConfiguratorOverviewNormalizer
         currency
       ),
     };
-    ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      ovValue.quantity,
-      ovValue.valuePrice
-    );
+    ovValue.valuePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        ovValue.quantity,
+        ovValue.valuePrice
+      );
     return ovValue;
   }
 

@@ -113,22 +113,25 @@ describe('LockFocusDirective', () => {
 
   describe('make host focusable', () => {
     it('should add tabindex=0 to host element', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#a'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#a')
+      ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).toEqual('0');
     });
 
     it('should replace tabindex -1 by 0 on host element', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).toEqual('0');
     });
 
     it('should not replace tabindex 5 by 0 on host element', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#c'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#c')
+      ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).not.toEqual('0');
       expect(host.getAttribute('tabindex')).toEqual('5');

@@ -95,7 +95,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
               this.anonymousConsentsConfig.anonymousConsents.requiredConsents
             )
           ) {
-            this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+            this.requiredConsents =
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
           }
           if (
             Boolean(
@@ -137,8 +138,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
         .hideConsents.length > 0
     ) {
-      hideTemplateIds = this.anonymousConsentsConfig.anonymousConsents
-        .consentManagementPage.hideConsents;
+      hideTemplateIds =
+        this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+          .hideConsents;
     }
 
     return this.userConsentService.filterConsentTemplates(

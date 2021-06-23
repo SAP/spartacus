@@ -11,7 +11,8 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
     Converter<
       ConfiguratorTextfield.UpdateCartEntryParameters,
       OccConfiguratorTextfield.UpdateCartEntryParameters
-    > {
+    >
+{
   constructor() {}
 
   /**

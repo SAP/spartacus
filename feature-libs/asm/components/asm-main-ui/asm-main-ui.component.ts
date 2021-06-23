@@ -45,8 +45,10 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.customerSupportAgentLoggedIn$ = this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
-    this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
+    this.customerSupportAgentLoggedIn$ =
+      this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
+    this.csAgentTokenLoading$ =
+      this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {

@@ -7,7 +7,8 @@ import { Occ } from '../../../occ-models/occ.models';
   providedIn: 'root',
 })
 export class OccCostCenterSerializer
-  implements Converter<CostCenter, Occ.CostCenter> {
+  implements Converter<CostCenter, Occ.CostCenter>
+{
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {
     if (target === undefined) {
       target = { ...(source as any) };

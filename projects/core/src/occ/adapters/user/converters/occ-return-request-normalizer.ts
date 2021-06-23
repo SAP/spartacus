@@ -9,7 +9,8 @@ import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/conve
 
 @Injectable({ providedIn: 'root' })
 export class OccReturnRequestNormalizer
-  implements Converter<Occ.ReturnRequest, ReturnRequest> {
+  implements Converter<Occ.ReturnRequest, ReturnRequest>
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {

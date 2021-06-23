@@ -44,7 +44,8 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
 
@@ -64,8 +65,8 @@ export class ConfiguratorAttributeProductCardComponent
 
   ngOnInit() {
     this.loading$.next(true);
-    const productSystemId = this.productCardOptions.productBoundValue
-      .productSystemId;
+    const productSystemId =
+      this.productCardOptions.productBoundValue.productSystemId;
 
     this.product$ = this.productService
       .get(
@@ -183,8 +184,8 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const quantityFromOptions = this.productCardOptions.productBoundValue
-      .quantity;
+    const quantityFromOptions =
+      this.productCardOptions.productBoundValue.quantity;
 
     const mergedLoading = this.productCardOptions.loading$
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(

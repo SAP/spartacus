@@ -83,8 +83,9 @@ describe('TableComponent', () => {
 
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
-    const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
+    const attr = (
+      fixture.debugElement.nativeElement as HTMLElement
+    ).getAttribute('__cx-table-type');
     expect(attr).toEqual('test-1');
   });
 
@@ -92,8 +93,9 @@ describe('TableComponent', () => {
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
-    const attr = (fixture.debugElement
-      .nativeElement as HTMLElement).getAttribute('__cx-table-type');
+    const attr = (
+      fixture.debugElement.nativeElement as HTMLElement
+    ).getAttribute('__cx-table-type');
     expect(attr).toBeFalsy();
   });
 

@@ -8,11 +8,12 @@ import { configuratorReducer } from './configurator.reducer';
 export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
   return {
     // @ts-ignore TODO (#12620)
-    configurations: StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
-      CONFIGURATOR_DATA,
-      // @ts-ignore TODO (#12620)
-      configuratorReducer
-    ),
+    configurations:
+      StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
+        CONFIGURATOR_DATA,
+        // @ts-ignore TODO (#12620)
+        configuratorReducer
+      ),
   };
 }
 

@@ -10,16 +10,12 @@ export const getOrdersState: MemoizedSelector<
   LoaderState<OrderHistoryList>
 > = createSelector(getUserState, (state: UserState) => state.orders);
 
-export const getOrdersLoaded: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getOrdersState, (state: LoaderState<OrderHistoryList>) =>
-  StateUtils.loaderSuccessSelector(state)
-);
+export const getOrdersLoaded: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getOrdersState, (state: LoaderState<OrderHistoryList>) =>
+    StateUtils.loaderSuccessSelector(state)
+  );
 
-export const getOrders: MemoizedSelector<
-  StateWithUser,
-  OrderHistoryList
-> = createSelector(getOrdersState, (state: LoaderState<OrderHistoryList>) =>
-  StateUtils.loaderValueSelector(state)
-);
+export const getOrders: MemoizedSelector<StateWithUser, OrderHistoryList> =
+  createSelector(getOrdersState, (state: LoaderState<OrderHistoryList>) =>
+    StateUtils.loaderValueSelector(state)
+  );

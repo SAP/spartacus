@@ -10,15 +10,10 @@ export const getRegionsLoaderState: MemoizedSelector<
   LoaderState<RegionsState>
 > = createSelector(getUserState, (state: UserState) => state.regions);
 
-export const getAllRegions: MemoizedSelector<
-  StateWithUser,
-  Region[]
-> = createSelector(
-  getRegionsLoaderState,
-  (state: LoaderState<RegionsState>) => {
+export const getAllRegions: MemoizedSelector<StateWithUser, Region[]> =
+  createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) => {
     return StateUtils.loaderValueSelector(state).entities;
-  }
-);
+  });
 
 export const getRegionsDataAndLoading: MemoizedSelector<
   StateWithUser,
@@ -38,25 +33,19 @@ export const getRegionsDataAndLoading: MemoizedSelector<
   })
 );
 
-export const getRegionsCountry: MemoizedSelector<
-  StateWithUser,
-  string
-> = createSelector(
-  getRegionsLoaderState,
-  (state: LoaderState<RegionsState>) =>
-    StateUtils.loaderValueSelector(state).country
-);
+export const getRegionsCountry: MemoizedSelector<StateWithUser, string> =
+  createSelector(
+    getRegionsLoaderState,
+    (state: LoaderState<RegionsState>) =>
+      StateUtils.loaderValueSelector(state).country
+  );
 
-export const getRegionsLoading: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-  StateUtils.loaderLoadingSelector(state)
-);
+export const getRegionsLoading: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
+    StateUtils.loaderLoadingSelector(state)
+  );
 
-export const getRegionsLoaded: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-  StateUtils.loaderSuccessSelector(state)
-);
+export const getRegionsLoaded: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
+    StateUtils.loaderSuccessSelector(state)
+  );

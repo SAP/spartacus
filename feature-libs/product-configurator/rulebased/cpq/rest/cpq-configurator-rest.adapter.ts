@@ -15,7 +15,8 @@ import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected cpqRestService: CpqConfiguratorRestService,
     protected cpqOccService: CpqConfiguratorOccService

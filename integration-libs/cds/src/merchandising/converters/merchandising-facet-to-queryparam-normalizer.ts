@@ -4,7 +4,8 @@ import { MerchandisingFacet } from '../model/merchandising-facet.model';
 
 @Injectable({ providedIn: 'root' })
 export class MerchandisingFacetToQueryparamNormalizer
-  implements Converter<MerchandisingFacet[], string> {
+  implements Converter<MerchandisingFacet[], string>
+{
   convert(source: MerchandisingFacet[]): string {
     const target = source
       .filter(Boolean)

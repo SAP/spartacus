@@ -88,9 +88,8 @@ describe('Product Search Reducer', () => {
 
       const { initialState } = fromProductSearch;
       const queryAction = new ProductActions.SearchProductsSuccess(results);
-      const querySuggestionAction = new ProductActions.GetProductSuggestionsSuccess(
-        suggestions
-      );
+      const querySuggestionAction =
+        new ProductActions.GetProductSuggestionsSuccess(suggestions);
       fromProductSearch.reducer(initialState, queryAction);
       fromProductSearch.reducer(initialState, querySuggestionAction);
 

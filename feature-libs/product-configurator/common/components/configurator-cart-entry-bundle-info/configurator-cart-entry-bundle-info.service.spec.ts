@@ -115,9 +115,8 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
   });
 
   it('should retrieve line items', () => {
-    const lineItems: LineItem[] = configuratorCartEntryBundleInfoService.retrieveLineItems(
-      orderEntry
-    );
+    const lineItems: LineItem[] =
+      configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
     expect(lineItems.length).toBe(4);
     expect(lineItems[0]).toEqual(expectedLineItem1);
     expect(lineItems[1]).toEqual(expectedLineItem2);

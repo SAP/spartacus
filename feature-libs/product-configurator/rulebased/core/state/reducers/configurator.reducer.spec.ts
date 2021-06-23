@@ -132,12 +132,11 @@ describe('Configurator reducer', () => {
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfigurationFail(
-        {
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfigurationFail({
           configuration: configuration,
           error: null,
-        }
-      );
+        });
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
@@ -146,9 +145,8 @@ describe('Configurator reducer', () => {
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfiguration(
-        configuration
-      );
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfiguration(configuration);
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
@@ -212,9 +210,8 @@ describe('Configurator reducer', () => {
 
   describe('UpdatePriceSummarySuccess action', () => {
     it('should keep the existing groups altough it does not provide groups in its data', () => {
-      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
-        configuration
-      );
+      const actionProvidingState =
+        new ConfiguratorActions.CreateConfigurationSuccess(configuration);
       const firstState = StateReduce.configuratorReducer(
         undefined,
         actionProvidingState

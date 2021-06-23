@@ -5,7 +5,8 @@ import { Product, ProductReferences } from '../../../../model/product.model';
 
 @Injectable()
 export class ProductReferenceNormalizer
-  implements Converter<Occ.Product, Product> {
+  implements Converter<Occ.Product, Product>
+{
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
       target = { ...(source as any) };

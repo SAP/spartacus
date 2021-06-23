@@ -80,7 +80,8 @@ class MockCxIconComponent {
 }
 
 let routerStateObservable: Observable<RouterState> = EMPTY;
-let configurationCreateObservable: Observable<Configurator.Configuration> = EMPTY;
+let configurationCreateObservable: Observable<Configurator.Configuration> =
+  EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;

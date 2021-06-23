@@ -15,7 +15,11 @@
         <!-- Select Form and Pagination Top -->
         <div class="cx-replenishment-order-history-sort top row">
           <div
-            class="cx-replenishment-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+            class="
+              cx-replenishment-order-history-form-group
+              form-group
+              col-sm-12 col-md-4 col-lg-4
+            "
           >
             <cx-sorting
               [sortOptions]="replenishmentOrders.sorts"
@@ -102,7 +106,10 @@
                       params: order
                     } | cxUrl
                   "
-                  class="cx-replenishment-order-history-value cx-purchase-order-number"
+                  class="
+                    cx-replenishment-order-history-value
+                    cx-purchase-order-number
+                  "
                 >
                   {{
                     order?.purchaseOrderNumber?.length > 0
@@ -155,7 +162,9 @@
                       params: order
                     } | cxUrl
                   "
-                  class="cx-replenishment-order-history-value cx-next-order-date"
+                  class="
+                    cx-replenishment-order-history-value cx-next-order-date
+                  "
                 >
                   {{
                     order?.active

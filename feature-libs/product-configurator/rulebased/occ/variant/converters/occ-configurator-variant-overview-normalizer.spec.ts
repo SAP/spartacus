@@ -188,9 +188,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
       subGroups: [group1, group3],
     };
 
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      groupWithSubgroups
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     expect(result.length).toBe(1);
   });
 
@@ -205,9 +204,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
       subGroups: [group1, group3, secondLevelGroup],
     };
 
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      groupWithSubgroups
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     const rootGroup = result[0];
     expect(rootGroup).toBeDefined();
     const subGroups = rootGroup.subGroups;
@@ -233,15 +231,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should convert a standard group', () => {
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      group1
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(group1);
     expect(result[0].groupDescription).toBe(groupDescription);
   });
   it('should convert a general group', () => {
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      generalGroup
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(generalGroup);
     expect(result[0].groupDescription).toBe(generalGroupDescription);
   });
 });

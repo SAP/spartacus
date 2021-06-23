@@ -260,8 +260,9 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   it('should show a cancel action button', () => {
     fixture.detectChanges();
 
-    const button = el.query(By.css('.cx-order-cancel:last-child'))
-      .nativeElement;
+    const button = el.query(
+      By.css('.cx-order-cancel:last-child')
+    ).nativeElement;
 
     expect(button.textContent).toContain('orderHistory.cancel');
   });

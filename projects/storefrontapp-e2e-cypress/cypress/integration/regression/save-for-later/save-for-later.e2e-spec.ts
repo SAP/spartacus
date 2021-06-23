@@ -94,8 +94,9 @@ context('Save for later', () => {
       });
 
       it('should place order and keep save for later', () => {
-        const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'))
-          .token;
+        const stateAuth = JSON.parse(
+          localStorage.getItem('spartacus⚿⚿auth')
+        ).token;
         addProductToCart(products[0]);
         addProductToCart(products[1]);
         moveItem(products[0], ItemList.SaveForLater);

@@ -60,12 +60,14 @@ class MockCmsService implements Partial<CmsService> {
 }
 
 class MockDynamicAttributeService
-  implements Partial<MockDynamicAttributeService> {
+  implements Partial<MockDynamicAttributeService>
+{
   addAttributesToComponent(): void {}
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(MockCmsModuleConfig);
 }
 

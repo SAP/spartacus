@@ -12,26 +12,22 @@ export const product = {
     {
       format: 'zoom',
       imageType: 'PRIMARY',
-      url:
-        '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY1N3xpbWFnZS9qcGVnfGltYWdlcy9oMmQvaDIxLzg3OTY2MTYxMzA1OTAuanBnfGY3MDRjMWViNDc4ZTA0MWY3YTIwZWRmOWFjZmZkYTQ4NDM0YWI1MGY5NTdmMDY5ODExY2E5ZjU0ZTZmNDk0MDk',
+      url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY1N3xpbWFnZS9qcGVnfGltYWdlcy9oMmQvaDIxLzg3OTY2MTYxMzA1OTAuanBnfGY3MDRjMWViNDc4ZTA0MWY3YTIwZWRmOWFjZmZkYTQ4NDM0YWI1MGY5NTdmMDY5ODExY2E5ZjU0ZTZmNDk0MDk',
     },
     {
       format: 'product',
       imageType: 'PRIMARY',
-      url:
-        '/medias/?context=bWFzdGVyfGltYWdlc3w1NjY3fGltYWdlL2pwZWd8aW1hZ2VzL2g5ZC9oZjkvODc5NjY0MjQxMDUyNi5qcGd8ZDAwOWZkNmFkYjExMTA2ZGNiMzZjZDI1Mjk0MWEzMmIzYTdjMWM3ZWQ5YTkxMGU3YjI3NWFiNjM1NGJjMTQ2ZA',
+      url: '/medias/?context=bWFzdGVyfGltYWdlc3w1NjY3fGltYWdlL2pwZWd8aW1hZ2VzL2g5ZC9oZjkvODc5NjY0MjQxMDUyNi5qcGd8ZDAwOWZkNmFkYjExMTA2ZGNiMzZjZDI1Mjk0MWEzMmIzYTdjMWM3ZWQ5YTkxMGU3YjI3NWFiNjM1NGJjMTQ2ZA',
     },
     {
       format: 'thumbnail',
       imageType: 'PRIMARY',
-      url:
-        '/medias/?context=bWFzdGVyfGltYWdlc3wxNzkzfGltYWdlL2pwZWd8aW1hZ2VzL2gxMi9oM2QvODc5NjY2ODc1NTk5OC5qcGd8YzU3N2YwNzljN2Y0ODkxZWZiZDJjYjY0Yjg1ZjUyZGFmMmU3YmE3ODRiMzk4NzQwNzZhNzZlNGY2ZDM3MzI3Ng',
+      url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNzkzfGltYWdlL2pwZWd8aW1hZ2VzL2gxMi9oM2QvODc5NjY2ODc1NTk5OC5qcGd8YzU3N2YwNzljN2Y0ODkxZWZiZDJjYjY0Yjg1ZjUyZGFmMmU3YmE3ODRiMzk4NzQwNzZhNzZlNGY2ZDM3MzI3Ng',
     },
     {
       format: 'cartIcon',
       imageType: 'PRIMARY',
-      url:
-        '/medias/?context=bWFzdGVyfGltYWdlc3wxMjU4fGltYWdlL2pwZWd8aW1hZ2VzL2gwNi9oNTgvODc5NjY5NTEwMTQ3MC5qcGd8ZTY4ZGUwZTk2Njc5YThmZWE0MjA4OTNmZDU4ZjRiZWY4OTEzYTM0ODFjNzRiZTkzN2Y2Y2RmNDJiNDA2YWYwZA',
+      url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMjU4fGltYWdlL2pwZWd8aW1hZ2VzL2gwNi9oNTgvODc5NjY5NTEwMTQ3MC5qcGd8ZTY4ZGUwZTk2Njc5YThmZWE0MjA4OTNmZDU4ZjRiZWY4OTEzYTM0ODFjNzRiZTkzN2Y2Y2RmNDJiNDA2YWYwZA',
     },
   ],
   name: 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black',

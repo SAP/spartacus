@@ -15,7 +15,8 @@ export class OccPermissionTypeListNormalizer
     Converter<
       Occ.OrderApprovalPermissionTypeList,
       OrderApprovalPermissionType[]
-    > {
+    >
+{
   constructor(private converter: ConverterService) {}
 
   convert(

@@ -70,9 +70,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    * It returns the recognized site context params as well as the
    * URL shortened by the recognized params.
    */
-  urlExtractContextParameters(
-    url: string
-  ): { url: string; params: SiteContextUrlParams } {
+  urlExtractContextParameters(url: string): {
+    url: string;
+    params: SiteContextUrlParams;
+  } {
     const [, urlPart, queryPart] = url.match(this.URL_SPLIT);
 
     const segments = urlPart.split('/');

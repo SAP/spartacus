@@ -29,7 +29,8 @@ const mockOrderHistoryList: OrderHistoryList = {
 };
 
 class MockUserReplenishmentOrderAdapter
-  implements UserReplenishmentOrderAdapter {
+  implements UserReplenishmentOrderAdapter
+{
   load(
     _userId: string,
     _replenishmentOrderCode: string

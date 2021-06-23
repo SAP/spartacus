@@ -22,16 +22,12 @@ export const getFindStoresEntities: MemoizedSelector<
   StateUtils.loaderValueSelector(state)
 );
 
-export const getStoresLoading: MemoizedSelector<
-  StateWithStoreFinder,
-  boolean
-> = createSelector(getFindStoresState, (state) =>
-  StateUtils.loaderLoadingSelector(state)
-);
+export const getStoresLoading: MemoizedSelector<StateWithStoreFinder, boolean> =
+  createSelector(getFindStoresState, (state) =>
+    StateUtils.loaderLoadingSelector(state)
+  );
 
-export const getStoresSuccess: MemoizedSelector<
-  StateWithStoreFinder,
-  boolean
-> = createSelector(getFindStoresState, (state) =>
-  StateUtils.loaderSuccessSelector(state)
-);
+export const getStoresSuccess: MemoizedSelector<StateWithStoreFinder, boolean> =
+  createSelector(getFindStoresState, (state) =>
+    StateUtils.loaderSuccessSelector(state)
+  );

@@ -67,18 +67,22 @@ export class SelectiveCartService {
     });
 
     this.selectiveCart$ = this.cartSelector$.pipe(
-      map((cartEntity: LoaderState<Cart>): {
-        cart: Cart;
-        loading: boolean;
-        loaded: boolean;
-      } => {
-        return {
-          cart: cartEntity.value,
-          loading: cartEntity.loading,
-          loaded:
-            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
-        };
-      }),
+      map(
+        (
+          cartEntity: LoaderState<Cart>
+        ): {
+          cart: Cart;
+          loading: boolean;
+          loaded: boolean;
+        } => {
+          return {
+            cart: cartEntity.value,
+            loading: cartEntity.loading,
+            loaded:
+              (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+          };
+        }
+      ),
       filter(({ loading }) => !loading),
       tap(({ cart, loaded }) => {
         if (this.cartId && this.isEmpty(cart) && !loaded) {

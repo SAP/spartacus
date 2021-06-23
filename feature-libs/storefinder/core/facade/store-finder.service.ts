@@ -106,32 +106,33 @@ export class StoreFinderService implements OnDestroy {
   ) {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
-      this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        // TODO: Replace to GeolocationPosition when updating to new TS version
-        (pos: Position) => {
-          const position: GeoPoint = {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-          };
+      this.geolocationWatchId =
+        this.winRef.nativeWindow.navigator.geolocation.watchPosition(
+          // TODO: Replace to GeolocationPosition when updating to new TS version
+          (pos: Position) => {
+            const position: GeoPoint = {
+              longitude: pos.coords.longitude,
+              latitude: pos.coords.latitude,
+            };
 
-          this.clearWatchGeolocation(
-            new StoreFinderActions.FindStores({
-              queryText: queryText,
-              searchConfig: searchConfig,
-              longitudeLatitude: position,
-              countryIsoCode: countryIsoCode,
-              radius: radius,
-            })
-          );
-        },
-        () => {
-          this.globalMessageService.add(
-            { key: 'storeFinder.geolocationNotEnabled' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.routingService.go(['/store-finder']);
-        }
-      );
+            this.clearWatchGeolocation(
+              new StoreFinderActions.FindStores({
+                queryText: queryText,
+                searchConfig: searchConfig,
+                longitudeLatitude: position,
+                countryIsoCode: countryIsoCode,
+                radius: radius,
+              })
+            );
+          },
+          () => {
+            this.globalMessageService.add(
+              { key: 'storeFinder.geolocationNotEnabled' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            this.routingService.go(['/store-finder']);
+          }
+        );
     } else {
       this.clearWatchGeolocation(
         new StoreFinderActions.FindStores({

@@ -10,15 +10,16 @@ import { CheckoutStepService } from '../../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressMobileBottomComponent {
-  private _steps$: BehaviorSubject<CheckoutStep[]> = this.checkoutStepService
-    .steps$;
+  private _steps$: BehaviorSubject<CheckoutStep[]> =
+    this.checkoutStepService.steps$;
 
   constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
-  activeStepIndex$: Observable<number> = this.checkoutStepService.activeStepIndex$.pipe(
-    tap((index) => (this.activeStepIndex = index))
-  );
+  activeStepIndex$: Observable<number> =
+    this.checkoutStepService.activeStepIndex$.pipe(
+      tap((index) => (this.activeStepIndex = index))
+    );
 
   get steps$(): Observable<CheckoutStep[]> {
     return this._steps$.asObservable();

@@ -16,7 +16,8 @@ export enum PermissionType {
 })
 export class PermissionFormService
   extends FormService<Permission>
-  implements OnDestroy {
+  implements OnDestroy
+{
   protected subscription = new Subscription();
 
   /**

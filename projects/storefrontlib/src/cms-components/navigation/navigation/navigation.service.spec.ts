@@ -280,11 +280,10 @@ describe('NavigationComponentService', () => {
     };
 
     navigationService.getNavigationNode(of(componentData)).subscribe();
-    expect(
-      mockCmsService.loadNavigationItems
-    ).toHaveBeenCalledWith('MockNavigationNode001', [
-      { superType: 'AbstractCMSComponent', id: 'MockLink007' },
-    ]);
+    expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
+      'MockNavigationNode001',
+      [{ superType: 'AbstractCMSComponent', id: 'MockLink007' }]
+    );
   });
 
   it('should create a virtual navigation root', () => {

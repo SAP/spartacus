@@ -21,10 +21,8 @@ describe('Configurator selectors', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner = ConfiguratorModelUtils.createInitialOwner();
-  let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
-    'a',
-    owner
-  );
+  let configuration: Configurator.Configuration =
+    ConfiguratorTestUtils.createConfiguration('a', owner);
 
   const configurationWithInteractionState: Configurator.Configuration = {
     ...ConfiguratorTestUtils.createConfiguration('a', owner),

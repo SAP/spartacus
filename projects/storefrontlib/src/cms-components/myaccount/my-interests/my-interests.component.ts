@@ -84,7 +84,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         }))
       );
 
-    this.getInterestsloading$ = this.productInterestService.getProdutInterestsLoading();
+    this.getInterestsloading$ =
+      this.productInterestService.getProdutInterestsLoading();
     this.isRemoveDisabled$ = combineLatest([
       this.getInterestsloading$,
       this.productInterestService.getRemoveProdutInterestLoading(),

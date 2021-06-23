@@ -8,7 +8,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
   implements
-    Converter<OccConfigurator.Configuration, Configurator.Configuration> {
+    Converter<OccConfigurator.Configuration, Configurator.Configuration>
+{
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService

@@ -40,8 +40,7 @@ describe(`OccSitesConfigLoader`, () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url:
-          'baseUrl/prefix/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)',
+        url: 'baseUrl/prefix/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)',
       });
 
       expect(mockReq.cancelled).toBeFalsy();

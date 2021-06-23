@@ -20,7 +20,8 @@ import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';
 
 @Injectable()
 export class OccConfiguratorTextfieldAdapter
-  implements ConfiguratorTextfieldAdapter {
+  implements ConfiguratorTextfieldAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,

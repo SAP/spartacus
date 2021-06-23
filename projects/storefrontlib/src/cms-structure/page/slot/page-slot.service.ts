@@ -61,9 +61,8 @@ export class PageSlotService {
     if (this.shouldNotDefer(slot)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };
     }
-    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
-      componentType
-    );
+    const deferLoading =
+      this.cmsComponentsService.getDeferLoadingStrategy(componentType);
     return { deferLoading };
   }
 }

@@ -101,8 +101,9 @@ describe('ProductFacetNavigationComponent', () => {
       'should have facet list after trigger button is clicked',
       waitForAsync(async () => {
         fixture.detectChanges();
-        const button: HTMLElement = element.query(By.css('button'))
-          .nativeElement;
+        const button: HTMLElement = element.query(
+          By.css('button')
+        ).nativeElement;
         button.click();
 
         await fixture.whenStable();
@@ -118,8 +119,9 @@ describe('ProductFacetNavigationComponent', () => {
       waitForAsync(async () => {
         spyOn(component, 'close');
         fixture.detectChanges();
-        const button: HTMLElement = element.query(By.css('button'))
-          .nativeElement;
+        const button: HTMLElement = element.query(
+          By.css('button')
+        ).nativeElement;
         button.click();
 
         await fixture.whenStable();
@@ -139,8 +141,9 @@ describe('ProductFacetNavigationComponent', () => {
       waitForAsync(async () => {
         fixture.detectChanges();
 
-        const button: HTMLElement = element.query(By.css('button'))
-          .nativeElement;
+        const button: HTMLElement = element.query(
+          By.css('button')
+        ).nativeElement;
         button.style.display = 'none';
 
         await fixture.whenStable();

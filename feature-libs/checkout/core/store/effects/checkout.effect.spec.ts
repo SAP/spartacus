@@ -167,7 +167,8 @@ describe('Checkout effect', () => {
         cartId,
       });
       const completion3 = new CheckoutActions.ClearSupportedDeliveryModes();
-      const completion4 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion4 =
+        new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
       const completion5 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
@@ -209,7 +210,8 @@ describe('Checkout effect', () => {
         previous: 'previous',
         current: 'current',
       });
-      const completion1 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion1 =
+        new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
       const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
       const completion3 = new CheckoutActions.CheckoutClearMiscsData();
 
@@ -412,7 +414,8 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+      const completion =
+        new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -11,7 +11,8 @@ import { OrderApproval } from '../../core/model/order-approval.model';
   providedIn: 'root',
 })
 export class OccOrderApprovalNormalizer
-  implements Converter<Occ.OrderApproval, OrderApproval> {
+  implements Converter<Occ.OrderApproval, OrderApproval>
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {
