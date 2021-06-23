@@ -97,6 +97,11 @@
           align-self: flex-end;
         }
       }
+
+      &.deselection-error-message {
+        display: inline-block;
+        width: 80%;
+      }
     }
 
     .cx-product-card-imgs {
@@ -164,14 +169,21 @@
   }
 
   .cx-product-card-selected {
+    flex-wrap: wrap;
     background-color: var(--cx-color-background);
 
     cx-item-counter {
       background-color: #fff;
     }
   }
-  .removing-error-message {
+
+  .deselection-error-message {
+    padding-top: 5px;
     display: flex;
     color: var(--cx-color-danger);
+  }
+
+  .deselection-error-symbol {
+    padding-right: 5px;
   }
 }
