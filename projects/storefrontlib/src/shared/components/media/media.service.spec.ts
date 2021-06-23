@@ -87,7 +87,7 @@ const mockUrlContainer = {
   },
 };
 
-fdescribe('MediaService', () => {
+describe('MediaService', () => {
   describe('with eager loaded config', () => {
     let mediaService: MediaService;
 
@@ -244,6 +244,7 @@ fdescribe('MediaService', () => {
             mediaService.getMedia(
               mockBestFormatMediaContainer,
               'format400',
+              'custom alt',
               'custom role'
             ).role
           ).toEqual('custom role');
