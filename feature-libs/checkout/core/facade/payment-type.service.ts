@@ -89,7 +89,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   // TODO: Move cartId and userId to command
   // TODO: Multiple layers interface
   setPaymentType(typeCode: string, poNumber?: string): void {
-    let cartId: string;
+    let cartId: string | undefined;
     this.activeCartService
       .getActiveCartId()
       .pipe(take(1))

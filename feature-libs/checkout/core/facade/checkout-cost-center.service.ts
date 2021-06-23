@@ -25,7 +25,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
    * @param costCenterId : cost center id
    */
   setCostCenter(costCenterId: string): void {
-    let cartId: string;
+    let cartId: string | undefined;
     this.activeCartService
       .getActiveCartId()
       .pipe(take(1))
