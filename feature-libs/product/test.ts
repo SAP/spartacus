@@ -3,6 +3,7 @@
 // Monkey-patches must be imported as the first:
 import 'zone.js';
 import 'zone.js/testing';
+import 'projects/core/src/test-patch-object-define-property';
 // Monkey-patches end
 
 import { getTestBed } from '@angular/core/testing';
