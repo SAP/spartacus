@@ -463,11 +463,6 @@ export const FORM$ = 'form$';
 export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
 export const SCRIPT_LOADER = 'ScriptLoader';
 
-export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
-export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
-
-export const HTTP_ERROR_MODEL = 'HttpErrorModel';
-
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -923,7 +918,6 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
-export const ERROR = 'error';
 
 /***** APIs end *****/
 
