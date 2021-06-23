@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutCostCenterConnector } from '../connectors';
-import { CheckoutActions } from '../store';
+import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
+import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 
 @Injectable()
