@@ -915,6 +915,15 @@ export const IS_STABLE = 'isStable';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const GO = 'go';
 
+export const OCC_ENDPOINTS = 'OccEndpoints';
+export const OCC_ENDPOINT = 'OccEndpoint';
+export const BASE_SITES_FOR_CONFIG = 'baseSitesForConfig';
+
+export const OCC_CONFIG_LOADER_SERVICE = 'OccConfigLoaderService';
+export const OCC_LOADED_CONFIG_CONVERTER = 'OccLoadedConfigConverter';
+export const OCC_LOADED_CONFIG = 'OccLoadedConfig';
+export const OCC_SITES_CONFIG_LOADER = 'OccSitesConfigLoader';
+export const OCC_CONFIG_LOADER_MODULE = 'OccConfigLoaderModule';
 export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
 export const ON_SELECT = 'onSelect';
 export const ON_DESELECT = 'onDeselect';
