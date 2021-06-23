@@ -12,11 +12,20 @@ describe('ConfiguratorModelUtils', () => {
     ).toBe(CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE);
   });
 
-  it('should create initial owner with only key defined', () => {
+  it('should throw error if owner id is not present when creating an owner key', () => {
+    expect(function () {
+      ConfiguratorModelUtils.getOwnerKey(
+        CommonConfigurator.OwnerType.PRODUCT,
+        undefined
+      );
+    }).toThrow();
+  });
+
+  it('should create initial owner with key defined and default owner type defined', () => {
     const owner = ConfiguratorModelUtils.createInitialOwner();
     expect(owner.key).toBe('INITIAL');
-    expect(owner.type).toBeUndefined();
-    expect(owner.id).toBeUndefined();
+    expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
+    expect(owner.id).toBe('INITIAL');
   });
 
   it('should create owner from attributes', () => {

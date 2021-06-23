@@ -17,6 +17,7 @@ export class CpqAccessStorageService implements OnDestroy {
   protected readonly EXPIRED_TOKEN: CpqAccessData = {
     accessToken: 'INVALID DUMMY',
     accessTokenExpirationTime: 0,
+    endpoint: '',
   };
 
   constructor(

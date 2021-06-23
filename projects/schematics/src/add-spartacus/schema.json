@@ -20,6 +20,7 @@
           "Saved-Cart",
           "CDC",
           "CDS",
+          "Checkout",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -39,6 +40,7 @@
       },
       "default": [
         "ASM",
+        "Checkout",
         "Saved-Cart",
         "Bulk-Pricing",
         "Product-Variants",
@@ -67,6 +69,10 @@
           {
             "value": "CDS",
             "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
           },
           {
             "value": "Administration",
@@ -154,6 +160,10 @@
       "type": "string",
       "description": "A comma-separated list of languages to use in Spartacus",
       "default": "en"
+    },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
     },
     "useMetaTags": {
       "type": "boolean",

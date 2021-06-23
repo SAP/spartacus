@@ -5,7 +5,7 @@ const productId2 = '4812254';
 const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
 describe('Added to cart modal', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop', 'mobile'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -18,6 +18,7 @@ describe('Added to cart modal', () => {
       cy.get('cx-add-to-cart cx-item-counter input')
         .type('{selectall}{backspace}')
         .type('1000')
+        .blur()
         .should('have.value', '98');
 
       // check if the '+' button is disabled when the quantity is the maximum 'max stock'
@@ -29,6 +30,7 @@ describe('Added to cart modal', () => {
       cy.get('cx-add-to-cart cx-item-counter input')
         .type('{selectall}{backspace}')
         .type('0')
+        .blur()
         .should('have.value', '1');
 
       // check if the '-' button is disabled when the quantity is the minimum '1'
@@ -49,7 +51,7 @@ describe('Added to cart modal', () => {
         'contain',
         '1 item'
       );
-      cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
 
       // add same product to cart again
       cy.get('cx-add-to-cart button[type=submit]').click();
@@ -76,17 +78,17 @@ describe('Added to cart modal', () => {
         });
 
       // closing modal works
-      cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
       cy.get('cx-added-to-cart-dialog').should('not.exist');
     });
 
     it('adding different products to cart', () => {
       cy.onMobile(() => {
-        cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+        cy.get('cx-searchbox cx-icon[aria-label="Search"]').click();
       });
 
       // search for new product and select it, and add to cart
-      cy.get('cx-searchbox input[aria-label="search"]').type(productId2, {
+      cy.get('cx-searchbox input[aria-label="Search"]').type(productId2, {
         force: true,
       });
       cy.onDesktop(() => {
@@ -97,7 +99,7 @@ describe('Added to cart modal', () => {
       cy.onMobile(() => {
         // we don't show product in search suggestions on mobile
         // instead search and click first result
-        cy.get('cx-searchbox input[aria-label="search"]').type('{enter}');
+        cy.get('cx-searchbox input[aria-label="Search"]').type('{enter}');
         cy.get('cx-product-list-item').first().get('.cx-product-name').click();
       });
       cy.get('cx-breadcrumb h1').contains(productName2);

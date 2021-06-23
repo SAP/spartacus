@@ -130,11 +130,7 @@
 
       <!-- Promotion -->
 
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
-      </ng-container>
+      <cx-promotions [promotions]="item.promotions"></cx-promotions>
 
       <!-- Actions -->
       <div
@@ -157,6 +153,7 @@
             class="link cx-action-link"
             [disabled]="quantityControl.disabled"
             (click)="removeItem()"
+            attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>
