@@ -52,6 +52,17 @@ export namespace Configurator {
     subGroups: Group[];
   }
 
+  export interface ValueSupplement {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
+  }
+
+  export interface AttributeSupplement {
+    attributeUiKey: string;
+    valueSupplements: ValueSupplement[];
+  }
+
   export interface Configuration {
     configId: string;
     consistent?: boolean;
@@ -60,6 +71,7 @@ export namespace Configurator {
     productCode?: string;
     groups: Group[];
     flatGroups: Group[];
+    priceSupplements?: AttributeSupplement[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;

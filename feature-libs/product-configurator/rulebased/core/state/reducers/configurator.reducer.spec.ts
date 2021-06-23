@@ -92,6 +92,7 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
     });
   });
+
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
@@ -105,6 +106,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('ReadConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
@@ -118,6 +120,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('UpdateConfigurationSuccess action', () => {
     it('should not put configuration into the state because first we need to check for pending changes', () => {
       const { initialState } = StateReduce;
@@ -129,6 +132,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
@@ -143,6 +147,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
@@ -154,6 +159,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
@@ -211,7 +217,7 @@ describe('Configurator reducer', () => {
   });
 
   describe('UpdatePriceSummarySuccess action', () => {
-    it('should keep the existing groups altough it does not provide groups in its data', () => {
+    it('should keep the existing groups although it does not provide groups in its data', () => {
       const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
         configuration
       );
@@ -444,6 +450,81 @@ describe('Configurator reducer', () => {
       expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
+    });
+  });
+
+  fdescribe('updateValuePrice', () => {
+    it('should not update value prices because the list of groups is empty', () => {
+      const groups: Configurator.Group[] = [];
+      const attributeSupplements: Configurator.AttributeSupplement[] = [];
+      StateReduce.updateValuePrices(groups, attributeSupplements);
+      expect(groups?.length).toBe(0);
+    });
+
+    it('should update value prices for simple product', () => {
+      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
+        3,
+        0,
+        3,
+        3
+      );
+      const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
+        false,
+        3,
+        0,
+        3,
+        3
+      );
+      StateReduce.updateValuePrices(groups, attributeSupplements);
+
+      expect(groups.length).toBe(3);
+      expect(groups[0].subGroups.length).toBe(0);
+      expect(groups[0].attributes.length).toBe(3);
+      expect(groups[1].subGroups.length).toBe(0);
+      expect(groups[1].attributes.length).toBe(3);
+      expect(groups[2].subGroups.length).toBe(0);
+      expect(groups[2].attributes.length).toBe(3);
+
+      const values = groups[1].attributes[1].values;
+      const valueSupplements = attributeSupplements[1].valueSupplements;
+      expect(values.length).toBe(3);
+      expect(values[0].valueCode).toEqual(
+        valueSupplements[0].attributeValueKey
+      );
+      expect(values[0].valuePrice.formattedValue).toEqual(
+        valueSupplements[0].priceValue.formattedValue
+      );
+      expect(values[1].valueCode).toEqual(
+        valueSupplements[1].attributeValueKey
+      );
+      expect(values[1].valuePrice.formattedValue).toEqual(
+        valueSupplements[1].priceValue.formattedValue
+      );
+      expect(values[2].valueCode).toEqual(
+        valueSupplements[2].attributeValueKey
+      );
+      expect(values[2].valuePrice.formattedValue).toEqual(
+        valueSupplements[2].priceValue.formattedValue
+      );
+    });
+
+    fit('should update value prices for complex product', () => {
+      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
+        1,
+        3,
+        3,
+        5
+      );
+      const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
+        true,
+        1,
+        2,
+        3,
+        5
+      );
+      StateReduce.updateValuePrices(groups, attributeSupplements);
+
+      expect(groups.length).toBe(1);
     });
   });
 });

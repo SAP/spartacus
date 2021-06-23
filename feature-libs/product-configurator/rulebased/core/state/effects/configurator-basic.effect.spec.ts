@@ -89,6 +89,7 @@ const productConfiguration: Configurator.Configuration = {
   groups: [group, groupWithSubGroup],
   flatGroups: [group],
   priceSummary: {},
+  priceSupplements: [],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -417,6 +418,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
   });
+
   describe('Effect updateConfigurationFail', () => {
     it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
       const payloadInput = productConfiguration;

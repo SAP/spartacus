@@ -19,7 +19,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
@@ -221,40 +221,7 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
-  updateValuePrice(
-    configGroups: Configurator.Group[],
-    groups: Configurator.Group[]
-  ) {
-    groups?.forEach((group) => {
-      const configGroup = configGroups?.find(
-        (configGroup) => configGroup?.id === group?.id
-      );
-      group?.attributes?.forEach((attribute) => {
-        const configAttribute = configGroup?.attributes.find(
-          (configAttribute) => configAttribute?.name === attribute?.name
-        );
-        attribute?.values?.forEach((value) => {
-          let configValue = configAttribute?.values.find(
-            (configValue) => configValue?.valueCode === value?.valueCode
-          );
-          if (configValue) {
-            /**
-            const result = Object.assign({valuePrice: value?.valuePrice}, configValue);
-            configValue = {
-              ...result
-            };
-            console.log(configValue);
-             */
-
-            configValue.valuePrice = value?.valuePrice;
-            console.log(configValue);
-          }
-        });
-      });
-      this.updateValuePrice(configGroup?.subGroups, group?.subGroups);
-    });
-  }
-
+  //TODO: pricing  => this method should be renamed =>  readPrice
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -264,17 +231,17 @@ export class VariantConfiguratorOccAdapter
         urlParams: {
           configId: configuration.configId,
         },
+        queryParams: { groupId: configuration.interactionState.currentGroup },
       }
     );
 
     return this.http.get(url).pipe(
-      this.converterService.pipeable(
-        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
-      ),
-      map((pricingResult) => {
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
+      map((configResult) => {
         const result: Configurator.Configuration = {
           ...configuration,
-          priceSummary: pricingResult,
+          priceSummary: configResult.priceSummary,
+          priceSupplements: configResult.priceSupplements,
         };
         return result;
       })
