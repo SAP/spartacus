@@ -25,9 +25,6 @@ export interface StateWithCheckout {
 }
 
 export interface CheckoutStepsState {
-  poNumber: {
-    costCenter?: string;
-  };
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };

@@ -16,7 +16,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import {
-  CheckoutCostCenterConnector,
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../connectors';
@@ -68,10 +67,6 @@ class MockCheckoutPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
-class MockCheckoutCostCenterConnector {
-  setCostCenter = createSpy().and.returnValue(of({}));
-}
-
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
@@ -96,10 +91,6 @@ describe('Checkout effect', () => {
         {
           provide: CheckoutPaymentConnector,
           useClass: MockCheckoutPaymentConnector,
-        },
-        {
-          provide: CheckoutCostCenterConnector,
-          useClass: MockCheckoutCostCenterConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
@@ -440,34 +431,6 @@ describe('Checkout effect', () => {
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
-    });
-  });
-
-  describe('setCostCenter$', () => {
-    it('should set cost center to cart', () => {
-      const action = new CheckoutActions.SetCostCenter({
-        userId: userId,
-        cartId: cartId,
-        costCenterId: 'testId',
-      });
-      const completion1 = new CartActions.LoadCart({
-        userId,
-        cartId,
-      });
-      const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId,
-        cartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: completion1,
-        c: completion2,
-        d: completion3,
-      });
-
-      expect(entryEffects.setCostCenter$).toBeObservable(expected);
     });
   });
 });

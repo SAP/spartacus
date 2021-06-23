@@ -184,21 +184,6 @@ describe('Checkout Selectors', () => {
     });
   });
 
-  describe('getCostCenter', () => {
-    it('should get the cost center of cart', () => {
-      let result: string;
-      store
-        .pipe(select(CheckoutSelectors.getCostCenter))
-        .subscribe((value) => (result = value));
-      expect(result).toEqual(undefined);
-
-      store.dispatch(
-        new CheckoutActions.SetCostCenterSuccess('testCostCenterId')
-      );
-      expect(result).toEqual('testCostCenterId');
-    });
-  });
-
   describe('getCheckoutReplenishmentOrderDetails', () => {
     it('should return replenishment order details', () => {
       let result: ReplenishmentOrder;

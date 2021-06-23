@@ -41,29 +41,34 @@ export class PaymentTypeService implements PaymentTypeFacade {
         switchMap(([userId, cartId]) => {
           //! What about guest checkout? Why it is not allowed?
           if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-            return this.paymentTypeConnector.setPaymentType(
-              userId,
-              cartId,
-              payload.typeCode,
-              payload.poNumber
-            );
+            return this.paymentTypeConnector
+              .setPaymentType(
+                userId,
+                cartId,
+                payload.typeCode,
+                payload.poNumber
+              )
+              .pipe(
+                tap((data) => {
+                  //! Unique endpoint optimization (other checkout endpoints doesn't return cart)
+                  this.checkoutStore.dispatch(
+                    new CartActions.LoadCartSuccess({
+                      cart: data,
+                      userId: userId,
+                      cartId: cartId,
+                    })
+                  );
+                  //! We clear everything? We should just reset the checkout data from backend
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutData()
+                  );
+                })
+              );
           } else {
             return throwError({
               message: 'error message',
             });
           }
-        }),
-        tap((data) => {
-          //! Unique endpoint optimization (other checkout endpoints doesn't return cart)
-          this.checkoutStore.dispatch(
-            new CartActions.LoadCartSuccess({
-              cart: data,
-              userId: payload.userId,
-              cartId: payload.cartId,
-            })
-          );
-          //! We clear everything? We should just reset the checkout data from backend
-          this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
         })
       );
     }

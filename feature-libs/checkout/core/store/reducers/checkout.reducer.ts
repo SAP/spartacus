@@ -8,7 +8,6 @@ import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
-  poNumber: { costCenter: undefined },
   address: {},
   deliveryMode: {
     supported: {},
@@ -26,16 +25,6 @@ export function reducer(
     | CheckoutActions.ReplenishmentOrderActions
 ): CheckoutStepsState {
   switch (action.type) {
-    case CheckoutActions.SET_COST_CENTER_SUCCESS: {
-      return {
-        ...state,
-        poNumber: {
-          ...state.poNumber,
-          costCenter: action.payload,
-        },
-      };
-    }
-
     case CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS:
     case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address: Address = action.payload;

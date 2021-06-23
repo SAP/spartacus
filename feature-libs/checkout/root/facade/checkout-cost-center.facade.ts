@@ -20,7 +20,8 @@ export abstract class CheckoutCostCenterFacade {
    * Set cost center to cart
    * @param costCenterId : cost center id
    */
-  abstract setCostCenter(costCenterId: string): void;
+  // TODO: Multilevel interface
+  abstract setCostCenter(costCenterId: string): Observable<unknown>;
 
   /**
    * Get cost center id from cart

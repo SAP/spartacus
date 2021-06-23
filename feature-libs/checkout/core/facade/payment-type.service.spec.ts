@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { CheckFacade, CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PaymentTypeConnector } from '../connectors';
-import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { PaymentTypeService } from './payment-type.service';
 import createSpy = jasmine.createSpy;
@@ -48,9 +47,6 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getActiveCartId() {
     return of(cart.code);
   }
-  getActive() {
-    return of(cart);
-  }
 }
 
 class UserIdServiceStub implements Partial<UserIdService> {
@@ -61,7 +57,6 @@ class UserIdServiceStub implements Partial<UserIdService> {
 }
 describe('PaymentTypeService', () => {
   let service: PaymentTypeService;
-  let store: Store<CheckoutState>;
   let connector: PaymentTypeConnector;
 
   beforeEach(() => {
@@ -86,10 +81,7 @@ describe('PaymentTypeService', () => {
     });
 
     service = TestBed.inject(PaymentTypeService);
-    store = TestBed.inject(Store);
     connector = TestBed.inject(PaymentTypeConnector);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should PaymentTypeService is injected', inject(

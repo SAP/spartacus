@@ -9,6 +9,7 @@ export type CheckoutDetails = {
   deliveryAddress: Address;
   deliveryMode: DeliveryMode;
   paymentInfo: PaymentDetails;
-  paymentType?: PaymentType;
+  paymentType?: PaymentType; // TODO: Use augmentation for b2b stuff?
   purchaseOrderNumber?: string;
+  costCenter?: any;
 };
