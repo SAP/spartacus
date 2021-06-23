@@ -142,6 +142,19 @@ describe('AuthRedirectService', () => {
     });
   });
 
+  describe('setRedirectUrl', () => {
+    it('should save the passed url', () => {
+      service.setRedirectUrl('/custom/url');
+      expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+        '/custom/url'
+      );
+    });
+    it('should not save the url if the url is part of the user auth flow', () => {
+      service.setRedirectUrl('/login');
+      expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
+    });
+  });
+
   // deprecated method:
   describe('reportAuthGuard', () => {
     it('should call saveCurrentNavigationUrl()', () => {
