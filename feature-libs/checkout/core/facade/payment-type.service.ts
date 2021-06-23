@@ -12,7 +12,6 @@ import {
   PaymentType,
   Query,
   QueryService,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
@@ -72,7 +71,6 @@ export class PaymentTypeService implements PaymentTypeFacade {
 
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
-    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,

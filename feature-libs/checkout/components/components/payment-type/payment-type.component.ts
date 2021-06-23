@@ -77,6 +77,8 @@ export class PaymentTypeComponent {
         .subscribe(() => {
           this.checkoutStepService.next(this.activatedRoute);
         });
+    } else {
+      this.checkoutStepService.next(this.activatedRoute);
     }
   }
 

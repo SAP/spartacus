@@ -5,12 +5,10 @@ import {
   ActiveCartService,
   Cart,
   PaymentType,
-  PROCESS_FEATURE,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of, Subscription } from 'rxjs';
-import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
+import { of } from 'rxjs';
 import { PaymentTypeConnector } from '../connectors';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -57,9 +55,8 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
 
 class UserIdServiceStub implements Partial<UserIdService> {
   userId: string;
-  invokeWithUserId(cb: (id: string) => {}) {
-    cb(userId);
-    return new Subscription();
+  takeUserId() {
+    return of(userId);
   }
 }
 describe('PaymentTypeService', () => {
@@ -72,10 +69,6 @@ describe('PaymentTypeService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
-        ),
       ],
       providers: [
         PaymentTypeService,
@@ -117,14 +110,16 @@ describe('PaymentTypeService', () => {
     ]);
   });
 
-  it('should be able to set selected payment type to cart', () => {
-    service.setPaymentType('typeCode', 'poNumber');
-    expect(connector.setPaymentType).toHaveBeenCalledWith(
-      userId,
-      cart.code,
-      'typeCode',
-      'poNumber'
-    );
+  it('should be able to set selected payment type to cart', (done) => {
+    service.setPaymentType('typeCode', 'poNumber').subscribe(() => {
+      expect(connector.setPaymentType).toHaveBeenCalledWith(
+        userId,
+        cart.code,
+        'typeCode',
+        'poNumber'
+      );
+      done();
+    });
   });
 
   it('should be able to get selected payment type if data exist', () => {
