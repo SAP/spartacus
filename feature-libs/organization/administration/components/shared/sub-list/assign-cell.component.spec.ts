@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
@@ -9,10 +13,6 @@ import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
 import { SubListService } from './sub-list.service';
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
 
 class MockItemService {
   key$ = of('code1');
@@ -89,10 +89,10 @@ describe('AssignCellComponent', () => {
   describe('with assigned item', () => {
     beforeEach(() => {
       const data = TestBed.inject(OutletContextData);
-      data.context = {
+      data.context$ = of({
         selected: true,
         code: 'contextCode',
-      };
+      });
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -132,10 +132,10 @@ describe('AssignCellComponent', () => {
   describe('with unassigned item', () => {
     beforeEach(() => {
       const data = TestBed.inject(OutletContextData);
-      data.context = {
+      data.context$ = of({
         selected: false,
         code: 'contextCode',
-      };
+      });
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

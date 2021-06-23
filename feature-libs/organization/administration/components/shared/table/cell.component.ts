@@ -19,8 +19,8 @@ export class CellComponent {
 
   get model(): TableDataOutletContext | undefined {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$
-      .subscribe((context) => (contextData = context))
+    this.outlet?.context$
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
     return contextData;
   }
@@ -28,7 +28,7 @@ export class CellComponent {
   get property(): string | null {
     let contextData: TableDataOutletContext | undefined;
     this.outlet.context$
-      .subscribe((context) => (contextData = context))
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
     if (contextData) {
       return this.model?.[contextData._field];
@@ -53,8 +53,8 @@ export class CellComponent {
    */
   get cellOptions(): TableFieldOptions {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$
-      .subscribe((context) => (contextData = context))
+    this.outlet?.context$
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
     if (contextData) {
       return contextData._options?.cells?.[contextData._field] ?? {};
@@ -67,16 +67,16 @@ export class CellComponent {
    */
   get route(): string {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$
-      .subscribe((context) => (contextData = context))
+    this.outlet?.context$
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
     return contextData?._type + 'Details';
   }
 
   get routeModel(): any {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$
-      .subscribe((context) => (contextData = context))
+    this.outlet?.context$
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
     return contextData;
   }
@@ -94,8 +94,8 @@ export class CellComponent {
 
   protected get item(): any {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$
-      .subscribe((context) => (contextData = context))
+    this.outlet?.context$
+      ?.subscribe((context) => (contextData = context))
       .unsubscribe();
 
     if (!contextData) {

@@ -1,5 +1,5 @@
 import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
@@ -444,7 +444,6 @@ describe('OutletDirective', () => {
         testComponent.componentInstance.outlet;
 
       expect(outletData.reference).toEqual(keptOutlet);
-      expect(outletData.context).toEqual('fakeContext');
       expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
       expect(outletData.position).toEqual(OutletPosition.REPLACE);
     });
