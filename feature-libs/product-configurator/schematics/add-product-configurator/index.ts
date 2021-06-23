@@ -51,7 +51,8 @@ export function addProductConfiguratorFeatures(
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features)
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features) ||
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
         ? addProductConfiguratorRulebasedFeature(options)
         : noop(),
 
@@ -140,12 +141,6 @@ function addCpqRulebasedRootModule(
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
       namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
-    },
-    dependencyManagement: {
-      featureName: CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_PRODUCT_CONFIGURATOR]: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
-      },
     },
   });
 }
