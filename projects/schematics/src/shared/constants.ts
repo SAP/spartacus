@@ -47,6 +47,7 @@ export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
 export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
@@ -346,6 +347,8 @@ export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const UPDATE_EMAIL_COMPONENT_SERVICE = 'UpdateEmailComponentService';
+export const USER_EMAIL_FACADE = 'UserEmailFacade';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
 export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
