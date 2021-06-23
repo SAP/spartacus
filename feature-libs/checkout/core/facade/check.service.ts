@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   CommandService,
@@ -16,8 +17,6 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
-import { CheckoutDetails } from '../models/checkout.model';
-
 @Injectable()
 export class CheckService {
   protected checkoutQuery: Query<CheckoutDetails> = this.query.create(

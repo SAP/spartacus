@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
-import { CheckoutDetails } from 'feature-libs/checkout/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
+import { CheckoutDetails } from '../model/checkout.model';
 
 export function checkFacadeFactory() {
   return facadeFactory({

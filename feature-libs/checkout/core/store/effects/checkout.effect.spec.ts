@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   Address,
   AuthActions,
@@ -20,7 +21,6 @@ import {
   CheckoutPaymentConnector,
 } from '../../connectors';
 import { CheckoutConnector } from '../../connectors/checkout';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 import * as fromEffects from './checkout.effect';
 import createSpy = jasmine.createSpy;

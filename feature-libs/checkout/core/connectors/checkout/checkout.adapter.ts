@@ -1,6 +1,6 @@
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import { Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CheckoutDetails } from '../../models/checkout.model';
 
 export abstract class CheckoutAdapter {
   /**

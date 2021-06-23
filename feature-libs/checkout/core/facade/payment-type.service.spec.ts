@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CheckFacade } from '@spartacus/checkout/root';
+import { CheckFacade, CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Cart,
@@ -12,7 +12,6 @@ import {
 import { of, Subscription } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { PaymentTypeConnector } from '../connectors';
-import { CheckoutDetails } from '../models/checkout.model';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { PaymentTypeService } from './payment-type.service';

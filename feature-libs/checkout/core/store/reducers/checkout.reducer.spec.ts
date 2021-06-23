@@ -1,3 +1,4 @@
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -5,7 +6,6 @@ import {
   PaymentDetails,
   ReplenishmentOrder,
 } from '@spartacus/core';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from './../actions/index';
 import * as fromCheckout from './checkout.reducer';
 
