@@ -6,7 +6,7 @@
       [max]="maxQuantity"
       [control]="addToCartForm.get('quantity')"
     ></cx-item-counter>
-    <span class="info" tabindex="0">{{
+    <span class="info">{{
       hasStock
         ? ('addToCart.inStock' | cxTranslate)
         : ('addToCart.outOfStock' | cxTranslate)
