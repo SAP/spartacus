@@ -25,7 +25,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   protected ignoreCloseEvent = false;
 
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   couponBoxIsActive = false;
 

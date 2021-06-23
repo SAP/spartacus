@@ -63,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

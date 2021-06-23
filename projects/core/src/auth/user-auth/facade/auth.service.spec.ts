@@ -48,7 +48,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 describe('AuthService', () => {
