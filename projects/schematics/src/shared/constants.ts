@@ -44,6 +44,7 @@ export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
@@ -342,6 +343,8 @@ export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const UPDATE_EMAIL_COMPONENT_SERVICE = 'UpdateEmailComponentService';
+export const USER_EMAIL_FACADE = 'UserEmailFacade';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
 export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
@@ -908,6 +911,15 @@ export const IS_STABLE = 'isStable';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const GO = 'go';
 
+export const OCC_ENDPOINTS = 'OccEndpoints';
+export const OCC_ENDPOINT = 'OccEndpoint';
+export const BASE_SITES_FOR_CONFIG = 'baseSitesForConfig';
+
+export const OCC_CONFIG_LOADER_SERVICE = 'OccConfigLoaderService';
+export const OCC_LOADED_CONFIG_CONVERTER = 'OccLoadedConfigConverter';
+export const OCC_LOADED_CONFIG = 'OccLoadedConfig';
+export const OCC_SITES_CONFIG_LOADER = 'OccSitesConfigLoader';
+export const OCC_CONFIG_LOADER_MODULE = 'OccConfigLoaderModule';
 export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
 export const ON_SELECT = 'onSelect';
 export const ON_DESELECT = 'onDeselect';
