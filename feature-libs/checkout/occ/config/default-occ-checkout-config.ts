@@ -28,7 +28,7 @@ export const defaultOccCheckoutConfig: OccConfig = {
         createPaymentDetails:
           'users/${userId}/carts/${cartId}/payment/sop/response',
         loadCheckoutDetails:
-          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL),paymentType(FULL),purchaseOrderNumber',
+          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL),paymentType(FULL),purchaseOrderNumber,costCenter(FULL)', // TODO: Move b2b part to b2b config of this endpoint
         /* eslint-enable */
       },
     },

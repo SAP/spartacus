@@ -1,69 +1,94 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
+import { Store } from '@ngrx/store';
+import {
+  CheckFacade,
+  CheckoutCostCenterFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
+  CartActions,
+  Command,
+  CommandService,
+  CostCenter,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { combineLatest, Observable, throwError } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
+  protected setCostCenterCommand: Command<any> = this.command.create(
+    (payload) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          //! What about guest checkout? Why it is not allowed?
+          if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
+            return this.checkoutCostCenterConnector
+              .setCostCenter(userId, cartId, payload.costCenterId)
+              .pipe(
+                tap(() => {
+                  //! Why we trigger cart load? Maybe to reload cost center data?
+                  this.checkoutStore.dispatch(
+                    new CartActions.LoadCart({
+                      cartId,
+                      userId,
+                    })
+                  );
+                  //! We clear everything? We should just reset the checkout data from backend
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutData()
+                  );
+                  //! What does it do?
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryAddress({
+                      userId,
+                      cartId,
+                    })
+                  );
+                })
+              );
+          } else {
+            return throwError({
+              message: 'error message',
+            });
+          }
+        })
+      );
+    }
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected command: CommandService,
+    protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
+    protected checkService: CheckFacade
   ) {}
 
   /**
    * Set cost center to cart
    * @param costCenterId : cost center id
    */
-  setCostCenter(costCenterId: string): void {
-    let cartId: string | undefined;
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => (cartId = activeCartId));
-
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetCostCenter({
-            userId: userId,
-            cartId: cartId,
-            costCenterId: costCenterId,
-          })
-        );
-      }
-    });
+  // TODO: Multiple layers interface
+  setCostCenter(costCenterId: string): Observable<unknown> {
+    return this.setCostCenterCommand.execute({ costCenterId: costCenterId });
   }
 
   /**
-   * Get cost center id from cart
+   * Get cost center from cart
    */
-  getCostCenter(): Observable<string | undefined> {
-    return combineLatest([
-      this.activeCartService.getActive(),
-      this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
-    ]).pipe(
-      filter(([cart]) => Boolean(cart)),
-      map(([cart, costCenterId]) => {
-        if (costCenterId === undefined && cart.costCenter) {
-          costCenterId = cart.costCenter.code;
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenterSuccess(
-              cart.costCenter.code as string
-            )
-          );
-        }
-        return costCenterId;
-      })
-    );
+  getCostCenter(): Observable<CostCenter | undefined> {
+    return this.checkService
+      .getCheckoutDetails()
+      .pipe(map((state) => state?.data?.costCenter));
   }
 }
