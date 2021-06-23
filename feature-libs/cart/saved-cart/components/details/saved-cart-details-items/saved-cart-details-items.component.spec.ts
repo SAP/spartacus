@@ -78,7 +78,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
