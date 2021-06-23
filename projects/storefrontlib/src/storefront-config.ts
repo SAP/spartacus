@@ -26,6 +26,7 @@ import { DirectionConfig } from './layout/direction/config/direction.config';
 import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
 import { MediaConfig } from './shared/components/media/media.config';
 import { ViewConfig } from './shared/config/view-config';
+import { NavigationUiConfig } from './cms-components/navigation/navigation/config/navigation-ui-config';
 
 export type StorefrontConfig =
   | AnonymousConsentsConfig
@@ -53,4 +54,5 @@ export type StorefrontConfig =
   | PaginationConfig
   | CartConfig
   | SeoConfig
-  | PageMetaConfig;
+  | PageMetaConfig
+  | NavigationUiConfig;

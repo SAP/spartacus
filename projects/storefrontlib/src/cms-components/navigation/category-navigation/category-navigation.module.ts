@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
+import { defaultCategoryNavigationConfig } from './config/navigation.config';
 
 @NgModule({
   imports: [CommonModule, NavigationModule],
@@ -11,12 +12,10 @@ import { CategoryNavigationComponent } from './category-navigation.component';
       cmsComponents: {
         CategoryNavigationComponent: {
           component: CategoryNavigationComponent,
-          data: {
-            resetMenuOnClose: true,
-          },
         },
       },
     }),
+    provideDefaultConfig(defaultCategoryNavigationConfig),
   ],
   declarations: [CategoryNavigationComponent],
   entryComponents: [CategoryNavigationComponent],
