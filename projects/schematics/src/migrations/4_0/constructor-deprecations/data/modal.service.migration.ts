@@ -28,8 +28,5 @@ export const MODAL_SERVICE_MIGRATION_V2: ConstructorDeprecation = {
   class: MODAL_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [{ className: NGB_MODAL, importPath: NG_BOOTSTRAP }],
-  addParams: [
-    { className: APPLICATION_REF, importPath: ANGULAR_CORE },
-    { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
-  ],
+  addParams: [{ className: APPLICATION_REF, importPath: ANGULAR_CORE }],
 };
