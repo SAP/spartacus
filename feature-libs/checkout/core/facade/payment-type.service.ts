@@ -114,7 +114,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   getSelectedPaymentType(): Observable<string | undefined> {
     return this.checkService
       .getCheckoutDetails()
-      .pipe(map((state) => state?.data?.paymentType.code));
+      .pipe(map((state) => state?.data?.paymentType?.code));
   }
 
   /**
