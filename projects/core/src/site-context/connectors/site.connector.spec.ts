@@ -23,9 +23,9 @@ class MockSiteAdapter implements SiteAdapter {
     of([])
   );
 
-  loadRegions = createSpy(
-    'SiteAdapter.loadRegions'
-  ).and.callFake((countryCode) => of(`loadRegions-${countryCode}`));
+  loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(
+    (countryCode) => of(`loadRegions-${countryCode}`)
+  );
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
     of(mockBaseSite)

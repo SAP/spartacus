@@ -26,9 +26,8 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const shouldCatchError = this.authHttpHeaderService.shouldCatchError(
-      request
-    );
+    const shouldCatchError =
+      this.authHttpHeaderService.shouldCatchError(request);
 
     request = this.authHttpHeaderService.alterRequest(request);
 

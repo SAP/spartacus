@@ -115,10 +115,11 @@ describe('ConfigUtilsService', () => {
       values: [{ valueCode: 'b' }, { name: 'blue' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
     expect(values.length).toBe(2);
     expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
     expect(values[0].selected).toBe(true);

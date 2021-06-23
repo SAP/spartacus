@@ -8,22 +8,16 @@ import {
 } from '../user-state';
 import { getUserState } from './feature.selector';
 
-export const getTitlesState: MemoizedSelector<
-  StateWithUser,
-  TitlesState
-> = createSelector(getUserState, (state: UserState) => state.titles);
+export const getTitlesState: MemoizedSelector<StateWithUser, TitlesState> =
+  createSelector(getUserState, (state: UserState) => state.titles);
 
-export const getTitlesEntites: MemoizedSelector<
-  StateWithUser,
-  TitleEntities
-> = createSelector(getTitlesState, (state: TitlesState) => state.entities);
+export const getTitlesEntites: MemoizedSelector<StateWithUser, TitleEntities> =
+  createSelector(getTitlesState, (state: TitlesState) => state.entities);
 
-export const getAllTitles: MemoizedSelector<
-  StateWithUser,
-  Title[]
-> = createSelector(getTitlesEntites, (entites) =>
-  Object.keys(entites).map((code) => entites[code])
-);
+export const getAllTitles: MemoizedSelector<StateWithUser, Title[]> =
+  createSelector(getTitlesEntites, (entites) =>
+    Object.keys(entites).map((code) => entites[code])
+  );
 
 export const titleSelectorFactory = (
   code: string

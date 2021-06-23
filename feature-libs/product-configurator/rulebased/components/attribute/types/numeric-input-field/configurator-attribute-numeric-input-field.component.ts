@@ -21,7 +21,8 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   numericFormatPattern: string;
   locale: string;
 
@@ -58,12 +59,13 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       ),
     ]);
     const numDecimalPlaces = this.attribute.numDecimalPlaces;
-    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      this.attribute.numTotalLength,
-      this.attribute.negativeAllowed,
-      this.locale
-    );
+    this.numericFormatPattern =
+      this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+        numDecimalPlaces,
+        this.attribute.numTotalLength,
+        this.attribute.negativeAllowed,
+        this.locale
+      );
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }

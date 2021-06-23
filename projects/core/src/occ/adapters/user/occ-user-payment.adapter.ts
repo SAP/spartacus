@@ -26,13 +26,11 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       'Content-Type': 'application/json',
     });
 
-    return this.http
-      .get<Occ.PaymentDetailsList>(url, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        map((methodList) => methodList.payments),
-        this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
-      );
+    return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      map((methodList) => methodList.payments),
+      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
+    );
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {

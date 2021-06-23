@@ -297,8 +297,9 @@ describe('CartItemComponent', () => {
 
     expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
     variants.forEach((variant) => {
-      const infoContainer: HTMLElement = el.query(By.css('.cx-info-container'))
-        .nativeElement;
+      const infoContainer: HTMLElement = el.query(
+        By.css('.cx-info-container')
+      ).nativeElement;
       expect(infoContainer.innerText).toContain(
         `${variant.name}: ${variant.value}`
       );

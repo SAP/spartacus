@@ -23,7 +23,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.get().subscribe((user) => (this.customer = user))
     );
-    this.isCustomerEmulationSessionInProgress$ = this.asmComponentService.isCustomerEmulationSessionInProgress();
+    this.isCustomerEmulationSessionInProgress$ =
+      this.asmComponentService.isCustomerEmulationSessionInProgress();
   }
 
   logoutCustomer() {

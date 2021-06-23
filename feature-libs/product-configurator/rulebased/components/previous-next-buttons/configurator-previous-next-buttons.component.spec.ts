@@ -185,8 +185,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
 
@@ -195,8 +196,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -205,8 +207,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const lastBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
 
@@ -215,8 +218,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 

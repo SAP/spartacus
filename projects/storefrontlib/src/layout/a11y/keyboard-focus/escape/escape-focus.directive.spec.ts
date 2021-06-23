@@ -120,14 +120,16 @@ describe('EscapeFocusDirective', () => {
     });
 
     it('should add tabindex -1 to host if no tabindex is available', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
       expect(el.getAttribute('tabindex')).toEqual('-1');
     });
 
     it('should not add tabindex -1 to host if tabindex is already set', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#d-1'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#d-1')
+      ).nativeElement;
       expect(el.getAttribute('tabindex')).not.toEqual('-1');
     });
   });

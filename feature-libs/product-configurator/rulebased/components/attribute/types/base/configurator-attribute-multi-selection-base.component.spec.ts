@@ -114,18 +114,15 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   describe('extractQuantityParameters', () => {
     it('should set initial quantity and allow zero', () => {
-      const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
-        2,
-        true
-      );
+      const quantityOptions: ConfiguratorAttributeQuantityComponentOptions =
+        component.extractQuantityParameters(2, true);
       expect(quantityOptions.initialQuantity).toBe(2);
       expect(quantityOptions.allowZero).toBe(true);
     });
 
     it('should set allow zero from attribute, if undefined', () => {
-      const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
-        1
-      );
+      const quantityOptions: ConfiguratorAttributeQuantityComponentOptions =
+        component.extractQuantityParameters(1);
       expect(quantityOptions.allowZero).toBe(false);
     });
   });

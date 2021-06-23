@@ -173,9 +173,8 @@ export abstract class CmsStructureConfigService {
           this.cmsDataConfig.cmsStructure &&
           this.cmsDataConfig.cmsStructure.components
         ) {
-          const component = this.cmsDataConfig.cmsStructure.components[
-            componentId
-          ];
+          const component =
+            this.cmsDataConfig.cmsStructure.components[componentId];
           if (component) {
             components.push({ uid: componentId, ...component });
           }

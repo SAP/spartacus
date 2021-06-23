@@ -38,7 +38,8 @@ export class OrganizationPageMetaResolver
     PageBreadcrumbResolver,
     PageTitleResolver,
     PageDescriptionResolver,
-    PageRobotsResolver {
+    PageRobotsResolver
+{
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -89,9 +90,9 @@ export class OrganizationPageMetaResolver
    * Breadcrumb of the Organization page.
    * It's empty when the current page is the Organization page.
    */
-  protected organizationPageBreadcrumb$: Observable<
-    BreadcrumbMeta[]
-  > = defer(() => this.routingService.getRouterState()).pipe(
+  protected organizationPageBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(
+    () => this.routingService.getRouterState()
+  ).pipe(
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) =>

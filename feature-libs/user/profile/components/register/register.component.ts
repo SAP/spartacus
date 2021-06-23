@@ -169,10 +169,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private isConsentRequired(): boolean {
-    const requiredConsents = this.anonymousConsentsConfig?.anonymousConsents
-      ?.requiredConsents;
-    const registerConsent = this.anonymousConsentsConfig?.anonymousConsents
-      ?.registerConsent;
+    const requiredConsents =
+      this.anonymousConsentsConfig?.anonymousConsents?.requiredConsents;
+    const registerConsent =
+      this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
 
     if (requiredConsents && registerConsent) {
       return requiredConsents.includes(registerConsent);
@@ -195,8 +195,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   toggleAnonymousConsent(): void {
-    const registerConsent = this.anonymousConsentsConfig?.anonymousConsents
-      ?.registerConsent;
+    const registerConsent =
+      this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
 
     if (registerConsent) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

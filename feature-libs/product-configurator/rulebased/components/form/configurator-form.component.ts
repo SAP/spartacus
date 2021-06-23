@@ -18,9 +18,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorFormComponent implements OnInit {
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
       filter(
         (routerData) =>
           routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
@@ -31,13 +30,14 @@ export class ConfiguratorFormComponent implements OnInit {
         );
       })
     );
-  currentGroup$: Observable<Configurator.Group> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-      )
-    );
+  currentGroup$: Observable<Configurator.Group> =
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+        )
+      );
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
 

@@ -43,12 +43,9 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   protected matchMask(response: HttpErrorResponse): boolean {
     return this.getErrors(response).some((error) =>
-      [
-        this.budgetMask,
-        this.userMask,
-        this.userGroupMask,
-        this.unitMask,
-      ].some((mask) => mask.test(error.message))
+      [this.budgetMask, this.userMask, this.userGroupMask, this.unitMask].some(
+        (mask) => mask.test(error.message)
+      )
     );
   }
 

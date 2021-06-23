@@ -71,10 +71,10 @@ export function getAngularJsonFile(
   }
 
   const angularJsonContent = configBuffer.toString();
-  return (parseJson(
+  return parseJson(
     angularJsonContent,
     JsonParseMode.Loose
-  ) as unknown) as WorkspaceSchema;
+  ) as unknown as WorkspaceSchema;
 }
 
 export function getProjectFromWorkspace<

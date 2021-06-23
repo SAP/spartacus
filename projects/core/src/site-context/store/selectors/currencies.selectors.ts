@@ -24,10 +24,8 @@ export const getCurrenciesEntities: MemoizedSelector<
   CurrencyEntities
 > = createSelector(getCurrenciesState, currenciesEntitiesSelector);
 
-export const getActiveCurrency: MemoizedSelector<
-  StateWithSiteContext,
-  string
-> = createSelector(getCurrenciesState, activeCurrencySelector);
+export const getActiveCurrency: MemoizedSelector<StateWithSiteContext, string> =
+  createSelector(getCurrenciesState, activeCurrencySelector);
 
 export const getAllCurrencies: MemoizedSelector<
   StateWithSiteContext,

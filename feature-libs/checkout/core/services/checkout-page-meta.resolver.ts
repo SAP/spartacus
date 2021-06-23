@@ -26,7 +26,8 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver {
+  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver
+{
   protected cart$: Observable<Cart> = this.activeCartService.getActive();
 
   constructor(

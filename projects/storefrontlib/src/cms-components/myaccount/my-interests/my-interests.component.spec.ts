@@ -326,8 +326,9 @@ describe('MyInterestsComponent', () => {
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
-    const button = el.query(By.css('.cx-product-interests-remove-btn'))
-      .nativeElement;
+    const button = el.query(
+      By.css('.cx-product-interests-remove-btn')
+    ).nativeElement;
     expect(button.disabled).toBeFalsy();
 
     button.click();

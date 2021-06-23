@@ -13,11 +13,8 @@ export function getReducers(): ActionReducerMap<SiteContextState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<SiteContextState>
-> = new InjectionToken<ActionReducerMap<SiteContextState>>(
-  'SiteContextReducers'
-);
+export const reducerToken: InjectionToken<ActionReducerMap<SiteContextState>> =
+  new InjectionToken<ActionReducerMap<SiteContextState>>('SiteContextReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

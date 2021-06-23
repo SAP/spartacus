@@ -10,9 +10,7 @@ export const getCostCentersState: MemoizedSelector<
   LoaderState<CostCenter[]>
 > = createSelector(getUserState, (state: UserState) => state.costCenters);
 
-export const getCostCenters: MemoizedSelector<
-  StateWithUser,
-  CostCenter[]
-> = createSelector(getCostCentersState, (state: LoaderState<CostCenter[]>) =>
-  StateUtils.loaderValueSelector(state)
-);
+export const getCostCenters: MemoizedSelector<StateWithUser, CostCenter[]> =
+  createSelector(getCostCentersState, (state: LoaderState<CostCenter[]>) =>
+    StateUtils.loaderValueSelector(state)
+  );

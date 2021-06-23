@@ -153,7 +153,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   });
 
   it('should display banner when there are issues counted in Configurator.Overview', () => {
-    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
+    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration =
+      productConfigurationWithoutIssues;
     productConfigurationWithConflictsCountedInOverview.overview = {
       configId: CONFIG_ID,
       totalNumberOfIssues: 5,

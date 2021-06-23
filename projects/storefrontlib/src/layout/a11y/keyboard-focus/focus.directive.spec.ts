@@ -54,16 +54,18 @@ describe('FocusDirective', () => {
   });
 
   it('should default tabindex to -1', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#a')
+    ).nativeElement;
     fixture.detectChanges();
 
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should focus element marked with autofocus = true', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#a')
+    ).nativeElement;
     spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(el);
     fixture.detectChanges();
 
@@ -71,8 +73,9 @@ describe('FocusDirective', () => {
   });
 
   it('should refresh focus with change on configured attribute', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#a')
+    ).nativeElement;
 
     let spiedFirstFocusable = spyOn(
       keyboardFocusService,

@@ -227,9 +227,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return params;
   }
 
-  private extractPaymentDetailsFromHtml(
-    html: string
-  ): { [key: string]: string | boolean } {
+  private extractPaymentDetailsFromHtml(html: string): {
+    [key: string]: string | boolean;
+  } {
     const domdoc = this.domparser.parseFromString(html, 'text/xml');
     const responseForm = domdoc.getElementsByTagName('form')[0];
     const inputs = responseForm.getElementsByTagName('input');
@@ -247,9 +247,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return values;
   }
 
-  private convertToMap(
-    paramList: { key: string; value: string }[]
-  ): { [key: string]: string | undefined } {
+  private convertToMap(paramList: { key: string; value: string }[]): {
+    [key: string]: string | undefined;
+  } {
     return paramList.reduce(function (
       result: { [key: string]: string | undefined },
       item

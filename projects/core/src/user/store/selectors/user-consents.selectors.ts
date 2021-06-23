@@ -22,17 +22,11 @@ export const getConsentByTemplateId = (
     templates.find((template) => template.id === templateId)
   );
 
-export const getConsentsLoading: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getConsentsState, StateUtils.loaderLoadingSelector);
+export const getConsentsLoading: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getConsentsState, StateUtils.loaderLoadingSelector);
 
-export const getConsentsSuccess: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getConsentsState, StateUtils.loaderSuccessSelector);
+export const getConsentsSuccess: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getConsentsState, StateUtils.loaderSuccessSelector);
 
-export const getConsentsError: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getConsentsState, StateUtils.loaderErrorSelector);
+export const getConsentsError: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getConsentsState, StateUtils.loaderErrorSelector);

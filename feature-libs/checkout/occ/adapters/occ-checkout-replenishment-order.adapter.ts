@@ -15,7 +15,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccCheckoutReplenishmentOrderAdapter
-  implements CheckoutReplenishmentOrderAdapter {
+  implements CheckoutReplenishmentOrderAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

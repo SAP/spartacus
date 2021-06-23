@@ -82,8 +82,10 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
           (interests) => !!interests.results && interests.results.length === 1
         )
       );
-    this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
-    this.isRemoveInterestLoading$ = this.interestsService.getRemoveProdutInterestLoading();
+    this.subscribeSuccess$ =
+      this.interestsService.getAddProductInterestSuccess();
+    this.isRemoveInterestLoading$ =
+      this.interestsService.getRemoveProdutInterestLoading();
     this.prefsEnabled$ = this.notificationPrefService
       .getEnabledPreferences()
       .pipe(

@@ -21,12 +21,14 @@ class MockLanguageService implements Partial<LanguageService> {
 }
 
 class MockLanguageStatePersistenceService
-  implements Partial<LanguageStatePersistenceService> {
+  implements Partial<LanguageStatePersistenceService>
+{
   initSync = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(mockSiteContextConfig);
 }
 

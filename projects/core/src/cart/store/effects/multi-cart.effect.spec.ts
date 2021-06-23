@@ -72,9 +72,8 @@ describe('Multi Cart effect', () => {
         voucherId: 'voucherId',
       });
 
-      const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
-        payload.cartId
-      );
+      const processesIncrementCompletion =
+        new CartActions.CartProcessesIncrement(payload.cartId);
       actions$ = hot('-b', {
         b: action,
       });

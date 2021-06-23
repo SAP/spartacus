@@ -109,8 +109,8 @@ describe('dependency management migrations', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const packageJson = appTree.readContent('/package.json');
-      const updatedVersion: string = JSON.parse(packageJson).dependencies
-        .bootstrap;
+      const updatedVersion: string =
+        JSON.parse(packageJson).dependencies.bootstrap;
       expect(updatedVersion).toEqual(
         collectedDependencies['@spartacus/styles'].bootstrap
       );

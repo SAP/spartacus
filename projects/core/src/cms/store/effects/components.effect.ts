@@ -30,26 +30,29 @@ export class ComponentsEffects {
   );
 
   loadComponent$ = createEffect(
-    () => ({ scheduler, debounce = 0 } = {}): Observable<
-      | CmsActions.LoadCmsComponentSuccess<CmsComponent>
-      | CmsActions.LoadCmsComponentFail
-    > =>
-      this.actions$.pipe(
-        ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
-        groupBy((actions) => serializePageContext(actions.payload.pageContext)),
-        mergeMap((actionGroup) =>
-          actionGroup.pipe(
-            bufferDebounceTime(debounce, scheduler),
-            mergeMap((actions) =>
-              this.loadComponentsEffect(
-                actions.map((action) => action.payload.uid),
-                actions[0].payload.pageContext
+    () =>
+      ({ scheduler, debounce = 0 } = {}): Observable<
+        | CmsActions.LoadCmsComponentSuccess<CmsComponent>
+        | CmsActions.LoadCmsComponentFail
+      > =>
+        this.actions$.pipe(
+          ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
+          groupBy((actions) =>
+            serializePageContext(actions.payload.pageContext)
+          ),
+          mergeMap((actionGroup) =>
+            actionGroup.pipe(
+              bufferDebounceTime(debounce, scheduler),
+              mergeMap((actions) =>
+                this.loadComponentsEffect(
+                  actions.map((action) => action.payload.uid),
+                  actions[0].payload.pageContext
+                )
               )
             )
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   );
 
   private loadComponentsEffect(

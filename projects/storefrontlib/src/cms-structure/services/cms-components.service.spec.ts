@@ -66,7 +66,8 @@ class MockCmsFeaturesService implements Partial<CmsFeaturesService> {
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(mockConfig);
 }
 

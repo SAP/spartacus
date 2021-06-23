@@ -106,15 +106,15 @@ describe('LoginGuard', () => {
 
       loginGuard
         .canActivate(
-          ('a' as unknown) as ActivatedRouteSnapshot,
-          ('b' as unknown) as RouterStateSnapshot
+          'a' as unknown as ActivatedRouteSnapshot,
+          'b' as unknown as RouterStateSnapshot
         )
         .pipe(take(1))
         .subscribe((res) => {
           expect(res).toBe(true);
           expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
-            ('a' as unknown) as CmsActivatedRouteSnapshot,
-            ('b' as unknown) as RouterStateSnapshot
+            'a' as unknown as CmsActivatedRouteSnapshot,
+            'b' as unknown as RouterStateSnapshot
           );
           expect(authRedirectService.reportNotAuthGuard).not.toHaveBeenCalled();
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
@@ -134,15 +134,15 @@ describe('LoginGuard', () => {
 
       loginGuard
         .canActivate(
-          ('a' as unknown) as ActivatedRouteSnapshot,
-          ('b' as unknown) as RouterStateSnapshot
+          'a' as unknown as ActivatedRouteSnapshot,
+          'b' as unknown as RouterStateSnapshot
         )
         .pipe(take(1))
         .subscribe((res) => {
           expect(res).toBe(true);
           expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
-            ('a' as unknown) as CmsActivatedRouteSnapshot,
-            ('b' as unknown) as RouterStateSnapshot
+            'a' as unknown as CmsActivatedRouteSnapshot,
+            'b' as unknown as RouterStateSnapshot
           );
           expect(authRedirectService.reportNotAuthGuard).not.toHaveBeenCalled();
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
@@ -157,8 +157,8 @@ describe('LoginGuard', () => {
 
       loginGuard
         .canActivate(
-          ('a' as unknown) as ActivatedRouteSnapshot,
-          ('b' as unknown) as RouterStateSnapshot
+          'a' as unknown as ActivatedRouteSnapshot,
+          'b' as unknown as RouterStateSnapshot
         )
         .subscribe()
         .unsubscribe();
@@ -175,8 +175,8 @@ describe('LoginGuard', () => {
 
       loginGuard
         .canActivate(
-          ('a' as unknown) as ActivatedRouteSnapshot,
-          ('b' as unknown) as RouterStateSnapshot
+          'a' as unknown as ActivatedRouteSnapshot,
+          'b' as unknown as RouterStateSnapshot
         )
         .subscribe((result) => {
           expect(result).toBe(false);

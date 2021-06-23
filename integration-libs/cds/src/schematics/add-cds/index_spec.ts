@@ -183,9 +183,9 @@ describe('Spartacus CDS schematics: ng-add', () => {
             'collection',
             SPARTACUS_TRACKING
           );
-          expect(
-            trackingTaskWithSubFeatures.options.options?.features
-          ).toEqual([CLI_TRACKING_PERSONALIZATION_FEATURE]);
+          expect(trackingTaskWithSubFeatures.options.options?.features).toEqual(
+            [CLI_TRACKING_PERSONALIZATION_FEATURE]
+          );
         });
       });
 

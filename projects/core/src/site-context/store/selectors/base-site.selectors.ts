@@ -18,22 +18,19 @@ export const getBaseSiteState: MemoizedSelector<
   (state: SiteContextState) => state.baseSite
 );
 
-export const getActiveBaseSite: MemoizedSelector<
-  StateWithSiteContext,
-  string
-> = createSelector(
-  getSiteContextState,
-  (state: SiteContextState) =>
-    state && state.baseSite && state.baseSite.activeSite
-);
+export const getActiveBaseSite: MemoizedSelector<StateWithSiteContext, string> =
+  createSelector(
+    getSiteContextState,
+    (state: SiteContextState) =>
+      state && state.baseSite && state.baseSite.activeSite
+  );
 
-export const getBaseSiteData: MemoizedSelector<
-  StateWithSiteContext,
-  BaseSite
-> = createSelector(
-  getSiteContextState,
-  (state: SiteContextState) => state && state.baseSite && state.baseSite.details
-);
+export const getBaseSiteData: MemoizedSelector<StateWithSiteContext, BaseSite> =
+  createSelector(
+    getSiteContextState,
+    (state: SiteContextState) =>
+      state && state.baseSite && state.baseSite.details
+  );
 
 export const getBaseSitesEntities: MemoizedSelector<
   StateWithSiteContext,

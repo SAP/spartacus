@@ -19,7 +19,8 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
 })
 export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;

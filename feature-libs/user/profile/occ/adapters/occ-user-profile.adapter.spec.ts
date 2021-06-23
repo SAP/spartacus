@@ -284,9 +284,10 @@ describe('OccUserProfileAdapter', () => {
         );
       });
 
-      expect(
-        occEndpointsService.buildUrl
-      ).toHaveBeenCalledWith('userUpdateLoginId', { urlParams: { userId } });
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'userUpdateLoginId',
+        { urlParams: { userId } }
+      );
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');
@@ -313,9 +314,10 @@ describe('OccUserProfileAdapter', () => {
         );
       });
 
-      expect(
-        occEndpointsService.buildUrl
-      ).toHaveBeenCalledWith('userUpdatePassword', { urlParams: { userId } });
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'userUpdatePassword',
+        { urlParams: { userId } }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');

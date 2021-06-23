@@ -84,8 +84,9 @@ describe('ConfirmationMessageComponent', () => {
 
   it('should emit confirm event', () => {
     const nextEvent = spyOn(messageData.events, 'next');
-    const el: HTMLElement = fixture.debugElement.query(By.css('button.confirm'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('button.confirm')
+    ).nativeElement;
 
     el.click();
 
@@ -96,8 +97,9 @@ describe('ConfirmationMessageComponent', () => {
 
   it('should not emit confirm event', () => {
     const nextEvent = spyOn(messageData.events, 'next');
-    const el: HTMLElement = fixture.debugElement.query(By.css('button.cancel'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('button.cancel')
+    ).nativeElement;
 
     el.click();
 

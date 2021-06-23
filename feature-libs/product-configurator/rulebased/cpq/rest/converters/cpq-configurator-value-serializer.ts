@@ -5,11 +5,11 @@ import { Cpq } from '../cpq.models';
 
 @Injectable()
 export class CpqConfiguratorValueSerializer
-  implements Converter<Configurator.Configuration, Cpq.UpdateValue> {
+  implements Converter<Configurator.Configuration, Cpq.UpdateValue>
+{
   convert(source: Configurator.Configuration): Cpq.UpdateValue {
-    const attribute: Configurator.Attribute = this.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute =
+      this.findFirstChangedAttribute(source);
     const updateValue: Cpq.UpdateValue = this.convertAttribute(
       attribute,
       source.configId

@@ -196,17 +196,18 @@ describe('MerchandisingCarouselComponentService', () => {
 
   describe('getMerchandisingCarouselModel', () => {
     it('should retrieve a merchandising carousel model', () => {
-      const expectedMerchandisingCarouselModelMetadata: MerchandisingMetadata = {
-        ...mockStrategyProducts.metadata,
-        title: mockComponentData.title,
-        name: mockComponentData.name,
-        strategyid: mockComponentData.strategy,
-        slots: mockStrategyProducts.products.length,
-        id: mockComponentData.uid,
-      };
+      const expectedMerchandisingCarouselModelMetadata: MerchandisingMetadata =
+        {
+          ...mockStrategyProducts.metadata,
+          title: mockComponentData.title,
+          name: mockComponentData.name,
+          strategyid: mockComponentData.strategy,
+          slots: mockStrategyProducts.products.length,
+          id: mockComponentData.uid,
+        };
 
-      const expectedMerchandisingCarouselModelProducts: MerchandisingProduct[] = mockStrategyProducts.products.map(
-        (strategyProduct, index) => {
+      const expectedMerchandisingCarouselModelProducts: MerchandisingProduct[] =
+        mockStrategyProducts.products.map((strategyProduct, index) => {
           const merchandisingProductMetadata: MerchandisingMetadata =
             strategyProduct.metadata;
           merchandisingProductMetadata.id = strategyProduct.id;
@@ -216,8 +217,7 @@ describe('MerchandisingCarouselComponentService', () => {
             ...mockProducts[strategyProduct.id],
             metadata: merchandisingProductMetadata,
           };
-        }
-      );
+        });
       const expectedProductIds: string[] = ['1', '2'];
 
       let actualCarouselMetadata: MerchandisingMetadata;
@@ -301,20 +301,21 @@ describe('MerchandisingCarouselComponentService', () => {
         },
       };
 
-      const expectedCarouselClickedEvent = new MerchandisingCarouselClickedEvent(
-        {
-          carouselId: mockMerchandisingCarouselModel.metadata.id,
-          carouselName: mockMerchandisingCarouselModel.metadata.name,
-          strategyId: mockMerchandisingCarouselModel.metadata.strategyid,
-          metadata: {
-            ...mockMerchandisingCarouselModel.metadata,
-            ...clickedProduct.metadata,
+      const expectedCarouselClickedEvent =
+        new MerchandisingCarouselClickedEvent(
+          {
+            carouselId: mockMerchandisingCarouselModel.metadata.id,
+            carouselName: mockMerchandisingCarouselModel.metadata.name,
+            strategyId: mockMerchandisingCarouselModel.metadata.strategyid,
+            metadata: {
+              ...mockMerchandisingCarouselModel.metadata,
+              ...clickedProduct.metadata,
+            },
           },
-        },
-        clickedProduct.metadata.slot,
-        clickedProduct.code,
-        clickedProduct.images.PRIMARY['product'].url
-      );
+          clickedProduct.metadata.slot,
+          clickedProduct.code,
+          clickedProduct.images.PRIMARY['product'].url
+        );
 
       componentService.sendCarouselItemClickedEvent(
         mockMerchandisingCarouselModel,

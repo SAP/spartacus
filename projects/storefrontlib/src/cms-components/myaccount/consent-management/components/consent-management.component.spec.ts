@@ -485,10 +485,10 @@ describe('ConsentManagementComponent', () => {
     describe(isRequiredConsentMethod, () => {
       describe('when the requiredConsents is NOT configured', () => {
         it('should return false', () => {
-          anonymousConsentsConfig.anonymousConsents.requiredConsents = undefined;
-          const result = component[isRequiredConsentMethod](
-            mockConsentTemplate
-          );
+          anonymousConsentsConfig.anonymousConsents.requiredConsents =
+            undefined;
+          const result =
+            component[isRequiredConsentMethod](mockConsentTemplate);
           expect(result).toEqual(false);
         });
       });
@@ -497,9 +497,8 @@ describe('ConsentManagementComponent', () => {
           anonymousConsentsConfig.anonymousConsents.requiredConsents = [
             mockConsentTemplate.id,
           ];
-          const result = component[isRequiredConsentMethod](
-            mockConsentTemplate
-          );
+          const result =
+            component[isRequiredConsentMethod](mockConsentTemplate);
           expect(result).toEqual(true);
         });
       });

@@ -12,7 +12,8 @@ import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService
-  implements Partial<ForgotPasswordComponentService> {
+  implements Partial<ForgotPasswordComponentService>
+{
   form: FormGroup = new FormGroup({
     userEmail: new FormControl(),
   });
@@ -70,8 +71,9 @@ describe('ForgotPasswordComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       fixture.detectChanges();
-      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
-        .nativeElement;
+      const submitBtn: HTMLButtonElement = el.query(
+        By.css('button')
+      ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
 

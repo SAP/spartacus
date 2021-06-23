@@ -44,14 +44,14 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
-  readonly listData$: Observable<
-    EntitiesModel<T>
-  > = this.service.getData().pipe(
-    tap((data) => {
-      this.sortCode = data.pagination?.sort;
-      this.hasGhostData = this.service.hasGhostData(data);
-    })
-  );
+  readonly listData$: Observable<EntitiesModel<T>> = this.service
+    .getData()
+    .pipe(
+      tap((data) => {
+        this.sortCode = data.pagination?.sort;
+        this.hasGhostData = this.service.hasGhostData(data);
+      })
+    );
 
   @Input() key = this.service.key();
 

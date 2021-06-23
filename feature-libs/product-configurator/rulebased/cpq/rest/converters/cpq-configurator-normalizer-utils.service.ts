@@ -26,9 +26,8 @@ export class CpqConfiguratorNormalizerUtilsService {
     if (!value.selected) {
       return null;
     }
-    const configuratorDataType: Configurator.DataType = this.convertDataType(
-      attribute
-    );
+    const configuratorDataType: Configurator.DataType =
+      this.convertDataType(attribute);
     let quantity: number;
     switch (configuratorDataType) {
       case Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL:
@@ -198,10 +197,8 @@ export class CpqConfiguratorNormalizerUtilsService {
         cpqConfiguration?.currencySign
       ) {
         const currencySign: string = cpqConfiguration?.currencySign;
-        const totalPriceAsString: string = cpqConfiguration.responder.totalPrice.replace(
-          currencySign,
-          ''
-        );
+        const totalPriceAsString: string =
+          cpqConfiguration.responder.totalPrice.replace(currencySign, '');
         const totalPrice: Configurator.PriceDetails = {
           currencyIso: currency,
           value: parseFloat(totalPriceAsString),

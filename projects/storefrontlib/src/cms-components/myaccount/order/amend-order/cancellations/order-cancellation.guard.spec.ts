@@ -13,7 +13,8 @@ const mockForm = new FormGroup({
 });
 
 class MockOrderCancellationService
-  implements Partial<OrderCancellationService> {
+  implements Partial<OrderCancellationService>
+{
   getForm(): Observable<FormGroup> {
     return of(new FormGroup({}));
   }

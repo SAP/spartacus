@@ -52,7 +52,8 @@ export class ConfiguratorRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): CommonConfigurator.Owner {
-    const owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner();
+    const owner: CommonConfigurator.Owner =
+      ConfiguratorModelUtils.createInitialOwner();
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
@@ -65,9 +66,8 @@ export class ConfiguratorRouterExtractorService {
     }
     const semanticRoute = routerState.state?.semanticRoute;
     if (semanticRoute) {
-      const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-        semanticRoute
-      );
+      const configuratorType =
+        this.getConfiguratorTypeFromSemanticRoute(semanticRoute);
       owner.configuratorType = configuratorType;
     }
     this.configUtilsService.setOwnerKey(owner);

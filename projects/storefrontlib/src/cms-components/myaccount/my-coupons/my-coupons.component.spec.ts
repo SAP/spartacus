@@ -248,13 +248,11 @@ describe('MyCouponsComponent', () => {
     const sortComponent = el.nativeElement.querySelectorAll('cx-sorting');
     expect(sortComponent.length).toBe(2);
 
-    const paginationComponent = el.nativeElement.querySelectorAll(
-      'cx-pagination'
-    );
+    const paginationComponent =
+      el.nativeElement.querySelectorAll('cx-pagination');
     expect(paginationComponent.length).toBe(2);
-    const couponCardComponent = el.nativeElement.querySelectorAll(
-      'cx-coupon-card'
-    );
+    const couponCardComponent =
+      el.nativeElement.querySelectorAll('cx-coupon-card');
     expect(couponCardComponent.length).toBe(couponsSearchResult.coupons.length);
 
     expect(

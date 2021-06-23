@@ -24,9 +24,7 @@ export class PageMetaService {
     @Inject(PLATFORM_ID) protected platformId: string
   ) {}
 
-  protected resolvers$: Observable<
-    PageMetaResolver[]
-  > = this.unifiedInjector
+  protected resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
     .getMulti(PageMetaResolver)
     .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
     PageMetaResolver[]

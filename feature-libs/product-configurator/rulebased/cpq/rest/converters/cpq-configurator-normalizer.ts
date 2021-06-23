@@ -7,7 +7,8 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 
 @Injectable()
 export class CpqConfiguratorNormalizer
-  implements Converter<Cpq.Configuration, Configurator.Configuration> {
+  implements Converter<Cpq.Configuration, Configurator.Configuration>
+{
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
@@ -27,9 +28,8 @@ export class CpqConfiguratorNormalizer
         !source.errorMessages?.length,
       totalNumberOfIssues: this.generateTotalNumberOfIssues(source),
       productCode: source.productSystemId,
-      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        source
-      ),
+      priceSummary:
+        this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: [],
       flatGroups: [],
       errorMessages: this.generateErrorMessages(source),
@@ -153,15 +153,17 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-        sourceAttribute
-      ),
+      label:
+        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+          sourceAttribute
+        ),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
-      dataType: this.cpqConfiguratorNormalizerUtilsService.convertDataType(
-        sourceAttribute
-      ),
+      dataType:
+        this.cpqConfiguratorNormalizerUtilsService.convertDataType(
+          sourceAttribute
+        ),
       quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
@@ -180,10 +182,11 @@ export class CpqConfiguratorNormalizer
       );
       this.setSelectedSingleValue(attribute);
     }
-    attribute.attributePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
-      attribute,
-      currency
-    );
+    attribute.attributePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
+        attribute,
+        currency
+      );
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
@@ -223,10 +226,11 @@ export class CpqConfiguratorNormalizer
       ),
       images: [],
     };
-    value.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      value.quantity,
-      value.valuePrice
-    );
+    value.valuePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        value.quantity,
+        value.valuePrice
+      );
 
     values.push(value);
   }

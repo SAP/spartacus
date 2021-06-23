@@ -22,11 +22,9 @@ export const getInterests: MemoizedSelector<
     loaderValueSelector(state)
 );
 
-export const getInterestsLoading: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(
-  getInterestsState,
-  (state: LoaderState<ProductInterestSearchResult>) =>
-    loaderLoadingSelector(state)
-);
+export const getInterestsLoading: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(
+    getInterestsState,
+    (state: LoaderState<ProductInterestSearchResult>) =>
+      loaderLoadingSelector(state)
+  );

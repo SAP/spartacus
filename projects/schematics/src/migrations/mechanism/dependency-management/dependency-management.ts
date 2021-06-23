@@ -24,10 +24,8 @@ export function migrateDependencies(
   removedDependencies: string[]
 ): Rule {
   const packageJson = readPackageJson(tree);
-  const {
-    spartacusPeerDeps,
-    installedLibs,
-  } = collectSpartacusLibraryDependencies(packageJson);
+  const { spartacusPeerDeps, installedLibs } =
+    collectSpartacusLibraryDependencies(packageJson);
   const allSpartacusDeps = installedLibs.concat(spartacusPeerDeps);
 
   const dependencies = createSpartacusLibraryDependencies(
@@ -48,9 +46,10 @@ export function migrateDependencies(
   ]);
 }
 
-function collectSpartacusLibraryDependencies(
-  packageJson: any
-): { installedLibs: string[]; spartacusPeerDeps: string[] } {
+function collectSpartacusLibraryDependencies(packageJson: any): {
+  installedLibs: string[];
+  spartacusPeerDeps: string[];
+} {
   const dependencies =
     (packageJson.dependencies as Record<string, string>) ?? {};
   const installedLibs = Object.keys(dependencies).filter((dep) =>
@@ -80,10 +79,9 @@ function collectSpartacusPeerDeps(
   collectedDeps: string[],
   name: string
 ): string[] {
-  const peerDepsWithVersions = (collectedDependencies as Record<
-    string,
-    Record<string, string>
-  >)[name];
+  const peerDepsWithVersions = (
+    collectedDependencies as Record<string, Record<string, string>>
+  )[name];
   const peerDeps = Object.keys(peerDepsWithVersions)
     .filter((d) => d.startsWith(SPARTACUS_SCOPE))
     .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
@@ -104,10 +102,9 @@ function createSpartacusLibraryDependencies(
   const dependenciesToAdd: NodeDependency[] = [];
 
   for (const libraryName of allSpartacusLibraries) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
 
     dependenciesToAdd.push(
       ...createDependencies(spartacusLibrary, {
@@ -131,10 +128,9 @@ function checkAndLogRemovedDependencies(
 
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
     allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
   }
 

@@ -70,9 +70,10 @@ export class ConfiguratorGroupsService {
       .getConfiguration(owner)
       .pipe(take(1))
       .subscribe((configuration) => {
-        const groupId = this.configuratorGroupStatusService.getFirstIncompleteGroup(
-          configuration
-        )?.id;
+        const groupId =
+          this.configuratorGroupStatusService.getFirstIncompleteGroup(
+            configuration
+          )?.id;
         if (groupId) {
           this.navigateToGroup(configuration, groupId, true);
         }

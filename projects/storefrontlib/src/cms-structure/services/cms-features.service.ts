@@ -37,10 +37,8 @@ export class CmsFeaturesService {
    * Contains either FeatureInstance or FeatureInstance resolver for not yet
    * resolved feature modules
    */
-  private featureInstances: Map<
-    string,
-    Observable<FeatureInstance>
-  > = new Map();
+  private featureInstances: Map<string, Observable<FeatureInstance>> =
+    new Map();
 
   constructor(
     protected configInitializer: ConfigInitializerService,

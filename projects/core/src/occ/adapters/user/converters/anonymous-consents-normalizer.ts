@@ -5,7 +5,8 @@ import { Converter } from '../../../../util/converter.service';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentNormalizer
-  implements Converter<string, AnonymousConsent[]> {
+  implements Converter<string, AnonymousConsent[]>
+{
   constructor(protected anonymousConsentsService: AnonymousConsentsService) {}
 
   convert(source: string): AnonymousConsent[] {

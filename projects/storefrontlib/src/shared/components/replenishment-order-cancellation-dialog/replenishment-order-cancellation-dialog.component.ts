@@ -20,7 +20,8 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
 })
 export class ReplenishmentOrderCancellationDialogComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   private subscription = new Subscription();
 
   replenishmentOrderCode: string;

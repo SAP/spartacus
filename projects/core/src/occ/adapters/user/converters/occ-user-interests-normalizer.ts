@@ -10,7 +10,8 @@ import { ProductInterestSearchResult } from '../../../../model/product-interest.
 @Injectable({ providedIn: 'root' })
 export class OccUserInterestsNormalizer
   implements
-    Converter<Occ.ProductInterestSearchResult, ProductInterestSearchResult> {
+    Converter<Occ.ProductInterestSearchResult, ProductInterestSearchResult>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

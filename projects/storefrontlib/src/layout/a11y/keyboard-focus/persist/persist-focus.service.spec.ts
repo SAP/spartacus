@@ -120,32 +120,36 @@ describe('PersistFocusService', () => {
 
   describe('Persistence Group', () => {
     it('should return configured persistence group', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#a')
+      ).nativeElement;
 
       const group = service.getPersistenceGroup(el, { group: 'g' });
       expect(group).toEqual('g');
     });
 
     it('should return falsy if no config is added', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#a')
+      ).nativeElement;
 
       const group = service.getPersistenceGroup(el);
       expect(group).toBeFalsy();
     });
 
     it('should return persisted group from attr', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
 
       const group = service.getPersistenceGroup(el);
       expect(group).toEqual('pg');
     });
 
     it('should return configured group regardless of attr', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
 
       const group = service.getPersistenceGroup(el, { group: 'g' });
       expect(group).toEqual('g');
