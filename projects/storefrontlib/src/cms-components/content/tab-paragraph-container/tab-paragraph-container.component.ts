@@ -38,8 +38,8 @@ export class TabParagraphContainerComponent
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef?: WindowRef,
-    protected breakpointService?: BreakpointService
+    protected winRef: WindowRef,
+    protected breakpointService: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
