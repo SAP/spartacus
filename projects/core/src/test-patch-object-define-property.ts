@@ -14,9 +14,8 @@
  * spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
  * ```
  *
- * For more details, see:
- * - https://github.com/angular/angular/issues/37432
- * - https://github.com/facebook/jest/issues/6914#issuecomment-654710111
+ * It's needed since `zone.js@0.11.4`.
+ * See https://github.com/angular/angular/commit/45a73dddfdf3f32ad4203c71c06b6a4be50f4a31
  */
 
 const { defineProperty } = Object;
