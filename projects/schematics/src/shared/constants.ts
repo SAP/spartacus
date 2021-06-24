@@ -423,8 +423,7 @@ export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
   'ConfiguratorAttributeQuantityService';
-export const CONFIGURATOR_UI_SETTINGS_CONFIG =
-  'ConfiguratorUISettingsConfig';  
+export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
@@ -441,8 +440,8 @@ export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
   'ConfiguratorAttributeCheckBoxListComponent';
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
   'ConfiguratorAttributeDropDownComponent';
-  export const CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT =
-  'ConfiguratorAttributeInputFieldComponent';  
+export const CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeInputFieldComponent';
 export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
 export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
