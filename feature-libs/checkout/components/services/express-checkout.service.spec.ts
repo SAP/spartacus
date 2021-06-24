@@ -8,6 +8,7 @@ import {
   Address,
   DeliveryMode,
   PaymentDetails,
+  QueryState,
   StateUtils,
   UserAddressService,
   UserPaymentService,
@@ -111,16 +112,14 @@ class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
 }
 
 const mockSetPaymentDetailsResult = new BehaviorSubject({
-  success: true,
+  data: mockDetails.paymentInfo,
   error: false,
   loading: false,
-});
+} as QueryState<PaymentDetails>);
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   resetSetPaymentDetailsProcess() {}
-  getSetPaymentDetailsResultProcess(): Observable<
-    StateUtils.LoaderState<void>
-  > {
+  getSetPaymentDetailsResultProcess(): Observable<QueryState<PaymentDetails>> {
     return mockSetPaymentDetailsResult.asObservable();
   }
   setPaymentDetails() {}
@@ -135,10 +134,10 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
 describe('ExpressCheckoutService', () => {
   let subscription: Subscription;
   let service: ExpressCheckoutService;
-  let userAddressService;
-  let userPaymentService;
+  let userAddressService: UserAddressService;
+  let userPaymentService: UserPaymentService;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
-  let checkoutPaymentService;
+  let checkoutPaymentService: CheckoutPaymentFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -198,7 +197,7 @@ describe('ExpressCheckoutService', () => {
       loading: false,
     });
     mockSetPaymentDetailsResult.next({
-      success: true,
+      data: mockDetails.paymentInfo,
       error: false,
       loading: false,
     });
@@ -312,13 +311,13 @@ describe('ExpressCheckoutService', () => {
 
       it('should set payment method if it has been not loaded yet', (done) => {
         mockSetPaymentDetailsResult.next({
-          success: false,
+          data: {},
           error: false,
           loading: false,
         });
         spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
           mockSetPaymentDetailsResult.next({
-            success: true,
+            data: mockDetails.paymentInfo,
             error: false,
             loading: false,
           })
@@ -336,14 +335,14 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set payment method error', (done) => {
         mockSetPaymentDetailsResult.next({
-          success: false,
+          data: {},
           error: false,
           loading: false,
         });
         spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
           mockSetPaymentDetailsResult.next({
-            success: false,
-            error: true,
+            data: {},
+            error: new Error('some error'),
             loading: false,
           })
         );

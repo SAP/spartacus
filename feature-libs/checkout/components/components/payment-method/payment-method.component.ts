@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryFacade,
@@ -29,7 +24,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodComponent implements OnInit, OnDestroy {
+export class PaymentMethodComponent implements OnInit {
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
@@ -42,6 +37,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   protected shouldRedirect: boolean;
   protected deliveryAddress: Address;
+  protected settingDefaultPayment: boolean = false;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -68,8 +64,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryService
       .getDeliveryAddress()
       .pipe(take(1))
-      .subscribe((address: Address) => {
-        this.deliveryAddress = address;
+      .subscribe((address: Address | undefined) => {
+        this.deliveryAddress = address as Address;
       });
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
@@ -134,9 +130,18 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             const defaultPaymentMethod = paymentMethods.find(
               (paymentMethod) => paymentMethod.payment.defaultPayment
             );
-            if (defaultPaymentMethod) {
+            if (defaultPaymentMethod && !this.settingDefaultPayment) {
               selectedMethod = defaultPaymentMethod.payment;
-              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+              this.settingDefaultPayment = true;
+              this.checkoutPaymentService
+                .setPaymentDetails(selectedMethod)
+                .subscribe(
+                  () => {},
+                  () => {},
+                  () => {
+                    this.settingDefaultPayment = false;
+                  }
+                );
             }
           }
           return paymentMethods.map((payment) => ({
@@ -180,10 +185,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     details.billingAddress = billingAddress || this.deliveryAddress;
     this.checkoutPaymentService.createPaymentDetails(details);
     this.shouldRedirect = true;
-  }
-
-  ngOnDestroy(): void {
-    this.checkoutPaymentService.paymentProcessSuccess();
   }
 
   protected getCardIcon(code: string): string {

@@ -13,7 +13,6 @@ export const initialState: CheckoutStepsState = {
     supported: {},
     selected: '',
   },
-  paymentDetails: {},
   orderDetails: {},
 };
 
@@ -74,26 +73,6 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS:
-    case CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        paymentDetails: action.payload,
-      };
-    }
-
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
-      const paymentDetails = action.payload;
-      if (paymentDetails['hasError']) {
-        return {
-          ...state,
-          paymentDetails,
-        };
-      }
-
-      return state;
-    }
-
     case CheckoutActions.PLACE_ORDER_SUCCESS:
     case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
       const orderDetails: Order | ReplenishmentOrder = action.payload;
@@ -132,7 +111,7 @@ export function reducer(
         case 3: {
           return {
             ...state,
-            paymentDetails: {},
+            // paymentDetails: {},
           };
         }
       }
@@ -160,7 +139,6 @@ export function reducer(
             action.payload.deliveryMode &&
             (action.payload.deliveryMode.code as string),
         },
-        paymentDetails: action.payload.paymentInfo,
       };
     }
 

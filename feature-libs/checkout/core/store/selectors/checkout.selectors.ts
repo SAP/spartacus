@@ -7,7 +7,6 @@ import {
   Address,
   DeliveryMode,
   Order,
-  PaymentDetails,
   ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
@@ -21,8 +20,6 @@ import {
 const getDeliveryAddressSelector = (state: CheckoutStepsState) => state.address;
 const getDeliveryModeSelector = (state: CheckoutStepsState) =>
   state.deliveryMode;
-const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
-  state.paymentDetails;
 const getOrderDetailsSelector = (state: CheckoutStepsState) =>
   state.orderDetails;
 
@@ -89,11 +86,6 @@ export const getSelectedDeliveryMode: MemoizedSelector<
     return deliveryMode.supported[deliveryMode.selected];
   }
 });
-
-export const getPaymentDetails: MemoizedSelector<
-  StateWithCheckout,
-  PaymentDetails
-> = createSelector(getCheckoutSteps, getPaymentDetailsSelector);
 
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,

@@ -60,27 +60,27 @@ export class ReviewSubmitComponent {
     return this.checkoutStepService.steps$;
   }
 
-  get deliveryAddress$(): Observable<Address> {
+  get deliveryAddress$(): Observable<Address | undefined> {
     return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
-  get deliveryMode$(): Observable<DeliveryMode | null | undefined> {
+  get deliveryMode$(): Observable<DeliveryMode | undefined> {
     return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
-      tap((selected: DeliveryMode | null | undefined) => {
-        if (selected === null) {
+      tap((selected: DeliveryMode | undefined) => {
+        if (selected === undefined) {
           this.checkoutDeliveryService.loadSupportedDeliveryModes();
         }
       })
     );
   }
 
-  get paymentDetails$(): Observable<PaymentDetails> {
+  get paymentDetails$(): Observable<PaymentDetails | undefined> {
     return this.checkoutPaymentService.getPaymentDetails();
   }
 
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
-      switchMap((address: Address) =>
+      switchMap((address) =>
         this.userAddressService.getCountry(address?.country?.isocode as string)
       ),
       tap((country: Country) => {

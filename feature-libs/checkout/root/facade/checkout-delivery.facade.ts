@@ -49,9 +49,7 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  abstract getSelectedDeliveryMode(): Observable<
-    DeliveryMode | undefined | null
-  >;
+  abstract getSelectedDeliveryMode(): Observable<DeliveryMode | undefined>;
 
   /**
    * Get selected delivery mode code
@@ -61,7 +59,7 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Get delivery address
    */
-  abstract getDeliveryAddress(): Observable<Address>;
+  abstract getDeliveryAddress(): Observable<Address | undefined>;
 
   /**
    * Get status about successfully set Delivery Address

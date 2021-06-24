@@ -3,7 +3,6 @@ import {
   DeliveryMode,
   Order,
   ORDER_TYPE,
-  PaymentDetails,
   ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
@@ -15,9 +14,6 @@ export const SET_DELIVERY_ADDRESS_PROCESS_ID = 'setDeliveryAddress';
 export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
   'setSupportedDeliveryMode';
-export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
-export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
-export const SET_COST_CENTER_PROCESS_ID = 'setCostCenter';
 export const PLACED_ORDER_PROCESS_ID = 'placeOrder';
 
 export interface StateWithCheckout {
@@ -30,7 +26,6 @@ export interface CheckoutStepsState {
     supported: { [code: string]: DeliveryMode };
     selected: string;
   };
-  paymentDetails: PaymentDetails;
   orderDetails: Order | ReplenishmentOrder;
 }
 

@@ -22,7 +22,6 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
-import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -92,6 +91,7 @@ export class CheckoutEffects {
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
+    | CheckoutActions.ClearCheckoutData
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
@@ -100,6 +100,7 @@ export class CheckoutEffects {
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           mergeMap(() => [
+            new CheckoutActions.ClearCheckoutData(),
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.ClearCheckoutDeliveryMode({
               userId: payload.userId,
@@ -206,70 +207,6 @@ export class CheckoutEffects {
           catchError((error) =>
             of(
               new CheckoutActions.SetDeliveryModeFail(normalizeHttpError(error))
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  createPaymentDetails$: Observable<
-    | UserActions.LoadUserPaymentMethods
-    | CheckoutActions.CreatePaymentDetailsSuccess
-    | CheckoutActions.CreatePaymentDetailsFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      // get information for creating a subscription directly with payment provider
-      return this.checkoutPaymentConnector
-        .create(payload.userId, payload.cartId, payload.paymentDetails)
-        .pipe(
-          mergeMap((details) => {
-            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
-              return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
-            } else {
-              return [
-                new UserActions.LoadUserPaymentMethods(payload.userId),
-                new CheckoutActions.CreatePaymentDetailsSuccess(details),
-              ];
-            }
-          }),
-          catchError((error) =>
-            of(
-              new CheckoutActions.CreatePaymentDetailsFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  setPaymentDetails$: Observable<
-    | CheckoutActions.SetPaymentDetailsSuccess
-    | CheckoutActions.SetPaymentDetailsFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.SET_PAYMENT_DETAILS),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutPaymentConnector
-        .set(payload.userId, payload.cartId, payload.paymentDetails.id)
-        .pipe(
-          map(
-            () =>
-              new CheckoutActions.SetPaymentDetailsSuccess(
-                payload.paymentDetails
-              )
-          ),
-          catchError((error) =>
-            of(
-              new CheckoutActions.SetPaymentDetailsFail(
-                normalizeHttpError(error)
-              )
             )
           )
         );
@@ -410,7 +347,6 @@ export class CheckoutEffects {
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }

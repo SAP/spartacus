@@ -9,7 +9,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutPaymentConnector } from '../connectors';
-import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -109,10 +108,6 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should be able to get the payment details', () => {
-    store.dispatch(
-      new CheckoutActions.SetPaymentDetailsSuccess(paymentDetails)
-    );
-
     let tempPaymentDetails: PaymentDetails;
     service
       .getPaymentDetails()
@@ -125,30 +120,9 @@ describe('CheckoutPaymentService', () => {
 
   it('should be able to create payment details', () => {
     service.createPaymentDetails(paymentDetails);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.CreatePaymentDetails({
-        userId: userId,
-        cartId: cart.code,
-        paymentDetails,
-      })
-    );
   });
 
   it('should set payment details', () => {
     service.setPaymentDetails(paymentDetails);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentDetails({
-        userId: userId,
-        cartId: cart.code,
-        paymentDetails,
-      })
-    );
-  });
-
-  it('should allow actions for login user or guest user', () => {
-    userIdService['userId'] = 'anonymous';
-    expect(service['actionAllowed']()).toBeTruthy();
   });
 });
