@@ -18,10 +18,10 @@ export const enum RouteLoadStrategy {
   useExisting: Config,
 })
 export abstract class RoutingConfig {
-  routing?: RoutingSubConfig;
+  routing?: RoutingConfigDefinition;
 }
 
-export interface RoutingSubConfig {
+export interface RoutingConfigDefinition {
   /**
    * Configuration of semantic routes. Key is route's name. Value is the config specific to this route.
    */

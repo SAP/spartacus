@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
 
-interface ExternalRoutesSubConfig {
+interface ExternalRoutesConfigDefinition {
   internal?: string[];
 }
 
@@ -10,9 +10,9 @@ interface ExternalRoutesSubConfig {
   useExisting: Config,
 })
 export abstract class ExternalRoutesConfig {
-  routing?: ExternalRoutesSubConfig;
+  routing?: ExternalRoutesConfigDefinition;
 }
 
 declare module '../configurable-routes/config/routing-config' {
-  interface RoutingSubConfig extends ExternalRoutesSubConfig {}
+  interface RoutingConfigDefinition extends ExternalRoutesConfigDefinition {}
 }
