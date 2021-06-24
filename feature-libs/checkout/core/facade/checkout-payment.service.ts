@@ -53,6 +53,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                     this.checkoutStore.dispatch(
                       new UserActions.LoadUserPaymentMethods(userId)
                     );
+                  } else {
+                    // TODO: We do that to load payment methods for guest checkout (as we don't trigger set payment method)
+                    this.checkoutStore.dispatch(
+                      new CheckoutActions.ClearCheckoutData()
+                    );
                   }
                 })
               );
