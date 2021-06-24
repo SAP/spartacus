@@ -7,7 +7,7 @@ import 'zone.js/testing';
 // Patching Object.defineProperty unlocks frozen JS symbols and makes possible to mock them.
 // Should be used with caution, and only if there is no other way to mock stuff (eg. by DI)
 // Has to be imported just after zone.js imports.
-import 'projects/core/src/test-patch-object-define-property';
+import 'testing/patch-object-define-property';
 
 import { getTestBed } from '@angular/core/testing';
 import {
