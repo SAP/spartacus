@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import { CheckFacade, CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -12,7 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { map, pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -28,7 +28,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected checkService: CheckFacade
   ) {}
 
   /**
@@ -61,10 +62,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined | null> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getSelectedDeliveryMode)
-    );
+  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
+    return this.checkService
+      .getCheckoutDetails()
+      .pipe(map((state) => state?.data?.deliveryMode));
   }
 
   /**
@@ -79,10 +80,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get delivery address
    */
-  getDeliveryAddress(): Observable<Address> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getDeliveryAddress)
-    );
+  getDeliveryAddress(): Observable<Address | undefined> {
+    return this.checkService
+      .getCheckoutDetails()
+      .pipe(map((details) => details?.data?.deliveryAddress));
   }
 
   /**

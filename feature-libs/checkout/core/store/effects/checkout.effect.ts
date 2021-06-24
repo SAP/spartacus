@@ -91,6 +91,7 @@ export class CheckoutEffects {
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
+    | CheckoutActions.ClearCheckoutData
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
@@ -99,6 +100,7 @@ export class CheckoutEffects {
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           mergeMap(() => [
+            new CheckoutActions.ClearCheckoutData(),
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.ClearCheckoutDeliveryMode({
               userId: payload.userId,

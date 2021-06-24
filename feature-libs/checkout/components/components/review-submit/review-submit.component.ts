@@ -60,14 +60,14 @@ export class ReviewSubmitComponent {
     return this.checkoutStepService.steps$;
   }
 
-  get deliveryAddress$(): Observable<Address> {
+  get deliveryAddress$(): Observable<Address | undefined> {
     return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
-  get deliveryMode$(): Observable<DeliveryMode | null | undefined> {
+  get deliveryMode$(): Observable<DeliveryMode | undefined> {
     return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
-      tap((selected: DeliveryMode | null | undefined) => {
-        if (selected === null) {
+      tap((selected: DeliveryMode | undefined) => {
+        if (selected === undefined) {
           this.checkoutDeliveryService.loadSupportedDeliveryModes();
         }
       })
