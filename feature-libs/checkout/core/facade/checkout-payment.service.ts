@@ -63,6 +63,27 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     }
   );
 
+  protected setPaymentDetailsCommand = this.command.create((payload: any) => {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartService.getActiveCartId(),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, cartId]) => {
+        if (
+          !!cartId &&
+          userId &&
+          (userId !== OCC_USER_ID_ANONYMOUS ||
+            this.activeCartService.isGuestCart())
+        ) {
+          return this.checkoutPaymentConnector.set(userId, cartId, payload.id);
+        } else {
+          return throwError({ message: 'error message' });
+        }
+      })
+    );
+  });
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -113,6 +134,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    * Create payment details using the given paymentDetails param
    * @param paymentDetails: the PaymentDetails to be created
    */
+  // TODO: Multilevel extendable interfaces
   createPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.createPaymentDetailsCommand.execute(paymentDetails);
   }
@@ -121,40 +143,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    * Set payment details
    * @param paymentDetails : the PaymentDetails to be set
    */
-  setPaymentDetails(paymentDetails: PaymentDetails): void {
-    if (this.actionAllowed()) {
-      let userId: string | undefined;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId: string | undefined;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId,
-            paymentDetails: paymentDetails,
-          })
-        );
-      }
-    }
-  }
-
-  protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-    return (
-      (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
-    );
+  // TODO: Multilevel extendable interfaces
+  setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
+    return this.setPaymentDetailsCommand.execute(paymentDetails);
   }
 }

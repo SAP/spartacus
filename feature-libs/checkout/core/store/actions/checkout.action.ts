@@ -5,7 +5,6 @@ import {
   DeliveryMode,
   MULTI_CART_DATA,
   Order,
-  PaymentDetails,
   PROCESS_FEATURE,
   StateUtils,
 } from '@spartacus/core';
@@ -14,7 +13,6 @@ import {
   PLACED_ORDER_PROCESS_ID,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
@@ -67,13 +65,6 @@ export const SET_SUPPORTED_DELIVERY_MODES_SUCCESS =
   '[Checkout] Set Supported Delivery Modes Success';
 export const RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS =
   '[Checkout] Reset Set Supported Delivery Modes Process';
-
-export const SET_PAYMENT_DETAILS = '[Checkout] Set Payment Details';
-export const SET_PAYMENT_DETAILS_FAIL = '[Checkout] Set Payment Details Fail';
-export const SET_PAYMENT_DETAILS_SUCCESS =
-  '[Checkout] Set Payment Details Success';
-export const RESET_SET_PAYMENT_DETAILS_PROCESS =
-  '[Checkout] Reset Set Payment Details Process';
 
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
@@ -193,47 +184,6 @@ export class ResetSetDeliveryModeProcess extends StateUtils.EntityLoaderResetAct
   readonly type = RESET_SET_DELIVERY_MODE_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class PaymentProcessSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = PAYMENT_PROCESS_SUCCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class SetPaymentDetails extends StateUtils.EntityLoadAction {
-  readonly type = SET_PAYMENT_DETAILS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      paymentDetails: PaymentDetails;
-    }
-  ) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class SetPaymentDetailsFail extends StateUtils.EntityFailAction {
-  readonly type = SET_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID, payload);
-  }
-}
-
-export class SetPaymentDetailsSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = SET_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: PaymentDetails) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type = RESET_SET_PAYMENT_DETAILS_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
 
@@ -357,10 +307,6 @@ export type CheckoutAction =
   | SetDeliveryModeSuccess
   | ResetSetDeliveryModeProcess
   | ClearSupportedDeliveryModes
-  | SetPaymentDetails
-  | SetPaymentDetailsFail
-  | SetPaymentDetailsSuccess
-  | ResetSetPaymentDetailsProcess
   | PlaceOrder
   | PlaceOrderFail
   | PlaceOrderSuccess

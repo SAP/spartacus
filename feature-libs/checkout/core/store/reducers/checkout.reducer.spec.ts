@@ -3,7 +3,6 @@ import {
   Address,
   DeliveryMode,
   Order,
-  PaymentDetails,
   ReplenishmentOrder,
 } from '@spartacus/core';
 import { CheckoutActions } from './../actions/index';
@@ -86,24 +85,6 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('CREATE_PAYMENT_DETAILS_SUCCESS or SET_PAYMENT_DETAILS_SUCCESS action', () => {
-    it('should create payment details for cart', () => {
-      const { initialState } = fromCheckout;
-      const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails',
-      };
-
-      const setPaymentDetailsAction = new CheckoutActions.SetPaymentDetailsSuccess(
-        paymentDetails
-      );
-      const setPaymentDetailsState = fromCheckout.reducer(
-        initialState,
-        setPaymentDetailsAction
-      );
-      expect(setPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
-    });
-  });
-
   describe('PLACE_ORDER_SUCCESS action', () => {
     it('should place order', () => {
       const { initialState } = fromCheckout;
@@ -165,16 +146,16 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('CLEAR_CHECKOUT_STEP action', () => {
-    it('should clear step number 3', () => {
-      const { initialState } = fromCheckout;
-      const paymentDets = {};
+  // describe('CLEAR_CHECKOUT_STEP action', () => {
+  //   it('should clear step number 3', () => {
+  //     const { initialState } = fromCheckout;
+  //     const paymentDets = {};
 
-      const action = new CheckoutActions.ClearCheckoutStep(3);
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.paymentDetails).toEqual(paymentDets);
-    });
-  });
+  //     const action = new CheckoutActions.ClearCheckoutStep(3);
+  // const state = fromCheckout.reducer(initialState, action);
+  // expect(state.paymentDetails).toEqual(paymentDets);
+  // });
+  // });
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear invalid step number', () => {
@@ -228,7 +209,6 @@ describe('Checkout reducer', () => {
       const state = fromCheckout.reducer(initialState, action);
       expect(state.address.firstName).toEqual(firstName);
       expect(state.deliveryMode.selected).toEqual(code);
-      expect(state.paymentDetails.accountHolderName).toEqual(accountHolderName);
     });
   });
 

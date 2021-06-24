@@ -9,7 +9,6 @@ import {
   CartActions,
   DeliveryMode,
   Order,
-  PaymentDetails,
   SiteContextActions,
   UserActions,
 } from '@spartacus/core';
@@ -47,24 +46,11 @@ const details: CheckoutDetails = {
   paymentInfo: {},
 };
 
-const paymentDetails: PaymentDetails = {
-  accountHolderName: 'test',
-  defaultPayment: false,
-  billingAddress: {
-    line1: '123 Montreal',
-  },
-};
-
 class MockCheckoutDeliveryConnector {
   createAddress = createSpy().and.returnValue(of(address));
   setAddress = createSpy().and.returnValue(of({}));
   getSupportedModes = createSpy().and.returnValue(of(modes));
   setMode = createSpy().and.returnValue(of({}));
-}
-
-class MockCheckoutPaymentConnector {
-  set = createSpy().and.returnValue(of({}));
-  create = createSpy().and.returnValue(of(paymentDetails));
 }
 
 class MockCheckoutConnector {
@@ -87,10 +73,6 @@ describe('Checkout effect', () => {
         {
           provide: CheckoutDeliveryConnector,
           useClass: MockCheckoutDeliveryConnector,
-        },
-        {
-          provide: CheckoutPaymentConnector,
-          useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
@@ -278,24 +260,6 @@ describe('Checkout effect', () => {
       });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
-    });
-  });
-
-  describe('setPaymentDetails$', () => {
-    it('should set payment details', () => {
-      const action = new CheckoutActions.SetPaymentDetails({
-        userId: userId,
-        cartId: cartId,
-        paymentDetails,
-      });
-      const completion = new CheckoutActions.SetPaymentDetailsSuccess(
-        paymentDetails
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
     });
   });
 

@@ -22,7 +22,6 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
-import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -214,35 +213,6 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  setPaymentDetails$: Observable<
-    | CheckoutActions.SetPaymentDetailsSuccess
-    | CheckoutActions.SetPaymentDetailsFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.SET_PAYMENT_DETAILS),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutPaymentConnector
-        .set(payload.userId, payload.cartId, payload.paymentDetails.id)
-        .pipe(
-          map(
-            () =>
-              new CheckoutActions.SetPaymentDetailsSuccess(
-                payload.paymentDetails
-              )
-          ),
-          catchError((error) =>
-            of(
-              new CheckoutActions.SetPaymentDetailsFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
   placeOrder$: Observable<
     | CheckoutActions.PlaceOrderSuccess
     | GlobalMessageActions.AddMessage
@@ -375,7 +345,6 @@ export class CheckoutEffects {
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }

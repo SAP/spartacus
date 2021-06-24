@@ -3,7 +3,6 @@ import {
   DeliveryMode,
   MULTI_CART_DATA,
   Order,
-  PaymentDetails,
   PROCESS_FEATURE,
   StateUtils,
 } from '@spartacus/core';
@@ -12,7 +11,6 @@ import {
   PLACED_ORDER_PROCESS_ID,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
@@ -20,9 +18,6 @@ const userId = 'testUserId';
 const cartId = 'testCartId';
 const termsChecked = true;
 const selectedModeId = 'selectedModeId';
-const paymentDetails: PaymentDetails = {
-  id: 'mockPaymentDetails',
-};
 
 const orderDetails: Order = {
   code: 'testOrder123',
@@ -260,74 +255,6 @@ describe('Checkout Actions', () => {
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
             SET_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
-      });
-    });
-  });
-
-  describe('Set Payment Details for Cart', () => {
-    describe('SetPaymentDetails', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId,
-          cartId,
-          paymentDetails: paymentDetails,
-        };
-
-        const action = new CheckoutActions.SetPaymentDetails(payload);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.SET_PAYMENT_DETAILS,
-          payload,
-          meta: StateUtils.entityLoadMeta(
-            PROCESS_FEATURE,
-            SET_PAYMENT_DETAILS_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('SetPaymentDetailsFail', () => {
-      it('should create the action', () => {
-        const error = 'anError';
-        const action = new CheckoutActions.SetPaymentDetailsFail(error);
-
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.SET_PAYMENT_DETAILS_FAIL,
-          payload: error,
-          meta: StateUtils.entityFailMeta(
-            PROCESS_FEATURE,
-            SET_PAYMENT_DETAILS_PROCESS_ID,
-            error
-          ),
-        });
-      });
-    });
-
-    describe('SetPaymentDetailsSuccess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.SetPaymentDetailsSuccess(
-          paymentDetails
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS,
-          payload: paymentDetails,
-          meta: StateUtils.entitySuccessMeta(
-            PROCESS_FEATURE,
-            SET_PAYMENT_DETAILS_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('ResetSetPaymentDetailsProcess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ResetSetPaymentDetailsProcess();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS,
-          meta: StateUtils.entityResetMeta(
-            PROCESS_FEATURE,
-            SET_PAYMENT_DETAILS_PROCESS_ID
           ),
         });
       });
