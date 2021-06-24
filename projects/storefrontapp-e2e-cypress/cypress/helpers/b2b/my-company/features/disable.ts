@@ -19,20 +19,25 @@ export function disableTest(config: MyCompanyConfig) {
         entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
+      cy.wait(`@getEntity`);
     });
 
     it('should disable/enable', () => {
       cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
       cy.route('PATCH', `**`).as('saveEntity');
 
-      cy.get('cx-org-card div.header button').contains('Disable').click();
+      cy.get('cx-org-card cx-org-toggle-status button')
+        .contains('Disable')
+        .click();
       cy.get('cx-org-confirmation')
         .should('contain.text', `Disable this ${config.name.toLowerCase()}?`)
         .contains(CONFIRMATION_LABELS.CANCEL)
         .click();
       cy.get('cx-org-confirmation').should('not.exist');
 
-      cy.get('div.header button').contains('Disable').click();
+      cy.get('cx-org-card cx-org-toggle-status button')
+        .contains('Disable')
+        .click();
       cy.get('cx-org-confirmation')
         .should('contain.text', `Disable this ${config.name.toLowerCase()}?`)
         .contains(CONFIRMATION_LABELS.DISABLE)

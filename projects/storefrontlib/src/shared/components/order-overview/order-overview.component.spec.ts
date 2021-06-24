@@ -170,39 +170,6 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    describe('should call getOrderCurrentDateCardContent()', () => {
-      it('with empty date', () => {
-        spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
-
-        component
-          .getOrderCurrentDateCardContent()
-          .subscribe((data) => {
-            expect(data).toBeTruthy();
-            expect(data.title).toEqual('test');
-            expect(data.text).toEqual(['-']);
-          })
-          .unsubscribe();
-
-        expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
-      });
-
-      it('with current date', () => {
-        spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
-        const date = component['getDate'](new Date());
-
-        component
-          .getOrderCurrentDateCardContent(new Date().toISOString())
-          .subscribe((data) => {
-            expect(data).toBeTruthy();
-            expect(data.title).toEqual('test');
-            expect(data.text).toEqual([date]);
-          })
-          .unsubscribe();
-
-        expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
-      });
-    });
-
     it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
       spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
 
@@ -223,12 +190,10 @@ describe('OrderOverviewComponent', () => {
     it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
       spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
 
-      const date = component['getDate'](
-        new Date(mockReplenishmentOrder.firstDate)
-      );
+      const date = mockReplenishmentOrder.firstDate;
 
       component
-        .getReplenishmentStartOnCardContent(mockReplenishmentOrder.firstDate)
+        .getReplenishmentStartOnCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -268,14 +233,10 @@ describe('OrderOverviewComponent', () => {
     it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
       spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
 
-      const date = component['getDate'](
-        new Date(mockReplenishmentOrder.trigger.activationTime)
-      );
+      const date = mockReplenishmentOrder.trigger.activationTime;
 
       component
-        .getReplenishmentNextDateCardContent(
-          mockReplenishmentOrder.trigger.activationTime
-        )
+        .getReplenishmentNextDateCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -285,7 +246,7 @@ describe('OrderOverviewComponent', () => {
 
       expect(
         component.getReplenishmentNextDateCardContent
-      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.activationTime);
+      ).toHaveBeenCalledWith(date);
     });
   });
 
@@ -312,13 +273,13 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent(isoDate?: string)', () => {
+    it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
       spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
 
-      const date = component['getDate'](mockOrder.created);
+      const date = mockOrder.created.toDateString();
 
       component
-        .getOrderCurrentDateCardContent(mockOrder.created.toDateString())
+        .getOrderCurrentDateCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
