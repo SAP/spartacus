@@ -74,7 +74,7 @@ export class ReviewSubmitComponent {
     );
   }
 
-  get paymentDetails$(): Observable<PaymentDetails> {
+  get paymentDetails$(): Observable<PaymentDetails | undefined> {
     return this.checkoutPaymentService.getPaymentDetails();
   }
 

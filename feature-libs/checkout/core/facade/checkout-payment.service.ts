@@ -48,6 +48,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
               .create(userId, cartId, payload)
               .pipe(
                 tap(() => {
+                  // TODO: Should we reload checkout data?
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.checkoutStore.dispatch(
                       new UserActions.LoadUserPaymentMethods(payload.userId)
@@ -76,6 +77,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
           (userId !== OCC_USER_ID_ANONYMOUS ||
             this.activeCartService.isGuestCart())
         ) {
+          // TODO: Should we reload checkout data after?
           return this.checkoutPaymentConnector.set(userId, cartId, payload.id);
         } else {
           return throwError({ message: 'error message' });
