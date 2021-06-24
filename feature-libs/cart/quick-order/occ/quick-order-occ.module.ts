@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { QuickOrderAdapter } from '@spartacus/cart/quick-order/core';
 import { provideDefaultConfig } from '@spartacus/core';
+import { QuickOrderAdapter } from '../core/connectors/quick-order.adapter';
 import { OccQuickOrderAdapter } from './adapters/occ-quick-order.adapter';
 import { defaultOccQuickOrderConfig } from './config/default-occ-quick-order-config';
 

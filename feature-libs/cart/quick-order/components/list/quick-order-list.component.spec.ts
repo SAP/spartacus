@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderService } from '../../core/services/quick-order.service';
 import { QuickOrderListComponent } from './quick-order-list.component';
 
 const mockentries: OrderEntry[] = [

@@ -1,15 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  QuickOrderService,
-  QuickOrderStatePersistenceService,
-} from '@spartacus/cart/quick-order/core';
-import {
   ActiveCartService,
   I18nTestingModule,
   OrderEntry,
   Product,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
+import { QuickOrderService } from '../../core/services/quick-order.service';
 import { QuickOrderComponent } from './quick-order-container.component';
 
 const mockProduct: Product = {
@@ -32,14 +30,12 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   }
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
-class MockQuickOrderStatePersistenceService
-  implements Partial<QuickOrderStatePersistenceService> {
-  initSync(): void {}
-}
 
-fdescribe('QuickOrderComponent', () => {
+describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
+  let activeCartService: ActiveCartService;
+  let quickOrderService: QuickOrderService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,13 +44,12 @@ fdescribe('QuickOrderComponent', () => {
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: QuickOrderService, useClass: MockQuickOrderService },
-        {
-          provide: QuickOrderStatePersistenceService,
-          useClass: MockQuickOrderStatePersistenceService,
-        },
-        ,
+        QuickOrderStatePersistenceService,
       ],
     }).compileComponents();
+
+    activeCartService = TestBed.inject(ActiveCartService);
+    quickOrderService = TestBed.inject(QuickOrderService);
   });
 
   beforeEach(() => {
@@ -66,5 +61,27 @@ fdescribe('QuickOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should trigger clear the list method from the service', () => {
+    spyOn(quickOrderService, 'clearList');
+
+    component.clear();
+    expect(quickOrderService.clearList).toHaveBeenCalled();
+  });
+
+  it('should trigger add to cart', () => {
+    spyOn(quickOrderService, 'clearList');
+    spyOn(activeCartService, 'addEntries');
+
+    component.addToCart();
+
+    let entryList: OrderEntry[];
+    component.entries$.subscribe((entries) => {
+      entryList = entries;
+    });
+
+    expect(activeCartService.addEntries).toHaveBeenCalledWith(entryList);
+    expect(quickOrderService.clearList).toHaveBeenCalled();
   });
 });

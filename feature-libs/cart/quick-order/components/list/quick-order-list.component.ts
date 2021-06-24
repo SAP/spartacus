@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderService } from '../../core/services/quick-order.service';
 
 @Component({
   selector: 'cx-quick-order-list',

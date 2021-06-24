@@ -86,10 +86,10 @@ describe('CartQuickFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        StoreModule.forRoot({}),
         FormErrorsModule,
         I18nTestingModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({}),
       ],
       declarations: [CartQuickFormComponent],
       providers: [
@@ -151,7 +151,7 @@ describe('CartQuickFormComponent', () => {
       {
         key: 'quickOrderCartForm.entryWasAdded',
         params: {
-          product: mockCartAddEntrySuccessEvent.entry.product?.name,
+          product: mockCartAddEntrySuccessEvent.entry?.product?.name,
           quantity: mockCartAddEntrySuccessEvent.quantityAdded,
         },
       },

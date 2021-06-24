@@ -28,9 +28,7 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   cartId: string;
   min = 1;
-  /**
-   * Subscription responsible for auto-correcting control's value when it's invalid.
-   */
+
   private subscription: Subscription = new Subscription();
 
   constructor(
