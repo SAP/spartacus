@@ -47,7 +47,7 @@ export class PaymentFormComponent implements OnInit {
   years: number[] = [];
 
   cardTypes$: Observable<CardType[]>;
-  shippingAddress$: Observable<Address>;
+  shippingAddress$: Observable<Address | undefined>;
   countries$: Observable<Country[]>;
   loading$: Observable<QueryState<PaymentDetails>>;
   sameAsShippingAddress = true;

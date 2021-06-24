@@ -65,7 +65,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     return this.userAddressService.getAddressesLoading();
   }
 
-  get selectedAddress$(): Observable<Address> {
+  get selectedAddress$(): Observable<Address | undefined> {
     return this.checkoutDeliveryService.getDeliveryAddress().pipe(
       tap((address) => {
         if (

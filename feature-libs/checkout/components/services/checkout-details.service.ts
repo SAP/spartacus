@@ -56,7 +56,7 @@ export class CheckoutDetailsService {
     );
   }
 
-  getDeliveryAddress(): Observable<Address> {
+  getDeliveryAddress(): Observable<Address | undefined> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
     );

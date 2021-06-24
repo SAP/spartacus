@@ -80,7 +80,7 @@ export class ReviewSubmitComponent {
 
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
-      switchMap((address: Address) =>
+      switchMap((address) =>
         this.userAddressService.getCountry(address?.country?.isocode as string)
       ),
       tap((country: Country) => {
