@@ -1,4 +1,6 @@
-import { viewportContext } from '../../../helpers/viewport-context';
+import * as cart from '../../../helpers/cart';
+import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
+import { waitForPage } from '../../../helpers/checkout-flow';
 import {
   addProductToCart,
   ItemList,
@@ -10,9 +12,8 @@ import {
   validateProduct,
   verifyMiniCartQty,
 } from '../../../helpers/save-for-later';
-import { waitForPage } from '../../../helpers/checkout-flow';
-import * as cart from '../../../helpers/cart';
-import * as cartCoupon from '../../../helpers/cart-coupon';
+
+import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Save for later', () => {
   viewportContext(['mobile', 'desktop'], () => {

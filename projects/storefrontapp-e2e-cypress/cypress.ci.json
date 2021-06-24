@@ -11,6 +11,8 @@
   },
   "videoUploadOnPasses": false,
   "env": {
+    "BASE_LANG": "en",
+    "BASE_CURRENCY": "USD",
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
     "API_URL": "https://20.83.184.244:9002",
