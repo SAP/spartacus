@@ -51,7 +51,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                   // TODO: Should we reload checkout data?
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.checkoutStore.dispatch(
-                      new UserActions.LoadUserPaymentMethods(payload.userId)
+                      new UserActions.LoadUserPaymentMethods(userId)
                     );
                   }
                 })
@@ -78,7 +78,16 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             this.activeCartService.isGuestCart())
         ) {
           // TODO: Should we reload checkout data after?
-          return this.checkoutPaymentConnector.set(userId, cartId, payload.id);
+          return this.checkoutPaymentConnector
+            .set(userId, cartId, payload.id)
+            .pipe(
+              tap(() => {
+                console.log('setter finished, triggering load');
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.ClearCheckoutData()
+                );
+              })
+            );
         } else {
           return throwError({ message: 'error message' });
         }
@@ -119,6 +128,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   getSetPaymentDetailsResultProcess(): Observable<QueryState<PaymentDetails>> {
     return this.checkService.getCheckoutDetails().pipe(
       map((state) => {
+        console.log(state);
         return { ...state, data: state?.data?.paymentInfo };
       })
     );

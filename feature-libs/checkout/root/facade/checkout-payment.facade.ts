@@ -63,5 +63,7 @@ export abstract class CheckoutPaymentFacade {
    * Set payment details
    * @param paymentDetails : the PaymentDetails to be set
    */
-  abstract setPaymentDetails(paymentDetails: PaymentDetails): void;
+  abstract setPaymentDetails(
+    paymentDetails: PaymentDetails
+  ): Observable<unknown>;
 }

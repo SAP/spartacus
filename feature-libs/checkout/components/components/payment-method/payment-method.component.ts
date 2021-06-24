@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
-  CheckoutPaymentFacade,
+  CheckoutPaymentFacade
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -12,7 +12,7 @@ import {
   GlobalMessageType,
   PaymentDetails,
   TranslationService,
-  UserPaymentService,
+  UserPaymentService
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -37,6 +37,7 @@ export class PaymentMethodComponent implements OnInit {
 
   protected shouldRedirect: boolean;
   protected deliveryAddress: Address;
+  protected settingDefaultPayment: boolean = false;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -129,9 +130,18 @@ export class PaymentMethodComponent implements OnInit {
             const defaultPaymentMethod = paymentMethods.find(
               (paymentMethod) => paymentMethod.payment.defaultPayment
             );
-            if (defaultPaymentMethod) {
+            if (defaultPaymentMethod && !this.settingDefaultPayment) {
               selectedMethod = defaultPaymentMethod.payment;
-              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+              this.settingDefaultPayment = true;
+              this.checkoutPaymentService
+                .setPaymentDetails(selectedMethod)
+                .subscribe(
+                  () => {},
+                  () => {},
+                  () => {
+                    this.settingDefaultPayment = false;
+                  }
+                );
             }
           }
           return paymentMethods.map((payment) => ({
