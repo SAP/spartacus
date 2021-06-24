@@ -93,15 +93,6 @@ describe('Checkout reducer', () => {
         id: 'mockPaymentDetails',
       };
 
-      const createPaymentDetailsAction = new CheckoutActions.CreatePaymentDetailsSuccess(
-        paymentDetails
-      );
-      const createPaymentDetailsState = fromCheckout.reducer(
-        initialState,
-        createPaymentDetailsAction
-      );
-      expect(createPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
-
       const setPaymentDetailsAction = new CheckoutActions.SetPaymentDetailsSuccess(
         paymentDetails
       );
@@ -110,17 +101,6 @@ describe('Checkout reducer', () => {
         setPaymentDetailsAction
       );
       expect(setPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
-    });
-  });
-
-  describe('CREATE_PAYMENT_DETAILS_FAIL action', () => {
-    it('should create payment details for cart', () => {
-      const { initialState } = fromCheckout;
-      const errorPayload = { hasError: 'true' };
-
-      const action = new CheckoutActions.CreatePaymentDetailsFail(errorPayload);
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.paymentDetails as any).toEqual(errorPayload);
     });
   });
 

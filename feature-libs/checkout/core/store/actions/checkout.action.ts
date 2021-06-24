@@ -68,12 +68,6 @@ export const SET_SUPPORTED_DELIVERY_MODES_SUCCESS =
 export const RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS =
   '[Checkout] Reset Set Supported Delivery Modes Process';
 
-export const CREATE_PAYMENT_DETAILS = '[Checkout] Create Payment Details';
-export const CREATE_PAYMENT_DETAILS_FAIL =
-  '[Checkout] Create Payment Details Fail';
-export const CREATE_PAYMENT_DETAILS_SUCCESS =
-  '[Checkout] Create Payment Details Success';
-
 export const SET_PAYMENT_DETAILS = '[Checkout] Set Payment Details';
 export const SET_PAYMENT_DETAILS_FAIL = '[Checkout] Set Payment Details Fail';
 export const SET_PAYMENT_DETAILS_SUCCESS =
@@ -200,31 +194,6 @@ export class ResetSetDeliveryModeProcess extends StateUtils.EntityLoaderResetAct
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
   }
-}
-
-export class CreatePaymentDetails extends StateUtils.EntityLoadAction {
-  readonly type = CREATE_PAYMENT_DETAILS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      paymentDetails: PaymentDetails;
-    }
-  ) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class CreatePaymentDetailsFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class CreatePaymentDetailsSuccess implements Action {
-  readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: PaymentDetails) {}
 }
 
 export class PaymentProcessSuccess extends StateUtils.EntitySuccessAction {
@@ -388,9 +357,6 @@ export type CheckoutAction =
   | SetDeliveryModeSuccess
   | ResetSetDeliveryModeProcess
   | ClearSupportedDeliveryModes
-  | CreatePaymentDetails
-  | CreatePaymentDetailsFail
-  | CreatePaymentDetailsSuccess
   | SetPaymentDetails
   | SetPaymentDetailsFail
   | SetPaymentDetailsSuccess

@@ -4,7 +4,6 @@ import {
   Address,
   DeliveryMode,
   Order,
-  PaymentDetails,
   ReplenishmentOrder,
 } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
@@ -141,27 +140,6 @@ describe('Checkout Selectors', () => {
       store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
 
       expect(result).toEqual('code1');
-    });
-  });
-
-  describe('getPaymentDetails', () => {
-    it('should return payment details', () => {
-      let result: PaymentDetails;
-      const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails',
-      };
-
-      store
-        .pipe(select(CheckoutSelectors.getPaymentDetails))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(
-        new CheckoutActions.CreatePaymentDetailsSuccess(paymentDetails)
-      );
-
-      expect(result).toEqual(paymentDetails);
     });
   });
 

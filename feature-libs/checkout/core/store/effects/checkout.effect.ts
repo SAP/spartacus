@@ -214,41 +214,6 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  createPaymentDetails$: Observable<
-    | UserActions.LoadUserPaymentMethods
-    | CheckoutActions.CreatePaymentDetailsSuccess
-    | CheckoutActions.CreatePaymentDetailsFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      // get information for creating a subscription directly with payment provider
-      return this.checkoutPaymentConnector
-        .create(payload.userId, payload.cartId, payload.paymentDetails)
-        .pipe(
-          mergeMap((details) => {
-            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
-              return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
-            } else {
-              return [
-                new UserActions.LoadUserPaymentMethods(payload.userId),
-                new CheckoutActions.CreatePaymentDetailsSuccess(details),
-              ];
-            }
-          }),
-          catchError((error) =>
-            of(
-              new CheckoutActions.CreatePaymentDetailsFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
   setPaymentDetails$: Observable<
     | CheckoutActions.SetPaymentDetailsSuccess
     | CheckoutActions.SetPaymentDetailsFail

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryFacade,
@@ -29,7 +24,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodComponent implements OnInit, OnDestroy {
+export class PaymentMethodComponent implements OnInit {
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
@@ -180,10 +175,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     details.billingAddress = billingAddress || this.deliveryAddress;
     this.checkoutPaymentService.createPaymentDetails(details);
     this.shouldRedirect = true;
-  }
-
-  ngOnDestroy(): void {
-    this.checkoutPaymentService.paymentProcessSuccess();
   }
 
   protected getCardIcon(code: string): string {

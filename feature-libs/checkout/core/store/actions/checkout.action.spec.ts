@@ -266,50 +266,6 @@ describe('Checkout Actions', () => {
     });
   });
 
-  describe('Create Payment Details for Cart', () => {
-    describe('CreatePaymentDetails', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId,
-          cartId,
-          paymentDetails: paymentDetails,
-        };
-
-        const action = new CheckoutActions.CreatePaymentDetails(payload);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CREATE_PAYMENT_DETAILS,
-          payload,
-          meta: action.meta,
-        });
-      });
-    });
-
-    describe('CreatePaymentDetailsFail', () => {
-      it('should create the action', () => {
-        const error = 'anError';
-        const action = new CheckoutActions.CreatePaymentDetailsFail(error);
-
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL,
-          payload: error,
-          meta: action.meta,
-        });
-      });
-    });
-
-    describe('CreatePaymentDetailsSuccess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.CreatePaymentDetailsSuccess(
-          paymentDetails
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS,
-          payload: paymentDetails,
-        });
-      });
-    });
-  });
-
   describe('Set Payment Details for Cart', () => {
     describe('SetPaymentDetails', () => {
       it('should create the action', () => {

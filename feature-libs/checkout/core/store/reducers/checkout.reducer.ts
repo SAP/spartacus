@@ -74,24 +74,11 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS:
     case CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS: {
       return {
         ...state,
         paymentDetails: action.payload,
       };
-    }
-
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
-      const paymentDetails = action.payload;
-      if (paymentDetails['hasError']) {
-        return {
-          ...state,
-          paymentDetails,
-        };
-      }
-
-      return state;
     }
 
     case CheckoutActions.PLACE_ORDER_SUCCESS:

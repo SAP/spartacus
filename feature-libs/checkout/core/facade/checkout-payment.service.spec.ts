@@ -125,14 +125,6 @@ describe('CheckoutPaymentService', () => {
 
   it('should be able to create payment details', () => {
     service.createPaymentDetails(paymentDetails);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.CreatePaymentDetails({
-        userId: userId,
-        cartId: cart.code,
-        paymentDetails,
-      })
-    );
   });
 
   it('should set payment details', () => {
