@@ -1,3 +1,4 @@
+import { login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
 import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { waitForPage } from '../../../helpers/checkout-flow';
@@ -12,7 +13,6 @@ import {
   validateProduct,
   verifyMiniCartQty,
 } from '../../../helpers/save-for-later';
-
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Save for later', () => {
@@ -34,15 +34,17 @@ context('Save for later', () => {
     context('Re-login customer', () => {
       it('Should save items in saved for later list when logout', () => {
         const alias = waitForPage('/cart', 'cartPage');
-
-        cart.registerCartUser();
-        cart.loginCartUser();
-        addProductToCart(products[2]);
-        moveItem(products[2], ItemList.SaveForLater);
-        validateCart(0, 1);
-        cart.logOutAndEmptyCart();
-        cart.loginCartUser();
-
+        cy.requireLoggedIn().then((account) => {
+          addProductToCart(products[2]);
+          moveItem(products[2], ItemList.SaveForLater);
+          validateCart(0, 1);
+          cart.logOutAndEmptyCart();
+          const loginPage = waitForPage('/login', 'getLoginPage');
+          cy.visit('/login');
+          cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+          login(account.username, account.password);
+          cy.url().should('not.contain', 'login');
+        });
         cy.visit(`/cart`);
         cy.wait(`@${alias}`).its('status').should('eq', 200);
 
