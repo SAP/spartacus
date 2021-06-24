@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  Order,
+  RoutingService,
+  StateUtils,
+  UserOrderService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -45,6 +50,13 @@ const mockOrder: Order = {
   },
 };
 
+const mockOrderLoaderState: StateUtils.LoaderState<Order> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
 const mockRouterWithoutOrderCode = {
   state: {
     url: '/',
@@ -70,6 +82,9 @@ const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 class MockUserOrderService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
+  }
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return of(mockOrderLoaderState);
   }
   loadOrderDetails(_orderCode: string): void {}
   clearOrderDetails(): void {}
@@ -126,6 +141,20 @@ describe('OrderDetailsService', () => {
     expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
+  });
+
+  it('should load order details state', () => {
+    routerSubject.next(mockRouter);
+
+    let orderDetailsState: StateUtils.LoaderState<Order>;
+    service
+      .getOrderDetailsState()
+      .subscribe((data) => (orderDetailsState = data))
+      .unsubscribe();
+
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
+    expect(userService.getOrderDetailsState).toHaveBeenCalled();
+    expect(orderDetailsState).toBe(mockOrderLoaderState);
   });
 
   it('should clean order details', () => {

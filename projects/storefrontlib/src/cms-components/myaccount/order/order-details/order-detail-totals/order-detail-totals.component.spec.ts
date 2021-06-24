@@ -2,9 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart, Order } from '@spartacus/core';
-
-import { of } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -60,6 +58,8 @@ const mockOrder: Order = {
   created: new Date('2019-02-11T13:02:58+0000'),
 };
 
+const order$ = new BehaviorSubject<Order>(mockOrder);
+
 describe('OrderDetailTotalsComponent', () => {
   let component: OrderDetailTotalsComponent;
   let fixture: ComponentFixture<OrderDetailTotalsComponent>;
@@ -70,7 +70,7 @@ describe('OrderDetailTotalsComponent', () => {
     waitForAsync(() => {
       mockOrderDetailsService = <OrderDetailsService>{
         getOrderDetails() {
-          return of(mockOrder);
+          return order$.asObservable();
         },
       };
 
@@ -95,20 +95,45 @@ describe('OrderDetailTotalsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
-    fixture.detectChanges();
-    let order: Order;
-    component.order$
-      .subscribe((value) => {
-        order = value;
-      })
-      .unsubscribe();
-    expect(order).toEqual(mockOrder);
+  describe('should initialize ', () => {
+    it('with proper order data', () => {
+      order$.next(mockOrder);
+      fixture.detectChanges();
+
+      let order: Order;
+      component.order$
+        .subscribe((value) => {
+          order = value;
+        })
+        .unsubscribe();
+      expect(order).toEqual(mockOrder);
+    });
+
+    it('with null as order', () => {
+      order$.next({});
+      fixture.detectChanges();
+
+      let order: Order;
+      component.order$
+        .subscribe((value) => {
+          order = value;
+        })
+        .unsubscribe();
+      expect(order).toEqual(null);
+    });
   });
 
   it('should order details order summary be rendered', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     const element: DebugElement = el.query(By.css('cx-order-summary'));
     expect(element).toBeTruthy();
+  });
+
+  it('should not render order details order summary', () => {
+    order$.next({});
+    fixture.detectChanges();
+    const element: DebugElement = el.query(By.css('cx-order-summary'));
+    expect(element).toBeFalsy();
   });
 });

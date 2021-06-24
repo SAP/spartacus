@@ -10,7 +10,7 @@ import {
   Order,
   PromotionLocation,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
 import { OrderDetailsService } from '../order-details.service';
@@ -122,6 +122,8 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
+const order$ = new BehaviorSubject<Order>(mockOrder);
+
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
@@ -132,7 +134,7 @@ describe('OrderDetailItemsComponent', () => {
     waitForAsync(() => {
       mockOrderDetailsService = <OrderDetailsService>{
         getOrderDetails() {
-          return of(mockOrder);
+          return order$.asObservable();
         },
       };
 
@@ -175,18 +177,37 @@ describe('OrderDetailItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize order ', () => {
-    fixture.detectChanges();
-    let order: Order;
-    component.order$
-      .subscribe((value) => {
-        order = value;
-      })
-      .unsubscribe();
-    expect(order).toEqual(mockOrder);
+  describe('should initialize ', () => {
+    it('with proper order data', () => {
+      order$.next(mockOrder);
+      fixture.detectChanges();
+
+      let order: Order;
+      component.order$
+        .subscribe((value) => {
+          order = value;
+        })
+        .unsubscribe();
+      expect(order).toEqual(mockOrder);
+    });
+
+    it('with null as order', () => {
+      order$.next({});
+      fixture.detectChanges();
+
+      let order: Order;
+      component.order$
+        .subscribe((value) => {
+          order = value;
+          console.log(order);
+        })
+        .unsubscribe();
+      expect(order).toEqual(null);
+    });
   });
 
   it('should initialize others and check if it does not allow valid consignment status', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -201,6 +222,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize others and check if it contains any consignment status', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -214,6 +236,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize completed', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
@@ -227,6 +250,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize cancel', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
@@ -238,7 +262,14 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should order details item be rendered', () => {
+    order$.next(mockOrder);
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  it('should order details item be not rendered', () => {
+    order$.next({});
+    fixture.detectChanges();
+    expect(el.query(By.css('.cx-list'))).toBeFalsy();
   });
 });

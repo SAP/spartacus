@@ -105,7 +105,7 @@ export class OrderOverviewComponent {
 
         return {
           title: textTitle,
-          text: [isoDate],
+          text: [date],
         };
       })
     );

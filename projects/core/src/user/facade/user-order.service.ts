@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
@@ -16,7 +17,6 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
@@ -41,7 +41,7 @@ export class UserOrderService {
   /**
    * Returns an order details state
    */
-  getOrderDetailsState(): Observable<LoaderState<Order>> {
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
     return this.store.pipe(select(UsersSelectors.getOrderState));
   }
 
