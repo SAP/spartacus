@@ -4,17 +4,21 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   CheckoutStepService,
   PaymentMethodComponent as CorePaymentMethodComponent,
-} from '@spartacus/storefront';
+} from '@spartacus/checkout/components';
+
 import {
   UserPaymentService,
-  CheckoutService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
   GlobalMessageService,
   TranslationService,
   ActiveCartService,
   PaymentDetails,
 } from '@spartacus/core';
+
+import {
+  CheckoutFacade,
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 
 @Component({
   selector: 'cx-payment-method',
@@ -42,9 +46,9 @@ export class DpPaymentMethodComponent
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected CheckoutFacade: CheckoutFacade,
+    protected CheckoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected CheckoutPaymentFacade: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
@@ -53,9 +57,9 @@ export class DpPaymentMethodComponent
   ) {
     super(
       userPaymentService,
-      checkoutService,
-      checkoutDeliveryService,
-      checkoutPaymentService,
+      CheckoutFacade,
+      CheckoutDeliveryFacade,
+      CheckoutPaymentFacade,
       globalMessageService,
       activatedRoute,
       translation,
