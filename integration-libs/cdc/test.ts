@@ -1,10 +1,13 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-// Monkey-patches must be imported as the first:
+// Zone.js and zone.js/testing should be imported as FIRST and in this ORDER:
 import 'zone.js';
 import 'zone.js/testing';
+
+// Patching Object.defineProperty unlocks frozen JS symbols and makes possible to mock them.
+// Should be used with caution, and only if there is no other way to mock stuff (eg. by DI)
+// Has to be imported just after zone.js imports.
 import 'projects/core/src/test-patch-object-define-property';
-// Monkey-patches end
 
 import { getTestBed } from '@angular/core/testing';
 import {
