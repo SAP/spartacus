@@ -21,9 +21,9 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
+      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
