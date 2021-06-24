@@ -1,4 +1,4 @@
-// We need hit import for augmentation of OccEndpoints to pick up
+// We need this import for augmentation of OccEndpoints to pick up
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
 
