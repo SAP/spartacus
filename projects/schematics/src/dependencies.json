@@ -51,8 +51,8 @@
   "@spartacus/setup": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.2",
-    "@spartacus/storefront": "3.2.2"
+    "@spartacus/core": "3.2.3",
+    "@spartacus/storefront": "3.2.3"
   },
   "storefrontapp": {
     "@angular/animations": "^10.2.4",
