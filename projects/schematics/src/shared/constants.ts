@@ -683,6 +683,7 @@ export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 export const GET_URL = 'getUrl';
 export const GET_END_POINT = 'getEndpoint';
+export const GET_RAW_ENDPOINT = 'getRawEndpoint';
 
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
