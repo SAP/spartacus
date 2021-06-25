@@ -23,7 +23,7 @@ export function configInitializerFactory(
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
 ) {
-  return configInitializer.getStable();
+  return configInitializer.getStable().toPromise();
 }
 
 @NgModule({})

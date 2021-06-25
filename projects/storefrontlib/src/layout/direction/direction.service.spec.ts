@@ -75,7 +75,7 @@ describe('DirectionService', () => {
 
   describe('getDirection', () => {
     describe('without default', () => {
-      beforeEach(async () => {
+      beforeEach(() => {
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {
@@ -102,7 +102,7 @@ describe('DirectionService', () => {
     });
 
     describe('with default', () => {
-      beforeEach(async () => {
+      beforeEach(() => {
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {

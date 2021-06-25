@@ -177,27 +177,6 @@ describe('ConfigInitializerService', () => {
       });
     });
 
-    // it('getConfigStable should fulfil gradually', async () => {
-    //   const results = [];
-
-    //   const scope2 = async () => {
-    //     await service.getStableConfig('scope2');
-    //     results.push('scope2');
-    //   };
-    //   const stable = async () => {
-    //     await service.getStableConfig();
-    //     results.push('stable');
-    //   };
-    //   const scope1 = async () => {
-    //     await service.getStableConfig('scope1');
-    //     results.push('scope1');
-    //   };
-
-    //   await Promise.all([scope2(), stable(), scope1()]);
-
-    //   expect(results).toEqual(['scope1', 'scope2', 'stable']);
-    // });
-
     // describe('Config tokens', () => {
     //   it('should contribute to global Configuration token', async () => {
     //     await service.getStableConfig();
