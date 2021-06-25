@@ -436,6 +436,8 @@ export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
   'ConfiguratorAttributeNumericInputFieldComponent';
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_SERVICE =
+  'ConfiguratorAttributeNumericInputFieldService';    
 export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
   'ConfiguratorAttributeCheckBoxListComponent';
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
