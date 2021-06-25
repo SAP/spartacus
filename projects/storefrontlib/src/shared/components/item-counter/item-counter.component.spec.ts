@@ -3,6 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from './item-counter.component';
 
 const form = new FormGroup({
@@ -16,7 +17,7 @@ describe('ItemCounterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule],
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
         declarations: [ItemCounterComponent],
       }).compileComponents();
     })
