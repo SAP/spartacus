@@ -9,7 +9,7 @@ import {
   HAMBURGER_MENU_SERVICE,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  SPARTACUS_STOREFRONTLIB
+  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -21,7 +21,7 @@ export const CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION: ConstructorDeprecation
     {
       className: CONFIGURATOR_COMMONS_SERVICE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
-    },      
+    },
     {
       className: CONFIGURATOR_GROUPS_SERVICE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
