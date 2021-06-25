@@ -445,9 +445,8 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
-export const CONFIGURATOR_GROUP_MENU_SERVICE =
-  'ConfiguratorGroupMenuService';    
-  
+export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
+
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
 
@@ -931,7 +930,7 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
-export const PREVENT_SCROLLING_ON_SPACE= 'preventScrollingOnSpace';
+export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 
 /***** APIs end *****/
 
