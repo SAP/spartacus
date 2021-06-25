@@ -1,13 +1,26 @@
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 import { ActivatedRoute } from '@angular/router';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CheckoutStepService, PaymentMethodComponent as CorePaymentMethodComponent } from '@spartacus/checkout/components';
-import { UserPaymentService, GlobalMessageService, TranslationService, ActiveCartService, PaymentDetails } from '@spartacus/core';
-import { CheckoutFacade, CheckoutDeliveryFacade, CheckoutPaymentFacade } from '@spartacus/checkout/root';
+import {
+  CheckoutStepService,
+  PaymentMethodComponent as CorePaymentMethodComponent,
+} from '@spartacus/checkout/components';
+import {
+  UserPaymentService,
+  GlobalMessageService,
+  TranslationService,
+  ActiveCartService,
+  PaymentDetails,
+} from '@spartacus/core';
+import {
+  CheckoutFacade,
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './dp-payment-method.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DpPaymentMethodComponent
   extends CorePaymentMethodComponent

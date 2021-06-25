@@ -21,7 +21,7 @@ export class DpLocalStorageService {
   ) {}
 
   syncCardRegistrationState(): void {
-    this.statePersistenceService.syncWithStorage<DpPaymentRequest|undefined>({
+    this.statePersistenceService.syncWithStorage<DpPaymentRequest | undefined>({
       key: KEY,
       state$: this.getPaymentRequestState(),
     });
