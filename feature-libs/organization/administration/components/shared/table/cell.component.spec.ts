@@ -7,6 +7,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { CellComponent } from './cell.component';
 
 const mockContext: TableDataOutletContext = {
@@ -29,7 +30,7 @@ describe('CellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: mockContext,
+            context$: of(mockContext),
           },
         },
       ],

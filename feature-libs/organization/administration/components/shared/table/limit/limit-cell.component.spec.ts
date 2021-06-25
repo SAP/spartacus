@@ -5,6 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Permission } from 'feature-libs/organization/administration/core/model/permission.model';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { LimitCellComponent } from '..';
 
 describe('LimitCellComponent', () => {
@@ -19,14 +20,14 @@ describe('LimitCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
+            context$: of({
               orderApprovalPermissionType: {
                 code: 'B2BOrderThresholdTimespanPermission',
               },
               currency: { symbol: '$' },
               periodRange: 'QUARTER',
               threshold: 10000.0,
-            } as Permission,
+            } as Permission),
           },
         },
       ],

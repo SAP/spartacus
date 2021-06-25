@@ -89,7 +89,9 @@ export class AssignCellComponent<T> extends CellComponent {
    */
   protected get link(): string {
     let contextData: TableDataOutletContext | undefined;
-    this.outlet.context$.subscribe((context) => (contextData = context));
+    this.outlet.context$
+      .subscribe((context) => (contextData = context))
+      .unsubscribe();
     if (contextData) {
       return contextData.code ?? contextData.customerId ?? contextData.uid;
     }
