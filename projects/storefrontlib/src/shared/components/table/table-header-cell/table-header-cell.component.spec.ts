@@ -103,7 +103,7 @@ describe('TableHeaderCellComponent', () => {
           {
             provide: OutletContextData,
             useValue: {
-              context: of({
+              context$: of({
                 _type: 'table',
                 _field: 'name3',
                 _options: mockOptions,
