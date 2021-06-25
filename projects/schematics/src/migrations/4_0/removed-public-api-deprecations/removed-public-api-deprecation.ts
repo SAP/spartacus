@@ -50,6 +50,7 @@ import {
   ROUTING_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
+  SORT_CODE,
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
@@ -62,6 +63,7 @@ import {
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
+  TABLE_HEADER,
   TRANSLATION_CHUNKS_CONFIG,
   UPDATE_EMAIL_COMPONENT,
   UPDATE_EMAIL_FORM_COMPONENT,
@@ -357,11 +359,23 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
   },
+  // projects/storefrontlib/src/storefront-config.ts
+  {
+    node: 'StorefrontConfig',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+  },
   // feature-libs/storefinder/core/facade/store-data.service.ts
   {
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/storefrontlib/src/shared/components/table/table.model.ts
+  {
+    node: TABLE_HEADER,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
   },
 ];
 
