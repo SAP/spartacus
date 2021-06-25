@@ -205,7 +205,7 @@ const GROUP_MENU_VALID_TEST_CLASS = `
       ConfiguratorRouterExtractorService
     } from '@spartacus/product-configurator/common';  
     import { 
-      HamburgerMenuService       
+      HamburgerMenuService
     } from '@spartacus/storefront';
     export class InheritedService extends ConfiguratorGroupMenuComponent {
       constructor(
@@ -213,7 +213,7 @@ const GROUP_MENU_VALID_TEST_CLASS = `
         protected configuratorGroupsService: ConfiguratorGroupsService,
         protected hamburgerMenuService: HamburgerMenuService,
         protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-        protected configUtils: ConfiguratorStorefrontUtilsService,        
+        protected configUtils: ConfiguratorStorefrontUtilsService,
       ) {
         super(
           configCommonsService, 
@@ -229,14 +229,14 @@ const GROUP_MENU_EXPECTED_TEST_CLASS = `
     import {
       ConfiguratorGroupMenuComponent,
       ConfiguratorGroupsService,
-      ConfiguratorStorefrontUtilsService
+      ConfiguratorStorefrontUtilsService, ConfiguratorGroupMenuService
     } from '@spartacus/product-configurator/rulebased';
     import { 
       ConfiguratorCommonsService,
       ConfiguratorRouterExtractorService
     } from '@spartacus/product-configurator/common';  
     import { 
-      HamburgerMenuService       
+      HamburgerMenuService, DirectionService
     } from '@spartacus/storefront';
     export class InheritedService extends ConfiguratorGroupMenuComponent {
       constructor(
@@ -244,14 +244,14 @@ const GROUP_MENU_EXPECTED_TEST_CLASS = `
         protected configuratorGroupsService: ConfiguratorGroupsService,
         protected hamburgerMenuService: HamburgerMenuService,
         protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-        protected configUtils: ConfiguratorStorefrontUtilsService,        
+        protected configUtils: ConfiguratorStorefrontUtilsService, configuratorGroupMenuService: ConfiguratorGroupMenuService, directionService: DirectionService,
       ) {
         super(
           configCommonsService, 
           configuratorGroupsService, 
           hamburgerMenuService, 
           configRouterExtractorService,
-          configUtils );
+          configUtils, configuratorGroupMenuService, directionService );
       }
     }
 `;
