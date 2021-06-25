@@ -31,6 +31,17 @@ export class OrderApprovalDetailService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  orderApprovalState$ = this.approvalCode$.pipe(
+    filter(Boolean),
+    tap((approvalCode: string) =>
+      this.orderApprovalService.loadOrderApproval(approvalCode)
+    ),
+    switchMap((approvalCode: string) =>
+      this.orderApprovalService.getState(approvalCode)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   protected order$ = this.orderApproval$.pipe(pluck('order'));
 
   constructor(
@@ -63,16 +74,17 @@ export class OrderApprovalDetailService {
   }
 
   /**
-   * Returns the approval details state
+   * Returns the order details state
    */
-  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
-    return this.orderApproval$.pipe(
-      switchMap(() => this.getOrderDetails()),
-      map((order) => {
-        return {
-          error: false,
-          value: order,
-        } as StateUtils.LoaderState<Order>;
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<OrderApproval>> {
+    return this.orderApprovalState$.pipe(
+      map((state) => {
+        const orderState = JSON.parse(JSON.stringify(state));
+        console.log(orderState, 'orderState');
+        console.log(state, 'state');
+        // return state;
+        return { ...state, value: state?.value?.order || {} };
+        // return Object.assign(orderState, { value: state?.value?.order });
       })
     );
   }

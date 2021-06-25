@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService } from '@spartacus/core';
+import { Order, RoutingService, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { Observable, of } from 'rxjs';
@@ -25,6 +25,14 @@ const mockRouterState = {
     },
   },
 };
+
+const mockState: StateUtils.LoaderState<OrderApproval> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
 class MockRoutingService {
   getRouterState() {
     return of(mockRouterState);
@@ -35,9 +43,14 @@ class MockOrderApprovalService {
   get(_orderApprovalCode: string): Observable<OrderApproval> {
     return of(mockOrderApproval);
   }
+  getState(
+    _orderApprovalCode: string
+  ): Observable<StateUtils.LoaderState<OrderApproval>> {
+    return of(mockState);
+  }
 }
 
-describe('OrderApprovalDetailService', () => {
+fdescribe('OrderApprovalDetailService', () => {
   let service: OrderApprovalDetailService;
 
   beforeEach(() => {
@@ -84,5 +97,18 @@ describe('OrderApprovalDetailService', () => {
     expect(approvalCodeReturned).toEqual(
       mockRouterState.state.params.approvalCode
     );
+  });
+
+  // TODO
+  it('should provide the order state code', () => {
+    let orderState: any;
+    service
+      .getOrderDetailsState()
+      .subscribe((value) => {
+        orderState = value;
+      })
+      .unsubscribe();
+    expect(orderState).toBeTruthy();
+    expect(orderState).toEqual(mockState);
   });
 });

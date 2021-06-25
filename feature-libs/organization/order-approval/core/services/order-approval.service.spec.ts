@@ -2,8 +2,10 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   EntitiesModel,
+  Order,
   ProcessModule,
   SearchConfig,
+  StateUtils,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -21,10 +23,13 @@ import { OrderApprovalService } from './order-approval.service';
 
 import createSpy = jasmine.createSpy;
 
+const mockOrder: Order = {
+  code: '1',
+} as Order;
 const userId = 'current';
 const orderApprovalCode = 'testOrderApproval';
-const orderApproval = { code: orderApprovalCode };
-const orderApproval2 = { code: 'testOrderApproval2' };
+const orderApproval = { code: orderApprovalCode, order: mockOrder };
+const orderApproval2 = { code: 'testOrderApproval2', order: mockOrder };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 const orderApprovalList: EntitiesModel<OrderApproval> = {
@@ -37,11 +42,18 @@ const orderApprovalDecision: OrderApprovalDecision = {
   comment: 'yeah',
 };
 
+const mockState: StateUtils.LoaderState<OrderApproval> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
 class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
-describe('OrderApprovalService', () => {
+fdescribe('OrderApprovalService', () => {
   let service: OrderApprovalService;
   let userIdService: UserIdService;
   let store: Store<OrderApprovalState>;
@@ -74,6 +86,20 @@ describe('OrderApprovalService', () => {
       expect(orderApprovalService).toBeTruthy();
     }
   ));
+
+  it('get orderApproval state', () => {
+    let orderApprovalState: StateUtils.LoaderState<OrderApproval>;
+    service
+      .getState(orderApprovalCode)
+      .subscribe((data) => {
+        orderApprovalState = data;
+        console.log(data, '&&&&&&');
+      })
+      .unsubscribe();
+
+    // TODO
+    expect(orderApprovalState).toEqual(mockState);
+  });
 
   describe('get orderApproval', () => {
     it('get() should trigger load orderApproval details when they are not present in the store', () => {
