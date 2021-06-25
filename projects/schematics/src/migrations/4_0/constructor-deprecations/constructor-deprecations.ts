@@ -45,6 +45,8 @@ import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrappe
 import { CONFIGURATION_SERVICE_MIGRATION } from './data/configuration.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-input-field.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
 import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
@@ -182,6 +184,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   WINDOW_REF_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
   CONFIGURATOR_FORM_COMPONENT_MIGRATION,
