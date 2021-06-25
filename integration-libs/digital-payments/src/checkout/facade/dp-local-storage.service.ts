@@ -27,7 +27,7 @@ export class DpLocalStorageService {
     });
   }
 
-  readCardRegistrationState(): DpPaymentRequest {
+  readCardRegistrationState(): DpPaymentRequest | undefined {
     const paymentRequest = this.statePersistenceService.readStateFromStorage<DpPaymentRequest>(
       { key: KEY }
     );
