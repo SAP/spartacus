@@ -220,7 +220,7 @@ function assertOrderDetails() {
 
   // asserts order details
   assertOrderDetailsCard(0, order.code);
-  assertOrderDetailsCard(1, 'Oct 07 2020');
+  assertOrderDetailsCard(1, 'Oct 7, 2020');
   assertOrderDetailsCard(2, sampleData.statusPendingApproval);
   assertOrderDetailsCard(
     3,

@@ -48,6 +48,8 @@ import {
 } from './data/google-map-renderer.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-input-field.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
 import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
@@ -115,6 +117,7 @@ import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.compon
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-component.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -177,6 +180,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   WINDOW_REF_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
   CONFIGURATOR_FORM_COMPONENT_MIGRATION,
@@ -202,6 +207,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
+  UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION,
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_DETAILS_COMPONENT_MIGRATION,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,

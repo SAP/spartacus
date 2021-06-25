@@ -14,6 +14,7 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*', '*titles*'],
   rows: [
     {
       label: 'Name',
