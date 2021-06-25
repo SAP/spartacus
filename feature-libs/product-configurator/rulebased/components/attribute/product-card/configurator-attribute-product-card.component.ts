@@ -121,7 +121,6 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onHandleDeselect(): void {
-    this.loading$.next(true);
     {
       if (
         this.productCardOptions.productBoundValue.selected &&
@@ -130,6 +129,7 @@ export class ConfiguratorAttributeProductCardComponent
         this.showDeselectionNotPossibleMessage();
         return;
       }
+      this.loading$.next(true);
       this.handleDeselect.emit(
         this.productCardOptions.productBoundValue.valueCode
       );
