@@ -133,11 +133,46 @@ import {
   VARIANT_STYLE_SELECTOR_COMPONENT,
   VARIANT_STYLE_SELECTOR_MODULE,
   VIEW_CONFIG_MODULE,
+  OCC_CONFIG_LOADER_SERVICE,
+  OCC_LOADED_CONFIG_CONVERTER,
+  OCC_LOADED_CONFIG,
+  OCC_SITES_CONFIG_LOADER,
+  OCC_CONFIG_LOADER_MODULE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  //projects/core/src/occ/config-loader/occ-config-loader.module.ts
+  {
+    node: OCC_CONFIG_LOADER_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_CONFIG_LOADER_MODULE} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-config-loader.service.ts
+  {
+    node: OCC_CONFIG_LOADER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_CONFIG_LOADER_SERVICE} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-loaded-config-converter.ts
+  {
+    node: OCC_LOADED_CONFIG_CONVERTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_LOADED_CONFIG_CONVERTER} has been removed and is no longer part of the public API.  Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-loaded-config.ts
+  {
+    node: OCC_LOADED_CONFIG,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_LOADED_CONFIG} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-sites-config-loader.ts
+  {
+    node: OCC_SITES_CONFIG_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_SITES_CONFIG_LOADER} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
   // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
   {
     node: QUALTRICS_CONFIG,
