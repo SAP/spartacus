@@ -138,6 +138,8 @@ import {
   OCC_LOADED_CONFIG,
   OCC_SITES_CONFIG_LOADER,
   OCC_CONFIG_LOADER_MODULE,
+  SORT_CODE,
+  TABLE_HEADER,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -847,6 +849,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/storefrontlib/src/shared/components/table/table.model.ts
+  {
+    node: TABLE_HEADER,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
   },
 ];
 
