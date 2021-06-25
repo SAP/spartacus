@@ -138,6 +138,7 @@ import {
   OCC_LOADED_CONFIG,
   OCC_SITES_CONFIG_LOADER,
   OCC_CONFIG_LOADER_MODULE,
+  EXTERNAL_JS_FILE_LOADER,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -841,6 +842,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts
+  {
+    node: EXTERNAL_JS_FILE_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
   },
 ];
 
