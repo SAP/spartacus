@@ -1,6 +1,15 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
+import { SPARTACUS_CHECKOUT_ROOT } from 'feature-libs/checkout/schematics/constants';
 import {
   BUDGET_ROUTING_CONFIG,
+  CHECKOUT_CONFIG_SERVICE,
+  CHECKOUT_DELIVERY_FACADE,
+  CHECKOUT_DELIVERY_SERVICE,
+  CHECKOUT_DETAILS_SERVICE,
+  CHECKOUT_PAYMENT_FACADE,
+  CHECKOUT_PAYMENT_SERVICE,
+  CLEAR_CHECKOUT_FACADE,
+  CLEAR_CHECKOUT_SERVICE,
   COST_CENTER_ROUTING_CONFIG,
   DEFAULT_BUDGET_ROUTING_CONFIG,
   DEFAULT_COST_CENTER_ROUTING_CONFIG,
@@ -11,6 +20,7 @@ import {
   EXPRESS_CHECKOUT_SERVICE,
   PERMISSION_ROUTING_CONFIG,
   SPARTACUS_CHECKOUT_COMPONENTS,
+  SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   SPARTACUS_STOREFRONTLIB,
@@ -75,6 +85,39 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: EXPRESS_CHECKOUT_SERVICE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  // feature-libs/checkout/root/facade/checkout-delivery.facade.ts
+  {
+    previousNode: CHECKOUT_DELIVERY_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newNode: CHECKOUT_DELIVERY_FACADE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  // feature-libs/checkout/root/facade/checkout-payment.facade.ts
+  {
+    previousNode: CHECKOUT_PAYMENT_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newNode: CHECKOUT_PAYMENT_FACADE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  // feature-libs/checkout/components/services/checkout-details.service.ts
+  {
+    previousNode: CHECKOUT_DETAILS_SERVICE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  // feature-libs/checkout/components/services/checkout-config.service.ts
+  {
+    previousNode: CHECKOUT_CONFIG_SERVICE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  // feature-libs/checkout/root/facade/clear-checkout.facade.ts
+  {
+    previousNode: CLEAR_CHECKOUT_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newNode: CLEAR_CHECKOUT_FACADE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
   },
 ];
 

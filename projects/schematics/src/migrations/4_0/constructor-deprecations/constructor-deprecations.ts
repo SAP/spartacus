@@ -58,10 +58,7 @@ import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
-import {
-  EXPRESS_CHECKOUT_SERVICE_MIGRATION_V1,
-  EXPRESS_CHECKOUT_SERVICE_MIGRATION_V2,
-} from './data/express-checkout.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import {
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
@@ -211,8 +208,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_DETAILS_COMPONENT_MIGRATION,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
-  EXPRESS_CHECKOUT_SERVICE_MIGRATION_V1,
-  EXPRESS_CHECKOUT_SERVICE_MIGRATION_V2,
+  EXPRESS_CHECKOUT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
