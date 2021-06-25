@@ -3,7 +3,7 @@ import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import { HostTree, Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import {
@@ -17,10 +17,84 @@ import {
   GET_COMPONENT_STATE_OLD_API,
   LOAD_CMS_COMPONENT_CLASS,
   LOAD_CMS_COMPONENT_FAIL_CLASS,
-  LOAD_CMS_COMPONENT_SUCCESS_CLASS,
+  LOAD_CMS_COMPONENT_SUCCESS_CLASS
 } from '../../../shared/constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 import { buildMethodComment } from './methods-and-properties-deprecations';
+
+const GROUP_MENU_VALID_TEST_CLASS = `
+    import {
+      ConfiguratorGroupMenuComponent,
+      ConfiguratorGroupsService,
+      ConfiguratorStorefrontUtilsService
+    } from '@spartacus/product-configurator/rulebased';
+    import { 
+      ConfiguratorCommonsService,
+      ConfiguratorRouterExtractorService
+    } from '@spartacus/product-configurator/common';  
+    import { 
+      HamburgerMenuService
+    } from '@spartacus/storefront';
+    export class InheritedService extends ConfiguratorGroupMenuComponent {
+      constructor(
+        protected configCommonsService: ConfiguratorCommonsService,
+        protected configuratorGroupsService: ConfiguratorGroupsService,
+        protected hamburgerMenuService: HamburgerMenuService,
+        protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+        protected configUtils: ConfiguratorStorefrontUtilsService,
+      ) {
+        super(
+          configCommonsService, 
+          configuratorGroupsService, 
+          hamburgerMenuService, 
+          configRouterExtractorService,
+          configUtils );
+      }
+      preventScrollingOnSpace(event: KeyboardEvent):void{
+        super.preventScrollingOnSpace(event);
+        console("Huhu");
+      }
+    }
+`;
+
+const GROUP_MENU_EXPECTED_TEST_CLASS = `
+    import {
+      ConfiguratorGroupMenuComponent,
+      ConfiguratorGroupsService,
+      ConfiguratorStorefrontUtilsService
+    } from '@spartacus/product-configurator/rulebased';
+    import { 
+      ConfiguratorCommonsService,
+      ConfiguratorRouterExtractorService
+    } from '@spartacus/product-configurator/common';  
+    import { 
+      HamburgerMenuService
+    } from '@spartacus/storefront';
+    export class InheritedService extends ConfiguratorGroupMenuComponent {
+      constructor(
+        protected configCommonsService: ConfiguratorCommonsService,
+        protected configuratorGroupsService: ConfiguratorGroupsService,
+        protected hamburgerMenuService: HamburgerMenuService,
+        protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+        protected configUtils: ConfiguratorStorefrontUtilsService,
+      ) {
+        super(
+          configCommonsService, 
+          configuratorGroupsService, 
+          hamburgerMenuService, 
+          configRouterExtractorService,
+          configUtils );
+      }
+// TODO:Spartacus - Method 'preventScrollingOnSpace' was removed from 'ConfiguratorGroupMenuComponent'. It is no longer used.
+      preventScrollingOnSpace(event: KeyboardEvent):void{
+// TODO:Spartacus - Method 'preventScrollingOnSpace' was removed from 'ConfiguratorGroupMenuComponent'. It is no longer used.
+        super.preventScrollingOnSpace(event);
+        console("Huhu");
+      }
+    }
+`;
+
+
 
 const MIGRATION_SCRIPT_NAME =
   'migration-v2-methods-and-properties-deprecations-02';
@@ -225,6 +299,15 @@ describe('updateCmsComponentState migration', () => {
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
   });
+
+  it('group menu component migration should add comments', async () => {
+    writeFile(host, '/src/index.ts', GROUP_MENU_VALID_TEST_CLASS);
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/index.ts');
+    expect(content).toBe(GROUP_MENU_EXPECTED_TEST_CLASS);
+  });  
 
   it('getComponentEntities', async () => {
     writeFile(host, '/src/index.ts', GET_COMPONENT_ENTITIES_TEST_CLASS);
