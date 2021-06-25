@@ -124,7 +124,7 @@ export class ConfiguratorAttributeProductCardComponent
     this.loading$.next(true);
     {
       if (
-        this.productCardOptions?.productBoundValue?.selected &&
+        this.productCardOptions.productBoundValue.selected &&
         this.productCardOptions.hideRemoveButton
       ) {
         this.showDeselectionNotPossibleMessage();
