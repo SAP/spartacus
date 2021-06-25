@@ -17,12 +17,6 @@ export abstract class CartItemContext {
 
   readonly quantityControl$: Observable<FormControl>;
 
-  /**
-   * @deprecated since 3.2 - use `location$` instead
-   */
-  // TODO: drop it in 4.0
-  readonly promotionLocation$: Observable<PromotionLocation>;
-
   readonly location$: Observable<PromotionLocation>;
 
   readonly options$: Observable<CartItemComponentOptions>;
