@@ -143,6 +143,14 @@ title: Changes to Styles in 4.0
 ## Changes in Card Component 
 
 - `.cx-card-title` class added (a11y)
+- `.deselection-error-message` class added
+- `display` set to inline-block on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to prevent line break in the deselection error message 
+- `width` set to 80% on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to set the element's box size and prevent line break
+- `flex-wrap` set to wrap on `%cx-configurator-attribute-product-card` for `.cx-product-card-selected` to align the deselection error to the desired position
+- `padding-top` set to 5px  on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to create space between value description and the error message 
+- `color` set to var(--cx-color-danger) on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to signal the message as error message
+- `padding-right` set to 5px on `%cx-configurator-attribute-product-card` for `.deselection-error-message-symbol` to create space between the message and the 'error' icon
+
 
 ## Changes in Carousel Component
 
