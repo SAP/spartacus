@@ -21,13 +21,13 @@ export class TableHeaderCellComponent {
   /**
    * Returns the static label for the given field, if available.
    */
-  get header(): Observable<string | null> {
+  get header(): Observable<string> {
     return this.outlet?.context$.pipe(
       map((context) => {
         if (typeof this.fieldOptions(context)?.label === 'string') {
           return this.fieldOptions(context)?.label as string;
         } else {
-          return null;
+          return '';
         }
       })
     );
@@ -43,7 +43,7 @@ export class TableHeaderCellComponent {
    *
    * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
    */
-  get localizedHeader$(): Observable<string> {
+  get localizedHeader(): Observable<string> {
     return this.outlet?.context$?.pipe(
       map(
         (context) =>

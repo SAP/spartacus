@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { TableDataCellComponent } from './table-data-cell.component';
 
 describe('TableDataCellComponent', () => {
@@ -16,12 +17,12 @@ describe('TableDataCellComponent', () => {
           {
             provide: OutletContextData,
             useValue: {
-              context: {
+              context$: of({
                 _type: 'table',
                 _field: 'name',
                 name: 'the name',
                 code: 'the code',
-              },
+              }),
             },
           },
         ],
@@ -39,7 +40,9 @@ describe('TableDataCellComponent', () => {
     });
 
     it('should resolve static header', () => {
-      expect(component.value).toEqual('the name');
+      let value: string | undefined;
+      component.value.subscribe((data) => (value = data)).unsubscribe();
+      expect(value).toEqual('the name');
     });
   });
 });

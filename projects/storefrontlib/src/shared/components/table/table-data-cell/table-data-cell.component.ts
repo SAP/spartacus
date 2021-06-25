@@ -14,7 +14,7 @@ export class TableDataCellComponent {
 
   @HostBinding('attr.title')
   get value(): Observable<string> {
-    return this.model.pipe(map((context: any) => context[context?._field]));
+    return this.model?.pipe(map((context: any) => context[context?._field]));
   }
 
   protected get model(): Observable<any> {
