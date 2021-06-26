@@ -87,11 +87,6 @@ export interface HttpErrorModel {
   statusText?: string;
   url?: string | null;
   details?: ErrorModel[];
-
-  /**
-   * @deprecated since 2.1
-   */
-  error?: any | null;
 }
 
 export interface BaseStore {
