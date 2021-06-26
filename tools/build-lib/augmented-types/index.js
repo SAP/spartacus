@@ -38,7 +38,7 @@ function augmentedTypesBuilder(options, context) {
  */
 function ngPackagrBuild(context, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        const builderRun = yield context.scheduleBuilder('@angular-devkit/build-ng-packagr:build', options);
+        const builderRun = yield context.scheduleBuilder('@angular-devkit/build-angular:ng-packagr', options);
         return yield builderRun.result;
     });
 }

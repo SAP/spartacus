@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "target": "es2015",
     "module": "es2020",
@@ -34,7 +35,6 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
-    "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]

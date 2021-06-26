@@ -106,7 +106,10 @@ export class OccConfigLoaderService {
    */
   protected rehydrate(): OccLoadedConfig {
     if (this.transferState && isPlatformBrowser(this.platform)) {
-      return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
+      return this.transferState.get<OccLoadedConfig | undefined>(
+        EXTERNAL_CONFIG_TRANSFER_ID,
+        undefined
+      );
     }
   }
 
@@ -121,7 +124,10 @@ export class OccConfigLoaderService {
       isPlatformServer(this.platform) &&
       externalConfig
     ) {
-      this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
+      this.transferState.set<OccLoadedConfig>(
+        EXTERNAL_CONFIG_TRANSFER_ID,
+        externalConfig
+      );
     }
   }
 
