@@ -38,6 +38,45 @@ import { Test2Component } from "@spartacus/core";
 const array = [OtherComponent4, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
 
+const fileWithImportsAndCtor = `
+import { Injectable } from '@angular/core';
+import {
+  AsmAuthHttpHeaderService,
+  AuthService,
+  AuthStorageService,
+  CsAgentAuthService,
+  GlobalMessageService,
+  OAuthLibWrapperService,
+  OccEndpointsService,
+  RoutingService,
+} from '@spartacus/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class X extends AsmAuthHttpHeaderService {
+  constructor(
+    protected authService: AuthService,
+    protected authStorageService: AuthStorageService,
+    protected csAgentAuthService: CsAgentAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected occEndpointsService: OccEndpointsService
+  ) {
+    super(
+      authService,
+      authStorageService,
+      csAgentAuthService,
+      oAuthLibWrapperService,
+      routingService,
+      globalMessageService,
+      occEndpointsService
+    );
+  }
+}
+`;
+
 describe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
@@ -127,5 +166,25 @@ describe('renamed symbols', () => {
 
     const content = appTree.readContent('/src/index.ts');
     expect(content).toMatchSnapshot();
+  });
+
+  describe('when both rename symbol and ctor migration are required', () => {
+    it('should be done in the correct order', async () => {
+      writeFile(host, '/src/index.ts', fileWithImportsAndCtor);
+
+      appTree = await runMigration(
+        appTree,
+        schematicRunner,
+        MIGRATION_SCRIPT_NAME
+      );
+      appTree = await runMigration(
+        appTree,
+        schematicRunner,
+        'migration-v4-constructor-deprecations-01'
+      );
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toMatchSnapshot();
+    });
   });
 });
