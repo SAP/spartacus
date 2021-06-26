@@ -52,5 +52,9 @@ export const ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION: ConstructorDeprecation = {
       className: AUTH_REDIRECT_SERVICE,
       importPath: SPARTACUS_CORE,
     },
+    {
+      className: AUTH_REDIRECT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
   ],
 };
