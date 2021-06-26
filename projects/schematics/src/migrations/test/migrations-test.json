@@ -25,7 +25,7 @@
       "factory": "./config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
     },
-    "migration-v4-rename-symbol-00": {
+    "00-migration-v4-rename-symbol": {
       "version": "4.0.0",
       "factory": "./rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"

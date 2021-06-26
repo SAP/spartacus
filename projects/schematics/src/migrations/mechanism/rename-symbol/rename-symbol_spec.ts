@@ -10,7 +10,7 @@ import {
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v4-rename-symbol-00';
+const MIGRATION_SCRIPT_NAME = '00-migration-v4-rename-symbol';
 
 const fileWithSimpleImport = `import { OtherComponent1, Test1Component } from "@spartacus/storefront";
 import { Test2Component } from "@spartacus/core";
