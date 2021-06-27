@@ -1,4 +1,9 @@
 import * as addressBook from '../../helpers/address-book';
+import {
+  agentLogin,
+  listenForAuthenticationRequest,
+  listenForCustomerSearchRequest,
+} from '../../helpers/asm';
 import { login } from '../../helpers/auth-forms';
 import * as checkout from '../../helpers/checkout-flow';
 import { fillShippingAddress } from '../../helpers/checkout-forms';
@@ -220,21 +225,6 @@ context('ASM e2e Test', () => {
   });
 });
 
-function listenForAuthenticationRequest(): string {
-  const aliasName = 'csAgentAuthentication';
-  cy.server();
-  cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
-  return `@${aliasName}`;
-}
-export function listenForCustomerSearchRequest(): string {
-  const aliasName = 'customerSearch';
-  cy.server();
-  cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
-    aliasName
-  );
-  return `@${aliasName}`;
-}
-
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
@@ -243,22 +233,6 @@ function listenForUserDetailsRequest(): string {
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
   ).as(aliasName);
   return `@${aliasName}`;
-}
-
-export function agentLogin(): void {
-  const authRequest = listenForAuthenticationRequest();
-
-  cy.get('cx-csagent-login-form').should('exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-csagent-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').type('asagent');
-    cy.get('[formcontrolname="password"]').type('pw4all');
-    cy.get('button[type="submit"]').click();
-  });
-
-  cy.wait(authRequest).its('status').should('eq', 200);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
 }
 
 function startCustomerEmulation(): void {
