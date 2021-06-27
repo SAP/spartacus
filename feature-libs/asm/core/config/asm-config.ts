@@ -15,3 +15,7 @@ export abstract class AsmConfig extends OccConfig {
     };
   };
 }
+
+declare module '@spartacus/core' {
+  interface Config extends AsmConfig {}
+}
