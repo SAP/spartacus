@@ -3,7 +3,7 @@ import { ConfiguratorRouterExtractorService } from '@spartacus/product-configura
 import { Observable, of } from 'rxjs';
 import { delay, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { MessageConfig } from '../config/message-config';
+import { MessageConfig } from '../config/message.config';
 
 @Component({
   selector: 'cx-configurator-update-message',
