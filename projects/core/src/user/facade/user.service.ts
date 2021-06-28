@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -51,29 +50,7 @@ export class UserService {
     if (this.userAccountFacade) {
       return this.userAccountFacade.get();
     }
-    return this.store.pipe(
-      // workaround for using lazy loaded user/account library
-      filter((state) => state[USER_FEATURE]),
-      select(UsersSelectors.getDetails),
-      tap((details) => {
-        if (Object.keys(details).length === 0) {
-          this.load();
-        }
-      })
-    );
-  }
-
-  /**
-   * Loads the user's details.
-   *
-   * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
-   */
-  load(): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(new UserActions.LoadUserDetails(userId));
-      }
-    });
+    // Throw error here
   }
 
   /**
@@ -100,7 +77,6 @@ export class UserService {
       this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
     }
   }
-
   /**
    * Returns the register user process loading flag.
    *

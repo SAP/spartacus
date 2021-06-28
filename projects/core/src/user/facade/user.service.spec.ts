@@ -3,10 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -81,22 +78,6 @@ describe('UserService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
       );
-    });
-
-    it('should load user details', () => {
-      service.load();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
-      );
-    });
-
-    it('should not load anonymous user details', () => {
-      const userIdService = TestBed.inject(UserIdService);
-      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
-        cb(OCC_USER_ID_ANONYMOUS)
-      );
-      service.load();
-      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 

@@ -224,7 +224,6 @@ export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
 export const OCC_USER_ADAPTER = 'OccUserAdapter';
 export const OCC_USER_ACCOUNT_ADAPTER = 'OccUserAccountAdapter';
 export const OCC_USER_PROFILE_ADAPTER = 'OccUserProfileAdapter';
-export const OCC_ENDPOINTS = 'OccEndpoints';
 export const CONVERTER_SERVICE = 'ConverterService';
 export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
 export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
