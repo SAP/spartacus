@@ -488,7 +488,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/product-configurator/tsconfig.lib.json",
             "project": "feature-libs/product-configurator/ng-package.json"
