@@ -26,9 +26,7 @@ export class UserCostCenterService {
    */
   loadActiveCostCenters(): void {
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
-      }
+      this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
     });
   }
 

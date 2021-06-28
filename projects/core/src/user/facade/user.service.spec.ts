@@ -15,8 +15,7 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
+  takeUserId() {
     return of(OCC_USER_ID_CURRENT);
   }
 }

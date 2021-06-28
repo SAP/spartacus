@@ -39,8 +39,7 @@ const orderApprovalDecision: OrderApprovalDecision = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.callFake((cb) => {
-    cb(userId);
+  takeUserId = createSpy().and.callFake(() => {
     return of(userId);
   });
 }

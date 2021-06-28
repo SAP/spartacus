@@ -32,15 +32,13 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
       .subscribe((activeCartId) => (cartId = activeCartId));
 
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetCostCenter({
-            userId: userId,
-            cartId: cartId,
-            costCenterId: costCenterId,
-          })
-        );
-      }
+      this.checkoutStore.dispatch(
+        new CheckoutActions.SetCostCenter({
+          userId: userId,
+          cartId: cartId,
+          costCenterId: costCenterId,
+        })
+      );
     });
   }
 

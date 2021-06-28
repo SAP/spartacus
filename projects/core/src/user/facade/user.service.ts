@@ -70,9 +70,7 @@ export class UserService {
    */
   load(): void {
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(new UserActions.LoadUserDetails(userId));
-      }
+      this.store.dispatch(new UserActions.LoadUserDetails(userId));
     });
   }
 

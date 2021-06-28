@@ -50,8 +50,7 @@ class UserIdServiceStub implements Partial<UserIdService> {
   getUserId() {
     return of(this.userId);
   }
-  takeUserId(cb) {
-    cb(this.userId);
+  takeUserId() {
     return of(this.userId);
   }
 }

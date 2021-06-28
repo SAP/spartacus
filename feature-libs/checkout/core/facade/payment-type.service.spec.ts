@@ -33,8 +33,7 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
 
 class UserIdServiceStub implements Partial<UserIdService> {
   userId;
-  takeUserId(cb) {
-    cb(userId);
+  takeUserId() {
     return of(this.userId);
   }
 }

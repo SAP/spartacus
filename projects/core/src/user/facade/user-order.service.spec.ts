@@ -21,8 +21,7 @@ class MockRoutingService {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
+  takeUserId() {
     return of(OCC_USER_ID_CURRENT);
   }
 }

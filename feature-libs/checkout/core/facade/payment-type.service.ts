@@ -82,16 +82,14 @@ export class PaymentTypeService implements PaymentTypeFacade {
       .subscribe((activeCartId) => (cartId = activeCartId));
 
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentType({
-            userId: userId,
-            cartId: cartId,
-            typeCode: typeCode,
-            poNumber: poNumber,
-          })
-        );
-      }
+      this.checkoutStore.dispatch(
+        new CheckoutActions.SetPaymentType({
+          userId: userId,
+          cartId: cartId,
+          typeCode: typeCode,
+          poNumber: poNumber,
+        })
+      );
     });
   }
 

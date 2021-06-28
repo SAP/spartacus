@@ -94,28 +94,25 @@ export class UserOrderService {
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        let replenishmentOrderCode: string;
+      let replenishmentOrderCode: string;
 
-        this.routingService
-          .getRouterState()
-          .pipe(take(1))
-          .subscribe((data) => {
-            replenishmentOrderCode =
-              data?.state?.params?.replenishmentOrderCode;
-          })
-          .unsubscribe();
+      this.routingService
+        .getRouterState()
+        .pipe(take(1))
+        .subscribe((data) => {
+          replenishmentOrderCode = data?.state?.params?.replenishmentOrderCode;
+        })
+        .unsubscribe();
 
-        this.store.dispatch(
-          new UserActions.LoadUserOrders({
-            userId,
-            pageSize,
-            currentPage,
-            sort,
-            replenishmentOrderCode,
-          })
-        );
-      }
+      this.store.dispatch(
+        new UserActions.LoadUserOrders({
+          userId,
+          pageSize,
+          currentPage,
+          sort,
+          replenishmentOrderCode,
+        })
+      );
     });
   }
 

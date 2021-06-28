@@ -74,11 +74,7 @@ export class CheckoutService implements CheckoutFacade {
       .subscribe((activeCartId) => (cartId = activeCartId));
 
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (
-        Boolean(cartId) &&
-        Boolean(userId) &&
-        userId !== OCC_USER_ID_ANONYMOUS
-      ) {
+      if (Boolean(cartId) && Boolean(userId)) {
         this.checkoutStore.dispatch(
           new CheckoutActions.ScheduleReplenishmentOrder({
             cartId,

@@ -35,8 +35,7 @@ const mockReplenishmentOrderList: ReplenishmentOrderList = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(cb) {
-    cb(mockUserId);
+  takeUserId() {
     return of(mockUserId);
   }
 }

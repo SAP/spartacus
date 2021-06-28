@@ -14,8 +14,7 @@ import { UserCostCenterService } from './user-cost-center.service';
 const userId = 'testUserId';
 class MockUserIdService implements Partial<UserIdService> {
   userId;
-  takeUserId(cb) {
-    cb(userId);
+  takeUserId() {
     return of(userId);
   }
 }
