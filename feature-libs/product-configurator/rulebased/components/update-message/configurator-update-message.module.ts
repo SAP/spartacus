@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { DefaultMessageConfig } from '../config/default-message-config';
-import { MessageConfig } from '../config/message.config';
+import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
+import { DefaultConfiguratorMessageConfig } from '../config/default-configurator-message-config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 @NgModule({
@@ -16,8 +16,8 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
         },
       },
     }),
-    provideDefaultConfig(DefaultMessageConfig),
-    { provide: MessageConfig, useExisting: Config },
+    provideDefaultConfig(DefaultConfiguratorMessageConfig),
+    { provide: ConfiguratorMessageConfig, useExisting: Config },
   ],
   declarations: [ConfiguratorUpdateMessageComponent],
   exports: [ConfiguratorUpdateMessageComponent],

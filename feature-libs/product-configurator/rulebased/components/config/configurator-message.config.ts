@@ -4,6 +4,6 @@ export interface ProductConfiguratorMessageConfig {
   };
 }
 
-export abstract class MessageConfig {
+export abstract class ConfiguratorMessageConfig {
   productConfigurator?: ProductConfiguratorMessageConfig;
 }
