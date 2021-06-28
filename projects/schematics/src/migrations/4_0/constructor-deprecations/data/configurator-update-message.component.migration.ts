@@ -5,7 +5,7 @@ import {
   CONFIGURATOR_UPDATE_MESSAGE_COMPONENT,
   MESSAGE_CONFIG,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
