@@ -50,37 +50,6 @@ describe('UserService', () => {
     }
   ));
 
-  describe('get user details', () => {
-    it('should get user details from store', () => {
-      store.dispatch(
-        new UserActions.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
-      );
-
-      let userDetails: User;
-      service
-        .get()
-        .subscribe((data) => {
-          userDetails = data;
-        })
-        .unsubscribe();
-      expect(userDetails).toEqual({ uid: 'testUser' });
-    });
-
-    it('should dispatch LoadUserDetails when they are not present in the store', () => {
-      let userDetails: User;
-      service
-        .get()
-        .subscribe((data) => {
-          userDetails = data;
-        })
-        .unsubscribe();
-      expect(userDetails).toEqual({});
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
-      );
-    });
-  });
-
   describe('register user', () => {
     it('should be able to register user', () => {
       const userRegisterFormData: UserSignUp = {
