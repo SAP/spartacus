@@ -434,6 +434,8 @@ export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
   'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT =
+  'ConfiguratorUpdateMessageComponent';  
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
