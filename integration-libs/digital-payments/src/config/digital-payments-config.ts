@@ -12,3 +12,7 @@ export abstract class DigitalPaymentsConfig {
     sessionExpiration: number;
   }[];
 }
+
+declare module '@spartacus/core' {
+  interface Config extends DigitalPaymentsConfig {}
+}
