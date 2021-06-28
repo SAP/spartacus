@@ -138,6 +138,12 @@ import {
   OCC_LOADED_CONFIG,
   OCC_SITES_CONFIG_LOADER,
   OCC_CONFIG_LOADER_MODULE,
+  SORT_CODE,
+  TABLE_HEADER,
+  CART_ITEM_CONTEXT,
+  PROMOTION_LOCATION$,
+  LOCATION,
+  CART_ITEM_CONTEXT_SOURCE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -836,11 +842,35 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
   },
+  // projects/storefrontlib/src/storefront-config.ts
+  {
+    node: 'StorefrontConfig',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+  },
   // feature-libs/storefinder/core/facade/store-data.service.ts
   {
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/storefrontlib/src/shared/components/table/table.model.ts
+  {
+    node: TABLE_HEADER,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
+  {
+    node: CART_ITEM_CONTEXT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT}', please use '${LOCATION}' instead`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
+  {
+    node: CART_ITEM_CONTEXT_SOURCE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
   },
 ];
 

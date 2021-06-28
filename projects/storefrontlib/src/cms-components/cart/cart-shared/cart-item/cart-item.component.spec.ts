@@ -223,16 +223,16 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource.promotionLocation$, 'next');
+      spyOn(cartItemContextSource.location$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges({
         promotionLocation: {
           currentValue: cartItemComponent.quantityControl,
         } as SimpleChange,
       });
-      expect(
-        cartItemContextSource.promotionLocation$.next
-      ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
+      expect(cartItemContextSource.location$.next).toHaveBeenCalledWith(
+        cartItemComponent.promotionLocation
+      );
     });
 
     it('should push change of input "options" to context', () => {

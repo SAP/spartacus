@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Config, Image } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { StorefrontConfig } from '../../../storefront-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
-const MockStorefrontConfig: StorefrontConfig = {
+const MockStorefrontConfig: Config = {
   backend: {
     media: {
       baseUrl: 'base:',
