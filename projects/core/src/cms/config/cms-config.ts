@@ -123,3 +123,7 @@ export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
 }
+
+declare module '../../config/config-tokens' {
+  interface Config extends CmsConfig {}
+}
