@@ -245,7 +245,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
       updateAppModule(options.project),
       installStyles(options),
-      updateMainComponent(project as WorkspaceProject, options),
+      updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
 
       addSpartacusFeatures(options),
