@@ -6,7 +6,6 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {
@@ -14,6 +13,7 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
+import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {

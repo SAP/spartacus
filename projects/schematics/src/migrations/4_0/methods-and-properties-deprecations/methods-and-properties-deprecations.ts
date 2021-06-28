@@ -20,10 +20,12 @@ import {
   OCC_ENDPOINTS_SERVICE_MIGRATION,
 } from './data/occ-endpoints.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
+import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
 import { PAGE_EVENT_BUILDER_MIGRATION } from './data/page-event.builder.ts.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
+import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
@@ -44,6 +46,8 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   ...ROUTING_SERVICE_MIGRATION,
   ...CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
+  ...OCC_ENDPOINTS_MODEL_MIGRATION,
+  ...ORDER_OVERVIEW_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
 ];
 
