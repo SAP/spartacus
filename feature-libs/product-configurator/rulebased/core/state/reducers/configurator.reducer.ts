@@ -207,29 +207,36 @@ function takeOverChanges(
   return result;
 }
 
-function getGroup(
+// TODO: pricing - find out how to write tests without exporting them
+export function getGroup(
   groups: Configurator.Group[],
   attributeUiKey: string
-): Configurator.Group {
-  return groups?.find(
-    (group) =>
-      group?.id.indexOf(attributeUiKey) !== -1 ||
-      attributeUiKey.indexOf(group?.id) !== -1
-  );
+): Configurator.Group | undefined {
+  if (attributeUiKey) {
+    return groups?.find(
+      (group) =>
+        group?.id.indexOf(attributeUiKey) !== -1 ||
+        attributeUiKey.indexOf(group?.id) !== -1
+    );
+  }
 }
 
-function getAttribute(
+export function getAttribute(
   attributes: Configurator.Attribute[],
   attributeName: string
-): Configurator.Attribute {
-  return attributes.find((attribute) => attribute.name === attributeName);
+): Configurator.Attribute | undefined {
+  if (attributeName) {
+    return attributes.find((attribute) => attribute.name === attributeName);
+  }
 }
 
-function getValue(
+export function getValue(
   values: Configurator.Value[],
   valueCode: string
-): Configurator.Value {
-  return values.find((value) => value?.valueCode === valueCode);
+): Configurator.Value | undefined {
+  if (valueCode) {
+    return values.find((value) => value?.valueCode === valueCode);
+  }
 }
 
 function updateValuePrice(
@@ -254,16 +261,21 @@ function updateValuePrice(
         );
         if (value) {
           console.log('found value code: ' + value.valueCode);
+          /**
           console.log(
             'writable: ' +
               Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
           );
-          //value.valuePrice = valueSupplement?.priceValue;
-          const newValue = {
+           */
+          value.valuePrice = valueSupplement?.priceValue;
+
+          /**
+           const newValue = {
             ...value,
             valuePrice: valueSupplement?.priceValue,
           };
           value = newValue;
+           */
           console.log(value);
         }
       });
@@ -277,13 +289,17 @@ function updateValuePrice(
   }
 }
 
-function getAttributeName(attributeUiKey: string): string {
-  const lastIndexOf = attributeUiKey.lastIndexOf('@');
-  return attributeUiKey.slice(lastIndexOf + 1);
+export function getAttributeName(attributeUiKey: string): string | undefined {
+  if (attributeUiKey) {
+    const lastIndexOf = attributeUiKey.lastIndexOf('@');
+    return attributeUiKey.slice(lastIndexOf + 1);
+  }
 }
 
-function getKey(key: string, name: string): string {
-  return key.replace('@' + name, '');
+export function getKey(key: string, name: string): string | undefined {
+  if (key && name) {
+    return key.replace('@' + name, '');
+  }
 }
 
 export function updateValuePrices(

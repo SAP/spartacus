@@ -361,7 +361,7 @@ describe('ConfiguratorEffect', () => {
     });
   });
 
-  describe('Effect updateConfigurationSuccess', () => {
+  xdescribe('Effect updateConfigurationSuccess', () => {
     it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup in case no changes are pending', () => {
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
