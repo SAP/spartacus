@@ -5,7 +5,7 @@ import {
   CONFIGURATOR_UPDATE_MESSAGE_COMPONENT,
   MESSAGE_CONFIG,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -22,13 +22,21 @@ export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION: ConstructorDepreca
       className: CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
     },
-    { className: MESSAGE_CONFIG, importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED },
+    {
+      className: MESSAGE_CONFIG,
+      importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    },
   ],
   removeParams: [
- 
-    { className: MESSAGE_CONFIG, importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED },
+    {
+      className: MESSAGE_CONFIG,
+      importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    },
   ],
   addParams: [
-    { className: CONFIGURATOR_MESSAGE_CONFIG, importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED },
+    {
+      className: CONFIGURATOR_MESSAGE_CONFIG,
+      importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    },
   ],
 };

@@ -435,7 +435,7 @@ export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
 export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT =
-  'ConfiguratorUpdateMessageComponent';  
+  'ConfiguratorUpdateMessageComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
@@ -457,7 +457,6 @@ export const CONFIGURATOR_GROUP_MENU_COMPONENT =
 export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
 export const MESSAGE_CONFIG = 'MessageConfig';
 export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
-
 
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
