@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
-import {
-  ActiveCartService,
-  OCC_USER_ID_ANONYMOUS,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';

@@ -5,7 +5,6 @@ import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address } from '../../model/address.model';
 import { CostCenter } from '../../model/org-unit.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';

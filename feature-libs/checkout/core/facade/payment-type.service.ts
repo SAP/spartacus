@@ -4,7 +4,6 @@ import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
-  OCC_USER_ID_ANONYMOUS,
   PaymentType,
   ProcessSelectors,
   StateWithProcess,

@@ -7,7 +7,6 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '../../model/replenishment-order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
