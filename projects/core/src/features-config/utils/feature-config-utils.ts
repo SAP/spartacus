@@ -1,10 +1,11 @@
+import { Config } from '../../config/config-tokens';
 import { FeaturesConfig } from '../config/features-config';
 
-function isFeatureConfig(config: any): config is FeaturesConfig {
-  return typeof config === 'object' && config.features;
+function isFeatureConfig(config: Config): config is Required<FeaturesConfig> {
+  return typeof config === 'object' && !!config.features;
 }
 
-function isInLevel(level, version) {
+function isInLevel(level: string, version: string): boolean {
   if (level === '*') {
     return true;
   }
@@ -22,15 +23,16 @@ function isInLevel(level, version) {
   return true;
 }
 
-export function isFeatureLevel(config: unknown, level: string): boolean {
-  if (isFeatureConfig(config)) {
-    return level[0] === '!'
+export function isFeatureLevel(config: Config, level: string): boolean {
+  if (isFeatureConfig(config) && config.features.level) {
+    return level.startsWith('!')
       ? !isInLevel(config.features.level, level.substr(1, level.length))
       : isInLevel(config.features.level, level);
   }
+  return false;
 }
 
-export function isFeatureEnabled(config: unknown, feature: string): boolean {
+export function isFeatureEnabled(config: Config, feature: string): boolean {
   if (isFeatureConfig(config)) {
     const featureConfig =
       feature[0] === '!'
@@ -42,6 +44,7 @@ export function isFeatureEnabled(config: unknown, feature: string): boolean {
         ? isFeatureLevel(config, featureConfig)
         : featureConfig;
 
-    return feature[0] === '!' ? !result : result;
+    return feature.startsWith('!') ? !result : !!result;
   }
+  return false;
 }
