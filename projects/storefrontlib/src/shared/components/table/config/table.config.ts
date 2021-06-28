@@ -52,3 +52,7 @@ export interface ResponsiveTableConfiguration
   /** The table configurations for extra small screens */
   [BREAKPOINT.xs]?: TableStructureConfiguration;
 }
+
+declare module '@spartacus/core' {
+  interface Config extends TableConfig {}
+}

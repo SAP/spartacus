@@ -311,6 +311,7 @@ export const QUALTRICS_MODULE = 'QualtricsModule';
 export const PRODUCT_FACET_NAVIGATION_COMPONENT =
   'ProductFacetNavigationComponent';
 export const BREAKPOINT_SERVICE = 'BreakpointService';
+export const MEDIA_SERVICE = 'MediaService';
 export const STORE_FINDER_GRID_COMPONENT = 'StoreFinderGridComponent';
 export const OUTLET_RENDERER_SERVICE = 'OutletRendererService';
 export const SKIP_LINK_SERVICE = 'SkipLinkService';
@@ -320,6 +321,7 @@ export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
+export const CONFIGURATION_SERVICE = 'ConfigurationService';
 export const LAZY_MODULES_SERVICE = 'LazyModulesService';
 export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
@@ -424,6 +426,7 @@ export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
   'ConfiguratorAttributeQuantityService';
+export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
@@ -436,10 +439,14 @@ export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
   'ConfiguratorAttributeNumericInputFieldComponent';
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_SERVICE =
+  'ConfiguratorAttributeNumericInputFieldService';
 export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
   'ConfiguratorAttributeCheckBoxListComponent';
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
   'ConfiguratorAttributeDropDownComponent';
+export const CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeInputFieldComponent';
 export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
 export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
@@ -676,6 +683,7 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 export const GET_URL = 'getUrl';
+export const GET_END_POINT = 'getEndpoint';
 
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
@@ -823,6 +831,10 @@ export const LEGACY_FLAG = 'legacy';
 export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
+export const ROOT_CONFIG = 'RootConfig';
+export const STOREFRONT_CONFIG = 'StorefrontConfig';
+export const DEFAULT_CONFIG = 'DefaultConfig';
+export const CONFIG = 'Config';
 export const ANY_TYPE = 'any';
 export const OBJECT_TYPE = 'Object';
 export const STRING_TYPE = 'string';
@@ -837,6 +849,8 @@ export const ORDER_PROMOTIONS$ = 'orderPromotions$';
 
 export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
+export const SORT_CODE = 'sortCode';
+export const TABLE_HEADER = 'TableHeader';
 /***** Properties end *****/
 
 /***** APIs start *****/
