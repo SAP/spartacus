@@ -9,7 +9,6 @@ export * from './events/index';
 export * from './layout/index';
 export * from './recipes/index';
 export * from './shared/index';
-export * from './storefront-config';
 export * from './utils/index';
 export * from './base-storefront.module';
 

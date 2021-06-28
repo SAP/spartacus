@@ -1,7 +1,8 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, zip } from 'rxjs';
-import { deepMerge } from '../utils/deep-merge';
+import { skip, tap } from 'rxjs/operators';
 import { isFeatureEnabled } from '../../features-config';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import {
   Config,
   ConfigChunk,
@@ -9,8 +10,7 @@ import {
   DefaultConfigChunk,
   RootConfig,
 } from '../config-tokens';
-import { UnifiedInjector } from '../../lazy-loading/unified-injector';
-import { skip, tap } from 'rxjs/operators';
+import { deepMerge } from '../utils/deep-merge';
 
 @Injectable({
   providedIn: 'root',
@@ -21,23 +21,23 @@ export class ConfigurationService implements OnDestroy {
    *
    * Ambient configuration can appear when we lazy load module with configuration
    */
-  readonly unifiedConfig$: Observable<any>;
+  readonly unifiedConfig$: Observable<Config>;
 
   /**
    * Global application configuration
    */
-  readonly config: any;
+  readonly config: Config;
 
-  private readonly ambientDefaultConfig: any = {};
-  private readonly ambientConfig: any = {};
+  private readonly ambientDefaultConfig: Config = {};
+  private readonly ambientConfig: Config = {};
 
   private subscription: Subscription;
 
   constructor(
-    @Inject(RootConfig) protected rootConfig: any,
-    @Inject(DefaultConfig) protected defaultConfig: any,
+    @Inject(RootConfig) protected rootConfig: Config,
+    @Inject(DefaultConfig) protected defaultConfig: Config,
     protected unifiedInjector: UnifiedInjector,
-    @Inject(Config) config: any
+    config: Config
   ) {
     this.config = config;
     this.unifiedConfig$ = new BehaviorSubject(config);
@@ -48,12 +48,12 @@ export class ConfigurationService implements OnDestroy {
     this.subscription = this.feedUnifiedConfig().subscribe();
   }
 
-  private feedUnifiedConfig(): Observable<any> {
-    const configChunks$: Observable<object[]> = this.unifiedInjector.get(
+  private feedUnifiedConfig(): Observable<[Config[], Config[]]> {
+    const configChunks$: Observable<Config[]> = this.unifiedInjector.get(
       ConfigChunk,
       []
     );
-    const defaultConfigChunks$ = this.unifiedInjector.get(
+    const defaultConfigChunks$: Observable<Config[]> = this.unifiedInjector.get(
       DefaultConfigChunk,
       []
     );
@@ -67,12 +67,15 @@ export class ConfigurationService implements OnDestroy {
     );
   }
 
-  private processConfig(configChunks: any[], defaultConfigChunks: any[]) {
+  private processConfig(configChunks: Config[], defaultConfigChunks: Config[]) {
     if (defaultConfigChunks?.length) {
-      deepMerge(this.ambientDefaultConfig, ...defaultConfigChunks);
+      deepMerge(
+        this.ambientDefaultConfig as Record<string, unknown>,
+        ...defaultConfigChunks
+      );
     }
     if (configChunks.length) {
-      deepMerge(this.ambientConfig, ...configChunks);
+      deepMerge(this.ambientConfig as Record<string, unknown>, ...configChunks);
     }
 
     if (configChunks.length || defaultConfigChunks.length) {
@@ -81,18 +84,18 @@ export class ConfigurationService implements OnDestroy {
   }
 
   private emitUnifiedConfig(): void {
-    const newConfig = deepMerge(
+    const newConfig: Config = deepMerge(
       {},
       this.defaultConfig,
       this.ambientDefaultConfig,
       this.ambientConfig,
       this.rootConfig
     );
-    (this.unifiedConfig$ as BehaviorSubject<any>).next(newConfig);
+    (this.unifiedConfig$ as BehaviorSubject<Config>).next(newConfig);
 
     // compatibility mechanism, can be disabled with feature toggle
     if (!isFeatureEnabled(this.config, 'disableConfigUpdates')) {
-      deepMerge(this.config, newConfig);
+      deepMerge(this.config as Record<string, unknown>, newConfig);
     }
   }
 
@@ -100,6 +103,6 @@ export class ConfigurationService implements OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    (this.unifiedConfig$ as BehaviorSubject<any>).complete();
+    (this.unifiedConfig$ as BehaviorSubject<Config>).complete();
   }
 }
