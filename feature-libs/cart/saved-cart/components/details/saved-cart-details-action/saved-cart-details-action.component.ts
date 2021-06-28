@@ -27,40 +27,9 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
-    // TODO(BRIAN): deprecation
-    // protected savedCartService: SavedCartFacade,
-    // TODO(BRIAN): deprecation
-    // protected routingService: RoutingService,
-    // TODO(BRIAN): deprecation
-    // protected globalMessageService: GlobalMessageService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}
-
-  // TODO(BRIAN): deprecation
-  // ngOnInit(): void {
-  //   this.subscription.add(
-  //     this.savedCartService
-  //       .getRestoreSavedCartProcessSuccess()
-  //       .subscribe((success) => this.onRestoreComplete(success))
-  //   );
-  // }
-
-  // TODO(BRIAN): remove / breaking change - will remove before merge
-  // restoreSavedCart(cartId: string): void {
-  //   this.savedCartService.restoreSavedCart(cartId);
-  // }
-
-  // TODO(BRIAN): deprecation
-  // onRestoreComplete(success: boolean): void {
-  //   if (success) {
-  //     this.routingService.go({ cxRoute: 'savedCarts' });
-  //     // TODO(BRIAN): remove / breaking change - will remove before merge
-  //     // this.savedCartService.clearCloneSavedCart();
-  //     this.savedCartService.clearRestoreSavedCart();
-  //     this.savedCartService.clearSaveCart();
-  //   }
-  // }
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
     const dialog = this.launchDialogService.openDialog(

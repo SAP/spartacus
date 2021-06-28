@@ -470,6 +470,11 @@ export const FORM$ = 'form$';
 export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
 export const SCRIPT_LOADER = 'ScriptLoader';
 
+export const SAVED_CART_FORM_TYPE = 'savedCartFormType';
+export const OPEN_DIALOG = 'openDialog';
+export const RESTORE_SAVED_CART = 'restoreSavedCart';
+export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/

@@ -42,10 +42,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   );
   constructor(
     protected routing: RoutingService,
-    // TODO(BRIAN): add deprecations
-    // protected translation: TranslationService,
     protected savedCartService: SavedCartFacade,
-    // TODO(BRIAN): add deprecations
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}
@@ -53,13 +50,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
-
-    // TODO(BRIAN): deprecation
-    // this.subscription.add(
-    //   this.savedCartService
-    //     .getRestoreSavedCartProcessSuccess()
-    //     .subscribe((success) => this.onRestoreComplete(success))
-    // );
   }
 
   goToSavedCartDetails(cart: Cart): void {
@@ -68,12 +58,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       params: { savedCartId: cart?.code },
     });
   }
-
-  // TODO(BRIAN): remove / breaking change - will remove before merge
-  // restoreSavedCart(event: Event, cartId: string): void {
-  //   this.savedCartService.restoreSavedCart(cartId);
-  //   event.stopPropagation();
-  // }
 
   openDialog(event: Event, cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
@@ -88,14 +72,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     }
     event.stopPropagation();
   }
-
-  // TODO(BRIAN): deprecation
-  // onRestoreComplete(success: boolean): void {
-  //   if (success) {
-  //     this.savedCartService.clearRestoreSavedCart();
-  //     this.savedCartService.clearSaveCart();
-  //   }
-  // }
 
   ngOnDestroy(): void {
     this.savedCartService.clearSavedCarts();
