@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigModule } from './config.module';
+import { Config } from '@spartacus/core';
 import {
   provideConfig,
   provideConfigFactory,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from './config-providers';
-import { Config } from '@spartacus/core';
+import { ConfigModule } from './config.module';
 
 describe('ConfigModule', () => {
   const exampleConfigFactory = () => ({
@@ -18,36 +18,36 @@ describe('ConfigModule', () => {
   it('configuration token should expose configuration', () => {
     TestBed.configureTestingModule({});
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toBeTruthy();
   });
 
   it('provideConfig should provide configuration', () => {
     TestBed.configureTestingModule({
-      providers: [provideConfig({ test: 'config' })],
+      providers: [provideConfig({ test: 'config' } as Config)],
     });
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toEqual({ test: 'config' });
   });
 
   it('should allow to override only part of the config', () => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot({ test1: 'test1' })],
-      providers: [provideConfig({ test2: 'test2' })],
+      imports: [ConfigModule.forRoot({ test1: 'test1' } as Config)],
+      providers: [provideConfig({ test2: 'test2' } as Config)],
     });
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toEqual(jasmine.objectContaining({ test1: 'test1' }));
     expect(config).toEqual(jasmine.objectContaining({ test2: 'test2' }));
   });
 
   it('should allow to provide config with ConfigModule.withConfig', () => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.withConfig({ test1: 'test1' })],
+      imports: [ConfigModule.withConfig({ test1: 'test1' } as Config)],
     });
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toEqual({
       test1: 'test1',
     });
@@ -58,7 +58,7 @@ describe('ConfigModule', () => {
       imports: [ConfigModule.withConfigFactory(exampleConfigFactory)],
     });
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toEqual(exampleConfigFactory());
   });
 
@@ -67,12 +67,12 @@ describe('ConfigModule', () => {
       providers: [provideConfigFactory(exampleConfigFactory)],
     });
 
-    const config = TestBed.inject(Config);
+    const config: any = TestBed.inject(Config);
     expect(config).toEqual(exampleConfigFactory());
   });
 
   describe('Default Config', () => {
-    let testBed;
+    let testBed: any;
 
     const exampleConfiguration = {
       test1: 'aaa',
@@ -81,15 +81,15 @@ describe('ConfigModule', () => {
 
     beforeEach(() => {
       testBed = TestBed.configureTestingModule({
-        imports: [ConfigModule.forRoot(exampleConfiguration)],
+        imports: [ConfigModule.forRoot(exampleConfiguration as Config)],
       });
     });
 
     it('provideDefaultConfig should provide default config', () => {
       testBed.configureTestingModule({
-        providers: [provideDefaultConfig({ test1: 'a', test3: 'c' })],
+        providers: [provideDefaultConfig({ test1: 'a', test3: 'c' } as Config)],
       });
-      const config = TestBed.inject(Config);
+      const config: any = TestBed.inject(Config);
       expect(config).toEqual({
         test1: 'aaa',
         test2: 'b',
@@ -101,7 +101,7 @@ describe('ConfigModule', () => {
       testBed.configureTestingModule({
         providers: [provideDefaultConfigFactory(exampleConfigFactory)],
       });
-      const config = TestBed.inject(Config);
+      const config: any = TestBed.inject(Config);
       expect(config).toEqual({
         test1: 'aaa',
         test2: 'b',
