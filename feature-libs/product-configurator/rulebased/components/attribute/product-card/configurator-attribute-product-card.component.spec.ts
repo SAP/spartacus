@@ -343,7 +343,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       button.click();
 
       expect(component.onHandleDeselect).toHaveBeenCalled();
-       expect(component.showDeselectionNotPossible).toBe(true);
+      expect(component.showDeselectionNotPossible).toBe(true);
     });
   });
 
