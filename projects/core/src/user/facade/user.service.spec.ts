@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
@@ -15,9 +15,9 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
+  takeUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
-    return new Subscription();
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -92,7 +92,7 @@ describe('UserService', () => {
 
     it('should not load anonymous user details', () => {
       const userIdService = TestBed.inject(UserIdService);
-      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
+      spyOn(userIdService, 'takeUserId').and.callFake((cb) =>
         cb(OCC_USER_ID_ANONYMOUS)
       );
       service.load();

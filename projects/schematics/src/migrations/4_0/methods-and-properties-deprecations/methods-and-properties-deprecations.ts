@@ -26,6 +26,7 @@ import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-co
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
+import { USER_ID_SERVICE_MIGRATION } from './data/user-id.service.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
@@ -49,6 +50,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...OCC_ENDPOINTS_MODEL_MIGRATION,
   ...ORDER_OVERVIEW_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
+  ...USER_ID_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

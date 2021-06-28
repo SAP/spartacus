@@ -25,7 +25,7 @@ export class UserCostCenterService {
    * Load all visible active cost centers for the currently login user
    */
   loadActiveCostCenters(): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       if (userId && userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
       }

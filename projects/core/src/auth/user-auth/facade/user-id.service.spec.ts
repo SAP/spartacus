@@ -57,18 +57,6 @@ describe('UserIdService', () => {
     });
   });
 
-  describe('invokeWithUserId', () => {
-    it('should invoke callback with last user id', () => {
-      service.setUserId('testId');
-
-      const cb = createSpy();
-
-      service.invokeWithUserId(cb);
-
-      expect(cb).toHaveBeenCalledWith('testId');
-    });
-  });
-
   describe('isEmulated', () => {
     it('should return false for anonymous userId', (done) => {
       service.clearUserId();
@@ -107,7 +95,7 @@ describe('UserIdService', () => {
   describe('takeUserId', () => {
     it('should emit last value and completes', (done) => {
       service.clearUserId();
-      service.takeUserId().subscribe(
+      service.takeUserId(true).subscribe(
         (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
         () => {},
         () => {

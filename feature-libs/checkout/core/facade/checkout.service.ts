@@ -73,7 +73,7 @@ export class CheckoutService implements CheckoutFacade {
       .pipe(take(1))
       .subscribe((activeCartId) => (cartId = activeCartId));
 
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       if (
         Boolean(cartId) &&
         Boolean(userId) &&

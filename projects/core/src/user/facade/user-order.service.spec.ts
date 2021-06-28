@@ -1,12 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { RoutingService } from '../../routing/facade/routing.service';
@@ -24,9 +21,9 @@ class MockRoutingService {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
+  takeUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
-    return new Subscription();
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -175,9 +172,7 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
-      cb(OCC_USER_ID_ANONYMOUS)
-    );
+    spyOn(userIdService, 'takeUserId').and.callThrough();
 
     userOrderService.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();

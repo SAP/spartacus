@@ -1,15 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '../../model/replenishment-order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import {
   PROCESS_FEATURE,
   StateWithProcess,
@@ -38,9 +35,9 @@ const mockReplenishmentOrderList: ReplenishmentOrderList = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
+  takeUserId(cb) {
     cb(mockUserId);
-    return new Subscription();
+    return of(mockUserId);
   }
 }
 
@@ -93,9 +90,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
-        cb(OCC_USER_ID_ANONYMOUS)
-      );
+      spyOn(userIdService, 'takeUserId').and.callThrough();
 
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
         mockReplenishmentOrderCode
@@ -194,9 +189,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
-        cb(OCC_USER_ID_ANONYMOUS)
-      );
+      spyOn(userIdService, 'takeUserId').and.callThrough();
 
       userReplenishmentOrderService.cancelReplenishmentOrder(
         mockReplenishmentOrderCode

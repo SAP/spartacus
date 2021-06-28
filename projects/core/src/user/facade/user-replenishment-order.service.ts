@@ -36,15 +36,13 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   loadReplenishmentOrderDetails(replenishmentOrderCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(
-          new UserActions.LoadReplenishmentOrderDetails({
-            userId,
-            replenishmentOrderCode,
-          })
-        );
-      }
+    this.userIdService.takeUserId(true).subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadReplenishmentOrderDetails({
+          userId,
+          replenishmentOrderCode,
+        })
+      );
     });
   }
 
@@ -97,15 +95,13 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   cancelReplenishmentOrder(replenishmentOrderCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(
-          new UserActions.CancelReplenishmentOrder({
-            userId,
-            replenishmentOrderCode,
-          })
-        );
-      }
+    this.userIdService.takeUserId(true).subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.CancelReplenishmentOrder({
+          userId,
+          replenishmentOrderCode,
+        })
+      );
     });
   }
 
@@ -200,17 +196,15 @@ export class UserReplenishmentOrderService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(
-          new UserActions.LoadUserReplenishmentOrders({
-            userId,
-            pageSize,
-            currentPage,
-            sort,
-          })
-        );
-      }
+    this.userIdService.takeUserId(true).subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadUserReplenishmentOrders({
+          userId,
+          pageSize,
+          currentPage,
+          sort,
+        })
+      );
     });
   }
 

@@ -69,7 +69,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
    */
   load(): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -153,7 +153,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserProfileFacade.close()` from `@spartacus/user` package.
    */
   remove(): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(new UserActions.RemoveUser(userId));
     });
   }
@@ -259,7 +259,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserProfileFacade.update()` from `@spartacus/user` package.
    */
   updatePersonalDetails(userDetails: User): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
@@ -345,7 +345,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserEmailFacade.update()` from `@spartacus/user` package.
    */
   updateEmail(password: string, newUid: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
@@ -411,7 +411,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserPasswordFacade.update()` from `@spartacus/user` package.
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,

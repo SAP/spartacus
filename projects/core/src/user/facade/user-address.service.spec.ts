@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
@@ -21,9 +21,9 @@ import createSpy = jasmine.createSpy;
 
 const mockUserId = 'testuserid';
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
+  takeUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
-    return new Subscription();
+    return of(OCC_USER_ID_CURRENT);
   }
   public takeUserId(): Observable<string> {
     return of(mockUserId);

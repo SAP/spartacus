@@ -36,7 +36,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -77,7 +77,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -98,7 +98,7 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(
           new UserActions.LoadOrderReturnRequestList({
@@ -147,7 +147,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId(true).subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,
