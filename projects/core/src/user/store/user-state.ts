@@ -3,7 +3,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
-import { Title, User } from '../../model/misc.model';
+import { Title } from '../../model/misc.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import {
   Order,
@@ -64,7 +64,6 @@ export interface StateWithUser {
  * @deprecated since 3.2, moved to the `@spartacus/user` package.
  */
 export interface UserState {
-  account: UserDetailsState;
   addresses: StateUtils.LoaderState<Address[]>;
   consents: StateUtils.LoaderState<ConsentTemplate[]>;
   billingCountries: BillingCountriesState;
@@ -77,7 +76,6 @@ export interface UserState {
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   titles: TitlesState;
   regions: StateUtils.LoaderState<RegionsState>;
-  resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
@@ -113,10 +111,6 @@ export interface TitleEntities {
 
 export interface TitlesState {
   entities: TitleEntities;
-}
-
-export interface UserDetailsState {
-  details: User;
 }
 
 export interface ConsignmentTrackingState {
