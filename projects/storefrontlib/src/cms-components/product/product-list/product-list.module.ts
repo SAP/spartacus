@@ -11,7 +11,6 @@ import {
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { ViewConfig } from '../../../shared/config/view-config';
-import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {
   ItemCounterModule,
   ListNavigationModule,
@@ -21,7 +20,7 @@ import {
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
-import { defaultScrollConfig } from '../config/default-scroll-config';
+import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
@@ -42,12 +41,11 @@ import { ProductViewComponent } from './product-view/product-view.component';
     IconModule,
     SpinnerModule,
     InfiniteScrollModule,
-    ViewConfigModule,
     FeaturesConfigModule,
     OutletModule,
   ],
   providers: [
-    provideDefaultConfig(<ViewConfig>defaultScrollConfig),
+    provideDefaultConfig(<ViewConfig>defaultViewConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {

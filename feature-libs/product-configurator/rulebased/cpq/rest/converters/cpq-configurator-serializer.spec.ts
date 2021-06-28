@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   Configurator,
   ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorSerializer } from './cpq-configurator-serializer';
 
@@ -117,11 +117,13 @@ const attributeNumeric: Configurator.Attribute = {
 
 const groups: Configurator.Group[] = [
   {
+    ...ConfiguratorTestUtils.createGroup('1'),
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [firstAttribute, attributeRB],
   },
   {
+    ...ConfiguratorTestUtils.createGroup('2'),
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [attributeDDLB, attributeCB],

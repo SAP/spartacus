@@ -1,4 +1,4 @@
-import { MessageConfig } from './message-config';
+import { MessageConfig } from './message.config';
 
 export const DefaultMessageConfig: MessageConfig = {
   productConfigurator: {

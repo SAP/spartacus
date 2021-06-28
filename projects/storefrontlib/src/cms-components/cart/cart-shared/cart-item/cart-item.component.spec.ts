@@ -24,7 +24,6 @@ import {
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/src/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -100,14 +99,6 @@ const mockProduct = {
   },
 };
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
-}
-
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -142,10 +133,6 @@ describe('CartItemComponent', () => {
         providers: [
           {
             provide: ControlContainer,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
       }).compileComponents();
@@ -236,16 +223,16 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource.promotionLocation$, 'next');
+      spyOn(cartItemContextSource.location$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges({
         promotionLocation: {
           currentValue: cartItemComponent.quantityControl,
         } as SimpleChange,
       });
-      expect(
-        cartItemContextSource.promotionLocation$.next
-      ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
+      expect(cartItemContextSource.location$.next).toHaveBeenCalledWith(
+        cartItemComponent.promotionLocation
+      );
     });
 
     it('should push change of input "options" to context', () => {
