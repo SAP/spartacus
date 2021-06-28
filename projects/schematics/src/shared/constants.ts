@@ -310,6 +310,7 @@ export const QUALTRICS_MODULE = 'QualtricsModule';
 export const PRODUCT_FACET_NAVIGATION_COMPONENT =
   'ProductFacetNavigationComponent';
 export const BREAKPOINT_SERVICE = 'BreakpointService';
+export const MEDIA_SERVICE = 'MediaService';
 export const STORE_FINDER_GRID_COMPONENT = 'StoreFinderGridComponent';
 export const OUTLET_RENDERER_SERVICE = 'OutletRendererService';
 export const SKIP_LINK_SERVICE = 'SkipLinkService';
@@ -319,6 +320,7 @@ export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
+export const CONFIGURATION_SERVICE = 'ConfigurationService';
 export const LAZY_MODULES_SERVICE = 'LazyModulesService';
 export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
@@ -450,7 +452,10 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
+
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
+export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -680,6 +685,7 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 export const GET_URL = 'getUrl';
+export const GET_END_POINT = 'getEndpoint';
 
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
@@ -827,6 +833,10 @@ export const LEGACY_FLAG = 'legacy';
 export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
+export const ROOT_CONFIG = 'RootConfig';
+export const STOREFRONT_CONFIG = 'StorefrontConfig';
+export const DEFAULT_CONFIG = 'DefaultConfig';
+export const CONFIG = 'Config';
 export const ANY_TYPE = 'any';
 export const OBJECT_TYPE = 'Object';
 export const STRING_TYPE = 'string';
@@ -841,6 +851,8 @@ export const ORDER_PROMOTIONS$ = 'orderPromotions$';
 
 export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
+export const SORT_CODE = 'sortCode';
+export const TABLE_HEADER = 'TableHeader';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -932,6 +944,7 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
+export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 
 /***** APIs end *****/
 
