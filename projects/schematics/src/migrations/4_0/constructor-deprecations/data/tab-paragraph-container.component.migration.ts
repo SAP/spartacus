@@ -32,7 +32,6 @@ export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION: Construc
   ],
 };
 
-
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2: ConstructorDeprecation = {
   // projects/storefrontlib/src/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
   class: TAB_PARAGRAPH_CONTAINER_COMPONENT,
@@ -42,7 +41,7 @@ export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2: Constr
       className: CMS_COMPONENT_DATA_CLASS,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
-    { className: CMS_SERVICE, importPath: SPARTACUS_CORE }
+    { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
   ],
   addParams: [
     {
