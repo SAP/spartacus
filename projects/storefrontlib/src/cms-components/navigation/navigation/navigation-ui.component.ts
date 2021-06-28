@@ -105,11 +105,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   resetOnMenuCollapse(): void {
     this.subscriptions.add(
       this.hamburgerMenuService?.isExpanded
-        .pipe(distinctUntilChanged())
-        .subscribe((isExpanded: boolean) => {
-          if (isExpanded) {
-            this.reinitalizeMenu();
-          }
+        .pipe(distinctUntilChanged(), filter(Boolean))
+        .subscribe(() => {
+          this.reinitalizeMenu();
         })
     );
   }
