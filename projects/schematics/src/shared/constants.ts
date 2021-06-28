@@ -743,6 +743,8 @@ export const USER_ACCOUNT_ADAPTER = 'UserAccountAdapter';
 export const USER_PROFILE_ADAPTER = 'UserProfileAdapter';
 export const USER_ACCOUNT_CONNECTOR = 'UserAccountConnector';
 export const USER_PROFILE_CONNECTOR = 'UserProfileConnector';
+export const USER_SIGN_UP_INTERFACE = 'UserSignUp';
+export const USER_INTERFACE = 'User';
 
 export const CMS_LIB_MODULE = 'CmsLibModule';
 export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';

@@ -141,6 +141,7 @@ import {
   USER_CONNECTOR,
   USER_ENDPOINT,
   USER_FORGOT_PASSWORD_ENDPOINT,
+  USER_INTERFACE,
   USER_NORMALIZER,
   USER_PROFILE_ADAPTER,
   USER_PROFILE_CONNECTOR,
@@ -150,6 +151,7 @@ import {
   USER_RESET_PASSWORD_ENDPOINT,
   USER_SERIALIZER,
   USER_SERVICE,
+  USER_SIGN_UP_INTERFACE,
   USER_SIGN_UP_SERIALIZER,
   USER_UPDATE_LOGIN_ID_ENDPOINT,
   USER_UPDATE_PASSWORD_ENDPOINT,
@@ -934,7 +936,13 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: USER_SERVICE,
     importPath: SPARTACUS_CORE,
     comment: `'${USER_SERVICE}' was removed, for replacement please look into 4.0 migration documentation.`,
-  }
+  },
+  // projects/core/src/model/misc.model.ts
+  {
+    node: USER_SIGN_UP_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SIGN_UP_INTERFACE}' was removed, for replacement please use '${USER_INTERFACE}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
     node: TABLE_HEADER,
