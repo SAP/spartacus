@@ -208,7 +208,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should launch the search page, given it is not an empty search', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
 
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -219,7 +219,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not launch search page on empty search', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       input.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();

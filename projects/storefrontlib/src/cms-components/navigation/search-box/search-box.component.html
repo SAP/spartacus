@@ -32,12 +32,7 @@
     <cx-icon [type]="iconTypes.RESET"></cx-icon>
   </button>
 
-  <div
-    role="presentation"
-    class="search"
-    (mousedown)="avoidReopen($event); open()"
-    (keydown.enter)="avoidReopen($event)"
-  >
+  <div role="presentation" class="search">
     <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
   </div>
 </label>
@@ -120,7 +115,6 @@
           *ngIf="config.displayProductImages"
           [container]="product.images?.PRIMARY"
           format="thumbnail"
-          [alt]="product.summary"
           role="presentation"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
