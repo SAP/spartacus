@@ -63,7 +63,7 @@ To get up and running with Spartacus, the recommended approach is to build your 
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
-To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add --skip-confirmation @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
+To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
 
 For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
 
