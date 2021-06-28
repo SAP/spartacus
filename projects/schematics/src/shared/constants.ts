@@ -748,6 +748,18 @@ export const USER_ACCOUNT_CONNECTOR = 'UserAccountConnector';
 export const USER_PROFILE_CONNECTOR = 'UserProfileConnector';
 export const USER_SIGN_UP_INTERFACE = 'UserSignUp';
 export const USER_INTERFACE = 'User';
+export const USER_ACTIONS = 'UserActions';
+export const FORGOT_PASSWORD_EMAIL_ACTION = 'ForgotPasswordEmailRequestAction';
+export const RESET_PASSWORD_ACTION = 'ResetPasswordAction';
+export const EMAIL_ACTIONS = 'EmailActions';
+export const UPDATE_PASSWORD_ACTION = 'UpdatePasswordAction';
+export const USER_DETAILS_ACTION = 'UserDetailsAction';
+export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
+export const USER_STATE_INTERFACE = 'UserState';
+export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
+  'UserProfileFacadeTransitionalToken';
+export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =
+  'UserRegisterFacadeTransitionalToken';
 
 export const CMS_LIB_MODULE = 'CmsLibModule';
 export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';

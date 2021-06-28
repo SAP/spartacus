@@ -176,6 +176,16 @@ import {
   PROMOTION_LOCATION$,
   LOCATION,
   CART_ITEM_CONTEXT_SOURCE,
+  USER_ACTIONS,
+  FORGOT_PASSWORD_EMAIL_ACTION,
+  RESET_PASSWORD_ACTION,
+  EMAIL_ACTIONS,
+  UPDATE_PASSWORD_ACTION,
+  USER_DETAILS_ACTION,
+  USER_DETAILS_STATE_INTERFACE,
+  USER_STATE_INTERFACE,
+  USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
+  USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -946,6 +956,36 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: USER_SIGN_UP_INTERFACE,
     importPath: SPARTACUS_CORE,
     comment: `'${USER_SIGN_UP_INTERFACE}' was removed, for replacement please use '${USER_INTERFACE}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/store/actions/index.ts
+  {
+    node: USER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following actions '${FORGOT_PASSWORD_EMAIL_ACTION}', '${RESET_PASSWORD_ACTION}', '${EMAIL_ACTIONS}', '${UPDATE_PASSWORD_ACTION}', '${USER_DETAILS_ACTION}' were removed. Logic was moved to '${SPARTACUS_USER}'.`,
+  },
+  // projects/core/src/user/store/user-state.ts
+  {
+    node: USER_DETAILS_STATE_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_DETAILS_STATE_INTERFACE}' was removed.`,
+  },
+  // projects/core/src/user/store/user-state.ts
+  {
+    node: USER_STATE_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `Properties 'account' and 'resetPassword' were removed from '${USER_DETAILS_STATE_INTERFACE}' interface.`,
+  },
+  // projects/core/src/user/user-transitional-tokens.ts
+  {
+    node: USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
+    importPath: SPARTACUS_CORE,
+    comment: `Abstract methods 'get', 'update', 'close' were removed from '${USER_PROFILE_FACADE_TRANSITIONAL_TOKEN}'.`,
+  },
+  // projects/core/src/user/user-transitional-tokens.ts
+  {
+    node: USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
+    importPath: SPARTACUS_CORE,
+    comment: `Abstract methods 'register', 'getTitles' were removed from '${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}'.`,
   },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {

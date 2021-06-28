@@ -49,8 +49,6 @@ export class UserService {
   registerGuest(guid: string, password: string): void {
     if (this.userRegisterFacade) {
       this.userRegisterFacade.registerGuest(guid, password);
-    } else {
-      this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
     }
   }
 
