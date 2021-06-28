@@ -1,6 +1,5 @@
 export * from './adapters/index';
 export * from './base-occ.module';
-export * from './config-loader/index';
 export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
 export * from './config/meta-tag-config.module';

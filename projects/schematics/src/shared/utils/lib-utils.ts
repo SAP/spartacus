@@ -27,11 +27,13 @@ import {
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
+  CLI_CHECKOUT_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
@@ -48,6 +50,7 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -83,6 +86,7 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
+  scaffoldStructure,
 } from './workspace-utils';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
@@ -194,6 +198,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_PRODUCT_VARIANTS_FEATURE,
   ],
   [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   ],
@@ -206,6 +211,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_TRACKING_TMS_AEP_FEATURE,
   ],
   [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
+  [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
 };
 
 export function shouldAddFeature(
@@ -248,17 +254,20 @@ export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      throw new SchematicsException(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
+      context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
+      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
@@ -279,14 +288,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
@@ -578,7 +585,13 @@ function addLibraryAssets(
         },
       },
     };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    const initialContent = tree.read(path)?.toString(UTF_8) ?? '';
+    const toUpdate = JSON.stringify(updatedAngularJson, null, 2);
+    // prevent the unnecessary Angular logs about the files being updated
+    if (initialContent !== toUpdate) {
+      tree.overwrite(path, toUpdate);
+    }
   };
 }
 
@@ -623,12 +636,17 @@ export function addLibraryStyles(
     const toAdd = `@import "${stylingConfig.importStyle}";`;
 
     if (tree.exists(libraryScssPath)) {
-      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      let content = initialContent;
+
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
 
-      tree.overwrite(libraryScssPath, content);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (initialContent !== content) {
+        tree.overwrite(libraryScssPath, content);
+      }
       return tree;
     }
 
@@ -782,7 +800,7 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+function shouldAddDependency(
   dependency: NodeDependency,
   packageJson?: any
 ): boolean {

@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -52,10 +51,6 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   }
 }
 
-class MockClearCheckoutService implements Partial<ClearCheckoutService> {
-  resetCheckoutProcesses(): void {}
-}
-
 @Pipe({
   name: 'cxUrl',
 })
@@ -70,7 +65,7 @@ class MockTranslationService {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
 describe('SavedCartListComponent', () => {
@@ -85,7 +80,6 @@ describe('SavedCartListComponent', () => {
       declarations: [SavedCartListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: ClearCheckoutService, useClass: MockClearCheckoutService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],

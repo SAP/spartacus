@@ -23,6 +23,7 @@ import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
+import { CONFIG_ID } from './../../../shared/testing/configurator-test-data';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
 
@@ -51,6 +52,7 @@ const productConfiguration: Configurator.Configuration = {
   complete: true,
   consistent: true,
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: 'a',

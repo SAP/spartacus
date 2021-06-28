@@ -7,7 +7,6 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -56,7 +55,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
@@ -95,10 +94,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockClearCheckoutService implements Partial<ClearCheckoutService> {
-  resetCheckoutProcesses(): void {}
-}
-
 describe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
@@ -107,7 +102,6 @@ describe('SavedCartFormDialogComponent', () => {
   let eventService: EventService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
-  let clearCheckoutService: ClearCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -122,10 +116,6 @@ describe('SavedCartFormDialogComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: ClearCheckoutService,
-          useClass: MockClearCheckoutService,
-        },
       ],
     }).compileComponents();
 
@@ -134,7 +124,6 @@ describe('SavedCartFormDialogComponent', () => {
     eventService = TestBed.inject(EventService);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    clearCheckoutService = TestBed.inject(ClearCheckoutService);
 
     mockDialogData$.next(mockFilledDialogData);
   });
@@ -288,7 +277,6 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('when successfully saving a cart', () => {
       spyOn(savedCartService, 'clearSaveCart');
-      spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
 
       mockDialogData$.next(mockFilledDialogData);
 
@@ -305,7 +293,6 @@ describe('SavedCartFormDialogComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
     });
 
     it('when successfully deleting a cart', () => {
