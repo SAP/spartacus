@@ -9,7 +9,7 @@ import { Request } from 'express';
  * These are the allowed options for the engine
  */
 export interface NgSetupOptions {
-  bootstrap: Type<{}> | NgModuleFactory<{}>;
+  bootstrap?: Type<{}> | NgModuleFactory<{}>;
   providers?: StaticProvider[];
 }
 
@@ -17,7 +17,7 @@ export interface NgSetupOptions {
  * These are the allowed options for the render
  */
 export interface RenderOptions extends NgSetupOptions {
-  req: {
+  req?: {
     protocol: string;
     originalUrl: string;
     get: (_: string) => string;
