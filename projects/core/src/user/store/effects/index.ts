@@ -10,7 +10,6 @@ import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { ProductInterestsEffect } from './product-interests.effect';
 import { RegionsEffects } from './regions.effect';
 import { ReplenishmentOrderDetailsEffect } from './replenishment-order-details.effect';
-import { TitlesEffects } from './titles.effect';
 import { UserAddressesEffects } from './user-addresses.effect';
 import { UserConsentsEffect } from './user-consents.effect';
 import { UserCostCenterEffects } from './user-cost-center.effect';
@@ -34,7 +33,6 @@ export const effects: any[] = [
   OrderReturnRequestEffect,
   UserCostCenterEffects,
   ReplenishmentOrderDetailsEffect,
-  TitlesEffects,
   UserReplenishmentOrdersEffect,
 ];
 
@@ -50,7 +48,6 @@ export * from './payment-methods.effect';
 export * from './product-interests.effect';
 export * from './regions.effect';
 export * from './replenishment-order-details.effect';
-export * from './titles.effect';
 export * from './user-addresses.effect';
 export * from './user-consents.effect';
 export * from './user-orders.effect';

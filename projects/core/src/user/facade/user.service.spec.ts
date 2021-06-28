@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Title, UserSignUp } from '../../model/misc.model';
+import { Title } from '../../model/misc.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
