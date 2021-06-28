@@ -120,7 +120,7 @@
           *ngIf="config.displayProductImages"
           [container]="product.images?.PRIMARY"
           format="thumbnail"
-          alt="test"
+          [alt]="product.summary"
           role="presentation"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
