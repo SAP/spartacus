@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   OccConfig,
-  TranslationService,
+  TranslationService
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -21,6 +21,7 @@ const requiredFlag = true;
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupKey = generalGroupName;
+const groupId = '1';
 const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
@@ -182,16 +183,19 @@ const configuration: OccConfigurator.Configuration = {
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id:'3',
       subGroups: [
         {
           attributes: [occAttributeWithValues],
           groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+          id: groupId
         },
       ],
     },
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id:'2'
     },
   ],
 };
@@ -199,6 +203,7 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
+  id: groupId,
   groupType: OccConfigurator.GroupType.CSTIC_GROUP,
   attributes: [occAttributeWithValues],
 };
@@ -208,6 +213,7 @@ const occConflictGroup: OccConfigurator.Group = {
   description: conflictExplanation,
   groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
+  id:groupId
 };
 
 const occValue: OccConfigurator.Value = {
@@ -389,6 +395,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a group with no attributes', () => {
     const groupsWithoutAttributes: OccConfigurator.Group = {
       name: groupName,
+      id: groupId,
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
@@ -403,6 +410,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a general group', () => {
     const generalGroup: OccConfigurator.Group = {
       name: generalGroupName,
+      id: groupId,
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 

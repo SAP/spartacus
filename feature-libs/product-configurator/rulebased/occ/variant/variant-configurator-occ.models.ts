@@ -50,7 +50,7 @@ export namespace OccConfigurator {
     attributes?: Attribute[];
     description?: string;
     groupType: GroupType;
-    id?: string;
+    id: string;
     name?: string;
     subGroups?: Group[];
   }
