@@ -269,7 +269,8 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-        const box = fixture.debugElement.query(By.css('input')).nativeElement;
+        const box = fixture.debugElement.query(By.css('.searchbox > input'))
+          .nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
@@ -305,7 +306,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should contain chosen word from the dropdown', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       mockRouterState.state.context = {
         id: 'search',
         type: PageType.CONTENT_PAGE,
@@ -319,7 +320,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not contain searched word when navigating to another page', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       mockRouterState.state.context = null;
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -336,7 +337,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input')
+          By.css('.searchbox > input')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
