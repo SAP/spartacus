@@ -101,6 +101,7 @@ import {
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
@@ -140,6 +141,8 @@ import {
   OCC_CONFIG_LOADER_MODULE,
   SORT_CODE,
   TABLE_HEADER,
+  MESSAGE_CONFIG,
+  CONFIGURATOR_MESSAGE_CONFIG
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -855,6 +858,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: TABLE_HEADER,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
+  },
+  // feature-libs/product-configurator/rulebased/components/config/message-config.ts
+  {
+    node: MESSAGE_CONFIG,
+    importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
   },
 ];
 

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
-import { DefaultConfiguratorMessageConfig } from '../config/default-configurator-message-config';
+import { DefaultConfiguratorMessageConfig } from '../config/default-configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 @NgModule({
