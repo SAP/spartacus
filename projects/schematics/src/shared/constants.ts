@@ -857,6 +857,9 @@ export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
 export const SORT_CODE = 'sortCode';
 export const TABLE_HEADER = 'TableHeader';
+
+export const PROMOTION_LOCATION$ = 'promotionLocation$';
+export const LOCATION$ = 'location$';
 /***** Properties end *****/
 
 /***** APIs start *****/

@@ -143,6 +143,10 @@ import {
   TABLE_HEADER,
   MESSAGE_CONFIG,
   CONFIGURATOR_MESSAGE_CONFIG,
+  CART_ITEM_CONTEXT,
+  PROMOTION_LOCATION$,
+  LOCATION,
+  CART_ITEM_CONTEXT_SOURCE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -864,6 +868,18 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: MESSAGE_CONFIG,
     importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
     comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
+  {
+    node: CART_ITEM_CONTEXT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT}', please use '${LOCATION}' instead`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
+  {
+    node: CART_ITEM_CONTEXT_SOURCE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
   },
 ];
 
