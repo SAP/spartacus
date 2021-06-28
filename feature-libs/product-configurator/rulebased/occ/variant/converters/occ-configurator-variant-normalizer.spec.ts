@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   OccConfig,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -183,19 +183,19 @@ const configuration: OccConfigurator.Configuration = {
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id:'3',
+      id: '3',
       subGroups: [
         {
           attributes: [occAttributeWithValues],
           groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-          id: groupId
+          id: groupId,
         },
       ],
     },
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id:'2'
+      id: '2',
     },
   ],
 };
@@ -213,7 +213,7 @@ const occConflictGroup: OccConfigurator.Group = {
   description: conflictExplanation,
   groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
-  id:groupId
+  id: groupId,
 };
 
 const occValue: OccConfigurator.Value = {

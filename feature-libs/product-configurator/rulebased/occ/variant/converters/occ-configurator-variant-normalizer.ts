@@ -27,7 +27,7 @@ export class OccConfiguratorVariantNormalizer
       totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
       groups: [],
-      flatGroups:[]
+      flatGroups: [],
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
