@@ -65,7 +65,11 @@ import {
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   MAIN_MODULE,
   MINI_LOGIN_TRANSLATION_CHUNK,
+  OCC_ENDPOINTS,
   OCC_MODULE,
+  OCC_USER_ACCOUNT_ADAPTER,
+  OCC_USER_ADAPTER,
+  OCC_USER_PROFILE_ADAPTER,
   ORDER_ENTRY,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -105,13 +109,17 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
+  SPARTACUS_USER_ACCOUNT,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  SPARTACUS_USER_PROFILE,
   SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
+  TITLES_ENDPOINT,
+  TITLE_NORMALIZER,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
   UPDATE_EMAIL_COMPONENT,
@@ -123,7 +131,29 @@ import {
   UPDATE_PASSWORD_MODULE,
   UPDATE_PROFILE_COMPONENT,
   UPDATE_PROFILE_MODULE,
+  USER_ACCOUNT_ADAPTER,
+  USER_ACCOUNT_CONNECTOR,
+  USER_ACCOUNT_NORMALIZER,
+  USER_ACCOUNT_SERIALIZER,
+  USER_ADAPTER,
+  USER_CLOSE_ACCOUNT_ENDPOINT,
   USER_COMPONENT_MODULE,
+  USER_CONNECTOR,
+  USER_ENDPOINT,
+  USER_FORGOT_PASSWORD_ENDPOINT,
+  USER_NORMALIZER,
+  USER_PROFILE_ADAPTER,
+  USER_PROFILE_CONNECTOR,
+  USER_PROFILE_NORMALIZER,
+  USER_PROFILE_SERIALIZER,
+  USER_REGISTER_ENDPOINT,
+  USER_RESET_PASSWORD_ENDPOINT,
+  USER_SERIALIZER,
+  USER_SERVICE,
+  USER_SIGN_UP_SERIALIZER,
+  USER_UPDATE_LOGIN_ID_ENDPOINT,
+  USER_UPDATE_PASSWORD_ENDPOINT,
+  USER_UPDATE_PROFILE_ENDPOINT,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_COLOR_SELECTOR_MODULE,
   VARIANT_SIZE_SELECTOR_COMPONENT,
@@ -806,6 +836,60 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/core/src/occ/adapters/user/occ-user.adapter.ts
+  {
+    node: OCC_USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_USER_ADAPTER}' was removed, please use '${OCC_USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT}' and '${OCC_USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/occ/occ-models/occ-endpoints.model.ts
+  {
+    node: OCC_ENDPOINTS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following endpoints '${TITLES_ENDPOINT}', '${USER_ENDPOINT}', '${USER_REGISTER_ENDPOINT}', '${USER_FORGOT_PASSWORD_ENDPOINT}', '${USER_RESET_PASSWORD_ENDPOINT}', '${USER_UPDATE_LOGIN_ID_ENDPOINT}', '${USER_UPDATE_PASSWORD_ENDPOINT}' , '${USER_UPDATE_PROFILE_ENDPOINT}' , '${USER_CLOSE_ACCOUNT_ENDPOINT}' were removed. For replacement please use following endpoints from '${SPARTACUS_USER_ACCOUNT}' and '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: TITLE_NORMALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${TITLE_NORMALIZER}' was moved to '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_SIGN_UP_SERIALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SIGN_UP_SERIALIZER}' was moved to '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_SERIALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SERIALIZER}' was removed. For replacement please use '${USER_ACCOUNT_SERIALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_SERIALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_NORMALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_NORMALIZER}' was removed. For replacement please use '${USER_ACCOUNT_NORMALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_NORMALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/user.adapter.ts
+  {
+    node: USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_ADAPTER}' was removed, please use '${USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/connectors/user/user.connector.ts
+  {
+    node: USER_CONNECTOR,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_CONNECTOR}' was removed, please use '${USER_ACCOUNT_CONNECTOR}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_CONNECTOR}' from '${SPARTACUS_USER_PROFILE}'. Also there was slighly change in method logic, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/facade/user.service.ts
+  {
+    node: USER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SERVICE}' was removed, for replacement please look into 4.0 migration documentation.`,
   },
 ];
 
