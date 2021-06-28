@@ -12,7 +12,7 @@ context('Redirect after auth', () => {
   it('should redirect back after the login', () => {
     cy.visit(`/contact`);
 
-    cy.get('cx-login').click();
+    cy.findByText(/Sign in \/ Register/i).click();
     cy.location('pathname').should('contain', '/login');
     authForms.login(
       user.registrationData.email,
