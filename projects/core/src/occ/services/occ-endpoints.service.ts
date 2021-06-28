@@ -89,24 +89,6 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" with configurable endpoints instead
-   *
-   * Returns an OCC endpoint including baseUrl and baseSite
-   *
-   * @param endpoint Endpoint suffix
-   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
-   */
-  getEndpoint(
-    endpoint: string,
-    propertiesToOmit?: BaseOccUrlProperties
-  ): string {
-    if (!endpoint.startsWith('/') && !this.getPrefix().endsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return this.buildUrlFromEndpointString(endpoint, propertiesToOmit);
-  }
-
-  /**
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) base on provided values
    *
    * @param baseUrlProperties Specify properties to not add to the url (baseUrl, prefix, baseSite)
