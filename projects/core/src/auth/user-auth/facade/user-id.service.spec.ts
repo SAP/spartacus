@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
-const createSpy = jasmine.createSpy;
 
 describe('UserIdService', () => {
   let service: UserIdService;
@@ -95,7 +94,7 @@ describe('UserIdService', () => {
   describe('takeUserId', () => {
     it('should emit last value and completes', (done) => {
       service.clearUserId();
-      service.takeUserId(true).subscribe(
+      service.takeUserId().subscribe(
         (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
         () => {},
         () => {

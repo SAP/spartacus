@@ -21,9 +21,6 @@ import createSpy = jasmine.createSpy;
 
 const mockUserId = 'testuserid';
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId() {
-    return of(OCC_USER_ID_CURRENT);
-  }
   public takeUserId(): Observable<string> {
     return of(mockUserId);
   }

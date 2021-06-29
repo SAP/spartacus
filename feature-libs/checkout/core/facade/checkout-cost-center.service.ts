@@ -28,13 +28,15 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
       .subscribe((activeCartId) => (cartId = activeCartId));
 
     this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.SetCostCenter({
-          userId: userId,
-          cartId: cartId,
-          costCenterId: costCenterId,
-        })
-      );
+      if (cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetCostCenter({
+            userId: userId,
+            cartId: cartId,
+            costCenterId: costCenterId,
+          })
+        );
+      }
     });
   }
 

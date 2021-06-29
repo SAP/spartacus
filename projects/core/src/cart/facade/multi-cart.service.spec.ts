@@ -54,8 +54,7 @@ const mockCarts: Cart[] = [testCart, testCart2];
 
 const userId = 'currentUserId';
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.callFake((cb) => {
-    cb(userId);
+  takeUserId = createSpy().and.callFake(() => {
     return of(userId);
   });
 }

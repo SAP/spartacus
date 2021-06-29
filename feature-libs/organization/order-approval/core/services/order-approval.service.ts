@@ -29,7 +29,7 @@ export class OrderApprovalService {
   ) {}
 
   loadOrderApproval(orderApprovalCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) =>
+    this.userIdService.takeUserId().subscribe((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.LoadOrderApproval({
           userId,
@@ -41,7 +41,7 @@ export class OrderApprovalService {
 
   loadOrderApprovals(params?: SearchConfig): void {
     this.userIdService
-      .takeUserId(true)
+      .takeUserId()
       .subscribe((userId) =>
         this.store.dispatch(
           new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -108,7 +108,7 @@ export class OrderApprovalService {
     orderApprovalCode: string,
     orderApprovalDecision: OrderApprovalDecision
   ): void {
-    this.userIdService.takeUserId(true).subscribe((userId) =>
+    this.userIdService.takeUserId().subscribe((userId) =>
       this.store.dispatch(
         new OrderApprovalActions.MakeDecision({
           userId,

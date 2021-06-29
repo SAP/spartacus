@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ReturnRequestList } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -17,7 +17,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-describe('OrderReturnRequestService', () => {
+fdescribe('OrderReturnRequestService', () => {
   let orderReturnRequestService: OrderReturnRequestService;
   let userIdService: UserIdService;
   let store: Store<StateWithUser>;
@@ -145,10 +145,15 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should NOT load order return requests list when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    spyOn(userIdService, 'takeUserId').and.returnValue(throwError('Error'));
 
-    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
-    expect(store.dispatch).not.toHaveBeenCalled();
+    userIdService.takeUserId().subscribe(
+      () => {},
+      () => {
+        orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
+        expect(store.dispatch).not.toHaveBeenCalled();
+      }
+    );
   });
 
   it('should be able to clear order return requests list', () => {
