@@ -53,6 +53,7 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
   '@spartacus/product/variants/components';
@@ -83,10 +84,13 @@ export const ROUTER = 'Router';
 export const WINDOW_REF = 'WindowRef';
 export const VIEW_CONTAINER_REF = 'ViewContainerRef';
 export const TEMPLATE_REF = 'TemplateRef';
+export const APPLICATION_REF = 'ApplicationRef';
 export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
+
+export const NGB_MODAL = 'NgbModal';
 
 export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
@@ -452,7 +456,10 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
+
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
+export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -850,6 +857,9 @@ export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
 export const SORT_CODE = 'sortCode';
 export const TABLE_HEADER = 'TableHeader';
+
+export const PROMOTION_LOCATION$ = 'promotionLocation$';
+export const LOCATION$ = 'location$';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -941,6 +951,7 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
+export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 
 /***** APIs end *****/
 
