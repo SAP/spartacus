@@ -61,7 +61,7 @@ const groupWithSubGroup: Configurator.Group = {
     {
       name: 'attrName',
       images: [{ url: 'imageAttr' }],
-      values: [{ name: 'val', images: [{ url: 'imageVal' }] }],
+      values: [{ name: 'val', valueCode: '1', images: [{ url: 'imageVal' }] }],
     },
   ],
   subGroups: [group],

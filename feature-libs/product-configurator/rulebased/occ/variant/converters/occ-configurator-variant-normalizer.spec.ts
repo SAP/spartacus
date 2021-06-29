@@ -122,10 +122,12 @@ const attributeCheckboxWOValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: false,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -137,10 +139,12 @@ const attributeCheckboxWithValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: true,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -152,10 +156,12 @@ const attributeMSIWOValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: false,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -167,10 +173,12 @@ const attributeMSIWithValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: true,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],

@@ -10,7 +10,7 @@ interface SelectionValue {
   name?: string;
   quantity?: number;
   selected?: boolean;
-  valueCode?: string;
+  valueCode: string;
 }
 
 @Component({
@@ -88,7 +88,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: string;
     quantity: number;
   }): ConfigFormUpdateEvent | undefined {
-    const value: Configurator.Value = this.multipleSelectionValues.find(
+    const value:
+      | Configurator.Value
+      | undefined = this.multipleSelectionValues.find(
       (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
 
@@ -187,7 +189,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
-      attributeId: this.attribute.attrCode,
+      //TODO CHHI
+      attributeId: this.attribute.attrCode ?? 0,
     };
   }
 }

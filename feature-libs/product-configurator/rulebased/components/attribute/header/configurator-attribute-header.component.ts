@@ -86,11 +86,12 @@ export class ConfiguratorAttributeHeaderComponent
   protected isRequiredAttributeWithDomain(): boolean {
     const uiType = this.attribute.uiType;
     return (
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
-      uiType !== Configurator.UiType.STRING &&
-      uiType !== Configurator.UiType.NUMERIC
+      (this.attribute.required &&
+        this.attribute.incomplete &&
+        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
+        uiType !== Configurator.UiType.STRING &&
+        uiType !== Configurator.UiType.NUMERIC) ??
+      false
     );
   }
 
@@ -114,15 +115,8 @@ export class ConfiguratorAttributeHeaderComponent
    * @return {string} - the conflict link key
    */
   getConflictMessageKey(groupType: Configurator.GroupType): string {
-    switch (groupType) {
-      case Configurator.GroupType.CONFLICT_GROUP: {
-        return 'configurator.conflict.viewConfigurationDetails';
-      }
-      case Configurator.GroupType.ATTRIBUTE_GROUP: {
-        return 'configurator.conflict.viewConflictDetails';
-      }
-      default:
-        break;
-    }
+    return groupType === Configurator.GroupType.CONFLICT_GROUP
+      ? 'configurator.conflict.viewConfigurationDetails'
+      : 'configurator.conflict.viewConflictDetails';
   }
 }
