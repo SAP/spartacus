@@ -33,11 +33,11 @@ export class UserService {
    *
    * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
    */
-  get(): Observable<User> {
+  get(): Observable<User | undefined> {
     if (this.userAccountFacade) {
       return this.userAccountFacade.get();
     }
-    // Throw error here
+    throw Error('Cannot get a user. `UserAccountFacade` was not provided.');
   }
 
   /**
@@ -50,6 +50,7 @@ export class UserService {
     if (this.userRegisterFacade) {
       this.userRegisterFacade.registerGuest(guid, password);
     }
+    throw Error('Cannot get a user. `UserRegisterFacade` was not provided.');
   }
 
   /**

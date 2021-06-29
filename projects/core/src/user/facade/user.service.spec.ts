@@ -50,15 +50,6 @@ describe('UserService', () => {
     }
   ));
 
-  describe('register user', () => {
-    it('should be able to register guest', () => {
-      service.registerGuest('guid', 'password');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.RegisterGuest({ guid: 'guid', password: 'password' })
-      );
-    });
-  });
-
   it('should be able to get titles data', () => {
     store.dispatch(
       new UserActions.LoadTitlesSuccess([
