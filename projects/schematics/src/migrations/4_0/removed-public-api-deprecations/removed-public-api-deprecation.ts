@@ -896,7 +896,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
-
   // projects/core/src/occ/adapters/user/occ-user.adapter.ts
   {
     node: OCC_USER_ADAPTER,
