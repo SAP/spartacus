@@ -171,3 +171,11 @@ title: Changes to Styles in 4.0
 ## Changes in `_screen-reader.scss` Changes 
 
 - `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
+
+## Changes in `_list.scss` Changes 
+
+- `.cx-table td .text` and `.cx-table td a` padding-inline-start removed to align cx-org table items with head labels.
+
+## Changes in `buttons.scss` Changes 
+
+- `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 
