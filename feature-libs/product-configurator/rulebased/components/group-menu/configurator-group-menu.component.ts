@@ -72,6 +72,9 @@ export class ConfiguratorGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
+  ERROR = ' ERROR';
+  COMPLETE = ' COMPLETE';
+  WARNING = ' WARNING';
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
@@ -80,15 +83,24 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
-
   /**
-   * Fired on key board events, checks for 'enter' and delegates to click.
+   * Prevents page down behaviour when users press space key to select buttons
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+  /**
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.click(group);
     }
   }
@@ -103,7 +115,7 @@ export class ConfiguratorGroupMenuComponent {
         this.hamburgerMenuService.toggle(true);
 
         this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate'
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
         );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
@@ -115,12 +127,12 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Fired on key board events, checks for 'enter' and delegates to navigateUp.
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.navigateUp();
     }
   }
@@ -223,13 +235,9 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, group.id)
       .pipe(
-        switchMap((isVisited) => {
-          if (isVisited && !this.isConflictGroupType(group.groupType)) {
-            return of(true);
-          } else {
-            return of(false);
-          }
-        }),
+        map(
+          (isVisited) => isVisited && !this.isConflictGroupType(group.groupType)
+        ),
         take(1)
       );
   }
@@ -242,5 +250,44 @@ export class ConfiguratorGroupMenuComponent {
    */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
+  }
+
+  /**
+   * Returns group-status style classes dependent on completeness, conflicts, visited status and configurator type.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {Observable<boolean>} - true if visited and not a conflict group
+   */
+  getGroupStatusStyles(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.isGroupVisited(group, configuration).pipe(
+      map((isVisited) => {
+        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+        let groupStatusStyle: string = 'cx-menu-item';
+        if (
+          configuration.owner?.configuratorType !==
+            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          !group.consistent
+        ) {
+          groupStatusStyle = groupStatusStyle + this.WARNING;
+        }
+        if (
+          configuration.owner?.configuratorType !==
+            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          group.complete &&
+          group.consistent &&
+          isVisited
+        ) {
+          groupStatusStyle = groupStatusStyle + this.COMPLETE;
+        }
+        if (!group.complete && isVisited) {
+          groupStatusStyle = groupStatusStyle + this.ERROR;
+        }
+        return groupStatusStyle;
+      })
+    );
   }
 }

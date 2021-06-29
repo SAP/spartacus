@@ -9,8 +9,8 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action.component';
 
@@ -49,19 +49,18 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockSavedCartFormLaunchDialogService
-  implements Partial<SavedCartFormLaunchDialogService> {
-  openDialog(
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): Observable<any> {
-    return of();
-  }
-}
-
 class MockClearCheckoutService implements Partial<ClearCheckoutService> {
   resetCheckoutProcesses(): void {}
+}
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
 }
 
 describe('SavedCartDetailsActionComponent', () => {
@@ -69,7 +68,7 @@ describe('SavedCartDetailsActionComponent', () => {
   let fixture: ComponentFixture<SavedCartDetailsActionComponent>;
   let savedCartFacade: SavedCartFacade;
   let routingService: RoutingService;
-  let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
   let clearCheckoutService: ClearCheckoutService;
 
   beforeEach(() => {
@@ -93,13 +92,10 @@ describe('SavedCartDetailsActionComponent', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
-        },
-        {
           provide: ClearCheckoutService,
           useClass: MockClearCheckoutService,
         },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
@@ -108,16 +104,14 @@ describe('SavedCartDetailsActionComponent', () => {
 
     savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
-    savedCartFormLaunchDialogService = TestBed.inject(
-      SavedCartFormLaunchDialogService
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
     clearCheckoutService = TestBed.inject(ClearCheckoutService);
 
     spyOn(savedCartFacade, 'restoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearRestoreSavedCart').and.stub();
     spyOn(savedCartFacade, 'clearSaveCart').and.stub();
     spyOn(routingService, 'go').and.stub();
-    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
     spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
 
     fixture.detectChanges();
@@ -165,7 +159,8 @@ describe('SavedCartDetailsActionComponent', () => {
   it('should trigger an open dialog to delete a saved cart', () => {
     component.openDialog(mockSavedCart);
 
-    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SAVED_CART,
       component.element,
       component['vcr'],
       {

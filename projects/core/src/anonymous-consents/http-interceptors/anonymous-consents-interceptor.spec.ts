@@ -28,7 +28,7 @@ const mockAnonymousConsents: AnonymousConsent[] = [
 ];
 
 class MockOccEndpointsService {
-  getBaseEndpoint(): string {
+  getBaseUrl(): string {
     return '';
   }
 }
@@ -286,6 +286,8 @@ describe('AnonymousConsentsInterceptor', () => {
         http.get('/xxx').subscribe();
         tick(DELAY_TIME);
         httpMock.expectOne((req) => req.method === 'GET', 'GET');
+        expect(anonymousConsentsService.getConsents).toHaveBeenCalled();
+        expect(authService.isUserLoggedIn).toHaveBeenCalled();
       }));
 
       it(`should handle http call even when 'getConsents' emits with a delay`, fakeAsync(() => {
@@ -298,6 +300,8 @@ describe('AnonymousConsentsInterceptor', () => {
         http.get('/xxx').subscribe();
         tick(DELAY_TIME);
         httpMock.expectOne((req) => req.method === 'GET', 'GET');
+        expect(anonymousConsentsService.getConsents).toHaveBeenCalled();
+        expect(authService.isUserLoggedIn).toHaveBeenCalled();
       }));
 
       it(`should call ${handleRequestMethod}`, () => {

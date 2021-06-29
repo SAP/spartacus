@@ -1,15 +1,17 @@
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
 export interface Schema extends LibraryOptions {
-  configuration: 'b2c' | 'b2b';
   baseUrl?: string;
   occPrefix?: string;
   baseSite?: string;
   currency?: string;
   language?: string;
+  urlParameters?: string;
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;
+  pwa?: boolean;
+  ssr?: boolean;
 }
 
 /**
@@ -20,10 +22,6 @@ export interface AngularComponentSchema {
    * The change detection strategy to use in the new component.
    */
   changeDetection?: ChangeDetection;
-  /**
-   * When true, the new component is the entry component of the declaring NgModule.
-   */
-  entryComponent: boolean;
   /**
    * When true, the declaring NgModule exports this component.
    */

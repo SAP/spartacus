@@ -8,6 +8,8 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
         product: {
           configurator:
             'products/${productCode}?fields=code,configurable,configuratorType',
+          configuratorProductCard:
+            'products/${productCode}?fields=code,description,images(DEFAULT)',
         },
       },
     },

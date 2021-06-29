@@ -93,11 +93,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -119,11 +119,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  // deprecated since 3.2, moved to @spartacus/user/account/assets
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CdsModule } from '@spartacus/cds';
+import { CdsConfig, CdsModule } from '@spartacus/cds';
+import { provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-    CdsModule.forRoot({
+  imports: [CdsModule.forRoot()],
+  providers: [
+    provideConfig(<CdsConfig>{
       cds: {
         tenant: 'argotest',
         baseUrl: 'https://api.stage.context.cloud.sap',
@@ -14,6 +16,10 @@ import { CdsModule } from '@spartacus/cds';
         merchandising: {
           defaultCarouselViewportThreshold: 80,
         },
+      },
+    }),
+    provideConfig(<CdsConfig>{
+      cds: {
         profileTag: {
           javascriptUrl:
             'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',

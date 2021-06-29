@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-product-title',
   templateUrl: './configurator-product-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorProductTitleComponent {
   product$: Observable<Product> = this.configRouterExtractorService
@@ -26,10 +27,14 @@ export class ConfiguratorProductTitleComponent {
           case CommonConfigurator.OwnerType.CART_ENTRY:
             return configuration.productCode;
           case CommonConfigurator.OwnerType.ORDER_ENTRY:
-            return configuration.overview.productCode;
+            return configuration.overview?.productCode;
         }
       }),
-      switchMap((productCode) => this.productService.get(productCode))
+      switchMap((productCode) =>
+        productCode
+          ? this.productService.get(productCode, ProductScope.LIST)
+          : EMPTY
+      )
     );
   showMore = false;
   iconTypes = ICON_TYPE;
@@ -44,11 +49,31 @@ export class ConfiguratorProductTitleComponent {
     this.showMore = !this.showMore;
   }
 
+  /**
+   * @deprecated since 3.3
+   */
   getProductImageURL(product: Product): string {
     return product.images?.PRIMARY?.['thumbnail']?.url;
   }
 
+  /**
+   * @deprecated since 3.3
+   */
   getProductImageAlt(product: Product): string {
     return product.images?.PRIMARY?.['thumbnail']?.altText;
+  }
+
+  /**
+   * Fired on key board events, checks for 'enter' and delegates to click.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  /**
+   * @deprecated since 3.3
+   */
+  clickOnEnter(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      this.triggerDetails();
+    }
   }
 }

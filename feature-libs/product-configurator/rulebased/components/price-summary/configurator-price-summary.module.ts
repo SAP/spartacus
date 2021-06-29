@@ -17,6 +17,5 @@ import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.
   ],
   declarations: [ConfiguratorPriceSummaryComponent],
   exports: [ConfiguratorPriceSummaryComponent],
-  entryComponents: [ConfiguratorPriceSummaryComponent],
 })
 export class ConfiguratorPriceSummaryModule {}

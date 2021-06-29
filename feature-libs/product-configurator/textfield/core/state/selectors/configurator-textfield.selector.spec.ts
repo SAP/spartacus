@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
 import {
@@ -20,11 +21,11 @@ describe('ConfiguratorTextfieldSelectors', () => {
         status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
       },
     ],
-    owner: {},
+    owner: ConfiguratorModelUtils.createInitialOwner(),
   };
   const configurationInitial: ConfiguratorTextfield.Configuration = {
     configurationInfos: [],
-    owner: {},
+    owner: ConfiguratorModelUtils.createInitialOwner(),
   };
 
   beforeEach(() => {
