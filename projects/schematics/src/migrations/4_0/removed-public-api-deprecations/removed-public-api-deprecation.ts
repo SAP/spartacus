@@ -144,6 +144,7 @@ import {
   PROMOTION_LOCATION$,
   LOCATION,
   CART_ITEM_CONTEXT_SOURCE,
+  B2C_LAYOUT_CONFIG,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -871,6 +872,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_ITEM_CONTEXT_SOURCE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
+  },
+  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  {
+    node: B2C_LAYOUT_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${B2C_LAYOUT_CONFIG}' was removed from '${SPARTACUS_STOREFRONTLIB}', please use corresponding feature-lib specific layout.`,
   },
 ];
 
