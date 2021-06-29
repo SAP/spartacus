@@ -53,6 +53,7 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
   '@spartacus/product/variants/components';
@@ -83,10 +84,13 @@ export const ROUTER = 'Router';
 export const WINDOW_REF = 'WindowRef';
 export const VIEW_CONTAINER_REF = 'ViewContainerRef';
 export const TEMPLATE_REF = 'TemplateRef';
+export const APPLICATION_REF = 'ApplicationRef';
 export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
+
+export const NGB_MODAL = 'NgbModal';
 
 export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
@@ -434,6 +438,8 @@ export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
   'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT =
+  'ConfiguratorUpdateMessageComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
@@ -453,6 +459,8 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
 export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
+export const MESSAGE_CONFIG = 'MessageConfig';
+export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
 
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
@@ -853,6 +861,9 @@ export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
 export const SORT_CODE = 'sortCode';
 export const TABLE_HEADER = 'TableHeader';
+
+export const PROMOTION_LOCATION$ = 'promotionLocation$';
+export const LOCATION$ = 'location$';
 /***** Properties end *****/
 
 /***** APIs start *****/
