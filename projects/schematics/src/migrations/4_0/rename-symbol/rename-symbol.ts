@@ -9,8 +9,10 @@ import {
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
   PERMISSION_ROUTING_CONFIG,
+  SPARTACUS_CHECKOUT_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
+  SPARTACUS_STOREFRONTLIB,
   UNITS_ROUTING_CONFIG,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
@@ -69,8 +71,66 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   },
 ];
 
+export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
+  // projects/storefrontlib/src/cms-components/user/checkout-login/*
+  {
+    previousNode: 'CheckoutLoginComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'CheckoutLoginModule',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  // projects/storefrontlib/src/cms-components/order-confirmation/*
+  {
+    previousNode: 'OrderConfirmationModule',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'ReplenishmentOrderConfirmationModule',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'OrderConfirmationGuard',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'GuestRegisterFormComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'OrderConfirmationItemsComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'OrderConfirmationOverviewComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'OrderConfirmationThankYouMessageComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
+    previousNode: 'OrderConfirmationTotalsComponent',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+];
+
 export function migrate(): Rule {
   return (tree: Tree) => {
-    return migrateRenamedSymbols(tree, RENAMED_SYMBOLS_DATA);
+    return migrateRenamedSymbols(tree, [
+      ...RENAMED_SYMBOLS_DATA,
+      ...CHECKOUT_LIB_MOVED_SYMBOLS_DATA,
+    ]);
   };
 }
