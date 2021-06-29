@@ -54,8 +54,10 @@ export const common = {
 
     initialDescription:
       'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
-    suggestionsAnd: ' suggestions and ',
-    productsAreAvailable: ' products are available.',
+    suggestionsResult: '{{ count }} suggestion and ',
+    suggestionsResult_plural: '{{ count }} suggestions and ',
+    productsResult: '{{ count }} product is available.',
+    productsResult_plural: '{{ count }} products are available.',
     resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',

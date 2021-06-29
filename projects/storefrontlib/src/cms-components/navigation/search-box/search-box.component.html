@@ -130,10 +130,14 @@
     aria-live="assertive"
     class="cx-visually-hidden"
   >
-    {{ result.suggestions?.length }}
-    {{ 'searchBox.suggestionsAnd' | cxTranslate }}
-    {{ result.products?.length }}
-    {{ 'searchBox.productsAreAvailable' | cxTranslate }}
+    {{
+      'searchBox.suggestionsResult'
+        | cxTranslate: { count: result.suggestions?.length }
+    }}
+    {{
+      'searchBox.productsResult'
+        | cxTranslate: { count: result.products?.length }
+    }}
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </div>
 </div>
