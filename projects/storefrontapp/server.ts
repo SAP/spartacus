@@ -10,16 +10,6 @@ import { AppServerModule } from './src/main.server';
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
-// const ssrOptions: SsrOptimizationOptions = {
-//   concurrency: 20,
-//   timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
-// };
-
-// console.log(`SSR options: ${JSON.stringify(ssrOptions)}`);
-console.log(
-  `NODE TLS: ${JSON.stringify(process.env.NODE_TLS_REJECT_UNAUTHORIZED)}`
-);
-
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, null);
 
 // The Express app is exported so that it can be used by serverless Functions.
