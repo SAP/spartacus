@@ -8,7 +8,6 @@ import { PermissionDetailsModule } from './details/permission-details.module';
 import { PermissionFormModule } from './form/permission-form.module';
 import {
   permissionCmsConfig,
-  permissionRoutingConfig,
   permissionTableConfigFactory,
 } from './permission.config';
 
@@ -19,7 +18,6 @@ import {
     PermissionFormModule,
   ],
   providers: [
-    provideDefaultConfig(permissionRoutingConfig),
     provideDefaultConfig(permissionCmsConfig),
     provideDefaultConfigFactory(permissionTableConfigFactory),
   ],

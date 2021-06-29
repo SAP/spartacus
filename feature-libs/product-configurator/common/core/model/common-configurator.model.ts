@@ -6,7 +6,7 @@ export namespace CommonConfigurator {
     /**
      * Type of the owner, can be product or document related
      */
-    type?: OwnerType;
+    type: OwnerType;
     /**
      * Specifies an owner uniquely, is used as key in the configuration store
      */

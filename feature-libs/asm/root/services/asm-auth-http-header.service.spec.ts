@@ -40,7 +40,7 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {}
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
