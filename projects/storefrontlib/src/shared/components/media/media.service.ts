@@ -53,8 +53,8 @@ export class MediaService {
 
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url),
-      alt: alt || mainMedia?.altText,
-      role: role || mainMedia?.role,
+      alt: alt ?? mainMedia?.altText,
+      role: role ?? mainMedia?.role,
       srcset: this.resolveSrcSet(mediaContainer, format),
     };
   }
