@@ -189,8 +189,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
-      //TODO CHHI
-      attributeId: this.attribute.attrCode ?? 0,
+      attributeId: this.getAttributeCode(this.attribute),
     };
   }
 }

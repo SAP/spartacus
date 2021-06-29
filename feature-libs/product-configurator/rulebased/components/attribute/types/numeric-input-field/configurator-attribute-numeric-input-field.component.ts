@@ -49,19 +49,20 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
 
+    //TODO CHHI test conditional logic
     this.attributeInputForm = new FormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
-        this.attribute.numDecimalPlaces,
-        this.attribute.numTotalLength,
-        this.attribute.negativeAllowed
+        this.attribute.numDecimalPlaces ?? 0,
+        this.attribute.numTotalLength ?? 0,
+        this.attribute.negativeAllowed ?? false
       ),
     ]);
     const numDecimalPlaces = this.attribute.numDecimalPlaces;
     this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      this.attribute.numTotalLength,
-      this.attribute.negativeAllowed,
+      numDecimalPlaces ?? 0,
+      this.attribute.numTotalLength ?? 0,
+      this.attribute.negativeAllowed ?? false,
       this.locale
     );
     if (this.attribute.userInput) {

@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
@@ -133,5 +134,24 @@ export class ConfiguratorAttributeBaseComponent {
    */
   createFocusId(attributeId: string, valueCode: string): string {
     return `${attributeId}--${valueCode}--focus`;
+  }
+
+  //TODO CHHI test
+  /**
+   * Get code from attribute, and logs a warning if code
+   * is not in place
+   * @param attribute
+   * @returns
+   */
+  getAttributeCode(attribute: Configurator.Attribute): number {
+    const code = attribute.attrCode;
+    if (code) {
+      return code;
+    } else {
+      if (isDevMode()) {
+        console.warn('No attribute code for: ' + attribute.name);
+      }
+      return 0;
+    }
   }
 }
