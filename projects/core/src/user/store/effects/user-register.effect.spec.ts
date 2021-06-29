@@ -92,21 +92,4 @@ describe('UserRegister effect', () => {
       );
     });
   });
-
-  describe('removeUser$', () => {
-    it('should remove user', () => {
-      spyOn(authService, 'logout');
-
-      const action = new UserActions.RemoveUser('testUserId');
-      const completion = new UserActions.RemoveUserSuccess();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', {
-        b: completion,
-      });
-
-      expect(effect.removeUser$).toBeObservable(expected);
-      expect(authService.logout).toHaveBeenCalled();
-    });
-  });
 });

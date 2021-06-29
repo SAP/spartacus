@@ -10,7 +10,6 @@ export * from './payment-methods.selectors';
 export * from './product-interests.selectors';
 export * from './regions.selectors';
 export * from './replenishment-order-details.selectors';
-export * from './reset-password.selectors';
 export * from './titles.selectors';
 export * from './user-addresses.selectors';
 export * from './user-consents.selectors';

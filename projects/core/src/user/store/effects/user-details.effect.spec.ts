@@ -51,47 +51,4 @@ describe('User Details effect', () => {
       expect(userDetailsEffect.loadUserDetails$).toBeObservable(expected);
     });
   });
-
-  describe('updateUserDetails$', () => {
-    it('should return UpdateUserDetailsSuccess ', () => {
-      spyOn(userService, 'update').and.returnValue(of({}));
-
-      const username = 'xxx';
-      const userDetails: User = {
-        title: 'mr',
-      };
-
-      const action = new UserActions.UpdateUserDetails({
-        username,
-        userDetails,
-      });
-      const completion = new UserActions.UpdateUserDetailsSuccess(userDetails);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(userDetailsEffect.updateUserDetails$).toBeObservable(expected);
-    });
-
-    it('should return UpdateUserDetailsFail action', () => {
-      const error = 'error';
-      spyOn(userService, 'update').and.returnValue(throwError(error));
-
-      const username = 'xxx';
-      const userDetails: User = {
-        title: 'mr',
-      };
-
-      const action = new UserActions.UpdateUserDetails({
-        username,
-        userDetails,
-      });
-      const completion = new UserActions.UpdateUserDetailsFail(undefined);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(userDetailsEffect.updateUserDetails$).toBeObservable(expected);
-    });
-  });
 });

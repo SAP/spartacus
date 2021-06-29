@@ -30,22 +30,4 @@ describe('User Details Reducer', () => {
       expect(state).toEqual(mockUserDetails);
     });
   });
-
-  describe('UPDATE_USER_DETAILS_SUCCESS', () => {
-    it('should merge the existing user with the user updates', () => {
-      const updatedUser: User = {
-        firstName: 'New First',
-        lastName: 'New Last',
-      };
-
-      const action = new UserActions.UpdateUserDetailsSuccess(updatedUser);
-
-      const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
-      expect(state).toEqual({
-        ...mockUserDetails,
-        ...updatedUser,
-        name: `${updatedUser.firstName} ${updatedUser.lastName}`,
-      });
-    });
-  });
 });

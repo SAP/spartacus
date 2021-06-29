@@ -6,7 +6,6 @@ import { Title, User, UserSignUp } from '../../../model/misc.model';
 import {
   TITLE_NORMALIZER,
   USER_NORMALIZER,
-  USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/user/converters';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
@@ -36,15 +35,6 @@ export class OccUserAdapter implements UserAdapter {
       .pipe(this.converter.pipeable(USER_NORMALIZER));
   }
 
-  update(userId: string, user: User): Observable<{}> {
-    const endpoint = this.occEndpoints.isConfigured('userUpdateProfile')
-      ? 'userUpdateProfile'
-      : 'user';
-    const url = this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
-    user = this.converter.convert(user, USER_SERIALIZER);
-    return this.http.patch(url, user);
-  }
-
   register(user: UserSignUp): Observable<User> {
     const url: string = this.occEndpoints.buildUrl('userRegister');
     let headers = new HttpHeaders({
@@ -72,71 +62,6 @@ export class OccUserAdapter implements UserAdapter {
     return this.http
       .post<User>(url, httpParams, { headers })
       .pipe(this.converter.pipeable(USER_NORMALIZER));
-  }
-
-  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
-    const url = this.occEndpoints.buildUrl('userForgotPassword');
-    const httpParams: HttpParams = new HttpParams().set(
-      'userId',
-      userEmailAddress
-    );
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    return this.http.post(url, httpParams, { headers });
-  }
-
-  resetPassword(token: string, newPassword: string): Observable<{}> {
-    const url = this.occEndpoints.buildUrl('userResetPassword');
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-
-    return this.http.post(url, { token, newPassword }, { headers });
-  }
-
-  updateEmail(
-    userId: string,
-    currentPassword: string,
-    newUserId: string
-  ): Observable<{}> {
-    const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
-      urlParams: { userId },
-    });
-    const httpParams: HttpParams = new HttpParams()
-      .set('password', currentPassword)
-      .set('newLogin', newUserId);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    return this.http.put(url, httpParams, { headers });
-  }
-
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): Observable<{}> {
-    const url = this.occEndpoints.buildUrl('userUpdatePassword', {
-      urlParams: { userId },
-    });
-    const httpParams: HttpParams = new HttpParams()
-      .set('old', oldPassword)
-      .set('new', newPassword);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    return this.http.put(url, httpParams, { headers });
-  }
-
-  remove(userId: string): Observable<{}> {
-    const endpoint = this.occEndpoints.isConfigured('userCloseAccount')
-      ? 'userCloseAccount'
-      : 'user';
-    const url = this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
-    return this.http.delete<User>(url);
   }
 
   loadTitles(): Observable<Title[]> {

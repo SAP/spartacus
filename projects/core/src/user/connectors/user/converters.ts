@@ -12,13 +12,6 @@ export const USER_NORMALIZER = new InjectionToken<Converter<any, User>>(
 /**
  * @deprecated since 3.2, moved to `@spartacus/user`
  */
-export const USER_SERIALIZER = new InjectionToken<Converter<User, any>>(
-  'UserSerializer'
-);
-
-/**
- * @deprecated since 3.2, moved to `@spartacus/user`
- */
 export const USER_SIGN_UP_SERIALIZER = new InjectionToken<
   Converter<UserSignUp, any>
 >('UserSignUpSerializer');

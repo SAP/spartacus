@@ -1,10 +1,7 @@
 import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
-import {
-  REGISTER_USER_PROCESS_ID,
-  REMOVE_USER_PROCESS_ID,
-} from '../user-state';
+import { REGISTER_USER_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 
 const user: UserSignUp = {
@@ -96,68 +93,6 @@ describe('Guest Register Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_GUEST_SUCCESS,
-      });
-    });
-  });
-});
-
-describe('Remove User Actions', () => {
-  describe('RemoveUser Action', () => {
-    it('should create the action', () => {
-      const action = new UserActions.RemoveUser('testUserId');
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER,
-        payload: 'testUserId',
-        meta: StateUtils.entityLoadMeta(
-          PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
-        ),
-      });
-    });
-  });
-
-  describe('RemoveUserFail Action', () => {
-    it('should create the action', () => {
-      const error = 'anError';
-      const action = new UserActions.RemoveUserFail(error);
-
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_FAIL,
-        payload: error,
-        meta: StateUtils.entityFailMeta(
-          PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID,
-          error
-        ),
-      });
-    });
-  });
-
-  describe('RemoveUserSuccess Action', () => {
-    it('should create the action', () => {
-      const action = new UserActions.RemoveUserSuccess();
-
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_SUCCESS,
-        meta: StateUtils.entitySuccessMeta(
-          PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
-        ),
-        payload: undefined,
-      });
-    });
-  });
-
-  describe('RemoveUserReset Action', () => {
-    it('should create the action', () => {
-      const action = new UserActions.RemoveUserReset();
-
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_RESET,
-        meta: StateUtils.entityResetMeta(
-          PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
-        ),
       });
     });
   });

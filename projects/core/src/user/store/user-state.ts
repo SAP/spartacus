@@ -20,11 +20,7 @@ import {
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
-export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
-export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';
-export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
 export const REGISTER_USER_PROCESS_ID = 'registerUser';
-export const REMOVE_USER_PROCESS_ID = 'removeUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
 export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
@@ -77,7 +73,6 @@ export interface UserState {
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   titles: TitlesState;
   regions: StateUtils.LoaderState<RegionsState>;
-  resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;

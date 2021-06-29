@@ -41,23 +41,6 @@ export class UserRegisterEffects {
     )
   );
 
-  @Effect()
-  removeUser$: Observable<UserActions.UserRegisterOrRemoveAction> = this.actions$.pipe(
-    ofType(UserActions.REMOVE_USER),
-    map((action: UserActions.RemoveUser) => action.payload),
-    mergeMap((userId: string) => {
-      return this.userConnector.remove(userId).pipe(
-        switchMap(() => {
-          this.authService.logout();
-          return [new UserActions.RemoveUserSuccess()];
-        }),
-        catchError((error) =>
-          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  );
-
   constructor(
     private actions$: Actions,
     private userConnector: UserConnector,
