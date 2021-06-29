@@ -33,7 +33,7 @@ export class UserService {
    *
    * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
    */
-  get(): Observable<User | undefined> {
+  get(): Observable<User> {
     if (this.userAccountFacade) {
       return this.userAccountFacade.get();
     }
