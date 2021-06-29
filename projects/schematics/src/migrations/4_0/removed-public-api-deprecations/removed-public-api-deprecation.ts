@@ -105,6 +105,7 @@ import {
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
@@ -172,6 +173,8 @@ import {
   OCC_CONFIG_LOADER_MODULE,
   SORT_CODE,
   TABLE_HEADER,
+  MESSAGE_CONFIG,
+  CONFIGURATOR_MESSAGE_CONFIG,
   CART_ITEM_CONTEXT,
   PROMOTION_LOCATION$,
   LOCATION,
@@ -186,6 +189,7 @@ import {
   USER_STATE_INTERFACE,
   USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
   USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
+  EXTERNAL_JS_FILE_LOADER,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -992,6 +996,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
   },
+  // feature-libs/product-configurator/rulebased/components/config/message-config.ts
+  {
+    node: MESSAGE_CONFIG,
+    importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
+  },
   // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
   {
     node: CART_ITEM_CONTEXT,
@@ -1003,6 +1013,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_ITEM_CONTEXT_SOURCE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
+  },
+  // projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts
+  {
+    node: EXTERNAL_JS_FILE_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
   },
 ];
 
