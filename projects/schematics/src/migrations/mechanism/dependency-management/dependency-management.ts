@@ -13,8 +13,8 @@ import {
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
 import {
+  CORE_SPARTACUS_SCOPES,
   createDependencies,
-  FEATURES_LIBS_SKIP_SCOPES,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -24,16 +24,20 @@ export function migrateDependencies(
   removedDependencies: string[]
 ): Rule {
   const packageJson = readPackageJson(tree);
-  const installedSpartacusLibs = collectSpartacusLibraryDependencies(
-    packageJson
-  );
+  const {
+    spartacusPeerDeps,
+    installedLibs,
+  } = collectSpartacusLibraryDependencies(packageJson);
+  const allSpartacusDeps = installedLibs.concat(spartacusPeerDeps);
+
   const dependencies = createSpartacusLibraryDependencies(
-    installedSpartacusLibs
+    allSpartacusDeps,
+    installedLibs
   );
 
   checkAndLogRemovedDependencies(
     packageJson,
-    installedSpartacusLibs,
+    allSpartacusDeps,
     removedDependencies,
     context.logger
   );
@@ -44,18 +48,62 @@ export function migrateDependencies(
   ]);
 }
 
-function collectSpartacusLibraryDependencies(packageJson: any): string[] {
+function collectSpartacusLibraryDependencies(
+  packageJson: any
+): { installedLibs: string[]; spartacusPeerDeps: string[] } {
   const dependencies =
     (packageJson.dependencies as Record<string, string>) ?? {};
-  return Object.keys(dependencies).filter((d) => d.startsWith(SPARTACUS_SCOPE));
+  const installedLibs = Object.keys(dependencies).filter((dep) =>
+    dep.startsWith(SPARTACUS_SCOPE)
+  );
+  const nonCoreLibs = installedLibs.filter(
+    (lib) => !CORE_SPARTACUS_SCOPES.includes(lib)
+  );
+
+  let spartacusPeerDeps: string[] = [];
+  for (const spartacusLib of nonCoreLibs) {
+    spartacusPeerDeps = collectSpartacusPeerDeps(
+      spartacusPeerDeps,
+      spartacusLib
+    );
+  }
+
+  // remove the duplicates
+  spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
+  return {
+    installedLibs,
+    spartacusPeerDeps,
+  };
+}
+
+function collectSpartacusPeerDeps(
+  collectedDeps: string[],
+  name: string
+): string[] {
+  const peerDepsWithVersions = (collectedDependencies as Record<
+    string,
+    Record<string, string>
+  >)[name];
+  const peerDeps = Object.keys(peerDepsWithVersions)
+    .filter((d) => d.startsWith(SPARTACUS_SCOPE))
+    .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
+    .filter((d) => !collectedDeps.includes(d));
+
+  collectedDeps = collectedDeps.concat(peerDeps);
+  for (const peerDep of peerDeps) {
+    collectedDeps = collectSpartacusPeerDeps(collectedDeps, peerDep);
+  }
+
+  return collectedDeps;
 }
 
 function createSpartacusLibraryDependencies(
-  installedSpartacusLibs: string[]
+  allSpartacusLibraries: string[],
+  skipScopes: string[]
 ): NodeDependency[] {
   const dependenciesToAdd: NodeDependency[] = [];
 
-  for (const libraryName of installedSpartacusLibs) {
+  for (const libraryName of allSpartacusLibraries) {
     const spartacusLibrary = (collectedDependencies as Record<
       string,
       Record<string, string>
@@ -63,7 +111,7 @@ function createSpartacusLibraryDependencies(
 
     dependenciesToAdd.push(
       ...createDependencies(spartacusLibrary, {
-        skipScopes: FEATURES_LIBS_SKIP_SCOPES,
+        skipScopes,
         overwrite: true,
       })
     );

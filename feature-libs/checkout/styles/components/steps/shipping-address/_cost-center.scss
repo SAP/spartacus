@@ -1,0 +1,16 @@
+%cx-cost-center {
+  @include checkout-media-style();
+  padding-top: 2.375rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 4px;
+    border-color: var(--cx-color-light);
+  }
+}

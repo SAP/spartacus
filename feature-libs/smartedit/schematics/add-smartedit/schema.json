@@ -20,6 +20,16 @@
       "type": "array",
       "uniqueItems": true,
       "default": ["SmartEdit"]
+    },
+    "storefrontPreviewRoute": {
+      "type": "string",
+      "description": "The storefront preview route. (e.g. cx-preview)",
+      "x-prompt": "[SmartEdit] What is the storefront preview route? (optional)"
+    },
+    "allowOrigin": {
+      "type": "string",
+      "description": "The URL for which to allow origin. (e.g. localhost:9002)",
+      "x-prompt": "[SmartEdit] URL for which to allow origin? (optional)"
     }
   },
   "required": []
