@@ -65,7 +65,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
                 {
                   \\"type\\": \\"initial\\",
                   \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"1mb\\"
+                  \\"maximumError\\": \\"2.5mb\\"
                 },
                 {
                   \\"type\\": \\"anyComponentStyle\\",

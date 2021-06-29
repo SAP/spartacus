@@ -102,7 +102,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
                 {
                   \\"type\\": \\"initial\\",
                   \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"1mb\\"
+                  \\"maximumError\\": \\"2.5mb\\"
                 },
                 {
                   \\"type\\": \\"anyComponentStyle\\",
@@ -275,7 +275,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
                 {
                   \\"type\\": \\"initial\\",
                   \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"1mb\\"
+                  \\"maximumError\\": \\"2.5mb\\"
                 },
                 {
                   \\"type\\": \\"anyComponentStyle\\",

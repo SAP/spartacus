@@ -102,7 +102,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
                 {
                   \\"type\\": \\"initial\\",
                   \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"1mb\\"
+                  \\"maximumError\\": \\"2.5mb\\"
                 },
                 {
                   \\"type\\": \\"anyComponentStyle\\",
