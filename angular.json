@@ -104,6 +104,14 @@
               "buildOptimizer": true,
               "serviceWorker": false,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -119,7 +127,8 @@
             "development": {
               "browserTarget": "storefrontapp:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
