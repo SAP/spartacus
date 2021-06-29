@@ -86,6 +86,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.resetSavedCartStates();
+
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.isDisableDeleteButton$ = merge(
@@ -224,9 +226,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
           this.close('Successfully restored saved cart');
           this.routingService.go({ cxRoute: 'savedCarts' });
 
-          this.savedCartService.clearCloneSavedCart();
-          this.savedCartService.clearSaveCart();
-          this.savedCartService.clearRestoreSavedCart();
+          this.resetSavedCartStates();
 
           break;
         }
@@ -258,6 +258,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   protected patchData(item?: any): void {
     this.form.patchValue({ ...item });
+  }
+
+  private resetSavedCartStates(): void {
+    this.savedCartService.clearCloneSavedCart();
+    this.savedCartService.clearSaveCart();
+    this.savedCartService.clearRestoreSavedCart();
   }
 
   ngOnDestroy(): void {

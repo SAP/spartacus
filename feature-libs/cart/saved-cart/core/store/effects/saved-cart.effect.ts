@@ -243,6 +243,7 @@ export class SavedCartEffects {
     | SavedCartActions.CloneSavedCartSuccess
     | SavedCartActions.CloneSavedCart
     | SavedCartActions.RestoreSavedCart
+    | SavedCartActions.LoadSavedCarts
   > = this.actions$.pipe(
     ofType(SavedCartActions.CLONE_SAVED_CART),
     map((action: SavedCartActions.CloneSavedCart) => action.payload),
@@ -258,6 +259,7 @@ export class SavedCartEffects {
               userId,
               cartId,
             }),
+            new SavedCartActions.LoadSavedCarts({ userId }),
           ];
         }),
         catchError((error: HttpErrorResponse) =>

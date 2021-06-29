@@ -323,11 +323,15 @@ describe('SavedCart Effects', () => {
         userId: mockUserId,
         cartId: mockCartId,
       });
+      const completion3 = new SavedCartActions.LoadSavedCarts({
+        userId: mockUserId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
+        d: completion3,
       });
 
       expect(effects.cloneSavedCart$).toBeObservable(expected);
