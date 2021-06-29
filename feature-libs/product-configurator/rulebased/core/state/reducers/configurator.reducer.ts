@@ -261,21 +261,22 @@ function updateValuePrice(
         );
         if (value) {
           console.log('found value code: ' + value.valueCode);
-          /**
-          console.log(
-            'writable: ' +
+          if (value?.valuePrice) {
+            /**
+            console.log(
+              'writable: ' +
               Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
-          );
-           */
-          value.valuePrice = valueSupplement?.priceValue;
+            );
+             */
+            value.valuePrice = valueSupplement?.priceValue;
+          } else {
+            const newValue = {
+              ...value,
+              valuePrice: valueSupplement?.priceValue,
+            };
+            value = newValue;
+          }
 
-          /**
-           const newValue = {
-            ...value,
-            valuePrice: valueSupplement?.priceValue,
-          };
-          value = newValue;
-           */
           console.log(value);
         }
       });
