@@ -7,6 +7,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
+import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { ANGULAR_HTTP, SPARTACUS_ROUTING_MODULE } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -32,8 +33,10 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
+  getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
+  getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
@@ -42,7 +45,6 @@ import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
-import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 
 function installStyles(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
@@ -156,7 +158,59 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-export function prepareDependencies(): NodeDependency[] {
+function increaseBudgets(): Rule {
+  return (tree: Tree): Tree => {
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const configurations = build?.configurations;
+    const productionConfiguration = configurations?.production;
+    const productionBudgets = (((productionConfiguration as any).budgets ??
+      []) as {
+      type: string;
+      maximumError: string;
+    }[]).map((budget) => {
+      if (budget.type === 'initial') {
+        return {
+          ...budget,
+          maximumError: '2.5mb',
+        };
+      }
+      return budget;
+    });
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              configurations: {
+                ...configurations,
+                production: {
+                  ...productionConfiguration,
+                  budgets: productionBudgets,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+    return tree;
+  };
+}
+
+function prepareDependencies(): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
   return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
@@ -247,6 +301,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
+      increaseBudgets(),
 
       addSpartacusFeatures(options),
     ])(tree, context);

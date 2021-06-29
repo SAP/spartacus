@@ -17,7 +17,7 @@ Object {
         "production": Object {
           "budgets": Array [
             Object {
-              "maximumError": "1mb",
+              "maximumError": "2.5mb",
               "maximumWarning": "500kb",
               "type": "initial",
             },
@@ -122,7 +122,7 @@ Object {
       "production": Object {
         "budgets": Array [
           Object {
-            "maximumError": "1mb",
+            "maximumError": "2.5mb",
             "maximumWarning": "500kb",
             "type": "initial",
           },
