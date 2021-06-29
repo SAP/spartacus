@@ -952,7 +952,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_SERVICE}' was removed, for replacement please look into 4.0 migration documentation.`,
+    comment: `Many methods from '${USER_SERVICE}' were removed, for more details please look into 4.0 migration documentation.`,
   },
   // projects/core/src/model/misc.model.ts
   {
