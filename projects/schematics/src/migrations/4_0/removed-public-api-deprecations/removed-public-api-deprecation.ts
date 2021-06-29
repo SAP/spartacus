@@ -124,7 +124,34 @@ import {
   UPDATE_PASSWORD_MODULE,
   UPDATE_PROFILE_COMPONENT,
   UPDATE_PROFILE_MODULE,
+  USER_ACCOUNT_ADAPTER,
+  USER_ACCOUNT_CONNECTOR,
+  USER_ACCOUNT_NORMALIZER,
+  USER_ACCOUNT_SERIALIZER,
+  USER_ADAPTER,
+  USER_CLOSE_ACCOUNT_ENDPOINT,
   USER_COMPONENT_MODULE,
+  USER_CONNECTOR,
+  USER_FORGOT_PASSWORD_ENDPOINT,
+  USER_NORMALIZER,
+  USER_PROFILE_ADAPTER,
+  USER_PROFILE_CONNECTOR,
+  USER_PROFILE_NORMALIZER,
+  USER_PROFILE_SERIALIZER,
+  USER_RESET_PASSWORD_ENDPOINT,
+  USER_SERIALIZER,
+  USER_SERVICE,
+  USER_UPDATE_LOGIN_ID_ENDPOINT,
+  USER_UPDATE_PASSWORD_ENDPOINT,
+  USER_UPDATE_PROFILE_ENDPOINT,
+  USER_ACTIONS,
+  FORGOT_PASSWORD_EMAIL_ACTION,
+  RESET_PASSWORD_ACTION,
+  EMAIL_ACTIONS,
+  UPDATE_PASSWORD_ACTION,
+  USER_DETAILS_ACTION,
+  USER_DETAILS_STATE_INTERFACE,
+  USER_STATE_INTERFACE,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_COLOR_SELECTOR_MODULE,
   VARIANT_SIZE_SELECTOR_COMPONENT,
@@ -148,6 +175,11 @@ import {
   LOCATION,
   CART_ITEM_CONTEXT_SOURCE,
   EXTERNAL_JS_FILE_LOADER,
+  OCC_USER_ADAPTER,
+  OCC_USER_PROFILE_ADAPTER,
+  OCC_ENDPOINTS,
+  SPARTACUS_USER_ACCOUNT,
+  SPARTACUS_USER_PROFILE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -824,6 +856,60 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: UPDATE_PROFILE_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/occ/adapters/user/occ-user.adapter.ts
+  {
+    node: OCC_USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SERIALIZER}' was removed, instead please use '${USER_SERIALIZER}' from '${OCC_USER_PROFILE_ADAPTER}'.`,
+  },
+  // projects/core/src/occ/occ-models/occ-endpoints.model.ts
+  {
+    node: OCC_ENDPOINTS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following endpoints    '${USER_FORGOT_PASSWORD_ENDPOINT}', '${USER_RESET_PASSWORD_ENDPOINT}', '${USER_UPDATE_LOGIN_ID_ENDPOINT}', '${USER_UPDATE_PASSWORD_ENDPOINT}' , '${USER_UPDATE_PROFILE_ENDPOINT}' , '${USER_CLOSE_ACCOUNT_ENDPOINT}' were removed. For replacement please use following endpoints from '${SPARTACUS_USER_ACCOUNT}' and '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_SERIALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SERIALIZER}' was removed. For replacement please use '${USER_ACCOUNT_SERIALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_SERIALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_NORMALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_NORMALIZER}' was removed. For replacement please use '${USER_ACCOUNT_NORMALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_NORMALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/user.adapter.ts
+  {
+    node: USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `Methods 'update', 'requestForgotPasswordEmail', 'resetPassword', 'updateEmail', 'updatePassword', 'remove' were removed from '${USER_ADAPTER}', please use '${USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/connectors/user/user.connector.ts
+  {
+    node: USER_CONNECTOR,
+    importPath: SPARTACUS_CORE,
+    comment: `Methods 'update', 'requestForgotPasswordEmail', 'resetPassword', 'updateEmail', 'updatePassword', 'remove' were removed from '${USER_CONNECTOR}', please use '${USER_ACCOUNT_CONNECTOR}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_CONNECTOR}' from '${SPARTACUS_USER_PROFILE}'. Also there was slighly change in method logic, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/facade/user.service.ts
+  {
+    node: USER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `Many methods from '${USER_SERVICE}' were removed, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/store/actions/index.ts
+  {
+    node: USER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following actions '${FORGOT_PASSWORD_EMAIL_ACTION}', '${RESET_PASSWORD_ACTION}', '${EMAIL_ACTIONS}', '${UPDATE_PASSWORD_ACTION}', '${USER_DETAILS_ACTION}' were removed. Logic was moved to '${SPARTACUS_USER}'.`,
+  },
+  // projects/core/src/user/store/user-state.ts
+  {
+    node: USER_STATE_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `Property 'resetPassword' were removed from '${USER_DETAILS_STATE_INTERFACE}' interface.`,
   },
   // projects/core/src/routing/store/actions/router.action.ts
   {

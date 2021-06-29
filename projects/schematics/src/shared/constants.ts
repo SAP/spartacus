@@ -726,6 +726,46 @@ export const FORGOTTEN_PASSWORD_TRANSLATION_CHUNK = 'forgottenPassword';
 export const LOGIN_FORM_TRANSLATION_CHUNK = 'loginForm';
 export const REGISTER_TRANSLATION_CHUNK = 'register';
 
+export const OCC_USER_ADAPTER = 'OccUserAdapter';
+export const OCC_USER_ACCOUNT_ADAPTER = 'OccUserAccountAdapter';
+export const OCC_USER_PROFILE_ADAPTER = 'OccUserProfileAdapter';
+export const TITLES_ENDPOINT = 'titles';
+export const USER_ENDPOINT = 'user';
+export const USER_REGISTER_ENDPOINT = 'userRegister';
+export const USER_FORGOT_PASSWORD_ENDPOINT = 'userForgotPassword';
+export const USER_RESET_PASSWORD_ENDPOINT = 'userResetPassword';
+export const USER_UPDATE_LOGIN_ID_ENDPOINT = 'userUpdateLoginId';
+export const USER_UPDATE_PASSWORD_ENDPOINT = 'userUpdatePassword';
+export const USER_UPDATE_PROFILE_ENDPOINT = 'userUpdateProfile';
+export const USER_CLOSE_ACCOUNT_ENDPOINT = 'userCloseAccount';
+export const USER_ACCOUNT_NORMALIZER = 'USER_ACCOUNT_NORMALIZER';
+export const USER_ACCOUNT_SERIALIZER = 'USER_ACCOUNT_SERIALIZER';
+export const USER_PROFILE_NORMALIZER = 'USER_PROFILE_NORMALIZER';
+export const USER_PROFILE_SERIALIZER = 'USER_PROFILE_SERIALIZER';
+export const USER_SERIALIZER = 'USER_SERIALIZER';
+export const USER_NORMALIZER = 'USER_NORMALIZER';
+export const USER_SIGN_UP_SERIALIZER = 'USER_SIGN_UP_SERIALIZER';
+export const TITLE_NORMALIZER = 'TITLE_NORMALIZER';
+export const USER_ADAPTER = 'UserAdapter';
+export const USER_ACCOUNT_ADAPTER = 'UserAccountAdapter';
+export const USER_PROFILE_ADAPTER = 'UserProfileAdapter';
+export const USER_ACCOUNT_CONNECTOR = 'UserAccountConnector';
+export const USER_PROFILE_CONNECTOR = 'UserProfileConnector';
+export const USER_SIGN_UP_INTERFACE = 'UserSignUp';
+export const USER_INTERFACE = 'User';
+export const USER_ACTIONS = 'UserActions';
+export const FORGOT_PASSWORD_EMAIL_ACTION = 'ForgotPasswordEmailRequestAction';
+export const RESET_PASSWORD_ACTION = 'ResetPasswordAction';
+export const EMAIL_ACTIONS = 'EmailActions';
+export const UPDATE_PASSWORD_ACTION = 'UpdatePasswordAction';
+export const USER_DETAILS_ACTION = 'UserDetailsAction';
+export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
+export const USER_STATE_INTERFACE = 'UserState';
+export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
+  'UserProfileFacadeTransitionalToken';
+export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =
+  'UserRegisterFacadeTransitionalToken';
+
 export const CMS_LIB_MODULE = 'CmsLibModule';
 export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';
 export const FORGOT_PASSWORD_MODULE = 'ForgotPasswordModule';
