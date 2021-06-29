@@ -54,7 +54,6 @@ describe('UserRegister effect', () => {
 
     spyOn(userConnector, 'register').and.returnValue(of({}));
     spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
-    spyOn(userConnector, 'remove').and.returnValue(of({}));
   });
 
   describe('registerUser$', () => {
