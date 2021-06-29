@@ -31,6 +31,6 @@ import { SearchBoxComponent } from './search-box.component';
     }),
   ],
   declarations: [SearchBoxComponent, HighlightPipe],
-  exports: [SearchBoxComponent, HighlightPipe],
+  exports: [SearchBoxComponent],
 })
 export class SearchBoxModule {}
