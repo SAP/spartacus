@@ -71,10 +71,15 @@ import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { MEDIA_SERVICE_MIGRATION } from './data/media.service.migration';
+import {
+  MODAL_SERVICE_MIGRATION_V1,
+  MODAL_SERVICE_MIGRATION_V2,
+} from './data/modal.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
+import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import {
@@ -121,7 +126,6 @@ import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migr
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-component.service.migration';
-import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import {
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
@@ -221,6 +225,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_DETAILS_COMPONENT_MIGRATION,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
+  MODAL_SERVICE_MIGRATION_V1,
+  MODAL_SERVICE_MIGRATION_V2,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
 ];

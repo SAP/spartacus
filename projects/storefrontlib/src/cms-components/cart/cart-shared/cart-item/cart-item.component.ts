@@ -52,9 +52,6 @@ export class CartItemComponent implements OnChanges {
       this.cartItemContextSource.quantityControl$.next(this.quantityControl);
     }
     if (changes?.promotionLocation) {
-      this.cartItemContextSource.promotionLocation$.next(
-        this.promotionLocation
-      );
       this.cartItemContextSource.location$.next(this.promotionLocation);
     }
     if (changes?.options) {
