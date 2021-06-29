@@ -86,7 +86,7 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
                 {
                   \\"type\\": \\"initial\\",
                   \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"1mb\\"
+                  \\"maximumError\\": \\"2.5mb\\"
                 },
                 {
                   \\"type\\": \\"anyComponentStyle\\",
