@@ -51,7 +51,6 @@ export const common = {
     ariaLabelInput: 'Search here...',
     ariaLabelSuggestions: 'typing suggestions',
     ariaLabelProducts: 'product results',
-
     initialDescription:
       'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
     suggestionsResult: '{{ count }} suggestion and ',
