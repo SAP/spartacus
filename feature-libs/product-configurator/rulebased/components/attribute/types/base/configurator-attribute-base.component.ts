@@ -39,10 +39,17 @@ export class ConfiguratorAttributeBaseComponent {
     value: string
   ): string {
     return this.createValueUiKey(
-      currentAttribute.uiType,
+      this.getUiType(currentAttribute),
       currentAttribute.name,
       value
     );
+  }
+
+  //TODO CHHI test
+  protected getUiType(attribute: Configurator.Attribute): string {
+    return attribute.uiType
+      ? attribute.uiType
+      : Configurator.UiType.NOT_IMPLEMENTED;
   }
 
   /**
@@ -67,12 +74,10 @@ export class ConfiguratorAttributeBaseComponent {
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
-    if (currentAttribute) {
-      return this.createAttributeUiKey(
-        currentAttribute.uiType,
-        currentAttribute.name
-      );
-    }
+    return this.createAttributeUiKey(
+      this.getUiType(currentAttribute),
+      currentAttribute.name
+    );
   }
 
   /**

@@ -37,12 +37,6 @@ describe('ConfigUIKeyGeneratorService', () => {
     ).toEqual('cx-configurator--label--attributeId');
   });
 
-  it("should return only attribute id for aria-labelledby because value id is 'null'", () => {
-    expect(
-      classUnderTest.createAriaLabelledBy('prefix', 'attributeId', null)
-    ).toEqual('cx-configurator--label--attributeId');
-  });
-
   it('should return attribute id, value id  and without quantity for aria-labelledby', () => {
     expect(
       classUnderTest.createAriaLabelledBy('prefix', 'attributeId', 'valueId')
@@ -58,19 +52,6 @@ describe('ConfigUIKeyGeneratorService', () => {
         'attributeId',
         'valueId',
         undefined
-      )
-    ).toEqual(
-      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
-    );
-  });
-
-  it("should return attribute id, value id  and with quantity equals 'null' for aria-labelledby", () => {
-    expect(
-      classUnderTest.createAriaLabelledBy(
-        'prefix',
-        'attributeId',
-        'valueId',
-        null
       )
     ).toEqual(
       'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
