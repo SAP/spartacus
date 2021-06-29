@@ -1,9 +1,9 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  BasePageMetaResolver,
   BreadcrumbMeta,
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageMetaResolver,
   PageRobotsMeta,
   PageRobotsResolver,
@@ -34,7 +34,11 @@ import {
 })
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver, PageRobotsResolver {
+  implements
+    PageBreadcrumbResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageRobotsResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -49,32 +53,36 @@ export class OrganizationPageMetaResolver
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE = 'organization';
 
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    contentPageMetaResolver: ContentPageMetaResolver,
-    translation: TranslationService,
-    semanticPath: SemanticPathService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
-  constructor(
-    contentPageMetaResolver: ContentPageMetaResolver,
-    translation: TranslationService,
-    semanticPath: SemanticPathService,
-    routingService: RoutingService
-  );
   constructor(
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected routingService: RoutingService
   ) {
     super();
+  }
+
+  resolveTitle(): Observable<string | undefined> {
+    return this.contentPageMetaResolver.resolveTitle();
+  }
+
+  resolveDescription(): Observable<string | undefined> {
+    return this.contentPageMetaResolver.resolveDescription();
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.contentPageMetaResolver.resolveRobots();
+  }
+
+  /**
+   * Returns list of breadcrumbs for:
+   * - the home page
+   * - the organization home page
+   * - the organization's child pages (i.e. cost center list)
+   * - sub-routes of the organization's child pages (i.e. cost center details, edit cost center, ...)
+   */
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+    return this.breadcrumbs$;
   }
 
   /**
@@ -105,43 +113,12 @@ export class OrganizationPageMetaResolver
    */
   protected breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
     this.organizationPageBreadcrumb$,
-    defer(
-      // TODO(#10467): Remove usage of contentPageMetaResolver
-      () =>
-        (
-          this.basePageMetaResolver ?? this.contentPageMetaResolver
-        ).resolveBreadcrumbs()
-    ),
+    defer(() => this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(([organizationPageBreadcrumb, breadcrumbs]) => {
+    map(([organizationPageBreadcrumb, breadcrumbs = []]) => {
       const [home, ...restBreadcrumbs] = breadcrumbs;
       return [home, ...organizationPageBreadcrumb, ...restBreadcrumbs];
     }),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  /**
-   * Returns list of breadcrumbs for:
-   * - the home page
-   * - the organization home page
-   * - the organization's child pages (i.e. cost center list)
-   * - sub-routes of the organization's child pages (i.e. cost center details, edit cost center, ...)
-   */
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
-    return this.breadcrumbs$;
-  }
-
-  resolveTitle(): Observable<string> {
-    // TODO(#10467): Remove usage of contentPageMetaResolver
-    return (
-      this.basePageMetaResolver ?? this.contentPageMetaResolver
-    ).resolveTitle();
-  }
-
-  resolveRobots(): Observable<PageRobotsMeta[]> {
-    // TODO(#10467): Remove usage of contentPageMetaResolver
-    return (
-      this.basePageMetaResolver ?? this.contentPageMetaResolver
-    ).resolveRobots();
-  }
 }

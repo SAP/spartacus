@@ -1,5 +1,5 @@
 import { experimental } from '@angular-devkit/core';
-import { italic, red } from '@angular-devkit/core/src/terminal';
+import { italic } from '@angular-devkit/core/src/terminal';
 import {
   chain,
   noop,
@@ -8,64 +8,33 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
-import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
+import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import {
   ANGULAR_HTTP,
-  ANGULAR_OAUTH2_OIDC,
-  CLI_ASM_FEATURE,
-  CLI_CART_FEATURE,
-  CLI_ORGANIZATION_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
-  CLI_PRODUCT_FEATURE,
-  CLI_QUALTRICS_FEATURE,
-  CLI_SMARTEDIT_FEATURE,
-  CLI_STOREFINDER_FEATURE,
-  CLI_TRACKING_FEATURE,
-  DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-  DEFAULT_NGRX_VERSION,
-  NGRX_EFFECTS,
-  NGRX_ROUTER_STORE,
-  NGRX_STORE,
-  SPARTACUS_ASM,
-  SPARTACUS_ASSETS,
-  SPARTACUS_CART,
   SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
-  SPARTACUS_ORGANIZATION,
-  SPARTACUS_PRODUCT,
-  SPARTACUS_PRODUCT_CONFIGURATOR,
-  SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SETUP,
-  SPARTACUS_SMARTEDIT,
-  SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
-  SPARTACUS_TRACKING,
-  SPARTACUS_USER,
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
-  createNodePackageInstallationTask,
-  shouldAddFeature,
+  addSchematicsTasks,
+  createSpartacusFeatureOptionsForLibrary,
+  LibraryOptions,
+  prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
 import {
   addModuleImport,
   ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
-  getAngularVersion,
+  getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
-  getSpartacusSchematicsVersion,
+  mapPackageToNodeDependencies,
+  prepare3rdPartyDependencies,
+  prepareSpartacusDependencies,
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -82,8 +51,8 @@ import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
 function installStyles(options: SpartacusOptions): Rule {
-  return (host: Tree): void => {
-    const project = getProjectFromWorkspace(host, options);
+  return (tree: Tree, context: SchematicContext): void => {
+    const project = getProjectFromWorkspace(tree, options);
     const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
     const styleFilePath =
       typeof rootStyles === 'object'
@@ -91,35 +60,36 @@ function installStyles(options: SpartacusOptions): Rule {
         : rootStyles;
 
     if (!styleFilePath) {
-      console.warn(
-        red(`Could not find the default style file for this project.`)
+      context.logger.warn(
+        `Could not find the default style file for this project.`
       );
-      console.warn(red(`Please consider manually setting up spartacus styles`));
+      context.logger.warn(
+        `Please consider manually setting up spartacus styles`
+      );
       return;
     }
 
     if (styleFilePath.split('.').pop() !== 'scss') {
-      console.warn(
-        red(`Could not find the default SCSS style file for this project. `)
+      context.logger.warn(
+        `Could not find the default SCSS style file for this project. `
       );
-      console.warn(
-        red(
-          `Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`
-        )
+      context.logger.warn(
+        `Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`
       );
       return;
     }
 
-    const buffer = host.read(styleFilePath);
+    const buffer = tree.read(styleFilePath);
 
     if (!buffer) {
-      console.warn(
-        red(
-          `Could not read the default style file within the project ` +
-            `(${italic(styleFilePath)})`
-        )
+      context.logger.warn(
+        `Could not read the default style file within the project ${italic(
+          styleFilePath
+        )}`
       );
-      console.warn(red(`Please consider manually importing spartacus styles.`));
+      context.logger.warn(
+        `Please consider manually importing spartacus styles.`
+      );
       return;
     }
 
@@ -134,10 +104,10 @@ function installStyles(options: SpartacusOptions): Rule {
       return;
     }
 
-    const recorder = host.beginUpdate(styleFilePath);
+    const recorder = tree.beginUpdate(styleFilePath);
 
     recorder.insertLeft(htmlContent.length, insertion);
-    host.commitUpdate(recorder);
+    tree.commitUpdate(recorder);
   };
 }
 
@@ -145,12 +115,12 @@ function updateMainComponent(
   project: experimental.workspace.WorkspaceProject,
   options: SpartacusOptions
 ): Rule {
-  return (host: Tree, _context: SchematicContext): Tree | void => {
+  return (host: Tree, context: SchematicContext): Tree | void => {
     const filePath = project.sourceRoot + '/app/app.component.html';
     const buffer = host.read(filePath);
 
     if (!buffer) {
-      console.warn(red(`Could not read app.component.html file.`));
+      context.logger.warn(`Could not read app.component.html file.`);
       return;
     }
 
@@ -194,98 +164,9 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(
-  tree: Tree,
-  options: SpartacusOptions
-): NodeDependency[] {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const angularVersion = getAngularVersion(tree);
-
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_CORE,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STOREFRONTLIB,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASSETS,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STYLES,
-    },
-
-    {
-      type: NodeDependencyType.Default,
-      version: '^7.0.0',
-      name: '@ng-bootstrap/ng-bootstrap',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: '^5.0.0',
-      name: '@ng-select/ng-select',
-    },
-
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_STORE,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_EFFECTS,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_ROUTER_STORE,
-    },
-
-    {
-      type: NodeDependencyType.Default,
-      version: '4.3.1',
-      name: 'bootstrap',
-    },
-    { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
-    {
-      type: NodeDependencyType.Default,
-      version: '^3.2.2',
-      name: 'i18next-xhr-backend',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: angularVersion,
-      name: '@angular/service-worker',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: '^8.0.0',
-      name: 'ngx-infinite-scroll',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-      name: ANGULAR_OAUTH2_OIDC,
-    },
-  ];
-  if (options.configuration === 'b2b') {
-    dependencies.push({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    });
-  }
-
-  return dependencies;
+export function prepareDependencies(): NodeDependency[] {
+  const spartacusDependencies = prepareSpartacusDependencies();
+  return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
 
 function updateAppModule(project: string): Rule {
@@ -323,12 +204,34 @@ function updateAppModule(project: string): Rule {
   };
 }
 
+function addSpartacusFeatures(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const cliFeatures = prepareCliPackageAndSubFeature(options.features ?? []);
+    const libraryOptions: LibraryOptions = {
+      project: options.project,
+      lazy: options.lazy,
+    };
+    const featureOptions = createSpartacusFeatureOptionsForLibrary(
+      libraryOptions,
+      cliFeatures
+    );
+    addSchematicsTasks(featureOptions, context);
+
+    const packageJson = readPackageJson(tree);
+    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+    const dependencies = Object.keys(cliFeatures).map((feature) =>
+      mapPackageToNodeDependencies(feature, spartacusVersion)
+    );
+    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
+  };
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(tree, options)),
+      addPackageJsonDependencies(prepareDependencies()),
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
@@ -370,83 +273,4 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addSpartacusFeatures(options),
     ])(tree, context);
   };
-}
-
-function addSpartacusFeatures(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const features = prepareSpartacusFeatures(options);
-    const rule = installSpartacusFeatures(features)(tree, context);
-
-    addSchematicsTasks(features, context);
-
-    return rule;
-  };
-}
-
-function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
-  return [
-    ...(shouldAddFeature(CLI_ASM_FEATURE, options.features)
-      ? [SPARTACUS_ASM]
-      : []),
-    ...(shouldAddFeature(CLI_CART_FEATURE, options.features)
-      ? [SPARTACUS_CART]
-      : []),
-    ...(shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
-      ? [SPARTACUS_ORGANIZATION]
-      : []),
-    ...(shouldAddFeature(CLI_PRODUCT_FEATURE, options.features)
-      ? [SPARTACUS_PRODUCT]
-      : []),
-    ...(shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_FEATURE, options.features)
-      ? [SPARTACUS_PRODUCT_CONFIGURATOR]
-      : []),
-    ...(shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
-      ? [SPARTACUS_QUALTRICS]
-      : []),
-    ...(shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
-      ? [SPARTACUS_SMARTEDIT]
-      : []),
-    ...(shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
-      ? [SPARTACUS_STOREFINDER]
-      : []),
-    ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
-      ? [SPARTACUS_TRACKING]
-      : []),
-    SPARTACUS_USER,
-  ];
-}
-
-function installSpartacusFeatures(features: string[]): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const dependencies: NodeDependency[] = features.map((collectionName) => ({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: collectionName,
-    }));
-
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
-  };
-}
-
-function addSchematicsTasks(
-  features: string[],
-  context: SchematicContext
-): void {
-  const installationTaskId = createNodePackageInstallationTask(context);
-
-  features.forEach((collectionName) => {
-    const runSchematicTaskOptions: RunSchematicTaskOptions<unknown> = {
-      collection: collectionName,
-      name: 'add',
-      // we don't delegate any options to the lib's schematics, for now.
-      options: {},
-    };
-
-    context.addTask(
-      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
-      [installationTaskId]
-    );
-  });
 }

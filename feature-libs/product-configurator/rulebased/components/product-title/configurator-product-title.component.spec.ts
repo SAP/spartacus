@@ -1,9 +1,11 @@
-import { Component, Input, Type } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Product,
   ProductService,
@@ -13,11 +15,15 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -36,23 +42,40 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
+
   productCode: PRODUCT_CODE,
 };
 
 const orderEntryconfig: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  },
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      PRODUCT_CODE
+    )
+  ),
   overview: {
     productCode: PRODUCT_CODE,
   },
+};
+
+const orderEntryconfigWoOverview: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
+    key: ConfiguratorModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      PRODUCT_CODE
+    ),
+    configuratorType: ConfiguratorType.VARIANT,
+  }),
 };
 
 const imageURL = 'some URL';
@@ -114,20 +137,39 @@ export class MockIconFontLoaderService {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container: any;
+  @Input() format: any;
 }
 
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          NgSelectModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [
+          ConfiguratorProductTitleComponent,
+          MockCxIconComponent,
+          MockMediaComponent,
+        ],
         providers: [
           {
             provide: Router,
@@ -146,12 +188,19 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockProductService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '3.3' },
+            },
+          },
         ],
       });
     })
   );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -169,16 +218,24 @@ describe('ConfigProductTitleComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product name as part of product of configuration', () => {
-    component.product$.subscribe((data: Product) => {
-      expect(data.name).toEqual(PRODUCT_NAME);
+  describe('product$', () => {
+    it('should get product name as part of product of configuration', () => {
+      component.product$.subscribe((data: Product) => {
+        expect(data.name).toEqual(PRODUCT_NAME);
+      });
     });
-  });
 
-  it('should get product name as part of product of overview configuration', () => {
-    configuration = orderEntryconfig;
-    component.product$.subscribe((data: Product) => {
-      expect(data.name).toEqual(PRODUCT_NAME);
+    it('should get product name as part of product from overview, in case configuration is order bound', () => {
+      configuration = orderEntryconfig;
+      component.product$.subscribe((data: Product) => {
+        expect(data.name).toEqual(PRODUCT_NAME);
+      });
+    });
+
+    it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
+      configuration = orderEntryconfigWoOverview;
+      const expected = cold('|');
+      expect(component.product$).toBeObservable(expected);
     });
   });
 
@@ -210,7 +267,7 @@ describe('ConfigProductTitleComponent', () => {
 
   it('should render show more case - default', () => {
     component.triggerDetails();
-    fixture.detectChanges();
+    changeDetectorRef.detectChanges();
 
     expect(component.showMore).toBe(true);
     CommonConfiguratorTestUtilsService.expectElementPresent(

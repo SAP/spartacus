@@ -1,8 +1,13 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
+import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
-export const CONFIGURATOR_TYPE = 'cpqconfigurator';
+export const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 export const CONFIG_ID = '1234-56-7890';
 
 export const GROUP_ID_1 = '1234-56-7891';
@@ -49,13 +54,15 @@ const groupsWithoutIssues: Configurator.Group = {
   subGroups: [],
 };
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
 };
@@ -214,12 +221,12 @@ export const productConfiguration: Configurator.Configuration = {
     { id: GROUP_ID_7 },
     { id: GROUP_ID_10 },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    configuratorType: CONFIGURATOR_TYPE,
-  },
-  nextOwner: {},
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE,
+    CONFIGURATOR_TYPE
+  ),
+  nextOwner: ConfiguratorModelUtils.createInitialOwner(),
   interactionState: {
     currentGroup: GROUP_ID_2,
     menuParentGroup: GROUP_ID_3,
@@ -502,6 +509,8 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
+    key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+    configuratorType: ConfiguratorType.VARIANT,
   },
   interactionState: {
     currentGroup: GROUP_ID_2,

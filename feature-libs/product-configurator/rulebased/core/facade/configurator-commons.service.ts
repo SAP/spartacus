@@ -113,8 +113,12 @@ export class ConfiguratorCommonsService {
    */
   updateConfiguration(
     ownerKey: string,
-    changedAttribute: Configurator.Attribute
+    changedAttribute: Configurator.Attribute,
+    updateType?: Configurator.UpdateType
   ): void {
+    if (!updateType) {
+      updateType = Configurator.UpdateType.ATTRIBUTE;
+    }
     // in case cart updates pending: Do nothing, because an addToCart might
     // be in progress. Can happen if on slow networks addToCart was hit and
     // afterwards an attribute was changed before the OV navigation has
@@ -146,7 +150,8 @@ export class ConfiguratorCommonsService {
           new ConfiguratorActions.UpdateConfiguration(
             this.configuratorUtils.createConfigurationExtract(
               changedAttribute,
-              configuration
+              configuration,
+              updateType
             )
           )
         );

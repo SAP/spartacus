@@ -46,13 +46,13 @@ function prepare_install {
 
     printh "Installing installation script npm required packages"
 
-    npm i -g verdaccio
+    npm i -g verdaccio@4
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
-    ng config -g cli.packageManager yarn     
+    ng config -g cli.packageManager yarn
 
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
@@ -77,7 +77,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i '' -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
@@ -96,47 +96,58 @@ function create_shell_app {
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false # Cart currently only contains b2b feature (saved cart)
     fi
+}
+
+function add_cdc {
+  if [ "$ADD_CDC" = true ] ; then
+        ng add @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_product_configurator {
+    local FEATURES=(--features="Textfield-Configurator");
+
+    if [ "$ADD_CPQ" = true ] ; then
+        FEATURES+=(--features="CPQ-Configurator");
+    fi
+
+    ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
-  ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/smartedit@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/asm@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="Tag Management System - Google Tag Manager" --features="Tag Management System - Adobe Experience Platform Launch"
-  ng add @spartacus/product@${SPARTACUS_VERSION} --interactive false
+  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -206,6 +217,9 @@ function install_from_sources {
 
     printh "Creating cds npm package"
     ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating cdc npm package"
+    ( cd ${CLONE_DIR}/dist/cdc && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating setup npm package"
     ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
