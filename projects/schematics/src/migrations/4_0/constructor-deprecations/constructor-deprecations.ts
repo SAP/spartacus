@@ -123,10 +123,14 @@ import {
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
-import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-component.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-component.service.migration';
+import {
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
+} from './data/tab-paragraph-container.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -225,6 +229,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   MODAL_SERVICE_MIGRATION_V1,
   MODAL_SERVICE_MIGRATION_V2,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
 ];
 
 export function migrate(): Rule {
