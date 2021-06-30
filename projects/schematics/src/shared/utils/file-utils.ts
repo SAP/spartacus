@@ -6,25 +6,25 @@ import {
   findNodes,
   getSourceNodes,
   insertImport,
-  isImported
+  isImported,
 } from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
   NoopChange,
   RemoveChange,
-  ReplaceChange
+  ReplaceChange,
 } from '@schematics/angular/utility/change';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   INJECT_DECORATOR,
   TODO_SPARTACUS,
-  UTF_8
+  UTF_8,
 } from '../constants';
 import {
   getAngularJsonFile,
-  getDefaultProjectNameFromWorkspace
+  getDefaultProjectNameFromWorkspace,
 } from './workspace-utils';
 
 export enum InsertDirection {
@@ -451,7 +451,7 @@ function checkConstructorParameters(
           protected cartStore: Store<StateWithMultiCart>,
           protected store: Store<StateWithConfigurator>, 
           protected configuratorUtilsService: ConfiguratorUtilsService
-        ) {}    */     
+        ) {}    */
         break;
       }
     }
