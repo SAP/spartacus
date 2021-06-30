@@ -42,12 +42,11 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
-export const SPARTACUS_CHECKOUT_ASSETS = '@spartacus/checkout/assets';
-export const SPARTACUS_CHECKOUT_COMPONENTS = '@spartacus/checkout/components';
-export const SPARTACUS_CHECKOUT_CORE = '@spartacus/checkout/core';
-export const SPARTACUS_CHECKOUT_OCC = '@spartacus/checkout/occ';
-export const SPARTACUS_CHECKOUT_ROOT = '@spartacus/checkout/root';
-
+export const SPARTACUS_CHECKOUT_ASSETS = `${SPARTACUS_CHECKOUT}/assets`;
+export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
+export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
+export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
+export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
 export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
@@ -156,6 +155,7 @@ export const ORGANIZATION_PAGE_META_RESOLVER = 'OrganizationPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CLEAR_CHECKOUT_FACADE = 'ClearCheckoutFacade';
 export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
 export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
@@ -486,6 +486,9 @@ export const FORM$ = 'form$';
 
 export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
 export const SCRIPT_LOADER = 'ScriptLoader';
+
+export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
+export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 
 /***** Classes end *****/
 
@@ -962,6 +965,7 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
+export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 
 /***** APIs end *****/

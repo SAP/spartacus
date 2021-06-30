@@ -31,115 +31,6 @@ import {
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
-const expectedProject = {
-  architect: {
-    build: {
-      builder: '@angular-devkit/build-angular:browser',
-      configurations: {
-        production: {
-          budgets: [
-            {
-              maximumError: '5mb',
-              maximumWarning: '2mb',
-              type: 'initial',
-            },
-            {
-              maximumError: '10kb',
-              maximumWarning: '6kb',
-              type: 'anyComponentStyle',
-            },
-          ],
-          buildOptimizer: true,
-          extractCss: true,
-          extractLicenses: true,
-          fileReplacements: [
-            {
-              replace: 'src/environments/environment.ts',
-              with: 'src/environments/environment.prod.ts',
-            },
-          ],
-          namedChunks: false,
-          optimization: true,
-          outputHashing: 'all',
-          sourceMap: false,
-          vendorChunk: false,
-        },
-      },
-      options: {
-        aot: true,
-        assets: ['src/favicon.ico', 'src/assets'],
-        index: 'src/index.html',
-        main: 'src/main.ts',
-        outputPath: 'dist/schematics-test',
-        polyfills: 'src/polyfills.ts',
-        scripts: [],
-        styles: ['src/styles.scss'],
-        tsConfig: 'tsconfig.app.json',
-      },
-    },
-    e2e: {
-      builder: '@angular-devkit/build-angular:protractor',
-      configurations: {
-        production: {
-          devServerTarget: 'schematics-test:serve:production',
-        },
-      },
-      options: {
-        devServerTarget: 'schematics-test:serve',
-        protractorConfig: 'e2e/protractor.conf.js',
-      },
-    },
-    'extract-i18n': {
-      builder: '@angular-devkit/build-angular:extract-i18n',
-      options: {
-        browserTarget: 'schematics-test:build',
-      },
-    },
-    lint: {
-      builder: '@angular-devkit/build-angular:tslint',
-      options: {
-        exclude: ['**/node_modules/**'],
-        tsConfig: [
-          'tsconfig.app.json',
-          'tsconfig.spec.json',
-          'e2e/tsconfig.json',
-        ],
-      },
-    },
-    serve: {
-      builder: '@angular-devkit/build-angular:dev-server',
-      configurations: {
-        production: {
-          browserTarget: 'schematics-test:build:production',
-        },
-      },
-      options: {
-        browserTarget: 'schematics-test:build',
-      },
-    },
-    test: {
-      builder: '@angular-devkit/build-angular:karma',
-      options: {
-        assets: ['src/favicon.ico', 'src/assets'],
-        karmaConfig: 'karma.conf.js',
-        main: 'src/test.ts',
-        polyfills: 'src/polyfills.ts',
-        scripts: [],
-        styles: ['src/styles.scss'],
-        tsConfig: 'tsconfig.spec.json',
-      },
-    },
-  },
-  prefix: 'app',
-  projectType: 'application',
-  root: '',
-  schematics: {
-    '@schematics/angular:component': {
-      style: 'scss',
-    },
-  },
-  sourceRoot: 'src',
-};
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
@@ -260,7 +151,7 @@ describe('Workspace utils', () => {
       const projectTargets = getProjectTargets(
         getProjectFromWorkspace(appTree, defaultOptions)
       );
-      expect(projectTargets).toEqual(expectedProject.architect);
+      expect(projectTargets).toMatchSnapshot();
     });
 
     it('should throw an error if not found', () => {
@@ -269,6 +160,7 @@ describe('Workspace utils', () => {
           projectType: ProjectType.Application,
           root: 'root',
           prefix: 'prefix',
+          sourceRoot: '',
         })
       ).toThrowError(new Error('Project target not found.'));
     });
@@ -281,6 +173,7 @@ describe('Workspace utils', () => {
         projectType: ProjectType.Application,
         root: 'foo',
         prefix: 'app',
+        sourceRoot: '',
       };
     });
 
@@ -305,7 +198,7 @@ describe('Workspace utils', () => {
   describe('getProject', () => {
     it('should return project', () => {
       const project = getProject(appTree, 'schematics-test');
-      expect(project).toEqual(expectedProject);
+      expect(project).toMatchSnapshot();
     });
 
     it('should return undefined for unknown name', () => {

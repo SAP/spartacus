@@ -116,6 +116,17 @@ title: Changes to Styles in 4.0
 - `width` set to 60% on `%cx-configurator-overview-attribute` for `cx-attribute-label` selector to use only 60% of the width for the small widgets.
 - `font-weight` set to 600 on `%cx-configurator-overview-attribute` for `cx-attribute-value` to make the attribute values bold
 
+## Changes in Product Configurator Card Component
+
+- `.cx-card-title` class added (a11y)
+- `.deselection-error-message` class added
+- `display` set to inline-block on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to prevent line break in the deselection error message 
+- `width` set to 80% on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to set the element's box size and prevent line break
+- `flex-wrap` set to wrap on `%cx-configurator-attribute-product-card` for `.cx-product-card-selected` to align the deselection error to the desired position
+- `padding-top` set to 5px  on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to create space between value description and the error message 
+- `color` set to var(--cx-color-danger) on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to signal the message as error message
+- `padding-right` set to 5px on `%cx-configurator-attribute-product-card` for `.deselection-error-message-symbol` to create space between the message and the 'error' icon
+
 ## Change in Cart Item Component
 
 - `h2` added under `.cx-name` to account for the change in markup template for improved screen reader support (a11y)
@@ -140,9 +151,6 @@ title: Changes to Styles in 4.0
 
 - `h5` changed to `span` under `.flyout`, `@include media-breakpoint-down(md)`, `nav` and `nav >` to account for the change in markup template for improved screen reader support (a11y)
 
-## Changes in Card Component 
-
-- `.cx-card-title` class added (a11y)
 
 ## Changes in Carousel Component
 
