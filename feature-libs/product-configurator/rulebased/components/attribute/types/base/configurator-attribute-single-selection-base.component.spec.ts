@@ -73,7 +73,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     component = fixture.componentInstance;
 
     component.attribute = {
-      name: name,
+      name: 'testAttribute',
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       selectedSingleValue: selectedValue,
