@@ -1,4 +1,3 @@
-import { SPARTACUS_CHECKOUT_ROOT } from 'feature-libs/checkout/schematics/constants';
 import {
   ACTIVE_CART_SERVICE,
   CHECKOUT_FACADE,
@@ -6,11 +5,12 @@ import {
   CONFIGURATOR_CART_SERVICE,
   CONFIGURATOR_UTILS_SERVICE,
   NGRX_STORE,
+  SPARTACUS_CHECKOUT_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   STORE,
-  USER_ID_SERVICE
+  USER_ID_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
