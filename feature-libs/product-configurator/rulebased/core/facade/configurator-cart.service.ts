@@ -21,12 +21,12 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(   
+    protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutFacade: CheckoutFacade,
     protected userIdService: UserIdService,
-    protected configuratorUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfigurator>,
+    protected configuratorUtilsService: ConfiguratorUtilsService,    
   ) {}
 
   /**

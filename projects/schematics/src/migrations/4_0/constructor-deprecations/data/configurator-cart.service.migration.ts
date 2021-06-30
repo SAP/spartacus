@@ -31,18 +31,13 @@ export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   removeParams: [
     {
-      className: STORE,
-      importPath: NGRX_STORE,
-    },
+      className: STORE,      
+    }, 
   ],  
   addParams: [
     {
       className: CONFIGURATOR_UTILS_SERVICE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-    },
-    {
-      className: STORE,
-      importPath: NGRX_STORE,
-    },    
+    },  
   ],
 };
