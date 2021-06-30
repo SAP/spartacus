@@ -30,11 +30,6 @@ export function migrateDependencies(
   } = collectSpartacusLibraryDependencies(packageJson);
   const allSpartacusDeps = installedLibs.concat(spartacusPeerDeps);
 
-  const dependencies = createSpartacusLibraryDependencies(
-    allSpartacusDeps,
-    installedLibs
-  );
-
   checkAndLogRemovedDependencies(
     packageJson,
     allSpartacusDeps,
@@ -42,6 +37,10 @@ export function migrateDependencies(
     context.logger
   );
 
+  const dependencies = createSpartacusLibraryDependencies(
+    allSpartacusDeps,
+    installedLibs
+  );
   return chain([
     addPackageJsonDependencies(dependencies),
     installPackageJsonDependencies(),
@@ -109,12 +108,21 @@ function createSpartacusLibraryDependencies(
       Record<string, string>
     >)[libraryName];
 
-    dependenciesToAdd.push(
-      ...createDependencies(spartacusLibrary, {
-        skipScopes,
-        overwrite: true,
-      })
-    );
+    const newDependencies = createDependencies(spartacusLibrary, {
+      skipScopes,
+      overwrite: true,
+    });
+
+    // ensure no duplicates are created
+    newDependencies.forEach((newDependency) => {
+      if (
+        !dependenciesToAdd.some(
+          (existingDependency) => existingDependency.name === newDependency.name
+        )
+      ) {
+        dependenciesToAdd.push(newDependency);
+      }
+    });
   }
 
   return dependenciesToAdd;
