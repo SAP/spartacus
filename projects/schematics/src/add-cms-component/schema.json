@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SpartacusSchematics",
+  "$id": "SpartacusSchematics",
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
