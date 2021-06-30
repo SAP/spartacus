@@ -9,6 +9,10 @@ export abstract class PageMetaConfig {
   pageMeta?: PageMetaResolversConfig;
 }
 
+declare module '../../../config/config-tokens' {
+  interface Config extends PageMetaConfig {}
+}
+
 export interface PageMetaResolversConfig {
   resolvers?: PageMetaResolverConfig[];
 

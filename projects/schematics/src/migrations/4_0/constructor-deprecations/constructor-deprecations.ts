@@ -42,14 +42,19 @@ import {
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
 } from './data/cms-components.service.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
+import { CONFIGURATION_SERVICE_MIGRATION } from './data/configuration.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-input-field.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
 import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
 import { CONFIGURATOR_FORM_COMPONENT_MIGRATION } from './data/configurator-form.component.migration';
+import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator-group-menu.component.migration';
 import { CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION } from './data/configurator-issues-notification.component.migration';
 import { CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION } from './data/configurator-storefront-utils.service.migration';
+import { CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION } from './data/configurator-update-message.component.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V1,
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V2,
@@ -67,6 +72,11 @@ import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-ev
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
+import { MEDIA_SERVICE_MIGRATION } from './data/media.service.migration';
+import {
+  MODAL_SERVICE_MIGRATION_V1,
+  MODAL_SERVICE_MIGRATION_V2,
+} from './data/modal.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -108,6 +118,10 @@ import { STORE_FINDER_LIST_COMPONENT_MIGRATION } from './data/store-finder-list.
 import { STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION } from './data/store-finder-store-description.component.migration';
 import { STORE_FINDER_SERVICE_MIGRATION } from './data/store-finder.service.migration';
 import {
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
+} from './data/tab-paragraph-container.component.migration';
+import {
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
 } from './data/toggle-status.component.migration';
@@ -120,6 +134,8 @@ import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
+  CONFIGURATION_SERVICE_MIGRATION,
+  MEDIA_SERVICE_MIGRATION,
   UNIT_CHILDREN_COMPONENT_MIGRATION,
   UNIT_COST_CENTERS_COMPONENT_MIGRATION,
   UNIT_USER_LIST_COMPONENT_MIGRATION,
@@ -179,9 +195,13 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   WINDOW_REF_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_INPUT_FIELD_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
+  CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
   CONFIGURATOR_FORM_COMPONENT_MIGRATION,
+  CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
@@ -209,6 +229,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_DETAILS_COMPONENT_MIGRATION,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   EXPRESS_CHECKOUT_SERVICE_MIGRATION,
+  MODAL_SERVICE_MIGRATION_V1,
+  MODAL_SERVICE_MIGRATION_V2,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
 ];
 
 export function migrate(): Rule {
