@@ -1,6 +1,10 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import {
+  NavigationBehaviorOptions,
+  NavigationExtras,
+  Router,
+} from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
@@ -121,7 +125,7 @@ export class RoutingService {
    * @returns Promise that resolves to `true` when navigation succeeds,
    *          to `false` when navigation fails, or is rejected on error.
    */
-  goByUrl(url: string, extras?: NavigationExtras): Promise<boolean> {
+  goByUrl(url: string, extras?: NavigationBehaviorOptions): Promise<boolean> {
     return this.router.navigateByUrl(url, extras);
   }
 
