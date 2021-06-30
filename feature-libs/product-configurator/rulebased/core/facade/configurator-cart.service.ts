@@ -4,13 +4,11 @@ import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   OCC_USER_ID_CURRENT,
-  StateUtils,
-  StateWithMultiCart,
-  UserIdService,
+  StateUtils, UserIdService
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
+  CommonConfiguratorUtilsService
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
@@ -22,14 +20,13 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
-  constructor(
-    protected cartStore: Store<StateWithMultiCart>,
-    protected store: Store<StateWithConfigurator>,
+  constructor(   
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutFacade: CheckoutFacade,
     protected userIdService: UserIdService,
-    protected configuratorUtilsService: ConfiguratorUtilsService
+    protected configuratorUtilsService: ConfiguratorUtilsService,
+    protected store: Store<StateWithConfigurator>,
   ) {}
 
   /**
