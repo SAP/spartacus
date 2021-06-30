@@ -34,6 +34,7 @@ import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
+import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
 import { CHECKOUT_EVENT_MODULE_MIGRATION } from './data/checkout-event.module.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
 import {
@@ -223,6 +224,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
+  CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
   UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION,
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_DETAILS_COMPONENT_MIGRATION,
