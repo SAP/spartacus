@@ -19,6 +19,7 @@ import {
   EXPRESS_CHECKOUT_SERVICE,
   PERMISSION_ROUTING_CONFIG,
   SPARTACUS_CHECKOUT_COMPONENTS,
+  SPARTACUS_CHECKOUT_OCC,
   SPARTACUS_CHECKOUT_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
@@ -380,6 +381,47 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'ExpressCheckoutService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  // projects/core/src/occ/adapters/checkout/*
+  {
+    previousNode: 'CheckoutOccModule',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutCostCenterAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutDeliveryAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutPaymentTypeAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutPaymentAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutReplenishmentOrderAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccCheckoutAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  {
+    previousNode: 'OccReplenishmentOrderFormSerializer',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OCC,
   },
 ];
 
