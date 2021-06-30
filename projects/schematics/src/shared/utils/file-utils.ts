@@ -672,7 +672,10 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    if (constructorParameter.getText().includes(classType.className)) {
+    // constructor parameter text is e.g. of form 'utilsService: UtilsService'
+    // we don't want to find occurences like otherParam: OtherUtilsService, 
+    // therefore we add blank before the class name
+    if (constructorParameter.getText().includes(' ' + classType.className)) {
       const paramVariableNode = constructorParameter
         .getChildren()
         .find((node) => node.kind === ts.SyntaxKind.Identifier);
