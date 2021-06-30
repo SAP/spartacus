@@ -4,6 +4,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
+import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
 export const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
@@ -52,14 +53,38 @@ const groupsWithoutIssues: Configurator.Group = {
   ],
   subGroups: [],
 };
+
+export const subGroupWith2Attributes: Configurator.Group = {
+  id: GROUP_ID_4,
+  configurable: true,
+  subGroups: [],
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [
+    {
+      name: 'ATTRIBUTE_5_STRING',
+      uiType: Configurator.UiType.STRING,
+      required: true,
+      incomplete: false,
+    },
+    {
+      name: 'ATTRIBUTE_5_DROPDOWN',
+      uiType: Configurator.UiType.DROPDOWN,
+      required: true,
+      incomplete: true,
+    },
+  ],
+};
+
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
 };
@@ -82,7 +107,6 @@ export const productConfiguration: Configurator.Configuration = {
       ],
       subGroups: [],
     },
-
     {
       id: GROUP_ID_2,
       configurable: true,
@@ -107,28 +131,7 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-      subGroups: [
-        {
-          id: GROUP_ID_4,
-          configurable: true,
-          subGroups: [],
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          attributes: [
-            {
-              name: 'ATTRIBUTE_5_STRING',
-              uiType: Configurator.UiType.STRING,
-              required: true,
-              incomplete: false,
-            },
-            {
-              name: 'ATTRIBUTE_5_DROPDOWN',
-              uiType: Configurator.UiType.DROPDOWN,
-              required: true,
-              incomplete: true,
-            },
-          ],
-        },
-      ],
+      subGroups: [subGroupWith2Attributes],
     },
     {
       id: GROUP_ID_5,
@@ -212,11 +215,11 @@ export const productConfiguration: Configurator.Configuration = {
         },
       ],
     },
-    { id: GROUP_ID_2 },
-    { id: GROUP_ID_4 },
-    { id: GROUP_ID_6 },
-    { id: GROUP_ID_7 },
-    { id: GROUP_ID_10 },
+    ConfiguratorTestUtils.createGroup(GROUP_ID_2),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_4),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_6),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_7),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_10),
   ],
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
@@ -231,6 +234,7 @@ export const productConfiguration: Configurator.Configuration = {
     issueNavigationDone: true,
   },
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: '1',

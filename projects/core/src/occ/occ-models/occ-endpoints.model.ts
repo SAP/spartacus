@@ -189,6 +189,16 @@ export interface OccEndpoints {
   // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdatePassword?: string | OccEndpoint;
   /**
+   * Update the user's profile
+   */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  userUpdateProfile?: string | OccEndpoint;
+  /**
+   * Close user account
+   */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  userCloseAccount?: string | OccEndpoint;
+  /**
    * Payment details root endpoint.
    *
    * @member {string}
@@ -329,12 +339,6 @@ export interface OccEndpoints {
    */
   consignmentTracking?: string | OccEndpoint;
   /**
-   * Endpoint for asm customer search
-   *
-   * @member {string}
-   */
-  asmCustomerSearch?: string | OccEndpoint;
-  /**
    * Endpoint for cart voucher
    *
    * @member {string}
@@ -397,14 +401,6 @@ export interface OccEndpoints {
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for set delivery address to cart
-   */
-  setDeliveryAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for place order
-   */
-  placeOrder?: string | OccEndpoint;
-  /**
    * Endpoint to schedule a replenishment order
    *
    * * @member {string}
@@ -439,15 +435,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
-  /**
-   * Endpoint for getting all base sites for the site context configuration
-   *
-   * @deprecated since 3.2
-   *
-   * @member {string}
-   */
-  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
-  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}

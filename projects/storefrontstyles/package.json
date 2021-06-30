@@ -16,7 +16,7 @@
   "devDependencies": {},
   "peerDependencies": {
     "@ng-select/ng-select": "^5.0.9",
-    "bootstrap": "^4.0"
+    "bootstrap": "^4.3.1"
   },
   "publishConfig": {
     "access": "public"

@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-md-12 col-lg-6">
+    <label>
+      <span class="label-content">{{
+        'checkoutPO.poNumber' | cxTranslate
+      }}</span>
+      <input
+        #poNumber
+        class="form-control"
+        formControlName="poNumber"
+        type="text"
+        placeholder="{{ 'checkoutPO.placeholder' | cxTranslate }}"
+        value="{{ cartPoNumber$ | async }}"
+      />
+    </label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-lg-6">
+    <ng-container
+      *ngIf="
+        (paymentTypes$ | async)?.length && typeSelected$ | async;
+        else loading
+      "
+    >
+      <label class="cx-payment-type-container">
+        <span class="label-content">{{
+          'paymentTypes.title' | cxTranslate
+        }}</span>
+        <div class="form-check" *ngFor="let type of paymentTypes$ | async">
+          <input
+            id="paymentType-{{ type.code }}"
+            class="form-check-input"
+            role="radio"
+            type="radio"
+            aria-checked="true"
+            (change)="changeType(type.code)"
+            [value]="type.code"
+            [checked]="type.code == typeSelected"
+            formControlName="paymentType"
+          />
+          <label
+            class="cx-payment-type-label form-check-label form-radio-label"
+            for="paymentType-{{ type.code }}"
+          >
+            <div class="cx-payment-type">
+              {{ 'paymentTypes.paymentType_' + type?.code | cxTranslate }}
+            </div>
+          </label>
+        </div>
+      </label>
+    </ng-container>
+  </div>
+</div>
+
+<div class="cx-checkout-btns row">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ 'checkout.backToCart' | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-primary" (click)="next()">
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

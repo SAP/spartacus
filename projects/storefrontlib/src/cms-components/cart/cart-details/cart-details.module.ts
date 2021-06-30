@@ -8,9 +8,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
-import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 @NgModule({
@@ -35,6 +35,5 @@ import { CartDetailsComponent } from './cart-details.component';
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent],
 })
 export class CartDetailsModule {}

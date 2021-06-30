@@ -11,3 +11,7 @@ export abstract class NavigationUiConfig {
    */
   resetMenuOnClose?: boolean;
 }
+
+declare module '@spartacus/core' {
+  interface Config extends NavigationUiConfig {}
+}

@@ -18,7 +18,6 @@ import { defaultCategoryNavigationConfig } from '../navigation/config/navigation
     provideDefaultConfig(defaultCategoryNavigationConfig),
   ],
   declarations: [CategoryNavigationComponent],
-  entryComponents: [CategoryNavigationComponent],
   exports: [CategoryNavigationComponent],
 })
 export class CategoryNavigationModule {}

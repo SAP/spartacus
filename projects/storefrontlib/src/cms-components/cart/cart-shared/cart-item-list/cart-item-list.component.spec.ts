@@ -15,7 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../../checkout';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
@@ -41,23 +41,32 @@ class MockMultiCartService implements Partial<MultiCartService> {
   removeEntry(_userId: string, _cartId: string, _entryNumber: number): void {}
 }
 
-const mockItems: OrderEntry[] = [
-  {
-    quantity: 1,
-    entryNumber: 0,
-    product: {
-      code: 'PR0000',
-    },
-    updateable: true,
+const mockItem0 = {
+  quantity: 1,
+  entryNumber: 0,
+  product: {
+    code: 'PR0000',
   },
-  {
-    quantity: 5,
-    entryNumber: 1,
-    product: {
-      code: 'PR0001',
-    },
+  updateable: true,
+};
+const mockItem1 = {
+  quantity: 5,
+  entryNumber: 1,
+  product: {
+    code: 'PR0001',
   },
-];
+  updateable: true,
+};
+const mockItems: OrderEntry[] = [mockItem0, mockItem1];
+
+const nonUpdatableItem = {
+  quantity: 1,
+  entryNumber: 0,
+  product: {
+    code: 'PR0000',
+  },
+  updateable: false,
+};
 
 const mockConsignmentItems: ConsignmentEntry[] = [
   {
@@ -138,7 +147,7 @@ describe('CartItemListComponent', () => {
     multiCartService = TestBed.inject(MultiCartService);
 
     component = fixture.componentInstance;
-    component.items = mockItems;
+    component.items = [mockItem0, mockItem1];
     component.options = { isSaveForLater: false };
 
     spyOn(activeCartService, 'updateEntry').and.callThrough();
@@ -179,14 +188,12 @@ describe('CartItemListComponent', () => {
   });
 
   it('should return disabled form group when updatable is false', () => {
-    const item = mockItems[0];
-    item.updateable = false;
-    component.items = mockItems;
+    component.items = [nonUpdatableItem, mockItem1];
     fixture.detectChanges();
 
     let result: FormGroup;
     component
-      .getControl(item)
+      .getControl(nonUpdatableItem)
       .subscribe((control) => {
         result = control;
       })
@@ -197,6 +204,7 @@ describe('CartItemListComponent', () => {
 
   it('should return disabled form group when readonly is true', () => {
     component.readonly = true;
+    component.items = [mockItem0, mockItem1];
     fixture.detectChanges();
     const item = mockItems[0];
     let result: FormGroup;

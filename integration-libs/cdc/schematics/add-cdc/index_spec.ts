@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,9 +12,13 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_CDC_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
+  LibraryOptions,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
+  SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_USER,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -44,7 +49,6 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -63,7 +67,21 @@ describe('Spartacus CDC schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      path.join(
+        __dirname,
+        '../../../../projects/schematics/src/collection.json'
+      )
+    );
+    schematicRunner.registerCollection(
+      SPARTACUS_ASM,
+      require.resolve('../../../../feature-libs/asm/schematics/collection.json')
+    );
+    schematicRunner.registerCollection(
+      SPARTACUS_USER,
+      path.join(
+        __dirname,
+        '../../../../feature-libs/user/schematics/collection.json'
+      )
     );
 
     appTree = await schematicRunner
@@ -134,6 +152,38 @@ describe('Spartacus CDC schematics: ng-add', () => {
           expect(expectedDependency).toBeTruthy();
           // expect(expectedDependency).toEqual(expectedVersion);
         }
+      });
+
+      it('should run the proper installation tasks', async () => {
+        const tasks = schematicRunner.tasks
+          .filter((task) => task.name === 'run-schematic')
+          .map(
+            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
+          );
+        expect(tasks.length).toEqual(3);
+
+        const asmTask = tasks[0];
+        expect(asmTask).toBeTruthy();
+        expect(asmTask.name).toEqual('add-spartacus-library');
+        expect(asmTask.options).toHaveProperty('collection', SPARTACUS_ASM);
+        expect(asmTask.options.options?.features).toEqual([]);
+
+        const userTask = tasks[1];
+        expect(userTask).toBeTruthy();
+        expect(userTask.name).toEqual('add-spartacus-library');
+        expect(userTask.options).toHaveProperty('collection', SPARTACUS_USER);
+        expect(userTask.options.options?.features).toEqual([]);
+
+        const userTaskWithSubFeatures = tasks[2];
+        expect(userTaskWithSubFeatures).toBeTruthy();
+        expect(userTaskWithSubFeatures.name).toEqual('add-spartacus-library');
+        expect(userTaskWithSubFeatures.options).toHaveProperty(
+          'collection',
+          SPARTACUS_USER
+        );
+        expect(userTaskWithSubFeatures.options.options?.features).toEqual([
+          CLI_USER_PROFILE_FEATURE,
+        ]);
       });
 
       it('should add the feature using the lazy loading syntax', async () => {

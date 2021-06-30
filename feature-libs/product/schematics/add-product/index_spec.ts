@@ -10,13 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const bulkPricingModulePath =
@@ -47,7 +48,6 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -60,12 +60,12 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   const bulkPricingOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_BULK_PRICING_FEATURE],
+    features: [CLI_PRODUCT_BULK_PRICING_FEATURE],
   };
 
   const variantsOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_VARIANTS_FEATURE],
+    features: [CLI_PRODUCT_VARIANTS_FEATURE],
   };
 
   beforeEach(async () => {

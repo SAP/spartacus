@@ -6,7 +6,7 @@ export namespace CommonConfigurator {
     /**
      * Type of the owner, can be product or document related
      */
-    type?: OwnerType;
+    type: OwnerType;
     /**
      * Specifies an owner uniquely, is used as key in the configuration store
      */
@@ -15,7 +15,7 @@ export namespace CommonConfigurator {
      * Business identifier of the owner.
      * Can be a product code, a cart entry number, or an order code with order entry number
      */
-    id?: string;
+    id: string;
     /**
      * Configurator type. Derived from the cxRoute
      */
