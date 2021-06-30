@@ -6,7 +6,6 @@ import {
   CLEAR_CHECKOUT_FACADE,
   EXPRESS_CHECKOUT_SERVICE,
   SPARTACUS_CHECKOUT_COMPONENTS,
-  SPARTACUS_CHECKOUT_CORE,
   SPARTACUS_CHECKOUT_ROOT,
   SPARTACUS_CORE,
   USER_ADDRESS_SERVICE,
@@ -17,7 +16,7 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: ConstructorDeprecation = {
   // feature-libs/checkout/components/services/express-checkout.service.ts
   class: EXPRESS_CHECKOUT_SERVICE,
-  importPath: SPARTACUS_CHECKOUT_CORE,
+  importPath: SPARTACUS_CHECKOUT_COMPONENTS,
   deprecatedParams: [
     {
       className: USER_ADDRESS_SERVICE,
