@@ -9,10 +9,34 @@ describe('B2B - Inventory Display', () => {
     });
 
     describe('Check inventory display', () => {
-      it('should render product availablity stock', () => {
-        visitProduct(sampleData.PRODUCT_ID);
+      it('should render number of available stock', () => {
+        visitProduct(sampleData.IN_STOCK_WITH_QUANT_PRODUCT);
         const valueSelector = 'cx-add-to-cart .info';
-        cy.get(valueSelector).contains(sampleData.expectedLabel);
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          const regex = "[0-9]* " + sampleData.stockLabel;
+          const match = text.match(regex); // returns null if not match
+          expect(match).not.to.be.empty;
+        });
+      });
+
+      it('should render out of stock', () => {
+        visitProduct(sampleData.OUT_OF_STOCK_PRODUCT);
+        const valueSelector = 'cx-add-to-cart .info';
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          assert.equal(text, sampleData.outStockLabel);
+        });
+      });
+
+      it('should render In stock when quantity information unavailable', () => {
+        visitProduct(sampleData.IN_STOCK_WITH_NO_QUANT_PRODUCT);
+        const valueSelector = 'cx-add-to-cart .info';
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          assert.equal(text, sampleData.stockLabel);
+        });
       });
     });
   });
