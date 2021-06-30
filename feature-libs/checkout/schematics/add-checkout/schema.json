@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "CheckoutSchematics",
+  "$id": "CheckoutSchematics",
   "title": "Checkout Schematics",
   "type": "object",
   "properties": {
