@@ -15,7 +15,7 @@ describe('B2B - Inventory Display', () => {
 
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
-          const regex = "[0-9]* " + sampleData.stockLabel;
+          const regex = '[0-9]* ' + sampleData.stockLabel;
           const match = text.match(regex); // returns null if not match
           expect(match).not.to.be.empty;
         });
