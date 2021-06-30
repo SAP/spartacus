@@ -3,9 +3,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'cxDate' })
 export class MockDatePipe extends DatePipe implements PipeTransform {
+  transform(value: any, ...args: any[]): any;
   // Overload to support stricter type check from angular 11 onwards
-  transform(value: null | undefined, args?: string): null;
-  transform(value: any, format?: string, timezone?: string): string | null {
-    return super.transform(value, format, timezone, 'en');
+  transform(
+    value: Date | string | number | null | undefined,
+    format?: string,
+    timezone?: string,
+    locale = 'en'
+  ): string | null {
+    return super.transform(value, format, timezone, locale);
   }
 }
