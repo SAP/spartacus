@@ -186,4 +186,13 @@ title: Changes to Styles in 4.0
 
 ## Changes in `buttons.scss` Changes 
 
-- `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 
+- `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accommodate for theme changes. 
+
+## Changes in `_searchbox.scss` Changes 
+
+- `cx-icon.reset` is changed to `button.reset`
+- `.dirty cx-icon.search` is changed to `.dirty div.search` 
+- `:not(.dirty) cx-icon.reset` is changed to `:not(.dirty) button.reset` 
+- `cx-icon` is changed to `button, div.search` and `cursor: pointer`  is removed.
+- `.reset` is changed to `.reset cx-icon`
+- `h4.name` is changed to `div.name`
