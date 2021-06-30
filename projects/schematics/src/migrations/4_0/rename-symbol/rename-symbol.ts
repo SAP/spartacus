@@ -176,6 +176,12 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
   },
   // projects/storefrontlib/src/cms-components/checkout/*
   {
+    previousNode: 'CheckoutComponentModule',
+    newNode: 'CheckoutComponentsModule',
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+  },
+  {
     previousNode: 'CheckoutOrchestratorComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,

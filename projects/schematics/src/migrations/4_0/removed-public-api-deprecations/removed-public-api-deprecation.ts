@@ -888,12 +888,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
   },
-  // projects/storefrontlib/src/cms-components/checkout/checkout.module.ts
-  {
-    node: 'CheckoutComponentModdule',
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `CheckoutComponentModdule was and renamed to CheckoutComponentsModule and was moved to ${SPARTACUS_CHECKOUT_COMPONENTS}.  The new module is, not exactly the same as the previous one, but the new one should essentially be a superset of the previous one.`,
-  },
 ];
 
 export function migrate(): Rule {
