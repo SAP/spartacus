@@ -5,7 +5,7 @@ import {
   distinctUntilKeyChanged,
   filter,
   switchMap,
-  take,
+  take
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -59,6 +59,7 @@ export class ConfiguratorOverviewFormComponent {
    * @returns {boolean} - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
+    //TODO CHHI fix
     if (!(configuration?.overview?.groups?.length > 0)) {
       return false;
     }

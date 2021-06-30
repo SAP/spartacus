@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CommonConfigurator,
-  ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorService
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) => {
+        //TODO CHHI fix
         this.configuratorGroupsService.navigateToGroup(configuration, groupId);
         this.focusFirstAttribute();
       });

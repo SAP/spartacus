@@ -4,7 +4,7 @@
 
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
+  ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
@@ -21,6 +21,7 @@ export class ConfiguratorTestUtils {
     Object.freeze(productConfiguration.interactionState);
     Object.freeze(productConfiguration.owner);
     Object.freeze(productConfiguration.nextOwner);
+    //TODO CHHI fix
     this.freezeOverview(productConfiguration.overview);
     this.freezePriceSummary(productConfiguration.priceSummary);
     productConfiguration.flatGroups?.forEach((group) =>

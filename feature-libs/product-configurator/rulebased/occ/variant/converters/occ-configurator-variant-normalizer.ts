@@ -158,6 +158,7 @@ export class OccConfiguratorVariantNormalizer
     }
 
     const value: Configurator.Value = {
+      //TODO CHHI fix
       valueCode: occValue.key,
       valueDisplay: occValue.langDepName,
       name: occValue.name,
