@@ -1,5 +1,3 @@
-import { AssertionError } from 'assert';
-
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
@@ -295,9 +293,9 @@ export function selectAttribute(
         });
       break;
     default:
-      throw new AssertionError({
-        message: `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`,
-      });
+      throw new Error(
+        `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`
+      );
   }
 
   checkUpdatingMessageNotDisplayed();

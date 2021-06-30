@@ -94,10 +94,10 @@ describe('RoutingService', () => {
   describe('goByUrl', () => {
     it('should return Promise for the Angular navigation', () => {
       const navigationPromise = Promise.resolve(true);
-      const queryParams = { test: true };
+      const extras = { skipLocationChange: true };
       spyOn(router, 'navigateByUrl').and.returnValue(navigationPromise);
-      const result = service.goByUrl('url', { queryParams });
-      expect(router.navigateByUrl).toHaveBeenCalledWith('url', { queryParams });
+      const result = service.goByUrl('url', extras);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('url', extras);
       expect(result).toBe(navigationPromise);
     });
   });
