@@ -12,6 +12,11 @@ It can also:
 - Install spartacus in production mode
 - Install Spartacus in SSR mode
 
+## Preparing setup
+- Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
+- Run it: `$ verdaccio` in one terminal
+- Create an npm user in another terminal (when verdaccio is running): `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
+
 ## How to install
 
 Checkout and pull the latest maintenance branch corresponding to the version being released. For example for new `next` release it's `develop` but for `2.1.x` patch release it's `release/2.1.x`.
