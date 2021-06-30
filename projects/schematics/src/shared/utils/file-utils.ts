@@ -6,25 +6,25 @@ import {
   findNodes,
   getSourceNodes,
   insertImport,
-  isImported,
+  isImported
 } from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
   NoopChange,
   RemoveChange,
-  ReplaceChange,
+  ReplaceChange
 } from '@schematics/angular/utility/change';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   INJECT_DECORATOR,
   TODO_SPARTACUS,
-  UTF_8,
+  UTF_8
 } from '../constants';
 import {
   getAngularJsonFile,
-  getDefaultProjectNameFromWorkspace,
+  getDefaultProjectNameFromWorkspace
 } from './workspace-utils';
 
 export enum InsertDirection {
@@ -445,7 +445,7 @@ function checkConstructorParameters(
       if (constructorParameterType.length !== 0) {
         foundClassTypes.push(parameterClassType);
         /*  
-        the break is needed to cope with multiple paremeters of one type,
+        the break is needed to cope with multiple parameters of one type,
         e.g. constructor migrations for 
        constructor(
           protected cartStore: Store<StateWithMultiCart>,
