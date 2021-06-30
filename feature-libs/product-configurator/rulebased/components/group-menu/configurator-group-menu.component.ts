@@ -3,20 +3,20 @@ import {
   Component,
   ElementRef,
   QueryList,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
 import {
   ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorService
 } from '@spartacus/product-configurator/common';
 import {
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
-  ICON_TYPE,
+  ICON_TYPE
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -75,7 +75,7 @@ export class ConfiguratorGroupMenuComponent {
         ? this.getCondensedParentGroup(parentGroup)
         : of(parentGroup);
     }),
-    tap((g) => console.log('CHHI displayedParentGroup: ' + g?.id))
+   
   );
 
   displayedGroups$: Observable<
@@ -134,6 +134,7 @@ export class ConfiguratorGroupMenuComponent {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
+        
         //we only navigate up if we are not on a sub level group
         if (displayedParentGroup) {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
@@ -337,13 +338,13 @@ export class ConfiguratorGroupMenuComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {string} groupIndex - Group index
-   * @param {Configurator.Group} group - Group
+   * @param {Configurator.Group} targetGroup - Target group
    * @param {Configurator.Group} currentGroup - Current group
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
-    group: Configurator.Group,
+    targetGroup: Configurator.Group,
     currentGroup: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
@@ -353,9 +354,9 @@ export class ConfiguratorGroupMenuComponent {
         this.groups
       );
     } else if (this.isForwardsNavigation(event)) {
-      if (group && this.hasSubGroups(group)) {
-        this.click(group);
-        this.setFocusForSubGroup(group, currentGroup?.id);
+      if (targetGroup && this.hasSubGroups(targetGroup)) {
+        this.click(targetGroup);
+        this.setFocusForSubGroup(targetGroup, currentGroup?.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
