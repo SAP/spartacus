@@ -132,6 +132,23 @@ describe('ConfigUtilsService', () => {
     } else fail();
   });
 
+  it('should gracefully handle situation that control array has values not present in attribute', () => {
+    const controlArray = new Array<FormControl>();
+    const control1 = new FormControl(true);
+    const control2 = new FormControl(false);
+    controlArray.push(control1, control2);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+      values: [{ name: 'blue', valueCode: 'a' }],
+    };
+
+    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
+      controlArray,
+      attribute
+    );
+    expect(values.length).toBe(1);
+  });
+
   describe('focusFirstAttribute', () => {
     it('should delegate to focus service', () => {
       const theElement = document.createElement('form');

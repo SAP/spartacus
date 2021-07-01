@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -63,8 +63,13 @@ export class ConfiguratorStorefrontUtilsService {
         localAttributeValue.selected = controlArray[i].value;
 
         localAssembledValues.push(localAttributeValue);
+      } else {
+        if (isDevMode()) {
+          console.warn(
+            'ControlArray does not match values, at least one value could not been found'
+          );
+        }
       }
-      //TODO CHHI what else?
     }
     return localAssembledValues;
   }
