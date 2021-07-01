@@ -2,6 +2,7 @@ import { Rule, Tree } from '@angular-devkit/schematics';
 import {
   ASM_ADAPTER,
   ASM_AUTH_HTTP_HEADER_SERVICE,
+  ASM_AUTH_SERVICE,
   ASM_AUTH_STORAGE_SERVICE,
   ASM_CONFIG,
   ASM_CONNECTOR,
@@ -224,6 +225,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: 'AsmComponentsModule',
     newImportPath: `${SPARTACUS_ASM}/components`,
+  },
+  // projects/core/src/asm/asm.module.ts
+  {
+    previousNode: ASM_MODULE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/core`,
   },
   // projects/core/src/asm/config/asm-config.ts
   {
@@ -452,6 +459,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: GET_ASM_STATE,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
+  },
+  // projects/core/src/asm/services/asm-auth.service.ts
+  {
+    previousNode: ASM_AUTH_SERVICE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/root`,
   },
   // projects/core/src/personalization/config/personalization-config.ts
   {
