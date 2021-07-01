@@ -12,14 +12,14 @@ import { ReturnRequestListModule } from './return-request-list/order-return-requ
 
 @NgModule({
   imports: [
-    OrderHistoryModule,
-    OrderDetailsModule,
-    ReplenishmentOrderDetailsModule,
     OrderCancellationModule,
+    OrderDetailsModule,
+    OrderHistoryModule,
     OrderReturnModule,
+    ReplenishmentOrderDetailsModule,
     ReplenishmentOrderHistoryModule,
-    ReturnRequestListModule,
     ReturnRequestDetailModule,
+    ReturnRequestListModule,
   ],
 })
 export class OrderModule {}
