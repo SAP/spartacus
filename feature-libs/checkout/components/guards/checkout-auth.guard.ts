@@ -40,21 +40,14 @@ export class CheckoutAuthGuard implements CanActivate {
       filter(([, , _user, isStable]) => isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous
       filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
-      map(
-        ([isLoggedIn, cartUser, user]: [
-          boolean,
-          User,
-          User | B2BUser | undefined,
-          boolean
-        ]) => {
-          if (!isLoggedIn) {
-            return this.handleAnonymousUser(cartUser);
-          } else if (user && 'roles' in user) {
-            return this.handleUserRole(user);
-          }
-          return isLoggedIn;
+      map(([isLoggedIn, cartUser, user]) => {
+        if (!isLoggedIn) {
+          return this.handleAnonymousUser(cartUser);
+        } else if (user && 'roles' in user) {
+          return this.handleUserRole(user);
         }
-      )
+        return isLoggedIn;
+      })
     );
   }
 
