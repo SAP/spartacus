@@ -1,23 +1,32 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ReturnRequestList } from '../../model/order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { OrderReturnRequestService } from './order-return-request.service';
+// import {catchError, map, take} from "rxjs/operators";
+
+const userId$ = new BehaviorSubject(OCC_USER_ID_CURRENT);
 
 class MockUserIdService implements Partial<UserIdService> {
+  getUserId() {
+    return userId$.asObservable();
+  }
   takeUserId() {
     return of(OCC_USER_ID_CURRENT);
   }
 }
 
-describe('OrderReturnRequestService', () => {
+fdescribe('OrderReturnRequestService', () => {
   let orderReturnRequestService: OrderReturnRequestService;
   let userIdService: UserIdService;
   let store: Store<StateWithUser>;
@@ -145,15 +154,21 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should NOT load order return requests list when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.returnValue(throwError('Error'));
+    userId$.next(OCC_USER_ID_ANONYMOUS);
+    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      return throwError('Error');
+    });
 
-    userIdService.takeUserId().subscribe(
-      () => {},
-      () => {
-        orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
-        expect(store.dispatch).not.toHaveBeenCalled();
-      }
-    );
+    orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
+    expect(store.dispatch).not.toHaveBeenCalled();
+
+    // userIdService.takeUserId().pipe(
+    //   take(1),
+    //   catchError((err) => {
+    //     expect(err).toEqual('Error');
+    //     done();
+    //   })
+    // ).subscribe();
   });
 
   it('should be able to clear order return requests list', () => {

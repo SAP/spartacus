@@ -73,18 +73,23 @@ export class CheckoutService implements CheckoutFacade {
       .pipe(take(1))
       .subscribe((activeCartId) => (cartId = activeCartId));
 
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      if (Boolean(cartId) && Boolean(userId)) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.ScheduleReplenishmentOrder({
-            cartId,
-            scheduleReplenishmentForm,
-            termsChecked,
-            userId,
-          })
-        );
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        if (Boolean(cartId) && Boolean(userId)) {
+          this.checkoutStore.dispatch(
+            new CheckoutActions.ScheduleReplenishmentOrder({
+              cartId,
+              scheduleReplenishmentForm,
+              termsChecked,
+              userId,
+            })
+          );
+        }
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**

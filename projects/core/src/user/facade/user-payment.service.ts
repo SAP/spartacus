@@ -22,9 +22,14 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -51,14 +56,19 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.SetDefaultUserPaymentMethod({
-          userId,
-          paymentMethodId,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.SetDefaultUserPaymentMethod({
+            userId,
+            paymentMethodId,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -67,14 +77,19 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.DeleteUserPaymentMethod({
-          userId,
-          paymentMethodId,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.DeleteUserPaymentMethod({
+            userId,
+            paymentMethodId,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**

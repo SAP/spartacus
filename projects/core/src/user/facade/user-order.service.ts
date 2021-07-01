@@ -42,14 +42,19 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadOrderDetails({
-          userId,
-          orderCode,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadOrderDetails({
+            userId,
+            orderCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -92,27 +97,33 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      let replenishmentOrderCode: string;
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        let replenishmentOrderCode: string;
 
-      this.routingService
-        .getRouterState()
-        .pipe(take(1))
-        .subscribe((data) => {
-          replenishmentOrderCode = data?.state?.params?.replenishmentOrderCode;
-        })
-        .unsubscribe();
+        this.routingService
+          .getRouterState()
+          .pipe(take(1))
+          .subscribe((data) => {
+            replenishmentOrderCode =
+              data?.state?.params?.replenishmentOrderCode;
+          })
+          .unsubscribe();
 
-      this.store.dispatch(
-        new UserActions.LoadUserOrders({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-          replenishmentOrderCode,
-        })
-      );
-    });
+        this.store.dispatch(
+          new UserActions.LoadUserOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+            replenishmentOrderCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -135,15 +146,20 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadConsignmentTracking({
-          userId,
-          orderCode,
-          consignmentCode,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadConsignmentTracking({
+            userId,
+            orderCode,
+            consignmentCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -160,15 +176,20 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.CancelOrder({
-          userId,
-          orderCode,
-          cancelRequestInput,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.CancelOrder({
+            userId,
+            orderCode,
+            cancelRequestInput,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**

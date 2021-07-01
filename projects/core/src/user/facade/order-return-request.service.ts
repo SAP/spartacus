@@ -76,14 +76,19 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadOrderReturnRequest({
-          userId,
-          returnRequestCode,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadOrderReturnRequest({
+            userId,
+            returnRequestCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -97,16 +102,21 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadOrderReturnRequestList({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadOrderReturnRequestList({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**

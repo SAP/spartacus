@@ -35,14 +35,19 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   loadReplenishmentOrderDetails(replenishmentOrderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetails({
-          userId,
-          replenishmentOrderCode,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadReplenishmentOrderDetails({
+            userId,
+            replenishmentOrderCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -94,14 +99,19 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   cancelReplenishmentOrder(replenishmentOrderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.CancelReplenishmentOrder({
-          userId,
-          replenishmentOrderCode,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.CancelReplenishmentOrder({
+            userId,
+            replenishmentOrderCode,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
@@ -195,16 +205,21 @@ export class UserReplenishmentOrderService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadUserReplenishmentOrders({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.store.dispatch(
+          new UserActions.LoadUserReplenishmentOrders({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
+    );
   }
 
   /**
