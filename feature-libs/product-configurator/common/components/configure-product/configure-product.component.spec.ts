@@ -50,7 +50,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 let component: ConfigureProductComponent;

@@ -113,4 +113,77 @@ title: Changes to Styles in 4.0
 
 - `width` set to 60% on `%cx-configurator-overview-attribute` for `cx-attribute-label` selector to use only 60% of the width for the small widgets.
 
+- `width` set to 60% on `%cx-configurator-overview-attribute` for `cx-attribute-label` selector to use only 60% of the width for the small widgets.
 - `font-weight` set to 600 on `%cx-configurator-overview-attribute` for `cx-attribute-value` to make the attribute values bold
+
+## Changes in Product Configurator Card Component
+
+- `.cx-card-title` class added (a11y)
+- `.deselection-error-message` class added
+- `display` set to inline-block on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to prevent line break in the deselection error message 
+- `width` set to 80% on `%cx-configurator-attribute-product-card`for `&.deselection-error-message` to set the element's box size and prevent line break
+- `flex-wrap` set to wrap on `%cx-configurator-attribute-product-card` for `.cx-product-card-selected` to align the deselection error to the desired position
+- `padding-top` set to 5px  on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to create space between value description and the error message 
+- `color` set to var(--cx-color-danger) on `%cx-configurator-attribute-product-card` for `.deselection-error-message` to signal the message as error message
+- `padding-right` set to 5px on `%cx-configurator-attribute-product-card` for `.deselection-error-message-symbol` to create space between the message and the 'error' icon
+
+## Change in Cart Item Component
+
+- `h2` added under `.cx-name` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Order Summary Component 
+
+- `h4` changed to `h3` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Review Submit Component
+
+- `type(3)` added `.cx-review-title` class to retain previous style after changes in the markup template
+
+## Changes in `_index.scss` 
+
+- new component `cx-page-header` added to allow list (a11y)
+## Changed in Category Navigation Component 
+
+- `h5` changed to `span` to account for the change in markup template for improved screen reader support (a11y) 
+- `nav.is-open > h5` changed to `li.is-open > span` to remove headings from category navigation for improved categorization in screen reader elements dialog (a11y)
+
+## Changes in Footer Navigation Component 
+
+- `h5` changed to `span` under `.flyout`, `@include media-breakpoint-down(md)`, `nav` and `nav >` to account for the change in markup template for improved screen reader support (a11y)
+
+
+## Changes in Carousel Component
+
+- `h3` changed to `h2` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Product Carousel Component
+
+- `h4` changed to `h3` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Product List Item Component 
+
+- `h2` added to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Wish List Item Component 
+
+- `h2` added to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Checkout Media Style Component 
+
+- `type(3)` and `font-weight` added to retain existing styling after change in markup template for improved screen reader support (a11y)
+
+## Changes in `_index.scss` Changes 
+
+- `_screen-reader.scss` added which will contain screen reader specific styles (a11y)
+
+## Changes in `_screen-reader.scss` Changes 
+
+- `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
+
+## Changes in `_list.scss` Changes 
+
+- `.cx-table td .text` and `.cx-table td a` padding-inline-start removed to align cx-org table items with head labels.
+
+## Changes in `buttons.scss` Changes 
+
+- `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 

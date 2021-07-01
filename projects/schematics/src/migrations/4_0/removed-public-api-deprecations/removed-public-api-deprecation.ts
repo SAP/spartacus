@@ -89,13 +89,21 @@ import {
   RESET_PASSWORD_COMPONENT,
   RESET_PASSWORD_FORM_COMPONENT,
   RESET_PASSWORD_MODULE,
+  ROUTE_BACK_ACTION,
+  ROUTE_FORWARD_ACTION,
+  ROUTE_GO_ACTION,
+  ROUTE_GO_BY_URL_ACTION,
+  ROUTING_ACTIONS,
+  ROUTING_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
   SMART_EDIT_SERVICE,
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_SETUP,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
@@ -103,6 +111,7 @@ import {
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
+  STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
@@ -125,11 +134,56 @@ import {
   VARIANT_STYLE_SELECTOR_COMPONENT,
   VARIANT_STYLE_SELECTOR_MODULE,
   VIEW_CONFIG_MODULE,
+  OCC_CONFIG_LOADER_SERVICE,
+  OCC_LOADED_CONFIG_CONVERTER,
+  OCC_LOADED_CONFIG,
+  OCC_SITES_CONFIG_LOADER,
+  OCC_CONFIG_LOADER_MODULE,
+  SORT_CODE,
+  TABLE_HEADER,
+  MESSAGE_CONFIG,
+  CONFIGURATOR_MESSAGE_CONFIG,
+  CART_ITEM_CONTEXT,
+  PROMOTION_LOCATION$,
+  LOCATION,
+  CART_ITEM_CONTEXT_SOURCE,
+  EXTERNAL_JS_FILE_LOADER,
+  B2C_LAYOUT_CONFIG,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  //projects/core/src/occ/config-loader/occ-config-loader.module.ts
+  {
+    node: OCC_CONFIG_LOADER_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_CONFIG_LOADER_MODULE} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-config-loader.service.ts
+  {
+    node: OCC_CONFIG_LOADER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_CONFIG_LOADER_SERVICE} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-loaded-config-converter.ts
+  {
+    node: OCC_LOADED_CONFIG_CONVERTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_LOADED_CONFIG_CONVERTER} has been removed and is no longer part of the public API.  Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-loaded-config.ts
+  {
+    node: OCC_LOADED_CONFIG,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_LOADED_CONFIG} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
+  //projects/core/src/occ/config-loader/occ-sites-config-loader.ts
+  {
+    node: OCC_SITES_CONFIG_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_SITES_CONFIG_LOADER} has been removed and is no longer part of the public API. Please use 'SiteContextConfigInitializer' and 'I18nConfigInitializer' instead`,
+  },
   // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
   {
     node: QUALTRICS_CONFIG,
@@ -772,6 +826,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
+  // projects/core/src/routing/store/actions/router.action.ts
+  {
+    node: ROUTING_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `The following ngrx '${ROUTING_ACTIONS}' have been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please use instead the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
+  },
   {
     node: 'PageEventModule',
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -786,6 +846,54 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'EventsModule',
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+  },
+  // projects/storefrontlib/src/storefront-config.ts
+  {
+    node: 'StorefrontConfig',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+  },
+  // feature-libs/storefinder/core/facade/store-data.service.ts
+  {
+    node: STORE_DATA_SERVICE,
+    importPath: SPARTACUS_STOREFINDER,
+    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+  },
+  // projects/storefrontlib/src/shared/components/table/table.model.ts
+  {
+    node: TABLE_HEADER,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
+  },
+  // feature-libs/product-configurator/rulebased/components/config/message-config.ts
+  {
+    node: MESSAGE_CONFIG,
+    importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
+  {
+    node: CART_ITEM_CONTEXT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT}', please use '${LOCATION}' instead`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
+  {
+    node: CART_ITEM_CONTEXT_SOURCE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
+  },
+  // projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts
+  {
+    node: EXTERNAL_JS_FILE_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
+  },
+  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  {
+    node: B2C_LAYOUT_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${B2C_LAYOUT_CONFIG}' was removed from '${SPARTACUS_STOREFRONTLIB}', please use corresponding feature-lib specific layout.`,
   },
 ];
 

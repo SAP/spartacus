@@ -1,4 +1,6 @@
+import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -29,12 +31,19 @@ class MockRoutingParamsService {
   }
 }
 
+class MockLocation implements Partial<MockLocation> {
+  back = jasmine.createSpy('back');
+  forward = jasmine.createSpy('forward');
+}
+
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
   let winRef: WindowRef;
   let urlService: SemanticPathService;
   let routingParamsService: RoutingParamsService;
+  let router: Router;
+  let location: Location;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +53,7 @@ describe('RoutingService', () => {
         WindowRef,
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: RoutingParamsService, useClass: MockRoutingParamsService },
+        { provide: Location, useClass: MockLocation },
       ],
     });
 
@@ -52,6 +62,8 @@ describe('RoutingService', () => {
     winRef = TestBed.inject(WindowRef);
     urlService = TestBed.inject(SemanticPathService);
     routingParamsService = TestBed.inject(RoutingParamsService);
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
     spyOn(store, 'dispatch');
   });
 
@@ -60,32 +72,33 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action with generated path', () => {
-      spyOn(urlService, 'transform').and.returnValue(['generated', 'path']);
-      service.go([]);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.RouteGoAction({
-          path: ['generated', 'path'],
-          query: undefined,
-          extras: undefined,
-        })
-      );
+    it('should return Promise for the Angular navigation', () => {
+      const navigationPromise = Promise.resolve(true);
+      const queryParams = { test: true };
+      spyOn(urlService, 'transform').and.returnValue(['url']);
+      spyOn(router, 'navigate').and.returnValue(navigationPromise);
+      const result = service.go(['url'], { queryParams });
+      expect(router.navigate).toHaveBeenCalledWith(['url'], { queryParams });
+      expect(result).toBe(navigationPromise);
     });
 
-    it('should call url service service with given array of commands', () => {
-      spyOn(urlService, 'transform');
+    it('should call url service with given array of commands', () => {
       const commands = ['testString', { cxRoute: 'testRoute' }];
+      const resultPath = ['testString', 'testPath'];
+      spyOn(urlService, 'transform').and.returnValue(resultPath);
       service.go(commands);
       expect(urlService.transform).toHaveBeenCalledWith(commands);
     });
   });
 
   describe('goByUrl', () => {
-    it('should dispatch GoByUrl action', () => {
-      service.goByUrl('test');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.RouteGoByUrlAction('test')
-      );
+    it('should return Promise for the Angular navigation', () => {
+      const navigationPromise = Promise.resolve(true);
+      const extras = { skipLocationChange: true };
+      spyOn(router, 'navigateByUrl').and.returnValue(navigationPromise);
+      const result = service.goByUrl('url', extras);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('url', extras);
+      expect(result).toBe(navigationPromise);
     });
   });
 
@@ -126,35 +139,26 @@ describe('RoutingService', () => {
   });
 
   describe('back', () => {
-    it('should dispatch back action', () => {
-      service.back();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.RouteBackAction()
-      );
-    });
-
     it('should go to homepage on back action when referer is not from the app', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
+      spyOn(service, 'go');
       spyOn(urlService, 'transform').and.callFake((x) => x);
       service.back();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.RouteGoAction({
-          path: ['/'],
-          query: undefined,
-          extras: undefined,
-        })
-      );
+      expect(service.go).toHaveBeenCalledWith(['/']);
+    });
+
+    it('should call Location.back', () => {
+      service.back();
+      expect(location.back).toHaveBeenCalled();
     });
   });
 
   describe('forward', () => {
-    it('should dispatch forward action', () => {
+    it('should call Location.forward', () => {
       service.forward();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.RouteForwardAction()
-      );
+      expect(location.forward).toHaveBeenCalled();
     });
   });
 

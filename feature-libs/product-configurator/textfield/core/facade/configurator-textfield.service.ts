@@ -4,6 +4,7 @@ import { ActiveCartService, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
@@ -36,9 +37,10 @@ export class ConfiguratorTextfieldService {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationsState),
       tap((configurationState) => {
+        const configuration = configurationState.loaderState.value;
         const isAvailableForProduct =
-          configurationState.loaderState.value?.owner.type ===
-          CommonConfigurator.OwnerType.PRODUCT;
+          configuration !== undefined &&
+          !ConfiguratorModelUtils.isInitialOwner(configuration.owner);
         const isLoading = configurationState.loaderState.loading;
         if (!isAvailableForProduct && !isLoading) {
           this.store.dispatch(
@@ -50,7 +52,9 @@ export class ConfiguratorTextfieldService {
         }
       }),
       map((configurationState) => configurationState.loaderState.value),
-      filter((configuration) => !this.isConfigurationInitial(configuration))
+      filter((configuration) => !this.isConfigurationInitial(configuration)),
+      //save to assume configuration is defined, see previous filter
+      map((configuration) => configuration ?? { configurationInfos: [] })
     );
   }
 
@@ -217,8 +221,11 @@ export class ConfiguratorTextfieldService {
   }
 
   protected isConfigurationInitial(
-    configuration: ConfiguratorTextfield.Configuration
+    configuration?: ConfiguratorTextfield.Configuration
   ): boolean {
-    return configuration?.owner?.type === undefined;
+    return (
+      configuration === undefined ||
+      ConfiguratorModelUtils.isInitialOwner(configuration.owner)
+    );
   }
 }

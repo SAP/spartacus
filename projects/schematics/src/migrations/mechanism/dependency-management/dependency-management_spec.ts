@@ -81,7 +81,6 @@ describe('dependency management migrations', () => {
     });
     it('should update them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-      await schematicRunner.engine.executePostTasks().toPromise();
 
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies.rxjs;
@@ -108,7 +107,6 @@ describe('dependency management migrations', () => {
     });
     it('should downgrade them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-      await schematicRunner.engine.executePostTasks().toPromise();
 
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies
@@ -116,6 +114,38 @@ describe('dependency management migrations', () => {
       expect(updatedVersion).toEqual(
         collectedDependencies['@spartacus/styles'].bootstrap
       );
+    });
+  });
+
+  describe('cross dependencies', () => {
+    beforeEach(() => {
+      writeFile(
+        host,
+        '/package.json',
+        JSON.stringify({
+          name: 'xxx',
+          version: '3.0.0',
+          dependencies: {
+            '@spartacus/core': '3.0.0',
+            '@spartacus/storefront': '3.0.0',
+            '@spartacus/cds': '3.0.0',
+            '@spartacus/qualtrics': '3.0.0',
+          },
+        })
+      );
+    });
+    it('should install cross spartacus peer deps', async () => {
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const packageJson = JSON.parse(appTree.readContent('/package.json'));
+
+      expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
+      expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
     });
   });
 });

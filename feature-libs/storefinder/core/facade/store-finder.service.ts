@@ -5,6 +5,7 @@ import {
   GeoPoint,
   GlobalMessageService,
   GlobalMessageType,
+  PointOfService,
   RoutingService,
   SearchConfig,
   WindowRef,
@@ -24,34 +25,11 @@ export class StoreFinderService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    store: Store<StateWithStoreFinder>,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService
-  );
-
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(protected store: Store<StateWithStoreFinder>, protected winRef: WindowRef, protected globalMessageService: GlobalMessageService,
-   * protected routingService: RoutingService @Inject(PLATFORM_ID) protected platformId: any); instead
-   */
-  // TODO(#11093): Remove deprecated constructors
-
-  constructor(
-    store: Store<StateWithStoreFinder>,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    platformId: any
-  );
-
-  constructor(
     protected store: Store<StateWithStoreFinder>,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: any
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.reloadStoreEntitiesOnContextChange();
   }
@@ -129,8 +107,7 @@ export class StoreFinderService implements OnDestroy {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        // TODO: Replace to GeolocationPosition when updating to new TS version
-        (pos: Position) => {
+        (pos: GeolocationPosition) => {
           const position: GeoPoint = {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
@@ -240,5 +217,21 @@ export class StoreFinderService implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  /**
+   * Returns store latitude
+   * @param location store location
+   */
+  getStoreLatitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.latitude;
+  }
+
+  /**
+   * Returns store longitude
+   * @param location store location
+   */
+  getStoreLongitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.longitude;
   }
 }
