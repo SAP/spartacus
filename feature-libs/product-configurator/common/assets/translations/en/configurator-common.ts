@@ -40,6 +40,8 @@ export const configurator = {
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      deselectionNotPossible:
+        'Add a different product before removing this one',
     },
     button: {
       previous: 'Previous',

@@ -67,3 +67,7 @@ export abstract class AuthConfig {
     OAuthLibConfig?: AuthLibConfig;
   };
 }
+
+declare module '../../../config/config-tokens' {
+  interface Config extends AuthConfig {}
+}

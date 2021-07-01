@@ -22,3 +22,7 @@ export abstract class QualtricsConfig {
     scriptSource?: string;
   };
 }
+
+declare module '@spartacus/core' {
+  interface Config extends QualtricsConfig {}
+}
