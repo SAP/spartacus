@@ -5,6 +5,8 @@ import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-d
 import { BASE_SITE_SERVICE_MIGRATION } from './data/base-site.service.migration';
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item-component.migration';
+import { CART_ITEM_CONTEXT_SOURCE_MIGRATION } from './data/cart-item-context-source.migration';
+import { CART_ITEM_CONTEXT_MIGRATION } from './data/cart-item-context.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -37,6 +39,8 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...SELECTIVE_CART_SERVICE_MIGRATION,
   ...ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   ...PAGE_EVENT_BUILDER_MIGRATION,
+  ...CART_ITEM_CONTEXT_MIGRATION,
+  ...CART_ITEM_CONTEXT_SOURCE_MIGRATION,
   ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
