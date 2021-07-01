@@ -9,13 +9,13 @@ import {
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
-  ICON_TYPE
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -32,7 +32,7 @@ import {
   GROUP_ID_7,
   mockRouterState,
   productConfiguration,
-  PRODUCT_CODE
+  PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
@@ -420,7 +420,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should navigate up', () => {
-     
     spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
       of(mockProductConfiguration.groups[0])
     );

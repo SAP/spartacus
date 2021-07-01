@@ -3,7 +3,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
-  ConfiguratorRouterExtractorService
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -50,8 +50,8 @@ export class ConfiguratorOverviewNotificationBannerComponent {
 
   protected countIssuesInGroup(group: Configurator.Group): number {
     let numberOfIssues = 0;
-    //TODO CHHI fix
-    group.attributes.forEach((attribute) => {
+
+    group.attributes?.forEach((attribute) => {
       numberOfIssues =
         numberOfIssues + (attribute.incomplete && attribute.required ? 1 : 0);
     });

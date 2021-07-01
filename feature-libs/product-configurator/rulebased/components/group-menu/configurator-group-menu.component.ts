@@ -3,17 +3,17 @@ import {
   Component,
   ElementRef,
   QueryList,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import {
   ConfiguratorRouter,
-  ConfiguratorRouterExtractorService
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
-  ICON_TYPE
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -74,8 +74,7 @@ export class ConfiguratorGroupMenuComponent {
       return parentGroup
         ? this.getCondensedParentGroup(parentGroup)
         : of(parentGroup);
-    }),
-   
+    })
   );
 
   displayedGroups$: Observable<
@@ -134,7 +133,6 @@ export class ConfiguratorGroupMenuComponent {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
-        
         //we only navigate up if we are not on a sub level group
         if (displayedParentGroup) {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);

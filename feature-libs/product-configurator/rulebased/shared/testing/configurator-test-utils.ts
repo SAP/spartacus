@@ -4,7 +4,7 @@
 
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
@@ -21,7 +21,7 @@ export class ConfiguratorTestUtils {
     Object.freeze(productConfiguration.interactionState);
     Object.freeze(productConfiguration.owner);
     Object.freeze(productConfiguration.nextOwner);
-    //TODO CHHI fix
+
     this.freezeOverview(productConfiguration.overview);
     this.freezePriceSummary(productConfiguration.priceSummary);
     productConfiguration.flatGroups?.forEach((group) =>
@@ -47,7 +47,7 @@ export class ConfiguratorTestUtils {
     value.images?.forEach((image) => Object.freeze(image));
   }
 
-  static freezeOverview(overview: Configurator.Overview) {
+  static freezeOverview(overview?: Configurator.Overview) {
     if (overview) {
       Object.freeze(overview);
       this.freezePriceSummary(overview.priceSummary);
@@ -85,7 +85,9 @@ export class ConfiguratorTestUtils {
     );
   }
 
-  protected static freezePriceSummary(priceSummary: Configurator.PriceSummary) {
+  protected static freezePriceSummary(
+    priceSummary?: Configurator.PriceSummary
+  ) {
     if (priceSummary) {
       Object.freeze(priceSummary);
       Object.freeze(priceSummary.basePrice);

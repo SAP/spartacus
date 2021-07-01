@@ -178,14 +178,15 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean,
-    hideRemoveButton: boolean,
-    value: Configurator.Value
+    disableAllButtons: boolean | null,
+    hideRemoveButton: boolean | null,
+    value?: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
+    //TODO CHHI resolve
     return {
-      disableAllButtons: disableAllButtons,
-      hideRemoveButton: hideRemoveButton,
-      productBoundValue: value,
+      disableAllButtons: disableAllButtons ? disableAllButtons : false,
+      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
+      productBoundValue: value ? value : { valueCode: '' },
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,

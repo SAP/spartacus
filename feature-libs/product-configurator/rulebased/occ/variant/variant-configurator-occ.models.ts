@@ -74,7 +74,7 @@ export namespace OccConfigurator {
   }
 
   export interface Value {
-    key?: string;
+    key: string;
     name?: string;
     langDepName?: string;
     readonly?: boolean;

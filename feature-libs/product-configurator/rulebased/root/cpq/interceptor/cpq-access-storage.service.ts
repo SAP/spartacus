@@ -108,7 +108,13 @@ export class CpqAccessStorageService implements OnDestroy {
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
-    const authSettings = this.config.productConfigurator.cpq.authentication;
+    //TODO CHHI adapt
+    const authSettings = this.config.productConfigurator?.cpq
+      ?.authentication ?? {
+      tokenExpirationBuffer: 0,
+      tokenMinValidity: 0,
+      tokenMaxValidity: 0,
+    };
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
       data.accessTokenExpirationTime -
@@ -123,10 +129,16 @@ export class CpqAccessStorageService implements OnDestroy {
   }
 
   protected isTokenExpired(tokenData: CpqAccessData) {
+    //TODO CHHI adapt
+    const authSettings = this.config.productConfigurator?.cpq
+      ?.authentication ?? {
+      tokenExpirationBuffer: 0,
+      tokenMinValidity: 0,
+      tokenMaxValidity: 0,
+    };
     return (
       Date.now() >
-      tokenData.accessTokenExpirationTime -
-        this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer
+      tokenData.accessTokenExpirationTime - authSettings.tokenExpirationBuffer
     );
   }
 }
