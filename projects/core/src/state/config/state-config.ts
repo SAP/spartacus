@@ -27,3 +27,7 @@ export abstract class StateConfig {
     };
   };
 }
+
+declare module '../../config/config-tokens' {
+  interface Config extends StateConfig {}
+}
