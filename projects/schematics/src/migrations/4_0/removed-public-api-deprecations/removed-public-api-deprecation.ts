@@ -982,7 +982,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_STATE_INTERFACE,
     importPath: SPARTACUS_CORE,
-    comment: `Properties 'account' and 'resetPassword' were removed from '${USER_DETAILS_STATE_INTERFACE}' interface.`,
+    comment: `Properties 'account' 'titles', and 'resetPassword' were removed from '${USER_DETAILS_STATE_INTERFACE}' interface.`,
   },
   // projects/core/src/user/user-transitional-tokens.ts
   {
@@ -994,7 +994,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
     importPath: SPARTACUS_CORE,
-    comment: `Abstract methods 'register', 'getTitles' were removed from '${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}'.`,
+    comment: `Abstract methods 'register', 'registerGuest', 'getTitles' were removed from '${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}'.`,
   },
   // projects/core/src/user/user.module.ts
   {
