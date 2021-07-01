@@ -3,6 +3,7 @@ import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
   ASM_MODULE,
   B2B_STOREFRONT_MODULE,
+  B2C_LAYOUT_CONFIG,
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
   CART_ITEM_CONTEXT,
@@ -450,6 +451,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EXTERNAL_JS_FILE_LOADER,
     importPath: SPARTACUS_CORE,
     comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
+  },
+  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  {
+    node: B2C_LAYOUT_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${B2C_LAYOUT_CONFIG}' was removed from '${SPARTACUS_STOREFRONTLIB}', please use corresponding feature-lib specific layout.`,
   },
 ];
 
