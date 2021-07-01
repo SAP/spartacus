@@ -759,7 +759,6 @@ export const USER_PROFILE_ADAPTER = 'UserProfileAdapter';
 export const USER_ACCOUNT_CONNECTOR = 'UserAccountConnector';
 export const USER_PROFILE_CONNECTOR = 'UserProfileConnector';
 export const USER_SIGN_UP_INTERFACE = 'UserSignUp';
-export const USER_INTERFACE = 'User';
 export const USER_ACTIONS = 'UserActions';
 export const FORGOT_PASSWORD_EMAIL_ACTION = 'ForgotPasswordEmailRequestAction';
 export const RESET_PASSWORD_ACTION = 'ResetPasswordAction';
