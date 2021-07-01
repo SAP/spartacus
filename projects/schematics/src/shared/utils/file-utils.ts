@@ -687,15 +687,13 @@ function getParamName(
 }
 
 function getClassName(constructorParameter: ts.Node): string | undefined {
-  const typeReferenceNode = constructorParameter
+  const identifierNode = constructorParameter
     .getChildren()
-    .find((node) => node.kind === ts.SyntaxKind.TypeReference);
-  if (typeReferenceNode) {
-    const identifierNode = typeReferenceNode
-      .getChildren()
-      .find((node) => node.kind === ts.SyntaxKind.Identifier);
-    return identifierNode ? identifierNode.getText() : undefined;
-  }
+    .find((node) => node.kind === ts.SyntaxKind.TypeReference)
+    ?.getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.Identifier);
+
+  return identifierNode ? identifierNode.getText() : undefined;
 }
 
 function shouldRemoveImportAndParam(
