@@ -20,6 +20,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { eq, gt, parse, SemVer } from 'semver';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
@@ -721,14 +722,31 @@ export function addPackageJsonDependencies(
   packageJson?: any
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    dependencies.forEach((dependency) => {
-      if (shouldAddDependency(dependency, packageJson)) {
+    for (const dependency of dependencies) {
+      const currentVersion = getCurrentDependencyVersion(
+        dependency,
+        packageJson
+      );
+
+      if (currentVersion) {
+        const versionToUpdate = parse(dependency.version);
+        if (!versionToUpdate || eq(versionToUpdate, currentVersion)) {
+          continue;
+        }
+
         addPackageJsonDependency(tree, dependency);
+        const change = gt(versionToUpdate, currentVersion)
+          ? 'Upgrading'
+          : 'Downgrading';
+        context.logger.info(
+          `🩹 ${change} '${dependency.name}' to ${dependency.version}`
+        );
+      } else {
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
         );
       }
-    });
+    }
     return tree;
   };
 }
@@ -800,14 +818,13 @@ function logFeatureInstallation(
   }
 }
 
-function shouldAddDependency(
+function getCurrentDependencyVersion(
   dependency: NodeDependency,
-  packageJson?: any
-): boolean {
-  return (
-    !packageJson ||
-    !packageJson[dependency.type].hasOwnProperty(dependency.name)
-  );
+  packageJson: any
+): SemVer | null {
+  const dependencies = packageJson[dependency.type];
+  const currentVersion = dependencies[dependency.name];
+  return parse(currentVersion);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
