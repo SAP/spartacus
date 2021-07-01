@@ -68,6 +68,11 @@ export interface SortModel {
   selected?: boolean;
 }
 
+export interface Title {
+  code?: string;
+  name?: string;
+}
+
 export interface ErrorModel {
   message?: string;
   reason?: string;

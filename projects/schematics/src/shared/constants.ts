@@ -46,9 +46,13 @@ export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
 export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
 export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
+export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
+export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
 export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
+export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
+export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
 export const NGRX_STORE = '@ngrx/store';
@@ -767,6 +771,9 @@ export const UPDATE_PASSWORD_ACTION = 'UpdatePasswordAction';
 export const USER_DETAILS_ACTION = 'UserDetailsAction';
 export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
 export const USER_STATE_INTERFACE = 'UserState';
+export const USER_MODULE = 'UserModule';
+export const USER_ACCOUNT_MODULE = 'UserAccountModule';
+export const USER_PROFILE_MODULE = 'UserProfileModule';
 export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
   'UserProfileFacadeTransitionalToken';
 export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =

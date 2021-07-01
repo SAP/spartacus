@@ -189,6 +189,13 @@ import {
   USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
   USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
   EXTERNAL_JS_FILE_LOADER,
+  USER_ACCOUNT_MODULE,
+  USER_PROFILE_MODULE,
+  USER_MODULE,
+  SPARTACUS_USER_ACCOUNT_OCC,
+  SPARTACUS_USER_PROFILE_OCC,
+  SPARTACUS_USER_ACCOUNT_CORE,
+  SPARTACUS_USER_PROFILE_CORE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -903,7 +910,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: OCC_USER_ADAPTER,
     importPath: SPARTACUS_CORE,
-    comment: `'${OCC_USER_ADAPTER}' was removed, please use '${OCC_USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT}' and '${OCC_USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+    comment: `'${OCC_USER_ADAPTER}' was removed, please use '${OCC_USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT_OCC}' and '${OCC_USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE_OCC}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
   },
   // projects/core/src/occ/occ-models/occ-endpoints.model.ts
   {
@@ -939,13 +946,13 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_ADAPTER,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_ADAPTER}' was removed, please use '${USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+    comment: `'${USER_ADAPTER}' was removed, please use '${USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT_CORE}' and '${USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE_CORE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
   },
   // projects/core/src/user/connectors/user/user.connector.ts
   {
     node: USER_CONNECTOR,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_CONNECTOR}' was removed, please use '${USER_ACCOUNT_CONNECTOR}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_CONNECTOR}' from '${SPARTACUS_USER_PROFILE}'. Also there was slighly change in method logic, for more details please look into 4.0 migration documentation.`,
+    comment: `'${USER_CONNECTOR}' was removed, please use '${USER_ACCOUNT_CONNECTOR}' from '${SPARTACUS_USER_ACCOUNT_CORE}' and '${USER_PROFILE_CONNECTOR}' from '${SPARTACUS_USER_PROFILE_CORE}'. Also there was slighly change in method logic, for more details please look into 4.0 migration documentation.`,
   },
   // projects/core/src/user/facade/user.service.ts
   {
@@ -988,6 +995,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
     importPath: SPARTACUS_CORE,
     comment: `Abstract methods 'register', 'getTitles' were removed from '${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}'.`,
+  },
+  // projects/core/src/user/user.module.ts
+  {
+    node: USER_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'.`,
   },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
