@@ -24,11 +24,9 @@ import {
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_USER_ACCOUNT,
   UNITS_ROUTING_CONFIG,
   USER_GROUP_ROUTING_CONFIG,
   USER_ROUTING_CONFIG,
-  USER_SERVICE,
 } from '../../../shared/constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
@@ -81,13 +79,6 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'defaultScrollConfig',
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
-  },
-  // feature-libs/checkout/components/guards/checkout-auth.guard.ts
-  {
-    previousNode: USER_SERVICE,
-    previousImportPath: SPARTACUS_CORE,
-    newNode: 'UserAccountFacade',
-    newImportPath: `${SPARTACUS_USER_ACCOUNT}/root`,
   },
   // feature-libs/checkout/components/services/express-checkout.service.ts
   {
