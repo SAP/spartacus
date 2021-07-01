@@ -16,7 +16,7 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 export const ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION: ConstructorDeprecation = {
   // feature-libs/asm/root/services/asm-auth-http-header.service.ts
   class: ASM_AUTH_HTTP_HEADER_SERVICE,
-  importPath: SPARTACUS_ASM,
+  importPath: `${SPARTACUS_ASM}/root`,
   deprecatedParams: [
     {
       className: AUTH_SERVICE,
@@ -28,7 +28,7 @@ export const ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION: ConstructorDeprecation = {
     },
     {
       className: CS_AGENT_AUTH_SERVICE,
-      importPath: SPARTACUS_ASM,
+      importPath: `${SPARTACUS_ASM}/root`,
     },
     {
       className: OAUTH_LIB_WRAPPER_SERVICE,

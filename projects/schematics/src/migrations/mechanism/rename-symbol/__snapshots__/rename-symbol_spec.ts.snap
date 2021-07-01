@@ -45,7 +45,7 @@ import {
   GlobalMessageService,
   OAuthLibWrapperService,
   OccEndpointsService,
-  RoutingService
+  RoutingService, AuthRedirectService
 } from '@spartacus/core';
 
 @Injectable({
@@ -59,7 +59,7 @@ export class X extends AsmAuthHttpHeaderService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService, authRedirectService: AuthRedirectService
   ) {
     super(
       authService,
@@ -68,7 +68,7 @@ export class X extends AsmAuthHttpHeaderService {
       oAuthLibWrapperService,
       routingService,
       globalMessageService,
-      occEndpointsService
+      occEndpointsService, authRedirectService
     );
   }
 }
