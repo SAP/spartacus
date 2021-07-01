@@ -29,6 +29,8 @@ export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
     { className: CHECKOUT_FACADE, importPath: SPARTACUS_CHECKOUT_ROOT },
     { className: USER_ID_SERVICE, importPath: SPARTACUS_CORE },
   ],
+  // we omit the path for the following class because we don't want to have the respective
+  // import deleted. Another constructor parameter is pointing to it
   removeParams: [
     {
       className: STORE,
