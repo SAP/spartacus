@@ -19,6 +19,7 @@ import {
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
+export const REGISTER_USER_PROCESS_ID = 'registerUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
 export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
