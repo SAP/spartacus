@@ -432,6 +432,7 @@ export const REPLENISHMENT_ORDER_HISTORY_COMPONENT =
   'ReplenishmentOrderHistoryComponent';
 export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
+export const CONFIGURATOR_UTILS_SERVICE = 'ConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
   'ConfiguratorAttributeQuantityService';
 export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
