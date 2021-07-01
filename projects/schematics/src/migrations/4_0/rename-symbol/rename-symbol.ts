@@ -9,6 +9,7 @@ import {
   ASM_CONNECTOR,
   ASM_FEATURE,
   ASM_MODULE,
+  ASM_SELECTORS,
   ASM_SERVICE,
   ASM_STATE,
   ASM_STATE_PERSISTENCE_SERVICE,
@@ -38,11 +39,6 @@ import {
   DEFAULT_USER_ROUTING_CONFIG,
   EXPRESS_CHECKOUT_SERVICE,
   FORGOT_PASSWORD_MODULE,
-  GET_ASM_STATE,
-  GET_ASM_UI,
-  GET_CUSTOMER_SEARCH_RESULTS,
-  GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
-  GET_CUSTOMER_SEARCH_RESULTS_LOADING,
   LOGIN_FORM_MODULE,
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
@@ -336,38 +332,9 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: `${SPARTACUS_ASM}/core`,
   },
   // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    previousNode: GET_ASM_UI,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    previousNode: GET_CUSTOMER_SEARCH_RESULTS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/selectors/asm-ui.selectors.ts
-  {
-    previousNode: GET_CUSTOMER_SEARCH_RESULTS_LOADING,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
   // projects/core/src/asm/store/selectors/feature.selector.ts
   {
-    previousNode: GET_ASM_STATE,
+    previousNode: ASM_SELECTORS,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },
