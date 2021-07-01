@@ -23,6 +23,7 @@ const integrationLibsFolders: string[] = ['cdc', 'cds'];
 
 const commands = [
   'publish',
+  'publish (reload version)',
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
@@ -45,6 +46,8 @@ type Command = typeof commands[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 
+let currentVersion: semver.SemVer | null;
+
 function startVerdaccio(): ChildProcess {
   console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
@@ -66,10 +69,12 @@ function beforeExit(): void {
   }
 }
 
-function publishLibs(): void {
-  const currentVersion = semver.parse(
-    JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
-  );
+function publishLibs(reload = false): void {
+  if (!currentVersion || reload) {
+    currentVersion = semver.parse(
+      JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
+    );
+  }
 
   // Bump version to publish
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -146,6 +151,9 @@ async function executeCommand(command: Command): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
+      break;
+    case 'publish (reload version)':
+      publishLibs(true);
       break;
     case 'build projects/schematics':
       buildSchematics({ publish: true });
