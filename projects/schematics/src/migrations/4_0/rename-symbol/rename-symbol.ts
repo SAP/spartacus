@@ -1,5 +1,6 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 import {
+  ASM_ACTIONS,
   ASM_ADAPTER,
   ASM_AUTH_HTTP_HEADER_SERVICE,
   ASM_AUTH_SERVICE,
@@ -12,9 +13,6 @@ import {
   ASM_STATE,
   ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
-  ASM_UI_ACTION,
-  ASM_UI_UPDATE,
-  ASM_UI_UPDATE_CLASS,
   BUDGET_ROUTING_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   CHECKOUT_DELIVERY_FACADE,
@@ -28,19 +26,10 @@ import {
   CLOSE_ACCOUNT_MODULE,
   COST_CENTER_ROUTING_CONFIG,
   CS_AGENT_AUTH_SERVICE,
-  CUSTOMER_ACTION,
-  CUSTOMER_SEARCH,
-  CUSTOMER_SEARCH_CLASS,
   CUSTOMER_SEARCH_DATA,
-  CUSTOMER_SEARCH_FAIL,
-  CUSTOMER_SEARCH_FAIL_CLASS,
   CUSTOMER_SEARCH_OPTIONS,
   CUSTOMER_SEARCH_PAGE,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
-  CUSTOMER_SEARCH_RESET,
-  CUSTOMER_SEARCH_RESET_CLASS,
-  CUSTOMER_SEARCH_SUCCESS,
-  CUSTOMER_SEARCH_SUCCESS_CLASS,
   DEFAULT_BUDGET_ROUTING_CONFIG,
   DEFAULT_COST_CENTER_ROUTING_CONFIG,
   DEFAULT_PERMISSION_ROUTING_CONFIG,
@@ -58,8 +47,6 @@ import {
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
-  LOGOUT_CUSTOMER_SUPPORT_AGENT,
-  LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   PERMISSION_ROUTING_CONFIG,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -317,86 +304,10 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: `${SPARTACUS_ASM}/core`,
   },
   // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    previousNode: ASM_UI_UPDATE,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    previousNode: ASM_UI_UPDATE_CLASS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/asm-ui.action.ts
-  {
-    previousNode: ASM_UI_ACTION,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
   // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_CLASS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_FAIL,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_FAIL_CLASS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_SUCCESS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_SUCCESS_CLASS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_RESET,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_SEARCH_RESET_CLASS,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/customer.action.ts
-  {
-    previousNode: CUSTOMER_ACTION,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
   // projects/core/src/asm/store/actions/logout-agent.action.ts
   {
-    previousNode: LOGOUT_CUSTOMER_SUPPORT_AGENT,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
-  // projects/core/src/asm/store/actions/logout-agent.action.ts
-  {
-    previousNode: LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
+    previousNode: ASM_ACTIONS,
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/core`,
   },
