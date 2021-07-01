@@ -32,11 +32,15 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
     { className: USER_SERVICE, importPath: SPARTACUS_CORE },
     { className: GLOBAL_MESSAGE_SERVICE, importPath: SPARTACUS_CORE },
   ],
-  removeParams: [{ className: USER_SERVICE, importPath: SPARTACUS_CORE }],
+  removeParams: [
+    { className: USER_SERVICE, importPath: SPARTACUS_CORE },
+    { className: GLOBAL_MESSAGE_SERVICE, importPath: SPARTACUS_CORE },
+  ],
   addParams: [
     {
       className: 'UserAccountFacade',
       importPath: `${SPARTACUS_USER_ACCOUNT}/root`,
     },
+    { className: GLOBAL_MESSAGE_SERVICE, importPath: SPARTACUS_CORE },
   ],
 };
