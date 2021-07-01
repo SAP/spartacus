@@ -26,6 +26,6 @@ export class UserService {
     if (this.userAccountFacade) {
       return this.userAccountFacade.get();
     }
-    throw Error('Cannot get a user. `UserAccountFacade` was not provided.');
+    throw Error('Cannot get a user. Install `@spartacus/user` library which provides required services.');
   }
 }
