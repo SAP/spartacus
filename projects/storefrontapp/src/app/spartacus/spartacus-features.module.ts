@@ -36,7 +36,6 @@ import {
   MyInterestsModule,
   NavigationEventModule,
   NavigationModule,
-  NotificationPreferenceModule,
   OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
@@ -127,7 +126,6 @@ if (environment.cpq) {
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
-    NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
     ConsentManagementModule,

@@ -7,8 +7,8 @@ import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserProfileAdapter {
   update = createSpy('update').and.returnValue(of({}));
-  register = createSpy('register').and.callFake((userId) => of(userId));
-  registerGuest = createSpy('registerGuest').and.callFake((userId) =>
+  register = createSpy('register').and.callFake((userId: string) => of(userId));
+  registerGuest = createSpy('registerGuest').and.callFake((userId: string) =>
     of(userId)
   );
   close = createSpy('remove').and.returnValue(of({}));

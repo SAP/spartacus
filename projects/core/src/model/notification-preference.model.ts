@@ -1,5 +1,5 @@
 export interface NotificationPreference {
-  channel?: string;
+  channel: string;
   value?: string;
   enabled?: boolean;
   visible?: boolean;
