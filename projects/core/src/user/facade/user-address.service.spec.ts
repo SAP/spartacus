@@ -19,10 +19,9 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
 import createSpy = jasmine.createSpy;
 
-const mockUserId = 'testuserid';
 class MockUserIdService implements Partial<UserIdService> {
   public takeUserId(): Observable<string> {
-    return of(mockUserId);
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -344,7 +343,7 @@ describe('UserAddressService', () => {
       service.verifyAddress(mockAddress).subscribe((result) => {
         expect(result).toBe(mockAddressVerificationResult);
         expect(userAddressConnector.verify).toHaveBeenCalledWith(
-          mockUserId,
+          OCC_USER_ID_CURRENT,
           mockAddress
         );
         done();

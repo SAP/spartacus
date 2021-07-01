@@ -26,7 +26,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-fdescribe('OrderReturnRequestService', () => {
+describe('OrderReturnRequestService', () => {
   let orderReturnRequestService: OrderReturnRequestService;
   let userIdService: UserIdService;
   let store: Store<StateWithUser>;
@@ -161,14 +161,6 @@ fdescribe('OrderReturnRequestService', () => {
 
     orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();
-
-    // userIdService.takeUserId().pipe(
-    //   take(1),
-    //   catchError((err) => {
-    //     expect(err).toEqual('Error');
-    //     done();
-    //   })
-    // ).subscribe();
   });
 
   it('should be able to clear order return requests list', () => {

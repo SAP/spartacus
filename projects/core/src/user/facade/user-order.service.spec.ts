@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -171,7 +171,9 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      return throwError('Error');
+    });
 
     userOrderService.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();

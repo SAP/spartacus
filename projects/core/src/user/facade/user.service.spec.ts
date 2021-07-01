@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -88,7 +88,9 @@ describe('UserService', () => {
 
     it('should not load anonymous user details', () => {
       const userIdService = TestBed.inject(UserIdService);
-      spyOn(userIdService, 'takeUserId');
+      spyOn(userIdService, 'takeUserId').and.callFake(() => {
+        return throwError('Error');
+      });
       service.load();
       expect(store.dispatch).not.toHaveBeenCalled();
     });

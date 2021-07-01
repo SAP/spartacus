@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
@@ -89,7 +89,9 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'takeUserId').and.callThrough();
+      spyOn(userIdService, 'takeUserId').and.callFake(() => {
+        return throwError('Error');
+      });
 
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
         mockReplenishmentOrderCode
@@ -188,7 +190,9 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'takeUserId').and.callThrough();
+      spyOn(userIdService, 'takeUserId').and.callFake(() => {
+        return throwError('Error');
+      });
 
       userReplenishmentOrderService.cancelReplenishmentOrder(
         mockReplenishmentOrderCode
