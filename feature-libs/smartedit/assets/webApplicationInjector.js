@@ -398,7 +398,7 @@
                         return t.hostname + ':' + e;
                     }),
                     (t.whitelistingConfigRegex = new RegExp(
-                        /^(([-*a-zA-Z0-9]+[.])*([-a-zA-Z0-9]+[.]))?[-a-zA-Z0-9]+(:[0-9]{1,5})$/
+                        /^((([-*a-zA-Z0-9]+[.])*([-a-zA-Z0-9]+[.])?)?[-a-zA-Z0-9]+(:[0-9]{1,5})(,)?)*(([-*a-zA-Z0-9]+[.])*([-a-zA-Z0-9]+[.]))?[-a-zA-Z0-9]+(:[0-9]{1,5})?$/
                     )),
                     (t.allowOriginAttributeName = 'data-smartedit-allow-origin'),
                     (t.allowOriginQueryParamName = 'allow-origin'),
