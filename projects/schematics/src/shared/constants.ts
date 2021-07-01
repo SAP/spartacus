@@ -787,6 +787,8 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 // export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
 // export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
+export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
