@@ -1,13 +1,11 @@
 import {
   ChangeDetectorRef,
-  ComponentRef,
   Directive,
   ElementRef,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   Type,
   ViewContainerRef,
@@ -37,40 +35,8 @@ import { ComponentHandlerService } from './services/component-handler.service';
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
 
-  /**
-   * @deprecated since 2.0
-   *
-   * This property in unsafe, i.e.
-   * - cmpRef can be set later because of lazy loading or deferred loading
-   * - cmpRef can be not set at all if for example, web components are used as cms components
-   */
-  cmpRef?: ComponentRef<any>;
-
   private launcherResource?: Subscription;
 
-  /**
-   * @deprecated since version 3.3
-   * Use the following constructor instead:
-   * ```
-   * constructor( protected vcr: ViewContainerRef,
-   * protected cmsComponentsService: CmsComponentsService,
-   * protected injector: Injector,
-   * protected dynamicAttributeService: DynamicAttributeService,
-   * protected renderer: Renderer2,
-   * protected componentHandler: ComponentHandlerService,
-   * protected cmsInjector: CmsInjectorService,
-   * protected eventService: EventService) {}
-   * ```
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    cmsComponentsService: CmsComponentsService,
-    injector: Injector,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    componentHandler: ComponentHandlerService,
-    cmsInjector: CmsInjectorService
-  );
   constructor(
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
@@ -79,7 +45,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    @Optional() protected eventService?: EventService
+    protected eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -117,8 +83,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
       .pipe(
-        tap(({ elementRef, componentRef }) => {
-          this.cmpRef = componentRef;
+        tap(({ elementRef }) => {
           this.dispatchEvent(ComponentCreateEvent, elementRef);
           this.decorate(elementRef);
           this.injector.get(ChangeDetectorRef).markForCheck();
