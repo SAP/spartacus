@@ -969,6 +969,8 @@ export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
 export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
+export const GET_STABLE_CONFIG = 'getStableConfig';
+export const GET_STABLE = 'getStable';
 
 /***** APIs end *****/
 
