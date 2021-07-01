@@ -52,9 +52,9 @@ export class CheckoutAuthGuard implements CanActivate {
     );
   }
 
-  protected handleAnonymousUser(cartUser: CoreUser): boolean | UrlTree {
+  protected handleAnonymousUser(cartUser?: CoreUser): boolean | UrlTree {
     if (this.activeCartService.isGuestCart()) {
-      return Boolean(cartUser);
+      return !!cartUser;
     }
     this.authRedirectService.saveCurrentNavigationUrl();
     if (this.checkoutConfigService.isGuestCheckout()) {
