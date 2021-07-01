@@ -9,7 +9,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-  User as CoreUser,
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -59,7 +58,7 @@ export class CheckoutAuthGuard implements CanActivate {
     );
   }
 
-  protected handleAnonymousUser(cartUser?: CoreUser): boolean | UrlTree {
+  protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
     if (this.activeCartService.isGuestCart()) {
       return !!cartUser;
     }
