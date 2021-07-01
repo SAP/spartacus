@@ -9,8 +9,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
+  User as CoreUser,
 } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -42,31 +43,39 @@ export class CheckoutAuthGuard implements CanActivate {
       filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
       map(([isLoggedIn, cartUser, user]) => {
         if (!isLoggedIn) {
-          if (this.activeCartService.isGuestCart()) {
-            return Boolean(cartUser);
-          }
-          this.authRedirectService.saveCurrentNavigationUrl();
-          if (this.checkoutConfigService.isGuestCheckout()) {
-            return this.router.createUrlTree(
-              [this.semanticPathService.get('login')],
-              { queryParams: { forced: true } }
-            );
-          } else {
-            return this.router.parseUrl(this.semanticPathService.get('login'));
-          }
+          return this.handleAnonymousUser(cartUser);
         } else if (user?.roles) {
-          const roles = (<B2BUser>user).roles;
-          if (roles?.includes(B2BUserRole.CUSTOMER)) {
-            return true;
-          }
-          this.globalMessageService.add(
-            { key: 'checkout.invalid.accountType' },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
-          return this.router.parseUrl(this.semanticPathService.get('home'));
+          return this.handleUserRole(user);
         }
         return isLoggedIn;
       })
     );
+  }
+
+  protected handleAnonymousUser(cartUser: CoreUser): boolean | UrlTree {
+    if (this.activeCartService.isGuestCart()) {
+      return Boolean(cartUser);
+    }
+    this.authRedirectService.saveCurrentNavigationUrl();
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      return this.router.createUrlTree(
+        [this.semanticPathService.get('login')],
+        { queryParams: { forced: true } }
+      );
+    } else {
+      return this.router.parseUrl(this.semanticPathService.get('login'));
+    }
+  }
+
+  protected handleUserRole(user: User): boolean | UrlTree {
+    const roles = (<B2BUser>user).roles;
+    if (roles?.includes(B2BUserRole.CUSTOMER)) {
+      return true;
+    }
+    this.globalMessageService.add(
+      { key: 'checkout.invalid.accountType' },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
+    return this.router.parseUrl(this.semanticPathService.get('home'));
   }
 }
