@@ -69,11 +69,9 @@ function beforeExit(): void {
 }
 
 function publishLibs(): void {
-  if (!currentVersion) {
-    currentVersion = semver.parse(
-      JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
-    );
-  }
+  currentVersion = semver.parse(
+    JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
+  );
 
   // Bump version to publish
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
