@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog-component.migration';
+import { BASE_SITE_SERVICE_MIGRATION } from './data/base-site.service.migration';
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
@@ -27,6 +28,7 @@ import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
+  ...BASE_SITE_SERVICE_MIGRATION,
   ...OCC_ENDPOINTS_SERVICE_MIGRATION,
   ...CONTENT_PAGE_META_RESOLVER_MIGRATION,
   ...PAGE_META_SERVICE_MIGRATION,
