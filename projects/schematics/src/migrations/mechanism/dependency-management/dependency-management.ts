@@ -42,7 +42,7 @@ export function migrateDependencies(
     installedLibs
   );
   return chain([
-    addPackageJsonDependencies(dependencies),
+    addPackageJsonDependencies(dependencies, packageJson),
     installPackageJsonDependencies(),
   ]);
 }
