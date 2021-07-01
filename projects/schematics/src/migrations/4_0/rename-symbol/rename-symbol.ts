@@ -48,6 +48,8 @@ import {
   PERSONALIZATION_CONFIG,
   PERSONALIZATION_CONTEXT,
   PERSONALIZATION_CONTEXT_SERVICE,
+  PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
+  PRODUCT_VARIANT_STYLE_ICONS_MODULE,
   QUALTRICS_COMPONENT,
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
@@ -378,12 +380,14 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   {
     previousNode: VARIANT_STYLE_ICONS_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newNode: PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
   {
     previousNode: VARIANT_STYLE_ICONS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newNode: PRODUCT_VARIANT_STYLE_ICONS_MODULE,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/close-account/close-account.module.ts
