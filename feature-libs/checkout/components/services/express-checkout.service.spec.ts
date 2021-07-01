@@ -3,6 +3,7 @@ import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
+  ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
   Address,
@@ -131,6 +132,9 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
     return mockDetails.deliveryMode.code;
   }
 }
+class MockClearCheckoutFacade implements Partial<ClearCheckoutFacade> {
+  resetCheckoutProcesses(): void {}
+}
 
 describe('ExpressCheckoutService', () => {
   let subscription: Subscription;
@@ -167,6 +171,10 @@ describe('ExpressCheckoutService', () => {
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
+        },
+        {
+          provide: ClearCheckoutFacade,
+          useClass: MockClearCheckoutFacade,
         },
       ],
     });

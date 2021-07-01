@@ -14,6 +14,7 @@ import {
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
 import { OCC_ENDPOINTS_SERVICE_MIGRATION } from './data/occ-endpoints.service.migration';
@@ -46,6 +47,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...OCC_ENDPOINTS_MODEL_MIGRATION,
   ...ORDER_OVERVIEW_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
+  ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
   ...USER_ID_SERVICE_MIGRATION,
 ];
 
