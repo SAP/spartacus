@@ -10,7 +10,7 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   STORE,
-  USER_ID_SERVICE
+  USER_ID_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -31,13 +31,13 @@ export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   removeParams: [
     {
-      className: STORE,      
-    }, 
-  ],  
+      className: STORE,
+    },
+  ],
   addParams: [
     {
       className: CONFIGURATOR_UTILS_SERVICE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-    },  
+    },
   ],
 };

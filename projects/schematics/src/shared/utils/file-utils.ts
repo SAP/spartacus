@@ -6,25 +6,25 @@ import {
   findNodes,
   getSourceNodes,
   insertImport,
-  isImported
+  isImported,
 } from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
   NoopChange,
   RemoveChange,
-  ReplaceChange
+  ReplaceChange,
 } from '@schematics/angular/utility/change';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   INJECT_DECORATOR,
   TODO_SPARTACUS,
-  UTF_8
+  UTF_8,
 } from '../constants';
 import {
   getAngularJsonFile,
-  getDefaultProjectNameFromWorkspace
+  getDefaultProjectNameFromWorkspace,
 } from './workspace-utils';
 
 export enum InsertDirection {
@@ -672,10 +672,7 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    // constructor parameter text is e.g. of form 'utilsService: UtilsService'
-    // we don't want to find occurences like otherParam: OtherUtilsService, 
-    // therefore we add blank before the class name
-    if (constructorParameter.getText().includes(' ' + classType.className)) {
+    if (getClassName(constructorParameter) === classType.className) {
       const paramVariableNode = constructorParameter
         .getChildren()
         .find((node) => node.kind === ts.SyntaxKind.Identifier);
@@ -687,6 +684,13 @@ function getParamName(
   }
 
   return undefined;
+}
+
+function getClassName(constructorParameter: ts.Node): string | undefined {
+  const classExpressionNode = constructorParameter
+    .getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.TypeReference);
+  return classExpressionNode ? classExpressionNode.getText() : undefined;
 }
 
 function shouldRemoveImportAndParam(
