@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigInitializerService, LanguageService, WindowRef } from '@spartacus/core';
+import {
+  ConfigInitializerService,
+  LanguageService,
+  WindowRef,
+} from '@spartacus/core';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DirectionMode } from './config/direction.model';
 import { DirectionService } from './direction.service';
@@ -147,7 +151,7 @@ describe('DirectionService', () => {
         );
       });
 
-      it('should set the direction by the active language',  () => {
+      it('should set the direction by the active language', () => {
         const TEST_LANGUAGE = 'testLanguage';
         const TEST_DIRECTION = 'testDirection' as DirectionMode;
 
@@ -164,7 +168,7 @@ describe('DirectionService', () => {
         );
       });
 
-      it('should set the direction each time the active language changes',  () => {
+      it('should set the direction each time the active language changes', () => {
         const TEST_LANGUAGE_1 = 'testLanguage_1';
         const TEST_LANGUAGE_2 = 'testLanguage_2';
         const TEST_DIRECTION_1 = 'testDirection_1' as DirectionMode;
