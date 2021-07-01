@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConfigInitializerService } from './config-initializer.service';
-import { Config, ConfigInitializer } from '@spartacus/core';
+import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
 import { tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
-import { ConfigInitializerService } from './config-initializer.service';
 
 const MockConfig = {
   test: 'test',
@@ -182,57 +179,24 @@ describe('ConfigInitializerService', () => {
       });
     });
 
-    it('getConfigStable should fulfil gradually', async () => {
-      const results: string[] = [];
-
-      const scope2 = async () => {
-        await service.getStableConfig('scope2');
-        results.push('scope2');
-      };
-      const stable = async () => {
-        await service.getStableConfig();
-        results.push('stable');
-      };
-      const scope1 = async () => {
-        await service.getStableConfig('scope1');
-        results.push('scope1');
-      };
-
-      await Promise.all([scope2(), stable(), scope1()]);
-
-      expect(results).toEqual(['scope1', 'scope2', 'stable']);
-    });
-
     describe('Config tokens', () => {
-      it('should contribute to global Configuration token', async () => {
-        await service.getStableConfig();
-        const config: any = TestBed.inject(Config);
-        expect(config.scope1).toEqual('final');
-        expect(config.scope2.nested).toBeTruthy();
+      it('should contribute to global Configuration token', (done) => {
+        service.getStable().subscribe(() => {
+          const config: any = TestBed.inject(Config);
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2.nested).toBeTruthy();
+          done();
+        });
       });
-      it('should contribute to Root Configuration token', async () => {
-        await service.getStableConfig();
-        const config = TestBed.inject(RootConfig);
-        expect(config.scope1).toEqual('final');
-        expect(config.scope2.nested).toBeTruthy();
+      it('should contribute to Root Configuration token', (done) => {
+        service.getStable().subscribe(() => {
+          const config = TestBed.inject(RootConfig);
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2.nested).toBeTruthy();
+          done();
+        });
       });
     });
-
-    // describe('Config tokens', () => {
-    //   it('should contribute to global Configuration token', async () => {
-    //     await service.getStableConfig();
-    //     const config = TestBed.inject(Config);
-    //     expect(config.scope1).toEqual('final');
-    //     expect(config.scope2.nested).toBeTruthy();
-    //   });
-
-    //   it('should contribute to Root Configuration token', async () => {
-    //     await service.getStableConfig();
-    //     const config = TestBed.inject(RootConfig);
-    //     expect(config.scope1).toEqual('final');
-    //     expect(config.scope2.nested).toBeTruthy();
-    //   });
-    // });
   });
 
   it('should fail if one initializer will fail', async () => {
