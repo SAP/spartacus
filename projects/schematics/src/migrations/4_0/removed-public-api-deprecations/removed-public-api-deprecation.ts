@@ -148,6 +148,7 @@ import {
   LOCATION,
   CART_ITEM_CONTEXT_SOURCE,
   EXTERNAL_JS_FILE_LOADER,
+  B2C_LAYOUT_CONFIG,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -887,6 +888,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EXTERNAL_JS_FILE_LOADER,
     importPath: SPARTACUS_CORE,
     comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
+  },
+  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  {
+    node: B2C_LAYOUT_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${B2C_LAYOUT_CONFIG}' was removed from '${SPARTACUS_STOREFRONTLIB}', please use corresponding feature-lib specific layout.`,
   },
 ];
 
