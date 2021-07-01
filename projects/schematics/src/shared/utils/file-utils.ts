@@ -444,12 +444,12 @@ function checkConstructorParameters(
 
       if (constructorParameterType.length !== 0) {
         foundClassTypes.push(parameterClassType);
-        /*  
+        /*
         the break is needed to cope with multiple parameters of one type,
-        e.g. constructor migrations for 
+        e.g. constructor migrations for
        constructor(
           protected cartStore: Store<StateWithMultiCart>,
-          protected store: Store<StateWithConfigurator>, 
+          protected store: Store<StateWithConfigurator>,
           protected configuratorUtilsService: ConfiguratorUtilsService
         ) {}    */
         break;
