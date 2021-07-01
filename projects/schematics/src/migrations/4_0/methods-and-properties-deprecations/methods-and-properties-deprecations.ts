@@ -4,6 +4,7 @@ import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog-component.migration';
 import { BASE_SITE_SERVICE_MIGRATION } from './data/base-site.service.migration';
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.migration';
+import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item-component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -41,6 +42,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   ...CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION,
   ...CART_DETAILS_COMPONENT_MIGRATION,
+  ...CART_ITEM_COMPONENT_MIGRATION,
   ...ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   ...ROUTING_SERVICE_MIGRATION,
   ...CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
