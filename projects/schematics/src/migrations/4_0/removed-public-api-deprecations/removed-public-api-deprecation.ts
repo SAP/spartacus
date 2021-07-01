@@ -958,7 +958,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_SIGN_UP_INTERFACE,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_SIGN_UP_INTERFACE}' was removed, for replacement please use '${USER_INTERFACE}' from '${SPARTACUS_USER_PROFILE}'.`,
+    comment: `'${USER_SIGN_UP_INTERFACE}' was removed, for replacement please use '${USER_SIGN_UP_INTERFACE}' from '${SPARTACUS_USER_PROFILE}'.`,
   },
   // projects/core/src/user/store/actions/index.ts
   {
