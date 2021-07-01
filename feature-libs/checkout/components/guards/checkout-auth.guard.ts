@@ -63,7 +63,7 @@ export class CheckoutAuthGuard implements CanActivate {
             { key: 'checkout.invalid.accountType' },
             GlobalMessageType.MSG_TYPE_WARNING
           );
-          return false;
+          return this.router.parseUrl(this.semanticPathService.get('home'));
         }
         return isLoggedIn;
       })
