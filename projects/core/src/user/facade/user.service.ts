@@ -1,16 +1,12 @@
 import { Injectable, Optional } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Title, User } from '../../model/misc.model';
+import { User } from '../../model/misc.model';
 import { StateWithProcess } from '../../process/store/process-state';
-import { UserActions } from '../store/actions/index';
-import { UsersSelectors } from '../store/selectors/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { StateWithUser } from '../store/user-state';
 import {
   UserAccountFacadeTransitionalToken,
-  UserProfileFacadeTransitionalToken,
   UserRegisterFacadeTransitionalToken,
 } from '../user-transitional-tokens';
 
@@ -22,8 +18,6 @@ export class UserService {
     // TODO: Remove transitional tokens in 4.0 with #11607
     @Optional()
     protected userAccountFacade?: UserAccountFacadeTransitionalToken,
-    @Optional()
-    protected userProfileFacade?: UserProfileFacadeTransitionalToken,
     @Optional()
     protected userRegisterFacade?: UserRegisterFacadeTransitionalToken
   ) {}
@@ -51,35 +45,5 @@ export class UserService {
       this.userRegisterFacade.registerGuest(guid, password);
     }
     throw Error('Cannot get a user. `UserRegisterFacade` was not provided.');
-  }
-
-  /**
-   * Returns titles.
-   *
-   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
-   */
-  getTitles(): Observable<Title[]> {
-    if (this.userProfileFacade) {
-      return this.userProfileFacade.getTitles();
-    }
-    return this.store.pipe(
-      // workaround for using lazy loaded user/account library
-      filter((state) => state[USER_FEATURE]),
-      select(UsersSelectors.getAllTitles),
-      tap((titles: Title[]) => {
-        if (Object.keys(titles).length === 0) {
-          this.loadTitles();
-        }
-      })
-    );
-  }
-
-  /**
-   * Retrieves titles.
-   *
-   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
-   */
-  loadTitles(): void {
-    this.store.dispatch(new UserActions.LoadTitles());
   }
 }

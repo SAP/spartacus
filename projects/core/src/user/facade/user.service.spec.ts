@@ -49,29 +49,4 @@ describe('UserService', () => {
       expect(userService).toBeTruthy();
     }
   ));
-
-  it('should be able to get titles data', () => {
-    store.dispatch(
-      new UserActions.LoadTitlesSuccess([
-        { code: 't1', name: 't1' },
-        { code: 't2', name: 't2' },
-      ])
-    );
-    let titles: Title[];
-    service
-      .getTitles()
-      .subscribe((data) => {
-        titles = data;
-      })
-      .unsubscribe();
-    expect(titles).toEqual([
-      { code: 't1', name: 't1' },
-      { code: 't2', name: 't2' },
-    ]);
-  });
-
-  it('should be able to load titles', () => {
-    service.loadTitles();
-    expect(store.dispatch).toHaveBeenCalledWith(new UserActions.LoadTitles());
-  });
 });

@@ -48,7 +48,6 @@ import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
-import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
@@ -88,7 +87,6 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromOrderReturnRequestReducer.reducer
     ),
     countries: fromDeliveryCountries.reducer,
-    titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
