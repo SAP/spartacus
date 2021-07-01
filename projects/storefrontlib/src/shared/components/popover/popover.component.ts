@@ -126,7 +126,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Subject which emits specific type of `PopoverEvent`.
    */
-  eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
+  eventSubject: Subject<PopoverEvent>;
 
   /**
    * Scroll event unlistener.
@@ -142,7 +142,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Listens for click inside popover component wrapper.
    */
   @HostListener('click')
-  insideClick() {
+  insideClick(_event: MouseEvent) {
     this.eventSubject.next(PopoverEvent.INSIDE_CLICK);
     this.insideClicked = true;
   }
@@ -151,14 +151,17 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Listens for every document click and ignores clicks
    * inside component.
    */
-  @HostListener('document:click')
-  outsideClick() {
-    if (!this.insideClicked) {
+  @HostListener('document:click', ['$event'])
+  outsideClick(event: MouseEvent) {
+    if (!this.insideClicked && !this.isClickedOnDirective(event)) {
       this.eventSubject.next(PopoverEvent.OUTSIDE_CLICK);
     }
     this.insideClicked = false;
   }
 
+  protected isClickedOnDirective(event) {
+    return this.triggerElement.nativeElement.contains(event.target);
+  }
   /**
    * Listens for `escape` keyodwn event.
    */
@@ -171,9 +174,12 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Emits close event trigger.
    */
   close(event: MouseEvent | KeyboardEvent) {
-    if (event instanceof MouseEvent)
+    event.preventDefault();
+    if (event instanceof MouseEvent) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
-    else this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    } else {
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    }
   }
 
   /**

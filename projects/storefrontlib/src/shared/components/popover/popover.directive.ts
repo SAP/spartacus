@@ -11,14 +11,15 @@ import {
   Output,
   EventEmitter,
   HostListener,
+  OnInit,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { skip } from 'rxjs/operators';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
+import { Subject } from 'rxjs';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -26,7 +27,7 @@ import { PopoverService } from './popover.service';
 @Directive({
   selector: '[cxPopover]',
 })
-export class PopoverDirective {
+export class PopoverDirective implements OnInit {
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -72,30 +73,45 @@ export class PopoverDirective {
    * focusable element in popover container.
    */
 
+  /**
+   * Subject which emits specific type of `PopoverEvent`.
+   */
+  eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
+
   @HostListener('keydown.escape')
-  handleEscape(): void {
-    this.popoverContainer.instance.eventSubject.next(
-      PopoverEvent.ESCAPE_KEYDOWN
-    );
+  handleEscape(event: KeyboardEvent): void {
+    event?.preventDefault();
+    this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 
   @HostListener('click', ['$event'])
-  @HostListener('keydown.enter', ['$event'])
-  handleOpen(event: MouseEvent | KeyboardEvent): void {
-    if (event.target === this.element.nativeElement) this.toggle(event);
+  handleClick(event: MouseEvent): void {
+    event?.preventDefault();
+    if (event?.target === this.element.nativeElement && !this.isOpen) {
+      this.eventSubject.next(PopoverEvent.OPEN);
+    } else if (this.isOpen)
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
   }
 
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  handlePress(event: KeyboardEvent): void {
+    event?.preventDefault();
+    if (event?.target === this.element.nativeElement && !this.isOpen) {
+      this.eventSubject.next(PopoverEvent.OPEN_BY_KEYBOARD);
+    } else if (this.isOpen)
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+  }
   /**
    * Method performs open action for popover component.
    */
-  open(event: MouseEvent | KeyboardEvent) {
+  open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
         this.cxPopoverOptions?.appendToBody || false
       );
-
       this.renderPopover();
 
       if (this.openPopover) this.openPopover.emit();
@@ -113,38 +129,38 @@ export class PopoverDirective {
   }
 
   /**
-   * Method performs toggle action for popover component.
-   */
-  toggle(event: MouseEvent | KeyboardEvent) {
-    if (event && event.target === this.element.nativeElement && !this.isOpen)
-      this.open(event);
-    else if (this.isOpen) this.close();
-  }
-
-  /**
    * Method subscribes for events emitted by popover component
    * and based on event performs specific action.
    */
   handlePopoverEvents() {
-    return this.popoverContainer.instance.eventSubject
-      .pipe(skip(1))
-      .subscribe((event: PopoverEvent) => {
-        if (
-          event !== PopoverEvent.INSIDE_CLICK &&
-          event !== PopoverEvent.CLOSE_BUTTON_KEYDOWN
-        )
-          this.close();
-        if (
-          event === PopoverEvent.ESCAPE_KEYDOWN ||
-          event === PopoverEvent.CLOSE_BUTTON_KEYDOWN
-        ) {
-          this.popoverService.setFocusOnElement(
-            this.element,
-            this.focusConfig,
-            this.cxPopoverOptions?.appendToBody
-          );
-        }
-      });
+    this.eventSubject.subscribe((event: PopoverEvent) => {
+      if (
+        !this.isOpen &&
+        (event === PopoverEvent.OPEN || event === PopoverEvent.OPEN_BY_KEYBOARD)
+      ) {
+        this.open(event);
+      }
+      if (event === PopoverEvent.OPEN_BY_KEYBOARD) {
+        this.popoverContainer.location.nativeElement.focus();
+      }
+      if (
+        event === PopoverEvent.ESCAPE_KEYDOWN ||
+        event === PopoverEvent.OUTSIDE_CLICK ||
+        event === PopoverEvent.CLOSE_BUTTON_KEYDOWN ||
+        event === PopoverEvent.CLOSE_BUTTON_CLICK
+      )
+        this.close();
+      if (
+        event === PopoverEvent.ESCAPE_KEYDOWN ||
+        event === PopoverEvent.CLOSE_BUTTON_KEYDOWN
+      ) {
+        this.popoverService.setFocusOnElement(
+          this.element,
+          this.focusConfig,
+          this.cxPopoverOptions?.appendToBody
+        );
+      }
+    });
   }
 
   /**
@@ -164,6 +180,7 @@ export class PopoverDirective {
       componentInstance.triggerElement = this.element;
       componentInstance.popoverInstance = this.popoverContainer;
       componentInstance.focusConfig = this.focusConfig;
+      componentInstance.eventSubject = this.eventSubject;
       componentInstance.position = this.cxPopoverOptions?.placement;
       componentInstance.customClass = this.cxPopoverOptions?.class;
       componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
@@ -179,7 +196,6 @@ export class PopoverDirective {
       }
 
       this.popoverContainer.changeDetectorRef.detectChanges();
-      this.handlePopoverEvents();
     }
   }
 
@@ -193,4 +209,8 @@ export class PopoverDirective {
     protected popoverService: PopoverService,
     protected winRef: WindowRef
   ) {}
+
+  ngOnInit() {
+    this.handlePopoverEvents();
+  }
 }
