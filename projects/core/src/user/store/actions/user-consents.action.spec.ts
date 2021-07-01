@@ -51,6 +51,42 @@ describe('user consent actions', () => {
     });
   });
 
+  describe('Load User Consent Actions', () => {
+    const templateId = 'yyy';
+    describe('LoadUserConsent', () => {
+      it('should create the action', () => {
+        const action = new UserActions.LoadUserConsent({ userId, templateId });
+        expect({ ...action }).toEqual({
+          type: UserActions.LOAD_USER_CONSENT,
+          payload: { userId, templateId },
+          meta: StateUtils.loadMeta(USER_CONSENTS),
+        });
+      });
+    });
+    describe('LoadUserConsentFail', () => {
+      it('should create the action', () => {
+        const payload = 'anError';
+        const action = new UserActions.LoadUserConsentFail(payload);
+        expect({ ...action }).toEqual({
+          type: UserActions.LOAD_USER_CONSENT_FAIL,
+          payload,
+          meta: StateUtils.failMeta(USER_CONSENTS, payload),
+        });
+      });
+    });
+    describe('LoadUserConsentSuccess', () => {
+      it('should create the action', () => {
+        const payload: ConsentTemplate = { id: 'xxx' };
+        const action = new UserActions.LoadUserConsentSuccess(payload);
+        expect({ ...action }).toEqual({
+          type: UserActions.LOAD_USER_CONSENT_SUCCESS,
+          payload,
+          meta: StateUtils.successMeta(USER_CONSENTS),
+        });
+      });
+    });
+  });
+
   describe('Give User Consent Actions', () => {
     describe('GiveUserConsent', () => {
       it('should create the action', () => {

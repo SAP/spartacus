@@ -6,6 +6,7 @@ import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserConsentAdapter {
   loadConsents = createSpy('loadConsents').and.returnValue(of({}));
+  loadConsent = createSpy('loadConsent').and.returnValue(of({}));
   giveConsent = createSpy('giveConsent').and.returnValue(of({}));
   withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
 }
@@ -32,6 +33,15 @@ describe('UserConsentConnector', () => {
     service.loadConsents('userId').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.loadConsents).toHaveBeenCalledWith('userId');
+  });
+
+  it('loadConsent should call adapter', () => {
+    let result;
+    service
+      .loadConsent('userId', 'templateId')
+      .subscribe((res) => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.loadConsent).toHaveBeenCalledWith('userId', 'templateId');
   });
 
   it('giveConsent should call adapter', () => {

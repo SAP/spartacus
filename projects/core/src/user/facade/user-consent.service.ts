@@ -39,6 +39,15 @@ export class UserConsentService {
   }
 
   /**
+   * Retrieves single consent.
+   */
+  loadConsent(userId: string, templateId: string): void {
+    this.store.dispatch(
+      new UserActions.LoadUserConsent({ userId, templateId })
+    );
+  }
+
+  /**
    * Returns all consent templates. If `loadIfMissing` parameter is set to `true`, the method triggers the load if consent templates.
    * @param loadIfMissing is set to `true`, the method will load templates if those are not already present. The default value is `false`.
    */
@@ -198,12 +207,13 @@ export class UserConsentService {
    * Withdraw consent for the given `consentCode`
    * @param consentCode for which to withdraw the consent
    */
-  withdrawConsent(consentCode: string): void {
+  withdrawConsent(consentCode: string, consentTemplateId: string): void {
     this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
           consentCode,
+          consentTemplateId,
         })
       );
     });
