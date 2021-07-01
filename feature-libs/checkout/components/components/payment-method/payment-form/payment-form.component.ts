@@ -117,13 +117,7 @@ export class PaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
-      tap((cardTypes) => {
-        if (Object.keys(cardTypes).length === 0) {
-          this.checkoutPaymentService.loadSupportedCardTypes();
-        }
-      })
-    );
+    this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();

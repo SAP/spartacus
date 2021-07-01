@@ -1,11 +1,9 @@
 import {
   Address,
-  CardType,
   DeliveryMode,
   Order,
   ORDER_TYPE,
   PaymentDetails,
-  PaymentType,
   ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
@@ -26,15 +24,7 @@ export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
 }
 
-export interface CardTypesState {
-  entities: { [code: string]: CardType };
-}
-
 export interface CheckoutStepsState {
-  poNumber: {
-    po?: string;
-    costCenter?: string;
-  };
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };
@@ -44,18 +34,11 @@ export interface CheckoutStepsState {
   orderDetails: Order | ReplenishmentOrder;
 }
 
-export interface PaymentTypesState {
-  entities: { [code: string]: PaymentType };
-  selected?: string;
-}
-
 export interface OrderTypesState {
   selected: ORDER_TYPE;
 }
 
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
-  cardTypes: CardTypesState;
-  paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }

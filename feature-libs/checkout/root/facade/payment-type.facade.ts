@@ -9,7 +9,6 @@ export function paymentTypeFacadeFactory() {
     feature: CHECKOUT_CORE_FEATURE,
     methods: [
       'getPaymentTypes',
-      'loadPaymentTypes',
       'setPaymentType',
       'getSelectedPaymentType',
       'isAccountPayment',
@@ -30,16 +29,14 @@ export abstract class PaymentTypeFacade {
   abstract getPaymentTypes(): Observable<PaymentType[]>;
 
   /**
-   * Load the supported payment types
-   */
-  abstract loadPaymentTypes(): void;
-
-  /**
    * Set payment type to cart
    * @param typeCode
    * @param poNumber : purchase order number
    */
-  abstract setPaymentType(typeCode: string, poNumber?: string): void;
+  abstract setPaymentType(
+    typeCode: string,
+    poNumber?: string
+  ): Observable<unknown>;
 
   /**
    * Get the selected payment type

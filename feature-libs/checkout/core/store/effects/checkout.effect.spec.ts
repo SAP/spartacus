@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   Address,
   AuthActions,
@@ -15,12 +16,10 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import {
-  CheckoutCostCenterConnector,
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../connectors';
 import { CheckoutConnector } from '../../connectors/checkout';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 import * as fromEffects from './checkout.effect';
 import createSpy = jasmine.createSpy;
@@ -68,10 +67,6 @@ class MockCheckoutPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
-class MockCheckoutCostCenterConnector {
-  setCostCenter = createSpy().and.returnValue(of({}));
-}
-
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
@@ -96,10 +91,6 @@ describe('Checkout effect', () => {
         {
           provide: CheckoutPaymentConnector,
           useClass: MockCheckoutPaymentConnector,
-        },
-        {
-          provide: CheckoutCostCenterConnector,
-          useClass: MockCheckoutCostCenterConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
@@ -210,14 +201,12 @@ describe('Checkout effect', () => {
         current: 'current',
       });
       const completion1 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
-      const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
-      const completion3 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: completion1,
         c: completion2,
-        d: completion3,
       });
 
       expect(
@@ -442,34 +431,6 @@ describe('Checkout effect', () => {
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
-    });
-  });
-
-  describe('setCostCenter$', () => {
-    it('should set cost center to cart', () => {
-      const action = new CheckoutActions.SetCostCenter({
-        userId: userId,
-        cartId: cartId,
-        costCenterId: 'testId',
-      });
-      const completion1 = new CartActions.LoadCart({
-        userId,
-        cartId,
-      });
-      const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId,
-        cartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: completion1,
-        c: completion2,
-        d: completion3,
-      });
-
-      expect(entryEffects.setCostCenter$).toBeObservable(expected);
     });
   });
 });

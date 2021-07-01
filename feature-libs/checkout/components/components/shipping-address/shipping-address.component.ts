@@ -116,13 +116,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     ) {
       return this.checkoutCostCenterService.getCostCenter().pipe(
         distinctUntilChanged(),
-        switchMap((selected) => {
+        switchMap((costCenter) => {
           this.doneAutoSelect = false;
-          return (
-            this.userCostCenterService?.getCostCenterAddresses(
-              selected as string
-            ) ?? []
-          );
+          return costCenter?.code
+            ? this.userCostCenterService?.getCostCenterAddresses(
+                costCenter?.code
+              ) ?? []
+            : [];
         })
       );
     }

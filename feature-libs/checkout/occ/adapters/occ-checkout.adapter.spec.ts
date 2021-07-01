@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDetails } from '@spartacus/checkout/core';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ConverterService,
   OccConfig,

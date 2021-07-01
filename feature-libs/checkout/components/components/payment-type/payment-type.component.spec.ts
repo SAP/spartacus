@@ -14,11 +14,13 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
-class MockPaymentTypeService {
+class MockPaymentTypeFacade implements Partial<PaymentTypeFacade> {
   getPaymentTypes(): Observable<PaymentType[]> {
     return of();
   }
-  setPaymentType(): void {}
+  setPaymentType(): Observable<unknown> {
+    return of(true);
+  }
   getSelectedPaymentType(): Observable<string> {
     return selectedPaymentType$.asObservable();
   }
@@ -62,7 +64,7 @@ describe('PaymentTypeComponent', () => {
         providers: [
           {
             provide: PaymentTypeFacade,
-            useClass: MockPaymentTypeService,
+            useClass: MockPaymentTypeFacade,
           },
           {
             provide: CheckoutStepService,
@@ -104,7 +106,7 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should get selected payment type', () => {
-    let selected: string;
+    let selected: string | undefined;
     component.typeSelected$
       .subscribe((data) => {
         selected = data;
@@ -118,7 +120,7 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should get po number from cart', () => {
-    let cartPoNumber: string;
+    let cartPoNumber: string | undefined;
 
     component.cartPoNumber$
       .subscribe((data) => {

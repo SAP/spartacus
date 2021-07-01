@@ -66,7 +66,7 @@ export class CheckoutService implements CheckoutFacade {
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean
   ): void {
-    let cartId: string;
+    let cartId: string | undefined;
 
     this.activeCartService
       .getActiveCartId()
@@ -74,11 +74,7 @@ export class CheckoutService implements CheckoutFacade {
       .subscribe((activeCartId) => (cartId = activeCartId));
 
     this.userIdService.invokeWithUserId((userId) => {
-      if (
-        Boolean(cartId) &&
-        Boolean(userId) &&
-        userId !== OCC_USER_ID_ANONYMOUS
-      ) {
+      if (!!cartId && !!userId && userId !== OCC_USER_ID_ANONYMOUS) {
         this.checkoutStore.dispatch(
           new CheckoutActions.ScheduleReplenishmentOrder({
             cartId,

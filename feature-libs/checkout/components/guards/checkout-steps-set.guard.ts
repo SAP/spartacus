@@ -129,7 +129,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           if (
             deliveryAddress &&
             Object.keys(deliveryAddress).length &&
-            Boolean(costCenter)
+            Boolean(costCenter?.code)
           ) {
             return true;
           } else {
@@ -139,7 +139,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           if (
             deliveryAddress &&
             Object.keys(deliveryAddress).length &&
-            costCenter === undefined
+            costCenter?.code === undefined
           ) {
             return true;
           } else {

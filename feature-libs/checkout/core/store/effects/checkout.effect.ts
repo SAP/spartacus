@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   AuthActions,
   CartActions,
@@ -20,10 +21,8 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
-import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -155,12 +154,10 @@ export class CheckoutEffects {
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
-    | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
-      new CheckoutActions.ResetLoadPaymentTypesProcess(),
       new CheckoutActions.CheckoutClearMiscsData(),
     ])
   );
@@ -410,43 +407,10 @@ export class CheckoutEffects {
     withdrawOn(this.contextChange$)
   );
 
-  @Effect()
-  setCostCenter$: Observable<
-    | CheckoutActions.SetCostCenterSuccess
-    | CheckoutActions.SetCostCenterFail
-    | CheckoutActions.ClearCheckoutDeliveryAddress
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.SET_COST_CENTER),
-    map((action: CheckoutActions.SetCostCenter) => action.payload),
-    switchMap((payload) => {
-      return this.checkoutCostCenterConnector
-        .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
-        .pipe(
-          mergeMap((_data) => [
-            new CartActions.LoadCart({
-              cartId: payload.cartId,
-              userId: payload.userId,
-            }),
-            new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
-            new CheckoutActions.ClearCheckoutDeliveryAddress({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            }),
-          ]),
-          catchError((error) =>
-            of(new CheckoutActions.SetCostCenterFail(normalizeHttpError(error)))
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
-    private checkoutCostCenterConnector: CheckoutCostCenterConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }

@@ -162,7 +162,7 @@ export class ActiveCartService implements OnDestroy {
   /**
    * Returns active cart id
    */
-  getActiveCartId(): Observable<string> {
+  getActiveCartId(): Observable<string | undefined> {
     return this.activeCart$.pipe(
       withLatestFrom(this.userIdService.getUserId()),
       map(([cart, userId]) => getCartIdByUserId(cart, userId)),

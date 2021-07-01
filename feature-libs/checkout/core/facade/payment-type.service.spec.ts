@@ -1,68 +1,87 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
+import { CheckFacade, CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
+  Cart,
   PaymentType,
-  PROCESS_FEATURE,
+  QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of, Subscription } from 'rxjs';
-import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
-import { CheckoutActions } from '../store/actions/index';
-import { CheckoutState } from '../store/checkout-state';
+import { of } from 'rxjs';
+import { PaymentTypeConnector } from '../connectors';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { PaymentTypeService } from './payment-type.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cart = {
   code: 'testCart',
-  paymentType: { code: 'ACCOUNT' },
-  purchaseOrderNumber: 'testNumber',
 };
 
+class MockPaymentTypeConnector implements Partial<PaymentTypeConnector> {
+  getPaymentTypes() {
+    return of([
+      { code: 'account', displayName: 'account' },
+      { code: 'card', displayName: 'masterCard' },
+    ]);
+  }
+  setPaymentType = createSpy().and.returnValue(of(undefined));
+}
+
+class MockCheckFacade implements Partial<CheckFacade> {
+  getCheckoutDetails() {
+    return of({
+      data: {
+        paymentType: {
+          code: 'ACCOUNT',
+        },
+        purchaseOrderNumber: 'testNumber',
+      },
+    } as QueryState<CheckoutDetails>);
+  }
+}
+
 class ActiveCartServiceStub implements Partial<ActiveCartService> {
-  cart;
+  cart: Cart;
   getActiveCartId() {
     return of(cart.code);
-  }
-  getActive() {
-    return of(cart);
   }
 }
 
 class UserIdServiceStub implements Partial<UserIdService> {
-  userId;
-  invokeWithUserId(cb) {
-    cb(userId);
-    return new Subscription();
+  userId: string;
+  takeUserId() {
+    return of(userId);
   }
 }
 describe('PaymentTypeService', () => {
   let service: PaymentTypeService;
-  let store: Store<CheckoutState>;
+  let connector: PaymentTypeConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
-        ),
       ],
       providers: [
         PaymentTypeService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        {
+          provide: PaymentTypeConnector,
+          useClass: MockPaymentTypeConnector,
+        },
+        {
+          provide: CheckFacade,
+          useClass: MockCheckFacade,
+        },
       ],
     });
 
-    service = TestBed.inject(PaymentTypeService as Type<PaymentTypeService>);
-    store = TestBed.inject(Store as Type<Store<CheckoutState>>);
-
-    spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.inject(PaymentTypeService);
+    connector = TestBed.inject(PaymentTypeConnector);
   });
 
   it('should PaymentTypeService is injected', inject(
@@ -73,14 +92,7 @@ describe('PaymentTypeService', () => {
   ));
 
   it('should be able to get the payment types if data exist', () => {
-    store.dispatch(
-      new CheckoutActions.LoadPaymentTypesSuccess([
-        { code: 'account', displayName: 'account' },
-        { code: 'card', displayName: 'masterCard' },
-      ])
-    );
-
-    let paymentTypes: PaymentType[];
+    let paymentTypes: PaymentType[] = [];
     service.getPaymentTypes().subscribe((data) => {
       paymentTypes = data;
     });
@@ -90,77 +102,37 @@ describe('PaymentTypeService', () => {
     ]);
   });
 
-  it('should be able to get the payment types after trigger data loading when they do not exist', () => {
-    spyOn(service, 'loadPaymentTypes').and.callThrough();
-
-    let types: PaymentType[];
-    service
-      .getPaymentTypes()
-      .subscribe((data) => {
-        types = data;
-      })
-      .unsubscribe();
-
-    expect(types).toEqual([]);
-    expect(service.loadPaymentTypes).toHaveBeenCalled();
-  });
-
-  it('should be able to load payment types', () => {
-    service.loadPaymentTypes();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.LoadPaymentTypes()
-    );
-  });
-
-  it('should be able to set selected payment type to cart', () => {
-    service.setPaymentType('typeCode', 'poNumber');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentType({
-        userId: userId,
-        cartId: cart.code,
-        typeCode: 'typeCode',
-        poNumber: 'poNumber',
-      })
-    );
+  it('should be able to set selected payment type to cart', (done) => {
+    service.setPaymentType('typeCode', 'poNumber').subscribe(() => {
+      expect(connector.setPaymentType).toHaveBeenCalledWith(
+        userId,
+        cart.code,
+        'typeCode',
+        'poNumber'
+      );
+      done();
+    });
   });
 
   it('should be able to get selected payment type if data exist', () => {
-    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
-    let selected: string;
+    let selected: string | undefined;
     service.getSelectedPaymentType().subscribe((data) => {
       selected = data;
     });
     expect(selected).toEqual('ACCOUNT');
   });
 
-  it('should be able to set the selected field if cart has payment type', () => {
-    service.getSelectedPaymentType().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentTypeSuccess(cart)
-    );
-  });
-
   it('should be able to get whether the selected payment type is ACCOUNT', () => {
-    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
     let isAccount = false;
     service.isAccountPayment().subscribe((data) => (isAccount = data));
     expect(isAccount).toEqual(true);
   });
 
   it('should be able to get po number if data exist', () => {
-    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
-
-    let po: string;
+    let po: string | undefined;
     service.getPoNumber().subscribe((data) => {
       po = data;
     });
     expect(po).toEqual('testNumber');
-  });
-
-  it('should be able to set po if cart has it', () => {
-    service.getPoNumber().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentTypeSuccess(cart)
-    );
   });
 });

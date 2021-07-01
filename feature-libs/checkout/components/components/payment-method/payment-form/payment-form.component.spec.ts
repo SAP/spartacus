@@ -259,17 +259,6 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported card types if they do not exist', (done) => {
-    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
-    component.ngOnInit();
-    component.cardTypes$.subscribe(() => {
-      expect(
-        mockCheckoutPaymentService.loadSupportedCardTypes
-      ).toHaveBeenCalled();
-      done();
-    });
-  });
-
   it('should call ngOnInit to get supported card types if they exist', () => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
       of(mockCardTypes)

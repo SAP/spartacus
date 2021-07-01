@@ -65,9 +65,10 @@ class MockUserCostCenterService {
   }
 }
 
-class MockCheckoutCostCenterService {
+class MockCheckoutCostCenterService
+  implements Partial<CheckoutCostCenterFacade> {
   getCostCenter() {
-    return of('test-cost-center');
+    return of({ code: 'test-cost-center' });
   }
 }
 

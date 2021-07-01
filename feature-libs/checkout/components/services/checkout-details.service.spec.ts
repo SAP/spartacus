@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDetails,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';

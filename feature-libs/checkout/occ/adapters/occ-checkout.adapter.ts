@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CheckoutAdapter, CheckoutDetails } from '@spartacus/checkout/core';
+import { CheckoutAdapter } from '@spartacus/checkout/core';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   ConverterService,
   InterceptorUtil,

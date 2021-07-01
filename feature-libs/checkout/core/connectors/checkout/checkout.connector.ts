@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import { Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutAdapter } from './checkout.adapter';
 
 @Injectable()

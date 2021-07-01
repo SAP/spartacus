@@ -1,3 +1,4 @@
+import { CheckoutDetails } from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -5,7 +6,6 @@ import {
   PaymentDetails,
   ReplenishmentOrder,
 } from '@spartacus/core';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from './../actions/index';
 import * as fromCheckout from './checkout.reducer';
 
@@ -17,31 +17,6 @@ describe('Checkout reducer', () => {
       const state = fromCheckout.reducer(undefined, action);
 
       expect(state).toBe(initialState);
-    });
-  });
-
-  describe('SET_PAYMENT_TYPE_SUCCESS action', () => {
-    it('should set po number to cart', () => {
-      const { initialState } = fromCheckout;
-
-      const action = new CheckoutActions.SetPaymentTypeSuccess({
-        code: 'testCart',
-        purchaseOrderNumber: 'testNumber',
-      });
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.poNumber.po).toEqual('testNumber');
-    });
-  });
-
-  describe('SET_COST_CENTER_SUCCESS action', () => {
-    it('should set cost center to cart', () => {
-      const { initialState } = fromCheckout;
-
-      const action = new CheckoutActions.SetCostCenterSuccess(
-        'testCostCenterId'
-      );
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.poNumber.costCenter).toEqual('testCostCenterId');
     });
   });
 
