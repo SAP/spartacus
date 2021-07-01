@@ -120,7 +120,6 @@ export class ConfiguratorAttributeHeaderComponent
       : 'configurator.conflict.viewConflictDetails';
   }
 
-  //TODO CHHI test
   /**
    * Checks if an image is attached
    * @returns True if an only if at least one image exists
@@ -129,7 +128,10 @@ export class ConfiguratorAttributeHeaderComponent
     const images = this.attribute.images;
     return images ? images.length > 0 : false;
   }
-
+  /**
+   * Returns image attached to the attribute (if available)
+   * @returns Image
+   */
   get image(): Configurator.Image | undefined {
     const images = this.attribute.images;
     return images && this.hasImage ? images[0] : undefined;

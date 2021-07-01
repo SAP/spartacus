@@ -44,14 +44,20 @@ describe('ConfigAttributeHeaderComponent', () => {
     'PRODUCT_CODE'
   );
 
+  const image = {
+    url: 'someImageURL',
+  };
+
+  const image2 = {
+    url: 'someOtherImageURL',
+  };
+
+  const images = [image, image2];
+
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
-    images: [
-      {
-        url: 'someImageURL',
-      },
-    ],
+    images: images,
   };
   let htmlElem: HTMLElement;
 
@@ -95,6 +101,42 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should create', () => {
     expect(classUnderTest).toBeTruthy();
+  });
+
+  describe('getImage', () => {
+    it('should return first image', () => {
+      expect(classUnderTest.image).toBe(image);
+    });
+
+    it('should return undefined if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(classUnderTest.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(classUnderTest.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+  });
+
+  describe('hasImage', () => {
+    it('should return true if image available', () => {
+      expect(classUnderTest.hasImage).toBe(true);
+    });
+
+    it('should return false if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(classUnderTest.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(classUnderTest.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
   });
 
   describe('Render corresponding part of the component', () => {

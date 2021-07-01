@@ -1,4 +1,3 @@
-import { isDevMode } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
@@ -46,7 +45,6 @@ export class ConfiguratorAttributeBaseComponent {
     );
   }
 
-  //TODO CHHI test
   protected getUiType(attribute: Configurator.Attribute): string {
     return attribute.uiType
       ? attribute.uiType
@@ -136,22 +134,22 @@ export class ConfiguratorAttributeBaseComponent {
     return `${attributeId}--${valueCode}--focus`;
   }
 
-  //TODO CHHI test
   /**
-   * Get code from attribute, and logs a warning if code
-   * is not in place
-   * @param attribute
-   * @returns
+   * Get code from attribute.
+   * The code is not a mandatory attribute (since not available for VC flavour),
+   * still it is mandatory in the context of CPQ. Calling this method therefore only
+   * makes sense when CPQ is active. In case the method is called in the wrong context, an exception will
+   * be thrown
+   *
+   * @param Attribute
+   * @returns Attribute code
    */
-  getAttributeCode(attribute: Configurator.Attribute): number {
+  protected getAttributeCode(attribute: Configurator.Attribute): number {
     const code = attribute.attrCode;
     if (code) {
       return code;
     } else {
-      if (isDevMode()) {
-        console.warn('No attribute code for: ' + attribute.name);
-      }
-      return 0;
+      throw new Error('No attribute code for: ' + attribute.name);
     }
   }
 }
