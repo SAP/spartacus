@@ -687,11 +687,11 @@ function getParamName(
 }
 
 function getClassName(constructorParameter: ts.Node): string | undefined {
-  const classExpressionNode = constructorParameter
+  const typeReferenceNode = constructorParameter
     .getChildren()
     .find((node) => node.kind === ts.SyntaxKind.TypeReference);
-  if (classExpressionNode) {
-    const identifierNode = classExpressionNode
+  if (typeReferenceNode) {
+    const identifierNode = typeReferenceNode
       .getChildren()
       .find((node) => node.kind === ts.SyntaxKind.Identifier);
     return identifierNode ? identifierNode.getText() : undefined;
