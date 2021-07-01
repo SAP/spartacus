@@ -1,6 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
+  ASM_MODULE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
@@ -174,6 +175,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  // projects/core/src/asm/asm.module.ts
+  {
+    node: ASM_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core.`,
   },
   {
     node: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,

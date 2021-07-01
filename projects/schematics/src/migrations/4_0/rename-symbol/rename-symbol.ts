@@ -211,12 +211,6 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newNode: 'AsmComponentsModule',
     newImportPath: `${SPARTACUS_ASM}/components`,
   },
-  // projects/core/src/asm/asm.module.ts
-  {
-    previousNode: ASM_MODULE,
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: `${SPARTACUS_ASM}/core`,
-  },
   // projects/core/src/asm/config/asm-config.ts
   {
     previousNode: ASM_CONFIG,
