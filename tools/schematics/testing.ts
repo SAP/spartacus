@@ -45,8 +45,6 @@ type Command = typeof commands[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 
-let currentVersion: semver.SemVer | null;
-
 function startVerdaccio(): ChildProcess {
   console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
@@ -69,7 +67,7 @@ function beforeExit(): void {
 }
 
 function publishLibs(): void {
-  currentVersion = semver.parse(
+  const currentVersion = semver.parse(
     JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
   );
 
