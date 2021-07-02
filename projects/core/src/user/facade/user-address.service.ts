@@ -34,7 +34,7 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(new UserActions.LoadUserAddresses(userId));
       },
@@ -49,7 +49,7 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.AddUserAddress({
@@ -69,7 +69,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdateUserAddress({
@@ -91,7 +91,7 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdateUserAddress({
@@ -112,7 +112,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.DeleteUserAddress({

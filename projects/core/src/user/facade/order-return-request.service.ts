@@ -76,7 +76,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.LoadOrderReturnRequest({
@@ -154,7 +154,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.userIdService.takeUserId(true).subscribe((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,

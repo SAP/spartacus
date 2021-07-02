@@ -39,7 +39,7 @@ export class UserNotificationPreferenceService {
    * Loads all notification preferences.
    */
   loadPreferences(): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.LoadNotificationPreferences(userId)
@@ -70,7 +70,7 @@ export class UserNotificationPreferenceService {
    * @param preferences a preference list
    */
   updatePreferences(preferences: NotificationPreference[]): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdateNotificationPreferences({

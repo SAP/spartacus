@@ -42,7 +42,7 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.LoadOrderDetails({
@@ -146,7 +146,7 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.LoadConsignmentTracking({
@@ -176,7 +176,7 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.CancelOrder({

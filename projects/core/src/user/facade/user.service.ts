@@ -155,7 +155,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserProfileFacade.close()` from `@spartacus/user` package.
    */
   remove(): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(new UserActions.RemoveUser(userId));
       },
@@ -266,7 +266,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserProfileFacade.update()` from `@spartacus/user` package.
    */
   updatePersonalDetails(userDetails: User): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdateUserDetails({
@@ -357,7 +357,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserEmailFacade.update()` from `@spartacus/user` package.
    */
   updateEmail(password: string, newUid: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdateEmailAction({
@@ -428,7 +428,7 @@ export class UserService {
    * @deprecated since 3.2, use `UserPasswordFacade.update()` from `@spartacus/user` package.
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.userIdService.takeUserId(true).subscribe(
+    this.userIdService.takeUserId().subscribe(
       (userId) => {
         this.store.dispatch(
           new UserActions.UpdatePassword({
