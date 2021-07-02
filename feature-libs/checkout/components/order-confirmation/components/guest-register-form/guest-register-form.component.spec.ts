@@ -4,9 +4,9 @@ import {
   AuthService,
   I18nTestingModule,
   RoutingService,
-  UserService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 import createSpy = jasmine.createSpy;
@@ -17,7 +17,7 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   registerGuest = createSpy();
 }
 
@@ -29,7 +29,7 @@ describe('GuestRegisterFormComponent', () => {
   let component: GuestRegisterFormComponent;
   let fixture: ComponentFixture<GuestRegisterFormComponent>;
 
-  let userService: UserService;
+  let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
 
   beforeEach(
@@ -39,7 +39,7 @@ describe('GuestRegisterFormComponent', () => {
         declarations: [GuestRegisterFormComponent],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
           { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
@@ -49,7 +49,7 @@ describe('GuestRegisterFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GuestRegisterFormComponent);
 
-    userService = TestBed.inject(UserService);
+    userRegisterFacade = TestBed.inject(UserRegisterFacade);
     routingService = TestBed.inject(RoutingService);
 
     component = fixture.componentInstance;
@@ -66,7 +66,10 @@ describe('GuestRegisterFormComponent', () => {
     component.guid = 'guid';
     component.submit();
 
-    expect(userService.registerGuest).toHaveBeenCalledWith('guid', password);
+    expect(userRegisterFacade.registerGuest).toHaveBeenCalledWith(
+      'guid',
+      password
+    );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 });
