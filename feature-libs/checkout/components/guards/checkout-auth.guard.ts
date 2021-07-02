@@ -42,8 +42,8 @@ export class CheckoutAuthGuard implements CanActivate {
       map(
         ([isLoggedIn, cartUser, user]: [
           boolean,
-          User,
-          User | B2BUser,
+          User | undefined,
+          User | B2BUser | undefined,
           boolean
         ]) => {
           if (!isLoggedIn) {
@@ -61,7 +61,7 @@ export class CheckoutAuthGuard implements CanActivate {
                 this.semanticPathService.get('login')
               );
             }
-          } else if ('roles' in user) {
+          } else if (user && 'roles' in user) {
             const roles = (<B2BUser>user).roles;
             if (roles?.includes(B2BUserRole.CUSTOMER)) {
               return true;
