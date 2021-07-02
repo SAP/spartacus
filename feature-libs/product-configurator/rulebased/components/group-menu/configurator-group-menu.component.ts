@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  QueryList,
   ElementRef,
+  QueryList,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -10,10 +10,10 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
-  HamburgerMenuService,
-  ICON_TYPE,
   DirectionMode,
   DirectionService,
+  HamburgerMenuService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -61,12 +61,20 @@ export class ConfiguratorGroupMenuComponent {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-
-  displayedParentGroup$: Observable<Configurator.Group> = this.configuration$.pipe(
+  /**
+   * Current parent group. Undefined for top level groups
+   */
+  displayedParentGroup$: Observable<
+    Configurator.Group | undefined
+  > = this.configuration$.pipe(
     switchMap((configuration) =>
       this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
     ),
-    switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
+    switchMap((parentGroup) => {
+      return parentGroup
+        ? this.getCondensedParentGroup(parentGroup)
+        : of(parentGroup);
+    })
   );
 
   displayedGroups$: Observable<
@@ -125,15 +133,18 @@ export class ConfiguratorGroupMenuComponent {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
-        const parentGroup$ = this.getParentGroup(displayedParentGroup);
-        this.configuration$.pipe(take(1)).subscribe((configuration) => {
-          parentGroup$.pipe(take(1)).subscribe((parentGroup) => {
-            this.configuratorGroupsService.setMenuParentGroup(
-              configuration.owner,
-              parentGroup ? parentGroup.id : null
-            );
+        //we only navigate up if we are not on a sub level group
+        if (displayedParentGroup) {
+          const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
+          this.configuration$.pipe(take(1)).subscribe((configuration) => {
+            grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
+              this.configuratorGroupsService.setMenuParentGroup(
+                configuration.owner,
+                grandParentGroup ? grandParentGroup.id : undefined
+              );
+            });
           });
-        });
+        }
       });
   }
 
@@ -151,7 +162,7 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Verifies whether the current group has a subgroups.
+   * Verifies whether the current group has subgroups.
    *
    * @param {Configurator.Group} group - Current group
    * @return {boolean} - Returns 'true' if the current group has a subgroups, otherwise 'false'.
@@ -160,9 +171,14 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService.hasSubGroups(group);
   }
 
+  /**
+   * Retrieves observable of parent group for a group
+   * @param group
+   * @returns Parent group, undefined in case input group is already on root level
+   */
   protected getParentGroup(
     group: Configurator.Group
-  ): Observable<Configurator.Group> {
+  ): Observable<Configurator.Group | undefined> {
     return this.configuration$.pipe(
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
@@ -175,7 +191,7 @@ export class ConfiguratorGroupMenuComponent {
 
   getCondensedParentGroup(
     parentGroup: Configurator.Group
-  ): Observable<Configurator.Group> {
+  ): Observable<Configurator.Group | undefined> {
     if (
       parentGroup &&
       parentGroup.subGroups &&
@@ -183,7 +199,9 @@ export class ConfiguratorGroupMenuComponent {
       parentGroup.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
     ) {
       return this.getParentGroup(parentGroup).pipe(
-        switchMap((group) => this.getCondensedParentGroup(group))
+        switchMap((group) => {
+          return group ? this.getCondensedParentGroup(group) : of(group);
+        })
       );
     } else {
       return of(parentGroup);
@@ -218,7 +236,11 @@ export class ConfiguratorGroupMenuComponent {
       .isGroupVisited(configuration.owner, group.id)
       .pipe(
         map(
-          (isVisited) => isVisited && !this.isConflictGroupType(group.groupType)
+          (isVisited) =>
+            isVisited &&
+            !this.isConflictGroupType(
+              group.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
+            )
         ),
         take(1)
       );
@@ -314,13 +336,13 @@ export class ConfiguratorGroupMenuComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {string} groupIndex - Group index
-   * @param {Configurator.Group} group - Group
+   * @param {Configurator.Group} targetGroup - Target group
    * @param {Configurator.Group} currentGroup - Current group
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
-    group: Configurator.Group,
+    targetGroup: Configurator.Group,
     currentGroup: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
@@ -330,9 +352,9 @@ export class ConfiguratorGroupMenuComponent {
         this.groups
       );
     } else if (this.isForwardsNavigation(event)) {
-      if (group && this.hasSubGroups(group)) {
-        this.click(group);
-        this.setFocusForSubGroup(group, currentGroup?.id);
+      if (targetGroup && this.hasSubGroups(targetGroup)) {
+        this.click(targetGroup);
+        this.setFocusForSubGroup(targetGroup, currentGroup?.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
