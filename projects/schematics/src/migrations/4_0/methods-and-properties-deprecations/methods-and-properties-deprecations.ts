@@ -25,7 +25,7 @@ import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migrati
 import { OCC_ENDPOINTS_SERVICE_MIGRATION } from './data/occ-endpoints.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
-import { PAGE_EVENT_BUILDER_MIGRATION } from './data/page-event.builder.ts.migration';
+import { PAGE_EVENT_MIGRATION } from './data/page-event.builder.ts.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
@@ -40,7 +40,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PAGE_META_SERVICE_MIGRATION,
   ...SELECTIVE_CART_SERVICE_MIGRATION,
   ...ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
-  ...PAGE_EVENT_BUILDER_MIGRATION,
+  ...PAGE_EVENT_MIGRATION,
   ...CART_ITEM_CONTEXT_MIGRATION,
   ...CART_ITEM_CONTEXT_SOURCE_MIGRATION,
   ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
