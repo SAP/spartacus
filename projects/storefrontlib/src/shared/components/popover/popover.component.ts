@@ -119,11 +119,6 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   iconTypes = ICON_TYPE;
 
   /**
-   * Flag indicates if mouse click event was fired inside component.
-   */
-  insideClicked: boolean;
-
-  /**
    * Subject which emits specific type of `PopoverEvent`.
    */
   eventSubject: Subject<PopoverEvent>;
@@ -142,9 +137,8 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Listens for click inside popover component wrapper.
    */
   @HostListener('click')
-  insideClick(_event: MouseEvent) {
+  insideClick() {
     this.eventSubject.next(PopoverEvent.INSIDE_CLICK);
-    this.insideClicked = true;
   }
 
   /**
@@ -153,17 +147,20 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   @HostListener('document:click', ['$event'])
   outsideClick(event: MouseEvent) {
-    if (!this.insideClicked && !this.isClickedOnDirective(event)) {
+    if (!this.isClickedOnPopover(event) && !this.isClickedOnDirective(event)) {
       this.eventSubject.next(PopoverEvent.OUTSIDE_CLICK);
     }
-    this.insideClicked = false;
+  }
+
+  protected isClickedOnPopover(event) {
+    return this.popoverInstance.location.nativeElement.contains(event.target);
   }
 
   protected isClickedOnDirective(event) {
     return this.triggerElement.nativeElement.contains(event.target);
   }
   /**
-   * Listens for `escape` keyodwn event.
+   * Listens for `escape` keydown event.
    */
   @HostListener('keydown.escape')
   escapeKeydown() {
