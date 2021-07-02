@@ -37,7 +37,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     if (values) {
       for (const value of values) {
         let attributeCheckBoxForm: FormControl;
-        if (value.selected === true) {
+        if (value.selected) {
           attributeCheckBoxForm = new FormControl(true);
         } else {
           attributeCheckBoxForm = new FormControl(false);

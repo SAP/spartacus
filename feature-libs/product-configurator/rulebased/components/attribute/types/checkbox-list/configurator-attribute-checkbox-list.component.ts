@@ -38,7 +38,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       for (const value of this.attribute.values) {
         let attributeCheckBoxForm;
 
-        if (value.selected === true) {
+        if (value.selected) {
           attributeCheckBoxForm = new FormControl({
             value: true,
             disabled: disabled,
