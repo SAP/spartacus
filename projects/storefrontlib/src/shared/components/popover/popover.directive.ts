@@ -152,6 +152,7 @@ export class PopoverDirective implements OnInit {
         this.popoverContainer.location.nativeElement.focus();
       }
       if (
+        event === PopoverEvent.ROUTE_CHANGE ||
         event === PopoverEvent.ESCAPE_KEYDOWN ||
         event === PopoverEvent.OUTSIDE_CLICK ||
         event === PopoverEvent.CLOSE_BUTTON_KEYDOWN ||
