@@ -61,13 +61,6 @@ export class ConfigInitializerService {
   }
 
   /**
-   * @deprecated since 3.0, use getStable() instead
-   */
-  async getStableConfig(...scopes: string[]): Promise<Config> {
-    return this.getStable(...scopes).toPromise();
-  }
-
-  /**
    * Removes provided scopes from currently ongoingScopes
    *
    * @param scopes

@@ -1,3 +1,4 @@
+import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
@@ -34,6 +35,7 @@ import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
+import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
 import { CHECKOUT_EVENT_MODULE_MIGRATION } from './data/checkout-event.module.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
 import {
@@ -98,7 +100,10 @@ import {
   REPLENISHMENT_ORDER_HISTORY_COMPONENT_MIGRATION_V1,
   REPLENISHMENT_ORDER_HISTORY_COMPONENT_MIGRATION_V2,
 } from './data/replenishment-order-history.component.migration';
-import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
+import {
+  ROUTING_SERVICE_MIGRATION_V1,
+  ROUTING_SERVICE_MIGRATION_V2,
+} from './data/routing.service.migration';
 import {
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
@@ -132,6 +137,7 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -157,7 +163,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PAGE_META_RESOLVER_MIGRATION,
   CATEGORY_PAGE_META_RESOLVER_MIGRATION,
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
-  ROUTING_SERVICE_MIGRATION,
+  ROUTING_SERVICE_MIGRATION_V1,
+  ROUTING_SERVICE_MIGRATION_V2,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
   STORE_FINDER_SERVICE_MIGRATION,
   ABSTRACT_STORE_ITEM_COMPONENT_MIGRATION,
@@ -224,6 +231,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
+  CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
   UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION,
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_DETAILS_COMPONENT_MIGRATION,
@@ -233,6 +241,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   MODAL_SERVICE_MIGRATION_V2,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
+  UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
+  GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
