@@ -181,7 +181,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should convert tabs to groups ignoring empty one', () => {
-    expect(serviceUnderTest.convert(input).groups.length).toBe(1);
+    expect(serviceUnderTest.convert(input).groups?.length).toBe(1);
   });
 
   it('should map tab ID', () => {
@@ -205,7 +205,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should convert attributes', () => {
     expect(
-      serviceUnderTest['convertTab'](tab, CURRENCY).attributes.length
+      serviceUnderTest['convertTab'](tab, CURRENCY).attributes?.length
     ).toBe(2);
   });
 
@@ -377,12 +377,12 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].quantity).toEqual(3);
-    expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
-    expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePriceTotal.value).toBe(370.35);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$370.35');
+    expect(ovAttrs[0].valuePrice?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePrice?.value).toBe(123.45);
+    expect(ovAttrs[0].valuePrice?.formattedValue).toBe('$123.45');
+    expect(ovAttrs[0].valuePriceTotal?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePriceTotal?.value).toBe(370.35);
+    expect(ovAttrs[0].valuePriceTotal?.formattedValue).toBe('$370.35');
   });
 
   it('should map quantity and price for attribute with quantity on value level', () => {

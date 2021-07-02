@@ -77,11 +77,11 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   calculateValuePriceTotal(
     quantity: number,
-    valuePrice: Configurator.PriceDetails
+    valuePrice?: Configurator.PriceDetails
   ): Configurator.PriceDetails | undefined {
     let valuePriceTotal = undefined;
     if (valuePrice) {
-      const calculationQuantity: number = quantity ? quantity : 1;
+      const calculationQuantity: number = quantity;
       valuePriceTotal = {
         currencyIso: valuePrice.currencyIso,
         value: calculationQuantity * valuePrice.value,

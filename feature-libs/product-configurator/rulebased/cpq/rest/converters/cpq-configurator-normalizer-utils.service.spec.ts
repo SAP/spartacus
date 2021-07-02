@@ -445,6 +445,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
   it('should convert price summary when no currency ISO code exists', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
+      currencyISOCode: 'USD',
       currencySign: '$',
       responder: { totalPrice: '$3333.33', baseProductPrice: '1000.00' },
     };
