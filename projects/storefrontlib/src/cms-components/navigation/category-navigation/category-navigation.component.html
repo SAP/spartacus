@@ -1,7 +1,6 @@
 <cx-navigation-ui
   *ngIf="data$ | async as data"
   [node]="node$ | async"
-  [config]="getNavUIConfig()"
   [ngClass]="data.styleClass"
   [wrapAfter]="data.wrapAfter"
 ></cx-navigation-ui>

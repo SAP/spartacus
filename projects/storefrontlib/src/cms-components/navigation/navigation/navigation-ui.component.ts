@@ -43,11 +43,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
 
   /**
-   * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
-   */
-  @Input() config: NavigationUiConfig;
-
-  /**
    * Indicates whether the navigation should support flyout.
    * If flyout is set to true, the
    * nested child navigation nodes will only appear on hover or focus.
@@ -75,6 +70,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
+    @Optional() private config?: NavigationUiConfig,
     @Optional() protected hamburgerMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
-import { NavigationUiConfig } from '../navigation/config/navigation-ui-config';
 
 @Component({
   selector: 'cx-category-navigation',
@@ -20,14 +19,6 @@ export class CategoryNavigationComponent {
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService,
-    protected config: NavigationUiConfig
+    protected service: NavigationService
   ) {}
-
-  /**
-   * Returns navigation-ui config information.
-   */
-  getNavUIConfig(): NavigationUiConfig {
-    return this.config;
-  }
 }
