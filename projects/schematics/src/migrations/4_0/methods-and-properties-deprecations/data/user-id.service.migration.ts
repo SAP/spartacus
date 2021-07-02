@@ -1,9 +1,9 @@
 import {
-  MethodPropertyDeprecation,
   SPARTACUS_CORE,
   TODO_SPARTACUS,
   USER_ID_SERVICE,
-} from '@spartacus/schematics';
+} from '../../../../shared/constants';
+import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_ID_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
