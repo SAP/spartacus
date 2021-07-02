@@ -377,6 +377,7 @@ export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
 
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
+export const CDC_LOGOUT_GUARD = 'CdcLogoutGuard';
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
 export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
