@@ -70,6 +70,7 @@ import {
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
 } from './data/google-map-renderer.service.migration';
+import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
@@ -130,6 +131,7 @@ import {
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
 } from './data/toggle-status.component.migration';
+import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
@@ -241,6 +243,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
   CHECKOUT_AUTH_GUARD_MIGRATION,
+  UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
+  GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
