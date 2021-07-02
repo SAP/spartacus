@@ -103,7 +103,7 @@ function setProductBoundValueAttributes(
     productBoundValue.valuePriceTotal = undefined;
     return productBoundValue;
   }
-  return {};
+  return { valueCode: 'A' };
 }
 
 function takeOneDisableQtyObs(
