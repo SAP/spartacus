@@ -34,7 +34,7 @@ export const GUEST_REGISTER_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: USER_REGISTER_FACADE,
       importPath: SPARTACUS_USER_PROFILE_ROOT,
-    },s
+    },
     { className: ROUTING_SERVICE, importPath: SPARTACUS_CORE },
     { className: AUTH_SERVICE, importPath: SPARTACUS_CORE },
     { className: FORM_BUILDER, importPath: ANGULAR_FORMS },
