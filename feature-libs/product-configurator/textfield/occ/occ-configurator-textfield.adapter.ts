@@ -44,9 +44,7 @@ export class OccConfiguratorTextfieldAdapter
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
-            owner: {
-              ...owner,
-            },
+            owner: owner,
           };
         })
       );

@@ -8,7 +8,7 @@ module.exports = {
   },
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.schematics.json',
+      tsconfig: '<rootDir>/tsconfig.schematics.json',
     },
   },
 

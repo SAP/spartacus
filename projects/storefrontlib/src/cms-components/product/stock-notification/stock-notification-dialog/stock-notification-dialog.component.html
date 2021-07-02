@@ -4,8 +4,8 @@
   </div>
   <button
     type="button"
+    [attr.aria-label]="'common.close' | cxTranslate"
     class="close"
-    aria-label="Close"
     tabindex="-1"
     (click)="close()"
   >
