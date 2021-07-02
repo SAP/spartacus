@@ -22,14 +22,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
+    });
   }
 
   /**
@@ -56,19 +51,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.SetDefaultUserPaymentMethod({
-            userId,
-            paymentMethodId,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.SetDefaultUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
+      );
+    });
   }
 
   /**
@@ -77,19 +67,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.DeleteUserPaymentMethod({
-            userId,
-            paymentMethodId,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.DeleteUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
+      );
+    });
   }
 
   /**

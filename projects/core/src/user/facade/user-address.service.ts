@@ -34,14 +34,9 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(new UserActions.LoadUserAddresses(userId));
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(new UserActions.LoadUserAddresses(userId));
+    });
   }
 
   /**
@@ -49,19 +44,14 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.AddUserAddress({
-            userId,
-            address,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.AddUserAddress({
+          userId,
+          address,
+        })
+      );
+    });
   }
 
   /**
@@ -69,20 +59,15 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.UpdateUserAddress({
-            userId,
-            addressId,
-            address: { defaultAddress: true },
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.UpdateUserAddress({
+          userId,
+          addressId,
+          address: { defaultAddress: true },
+        })
+      );
+    });
   }
 
   /**
@@ -91,20 +76,15 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.UpdateUserAddress({
-            userId,
-            addressId,
-            address,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.UpdateUserAddress({
+          userId,
+          addressId,
+          address,
+        })
+      );
+    });
   }
 
   /**
@@ -112,19 +92,14 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.DeleteUserAddress({
-            userId,
-            addressId,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.DeleteUserAddress({
+          userId,
+          addressId,
+        })
+      );
+    });
   }
 
   /**

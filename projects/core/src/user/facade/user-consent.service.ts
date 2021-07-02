@@ -33,14 +33,9 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(new UserActions.LoadUserConsents(userId));
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(new UserActions.LoadUserConsents(userId));
+    });
   }
 
   /**
@@ -154,20 +149,15 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.GiveUserConsent({
-            userId,
-            consentTemplateId,
-            consentTemplateVersion,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
+      );
+    });
   }
 
   /**
@@ -209,19 +199,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.WithdrawUserConsent({
-            userId,
-            consentCode,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId,
+          consentCode,
+        })
+      );
+    });
   }
 
   /**

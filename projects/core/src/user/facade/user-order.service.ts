@@ -42,19 +42,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.LoadOrderDetails({
-            userId,
-            orderCode,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId,
+          orderCode,
+        })
+      );
+    });
   }
 
   /**
@@ -146,20 +141,15 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.LoadConsignmentTracking({
-            userId,
-            orderCode,
-            consignmentCode,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadConsignmentTracking({
+          userId,
+          orderCode,
+          consignmentCode,
+        })
+      );
+    });
   }
 
   /**
@@ -176,20 +166,15 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.CancelOrder({
-            userId,
-            orderCode,
-            cancelRequestInput,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.CancelOrder({
+          userId,
+          orderCode,
+          cancelRequestInput,
+        })
+      );
+    });
   }
 
   /**

@@ -44,23 +44,18 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.LoadProductInterests({
-            userId,
-            pageSize: pageSize,
-            currentPage: currentPage,
-            sort: sort,
-            productCode: productCode,
-            notificationType: notificationType,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadProductInterests({
+          userId,
+          pageSize: pageSize,
+          currentPage: currentPage,
+          sort: sort,
+          productCode: productCode,
+          notificationType: notificationType,
+        })
+      );
+    });
   }
 
   /**
@@ -108,20 +103,15 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.RemoveProductInterest({
-            userId,
-            item: item,
-            singleDelete: singleDelete,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.RemoveProductInterest({
+          userId,
+          item: item,
+          singleDelete: singleDelete,
+        })
+      );
+    });
   }
 
   /**
@@ -152,20 +142,15 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.AddProductInterest({
-            userId,
-            productCode: productCode,
-            notificationType: notificationType,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.AddProductInterest({
+          userId,
+          productCode: productCode,
+          notificationType: notificationType,
+        })
+      );
+    });
   }
 
   /**
