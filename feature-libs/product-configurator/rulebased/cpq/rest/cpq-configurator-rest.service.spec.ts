@@ -33,6 +33,7 @@ const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
 
 const configResponseOnlyOneTab: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   tabs: [{ id: 1, isSelected: true }],
   attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
@@ -40,6 +41,7 @@ const configResponseOnlyOneTab: Cpq.Configuration = {
 
 const configResponseNoTab: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   tabs: [],
   attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
@@ -47,6 +49,7 @@ const configResponseNoTab: Cpq.Configuration = {
 
 const configResponseTab1: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   errorMessages: [],
   tabs: [
@@ -59,6 +62,7 @@ const configResponseTab1: Cpq.Configuration = {
 
 const configResponseTab2: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   errorMessages: [],
   tabs: [
@@ -70,9 +74,7 @@ const configResponseTab2: Cpq.Configuration = {
 };
 
 const configResponseTab3: Cpq.Configuration = {
-  productSystemId: productCode,
-  completed: false,
-  errorMessages: [],
+  ...configResponseTab2,
   tabs: [
     { id: 1, isSelected: false },
     { id: 2, isSelected: false },
