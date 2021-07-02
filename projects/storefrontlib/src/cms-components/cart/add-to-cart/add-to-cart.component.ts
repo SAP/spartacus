@@ -55,13 +55,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
-    componentData: CmsComponentData<model>
-  );
+  // constructor(
+  //   modalService: ModalService,
+  //   currentProductService: CurrentProductService,
+  //   cd: ChangeDetectorRef,
+  //   activeCartService: ActiveCartService,
+  //   componentData: CmsComponentData<model>
+  // );
 
   /**
    * @deprecated since 3.4
