@@ -41,12 +41,12 @@ export class PopoverDirective implements OnInit {
   /**
    * An event emitted when the popover is opened.
    */
-  @Output() openPopover?: EventEmitter<void> = new EventEmitter();
+  @Output() openPopover: EventEmitter<void> = new EventEmitter();
 
   /**
    * An event emitted when the popover is closed.
    */
-  @Output() closePopover?: EventEmitter<void> = new EventEmitter();
+  @Output() closePopover: EventEmitter<void> = new EventEmitter();
 
   /**
    * Flag used to inform about current state of popover component.
@@ -89,8 +89,9 @@ export class PopoverDirective implements OnInit {
     event?.preventDefault();
     if (event?.target === this.element.nativeElement && !this.isOpen) {
       this.eventSubject.next(PopoverEvent.OPEN);
-    } else if (this.isOpen)
+    } else if (this.isOpen) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
+    }
   }
 
   @HostListener('keydown.enter', ['$event'])
@@ -99,8 +100,9 @@ export class PopoverDirective implements OnInit {
     event?.preventDefault();
     if (event?.target === this.element.nativeElement && !this.isOpen) {
       this.eventSubject.next(PopoverEvent.OPEN_BY_KEYBOARD);
-    } else if (this.isOpen)
+    } else if (this.isOpen) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    }
   }
   /**
    * Method performs open action for popover component.
@@ -113,8 +115,7 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
-
-      if (this.openPopover) this.openPopover.emit();
+      this.openPopover.emit();
     }
   }
 
@@ -124,8 +125,7 @@ export class PopoverDirective implements OnInit {
   close() {
     this.isOpen = false;
     this.viewContainer.clear();
-
-    if (this.closePopover) this.closePopover.emit();
+    this.closePopover.emit();
   }
 
   /**
