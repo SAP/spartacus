@@ -19,6 +19,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Pipe({
   name: 'cxTranslate',
@@ -36,6 +37,23 @@ export class MockFocusDirective {
 
 let DEBOUNCE_TIME: number;
 
+const userInput = '345.00';
+
+const attribute: Configurator.Attribute = {
+  name: 'attributeName',
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+  numDecimalPlaces: 2,
+  numTotalLength: 10,
+  negativeAllowed: false,
+};
+
+const attributeWoNumericalMetadata: Configurator.Attribute = {
+  name: 'attributeName',
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+};
+
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
   fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>,
@@ -52,11 +70,12 @@ function checkForValidationMessage(
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
-  const userInput = '345.00';
+
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
   let mockLanguageService;
   const locale = 'en';
   let htmlElem: HTMLElement;
+  let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
 
   beforeEach(
     waitForAsync(() => {
@@ -93,19 +112,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeNumericInputFieldComponent
     );
+    configuratorAttributeNumericInputFieldService = TestBed.inject(
+      ConfiguratorAttributeNumericInputFieldService
+    );
+
     component = fixture.componentInstance;
-    component.attribute = {
-      name: 'attributeName',
-      uiType: Configurator.UiType.STRING,
-      userInput: userInput,
-      numDecimalPlaces: 2,
-      numTotalLength: 10,
-      negativeAllowed: false,
-    };
+    component.attribute = attribute;
     component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
+    spyOn(
+      configuratorAttributeNumericInputFieldService,
+      'getPatternForValidationMessage'
+    );
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
@@ -129,6 +149,32 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should set value on init', () => {
     component.ngOnInit();
     expect(component.attributeInputForm.value).toEqual(userInput);
+  });
+
+  it('should call service for pattern generation with meta data from attribute', () => {
+    component.ngOnInit();
+    expect(
+      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+    ).toHaveBeenCalledWith(
+      component.attribute.numDecimalPlaces,
+      component.attribute.numTotalLength,
+      component.attribute.negativeAllowed,
+      'en'
+    );
+  });
+
+  it('should call service for pattern generation with defaults in case attribute does not carry meta data', () => {
+    component.attribute = attributeWoNumericalMetadata;
+    component.ngOnInit();
+    const defaultSettings = component['getDefaultSettings']();
+    expect(
+      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+    ).toHaveBeenCalledWith(
+      defaultSettings.numDecimalPlaces,
+      defaultSettings.numTotalLength,
+      defaultSettings.negativeAllowed,
+      'en'
+    );
   });
 
   it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
@@ -194,16 +240,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
-  it('should delay emit inputValue for debounce period with fallback config', fakeAsync(() => {
-    component['config'] = undefined;
-    component.attributeInputForm.setValue('123');
-    fixture.detectChanges();
-    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
     expect(component.inputChange.emit).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).toHaveBeenCalled();
