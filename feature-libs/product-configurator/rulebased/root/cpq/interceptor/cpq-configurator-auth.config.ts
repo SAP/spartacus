@@ -23,7 +23,7 @@ export interface ProductConfiguratorCpqAuthConfig {
   useExisting: Config,
 })
 export abstract class CpqConfiguratorAuthConfig {
-  productConfigurator?: ProductConfiguratorCpqAuthConfig;
+  productConfigurator: ProductConfiguratorCpqAuthConfig;
 }
 
 declare module '@spartacus/product-configurator/common' {
