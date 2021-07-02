@@ -841,11 +841,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PAGE_EVENT_BUILDER}' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
-  {
-    node: EVENTS_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${EVENTS_MODULE}' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
-  },
   // projects/storefrontlib/src/storefront-config.ts
   {
     node: STOREFRONT_CONFIG,
