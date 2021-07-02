@@ -1,10 +1,11 @@
 import { OccEndpoint } from '@spartacus/core';
 
+export interface UserAccountOccEndpoints {
+  /**
+   * Get user account details
+   */
+  user?: string | OccEndpoint;
+}
 declare module '@spartacus/core' {
-  interface OccEndpoints {
-    /**
-     * Get user account details
-     */
-    user?: string | OccEndpoint;
-  }
+  interface OccEndpoints extends UserAccountOccEndpoints {}
 }
