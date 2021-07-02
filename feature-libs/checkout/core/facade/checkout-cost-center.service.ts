@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
-import {
-  ActiveCartService,
-  OCC_USER_ID_ANONYMOUS,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
@@ -31,17 +27,22 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
       .pipe(take(1))
       .subscribe((activeCartId) => (cartId = activeCartId));
 
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetCostCenter({
-            userId: userId,
-            cartId: cartId,
-            costCenterId: costCenterId,
-          })
-        );
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        if (cartId) {
+          this.checkoutStore.dispatch(
+            new CheckoutActions.SetCostCenter({
+              userId: userId,
+              cartId: cartId,
+              costCenterId: costCenterId,
+            })
+          );
+        }
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
