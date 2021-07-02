@@ -7,6 +7,7 @@ import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item-component.migration';
 import { CART_ITEM_CONTEXT_SOURCE_MIGRATION } from './data/cart-item-context-source.migration';
 import { CART_ITEM_CONTEXT_MIGRATION } from './data/cart-item-context.migration';
+import { CONFIG_INITIALIZER_SERVICE_MIGRATION } from './data/config-initializer.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -18,6 +19,7 @@ import {
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
 import { OCC_ENDPOINTS_SERVICE_MIGRATION } from './data/occ-endpoints.service.migration';
@@ -55,6 +57,8 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...OCC_ENDPOINTS_MODEL_MIGRATION,
   ...ORDER_OVERVIEW_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
+  ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
+  ...CONFIG_INITIALIZER_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
