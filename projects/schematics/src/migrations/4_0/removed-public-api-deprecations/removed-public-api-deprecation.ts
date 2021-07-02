@@ -995,7 +995,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
     importPath: SPARTACUS_CORE,
-    comment: `Abstract methods 'register', 'registerGuest', 'getTitles' were removed from '${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}'.`,
+    comment: `'${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}' class was removed.`,
   },
   // projects/core/src/user/user.module.ts
   {

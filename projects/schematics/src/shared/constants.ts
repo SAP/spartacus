@@ -373,6 +373,10 @@ export const USER_CONNECTOR = 'UserConnector';
 export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
 export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT =
   'ConfiguratorIssuesNotificationComponent';
+export const USER_PROFILE_FACADE = 'UserProfileFacade';
+export const USER_REGISTER_FACADE = 'UserRegisterFacade';
+export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
+export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
