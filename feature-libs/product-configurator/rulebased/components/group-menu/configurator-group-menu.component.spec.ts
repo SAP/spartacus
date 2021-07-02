@@ -143,16 +143,16 @@ class MockConfiguratorGroupService {
     return of(mockProductConfiguration.groups[0]);
   }
 
-  getMenuParentGroup(): Observable<Configurator.Group> {
-    return of(null);
+  getMenuParentGroup(): Observable<Configurator.Group | undefined> {
+    return of(undefined);
   }
 
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
   }
 
-  getParentGroup(): Configurator.Group {
-    return null;
+  getParentGroup(): Configurator.Group | undefined {
+    return undefined;
   }
 
   isConflictGroupType() {
@@ -176,7 +176,7 @@ class MockDirectionService {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
 }
 
 @Component({
@@ -194,10 +194,10 @@ let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
 let configuratorUtils: CommonConfiguratorUtilsService;
 let configGroupMenuService: ConfiguratorGroupMenuService;
-let routerStateObservable;
-let groupVisitedObservable;
-let productConfigurationObservable;
-let isConflictGroupType;
+let routerStateObservable: Observable<RouterState>;
+let groupVisitedObservable: Observable<boolean>;
+let productConfigurationObservable: Observable<Configurator.Configuration>;
+let isConflictGroupType: boolean;
 let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
@@ -250,7 +250,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   );
 
   beforeEach(() => {
-    groupVisitedObservable = null;
+    groupVisitedObservable = of(false);
 
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
@@ -407,7 +407,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       .getCondensedParentGroup(mockProductConfiguration.groups[2])
       .pipe(take(1))
       .subscribe((group) => {
-        expect(group).toBe(null);
+        expect(group).toBe(undefined);
       });
 
     //Non condensed case
@@ -420,6 +420,9 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should navigate up', () => {
+    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      of(mockProductConfiguration.groups[0])
+    );
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
@@ -432,6 +435,9 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should navigate up, parent group null', () => {
+    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      of(mockProductConfiguration.groups[0])
+    );
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
@@ -520,7 +526,7 @@ describe('ConfigurationGroupMenuComponent', () => {
           mockProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((visited) => expect(visited).toBeTrue());
+        .subscribe((visited) => expect(visited).toBe(true));
     });
 
     it('should return false if visited and if it is a conflict group', () => {
@@ -535,7 +541,7 @@ describe('ConfigurationGroupMenuComponent', () => {
           mockProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((visited) => expect(visited).toBeFalse());
+        .subscribe((visited) => expect(visited).toBe(false));
     });
 
     it('should return false if not visited and not conflict group', () => {
@@ -550,7 +556,7 @@ describe('ConfigurationGroupMenuComponent', () => {
           mockProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((visited) => expect(visited).toBeFalse());
+        .subscribe((visited) => expect(visited).toBe(false));
     });
   });
 
@@ -902,6 +908,9 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   describe('LTR direction', () => {
     it('should navigate back to parent group', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockDirection = DirectionMode.LTR;
@@ -916,7 +925,12 @@ describe('ConfigurationGroupMenuComponent', () => {
       const currentGroup: Configurator.Group =
         mockProductConfiguration.groups[0];
 
-      component.switchGroupOnArrowPress(event, 0, undefined, currentGroup);
+      component.switchGroupOnArrowPress(
+        event,
+        0,
+        mockProductConfiguration.groups[1],
+        currentGroup
+      );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
       expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
       expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
@@ -945,6 +959,9 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   describe('RTL direction', () => {
     it('should navigate back to parent group', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockDirection = DirectionMode.RTL;
@@ -959,7 +976,12 @@ describe('ConfigurationGroupMenuComponent', () => {
       const currentGroup: Configurator.Group =
         mockProductConfiguration.groups[0];
 
-      component.switchGroupOnArrowPress(event, 0, undefined, currentGroup);
+      component.switchGroupOnArrowPress(
+        event,
+        0,
+        mockProductConfiguration.groups[1],
+        currentGroup
+      );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
       expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
       expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
@@ -1081,10 +1103,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   describe('createAriaControls', () => {
-    it('should return empty string because groupID is null', () => {
-      expect(component.createAriaControls(null)).toBeUndefined();
-    });
-
     it('should return empty string because groupID is undefined', () => {
       expect(component.createAriaControls(undefined)).toBeUndefined();
     });
