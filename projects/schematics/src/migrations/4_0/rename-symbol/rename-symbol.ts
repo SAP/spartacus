@@ -135,6 +135,7 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
   },
+  // feature-libs/checkout/components/services/express-checkout.service.ts
   {
     previousNode: EXPRESS_CHECKOUT_SERVICE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
