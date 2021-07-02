@@ -27,6 +27,7 @@ export class OccConfiguratorVariantNormalizer
       totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
       groups: [],
+      flatGroups: [],
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -49,7 +50,7 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
-    const group = {
+    const group: Configurator.Group = {
       description: source.description,
       configurable: source.configurable,
       complete: source.complete,
