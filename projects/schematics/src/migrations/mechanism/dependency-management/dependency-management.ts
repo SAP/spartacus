@@ -7,7 +7,10 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import collectedDependencies from '../../../dependencies.json';
-import { SPARTACUS_SCOPE } from '../../../shared/constants';
+import {
+  SPARTACUS_SCHEMATICS,
+  SPARTACUS_SCOPE,
+} from '../../../shared/constants';
 import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
@@ -40,7 +43,9 @@ export function migrateDependencies(
   const dependencies = createSpartacusLibraryDependencies(
     allSpartacusDeps,
     installedLibs
-  );
+  )
+    .filter((d) => d.name !== SPARTACUS_SCHEMATICS)
+    .sort((d1, d2) => d1.name.localeCompare(d2.name));
   return chain([
     addPackageJsonDependencies(dependencies, packageJson),
     installPackageJsonDependencies(),
