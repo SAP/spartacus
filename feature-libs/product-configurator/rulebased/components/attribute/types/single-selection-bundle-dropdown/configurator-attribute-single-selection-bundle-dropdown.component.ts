@@ -26,9 +26,9 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
 
-    //TODO CHHI error handling?
-    if (this.attribute?.values && this.attribute?.values?.length > 0) {
-      const value = this.attribute?.values.find((value) => value.selected);
+    const values = this.attribute.values;
+    if (values && values.length > 0) {
+      const value = values.find((value) => value.selected);
       if (value) {
         this.selectionValue = value;
       }

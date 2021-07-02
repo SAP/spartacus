@@ -180,13 +180,12 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   extractProductCardParameters(
     disableAllButtons: boolean | null,
     hideRemoveButton: boolean | null,
-    value?: Configurator.Value
+    value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
-    //TODO CHHI resolve
     return {
       disableAllButtons: disableAllButtons ? disableAllButtons : false,
       hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
-      productBoundValue: value ? value : { valueCode: '' },
+      productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
