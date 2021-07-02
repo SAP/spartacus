@@ -1,5 +1,5 @@
 import { NavigationUiConfig } from './navigation-ui-config';
 
-export const defaultNavigationConfig: NavigationUiConfig = {
+export const defaultCategoryNavigationConfig : NavigationUiConfig = {
   resetMenuOnClose: true,
 };

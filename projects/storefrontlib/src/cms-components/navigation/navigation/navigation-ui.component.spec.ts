@@ -257,7 +257,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should reinitialize menu, when menu is expanded', () => {
-      let config: NavigationUiConfig = {
+      const config: NavigationUiConfig = {
         resetMenuOnClose: true,
       };
       navigationComponent.config = config;
