@@ -76,14 +76,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
+    protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
     @Optional() protected componentData?: CmsComponentData<model>
   ) {}
 
   ngOnInit() {
     this.componentData?.data$.subscribe((data: model) => {
-      if (data.inventoryDisplay && data.inventoryDisplay == 'true') {
+      if (data.inventoryDisplay && data.inventoryDisplay === 'true') {
         this.showInventory = true;
       }
     });
