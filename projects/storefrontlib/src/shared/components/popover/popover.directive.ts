@@ -135,8 +135,8 @@ export class PopoverDirective implements OnInit {
   handlePopoverEvents() {
     this.eventSubject.subscribe((event: PopoverEvent) => {
       if (
-        !this.isOpen &&
-        (event === PopoverEvent.OPEN || event === PopoverEvent.OPEN_BY_KEYBOARD)
+        event === PopoverEvent.OPEN ||
+        event === PopoverEvent.OPEN_BY_KEYBOARD
       ) {
         this.open(event);
       }
