@@ -104,6 +104,14 @@ export class PopoverDirective implements OnInit {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
     }
   }
+
+  @HostListener('keydown.tab')
+  @HostListener('keydown.shift.tab')
+  handleTab(): void {
+    if (!this.focusConfig?.trap && this.isOpen) {
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    }
+  }
   /**
    * Method performs open action for popover component.
    */
