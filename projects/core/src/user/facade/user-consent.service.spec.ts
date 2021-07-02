@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
@@ -19,9 +19,8 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
-    return new Subscription();
+  takeUserId() {
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
