@@ -475,6 +475,7 @@ export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
 export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
 export const PAGE_EVENT_BUILDER = 'PageEventBuilder';
+export const PAGE_EVENT_MODULE = 'PageEventModule';
 export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';

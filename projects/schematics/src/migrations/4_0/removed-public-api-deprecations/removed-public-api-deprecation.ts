@@ -76,6 +76,8 @@ import {
   OCC_MODULE,
   OCC_SITES_CONFIG_LOADER,
   ORDER_ENTRY,
+  PAGE_EVENT_BUILDER,
+  PAGE_EVENT_MODULE,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
   PERSONALIZATION_CONTEXT,
@@ -119,6 +121,7 @@ import {
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
   SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
+  STOREFRONT_CONFIG,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
@@ -829,31 +832,31 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     comment: `The following ngrx '${ROUTING_ACTIONS}' have been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please use instead the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
   },
   {
-    node: 'PageEventModule',
+    node: PAGE_EVENT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+    comment: `'${PAGE_EVENT_MODULE}' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
   {
-    node: 'PageEventBuilder',
+    node: PAGE_EVENT_BUILDER,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventBuilder' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+    comment: `'${PAGE_EVENT_BUILDER}' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
   {
-    node: 'EventsModule',
+    node: EVENTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+    comment: `'${EVENTS_MODULE}' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
   },
   // projects/storefrontlib/src/storefront-config.ts
   {
-    node: 'StorefrontConfig',
+    node: STOREFRONT_CONFIG,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+    comment: `'${STOREFRONT_CONFIG}' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
   },
   // feature-libs/storefinder/core/facade/store-data.service.ts
   {
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
-    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+    comment: `'${STORE_DATA_SERVICE}' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
