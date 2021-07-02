@@ -76,19 +76,14 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.takeUserId().subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new UserActions.LoadOrderReturnRequest({
-            userId,
-            returnRequestCode,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadOrderReturnRequest({
+          userId,
+          returnRequestCode,
+        })
+      );
+    });
   }
 
   /**
