@@ -1,8 +1,9 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PopoverModule } from './popover.module';
+import { PopoverDirective } from '@spartacus/storefront';
 
 @Component({
   template: `
@@ -69,6 +70,8 @@ describe('PopoverDirective', () => {
   });
 
   it('should open/close popover on button click', () => {
+    fixture.detectChanges();
+
     getPopoverOpener().nativeElement.click();
     expect(getPopoverComponent()).toBeTruthy();
 
@@ -138,6 +141,8 @@ describe('PopoverDirective', () => {
   });
 
   it('should call passed method on popover `close` event', () => {
+    fixture.detectChanges();
+
     getPopoverOpener().nativeElement.click();
     const spy = spyOn(component, 'close');
     fixture.detectChanges();

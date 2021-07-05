@@ -17,7 +17,6 @@ import { WindowRef } from '@spartacus/core';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
-import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
 import { Subject } from 'rxjs';
 
@@ -225,7 +224,6 @@ export class PopoverDirective implements OnInit {
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected positioningService: PositioningService,
     protected popoverService: PopoverService,
     protected winRef: WindowRef
   ) {}
