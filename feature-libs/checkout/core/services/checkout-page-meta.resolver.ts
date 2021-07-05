@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
   BasePageMetaResolver,
+  Cart,
   PageDescriptionResolver,
   PageMetaResolver,
   PageRobotsMeta,
@@ -26,7 +27,7 @@ import { switchMap } from 'rxjs/operators';
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver {
-  protected cart$ = this.activeCartService.getActive();
+  protected cart$: Observable<Cart> = this.activeCartService.getActive();
 
   constructor(
     protected translation: TranslationService,

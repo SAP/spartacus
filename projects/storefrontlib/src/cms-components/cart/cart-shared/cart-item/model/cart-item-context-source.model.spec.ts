@@ -51,8 +51,8 @@ describe('CartItemContextSource', () => {
 
   it('should replay latest value of "promotionLocation"', (done) => {
     const promotionLocation: PromotionLocation = PromotionLocation.Order;
-    contextSource.promotionLocation$.next(promotionLocation);
-    contextSource.promotionLocation$.subscribe((value) => {
+    contextSource.location$.next(promotionLocation);
+    contextSource.location$.subscribe((value) => {
       expect(value).toBe(promotionLocation);
       done();
     });

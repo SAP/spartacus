@@ -5,7 +5,6 @@ import {
   ActiveCartService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -18,16 +17,17 @@ import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
-    protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutFacade: CheckoutFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -79,10 +79,17 @@ export class ConfiguratorCartService {
             });
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
   /**
@@ -117,10 +124,17 @@ export class ConfiguratorCartService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
 
@@ -194,7 +208,9 @@ export class ConfiguratorCartService {
    */
   activeCartHasIssues(): Observable<boolean> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => cartState.value.entries),
+      map((cartState) => {
+        return cartState.value ? cartState.value.entries : [];
+      }),
       map((entries) =>
         entries
           ? entries.filter((entry) =>
@@ -216,10 +232,12 @@ export class ConfiguratorCartService {
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {
+    const configuration = configurationState.value;
     return (
-      !this.isConfigurationCreated(configurationState.value) &&
-      !configurationState.loading &&
-      !configurationState.error
+      configuration === undefined ||
+      (!this.isConfigurationCreated(configuration) &&
+        !configurationState.loading &&
+        !configurationState.error)
     );
   }
 }

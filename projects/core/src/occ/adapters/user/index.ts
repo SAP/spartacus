@@ -8,6 +8,5 @@ export * from './occ-user-notification-preference.adapter';
 export * from './occ-user-order.adapter';
 export * from './occ-user-payment.adapter';
 export * from './occ-user-replenishment-order.adapter';
-export * from './occ-user.adapter';
 export * from './user-occ.module';
 export * from './user-occ-transitional.module';

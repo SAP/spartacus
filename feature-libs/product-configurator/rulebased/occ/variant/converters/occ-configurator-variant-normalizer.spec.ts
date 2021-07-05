@@ -8,6 +8,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
 const configId = '192826';
@@ -20,6 +21,7 @@ const requiredFlag = true;
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupKey = generalGroupName;
+const groupId = '1';
 const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
@@ -120,10 +122,12 @@ const attributeCheckboxWOValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: false,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -135,10 +139,12 @@ const attributeCheckboxWithValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: true,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -150,10 +156,12 @@ const attributeMSIWOValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: false,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -165,10 +173,12 @@ const attributeMSIWithValue: Configurator.Attribute = {
   values: [
     {
       name: 'name1',
+      valueCode: valueKey,
       selected: true,
     },
     {
       name: 'name2',
+      valueCode: valueKey2,
       selected: false,
     },
   ],
@@ -181,16 +191,19 @@ const configuration: OccConfigurator.Configuration = {
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '3',
       subGroups: [
         {
           attributes: [occAttributeWithValues],
           groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+          id: groupId,
         },
       ],
     },
     {
       attributes: [occAttributeWithValues],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '2',
     },
   ],
 };
@@ -198,6 +211,7 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
+  id: groupId,
   groupType: OccConfigurator.GroupType.CSTIC_GROUP,
   attributes: [occAttributeWithValues],
 };
@@ -207,6 +221,7 @@ const occConflictGroup: OccConfigurator.Group = {
   description: conflictExplanation,
   groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
+  id: groupId,
 };
 
 const occValue: OccConfigurator.Value = {
@@ -388,6 +403,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a group with no attributes', () => {
     const groupsWithoutAttributes: OccConfigurator.Group = {
       name: groupName,
+      id: groupId,
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
@@ -402,6 +418,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a general group', () => {
     const generalGroup: OccConfigurator.Group = {
       name: generalGroupName,
+      id: groupId,
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
@@ -415,6 +432,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for a general group', () => {
     const generalGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(generalGroupName),
       name: generalGroupName,
     };
 
@@ -424,6 +442,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict header group', () => {
     const conflictHeaderGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictHeaderGroupName),
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       name: conflictHeaderGroupName,
     };
@@ -436,6 +455,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict group and should store conflict explanation in group.name', () => {
     const conflictGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictGroupName),
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
       description: conflictExplanation,
