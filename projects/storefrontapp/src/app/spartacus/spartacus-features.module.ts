@@ -79,6 +79,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+// import { CheckoutFeatureModule } from './features/checkout-feature.module';
 
 const featureModules = [];
 
@@ -191,7 +192,6 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
-    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
