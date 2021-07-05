@@ -138,6 +138,7 @@ import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migr
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
+import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -243,6 +244,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
+  POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
