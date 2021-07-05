@@ -36,8 +36,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) => {
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
-        this.focusFirstAttribute();
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusFirstAttribute();
+        }
       });
 
     this.configUtils.scrollToConfigurationElement(
@@ -50,8 +55,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) => {
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
-        this.focusFirstAttribute();
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusFirstAttribute();
+        }
       });
 
     this.configUtils.scrollToConfigurationElement(

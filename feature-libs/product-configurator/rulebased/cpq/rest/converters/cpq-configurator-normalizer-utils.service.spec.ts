@@ -7,6 +7,10 @@ import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
 const CURRENCY = 'USD';
+const VALUE_CODE1 = '1';
+const VALUE_CODE2 = '2';
+const VALUE_CODE3 = '3';
+const VALUE_CODE4 = '4';
 
 class MockLanguageService {
   getActive(): Observable<string> {
@@ -70,7 +74,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
   });
 
   it('should calculate value price total when no quantity', () => {
-    const quantity = null;
+    const quantity = 0;
     const valuePrice: Configurator.PriceDetails = {
       currencyIso: CURRENCY,
       value: 123.45,
@@ -84,47 +88,40 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     expect(valuePriceTotal.formattedValue).toBe('$123.45');
   });
 
-  it('should calculate value price total when no value price', () => {
-    const quantity = 3;
-    const valuePrice: Configurator.PriceDetails = null;
-    const valuePriceTotal = cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      quantity,
-      valuePrice
-    );
-    expect(valuePriceTotal).toBeNull();
-  });
-
   it('should convert quantity for attribute with quantity on attribute level', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '1' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       quantity: '2',
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
-      values: [{ paV_ID: 1, selected: true, quantity: '1' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBe(2);
   });
 
   it('should convert quantity for attribute with quantity on value level', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '3' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       quantity: '1',
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
-      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBe(3);
   });
 
   it('should convert quantity for Checkbox Lineitem attribute with quantity on value level', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '3' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -132,16 +129,17 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.CHECK_BOX,
       isLineItem: true,
-      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBe(3);
   });
 
   it('should convert quantity for Checkbox Non-Lineitem attribute with quantity on value level', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '3' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -149,41 +147,43 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.CHECK_BOX,
       isLineItem: false,
-      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBeNull();
   });
 
   it('should convert quantity for Radiobutton attribute with quantity on value level', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '3' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       quantity: '1',
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
-      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBeNull();
   });
 
   it('should retrieve quantity null for attribute without quantity', () => {
+    const cpqValue = { paV_ID: 1, selected: true, quantity: '1' };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       quantity: '1',
       dataType: Cpq.DataType.N_A,
-      values: [{ paV_ID: 1, selected: true, quantity: '1' }],
+      values: [cpqValue],
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
-      cpqAttr.values[0],
+      cpqValue,
       cpqAttr
     );
     expect(quantity).toBeNull();
@@ -248,17 +248,21 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         {
           selected: true,
           valuePriceTotal: { currencyIso: CURRENCY, value: 100 },
+          valueCode: VALUE_CODE1,
         },
         {
           selected: true,
           valuePriceTotal: { currencyIso: CURRENCY, value: 0.01 },
+          valueCode: VALUE_CODE2,
         },
         {
           selected: true,
+          valueCode: VALUE_CODE3,
         },
         {
           selected: false,
           valuePriceTotal: { currencyIso: CURRENCY, value: 200 },
+          valueCode: VALUE_CODE4,
         },
       ],
     };
@@ -358,7 +362,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
-      dataType: null,
+      dataType: undefined,
     };
     expect(
       cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
