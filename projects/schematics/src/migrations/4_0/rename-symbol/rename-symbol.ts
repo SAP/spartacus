@@ -19,6 +19,7 @@ import {
   EXPRESS_CHECKOUT_SERVICE,
   PERMISSION_ROUTING_CONFIG,
   SPARTACUS_CHECKOUT_COMPONENTS,
+  SPARTACUS_CHECKOUT_CORE,
   SPARTACUS_CHECKOUT_OCC,
   SPARTACUS_CHECKOUT_ROOT,
   SPARTACUS_CORE,
@@ -422,6 +423,260 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'OccReplenishmentOrderFormSerializer',
     previousImportPath: SPARTACUS_CORE,
     newImportPath: SPARTACUS_CHECKOUT_OCC,
+  },
+  // projects/core/src/checkout/*
+  {
+    previousNode: 'CheckoutModule',
+    newNode: 'CheckoutCoreModule',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutCostCenterAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutCostCenterConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutDeliveryAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutDeliveryConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'DELIVERY_MODE_NORMALIZER',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutPaymentAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutPaymentConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PAYMENT_DETAILS_SERIALIZER',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CARD_TYPE_NORMALIZER',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PAYMENT_TYPE_NORMALIZER',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PaymentTypeAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PaymentTypeConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PaymentTypeConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutReplenishmentOrderAdapter',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutReplenishmentOrderConnector',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'REPLENISHMENT_ORDER_FORM_SERIALIZER',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutEventBuilder',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutEventModule',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'OrderPlacedEvent',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'CheckoutCostCenterService',
+    newNode: 'CheckoutCostCenterFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'CheckoutDeliveryService',
+    newNode: 'CheckoutDeliveryFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'CheckoutPaymentService',
+    newNode: 'CheckoutPaymentFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'CheckoutService',
+    newNode: 'CheckoutFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'PaymentTypeService',
+    newNode: 'PaymentTypeFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'ClearCheckoutService',
+    newNode: 'ClearCheckoutFacade',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+  },
+  {
+    previousNode: 'CheckoutDetails',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutPageMetaResolver',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  //=-----
+  {
+    previousNode: 'CHECKOUT_FEATURE',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CHECKOUT_DETAILS',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'SET_DELIVERY_ADDRESS_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'SET_DELIVERY_MODE_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'SET_PAYMENT_DETAILS_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'GET_PAYMENT_TYPES_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'SET_COST_CENTER_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PLACED_ORDER_PROCESS_ID',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'StateWithCheckout',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'AddressVerificationState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CardTypesState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutStepsState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PaymentTypesState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'OrderTypesState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'PaymentTypesState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutState',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutActions',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  {
+    previousNode: 'CheckoutSelectors',
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_CORE,
   },
 ];
 
