@@ -14,6 +14,7 @@ import { SkipLinkModule } from './layout/a11y/skip-link/skip-link.module';
 import { LayoutModule } from './layout/layout.module';
 import { MediaModule } from './shared/components/media/media.module';
 import { StorefrontComponentModule } from './layout/main/storefront-component.module';
+import { PageComponentModule } from './cms-structure/page/component/page-component.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { StorefrontComponentModule } from './layout/main/storefront-component.mo
     PwaModule,
     PageLayoutModule,
     SeoModule,
+    PageComponentModule.forRoot(),
     PageSlotModule,
     SkipLinkModule,
     KeyboardFocusModule,
