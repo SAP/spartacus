@@ -28,7 +28,6 @@ import {
   reportProgress,
   Repository,
   success,
-  warning,
 } from './index';
 
 function readTsConfigFile(path: string): any {
@@ -99,14 +98,9 @@ function comparePathsConfigs(
   const currentPaths: Record<string, string[]> =
     tsConfig?.compilerOptions?.paths ?? {};
   const errors: string[] = [];
-  const warnings: string[] = [];
   Object.keys(currentPaths).forEach((key) => {
     if (typeof targetPaths[key] === 'undefined') {
-      // TODO: Resolve problems with cross packages before we switch to error again.
-      // Eg. setup -/-> storefront
-      //     setup ---> user ---> storefront
-      // Error that we can't find @spartacus/storefront
-      warnings.push(
+      errors.push(
         `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
           `compilerOptions.paths`
         )}.`
@@ -131,13 +125,6 @@ function comparePathsConfigs(
   if (!silent && errors.length > 0) {
     error(tsConfigPath, errors, [
       `This can be automatically fixed by running \`${chalk.bold(
-        `yarn config:update`
-      )}\`.`,
-    ]);
-  }
-  if (!silent && warnings.length > 0) {
-    warning(tsConfigPath, warnings, [
-      `Make sure that you need all the entries. You can automatically remove all unused entries by running \`${chalk.bold(
         `yarn config:update`
       )}\`.`,
     ]);
