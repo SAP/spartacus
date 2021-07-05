@@ -5,24 +5,17 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  ActiveCartService,
-  isNotNullable,
-  Product,
-  CmsAddToCartComponent as model,
-} from '@spartacus/core';
+import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { InventoryDisplayConfig } from './config/inventory-display.config';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -55,41 +48,29 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
+  /**
+   * @deprecated since 3.4
+   */
   // constructor(
   //   modalService: ModalService,
   //   currentProductService: CurrentProductService,
   //   cd: ChangeDetectorRef,
-  //   activeCartService: ActiveCartService,
-  //   componentData: CmsComponentData<model>
+  //   activeCartService: ActiveCartService
   // );
-
-  /**
-   * @deprecated since 3.4
-   */
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
-  );
 
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    @Optional() protected componentData?: CmsComponentData<model>
+    protected config: InventoryDisplayConfig
   ) {}
 
   ngOnInit() {
-    this.componentData?.data$.subscribe((data: model) => {
-      if (data.inventoryDisplay && data.inventoryDisplay === 'true') {
-        this.showInventory = true;
-      }
-    });
+    this.showInventory = this.config.showInventory ?? false;
 
     if (this.product) {
-      this.productCode = this.product.code ? this.product.code : '';
+      this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
@@ -102,7 +83,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
-          this.productCode = product.code;
+          this.productCode = product.code ?? '';
           this.setStockInfo(product);
           this.cd.markForCheck();
         });

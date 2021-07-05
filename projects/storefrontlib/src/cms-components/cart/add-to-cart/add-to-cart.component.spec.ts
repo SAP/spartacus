@@ -10,21 +10,16 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
-  CmsAddToCartComponent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { AddToCartComponent } from './add-to-cart.component';
+import { InventoryDisplayConfig } from './config/inventory-display.config';
 
-const mockComponentData: CmsAddToCartComponent = {
-  inventoryDisplay: 'false',
-};
-
-const MockCmsComponent = <CmsComponentData<any>>{
-  data$: of(mockComponentData),
+const mockInventoryDisplayConfig: InventoryDisplayConfig = {
+  showInventory: false,
 };
 
 const productCode = '1234';
@@ -118,8 +113,8 @@ describe('AddToCartComponent', () => {
             useClass: MockCurrentProductService,
           },
           {
-            provide: CmsComponentData,
-            useValue: MockCmsComponent,
+            provide: InventoryDisplayConfig,
+            useClass: mockInventoryDisplayConfig,
           },
         ],
       }).compileComponents();
