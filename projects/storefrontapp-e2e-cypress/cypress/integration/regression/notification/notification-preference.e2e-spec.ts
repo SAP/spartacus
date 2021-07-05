@@ -1,5 +1,3 @@
-import { registerAndLogin } from '../../../helpers/update-email';
-import { viewportContext } from '../../../helpers/viewport-context';
 import {
   disableNotificationChannel,
   enableNotificationChannel,
@@ -7,6 +5,8 @@ import {
   updateEmail,
   verifyEmailChannel,
 } from '../../../helpers/notification';
+import { registerAndLogin } from '../../../helpers/update-email';
+import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
 describe('Notification preference', () => {
