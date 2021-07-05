@@ -42,7 +42,6 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
-export const SPARTACUS_CHECKOUT_ASSETS = `${SPARTACUS_CHECKOUT}/assets`;
 export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
 export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
 export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
