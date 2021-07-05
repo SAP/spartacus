@@ -411,7 +411,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = [{ paV_ID: 1, selected: true, price: '123.45' }];
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
-    expect(ovAttrs[0].quantity).toEqual(null);
+    expect(ovAttrs[0].quantity).toEqual(1);
     expect(ovAttrs[0].valuePrice?.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePrice?.value).toBe(123.45);
     expect(ovAttrs[0].valuePrice?.formattedValue).toBe('$123.45');
