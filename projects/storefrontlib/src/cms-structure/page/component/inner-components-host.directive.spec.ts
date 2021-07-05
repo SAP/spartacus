@@ -102,7 +102,7 @@ describe('InnerComponentsHostDirective', () => {
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
-          imports: [PageComponentModule],
+          imports: [PageComponentModule.forRoot()],
           declarations: [
             HostComponent,
             InnerComponentsHostDirective,
