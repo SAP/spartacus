@@ -14,14 +14,27 @@ export function navigateToNotificationPreferencePage() {
   });
 }
 
+export function interceptNotificationPreferencesChange() {
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/notificationpreferences*`
+  ).as('notificationPreferencesChange');
+}
+
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
+  interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().check();
+  cy.wait('@notificationPreferencesChange');
 }
 
 export function disableNotificationChannel() {
   navigateToNotificationPreferencePage();
+  interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().uncheck();
+  cy.wait('@notificationPreferencesChange');
 }
 
 export function updateEmail(): String {
