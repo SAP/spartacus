@@ -27,14 +27,18 @@ export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
   interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().check();
-  cy.wait('@notificationPreferencesChange');
+  cy.wait('@notificationPreferencesChange')
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function disableNotificationChannel() {
   navigateToNotificationPreferencePage();
   interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().uncheck();
-  cy.wait('@notificationPreferencesChange');
+  cy.wait('@notificationPreferencesChange')
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function updateEmail(): String {
