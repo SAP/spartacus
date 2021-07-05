@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
@@ -19,14 +19,9 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
 import createSpy = jasmine.createSpy;
 
-const mockUserId = 'testuserid';
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
-    return new Subscription();
-  }
   public takeUserId(): Observable<string> {
-    return of(mockUserId);
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -348,7 +343,7 @@ describe('UserAddressService', () => {
       service.verifyAddress(mockAddress).subscribe((result) => {
         expect(result).toBe(mockAddressVerificationResult);
         expect(userAddressConnector.verify).toHaveBeenCalledWith(
-          mockUserId,
+          OCC_USER_ID_CURRENT,
           mockAddress
         );
         done();
