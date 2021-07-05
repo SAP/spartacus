@@ -760,6 +760,8 @@ export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const NAVIGATION_UI_CONFIG = 'NavigationUiConfig';
+
 /***** APIs end *****/
 
 /***** feature keys start *****/
