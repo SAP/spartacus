@@ -137,6 +137,7 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -207,6 +208,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
+  NAVIGATION_UI_COMPONENT_MIGRATION,
   CONFIGURATOR_FORM_COMPONENT_MIGRATION,
   CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
