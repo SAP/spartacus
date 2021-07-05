@@ -140,7 +140,6 @@
                 (click)="deleteCart(cart.code)"
                 [attr.aria-label]="'common.delete' | cxTranslate"
                 [disabled]="isDisableDeleteButton$ | async"
-                aria-label="delete"
                 class="ml-2 btn btn-primary"
                 type="button"
               >
@@ -153,7 +152,7 @@
                 *ngIf="cart.code"
                 (click)="restoreSavedCart(cart.code)"
                 [disabled]="isDisableDeleteButton$ | async"
-                aria-label="restore"
+                [attr.aria-label]="'common.restore' | cxTranslate"
                 class="ml-2 btn btn-primary"
                 type="button"
               >
