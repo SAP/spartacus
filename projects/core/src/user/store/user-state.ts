@@ -3,7 +3,6 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
-import { Title, User } from '../../model/misc.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import {
   Order,
@@ -20,11 +19,7 @@ import {
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
-export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
-export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';
-export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
 export const REGISTER_USER_PROCESS_ID = 'registerUser';
-export const REMOVE_USER_PROCESS_ID = 'removeUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
 export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
@@ -64,7 +59,6 @@ export interface StateWithUser {
  * @deprecated since 3.2, moved to the `@spartacus/user` package.
  */
 export interface UserState {
-  account: UserDetailsState;
   addresses: StateUtils.LoaderState<Address[]>;
   consents: StateUtils.LoaderState<ConsentTemplate[]>;
   billingCountries: BillingCountriesState;
@@ -75,9 +69,7 @@ export interface UserState {
   replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
-  titles: TitlesState;
   regions: StateUtils.LoaderState<RegionsState>;
-  resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
@@ -105,18 +97,6 @@ export interface DeliveryCountryEntities {
 
 export interface DeliveryCountriesState {
   entities: DeliveryCountryEntities;
-}
-
-export interface TitleEntities {
-  [key: string]: Title;
-}
-
-export interface TitlesState {
-  entities: TitleEntities;
-}
-
-export interface UserDetailsState {
-  details: User;
 }
 
 export interface ConsignmentTrackingState {

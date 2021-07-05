@@ -1,8 +1,14 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
-// do NOT re-order imports - ZONE MUST BE IMPORTED FIRST!
-import 'zone.js/dist/zone';
-import 'zone.js/dist/zone-testing';
-// all other imports
+
+// Zone.js and zone.js/testing should be imported as FIRST and in this ORDER:
+import 'zone.js';
+import 'zone.js/testing';
+
+// Patching Object.defineProperty unlocks frozen JS symbols and makes possible to mock them.
+// Should be used with caution, and only if there is no other way to mock stuff (eg. by DI)
+// Has to be imported just after zone.js imports.
+import 'testing/patch-object-define-property';
+
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,

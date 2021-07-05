@@ -62,6 +62,7 @@ const orderEntryconfig: Configurator.Configuration = {
     )
   ),
   overview: {
+    configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
   },
 };
@@ -297,14 +298,5 @@ describe('ConfigProductTitleComponent', () => {
       '.cx-title',
       PRODUCT_NAME
     );
-  });
-
-  it('should return undefined for getProductImageURL/Alttext if not properly defined', () => {
-    product.images.PRIMARY = {};
-    expect(component.getProductImageURL(product)).toBeUndefined();
-    product.images = {};
-    expect(component.getProductImageURL(product)).toBeUndefined();
-    expect(component.getProductImageURL({})).toBeUndefined();
-    expect(component.getProductImageAlt({})).toBeUndefined();
   });
 });

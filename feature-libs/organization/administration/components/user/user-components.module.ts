@@ -10,11 +10,7 @@ import { UserDetailsModule } from './details/user-details.module';
 import { UserFormModule } from './form/user-form.module';
 import { UserPermissionListModule } from './permissions/user-permission-list.module';
 import { UserUserGroupsModule } from './user-groups/user-user-group-list.module';
-import {
-  userCmsConfig,
-  userRoutingConfig,
-  userTableConfigFactory,
-} from './user.config';
+import { userCmsConfig, userTableConfigFactory } from './user.config';
 @NgModule({
   imports: [
     ListModule,
@@ -26,7 +22,6 @@ import {
     UserApproverListModule,
   ],
   providers: [
-    provideDefaultConfig(userRoutingConfig),
     provideDefaultConfig(userCmsConfig),
     provideDefaultConfigFactory(userTableConfigFactory),
   ],

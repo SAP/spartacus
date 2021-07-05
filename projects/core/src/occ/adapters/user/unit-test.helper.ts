@@ -15,16 +15,13 @@ export const mockOccModuleConfig: OccConfig = {
 };
 
 export class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
+  buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+    if (!endpointKey.startsWith('/')) {
+      endpointKey = '/' + endpointKey;
     }
-    return endpoint;
+    return endpointKey;
   }
-  getBaseEndpoint() {
+  getBaseUrl() {
     return '';
   }
   isConfigured() {

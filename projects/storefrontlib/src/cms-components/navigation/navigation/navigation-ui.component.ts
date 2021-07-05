@@ -8,19 +8,25 @@ import {
   Input,
   OnDestroy,
   Renderer2,
+  OnInit,
+  Optional,
 } from '@angular/core';
+
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { NavigationUiConfig } from './config/navigation-ui-config';
 
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent implements OnDestroy {
+export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * The navigation node to render.
    */
@@ -54,10 +60,18 @@ export class NavigationUIComponent implements OnDestroy {
     this.resize.next();
   }
 
+  // TODO(#12573): deprecate constructor.
+  /**
+   * @deprecated since 3.4
+   */
+  constructor(router: Router, renderer: Renderer2, elemRef: ElementRef);
+
   constructor(
     private router: Router,
     private renderer: Renderer2,
-    private elemRef: ElementRef
+    private elemRef: ElementRef,
+    @Optional() private config?: NavigationUiConfig,
+    @Optional() protected hamburgerMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -69,6 +83,39 @@ export class NavigationUIComponent implements OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+  }
+
+  /**
+   * During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
+   */
+  ngOnInit() {
+    if (this.config?.resetMenuOnClose) {
+      this.resetOnMenuCollapse();
+    }
+  }
+
+  /**
+   * This method performs the action of resetting the menu (close all sub menus and return to main options)
+   * when the menu is closed.
+   */
+  resetOnMenuCollapse(): void {
+    this.subscriptions.add(
+      this.hamburgerMenuService?.isExpanded
+        .pipe(distinctUntilChanged(), filter(Boolean))
+        .subscribe(() => {
+          this.reinitalizeMenu();
+        })
+    );
+  }
+
+  /**
+   * This method performs the actions required to reset the state of the menu and reset any visual components.
+   */
+  reinitalizeMenu(): void {
+    if (this.openNodes?.length > 0) {
+      this.clear();
+      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+    }
   }
 
   toggleOpen(event: UIEvent): void {

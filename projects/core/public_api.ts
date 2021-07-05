@@ -18,7 +18,6 @@ export * from './src/process/index';
 export * from './src/product/index';
 export * from './src/routing/index';
 export * from './src/site-context/index';
-export * from './src/smart-edit/index';
 export * from './src/state/index';
 export * from './src/user/index';
 export * from './src/util/index';
@@ -34,4 +33,7 @@ export { CostCenter, B2BUnit, B2BUser } from './src/model/org-unit.model';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { Order, OrderEntry, DeliveryMode } from './src/model/order.model';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
+export { Config } from './src/config/config-tokens';
+export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';
+export { BackendConfig } from './src/occ/config/occ-config';
 /** AUGMENTABLE_TYPES_END */

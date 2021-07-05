@@ -5,6 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { NavigationUiConfig } from './config/navigation-ui-config';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -23,6 +26,15 @@ class MockGenericLinkComponent {
   @Input() target: string;
   @Input() title: string;
 }
+
+class MockHamburgerMenuService {
+  isExpanded = of(true);
+  toggle(_forceCollapse?: boolean): void {}
+}
+
+const mockConfig: NavigationUiConfig = {
+  resetMenuOnClose: false,
+};
 
 const childLength = 9;
 
@@ -85,7 +97,12 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [],
+      providers: [
+        {
+          provide: HamburgerMenuService,
+          useClass: MockHamburgerMenuService,
+        },
+      ],
     }).compileComponents();
   });
   beforeEach(() => {
@@ -94,6 +111,7 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
+    navigationComponent.config = mockConfig;
   });
 
   describe('calculate columns', () => {
@@ -149,7 +167,7 @@ describe('Navigation UI Component', () => {
 
     it('should render cx-icon element for a nav node with children in flyout mode', () => {
       fixture.detectChanges();
-      const icon: ElementRef = element.query(By.css('h5 > cx-icon'));
+      const icon: ElementRef = element.query(By.css('span > cx-icon'));
       const link: HTMLLinkElement = icon.nativeElement;
 
       expect(link).toBeDefined();
@@ -158,7 +176,7 @@ describe('Navigation UI Component', () => {
     it('should not render cx-icon element for a nav node with children not in flyout mode', () => {
       navigationComponent.flyout = false;
       fixture.detectChanges();
-      const icon: ElementRef = element.query(By.css('h5 > cx-icon'));
+      const icon: ElementRef = element.query(By.css('a > cx-icon'));
 
       expect(icon).toBeFalsy();
     });
@@ -187,10 +205,10 @@ describe('Navigation UI Component', () => {
       expect(rootNavElementCount).toEqual(2);
     });
 
-    it('should render heading for nav nodes without a URL', () => {
+    it('should render a tag for nav nodes without a URL', () => {
       fixture.detectChanges();
 
-      const nav: ElementRef = element.query(By.css('nav > h5'));
+      const nav: ElementRef = element.query(By.css('nav > span'));
       const el: HTMLElement = nav.nativeElement;
       expect(el.innerText).toEqual('Root 1');
     });
@@ -236,6 +254,22 @@ describe('Navigation UI Component', () => {
         By.css('nav div .childs nav')
       );
       expect(child.length).toEqual(7);
+    });
+
+    it('should reinitialize menu, when menu is expanded', () => {
+      const config: NavigationUiConfig = {
+        resetMenuOnClose: true,
+      };
+      navigationComponent.config = config;
+      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      fixture.detectChanges();
+      expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
+    });
+
+    it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
+      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      fixture.detectChanges();
+      expect(navigationComponent.reinitalizeMenu).not.toHaveBeenCalled();
     });
   });
 });

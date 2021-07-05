@@ -15,6 +15,5 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
   ],
   declarations: [ConfiguratorAttributeMultiSelectionImageComponent],
   exports: [ConfiguratorAttributeMultiSelectionImageComponent],
-  entryComponents: [ConfiguratorAttributeMultiSelectionImageComponent],
 })
 export class ConfiguratorAttributeMultiSelectionImageModule {}

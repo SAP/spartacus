@@ -46,6 +46,5 @@ import { ReturnOrderComponent } from './return-order.component';
   ],
   declarations: [ReturnOrderComponent],
   exports: [ReturnOrderComponent],
-  entryComponents: [ReturnOrderComponent],
 })
 export class ReturnOrderModule {}
