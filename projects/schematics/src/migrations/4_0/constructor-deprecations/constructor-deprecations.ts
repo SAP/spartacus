@@ -23,6 +23,7 @@ import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.serv
 import { AUTH_REDIRECT_SERVICE_MIGRATION } from './data/auth-redirect.service.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details.component.migration';
+import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import {
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
@@ -234,6 +235,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
   PRODUCT_GRID_ITEM_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
+  ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
