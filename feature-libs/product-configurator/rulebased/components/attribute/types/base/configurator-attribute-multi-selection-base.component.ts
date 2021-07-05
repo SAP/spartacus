@@ -1,12 +1,12 @@
-import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -73,7 +73,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    initialQuantity: number,
+    initialQuantity?: number,
     allowZero?: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
     const disableQuantityActions$ = this.loading$.pipe(

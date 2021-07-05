@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ProductSchematics",
+  "$id": "ProductSchematics",
   "title": "Product Schematics",
   "type": "object",
   "properties": {

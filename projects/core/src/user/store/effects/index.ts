@@ -15,30 +15,16 @@ import { UserConsentsEffect } from './user-consents.effect';
 import { UserCostCenterEffects } from './user-cost-center.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserReplenishmentOrdersEffect } from './user-replenishment-orders.effect';
-import { UserRegisterEffects } from './user-register.effect';
-import { TitlesEffects } from './titles.effect';
-import { ResetPasswordEffects } from './reset-password.effect';
-import { UpdateEmailEffects } from './update-email.effect';
-import { UpdatePasswordEffects } from './update-password.effect';
-import { ForgotPasswordEffects } from './forgot-password.effect';
-import { UserDetailsEffects } from './user-details.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,
   DeliveryCountriesEffects,
   RegionsEffects,
-  TitlesEffects,
-  UserDetailsEffects,
   UserAddressesEffects,
   UserPaymentMethodsEffects,
-  UserRegisterEffects,
   UserOrdersEffect,
   OrderDetailsEffect,
   BillingCountriesEffect,
-  ResetPasswordEffects,
-  ForgotPasswordEffects,
-  UpdateEmailEffects,
-  UpdatePasswordEffects,
   UserConsentsEffect,
   ConsignmentTrackingEffects,
   CustomerCouponEffects,
@@ -62,11 +48,7 @@ export * from './payment-methods.effect';
 export * from './product-interests.effect';
 export * from './regions.effect';
 export * from './replenishment-order-details.effect';
-export * from './reset-password.effect';
-export * from './titles.effect';
 export * from './user-addresses.effect';
 export * from './user-consents.effect';
-export * from './user-details.effect';
 export * from './user-orders.effect';
-export * from './user-register.effect';
 export * from './user-replenishment-orders.effect';
