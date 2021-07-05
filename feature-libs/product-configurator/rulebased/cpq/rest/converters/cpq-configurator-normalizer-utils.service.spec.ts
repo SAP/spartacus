@@ -442,21 +442,6 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toEqual(expectedPriceSummary);
   });
 
-  it('should convert price summary when no currency ISO code exists', () => {
-    const cpqConfiguration: Cpq.Configuration = {
-      productSystemId: 'productSystemId',
-      currencyISOCode: 'USD',
-      currencySign: '$',
-      responder: { totalPrice: '$3333.33', baseProductPrice: '1000.00' },
-    };
-    const expectedPriceSummary: Configurator.PriceSummary = {};
-    expect(
-      cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
-    ).toEqual(expectedPriceSummary);
-  });
-
   it('should convert attribute label', () => {
     const attribute: Cpq.Attribute = {
       pA_ID: 1,

@@ -396,12 +396,12 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(2);
     expect(ovAttrs[0].quantity).toEqual(3);
-    expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
-    expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePriceTotal.value).toBe(370.35);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$370.35');
+    expect(ovAttrs[0].valuePrice?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePrice?.value).toBe(123.45);
+    expect(ovAttrs[0].valuePrice?.formattedValue).toBe('$123.45');
+    expect(ovAttrs[0].valuePriceTotal?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePriceTotal?.value).toBe(370.35);
+    expect(ovAttrs[0].valuePriceTotal?.formattedValue).toBe('$370.35');
   });
 
   it('should map price for user input attribute', () => {
@@ -412,11 +412,11 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].quantity).toEqual(null);
-    expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
-    expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(ovAttrs[0].valuePriceTotal.value).toBe(123.45);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$123.45');
+    expect(ovAttrs[0].valuePrice?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePrice?.value).toBe(123.45);
+    expect(ovAttrs[0].valuePrice?.formattedValue).toBe('$123.45');
+    expect(ovAttrs[0].valuePriceTotal?.currencyIso).toBe(CURRENCY);
+    expect(ovAttrs[0].valuePriceTotal?.value).toBe(123.45);
+    expect(ovAttrs[0].valuePriceTotal?.formattedValue).toBe('$123.45');
   });
 });
