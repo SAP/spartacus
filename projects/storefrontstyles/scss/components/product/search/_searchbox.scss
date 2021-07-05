@@ -5,14 +5,13 @@
 %cx-searchbox__body {
   // hide the mobile search button by default and how on mobile
   button.search {
-    display: none;
-    @include media-breakpoint-up(sm) {
-      display: inline-block;
+    @include media-breakpoint-up(md) {
+      display: none;
     }
   }
   // hide the search icon on mobile
   div.search-icon {
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-down(sm) {
       display: none;
     }
   }
@@ -106,7 +105,7 @@
       min-width: 300px;
       max-width: 550px;
       // hide search icon when the input is dirty
-      &.dirty div.search {
+      &.dirty div.search-icon {
         display: none;
       }
     }
@@ -145,7 +144,7 @@
     }
 
     button,
-    div.search {
+    div.search-icon {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
