@@ -1,4 +1,3 @@
-import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
@@ -71,8 +70,10 @@ import {
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
 } from './data/google-map-renderer.service.migration';
+import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
+import { LOADING_SCOPES_SERVICE_MIGRATION } from './data/loading-scopes.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { MEDIA_SERVICE_MIGRATION } from './data/media.service.migration';
@@ -131,6 +132,7 @@ import {
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
 } from './data/toggle-status.component.migration';
+import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
@@ -138,7 +140,6 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
-import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -245,6 +246,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
+  LOADING_SCOPES_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
