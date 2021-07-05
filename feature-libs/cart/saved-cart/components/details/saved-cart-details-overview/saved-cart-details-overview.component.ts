@@ -67,13 +67,13 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     );
   }
 
-  getDateSaved(saveTime: string): Observable<Card> {
+  getDateSaved(saveTime: string | null): Observable<Card> {
     return this.translation.translate('savedCartDetails.dateSaved').pipe(
       filter(() => Boolean(saveTime)),
       map((textTitle) => {
         return {
           title: textTitle,
-          text: [saveTime],
+          text: [saveTime ?? ''],
         };
       })
     );
