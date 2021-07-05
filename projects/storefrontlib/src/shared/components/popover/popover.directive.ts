@@ -136,33 +136,44 @@ export class PopoverDirective implements OnInit {
     this.closePopover.emit();
   }
 
+  protected openTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN,
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected focusPopoverTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected closeTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ROUTE_CHANGE,
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.OUTSIDE_CLICK,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_CLICK,
+  ];
+
+  protected focusDirectiveTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+  ];
+
   /**
    * Method subscribes for events emitted by popover component
    * and based on event performs specific action.
    */
   handlePopoverEvents() {
     this.eventSubject.subscribe((event: PopoverEvent) => {
-      if (
-        event === PopoverEvent.OPEN ||
-        event === PopoverEvent.OPEN_BY_KEYBOARD
-      ) {
+      if (this.openTriggerEvents.includes(event)) {
         this.open(event);
       }
-      if (event === PopoverEvent.OPEN_BY_KEYBOARD) {
+      if (this.focusPopoverTriggerEvents.includes(event)) {
         this.popoverContainer.location.nativeElement.focus();
       }
-      if (
-        event === PopoverEvent.ROUTE_CHANGE ||
-        event === PopoverEvent.ESCAPE_KEYDOWN ||
-        event === PopoverEvent.OUTSIDE_CLICK ||
-        event === PopoverEvent.CLOSE_BUTTON_KEYDOWN ||
-        event === PopoverEvent.CLOSE_BUTTON_CLICK
-      )
+      if (this.closeTriggerEvents.includes(event)) {
         this.close();
-      if (
-        event === PopoverEvent.ESCAPE_KEYDOWN ||
-        event === PopoverEvent.CLOSE_BUTTON_KEYDOWN
-      ) {
+      }
+      if (this.focusDirectiveTriggerEvents.includes(event)) {
         this.popoverService.setFocusOnElement(
           this.element,
           this.focusConfig,
