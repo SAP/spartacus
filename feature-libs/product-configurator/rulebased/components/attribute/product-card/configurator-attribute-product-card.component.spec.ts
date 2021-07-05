@@ -103,7 +103,7 @@ function setProductBoundValueAttributes(
     productBoundValue.valuePriceTotal = undefined;
     return productBoundValue;
   }
-  return {};
+  return { valueCode: 'A' };
 }
 
 function takeOneDisableQtyObs(
@@ -328,6 +328,22 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         .nativeElement;
 
       expect(button.innerText).toContain('configurator.button.remove');
+    });
+
+    it('should show deselection error message when removing required attribute', () => {
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.hideRemoveButton = true;
+      setProductBoundValueAttributes(component);
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      button.click();
+
+      expect(component.onHandleDeselect).toHaveBeenCalled();
+      expect(component.showDeselectionNotPossible).toBe(true);
     });
   });
 

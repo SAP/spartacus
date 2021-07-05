@@ -65,7 +65,11 @@ import {
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   MAIN_MODULE,
   MINI_LOGIN_TRANSLATION_CHUNK,
+  OCC_ENDPOINTS,
   OCC_MODULE,
+  OCC_USER_ACCOUNT_ADAPTER,
+  OCC_USER_ADAPTER,
+  OCC_USER_PROFILE_ADAPTER,
   ORDER_ENTRY,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -101,17 +105,22 @@ import {
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
+  SPARTACUS_USER_ACCOUNT,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  SPARTACUS_USER_PROFILE,
   SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
   SYNCED_ASM_STATE,
+  TITLES_ENDPOINT,
+  TITLE_NORMALIZER,
   TOKEN_TARGET,
   TRANSLATION_CHUNKS_CONFIG,
   UPDATE_EMAIL_COMPONENT,
@@ -123,7 +132,30 @@ import {
   UPDATE_PASSWORD_MODULE,
   UPDATE_PROFILE_COMPONENT,
   UPDATE_PROFILE_MODULE,
+  USER_ACCOUNT_ADAPTER,
+  USER_ACCOUNT_CONNECTOR,
+  USER_ACCOUNT_NORMALIZER,
+  USER_ACCOUNT_SERIALIZER,
+  USER_ADAPTER,
+  USER_CLOSE_ACCOUNT_ENDPOINT,
   USER_COMPONENT_MODULE,
+  USER_CONNECTOR,
+  USER_ENDPOINT,
+  USER_FORGOT_PASSWORD_ENDPOINT,
+  USER_NORMALIZER,
+  USER_PROFILE_ADAPTER,
+  USER_PROFILE_CONNECTOR,
+  USER_PROFILE_NORMALIZER,
+  USER_PROFILE_SERIALIZER,
+  USER_REGISTER_ENDPOINT,
+  USER_RESET_PASSWORD_ENDPOINT,
+  USER_SERIALIZER,
+  USER_SERVICE,
+  USER_SIGN_UP_INTERFACE,
+  USER_SIGN_UP_SERIALIZER,
+  USER_UPDATE_LOGIN_ID_ENDPOINT,
+  USER_UPDATE_PASSWORD_ENDPOINT,
+  USER_UPDATE_PROFILE_ENDPOINT,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_COLOR_SELECTOR_MODULE,
   VARIANT_SIZE_SELECTOR_COMPONENT,
@@ -140,6 +172,31 @@ import {
   OCC_CONFIG_LOADER_MODULE,
   SORT_CODE,
   TABLE_HEADER,
+  MESSAGE_CONFIG,
+  CONFIGURATOR_MESSAGE_CONFIG,
+  CART_ITEM_CONTEXT,
+  PROMOTION_LOCATION$,
+  LOCATION,
+  CART_ITEM_CONTEXT_SOURCE,
+  USER_ACTIONS,
+  FORGOT_PASSWORD_EMAIL_ACTION,
+  RESET_PASSWORD_ACTION,
+  EMAIL_ACTIONS,
+  UPDATE_PASSWORD_ACTION,
+  USER_DETAILS_ACTION,
+  USER_DETAILS_STATE_INTERFACE,
+  USER_STATE_INTERFACE,
+  USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
+  USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
+  EXTERNAL_JS_FILE_LOADER,
+  USER_ACCOUNT_MODULE,
+  USER_PROFILE_MODULE,
+  USER_MODULE,
+  SPARTACUS_USER_ACCOUNT_OCC,
+  SPARTACUS_USER_PROFILE_OCC,
+  SPARTACUS_USER_ACCOUNT_CORE,
+  SPARTACUS_USER_PROFILE_CORE,
+  B2C_LAYOUT_CONFIG,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -850,11 +907,137 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFINDER,
     comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
+  // projects/core/src/occ/adapters/user/occ-user.adapter.ts
+  {
+    node: OCC_USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${OCC_USER_ADAPTER}' was removed, please use '${OCC_USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT_OCC}' and '${OCC_USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE_OCC}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/occ/occ-models/occ-endpoints.model.ts
+  {
+    node: OCC_ENDPOINTS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following endpoints '${TITLES_ENDPOINT}', '${USER_ENDPOINT}', '${USER_REGISTER_ENDPOINT}', '${USER_FORGOT_PASSWORD_ENDPOINT}', '${USER_RESET_PASSWORD_ENDPOINT}', '${USER_UPDATE_LOGIN_ID_ENDPOINT}', '${USER_UPDATE_PASSWORD_ENDPOINT}' , '${USER_UPDATE_PROFILE_ENDPOINT}' , '${USER_CLOSE_ACCOUNT_ENDPOINT}' were removed. For replacement please use following endpoints from '${SPARTACUS_USER_ACCOUNT}' and '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: TITLE_NORMALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${TITLE_NORMALIZER}' was moved to '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_SIGN_UP_SERIALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SIGN_UP_SERIALIZER}' was moved to '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_SERIALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SERIALIZER}' was removed. For replacement please use '${USER_ACCOUNT_SERIALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_SERIALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/converters.ts
+  {
+    node: USER_NORMALIZER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_NORMALIZER}' was removed. For replacement please use '${USER_ACCOUNT_NORMALIZER}' from '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_NORMALIZER}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/connectors/user/user.adapter.ts
+  {
+    node: USER_ADAPTER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_ADAPTER}' was removed, please use '${USER_ACCOUNT_ADAPTER}' from '${SPARTACUS_USER_ACCOUNT_CORE}' and '${USER_PROFILE_ADAPTER}' from '${SPARTACUS_USER_PROFILE_CORE}'. Also there was method name change, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/connectors/user/user.connector.ts
+  {
+    node: USER_CONNECTOR,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_CONNECTOR}' was removed, please use '${USER_ACCOUNT_CONNECTOR}' from '${SPARTACUS_USER_ACCOUNT_CORE}' and '${USER_PROFILE_CONNECTOR}' from '${SPARTACUS_USER_PROFILE_CORE}'. Also there was slighly change in method logic, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/user/facade/user.service.ts
+  {
+    node: USER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `Many methods from '${USER_SERVICE}' were removed, for more details please look into 4.0 migration documentation.`,
+  },
+  // projects/core/src/model/misc.model.ts
+  {
+    node: USER_SIGN_UP_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_SIGN_UP_INTERFACE}' was removed, for replacement please use '${USER_SIGN_UP_INTERFACE}' from '${SPARTACUS_USER_PROFILE}'.`,
+  },
+  // projects/core/src/user/store/actions/index.ts
+  {
+    node: USER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `Following actions '${FORGOT_PASSWORD_EMAIL_ACTION}', '${RESET_PASSWORD_ACTION}', '${EMAIL_ACTIONS}', '${UPDATE_PASSWORD_ACTION}', '${USER_DETAILS_ACTION}' were removed. Logic was moved to '${SPARTACUS_USER}'.`,
+  },
+  // projects/core/src/user/store/user-state.ts
+  {
+    node: USER_DETAILS_STATE_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_DETAILS_STATE_INTERFACE}' was removed.`,
+  },
+  // projects/core/src/user/store/user-state.ts
+  {
+    node: USER_STATE_INTERFACE,
+    importPath: SPARTACUS_CORE,
+    comment: `Properties 'account' 'titles', and 'resetPassword' were removed from '${USER_DETAILS_STATE_INTERFACE}' interface.`,
+  },
+  // projects/core/src/user/user-transitional-tokens.ts
+  {
+    node: USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
+    importPath: SPARTACUS_CORE,
+    comment: `Abstract methods 'get', 'update', 'close' were removed from '${USER_PROFILE_FACADE_TRANSITIONAL_TOKEN}'.`,
+  },
+  // projects/core/src/user/user-transitional-tokens.ts
+  {
+    node: USER_REGISTER_FACADE_TRANSITIONAL_TOKEN,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_REGISTER_FACADE_TRANSITIONAL_TOKEN}' class was removed.`,
+  },
+  // projects/core/src/user/user.module.ts
+  {
+    node: USER_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'.`,
+  },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
     node: TABLE_HEADER,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${SORT_CODE}' was removed from interface 'TableHeader'`,
+  },
+  // feature-libs/product-configurator/rulebased/components/config/message-config.ts
+  {
+    node: MESSAGE_CONFIG,
+    importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+    comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
+  {
+    node: CART_ITEM_CONTEXT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT}', please use '${LOCATION}' instead`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
+  {
+    node: CART_ITEM_CONTEXT_SOURCE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
+  },
+  // projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts
+  {
+    node: EXTERNAL_JS_FILE_LOADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
+  },
+  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  {
+    node: B2C_LAYOUT_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${B2C_LAYOUT_CONFIG}' was removed from '${SPARTACUS_STOREFRONTLIB}', please use corresponding feature-lib specific layout.`,
   },
 ];
 

@@ -50,7 +50,7 @@ const config: Configurator.Configuration = {
   },
 };
 
-let routerStateObservable = null;
+let routerStateObservable: Observable<RouterState>;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -106,8 +106,8 @@ describe('ConfigPriceSummaryComponent', () => {
     component.configuration$
       .subscribe((data: Configurator.Configuration) => {
         expect(data.productCode).toEqual(PRODUCT_CODE);
-        expect(data.priceSummary.basePrice).toEqual(
-          config.priceSummary.basePrice
+        expect(data.priceSummary?.basePrice).toEqual(
+          config.priceSummary?.basePrice
         );
       })
       .unsubscribe();

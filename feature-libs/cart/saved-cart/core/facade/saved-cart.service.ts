@@ -57,7 +57,9 @@ export class SavedCartService implements SavedCartFacade {
           new SavedCartActions.LoadSavedCart({ userId, cartId })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -120,7 +122,9 @@ export class SavedCartService implements SavedCartFacade {
           new SavedCartActions.LoadSavedCarts({ userId })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -215,7 +219,9 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -280,7 +286,9 @@ export class SavedCartService implements SavedCartFacade {
       (userId) => {
         return this.multiCartService.deleteCart(cartId, userId);
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -308,7 +316,9 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -386,7 +396,9 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

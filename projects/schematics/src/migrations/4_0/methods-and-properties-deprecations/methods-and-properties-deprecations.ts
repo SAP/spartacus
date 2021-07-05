@@ -3,6 +3,7 @@ import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog-component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.migration';
+import { CONFIG_INITIALIZER_SERVICE_MIGRATION } from './data/config-initializer.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -14,10 +15,10 @@ import {
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
 import {
-  GET_URL_MIGRATION,
   OCC_ENDPOINTS_SERVICE_MIGRATION
 } from './data/occ-endpoints.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
@@ -28,6 +29,7 @@ import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION } from './data/saved-cart-details-action.component.migration';
 import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
+import { USER_ID_SERVICE_MIGRATION } from './data/user-id.service.migration';
 
 ...SAVED_CART_LIST_COMPONENT_MIGRATION
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
@@ -40,7 +42,6 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   ...PAGE_EVENT_BUILDER_MIGRATION,
   ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
-  ...GET_URL_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
@@ -53,7 +54,10 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ORDER_OVERVIEW_COMPONENT_MIGRATION,
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
   ...SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION,
-  ...SAVED_CART_LIST_COMPONENT_MIGRATION
+  ...SAVED_CART_LIST_COMPONENT_MIGRATION,
+  ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
+  ...CONFIG_INITIALIZER_SERVICE_MIGRATION,
+  ...USER_ID_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

@@ -42,10 +42,17 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
+export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
+export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
+export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
+export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
+export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
 export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
+export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
+export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
 export const NGRX_STORE = '@ngrx/store';
@@ -53,6 +60,7 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
   '@spartacus/product/variants/components';
@@ -83,10 +91,13 @@ export const ROUTER = 'Router';
 export const WINDOW_REF = 'WindowRef';
 export const VIEW_CONTAINER_REF = 'ViewContainerRef';
 export const TEMPLATE_REF = 'TemplateRef';
+export const APPLICATION_REF = 'ApplicationRef';
 export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
+
+export const NGB_MODAL = 'NgbModal';
 
 export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
@@ -146,6 +157,7 @@ export const ORGANIZATION_PAGE_META_RESOLVER = 'OrganizationPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CLEAR_CHECKOUT_FACADE = 'ClearCheckoutFacade';
 export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
 export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
@@ -221,6 +233,9 @@ export const AUTH_CONFIG = 'AuthConfig';
 export const OCC_CART_ENTRY_ADAPTER = 'OccCartEntryAdapter';
 export const OCC_CART_ADAPTER = 'OccCartAdapter';
 export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
+export const OCC_USER_ADAPTER = 'OccUserAdapter';
+export const OCC_USER_ACCOUNT_ADAPTER = 'OccUserAccountAdapter';
+export const OCC_USER_PROFILE_ADAPTER = 'OccUserProfileAdapter';
 export const CONVERTER_SERVICE = 'ConverterService';
 export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
 export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
@@ -358,6 +373,10 @@ export const USER_CONNECTOR = 'UserConnector';
 export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
 export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT =
   'ConfiguratorIssuesNotificationComponent';
+export const USER_PROFILE_FACADE = 'UserProfileFacade';
+export const USER_REGISTER_FACADE = 'UserRegisterFacade';
+export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
+export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -369,6 +388,7 @@ export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
 
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
+export const CDC_LOGOUT_GUARD = 'CdcLogoutGuard';
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
 export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
@@ -423,6 +443,7 @@ export const REPLENISHMENT_ORDER_HISTORY_COMPONENT =
   'ReplenishmentOrderHistoryComponent';
 export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
+export const CONFIGURATOR_UTILS_SERVICE = 'ConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
   'ConfiguratorAttributeQuantityService';
 export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
@@ -434,6 +455,8 @@ export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
   'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT =
+  'ConfiguratorUpdateMessageComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
   'ConfiguratorAttributeSingleSelectionBaseComponent';
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
@@ -452,7 +475,12 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
+export const MESSAGE_CONFIG = 'MessageConfig';
+export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
+
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
+export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -474,6 +502,9 @@ export const SAVED_CART_FORM_TYPE = 'savedCartFormType';
 export const OPEN_DIALOG = 'openDialog';
 export const RESTORE_SAVED_CART = 'restoreSavedCart';
 export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
+
+export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
+export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 
 /***** Classes end *****/
 
@@ -688,6 +719,7 @@ export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 export const GET_URL = 'getUrl';
 export const GET_END_POINT = 'getEndpoint';
+export const GET_RAW_ENDPOINT = 'getRawEndpoint';
 
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
@@ -719,6 +751,44 @@ export const UPDATE_EMAIL_FORM_TRANSLATION_CHUNK = 'updateEmailForm';
 export const FORGOTTEN_PASSWORD_TRANSLATION_CHUNK = 'forgottenPassword';
 export const LOGIN_FORM_TRANSLATION_CHUNK = 'loginForm';
 export const REGISTER_TRANSLATION_CHUNK = 'register';
+export const TITLES_ENDPOINT = 'titles';
+export const USER_ENDPOINT = 'user';
+export const USER_REGISTER_ENDPOINT = 'userRegister';
+export const USER_FORGOT_PASSWORD_ENDPOINT = 'userForgotPassword';
+export const USER_RESET_PASSWORD_ENDPOINT = 'userResetPassword';
+export const USER_UPDATE_LOGIN_ID_ENDPOINT = 'userUpdateLoginId';
+export const USER_UPDATE_PASSWORD_ENDPOINT = 'userUpdatePassword';
+export const USER_UPDATE_PROFILE_ENDPOINT = 'userUpdateProfile';
+export const USER_CLOSE_ACCOUNT_ENDPOINT = 'userCloseAccount';
+export const USER_ACCOUNT_NORMALIZER = 'USER_ACCOUNT_NORMALIZER';
+export const USER_ACCOUNT_SERIALIZER = 'USER_ACCOUNT_SERIALIZER';
+export const USER_PROFILE_NORMALIZER = 'USER_PROFILE_NORMALIZER';
+export const USER_PROFILE_SERIALIZER = 'USER_PROFILE_SERIALIZER';
+export const USER_SERIALIZER = 'USER_SERIALIZER';
+export const USER_NORMALIZER = 'USER_NORMALIZER';
+export const USER_SIGN_UP_SERIALIZER = 'USER_SIGN_UP_SERIALIZER';
+export const TITLE_NORMALIZER = 'TITLE_NORMALIZER';
+export const USER_ADAPTER = 'UserAdapter';
+export const USER_ACCOUNT_ADAPTER = 'UserAccountAdapter';
+export const USER_PROFILE_ADAPTER = 'UserProfileAdapter';
+export const USER_ACCOUNT_CONNECTOR = 'UserAccountConnector';
+export const USER_PROFILE_CONNECTOR = 'UserProfileConnector';
+export const USER_SIGN_UP_INTERFACE = 'UserSignUp';
+export const USER_ACTIONS = 'UserActions';
+export const FORGOT_PASSWORD_EMAIL_ACTION = 'ForgotPasswordEmailRequestAction';
+export const RESET_PASSWORD_ACTION = 'ResetPasswordAction';
+export const EMAIL_ACTIONS = 'EmailActions';
+export const UPDATE_PASSWORD_ACTION = 'UpdatePasswordAction';
+export const USER_DETAILS_ACTION = 'UserDetailsAction';
+export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
+export const USER_STATE_INTERFACE = 'UserState';
+export const USER_MODULE = 'UserModule';
+export const USER_ACCOUNT_MODULE = 'UserAccountModule';
+export const USER_PROFILE_MODULE = 'UserProfileModule';
+export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
+  'UserProfileFacadeTransitionalToken';
+export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =
+  'UserRegisterFacadeTransitionalToken';
 
 export const CMS_LIB_MODULE = 'CmsLibModule';
 export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';
@@ -770,6 +840,8 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 // export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
 // export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
 // export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+
+export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
 
 /***** Removed public api end *****/
 
@@ -855,6 +927,9 @@ export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
 export const SORT_CODE = 'sortCode';
 export const TABLE_HEADER = 'TableHeader';
+
+export const PROMOTION_LOCATION$ = 'promotionLocation$';
+export const LOCATION$ = 'location$';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -946,6 +1021,10 @@ export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
 export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
+export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
+export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
+export const GET_STABLE_CONFIG = 'getStableConfig';
+export const GET_STABLE = 'getStable';
 
 /***** APIs end *****/
 
