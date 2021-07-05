@@ -78,8 +78,7 @@ export class PopoverDirective implements OnInit {
   eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
 
   @HostListener('keydown.escape')
-  handleEscape(event: KeyboardEvent): void {
-    event?.preventDefault();
+  handleEscape(): void {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 

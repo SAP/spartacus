@@ -1,9 +1,8 @@
-import { Component, DebugElement, OnInit } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PopoverModule } from './popover.module';
-import { PopoverDirective } from '@spartacus/storefront';
 
 @Component({
   template: `
