@@ -105,7 +105,7 @@
 
           <div
             *ngIf="layoutOption === savedCartFormType.RESTORE"
-            class="cx-copy-saved-cart-row"
+            class="cx-copy-saved-cart-row form-check"
           >
             <input
               id="cx-copy-saved-cart"
@@ -151,7 +151,6 @@
               <button
                 *ngIf="cart.code"
                 (click)="restoreSavedCart(cart.code)"
-                [disabled]="isDisableDeleteButton$ | async"
                 [attr.aria-label]="'common.restore' | cxTranslate"
                 class="ml-2 btn btn-primary"
                 type="button"

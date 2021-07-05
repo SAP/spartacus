@@ -152,7 +152,7 @@ describe('SavedCartListComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.SAVED_CART,
-      component.element,
+      component.restoreButton,
       component['vcr'],
       {
         cart: mockCart1,

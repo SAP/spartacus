@@ -24,7 +24,7 @@ import { map, take } from 'rxjs/operators';
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  @ViewChild('element') restoreButton: ElementRef;
 
   isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
@@ -62,7 +62,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   openDialog(event: Event, cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.restoreButton,
       this.vcr,
       { cart, layoutOption: SavedCartFormType.RESTORE }
     );

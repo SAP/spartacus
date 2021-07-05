@@ -57,11 +57,10 @@ cx-saved-cart-form-dialog {
         .cx-copy-saved-cart-row {
           display: flex;
           margin-bottom: 1.5rem;
+          align-items: center;
 
-          .cx-copy-saved-cart-input {
-            position: relative;
-            margin: 0;
-            margin-inline-end: 1rem;
+          .cx-copy-saved-cart-label {
+            margin-bottom: 0;
           }
         }
       }
