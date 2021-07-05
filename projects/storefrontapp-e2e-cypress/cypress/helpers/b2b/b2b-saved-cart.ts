@@ -359,7 +359,7 @@ export function restoreCart(
                 cy.get('input[type="checkbox"]').check();
               }
 
-              cy.get('button[aria-label="restore"]').click();
+              cy.get('button[aria-label="Restore"]').click();
             });
 
             if (cloneSavedCart) {
@@ -584,7 +584,7 @@ export function updateSavedCartAndRestore(
         cy.get('cx-saved-cart-details-action .btn-primary').click();
 
         cy.get('cx-saved-cart-form-dialog').within(() => {
-          cy.get('button[aria-label="restore"]').click();
+          cy.get('button[aria-label="Restore"]').click();
         });
 
         cy.wait(`@${restoreSavedCartAlias}`)
