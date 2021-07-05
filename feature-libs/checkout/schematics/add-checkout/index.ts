@@ -9,10 +9,12 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_CHECKOUT_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -68,6 +70,12 @@ function addSavedCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_CHECKOUT,
+    },
+    dependencyManagement: {
+      featureName: CLI_CHECKOUT_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+      },
     },
   });
 }

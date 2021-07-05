@@ -4,7 +4,6 @@ import {
   provideDefaultConfigFactory,
   UserAccountFacadeTransitionalToken,
 } from '@spartacus/core';
-import { PageLayoutModule } from '@spartacus/storefront';
 import { UserAccountFacade } from './facade/user-account.facade';
 import {
   USER_ACCOUNT_CORE_FEATURE,
@@ -30,7 +29,6 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [PageLayoutModule],
   providers: [
     provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
     {

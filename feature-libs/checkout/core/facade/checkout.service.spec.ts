@@ -11,7 +11,7 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../store/checkout-state';
@@ -50,9 +50,8 @@ class UserIdServiceStub implements Partial<UserIdService> {
   getUserId() {
     return of(this.userId);
   }
-  invokeWithUserId(cb) {
-    cb(this.userId);
-    return new Subscription();
+  takeUserId() {
+    return of(this.userId);
   }
 }
 

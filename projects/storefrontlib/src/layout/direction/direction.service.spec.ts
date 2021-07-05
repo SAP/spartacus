@@ -17,7 +17,7 @@ class MockLanguageService implements Partial<LanguageService> {
 }
 
 class MockConfigInitializerService {
-  getStableConfig() {}
+  getStable() {}
 }
 
 describe('DirectionService', () => {
@@ -75,9 +75,9 @@ describe('DirectionService', () => {
 
   describe('getDirection', () => {
     describe('without default', () => {
-      beforeEach(async () => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
-          Promise.resolve({
+      beforeEach(() => {
+        spyOn(configInitializerService, 'getStable').and.returnValue(
+          of({
             direction: {
               detect: true,
               ltrLanguages: ['en', 'de'],
@@ -85,7 +85,7 @@ describe('DirectionService', () => {
             },
           })
         );
-        await service.initialize();
+        service.initialize();
       });
 
       it('should return LTR direction for ltr language', () => {
@@ -102,16 +102,16 @@ describe('DirectionService', () => {
     });
 
     describe('with default', () => {
-      beforeEach(async () => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+      beforeEach(() => {
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {
               detect: true,
               default: DirectionMode.RTL,
             },
-          }).toPromise()
+          })
         );
-        await service.initialize();
+        service.initialize();
       });
       it('should return default direction for unknown language direction', () => {
         expect(service.getDirection('unknown')).toBe(DirectionMode.RTL);
@@ -124,15 +124,15 @@ describe('DirectionService', () => {
       beforeEach(() => {
         spyOn(languageService, 'getActive').and.callThrough();
         spyOn(service, 'setDirection');
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: false, default: DirectionMode.LTR },
-          }).toPromise()
+          })
         );
       });
 
-      it('should set the default configured direction', async () => {
-        await service.initialize();
+      it('should set the default configured direction', () => {
+        service.initialize();
 
         expect(languageService.getActive).not.toHaveBeenCalled();
         expect(service.setDirection).toHaveBeenCalledWith(
@@ -144,14 +144,14 @@ describe('DirectionService', () => {
 
     describe('when `detect` config is true', () => {
       beforeEach(() => {
-        spyOn(configInitializerService, 'getStableConfig').and.returnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: true, default: DirectionMode.LTR },
-          }).toPromise()
+          })
         );
       });
 
-      it('should set the direction by the active language', async () => {
+      it('should set the direction by the active language', () => {
         const TEST_LANGUAGE = 'testLanguage';
         const TEST_DIRECTION = 'testDirection' as DirectionMode;
 
@@ -159,7 +159,7 @@ describe('DirectionService', () => {
         spyOn(service, 'setDirection');
         spyOn(service, 'getDirection').and.returnValue(TEST_DIRECTION);
 
-        await service.initialize();
+        service.initialize();
 
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE);
         expect(service.setDirection).toHaveBeenCalledWith(
@@ -168,7 +168,7 @@ describe('DirectionService', () => {
         );
       });
 
-      it('should set the direction each time the active language changes', async () => {
+      it('should set the direction each time the active language changes', () => {
         const TEST_LANGUAGE_1 = 'testLanguage_1';
         const TEST_LANGUAGE_2 = 'testLanguage_2';
         const TEST_DIRECTION_1 = 'testDirection_1' as DirectionMode;
@@ -184,7 +184,7 @@ describe('DirectionService', () => {
           TEST_DIRECTION_2
         );
 
-        await service.initialize();
+        service.initialize();
 
         mockActiveLanguage$.next(TEST_LANGUAGE_1);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_1);
