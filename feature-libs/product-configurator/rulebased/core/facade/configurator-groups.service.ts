@@ -125,9 +125,9 @@ export class ConfiguratorGroupsService {
    * Set the parent group, specified by the group ID, which is displayed in the group menu.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
+   * @param {string} groupId - Group ID. Can be ommitted, in this case parent group will be cleared, in case we are on root level
    */
-  setMenuParentGroup(owner: CommonConfigurator.Owner, groupId: string): void {
+  setMenuParentGroup(owner: CommonConfigurator.Owner, groupId?: string): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
