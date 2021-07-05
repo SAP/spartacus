@@ -15,16 +15,14 @@ import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator
 import { CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION } from './data/configurator-product-title.component.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
-  PAGE_META_SERVICE_MIGRATION
+  PAGE_META_SERVICE_MIGRATION,
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EXPRESS_CHECKOUT_SERVICE_MIGRATION } from './data/express-checkout.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { OCC_ENDPOINTS_MODEL_MIGRATION } from './data/occ-endpoint.model.migration';
-import {
-  OCC_ENDPOINTS_SERVICE_MIGRATION
-} from './data/occ-endpoints.service.migration';
+import { OCC_ENDPOINTS_SERVICE_MIGRATION } from './data/occ-endpoints.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
 import { PAGE_EVENT_MIGRATION } from './data/page-event.builder.ts.migration';
@@ -36,7 +34,6 @@ import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.
 import { UNIT_FORM_COMPONENT_MIGRATION } from './data/unit-form.component.migration';
 import { USER_ID_SERVICE_MIGRATION } from './data/user-id.service.migration';
 
-...SAVED_CART_LIST_COMPONENT_MIGRATION
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
