@@ -40,4 +40,18 @@ export const CART_ITEM_LIST_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
       { className: MULTI_CART_SERVICE, importPath: SPARTACUS_CORE },
     ],
   },
+  {
+    class: CART_ITEM_LIST_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      { className: ACTIVE_CART_SERVICE, importPath: SPARTACUS_CORE },
+      { className: SELECTIVE_CART_SERVICE, importPath: SPARTACUS_CORE },
+      { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_CORE },
+      { className: USER_ID_SERVICE, importPath: SPARTACUS_CORE },
+      { className: MULTI_CART_SERVICE, importPath: SPARTACUS_CORE },
+    ],
+    removeParams: [
+      { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_CORE },
+    ],
+  },
 ];
