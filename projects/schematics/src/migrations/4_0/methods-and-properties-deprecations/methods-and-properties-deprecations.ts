@@ -31,6 +31,8 @@ import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { UNIT_FORM_COMPONENT_MIGRATION } from './data/unit-form.component.migration';
 import { USER_ID_SERVICE_MIGRATION } from './data/user-id.service.migration';
+import { POPOVER_COMPONENT_MIGRATION } from './data/popover-component.migration';
+import { POPOVER_DIRECTIVE_MIGRATION } from './data/popover-directive.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
@@ -61,6 +63,8 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
   ...CONFIG_INITIALIZER_SERVICE_MIGRATION,
   ...USER_ID_SERVICE_MIGRATION,
+  ...POPOVER_COMPONENT_MIGRATION,
+  ...POPOVER_DIRECTIVE_MIGRATION,
 ];
 
 export function migrate(): Rule {
