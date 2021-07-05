@@ -195,12 +195,22 @@ export function waitForSavedCartDetailsPageData(product: SampleProduct) {
     });
 }
 
-export function saveActiveCart() {
+export function saveActiveCart(
+  isB2C: boolean = false,
+  savedActiveCartForm: any = sampleData.savedActiveCartForm,
+  savedCarts: any = sampleData.savedCarts
+) {
   clickSavedCartButtonsFromCartPage(1);
 
   cy.window()
     .then((win) =>
-      JSON.parse(win.localStorage.getItem('spartacus⚿powertools-spa⚿cart'))
+      JSON.parse(
+        win.localStorage.getItem(
+          isB2C
+            ? 'spartacus⚿electronics-spa⚿cart'
+            : 'spartacus⚿powertools-spa⚿cart'
+        )
+      )
     )
     .then(({ active }) => {
       const alias = interceptSaveCartEndpoint(active);
@@ -208,11 +218,9 @@ export function saveActiveCart() {
       // open modal to save the cart
 
       cy.get('cx-saved-cart-form-dialog').within(() => {
-        cy.get('[formcontrolname="name"]').type(
-          sampleData.savedActiveCartForm[0].name
-        );
+        cy.get('[formcontrolname="name"]').type(savedActiveCartForm[0].name);
         cy.get('[formcontrolname="description"]').type(
-          sampleData.savedActiveCartForm[0].description
+          savedActiveCartForm[0].description
         );
 
         cy.get('button[aria-label="Save"]').click();
@@ -230,11 +238,15 @@ export function saveActiveCart() {
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 
       // assert the cart was saved in the listing page
-      verifyActiveCartWasSaved(active);
+      verifyActiveCartWasSaved(active, savedActiveCartForm, savedCarts);
     });
 }
 
-export function verifyActiveCartWasSaved(cartCode: string) {
+export function verifyActiveCartWasSaved(
+  cartCode: string,
+  savedActiveCartForm: any,
+  savedCarts: any
+) {
   const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
   cy.selectUserMenuOption({
@@ -251,15 +263,15 @@ export function verifyActiveCartWasSaved(cartCode: string) {
     expect(body.carts).to.have.length(1);
 
     expect(body.carts[0].code).to.equal(cartCode);
-    expect(body.carts[0].name).to.equal(sampleData.savedActiveCartForm[0].name);
+    expect(body.carts[0].name).to.equal(savedActiveCartForm[0].name);
     expect(body.carts[0].description).to.equal(
-      sampleData.savedActiveCartForm[0].description
+      savedActiveCartForm[0].description
     );
   });
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
-  ).should('contain', sampleData.savedActiveCartForm[0].name);
+  ).should('contain', savedActiveCartForm[0].name);
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-cart-id > .cx-saved-cart-list-value'
@@ -267,11 +279,11 @@ export function verifyActiveCartWasSaved(cartCode: string) {
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value'
-  ).should('contain', sampleData.savedCarts.carts[0].totalUnitCount);
+  ).should('contain', savedCarts.carts[0].totalUnitCount);
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value'
-  ).should('contain', sampleData.savedCarts.carts[0].totalPrice.formattedValue);
+  ).should('contain', savedCarts.carts[0].totalPrice.formattedValue);
 }
 
 export function verifyMiniCartQuantity(quantity: number) {
@@ -289,7 +301,9 @@ export function verifyCartDetails(cart: any) {
 export function restoreCart(
   product: SampleProduct,
   savedCartForm: any,
-  isEmptyCart: boolean = false
+  isEmptyCart: boolean = false,
+  isB2C: boolean = false,
+  savedCarts: any = sampleData.savedCarts
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -315,14 +329,11 @@ export function restoreCart(
 
         cy.get(
           'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value'
-        ).should('contain', sampleData.savedCarts.carts[0].totalUnitCount);
+        ).should('contain', savedCarts.carts[0].totalUnitCount);
 
         cy.get(
           'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value'
-        ).should(
-          'contain',
-          sampleData.savedCarts.carts[0].totalPrice.formattedValue
-        );
+        ).should('contain', savedCarts.carts[0].totalPrice.formattedValue);
 
         const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(
           cart.code
@@ -333,7 +344,11 @@ export function restoreCart(
         cy.window()
           .then((win) =>
             JSON.parse(
-              win.localStorage.getItem('spartacus⚿powertools-spa⚿cart')
+              win.localStorage.getItem(
+                isB2C
+                  ? 'spartacus⚿electronics-spa⚿cart'
+                  : 'spartacus⚿powertools-spa⚿cart'
+              )
             )
           )
           .then(({ active }) => {
