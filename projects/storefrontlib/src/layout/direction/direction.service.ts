@@ -5,6 +5,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { DirectionConfig } from './config/direction.config';
 import { Direction, DirectionMode } from './config/direction.model';
 
@@ -36,20 +37,23 @@ export class DirectionService implements OnDestroy {
   /**
    * Initializes the layout direction for the storefront.
    */
-  initialize(): Promise<void> {
+  initialize(): Promise<any> {
     return this.configInit
-      .getStableConfig('direction')
-      .then((config: DirectionConfig) => {
-        this.config = config?.direction;
-        if (this.config?.detect) {
-          this.detect();
-        } else {
-          this.setDirection(
-            this.winRef.document.documentElement,
-            this.config?.default
-          );
-        }
-      });
+      .getStable('direction')
+      .pipe(
+        tap((config: DirectionConfig) => {
+          this.config = config?.direction;
+          if (this.config?.detect) {
+            this.detect();
+          } else {
+            this.setDirection(
+              this.winRef.document.documentElement,
+              this.config?.default
+            );
+          }
+        })
+      )
+      .toPromise();
   }
 
   /**

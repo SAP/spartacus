@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, RoutingService, UserService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -30,7 +31,7 @@ export class GuestRegisterFormComponent implements OnDestroy {
   );
 
   constructor(
-    protected userService: UserService,
+    protected userRegisterFacade: UserRegisterFacade,
     protected routingService: RoutingService,
     protected authService: AuthService,
     protected fb: FormBuilder
@@ -38,7 +39,7 @@ export class GuestRegisterFormComponent implements OnDestroy {
 
   submit() {
     if (this.guestRegisterForm.valid) {
-      this.userService.registerGuest(
+      this.userRegisterFacade.registerGuest(
         this.guid,
         this.guestRegisterForm.value.password
       );

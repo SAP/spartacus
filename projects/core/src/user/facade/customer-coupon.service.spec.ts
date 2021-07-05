@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   CustomerCoupon,
@@ -26,9 +26,8 @@ describe('CustomerCouponService', () => {
   };
 
   class MockUserIdService implements Partial<UserIdService> {
-    invokeWithUserId(cb) {
-      cb(OCC_USER_ID_CURRENT);
-      return new Subscription();
+    takeUserId() {
+      return of(OCC_USER_ID_CURRENT);
     }
   }
 

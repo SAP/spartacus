@@ -7,7 +7,7 @@ import {
   PROCESS_FEATURE,
   UserIdService,
 } from '@spartacus/core';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -32,9 +32,8 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
 
 class UserIdServiceStub implements Partial<UserIdService> {
   userId;
-  invokeWithUserId(cb) {
-    cb(userId);
-    return new Subscription();
+  takeUserId() {
+    return of(this.userId);
   }
 }
 describe('CheckoutCostCenterService', () => {
