@@ -1,3 +1,5 @@
+import { QueryNotifier } from '../../util/command-query/query.service';
+
 export interface LoadingScopeConfig {
   /**
    * Specify scopes that should be included with this scope
@@ -7,6 +9,10 @@ export interface LoadingScopeConfig {
    * Max age for the scope in seconds
    */
   maxAge?: number;
+  /**
+   * Triggers for which to reload the product.
+   */
+  reloadOn?: QueryNotifier[];
 }
 
 export interface LoadingScopesConfig {

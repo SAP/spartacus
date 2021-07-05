@@ -17,11 +17,11 @@ import {
 import { deepMerge } from '../../config/utils/deep-merge';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { uniteLatest } from '../../util/rxjs/unite-latest';
 
 @Injectable({
   providedIn: 'root',
@@ -139,8 +139,8 @@ export class ProductLoadingService {
   protected getProductReloadTriggers(
     productCode: string,
     scope: string
-  ): Observable<boolean>[] {
-    const triggers = [];
+  ): Observable<unknown>[] {
+    const triggers: Observable<unknown>[] = [];
 
     // max age trigger add
     const maxAge = this.loadingScopes.getMaxAge('product', scope);
@@ -171,7 +171,12 @@ export class ProductLoadingService {
       triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
-    return triggers;
+    const configuredTriggers$ = this.loadingScopes.getReloadingTriggers(
+      'product',
+      scope
+    );
+
+    return triggers.concat(configuredTriggers$);
   }
 
   /**
@@ -185,8 +190,8 @@ export class ProductLoadingService {
    * @param maxAge max age
    */
   private getMaxAgeTrigger(
-    loadStart$: Observable<any>,
-    loadFinish$: Observable<any>,
+    loadStart$: Observable<ProductActions.ProductAction>,
+    loadFinish$: Observable<ProductActions.ProductAction>,
     maxAge: number,
     scheduler?: SchedulerLike
   ): Observable<boolean> {

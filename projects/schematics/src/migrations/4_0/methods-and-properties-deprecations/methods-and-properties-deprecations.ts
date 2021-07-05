@@ -23,6 +23,7 @@ import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-item
 import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
 import { PAGE_EVENT_BUILDER_MIGRATION } from './data/page-event.builder.ts.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
+import { PRODUCT_SERVICE_MIGRATION } from './data/product.service.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 
@@ -49,6 +50,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
   ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
   ...CONFIG_INITIALIZER_SERVICE_MIGRATION,
+  ...PRODUCT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

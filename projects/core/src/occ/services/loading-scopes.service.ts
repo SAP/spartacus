@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+import { isObservable, Observable } from 'rxjs';
+import { EventService } from '../../event/event.service';
 import { OccConfig } from '../config/occ-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingScopesService {
-  constructor(protected config: OccConfig) {}
+  constructor(
+    protected config: OccConfig,
+    protected eventService: EventService
+  ) {}
 
   /**
    * Aims to expand scopes based on loading scopes config.
@@ -20,11 +25,7 @@ export class LoadingScopesService {
    * @param scopes
    */
   expand(model: string, scopes: string[]): string[] {
-    const scopesConfig =
-      this.config &&
-      this.config.backend &&
-      this.config.backend.loadingScopes &&
-      this.config.backend.loadingScopes[model];
+    const scopesConfig = this.config?.backend?.loadingScopes?.[model];
 
     if (scopesConfig) {
       const expandedScopes = [...scopes];
@@ -32,9 +33,7 @@ export class LoadingScopesService {
 
       while (i > 0) {
         i--;
-        const includedScopes =
-          scopesConfig[expandedScopes[i]] &&
-          scopesConfig[expandedScopes[i]].include;
+        const includedScopes = scopesConfig[expandedScopes[i]]?.include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
             if (!expandedScopes.includes(includedScope)) {
@@ -58,11 +57,28 @@ export class LoadingScopesService {
    * @param scope
    */
   getMaxAge(model: string, scope: string): number {
-    const scopesConfig =
-      this.config &&
-      this.config.backend &&
-      this.config.backend.loadingScopes &&
-      this.config.backend.loadingScopes[model];
-    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * 1000 || 0;
+    const configuredMaxAge =
+      this.config.backend?.loadingScopes?.[model]?.[scope]?.maxAge ?? 0;
+    return configuredMaxAge * 1000;
+  }
+
+  /**
+   *
+   * Returns the configured triggers for which to reload the product.
+   *
+   * @param model for which to look up the scopes (usually 'product')
+   * @param scope for which to look up the config
+   * @returns the configured triggers, or an empty array if not configured
+   */
+  getReloadingTriggers(model: string, scope: string): Observable<unknown>[] {
+    const triggers =
+      this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
+
+    return triggers.map((trigger) => {
+      if (isObservable(trigger)) {
+        return trigger;
+      }
+      return this.eventService.get(trigger);
+    });
   }
 }
