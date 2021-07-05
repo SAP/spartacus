@@ -6,8 +6,6 @@ import {
   B2C_LAYOUT_CONFIG,
   B2C_STOREFRONT_MODULE,
   CART_ITEM_COMPONENT,
-  CART_ITEM_CONTEXT,
-  CART_ITEM_CONTEXT_SOURCE,
   CART_PAGE_META_RESOLVER,
   CLOSE_ACCOUNT_MODAL_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
@@ -27,7 +25,6 @@ import {
   FORGOT_PASSWORD_EMAIL_ACTION,
   FORGOT_PASSWORD_MODULE,
   ITEM,
-  LOCATION,
   LOGIN_COMPONENT,
   LOGIN_FORM_COMPONENT,
   LOGIN_FORM_MODULE,
@@ -48,13 +45,14 @@ import {
   OCC_USER_ADAPTER,
   OCC_USER_PROFILE_ADAPTER,
   ORDER_ENTRY,
+  PAGE_EVENT_BUILDER,
+  PAGE_EVENT_MODULE,
   PERSONALIZATION_MODULE,
   PRODUCT_VARIANTS_MODULE,
   PRODUCT_VARIANT_COMPONENT,
   PRODUCT_VARIANT_GUARD,
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
-  PROMOTION_LOCATION$,
   REGISTER_COMPONENT,
   REGISTER_COMPONENT_MODULE,
   REGISTER_TRANSLATION_CHUNK,
@@ -88,6 +86,7 @@ import {
   SPARTACUS_USER_PROFILE_COMPONENTS,
   SPARTACUS_USER_PROFILE_CORE,
   SPARTACUS_USER_PROFILE_OCC,
+  STOREFRONT_CONFIG,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
   STORE_DATA_SERVICE,
@@ -444,31 +443,26 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     comment: `The following ngrx '${ROUTING_ACTIONS}' have been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please use instead the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
   },
   {
-    node: 'PageEventModule',
+    node: PAGE_EVENT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+    comment: `'${PAGE_EVENT_MODULE}' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
   {
-    node: 'PageEventBuilder',
+    node: PAGE_EVENT_BUILDER,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventBuilder' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
-  },
-  {
-    node: 'EventsModule',
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+    comment: `'${PAGE_EVENT_BUILDER}' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
   // projects/storefrontlib/src/storefront-config.ts
   {
-    node: 'StorefrontConfig',
+    node: STOREFRONT_CONFIG,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'StorefrontConfig' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
+    comment: `'${STOREFRONT_CONFIG}' type purpose is now covered by 'Config' interface. Replace usage of 'StorefrontConfig' with 'Config'.`,
   },
   // feature-libs/storefinder/core/facade/store-data.service.ts
   {
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_STOREFINDER,
-    comment: `'StoreDataService' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
+    comment: `'${STORE_DATA_SERVICE}' was removed, please use 'StoreFinderService' from '${SPARTACUS_STOREFINDER} instead.`,
   },
   // projects/core/src/occ/adapters/user/occ-user.adapter.ts
   {
@@ -577,18 +571,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: MESSAGE_CONFIG,
     importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
     comment: `'${MESSAGE_CONFIG}' was removed. For replacement use '${CONFIGURATOR_MESSAGE_CONFIG}' from ${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}.`,
-  },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
-  {
-    node: CART_ITEM_CONTEXT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT}', please use '${LOCATION}' instead`,
-  },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
-  {
-    node: CART_ITEM_CONTEXT_SOURCE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PROMOTION_LOCATION$}' was removed from '${CART_ITEM_CONTEXT_SOURCE}', please use '${LOCATION}' instead`,
   },
   // projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts
   {
