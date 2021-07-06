@@ -110,9 +110,27 @@ export class PopoverDirective implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.handlePopoverEvents();
-  }
+  protected openTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN,
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected focusPopoverTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected closeTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ROUTE_CHANGE,
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.OUTSIDE_CLICK,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_CLICK,
+  ];
+
+  protected focusDirectiveTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+  ];
 
   /**
    * Method performs open action for popover component.
@@ -199,6 +217,10 @@ export class PopoverDirective implements OnInit {
     }
   }
 
+  ngOnInit() {
+    this.handlePopoverEvents();
+  }
+
   constructor(
     protected element: ElementRef,
     protected viewContainer: ViewContainerRef,
@@ -208,26 +230,4 @@ export class PopoverDirective implements OnInit {
     protected popoverService: PopoverService,
     protected winRef: WindowRef
   ) {}
-
-  protected openTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.OPEN,
-    PopoverEvent.OPEN_BY_KEYBOARD,
-  ];
-
-  protected focusPopoverTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.OPEN_BY_KEYBOARD,
-  ];
-
-  protected closeTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.ROUTE_CHANGE,
-    PopoverEvent.ESCAPE_KEYDOWN,
-    PopoverEvent.OUTSIDE_CLICK,
-    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
-    PopoverEvent.CLOSE_BUTTON_CLICK,
-  ];
-
-  protected focusDirectiveTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.ESCAPE_KEYDOWN,
-    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
-  ];
 }
