@@ -1,24 +1,29 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { NEVER, of, Subject, timer } from 'rxjs';
+import { delay, switchMap, take } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { delay, switchMap, take } from 'rxjs/operators';
-import { Actions } from '@ngrx/effects';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import createSpy = jasmine.createSpy;
 
 class MockLoadingScopesService {
-  expand = createSpy('expand').and.callFake((_, scopes) => scopes);
+  expand = createSpy('expand').and.callFake(
+    (_: string, scopes: string[]) => scopes
+  );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
+  getReloadingTriggers = createSpy('getReloadingTriggers').and.returnValue(
+    of(1)
+  );
 }
 
-describe('ProductLoadingService', () => {
+fdescribe('ProductLoadingService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductLoadingService;
 
