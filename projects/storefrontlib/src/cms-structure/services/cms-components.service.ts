@@ -76,7 +76,7 @@ export class CmsComponentsService {
             this.config.cmsComponents)?.[componentType];
 
           // check if this component type is managed by feature module
-          if (this.featureModules.hasFeatureFor(componentType)) {
+          if (this.featureModules?.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(componentType, staticConfig)
@@ -99,8 +99,8 @@ export class CmsComponentsService {
   private getFeatureMappingResolver(
     componentType: string,
     staticConfig?: CmsComponentMapping
-  ): Observable<CmsComponentMapping> {
-    if (!this.mappingResolvers.has(componentType)) {
+  ): Observable<CmsComponentMapping> | undefined {
+    if (!this.mappingResolvers.has(componentType) && this.featureModules) {
       const mappingResolver$ = this.featureModules
         .getCmsMapping(componentType)
         .pipe(
@@ -118,7 +118,7 @@ export class CmsComponentsService {
         );
       this.mappingResolvers.set(componentType, mappingResolver$);
     }
-    return this.mappingResolvers.get(componentType);
+    return this.mappingResolvers?.get(componentType);
   }
 
   /**
@@ -129,8 +129,9 @@ export class CmsComponentsService {
    */
   getModule(componentType: string): NgModuleRef<any> | undefined {
     return (
-      this.featureModules.hasFeatureFor(componentType) &&
-      this.featureModules.getModule(componentType)
+      (this.featureModules?.hasFeatureFor(componentType) &&
+        this.featureModules?.getModule(componentType)) ||
+      undefined
     );
   }
 
