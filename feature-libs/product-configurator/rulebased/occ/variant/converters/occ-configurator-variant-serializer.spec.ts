@@ -10,9 +10,9 @@ describe('OccConfiguratorVariantSerializer', () => {
   let occConfiguratorVariantSerializer: OccConfiguratorVariantSerializer;
   const GROUP_ID = '1-CPQ_LAPTOP.1';
 
-  const groupWithoutAttributes: Configurator.Group = {
-    id: GROUP_ID,
-  };
+  const groupWithoutAttributes: Configurator.Group = ConfiguratorTestUtils.createGroup(
+    GROUP_ID
+  );
 
   const groupWithSubGroup: Configurator.Group = {
     id: GROUP_ID,
@@ -29,10 +29,10 @@ describe('OccConfiguratorVariantSerializer', () => {
     productCode: 'CPQ_LAPTOP',
     groups: [
       {
+        ...ConfiguratorTestUtils.createGroup(GROUP_ID),
         configurable: true,
         description: 'Core components',
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: GROUP_ID,
         name: '1',
         attributes: [
           {
@@ -61,20 +61,18 @@ describe('OccConfiguratorVariantSerializer', () => {
         ],
       },
       {
+        ...ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.2'),
         configurable: true,
         description: 'Peripherals & Accessories',
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.2',
         name: '2',
-        attributes: [],
       },
       {
+        ...ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.3'),
         configurable: true,
         description: 'Software',
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.3',
         name: '3',
-        attributes: [],
       },
     ],
   };

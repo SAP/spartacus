@@ -4,7 +4,6 @@ import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
-  OCC_USER_ID_ANONYMOUS,
   PaymentType,
   ProcessSelectors,
   StateWithProcess,
@@ -81,18 +80,23 @@ export class PaymentTypeService implements PaymentTypeFacade {
       .pipe(take(1))
       .subscribe((activeCartId) => (cartId = activeCartId));
 
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentType({
-            userId: userId,
-            cartId: cartId,
-            typeCode: typeCode,
-            poNumber: poNumber,
-          })
-        );
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        if (cartId) {
+          this.checkoutStore.dispatch(
+            new CheckoutActions.SetPaymentType({
+              userId: userId,
+              cartId: cartId,
+              typeCode: typeCode,
+              poNumber: poNumber,
+            })
+          );
+        }
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**

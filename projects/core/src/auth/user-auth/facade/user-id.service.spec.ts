@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
-const createSpy = jasmine.createSpy;
 
 describe('UserIdService', () => {
   let service: UserIdService;
@@ -54,18 +53,6 @@ describe('UserIdService', () => {
           }
         });
       service.clearUserId();
-    });
-  });
-
-  describe('invokeWithUserId', () => {
-    it('should invoke callback with last user id', () => {
-      service.setUserId('testId');
-
-      const cb = createSpy();
-
-      service.invokeWithUserId(cb);
-
-      expect(cb).toHaveBeenCalledWith('testId');
     });
   });
 

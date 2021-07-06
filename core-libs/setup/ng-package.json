@@ -4,8 +4,10 @@
   "lib": {
     "entryFile": "public_api.ts",
     "umdModuleIds": {
+      "@spartacus/checkout": "checkout",
       "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront"
+      "@spartacus/storefront": "storefront",
+      "@spartacus/user": "user"
     }
   }
 }
