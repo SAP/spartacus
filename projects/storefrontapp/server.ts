@@ -10,7 +10,7 @@ import { AppServerModule } from './src/main.server';
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine, null);
+const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
