@@ -21,7 +21,6 @@
       "@spartacus/checkout/occ": ["dist/checkout/occ"],
       "@spartacus/checkout/root": ["dist/checkout/root"],
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/core": ["dist/user/account/core"],
