@@ -16,7 +16,8 @@ export class ImportToCartComponent {
   ) {}
 
   allowedExtensions =
-    this.importExportConfig.importExport.fileValidity?.allowedExtensions ?? '*';
+    this.importExportConfig.importExport?.fileValidity?.allowedExtensions ??
+    '*';
 
   importProducts(file: FileList): void {
     this.importToCartService.loadProductsToCart(file);
