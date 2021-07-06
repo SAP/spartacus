@@ -8,7 +8,7 @@ export class ExportService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
   private get separator() {
-    return this.importExportConfig.importExport.file.separator;
+    return this.importExportConfig.importExport?.file.separator ?? ',';
   }
 
   /**

@@ -55,7 +55,7 @@ export class ImportService {
     validityConfig: FileValidity | undefined
   ): FileValidity {
     return {
-      ...this.importExportConfig.importExport.fileValidity,
+      ...this.importExportConfig.importExport?.fileValidity,
       ...validityConfig,
     };
   }
@@ -111,6 +111,6 @@ export class ImportService {
   }
 
   private get separator() {
-    return this.importExportConfig.importExport.file.separator;
+    return this.importExportConfig.importExport?.file.separator ?? ',';
   }
 }
