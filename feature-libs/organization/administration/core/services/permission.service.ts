@@ -39,7 +39,9 @@ export class PermissionService {
             permissionCode,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -49,14 +51,18 @@ export class PermissionService {
         this.store.dispatch(
           new PermissionActions.LoadPermissions({ userId, params })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadPermissionTypes() {
     this.userIdService.takeUserId(true).subscribe(
       () => this.store.dispatch(new PermissionActions.LoadPermissionTypes()),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -138,7 +144,9 @@ export class PermissionService {
         this.store.dispatch(
           new PermissionActions.CreatePermission({ userId, permission })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -152,7 +160,9 @@ export class PermissionService {
             permission,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

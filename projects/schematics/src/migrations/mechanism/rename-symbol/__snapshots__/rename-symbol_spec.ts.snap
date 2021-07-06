@@ -26,3 +26,11 @@ import { Test1Component } from \\"@spartacus/storefront\\";
 const array = [OtherComponentTest3, Test1Component, Test2Component];
 "
 `;
+
+exports[`renamed symbols Should only rename node 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest4, Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponentTest4, Test1Component, Test2Component];
+"
+`;

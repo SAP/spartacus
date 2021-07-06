@@ -1,5 +1,5 @@
 <ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
-  <h3 *ngIf="title">{{ title }}</h3>
+  <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
     <button

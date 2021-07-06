@@ -20,12 +20,6 @@ export class CartItemContextSource implements CartItemContext {
 
   readonly quantityControl$ = new ReplaySubject<FormControl>(1);
 
-  /**
-   * @deprecated since 3.2 - use `location$` instead
-   */
-  // TODO: drop it in 4.0
-  readonly promotionLocation$ = new ReplaySubject<PromotionLocation>(1);
-
   readonly location$ = new ReplaySubject<PromotionLocation>(1);
 
   readonly options$ = new ReplaySubject<CartItemComponentOptions>(1);

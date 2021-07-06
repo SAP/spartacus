@@ -9,9 +9,18 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CONFIG_ID } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import {
+  CONFIG_ID,
+  GROUP_ID_1,
+  GROUP_ID_2,
+  GROUP_ID_3,
+  GROUP_ID_4,
+  GROUP_ID_5,
+  GROUP_ID_6,
+  GROUP_ID_7,
+} from '../../../shared/testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -52,7 +61,7 @@ const groupWithSubGroup: Configurator.Group = {
     {
       name: 'attrName',
       images: [{ url: 'imageAttr' }],
-      values: [{ name: 'val', images: [{ url: 'imageVal' }] }],
+      values: [{ name: 'val', valueCode: '1', images: [{ url: 'imageVal' }] }],
     },
   ],
   subGroups: [group],
@@ -516,26 +525,32 @@ describe('ConfiguratorEffect', () => {
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
+          id: GROUP_ID_1,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_2,
               attributes: [],
               subGroups: [],
             },
             {
+              id: GROUP_ID_3,
               attributes: [],
               subGroups: [],
             },
           ],
         },
         {
+          id: GROUP_ID_4,
           attributes: [],
           subGroups: productConfiguration.groups,
         },
         {
+          id: GROUP_ID_5,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_6,
               attributes: [],
               subGroups: [],
             },
@@ -548,26 +563,32 @@ describe('ConfiguratorEffect', () => {
     it('should find no group in multi level config in case no attributes exist at all', () => {
       const groups: Configurator.Group[] = [
         {
+          id: GROUP_ID_1,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_2,
               attributes: [],
               subGroups: [],
             },
             {
+              id: GROUP_ID_3,
               attributes: [],
               subGroups: [],
             },
           ],
         },
         {
+          id: GROUP_ID_5,
           attributes: [],
-          subGroups: [{ attributes: [], subGroups: [] }],
+          subGroups: [{ id: GROUP_ID_4, attributes: [], subGroups: [] }],
         },
         {
+          id: GROUP_ID_6,
           attributes: [],
           subGroups: [
             {
+              id: GROUP_ID_7,
               attributes: [],
               subGroups: [],
             },

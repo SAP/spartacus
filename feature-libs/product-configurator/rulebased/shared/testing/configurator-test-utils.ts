@@ -21,6 +21,7 @@ export class ConfiguratorTestUtils {
     Object.freeze(productConfiguration.interactionState);
     Object.freeze(productConfiguration.owner);
     Object.freeze(productConfiguration.nextOwner);
+
     this.freezeOverview(productConfiguration.overview);
     this.freezePriceSummary(productConfiguration.priceSummary);
     productConfiguration.flatGroups?.forEach((group) =>
@@ -46,7 +47,7 @@ export class ConfiguratorTestUtils {
     value.images?.forEach((image) => Object.freeze(image));
   }
 
-  static freezeOverview(overview: Configurator.Overview) {
+  static freezeOverview(overview?: Configurator.Overview) {
     if (overview) {
       Object.freeze(overview);
       this.freezePriceSummary(overview.priceSummary);
@@ -62,9 +63,19 @@ export class ConfiguratorTestUtils {
       configId: configId,
       owner: owner,
       groups: [],
+      flatGroups: [],
       interactionState: {},
     };
     return configuration;
+  }
+
+  static createGroup(groupId: string): Configurator.Group {
+    const group: Configurator.Group = {
+      id: groupId,
+      subGroups: [],
+      attributes: [],
+    };
+    return group;
   }
 
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {
@@ -74,7 +85,9 @@ export class ConfiguratorTestUtils {
     );
   }
 
-  protected static freezePriceSummary(priceSummary: Configurator.PriceSummary) {
+  protected static freezePriceSummary(
+    priceSummary?: Configurator.PriceSummary
+  ) {
     if (priceSummary) {
       Object.freeze(priceSummary);
       Object.freeze(priceSummary.basePrice);
