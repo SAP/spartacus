@@ -361,7 +361,7 @@ describe('CpqConfiguratorRestService', () => {
           `/api/configuration/v1/configurations/${configId}/display?tabId=${currentTabId}`
       );
     });
-    const index: number = parseInt(currentTabId) - 1;
+    const index: number = parseInt(currentTabId, 10) - 1;
     mockReq.flush(configResponsesByTab[index]);
   }
 });

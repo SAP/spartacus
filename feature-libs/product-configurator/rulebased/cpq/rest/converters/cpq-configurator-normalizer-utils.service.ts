@@ -57,7 +57,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     value: Cpq.Value,
     currency: string
   ): Configurator.PriceDetails | undefined {
-    let price = undefined;
+    let price;
     if (value.price) {
       price = {
         currencyIso: currency,
@@ -79,7 +79,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     quantity: number,
     valuePrice?: Configurator.PriceDetails
   ): Configurator.PriceDetails | undefined {
-    let valuePriceTotal = undefined;
+    let valuePriceTotal;
     if (valuePrice) {
       const calculationQuantity: number = quantity ? quantity : 1;
       valuePriceTotal = {
