@@ -185,7 +185,10 @@ function updatePackageJsonDependencies(
         dependency,
         packageJson
       );
-      if (!currentVersion) {
+      if (
+        !currentVersion ||
+        semver.satisfies(currentVersion, dependency.version)
+      ) {
         continue;
       }
 
@@ -196,15 +199,13 @@ function updatePackageJsonDependencies(
         continue;
       }
 
-      if (!semver.satisfies(currentVersion, dependency.version)) {
-        addPackageJsonDependency(tree, dependency);
-        const change = semver.gt(versionToUpdate, currentVersion)
-          ? 'Upgrading'
-          : 'Downgrading';
-        context.logger.info(
-          `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-        );
-      }
+      addPackageJsonDependency(tree, dependency);
+      const change = semver.gt(versionToUpdate, currentVersion)
+        ? 'Upgrading'
+        : 'Downgrading';
+      context.logger.info(
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+      );
     }
     return tree;
   };
