@@ -414,7 +414,9 @@ export class SavedCartService implements SavedCartFacade {
           new SavedCartActions.CloneSavedCart({ userId, cartId })
         );
       },
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
