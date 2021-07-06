@@ -1,4 +1,5 @@
-import { QueryNotifier } from '../../util/command-query/query.service';
+import { Type } from '@angular/core';
+import { CxEvent } from '../../event/cx-event';
 
 export interface LoadingScopeConfig {
   /**
@@ -10,9 +11,9 @@ export interface LoadingScopeConfig {
    */
   maxAge?: number;
   /**
-   * Triggers for which to reload the product.
+   * Events for which to reload the product.
    */
-  reloadOn?: QueryNotifier[];
+  reloadOn?: Type<CxEvent>[];
 }
 
 export interface LoadingScopesConfig {

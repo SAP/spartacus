@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isObservable, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EventService } from '../../event/event.service';
 import { OccConfig } from '../config/occ-config';
 
@@ -66,7 +66,7 @@ export class LoadingScopesService {
    *
    * Returns the configured triggers for which to reload the product.
    *
-   * @param model for which to look up the scopes (usually 'product')
+   * @param model for which to look up the scopes (usually a 'product')
    * @param scope for which to look up the config
    * @returns the configured triggers, or an empty array if not configured
    */
@@ -74,11 +74,6 @@ export class LoadingScopesService {
     const triggers =
       this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
 
-    return triggers.map((trigger) => {
-      if (isObservable(trigger)) {
-        return trigger;
-      }
-      return this.eventService.get(trigger);
-    });
+    return triggers.map((trigger) => this.eventService.get(trigger));
   }
 }
