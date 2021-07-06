@@ -85,10 +85,55 @@ export class RestoreSavedCartFailEvent extends SavedCartEvent {
   saveTime: string;
 }
 
-export class EditSavedCartEvent extends SaveCartEvent {}
-export class EditSavedCartSuccessEvent extends SaveCartSuccessEvent {}
-export class EditSavedCartFailEvent extends SaveCartFailEvent {}
+export class EditSavedCartEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'EditSavedCartEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
+export class EditSavedCartSuccessEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'EditSavedCartSuccessEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
+export class EditSavedCartFailEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'EditSavedCartFailEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
 
-export class CloneSavedCartEvent extends RestoreSavedCartEvent {}
-export class CloneSavedCartSuccessEvent extends RestoreSavedCartSuccessEvent {}
-export class CloneSavedCartFailEvent extends RestoreSavedCartFailEvent {}
+export class CloneSavedCartEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CloneSavedCartEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
+export class CloneSavedCartSuccessEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CloneSavedCartSuccessEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
+export class CloneSavedCartFailEvent extends SavedCartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CloneSavedCartFailEvent';
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
