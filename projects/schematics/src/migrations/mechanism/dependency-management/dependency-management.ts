@@ -196,13 +196,15 @@ function updatePackageJsonDependencies(
         continue;
       }
 
-      addPackageJsonDependency(tree, dependency);
-      const change = semver.gt(versionToUpdate, currentVersion)
-        ? 'Upgrading'
-        : 'Downgrading';
-      context.logger.info(
-        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-      );
+      if (!semver.satisfies(currentVersion, dependency.version)) {
+        addPackageJsonDependency(tree, dependency);
+        const change = semver.gt(versionToUpdate, currentVersion)
+          ? 'Upgrading'
+          : 'Downgrading';
+        context.logger.info(
+          `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+        );
+      }
     }
     return tree;
   };
