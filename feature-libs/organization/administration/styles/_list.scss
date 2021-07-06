@@ -164,7 +164,7 @@
           padding-inline-end: var(--cx-split-gutter);
           border-inline-end: solid 0 var(--cx-color-light);
           border-inline-end-width: calc(
-            min(var(--cx-active-view) - 1, 1) * 1px
+            min(calc(var(--cx-active-view) - 1), 1) * 1px
           );
         }
       }

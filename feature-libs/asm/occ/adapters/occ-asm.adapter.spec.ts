@@ -11,8 +11,10 @@ import {
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
+  BaseOccUrlProperties,
   BaseSiteService,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
   User,
 } from '@spartacus/core';
@@ -48,8 +50,12 @@ class MockBaseSiteService {
   }
 }
 
-class MockOccEndpointsService {
-  getRawEndpoint(endpoint: string): string {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ): string {
     return endpoint;
   }
 }
@@ -76,7 +82,7 @@ describe('OccAsmAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   it('should be created', () => {
@@ -110,8 +116,13 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
     );
   });
 
@@ -137,8 +148,13 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
     );
   });
 
@@ -169,8 +185,13 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
     );
   });
 });

@@ -14,7 +14,7 @@ class MockGroupService {}
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
 }
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
@@ -72,15 +72,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     };
     return value;
   }
+  const image = createImage('url', 'altText');
+  const images: Configurator.Image[] = [image, image, image];
+  const value1 = createValue('1', 'val1', false, images);
+  const value2 = createValue('2', 'val2', false, images);
+  const value3 = createValue('3', 'val3', false, images);
+  const values: Configurator.Value[] = [value1, value2, value3];
 
   beforeEach(() => {
-    const image = createImage('url', 'altText');
-    const images: Configurator.Image[] = [image, image, image];
-    const value1 = createValue('1', 'val1', false, images);
-    const value2 = createValue('2', 'val2', false, images);
-    const value3 = createValue('3', 'val3', false, images);
-    const values: Configurator.Value[] = [value1, value2, value3];
-
     fixture = TestBed.createComponent(
       ConfiguratorAttributeSingleSelectionImageComponent
     );
@@ -113,9 +112,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   it('should init with val3', () => {
     fixture.detectChanges();
-    expect(component.attributeRadioButtonForm.value).toEqual(
-      component.attribute.values[2].valueCode
-    );
+    expect(component.attributeRadioButtonForm.value).toEqual(value3.valueCode);
   });
 
   it('should select another single selection image value', () => {
@@ -123,21 +120,21 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       '#cx-configurator--single_selection_image--' +
       component.attribute.name +
       '--' +
-      component.attribute.values[1].valueCode +
+      value2.valueCode +
       '-input';
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)
     ).nativeElement;
     expect(valueToSelect.checked).toBe(false);
     spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onClick(component.attribute.values[1].valueCode);
+    component.onClick(value2.valueCode);
     fixture.detectChanges();
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
         ownerKey: ownerKey,
         changedAttribute: jasmine.objectContaining({
           name: attributeName,
-          selectedSingleValue: component.attribute.values[1].valueCode,
+          selectedSingleValue: value2.valueCode,
           uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
           groupId: groupId,
         }),
