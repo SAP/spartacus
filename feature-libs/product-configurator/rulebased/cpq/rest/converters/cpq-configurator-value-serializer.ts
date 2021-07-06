@@ -38,6 +38,9 @@ export class CpqConfiguratorValueSerializer
   protected findFirstChangedValue(
     attribute: Configurator.Attribute
   ): Configurator.Value {
-    return attribute.values[0];
+    //TODO CHHI additional test
+    if (attribute.values) {
+      return attribute.values[0];
+    } else throw new Error('No values present');
   }
 }
