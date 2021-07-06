@@ -76,7 +76,7 @@ const productConfigurationOcc: OccConfigurator.Configuration = {
 
 const pricesOcc: OccConfigurator.Prices = {
   priceSummary: {
-    basePrice: { currencyIso: 'USD' },
+    basePrice: { currencyIso: 'USD', value: 10 },
   },
 };
 
