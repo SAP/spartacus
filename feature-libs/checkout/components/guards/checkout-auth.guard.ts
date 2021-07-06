@@ -9,9 +9,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-  User,
-  UserService,
 } from '@spartacus/core';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -27,7 +26,7 @@ export class CheckoutAuthGuard implements CanActivate {
     protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
-    protected userService: UserService,
+    protected userService: UserAccountFacade,
     protected globalMessageService: GlobalMessageService
   ) {}
 
@@ -38,43 +37,44 @@ export class CheckoutAuthGuard implements CanActivate {
       this.userService.get(),
       this.activeCartService.isStable(),
     ]).pipe(
-      filter(([, , , isStable]) => Boolean(isStable)),
-      map(
-        ([isLoggedIn, cartUser, user]: [
-          boolean,
-          User | undefined,
-          User | B2BUser | undefined,
-          boolean
-        ]) => {
-          if (!isLoggedIn) {
-            if (this.activeCartService.isGuestCart()) {
-              return Boolean(cartUser);
-            }
-            this.authRedirectService.saveCurrentNavigationUrl();
-            if (this.checkoutConfigService.isGuestCheckout()) {
-              return this.router.createUrlTree(
-                [this.semanticPathService.get('login')],
-                { queryParams: { forced: true } }
-              );
-            } else {
-              return this.router.parseUrl(
-                this.semanticPathService.get('login')
-              );
-            }
-          } else if (user && 'roles' in user) {
-            const roles = (<B2BUser>user).roles;
-            if (roles?.includes(B2BUserRole.CUSTOMER)) {
-              return true;
-            }
-            this.globalMessageService.add(
-              { key: 'checkout.invalid.accountType' },
-              GlobalMessageType.MSG_TYPE_WARNING
-            );
-            return false;
-          }
-          return isLoggedIn;
+      filter(([, , _user, isStable]) => isStable),
+      // if the user is authenticated and we have their data, OR if the user is anonymous
+      filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
+      map(([isLoggedIn, cartUser, user]) => {
+        if (!isLoggedIn) {
+          return this.handleAnonymousUser(cartUser);
+        } else if (user && 'roles' in user) {
+          return this.handleUserRole(user);
         }
-      )
+        return isLoggedIn;
+      })
     );
+  }
+
+  protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
+    if (this.activeCartService.isGuestCart()) {
+      return !!cartUser;
+    }
+    this.authRedirectService.saveCurrentNavigationUrl();
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      return this.router.createUrlTree(
+        [this.semanticPathService.get('login')],
+        { queryParams: { forced: true } }
+      );
+    } else {
+      return this.router.parseUrl(this.semanticPathService.get('login'));
+    }
+  }
+
+  protected handleUserRole(user: User): boolean | UrlTree {
+    const roles = (<B2BUser>user).roles;
+    if (roles?.includes(B2BUserRole.CUSTOMER)) {
+      return true;
+    }
+    this.globalMessageService.add(
+      { key: 'checkout.invalid.accountType' },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
+    return this.router.parseUrl(this.semanticPathService.get('home'));
   }
 }
