@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import {
+  ImportExportConfig,
+  InvalidFileInfo,
+  ImportService,
+} from '@spartacus/cart/import-export/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
-import { InvalidFileInfo } from '../../../core/model/import-to-cart.model';
-import { ImportService } from '../../../core/services/import.service';
 
 @Component({
   selector: 'cx-import-entries-dialog',
