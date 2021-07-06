@@ -20,7 +20,6 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import semver from 'semver';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
@@ -76,7 +75,6 @@ import {
   Import,
 } from './new-module-utils';
 import {
-  cleanSemverVersion,
   createDependencies,
   createSpartacusDependencies,
   getPrefixedSpartacusSchematicsVersion,
@@ -724,27 +722,8 @@ export function addPackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     for (const dependency of dependencies) {
-      const currentVersion = getCurrentDependencyVersion(
-        dependency,
-        packageJson
-      );
-
-      if (currentVersion) {
-        const versionToUpdate = semver.parse(
-          cleanSemverVersion(dependency.version)
-        );
-        if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
-          continue;
-        }
-
+      if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
-        const change = semver.gt(versionToUpdate, currentVersion)
-          ? 'Upgrading'
-          : 'Downgrading';
-        context.logger.info(
-          `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-        );
-      } else {
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
         );
@@ -821,13 +800,11 @@ function logFeatureInstallation(
   }
 }
 
-function getCurrentDependencyVersion(
+export function dependencyExists(
   dependency: NodeDependency,
   packageJson: any
-): semver.SemVer | null {
-  const dependencies = packageJson[dependency.type];
-  const currentVersion = dependencies[dependency.name];
-  return semver.parse(cleanSemverVersion(currentVersion));
+): boolean {
+  return packageJson[dependency.type].hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
