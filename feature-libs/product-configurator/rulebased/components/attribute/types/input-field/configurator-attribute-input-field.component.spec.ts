@@ -130,16 +130,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(component.inputChange.emit).toHaveBeenCalled();
   }));
 
-  it('should delay emit inputValue for debounce fallback with fallback config', fakeAsync(() => {
-    component['config'] = undefined;
-    component.attributeInputForm.setValue('testValue');
-    fixture.detectChanges();
-    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();

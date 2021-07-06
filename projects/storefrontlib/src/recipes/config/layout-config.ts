@@ -117,11 +117,3 @@ export const layoutConfig: LayoutConfig = {
     },
   },
 };
-
-/**
- * @deprecated the b2cLayoutConfig will be dropped with version 4.0.
- *
- * With Spartacus 3.0 we started to align various layout configurations. Moreover, we move
- * into a pattern where layout configurations are shattered through various (lazy loaded) modules.
- */
-export const b2cLayoutConfig: LayoutConfig = layoutConfig;
