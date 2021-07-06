@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SpartacusSchematics",
+  "$id": "SpartacusSchematics",
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
@@ -20,10 +20,12 @@
           "Saved-Cart",
           "CDC",
           "CDS",
+          "Checkout",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
           "Product-Variants",
+          "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
@@ -33,13 +35,13 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile",
-          "Checkout"
+          "Profile"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "Checkout",
         "Saved-Cart",
         "Bulk-Pricing",
         "Product-Variants",
@@ -70,6 +72,10 @@
             "label": "Context-Driven Services Integration"
           },
           {
+            "value": "Checkout",
+            "label": "Checkout"
+          },
+          {
             "value": "Administration",
             "label": "Organization - Adminstration (b2b feature)"
           },
@@ -84,6 +90,10 @@
           {
             "value": "Product-Variants",
             "label": "Product - Variants"
+          },
+          {
+            "value": "VC-Configurator",
+            "label": "Product Configurator - Variant Configurator"
           },
           {
             "value": "Textfield-Configurator",
@@ -124,10 +134,6 @@
           {
             "value": "Profile",
             "label": "User - Profile"
-          },
-          {
-            "value": "Checkout",
-            "label": "Checkout"
           }
         ]
       }

@@ -17,7 +17,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import { MessageConfig } from '../config/message-config';
+import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 let routerStateObservable = null;
@@ -77,7 +77,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
           },
 
           {
-            provide: MessageConfig,
+            provide: ConfiguratorMessageConfig,
             useClass: MockMessageConfig,
           },
           {

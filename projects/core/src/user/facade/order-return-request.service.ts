@@ -9,7 +9,6 @@ import {
   ReturnRequestList,
   ReturnRequestModification,
 } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
@@ -36,7 +35,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -77,7 +76,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -98,8 +97,8 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         this.store.dispatch(
           new UserActions.LoadOrderReturnRequestList({
             userId,
@@ -108,8 +107,11 @@ export class OrderReturnRequestService {
             sort,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
@@ -147,7 +149,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,

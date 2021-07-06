@@ -23,3 +23,7 @@ import { Direction } from './direction.model';
 export abstract class DirectionConfig {
   direction?: Direction;
 }
+
+declare module '@spartacus/core' {
+  interface Config extends DirectionConfig {}
+}

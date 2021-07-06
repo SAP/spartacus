@@ -205,6 +205,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           groups: [],
+          flatGroups: [],
           interactionState: {},
           overview: overview,
           owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -220,40 +221,7 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
-  updateValuePrice(
-    configGroups: Configurator.Group[],
-    groups: Configurator.Group[]
-  ) {
-    groups?.forEach((group) => {
-      const configGroup = configGroups?.find(
-        (configGroup) => configGroup?.id === group?.id
-      );
-      group?.attributes?.forEach((attribute) => {
-        const configAttribute = configGroup?.attributes.find(
-          (configAttribute) => configAttribute?.name === attribute?.name
-        );
-        attribute?.values?.forEach((value) => {
-          let configValue = configAttribute?.values.find(
-            (configValue) => configValue?.valueCode === value?.valueCode
-          );
-          if (configValue) {
-            /**
-            const result = Object.assign({valuePrice: value?.valuePrice}, configValue);
-            configValue = {
-              ...result
-            };
-            console.log(configValue);
-             */
-
-            configValue.valuePrice = value?.valuePrice;
-            console.log(configValue);
-          }
-        });
-      });
-      this.updateValuePrice(configGroup?.subGroups, group?.subGroups);
-    });
-  }
-
+  //TODO: pricing  => this method should be renamed =>  readPrice
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -270,19 +238,12 @@ export class VariantConfiguratorOccAdapter
     return this.http.get(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
       map((configResult) => {
-        this.updateValuePrice(configuration.groups, configResult.groups);
-
         const result: Configurator.Configuration = {
           ...configuration,
           priceSummary: configResult.priceSummary,
+          priceSupplements: configResult.priceSupplements,
         };
         return result;
-      }),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
       })
     );
   }
