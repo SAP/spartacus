@@ -484,14 +484,14 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.required).toBe(cpqAttributeRequired2);
     expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem2);
     expect(attribute.uiType).toBe(Configurator.UiType.STRING);
-    expect(attribute.selectedSingleValue).toBeNull();
+    expect(attribute.selectedSingleValue).toBeUndefined();
     expect(attribute.groupId).toBe(cpqGroupId.toString());
     expect(attribute.userInput).toBe(cpqAttributeUserInput2);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
     expect(attribute.incomplete).toBe(false);
 
     const values = attribute.values;
-    expect(values?.length).toBe(0);
+    expect(values?.length).toBe(undefined);
   });
 
   it('should use attribute name when attribute label is not available', () => {

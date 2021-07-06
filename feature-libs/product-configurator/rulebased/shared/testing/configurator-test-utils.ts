@@ -195,7 +195,10 @@ export class ConfiguratorTestUtils {
       const valueCode: string = 'value_' + attributeNr + '_' + valueNr;
       let value: Configurator.Value = {
         valueCode: valueCode,
-        valuePrice: {},
+        valuePrice: {
+          value: 0,
+          currencyIso: '$',
+        },
       };
 
       values.push(value);

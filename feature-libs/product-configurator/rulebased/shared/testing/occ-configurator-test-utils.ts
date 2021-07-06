@@ -110,7 +110,7 @@ export class OccConfiguratorTestUtils {
     return {
       attributes: supplements,
       priceSummary: {
-        basePrice: { currencyIso: 'USD' },
+        basePrice: { currencyIso: 'USD', value: 10 },
       },
     };
   }

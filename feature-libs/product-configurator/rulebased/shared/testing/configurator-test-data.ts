@@ -113,6 +113,62 @@ export const productConfigurationWithoutIssues: Configurator.Configuration = {
   flatGroups: [groupsWithoutIssues],
 };
 
+export const attributeRadioButton: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
+};
+
+export const attributeCheckbox: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+  groupId: '1',
+  attrCode: 123,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
+};
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -121,67 +177,13 @@ export const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_1,
       configurable: true,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      attributes: [
-        {
-          name: ATTRIBUTE_1_CHECKBOX,
-          uiType: Configurator.UiType.CHECKBOXLIST,
-          required: true,
-          incomplete: true,
-          values: [
-            {
-              name: VALUE_01,
-              valueCode: VALUE_01,
-              valueDisplay: 'Value 01',
-              images: [],
-            },
-            {
-              name: VALUE_02,
-              valueCode: VALUE_02,
-              valueDisplay: 'Value 02',
-              images: [],
-            },
-            {
-              name: VALUE_03,
-              valueCode: VALUE_03,
-              valueDisplay: 'Value 03',
-              images: [],
-            },
-          ],
-        },
-      ],
+      attributes: [attributeCheckbox],
       subGroups: [],
     },
     {
       id: GROUP_ID_2,
       configurable: true,
-      attributes: [
-        {
-          name: 'ATTRIBUTE_2_RADIOBUTTON',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          required: false,
-          incomplete: false,
-          values: [
-            {
-              name: VALUE_01,
-              valueCode: VALUE_01,
-              valueDisplay: 'Value 01',
-              images: [],
-            },
-            {
-              name: VALUE_02,
-              valueCode: VALUE_02,
-              valueDisplay: 'Value 02',
-              images: [],
-            },
-            {
-              name: VALUE_03,
-              valueCode: VALUE_03,
-              valueDisplay: 'Value 03',
-              images: [],
-            },
-          ],
-        },
-      ],
+      attributes: [attributeRadioButton],
       subGroups: [],
     },
     {
@@ -214,7 +216,6 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-
       subGroups: [
         {
           id: GROUP_ID_6,
@@ -244,7 +245,6 @@ export const productConfiguration: Configurator.Configuration = {
         },
       ],
     },
-
     {
       id: GROUP_ID_9,
       configurable: true,
