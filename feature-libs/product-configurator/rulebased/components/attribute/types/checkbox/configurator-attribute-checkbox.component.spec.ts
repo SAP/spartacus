@@ -10,7 +10,7 @@ import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
 }
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
@@ -42,9 +42,8 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     };
     return value;
   }
-
+  const value1 = createValue('1', 'val1', false);
   beforeEach(() => {
-    const value1 = createValue('1', 'val1', false);
     const values: Configurator.Value[] = [value1];
 
     fixture = TestBed.createComponent(ConfiguratorAttributeCheckBoxComponent);
@@ -72,7 +71,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       '#cx-configurator--checkBox--' +
       component.attribute.name +
       '--' +
-      component.attribute.values[0].valueCode;
+      value1.valueCode;
     const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
       .nativeElement;
     expect(valueToSelect.checked).toBeFalsy();

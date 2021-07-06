@@ -5,7 +5,6 @@ import {
   ActiveCartService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -23,7 +22,6 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
-    protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,

@@ -24,7 +24,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       fallbackFocusId: this.getFocusIdOfNearestValue(value),
       productBoundValue: value,
       loading$: this.loading$,
-      attributeId: this.attribute?.attrCode,
+      attributeId: this.getAttributeCode(this.attribute),
     };
   }
 
@@ -40,7 +40,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       prevIdx = this.attribute?.values?.length > 1 ? 1 : 0;
     }
     return this.createFocusId(
-      this.attribute?.attrCode?.toString(),
+      this.getAttributeCode(this.attribute).toString(),
       this.attribute?.values[prevIdx]?.valueCode
     );
   }

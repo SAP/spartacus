@@ -27,7 +27,7 @@ export namespace Configurator {
   }
 
   export interface Value {
-    valueCode?: string;
+    valueCode: string;
     name?: string;
     valueDisplay?: string;
     description?: string;
@@ -113,9 +113,9 @@ export namespace Configurator {
   }
 
   export interface PriceDetails {
-    currencyIso?: string;
+    currencyIso: string;
     formattedValue?: string;
-    value?: number;
+    value: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {
