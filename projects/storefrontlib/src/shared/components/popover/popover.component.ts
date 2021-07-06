@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
+import { WindowRef } from '@spartacus/core';
 import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';

@@ -6,6 +6,8 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
+// projects/storefrontlib/src/shared/components/popover/popover.component.ts
+
 export const POPOVER_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: POPOVER_COMPONENT,

@@ -14,11 +14,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PopoverService } from './popover.service';
-import { Subject } from 'rxjs';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -110,6 +110,7 @@ export class PopoverDirective implements OnInit {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
     }
   }
+
   /**
    * Method performs open action for popover component.
    */
