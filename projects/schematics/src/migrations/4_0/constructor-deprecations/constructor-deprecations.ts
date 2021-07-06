@@ -81,6 +81,7 @@ import {
   MODAL_SERVICE_MIGRATION_V1,
   MODAL_SERVICE_MIGRATION_V2,
 } from './data/modal.service.migration';
+import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -140,8 +141,6 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
-import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
-import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
