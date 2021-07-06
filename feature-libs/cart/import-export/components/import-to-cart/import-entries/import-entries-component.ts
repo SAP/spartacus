@@ -6,7 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ImportEntriesLaunchDialogService } from 'feature-libs/cart/import-export/core/services/import-entries-launch-dialog.service';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -21,11 +21,12 @@ export class ImportEntriesComponent implements OnDestroy {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected importEntriesLaunchDialogService: ImportEntriesLaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   openDialog(): void {
-    const dialog = this.importEntriesLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
       this.vcr
     );
