@@ -191,7 +191,6 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
-    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,

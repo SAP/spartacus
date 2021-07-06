@@ -8,13 +8,15 @@ import {
 } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { ProductsData } from '@spartacus/cart/import-export/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable()
 export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService
+    protected savedCartService: SavedCartService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   loadProductsToCart(
@@ -41,13 +43,15 @@ export class ImportToCartService {
                 const cartId: string = cartData.value?.code ?? '';
                 if (cartId !== '')
                   this.multiCartService.addEntries(userId, cartId, products);
-                // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
                 this.savedCartService.saveCart({
                   cartId,
                   saveCartName: savedCartInfo.name,
                   saveCartDescription: savedCartInfo.description,
                 });
                 this.savedCartService.loadSavedCarts();
+                this.launchDialogService.closeDialog(
+                  'Close Import Products Dialog'
+                );
               })
             )
         ),
