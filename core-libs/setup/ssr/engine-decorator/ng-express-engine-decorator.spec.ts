@@ -3,8 +3,6 @@ import {
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
-  NgSetupOptions,
-  RenderOptions,
 } from './ng-express-engine-decorator';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 
@@ -12,9 +10,9 @@ describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
     let originalEngine: NgExpressEngine;
     let originalEngineInstance: NgExpressEngineInstance;
-    let mockEngineOptions: NgSetupOptions;
+    let mockEngineOptions;
 
-    let mockOptions: RenderOptions;
+    let mockOptions;
     const mockPath = 'testPath';
     const mockCallback = () => {};
 
@@ -81,9 +79,9 @@ describe('NgExpressEngineDecorator', () => {
 describe('decorateExpressEngine', () => {
   let originalEngine: NgExpressEngine;
   let originalEngineInstance: NgExpressEngineInstance;
-  let mockEngineOptions: NgSetupOptions;
+  let mockEngineOptions;
 
-  let mockOptions: RenderOptions;
+  let mockOptions;
   const mockPath = 'testPath';
   const mockCallback = () => {};
   let engineInstance;

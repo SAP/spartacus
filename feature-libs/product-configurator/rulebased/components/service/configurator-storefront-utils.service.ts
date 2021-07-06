@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { WindowRef } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -53,12 +53,23 @@ export class ConfiguratorStorefrontUtilsService {
     const localAssembledValues: Configurator.Value[] = [];
 
     for (let i = 0; i < controlArray.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.name = attribute.values[i].name;
-      localAttributeValue.quantity = attribute.values[i].quantity;
-      localAttributeValue.selected = controlArray[i].value;
-      localAttributeValue.valueCode = attribute.values[i].valueCode;
-      localAssembledValues.push(localAttributeValue);
+      const value = attribute.values ? attribute.values[i] : undefined;
+      if (value) {
+        const localAttributeValue: Configurator.Value = {
+          valueCode: value.valueCode,
+        };
+        localAttributeValue.name = value.name;
+        localAttributeValue.quantity = value.quantity;
+        localAttributeValue.selected = controlArray[i].value;
+
+        localAssembledValues.push(localAttributeValue);
+      } else {
+        if (isDevMode()) {
+          console.warn(
+            'ControlArray does not match values, at least one value could not been found'
+          );
+        }
+      }
     }
     return localAssembledValues;
   }

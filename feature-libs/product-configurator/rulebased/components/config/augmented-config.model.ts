@@ -1,6 +1,6 @@
 import '@spartacus/product-configurator/common';
+import { ProductConfiguratorMessageConfig } from './configurator-message.config';
 import { ProductConfiguratorUISettingsConfig } from './configurator-ui-settings.config';
-import { ProductConfiguratorMessageConfig } from './message.config';
 
 declare module '@spartacus/product-configurator/common' {
   interface ProductConfiguratorConfig

@@ -107,7 +107,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [PageComponentModule, TestModule],
+      imports: [PageComponentModule.forRoot(), TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
