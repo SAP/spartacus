@@ -19,7 +19,7 @@ import { AddToCartComponent } from './add-to-cart.component';
 import { InventoryDisplayConfig } from './config/inventory-display.config';
 
 const mockInventoryDisplayConfig: InventoryDisplayConfig = {
-  showInventory: false,
+  showInventory: true,
 };
 
 const productCode = '1234';
@@ -111,10 +111,6 @@ describe('AddToCartComponent', () => {
           {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
-          },
-          {
-            provide: InventoryDisplayConfig,
-            useClass: mockInventoryDisplayConfig,
           },
         ],
       }).compileComponents();
@@ -278,6 +274,7 @@ describe('AddToCartComponent', () => {
       };
 
       addToCartComponent.productCode = productCode;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.product = currentMockProduct;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
@@ -313,6 +310,7 @@ describe('AddToCartComponent', () => {
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
@@ -346,6 +344,7 @@ describe('AddToCartComponent', () => {
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
