@@ -1,7 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-
-import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { CxEvent } from '../../event/cx-event';
+import { EventService } from '../../event/event.service';
+import { LoadingScopesService } from './loading-scopes.service';
+
+class MockEvent1 extends CxEvent {}
+class MockEvent2 extends CxEvent {}
+const expectedEventPayload = of(1);
+class MockEventService implements Partial<EventService> {
+  get(): Observable<any> {
+    return expectedEventPayload;
+  }
+}
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
@@ -15,6 +26,7 @@ describe('LoadingScopesService', () => {
           },
           detail: {
             include: ['list'],
+            reloadOn: [MockEvent1, MockEvent2],
           },
           order: {
             include: ['base', 'list'],
@@ -30,7 +42,10 @@ describe('LoadingScopesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: OccConfig, useValue: mockConfig }],
+      providers: [
+        { provide: OccConfig, useValue: mockConfig },
+        { provide: EventService, useClass: MockEventService },
+      ],
     });
     service = TestBed.inject(LoadingScopesService);
   });
@@ -108,6 +123,19 @@ describe('LoadingScopesService', () => {
     it('should return 0 for not configured maxAge', () => {
       const result = service.getMaxAge('product', 'detail');
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('getReloadingTriggers', () => {
+    it('should return an empty array when no triggers are configured', () => {
+      const result = service.getReloadingTriggers('product', 'zczapy');
+      expect(result.length).toEqual(0);
+    });
+    it('should return the configured triggers', () => {
+      const result = service.getReloadingTriggers('product', 'detail');
+      expect(result.length).toEqual(2);
+      expect(result[0]).toEqual(expectedEventPayload);
+      expect(result[1]).toEqual(expectedEventPayload);
     });
   });
 });
