@@ -36,6 +36,7 @@ const attributeRB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeRB_PRODUCT: Configurator.Attribute = {
@@ -43,6 +44,7 @@ const attributeRB_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.RADIOBUTTON_PRODUCT,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeDDLB: Configurator.Attribute = {
@@ -50,6 +52,7 @@ const attributeDDLB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeDDLB_PRODUCT: Configurator.Attribute = {
@@ -57,6 +60,7 @@ const attributeDDLB_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.DROPDOWN_PRODUCT,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeSSI: Configurator.Attribute = {
@@ -64,6 +68,7 @@ const attributeSSI: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeCB: Configurator.Attribute = {
@@ -71,6 +76,7 @@ const attributeCB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOX,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeCBList: Configurator.Attribute = {
@@ -78,6 +84,7 @@ const attributeCBList: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeCBListNoSelection: Configurator.Attribute = {
@@ -85,6 +92,7 @@ const attributeCBListNoSelection: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST,
   values: [],
+  groupId: firstGroupId,
 };
 
 const attributeCBList_PRODUCT: Configurator.Attribute = {
@@ -92,6 +100,7 @@ const attributeCBList_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeMSI: Configurator.Attribute = {
@@ -99,6 +108,7 @@ const attributeMSI: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeString: Configurator.Attribute = {
@@ -106,6 +116,7 @@ const attributeString: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.STRING,
   userInput: userInput,
+  groupId: firstGroupId,
 };
 
 const attributeNumeric: Configurator.Attribute = {
@@ -113,6 +124,7 @@ const attributeNumeric: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
+  groupId: firstGroupId,
 };
 
 const groups: Configurator.Group[] = [
@@ -309,13 +321,6 @@ describe('CpqConfiguratorSerializer', () => {
       attributeCBListNoSelection
     );
     expect(valueIds).toBe(expectedValueIdsMultiNoSelection);
-  });
-
-  it('should find first updated attribute correctly', () => {
-    const attribute: Configurator.Attribute = cpqConfiguratorSerializer[
-      'findFirstChangedAttribute'
-    ](configuration);
-    expect(attribute).toBe(firstAttribute);
   });
 
   it('should convert configuration correctly', () => {

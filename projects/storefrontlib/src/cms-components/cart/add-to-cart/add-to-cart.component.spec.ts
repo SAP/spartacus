@@ -16,12 +16,21 @@ import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
+import { InventoryDisplayConfig } from './config/inventory-display.config';
+
+const mockInventoryDisplayConfig: InventoryDisplayConfig = {
+  showInventory: true,
+};
 
 const productCode = '1234';
+
 const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
-  stock: { stockLevelStatus: 'inStock' },
+  stock: {
+    stockLevel: 0,
+    stockLevelStatus: 'inStock',
+  },
 };
 
 const mockProduct2: Product = {
@@ -186,7 +195,7 @@ describe('AddToCartComponent', () => {
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
-      expect(addToCartComponent.maxQuantity).toBe(undefined);
+      expect(addToCartComponent.maxQuantity).toBe(0);
       expect(addToCartComponent.hasStock).toEqual(false);
     });
   });
@@ -249,5 +258,100 @@ describe('AddToCartComponent', () => {
     fixture.detectChanges();
     const quantityEl = el.query(By.css('.quantity'));
     expect(quantityEl).toBeNull();
+  });
+
+  describe('Inventory Display test', () => {
+    let currentMockProduct: Product = {
+      name: 'mockProduct',
+      code: 'code1',
+      stock: undefined,
+    };
+
+    it('should display inventory quantity when enabled', () => {
+      currentMockProduct.stock = {
+        stockLevel: 333,
+        stockLevelStatus: 'inStock',
+      };
+
+      addToCartComponent.productCode = productCode;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
+      addToCartComponent.product = currentMockProduct;
+      addToCartComponent.showInventory = true;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+        currentMockProduct.stock?.stockLevel + ' addToCart.inStock'
+      );
+    });
+
+    it('should NOT display inventory when disabled', () => {
+      currentMockProduct.stock = {
+        stockLevel: 333,
+        stockLevelStatus: 'inStock',
+      };
+
+      addToCartComponent.productCode = productCode;
+      addToCartComponent.product = currentMockProduct;
+      addToCartComponent.showInventory = false;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+        'addToCart.inStock'
+      );
+    });
+
+    it('should display 0 inventory when enabled and out of stock', () => {
+      currentMockProduct.stock = {
+        stockLevel: 0,
+        stockLevelStatus: 'outOfStock',
+      };
+
+      addToCartComponent.productCode = productCode;
+      addToCartComponent.product = currentMockProduct;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
+      addToCartComponent.showInventory = true;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+        currentMockProduct.stock?.stockLevel + ' addToCart.inStock'
+      );
+    });
+
+    it('should NOT display 0 inventory when disabled and out of stock', () => {
+      currentMockProduct.stock = {
+        stockLevel: 0,
+        stockLevelStatus: 'outOfStock',
+      };
+
+      addToCartComponent.productCode = productCode;
+      addToCartComponent.product = currentMockProduct;
+      addToCartComponent.showInventory = false;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+        'addToCart.outOfStock'
+      );
+    });
+
+    it('should display `In Stock` when product forced in stock status and inventory display enabled', () => {
+      currentMockProduct.stock = {
+        stockLevelStatus: 'inStock',
+      };
+
+      addToCartComponent.productCode = productCode;
+      addToCartComponent.product = currentMockProduct;
+      addToCartComponent['config'] = mockInventoryDisplayConfig;
+      addToCartComponent.showInventory = true;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
+        'addToCart.inStock'
+      );
+    });
   });
 });

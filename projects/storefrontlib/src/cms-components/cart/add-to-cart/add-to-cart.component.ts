@@ -5,24 +5,17 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  ActiveCartService,
-  isNotNullable,
-  Product,
-  CmsAddToCartComponent as model,
-} from '@spartacus/core';
+import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { InventoryDisplayConfig } from './config/inventory-display.config';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -45,6 +38,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock: boolean | undefined = false;
 
   showInventory: boolean;
+  forceInStock: boolean = false;
 
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;
@@ -55,41 +49,29 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
-    componentData: CmsComponentData<model>
-  );
-
   /**
    * @deprecated since 3.4
    */
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
-  );
+  // constructor(
+  //   modalService: ModalService,
+  //   currentProductService: CurrentProductService,
+  //   cd: ChangeDetectorRef,
+  //   activeCartService: ActiveCartService
+  // );
 
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
+    protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    @Optional() protected componentData?: CmsComponentData<model>
+    protected config: InventoryDisplayConfig
   ) {}
 
   ngOnInit() {
-    this.componentData?.data$.subscribe((data: model) => {
-      if (data.inventoryDisplay && data.inventoryDisplay == 'true') {
-        this.showInventory = true;
-      }
-    });
+    this.showInventory = this.config?.showInventory ?? false;
 
     if (this.product) {
-      this.productCode = this.product.code ? this.product.code : '';
+      this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
@@ -102,7 +84,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
-          this.productCode = product.code;
+          this.productCode = product.code ?? '';
           this.setStockInfo(product);
           this.cd.markForCheck();
         });
@@ -114,16 +96,23 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.hasStock = Boolean(
       product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
     );
-    if (this.hasStock && product.stock?.stockLevel) {
-      this.maxQuantity = product.stock?.stockLevel;
+    if (this.hasStock) {
+      if (product.stock?.stockLevel === undefined) {
+        //set maxQuantity to 1 if product hasStock and no stock level.
+        //product listing page also provides no stock level information.
+        this.forceInStock = true;
+        this.maxQuantity = 1;
+      } else {
+        this.maxQuantity = product.stock.stockLevel;
+      }
     } else {
       this.maxQuantity = 0;
     }
   }
 
   getInventory(): string {
-    //When backoffice forces 'In Stock' status, DO NOT display inventory.
-    if (this.hasStock && this.maxQuantity === 0) {
+    //When backoffice forces 'In Stock' status, DO NOT display stock level info.
+    if (this.hasStock && this.forceInStock) {
       return '';
     } else {
       return this.maxQuantity + '';

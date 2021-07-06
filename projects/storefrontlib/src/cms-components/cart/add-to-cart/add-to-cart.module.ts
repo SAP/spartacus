@@ -20,6 +20,7 @@ import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { defaultInventoryDisplayConfig } from './config/default-inventory-display.config';
 
 @NgModule({
   imports: [
@@ -42,12 +43,10 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
-          data: {
-            inventoryDisplay: 'true',
-          },
         },
       },
     }),
+    provideDefaultConfig(defaultInventoryDisplayConfig),
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   exports: [AddToCartComponent, AddedToCartDialogComponent],

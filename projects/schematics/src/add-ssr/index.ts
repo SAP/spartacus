@@ -184,7 +184,7 @@ export function addSSR(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
-        clientProject: options.project,
+        project: options.project,
       }),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
