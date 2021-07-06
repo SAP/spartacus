@@ -9,7 +9,7 @@ import * as shx from 'shelljs';
 import collectedDependencies from '../../../dependencies.json';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v4-dependency-management-03';
+const MIGRATION_SCRIPT_NAME = '05-migration-v4-dependency-management';
 
 describe('dependency management migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -21,7 +21,7 @@ describe('dependency management migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../migrations.json') // TODO: Shouldn't we use migration-test.json ?
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
