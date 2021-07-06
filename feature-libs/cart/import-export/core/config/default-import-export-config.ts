@@ -16,5 +16,21 @@ export const defaultImportExportConfig: ImportExportConfig = {
     file: {
       separator: ',',
     },
+    export: {
+      additionalColumns: [
+        {
+          name: {
+            key: 'name',
+          },
+          value: 'product.name',
+        },
+        {
+          name: {
+            key: 'price',
+          },
+          value: 'totalPrice.formattedValue',
+        },
+      ],
+    },
   },
 };
