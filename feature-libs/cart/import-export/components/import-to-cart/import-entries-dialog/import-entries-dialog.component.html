@@ -31,7 +31,10 @@
           {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
         </p>
         <p>
-          {{ 'importEntriesDialog.importProductFileText' | cxTranslate: { size: fileSize } }}
+          {{
+            'importEntriesDialog.importProductFileText'
+              | cxTranslate: { size: fileSize }
+          }}
         </p>
         <input
           class="cx-import-entries-select-file"
