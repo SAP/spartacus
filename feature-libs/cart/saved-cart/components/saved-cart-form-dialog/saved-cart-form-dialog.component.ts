@@ -26,8 +26,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { merge, Observable, Subscription } from 'rxjs';
-import { mapTo, take } from 'rxjs/operators';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { map, mapTo, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -60,6 +60,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean>;
   isDisableDeleteButton$: Observable<boolean>;
+  isDisableRestoreButton$: Observable<boolean>;
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -95,6 +96,16 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       this.eventService
         .get(DeleteSavedCartFailEvent)
         .pipe(take(1), mapTo(false))
+    );
+
+    this.isDisableRestoreButton$ = combineLatest([
+      this.savedCartService.getCloneSavedCartProcessLoading(),
+      this.savedCartService.getRestoreSavedCartProcessLoading(),
+    ]).pipe(
+      map(
+        ([isCloneLoading, isRestoreLoading]) =>
+          isCloneLoading || isRestoreLoading
+      )
     );
 
     this.subscription.add(

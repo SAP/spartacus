@@ -84,6 +84,12 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
     return of();
   }
+  getCloneSavedCartProcessLoading(): Observable<boolean> {
+    return of();
+  }
+  getRestoreSavedCartProcessLoading(): Observable<boolean> {
+    return of();
+  }
 }
 
 class MockEventService implements Partial<EventService> {
