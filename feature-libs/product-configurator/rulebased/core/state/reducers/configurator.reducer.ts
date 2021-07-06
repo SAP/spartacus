@@ -275,13 +275,10 @@ function updateValuePrice(
               'VPR value price will be taken from supplement: ' +
                 JSON.stringify(valueSupplement?.priceValue)
             );
-            //value.valuePrice = valueSupplement.priceValue;
-            const newValue = {
-              ...value,
-              valuePrice: valueSupplement?.priceValue,
-            };
-            attribute.values?.push(newValue);
-            value = newValue;
+            value.valuePrice = valueSupplement.priceValue;
+
+            //attribute.values?.push(newValue);
+            //value = newValue;
           }
 
           //console.log('VPR value object: ' + JSON.stringify(value));
@@ -336,7 +333,8 @@ function takeOverPriceSupplementsChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const groups = content.groups.length > 0 ? content.groups : state.groups;
+  const groups = deepCopy(state.groups);
+
   const priceSupplements = content?.priceSupplements;
   updateValuePrices(groups, priceSupplements);
 
@@ -351,4 +349,32 @@ function takeOverPriceSupplementsChanges(
     },
   };
   return result;
+}
+
+function deepCopy<T>(target: T): T {
+  if (!target) {
+    return target;
+  }
+  if (typeof target === 'object') {
+    if (target instanceof Array) {
+      const resultArray = [] as any[];
+      if (((target as any) as any[]).length > 0) {
+        for (const arrayMember of (target as any) as any[]) {
+          resultArray.push(deepCopy(arrayMember));
+        }
+      }
+      return (resultArray as any) as T;
+    } else {
+      const targetKeys = Object.keys(target);
+      const resultObject = {} as { [key: string]: any };
+      if (targetKeys.length > 0) {
+        for (const key of targetKeys) {
+          resultObject[key] = deepCopy((target as { [key: string]: any })[key]);
+        }
+      }
+      return resultObject as T;
+    }
+  }
+  // target is atomic
+  return target;
 }
