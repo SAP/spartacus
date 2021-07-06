@@ -7,8 +7,9 @@ interface CpqUpdateInformation {
 export class CpqConfiguratorUtils {
   /**
    * Collects information that we need to fire a CPQ update
-   * @param attribute
-   * @returns
+   *
+   * @param {Configurator.Attribute} attribute Configurator attribute
+   * @returns {CpqUpdateInformation} Update information
    */
   static getUpdateInformation(
     attribute: Configurator.Attribute
@@ -29,7 +30,11 @@ export class CpqConfiguratorUtils {
       );
     }
   }
-
+  /**
+   * Finds first changed attribute
+   * @param {Configurator.Configuration} source Configuration
+   * @returns {Configurator.Attribute} First attribute of first group
+   */
   static findFirstChangedAttribute(
     source: Configurator.Configuration
   ): Configurator.Attribute {
