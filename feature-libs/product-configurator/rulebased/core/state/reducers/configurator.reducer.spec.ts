@@ -230,7 +230,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        priceSummary: { basePrice: {} },
+        priceSummary: { basePrice: { value: 0, currencyIso: 'EUR' } },
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
         configurationWithPriceSummary

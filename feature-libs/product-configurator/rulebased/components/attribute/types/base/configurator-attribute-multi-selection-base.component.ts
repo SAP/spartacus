@@ -114,6 +114,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       quantity: 0,
       price: {
         value: 0,
+        currencyIso: '',
       },
       priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
