@@ -280,7 +280,7 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
         currentMockProduct.stock?.stockLevel + ' addToCart.inStock'
       );
     });
@@ -297,7 +297,7 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
         'addToCart.inStock'
       );
     });
@@ -315,12 +315,12 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
-        currentMockProduct.stock?.stockLevel + ' addToCart.inStock'
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
+        'addToCart.outOfStock'
       );
     });
 
-    it('should NOT display 0 inventory when disabled and out of stock', () => {
+    it('should display out of stock when inventory display disabled', () => {
       currentMockProduct.stock = {
         stockLevel: 0,
         stockLevelStatus: 'outOfStock',
@@ -332,7 +332,7 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText).toEqual(
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
         'addToCart.outOfStock'
       );
     });
