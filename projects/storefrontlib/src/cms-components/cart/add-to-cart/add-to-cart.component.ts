@@ -38,6 +38,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock: boolean | undefined = false;
 
   showInventory: boolean;
+  forceInStock: boolean = false;
 
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;
@@ -95,16 +96,23 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.hasStock = Boolean(
       product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
     );
-    if (this.hasStock && product.stock?.stockLevel) {
-      this.maxQuantity = product.stock?.stockLevel;
+    if (this.hasStock) {
+      if (product.stock?.stockLevel === undefined) {
+        //set maxQuantity to 1 if product hasStock and no stock level.
+        //product listing page also provides no stock level information.
+        this.forceInStock = true;
+        this.maxQuantity = 1;
+      } else {
+        this.maxQuantity = product.stock.stockLevel;
+      }
     } else {
       this.maxQuantity = 0;
     }
   }
 
   getInventory(): string {
-    //When backoffice forces 'In Stock' status, DO NOT display inventory.
-    if (this.hasStock && this.maxQuantity === 0) {
+    //When backoffice forces 'In Stock' status, DO NOT display stock level info.
+    if (this.hasStock && this.forceInStock) {
       return '';
     } else {
       return this.maxQuantity + '';

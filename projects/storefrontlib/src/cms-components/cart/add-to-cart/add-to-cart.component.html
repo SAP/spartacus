@@ -10,7 +10,6 @@
     <span *ngIf="showInventory; else showLabelOnly" class="info"
       >{{ getInventory() }} {{ 'addToCart.inStock' | cxTranslate }}</span
     >
-
     <ng-template #showLabelOnly
       ><span class="info">{{
         hasStock
