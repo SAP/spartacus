@@ -123,7 +123,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
   });
 
   it('should trigger getDateSaved(saveTime: string)', () => {
-    const date = component['getDate'](mockSavedCart.saveTime as Date);
+    const date = mockSavedCart.saveTime.toDateString();
 
     component
       .getDateSaved(date)
