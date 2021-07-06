@@ -58,13 +58,20 @@ const singleSelectionValues: Cpq.Value[] = [
   { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
 ];
 
+const valuepCode1: Cpq.Value = {
+  paV_ID: 1,
+  valueDisplay: 'another product',
+  productSystemId: 'pCode1',
+  selected: false,
+};
+const valuepCode1WoValueDisplay: Cpq.Value = {
+  paV_ID: 1,
+  productSystemId: 'pCode1',
+  selected: false,
+};
+
 const singleSelectionProductValues: Cpq.Value[] = [
-  {
-    paV_ID: 1,
-    valueDisplay: 'another product',
-    productSystemId: 'pCode1',
-    selected: false,
-  },
+  valuepCode1,
   {
     paV_ID: 2,
     valueDisplay: 'selected product',
@@ -418,5 +425,51 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePriceTotal?.value).toBe(123.45);
     expect(ovAttrs[0].valuePriceTotal?.formattedValue).toBe('$123.45');
+  });
+
+  describe('extractValue', () => {
+    it('should fill attribute overview value with valueDisplay if available', () => {
+      attr.values = singleSelectionProductValues;
+      const attributeOverview = serviceUnderTest['extractValue'](
+        valuepCode1,
+        attr,
+        CURRENCY
+      );
+      expect(attributeOverview.value).toBe(valuepCode1.valueDisplay);
+    });
+    it('should fill attribute overview value with id if valueDisplay is not available', () => {
+      attr.values = [valuepCode1WoValueDisplay];
+      const attributeOverview = serviceUnderTest['extractValue'](
+        valuepCode1WoValueDisplay,
+        attr,
+        CURRENCY
+      );
+      expect(attributeOverview.value).toBe(
+        valuepCode1WoValueDisplay.paV_ID.toString()
+      );
+    });
+  });
+
+  describe('extractValueUserInput', () => {
+    it('should fill attribute overview value with userInput if available', () => {
+      attr.userInput = 'Hullo';
+      const attributeOverview = serviceUnderTest['extractValueUserInput'](
+        attr,
+        CURRENCY
+      );
+      expect(attributeOverview.value).toBe(attr.userInput);
+    });
+  });
+
+  describe('extractValueUserInput', () => {
+    it('should fill attribute overview value with id if userInput is not available', () => {
+      attr.userInput = undefined;
+      attr.stdAttrCode = 23;
+      const attributeOverview = serviceUnderTest['extractValueUserInput'](
+        attr,
+        CURRENCY
+      );
+      expect(attributeOverview.value).toBe(attr.stdAttrCode.toString());
+    });
   });
 });

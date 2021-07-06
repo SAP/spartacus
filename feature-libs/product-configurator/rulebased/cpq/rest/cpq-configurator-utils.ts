@@ -15,7 +15,7 @@ export class CpqConfiguratorUtils {
   ): CpqUpdateInformation {
     //attribute code cannot be made mandatory because of VC,
     //but in the CPQ context it is mandatory. The same is true of the group id
-    //TODO CHHI add tests
+
     const attributeCode = attribute.attrCode;
     const groupId = attribute.groupId;
     if (attributeCode && groupId) {

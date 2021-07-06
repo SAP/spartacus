@@ -132,7 +132,6 @@ export class CpqConfiguratorOverviewNormalizer
     attr: Cpq.Attribute,
     currency: string
   ): Configurator.AttributeOverview {
-    //TODO CHHI additional test
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: valueSelected.valueDisplay ?? valueSelected.paV_ID.toString(),
@@ -158,7 +157,6 @@ export class CpqConfiguratorOverviewNormalizer
     currency: string
   ): Configurator.AttributeOverview {
     const value = attr.values ? attr.values[0] : undefined;
-    //TODO CHHI additional test
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: attr.userInput ?? attr.stdAttrCode.toString(),
