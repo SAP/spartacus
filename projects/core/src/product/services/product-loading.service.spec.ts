@@ -23,7 +23,7 @@ class MockLoadingScopesService {
   );
 }
 
-fdescribe('ProductLoadingService', () => {
+describe('ProductLoadingService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductLoadingService;
 
@@ -219,7 +219,7 @@ fdescribe('ProductLoadingService', () => {
       );
     });
 
-    it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
+    it('should not trigger multiple product load actions for multiple product subscription.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
       service.get('productCode', ['']).pipe(take(1)).subscribe();
