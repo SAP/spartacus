@@ -1,8 +1,21 @@
 @import '../../../theme';
 
-// To control visual effects while searching the searchbox requries
+// To control visual effects while searching the searchbox requires
 // some CSS rules to the outer elements.
 %cx-searchbox__body {
+  // hide the mobile search button by default and how on mobile
+  button.search {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+  // hide the search icon on mobile
+  div.search-icon {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
   // when there are results and the searchbox is active
   // we display the searchbox
   &.searchbox-is-active {
@@ -92,7 +105,7 @@
       min-width: 300px;
       max-width: 550px;
       // hide search icon when the input is dirty
-      &.dirty div.search {
+      &.dirty div.search-icon {
         display: none;
       }
     }
@@ -131,7 +144,7 @@
     }
 
     button,
-    div.search {
+    div.search-icon {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
