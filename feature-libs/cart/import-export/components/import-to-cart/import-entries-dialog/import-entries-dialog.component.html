@@ -15,7 +15,7 @@
 
         <button
           (click)="close('Close Import Products Dialog')"
-          aria-label="{{'importEntriesDialog.close' | cxTranslate}}"
+          aria-label="{{ 'importEntriesDialog.close' | cxTranslate }}"
           class="cx-import-entries-close close"
           type="button"
         >
@@ -46,7 +46,7 @@
         />
         <div class="cx-import-entries-select-button">
           <button
-            aria-label="{{'importEntriesDialog.selectFile' | cxTranslate}}"
+            aria-label="{{ 'importEntriesDialog.selectFile' | cxTranslate }}"
             class="btn btn-action"
             type="button"
             (click)="uploadCSV.click()"
@@ -106,14 +106,14 @@
         <div class="cx-import-entries-footer">
           <button
             (click)="close('Close Import Products Dialog')"
-            aria-label="{{'importEntriesDialog.close' | cxTranslate}}"
+            aria-label="{{ 'importEntriesDialog.close' | cxTranslate }}"
             class="btn btn-action"
             type="button"
           >
             {{ 'importEntriesDialog.cancel' | cxTranslate }}
           </button>
           <button
-            aria-label="{{'importEntriesDialog.upload' | cxTranslate}}"
+            aria-label="{{ 'importEntriesDialog.upload' | cxTranslate }}"
             class="btn btn-primary"
             type="button"
             [disabled]="form.invalid"
