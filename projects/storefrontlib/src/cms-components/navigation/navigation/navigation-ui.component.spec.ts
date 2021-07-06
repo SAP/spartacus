@@ -111,7 +111,7 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
-    navigationComponent.config = mockConfig;
+    navigationComponent['config'] = mockConfig;
   });
 
   describe('calculate columns', () => {
@@ -260,7 +260,7 @@ describe('Navigation UI Component', () => {
       const config: NavigationUiConfig = {
         resetMenuOnClose: true,
       };
-      navigationComponent.config = config;
+      navigationComponent['config'] = config;
       spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
       fixture.detectChanges();
       expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
