@@ -152,19 +152,20 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  protected isClickedOnPopover(event) {
-    return this.popoverInstance.location.nativeElement.contains(event.target);
-  }
-
-  protected isClickedOnDirective(event) {
-    return this.triggerElement.nativeElement.contains(event.target);
-  }
   /**
    * Listens for `escape` keydown event.
    */
   @HostListener('keydown.escape')
   escapeKeydown() {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
+  }
+
+  protected isClickedOnPopover(event) {
+    return this.popoverInstance.location.nativeElement.contains(event.target);
+  }
+
+  protected isClickedOnDirective(event) {
+    return this.triggerElement.nativeElement.contains(event.target);
   }
 
   /**

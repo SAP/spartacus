@@ -64,6 +64,11 @@ export class PopoverDirective implements OnInit {
   focusConfig: FocusConfig;
 
   /**
+   * Subject which emits specific type of `PopoverEvent`.
+   */
+  eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
+
+  /**
    * Listen events fired on element binded to popover directive.
    *
    * Based on event type some a11y improvements can be made.
@@ -71,27 +76,6 @@ export class PopoverDirective implements OnInit {
    * dedicated `FocusConfig` can be set to autofocus first
    * focusable element in popover container.
    */
-
-  /**
-   * Subject which emits specific type of `PopoverEvent`.
-   */
-  eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
-
-  @HostListener('keydown.escape')
-  handleEscape(): void {
-    this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
-  }
-
-  @HostListener('click', ['$event'])
-  handleClick(event: MouseEvent): void {
-    event?.preventDefault();
-    if (event?.target === this.element.nativeElement && !this.isOpen) {
-      this.eventSubject.next(PopoverEvent.OPEN);
-    } else if (this.isOpen) {
-      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
-    }
-  }
-
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
   handlePress(event: KeyboardEvent): void {
@@ -109,6 +93,25 @@ export class PopoverDirective implements OnInit {
     if (!this.focusConfig?.trap && this.isOpen) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
     }
+  }
+
+  @HostListener('keydown.escape')
+  handleEscape(): void {
+    this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
+  }
+
+  @HostListener('click', ['$event'])
+  handleClick(event: MouseEvent): void {
+    event?.preventDefault();
+    if (event?.target === this.element.nativeElement && !this.isOpen) {
+      this.eventSubject.next(PopoverEvent.OPEN);
+    } else if (this.isOpen) {
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
+    }
+  }
+
+  ngOnInit() {
+    this.handlePopoverEvents();
   }
 
   /**
@@ -134,28 +137,6 @@ export class PopoverDirective implements OnInit {
     this.viewContainer.clear();
     this.closePopover.emit();
   }
-
-  protected openTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.OPEN,
-    PopoverEvent.OPEN_BY_KEYBOARD,
-  ];
-
-  protected focusPopoverTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.OPEN_BY_KEYBOARD,
-  ];
-
-  protected closeTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.ROUTE_CHANGE,
-    PopoverEvent.ESCAPE_KEYDOWN,
-    PopoverEvent.OUTSIDE_CLICK,
-    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
-    PopoverEvent.CLOSE_BUTTON_CLICK,
-  ];
-
-  protected focusDirectiveTriggerEvents: PopoverEvent[] = [
-    PopoverEvent.ESCAPE_KEYDOWN,
-    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
-  ];
 
   /**
    * Method subscribes for events emitted by popover component
@@ -228,7 +209,25 @@ export class PopoverDirective implements OnInit {
     protected winRef: WindowRef
   ) {}
 
-  ngOnInit() {
-    this.handlePopoverEvents();
-  }
+  protected openTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN,
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected focusPopoverTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.OPEN_BY_KEYBOARD,
+  ];
+
+  protected closeTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ROUTE_CHANGE,
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.OUTSIDE_CLICK,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_CLICK,
+  ];
+
+  protected focusDirectiveTriggerEvents: PopoverEvent[] = [
+    PopoverEvent.ESCAPE_KEYDOWN,
+    PopoverEvent.CLOSE_BUTTON_KEYDOWN,
+  ];
 }
