@@ -247,21 +247,22 @@ function updateValuePrice(
 ) {
   const group: Configurator.Group = getGroup(groups, attributeUiKey);
   if (group) {
-    console.log('found group ID: ' + group?.id);
+    console.log('VPR found group ID: ' + group?.id);
     const attribute: Configurator.Attribute = getAttribute(
       group?.attributes,
       attributeName
     );
     if (attribute) {
-      console.log('found attribute name: ' + attribute.name);
+      console.log('VPR found attribute name: ' + attribute.name);
       attributeSupplement?.valueSupplements?.forEach((valueSupplement) => {
         let value: Configurator.Value = getValue(
           attribute?.values,
           valueSupplement?.attributeValueKey
         );
         if (value) {
-          console.log('found value code: ' + value.valueCode);
-          if (value?.valuePrice) {
+          console.log('VPR found value code: ' + value.valueCode);
+          if (value.valuePrice) {
+            console.log('VPR found existing value price: ' + value.valueCode);
             /**
             console.log(
               'writable: ' +
@@ -270,14 +271,20 @@ function updateValuePrice(
              */
             value.valuePrice = valueSupplement?.priceValue;
           } else {
+            console.log(
+              'VPR value price will be taken from supplement: ' +
+                JSON.stringify(valueSupplement?.priceValue)
+            );
+            //value.valuePrice = valueSupplement.priceValue;
             const newValue = {
               ...value,
               valuePrice: valueSupplement?.priceValue,
             };
+            attribute.values?.push(newValue);
             value = newValue;
           }
 
-          console.log(value);
+          //console.log('VPR value object: ' + JSON.stringify(value));
         }
       });
     }
@@ -309,12 +316,12 @@ export function updateValuePrices(
 ) {
   attributeSupplements?.forEach((attributeSupplement) => {
     const attributeName = getAttributeName(attributeSupplement?.attributeUiKey);
-    console.log('attributeName: ' + attributeName);
+    console.log('VPR attributeName: ' + attributeName);
     const attributeUiKey: string = getKey(
       attributeSupplement?.attributeUiKey,
       attributeName
     );
-    console.log('attributeUiKey: ' + attributeUiKey);
+    console.log('VPR attributeUiKey: ' + attributeUiKey);
     updateValuePrice(
       groups,
       attributeUiKey,
