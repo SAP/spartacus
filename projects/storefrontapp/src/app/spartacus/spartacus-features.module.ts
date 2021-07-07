@@ -6,7 +6,6 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -36,10 +35,6 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  OrderCancellationModule,
-  OrderDetailsModule,
-  OrderHistoryModule,
-  OrderReturnModule,
   PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
@@ -53,10 +48,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderDetailsModule,
-  ReplenishmentOrderHistoryModule,
-  ReturnRequestDetailModule,
-  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -70,7 +61,6 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CpqFeatureModule } from './features/cpq-feature.module';
-import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -83,7 +73,7 @@ const featureModules = [];
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
-    OrderApprovalFeatureModule,
+    //    OrderApprovalFeatureModule,
 
     BulkPricingFeatureModule
   );
@@ -166,15 +156,15 @@ if (environment.cpq) {
     CostCenterOccModule,
 
     // Order
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    OrderOccModule,
+    // OrderHistoryModule,
+    // OrderDetailsModule,
+    // OrderCancellationModule,
+    // OrderReturnModule,
+    // ReturnRequestListModule,
+    // ReturnRequestDetailModule,
+    // ReplenishmentOrderHistoryModule,
+    // ReplenishmentOrderDetailsModule,
+    // OrderOccModule,
 
     // Page Events
     NavigationEventModule,

@@ -1,6 +1,6 @@
 export * from './address-book/index';
 export * from './consent-management/index';
-export * from './order/index';
+//export * from './order/index';
 export * from './payment-methods/payment-methods.component';
 export * from './payment-methods/payment-methods.module';
 export * from './my-coupons/index';
