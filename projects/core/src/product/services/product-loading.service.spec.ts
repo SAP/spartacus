@@ -23,7 +23,7 @@ class MockLoadingScopesService {
     (_: string, scopes: string[]) => scopes
   );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
-  getReloadingTriggers = createSpy('getReloadingTriggers').and.returnValue([
+  getReloadTriggers = createSpy('getReloadingTriggers').and.returnValue([
     MyEvent,
   ]);
 }

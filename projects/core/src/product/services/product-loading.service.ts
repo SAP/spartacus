@@ -173,11 +173,11 @@ export class ProductLoadingService {
       triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
-    const reloadingTriggers$ = this.loadingScopes
-      .getReloadingTriggers('product', scope)
+    const reloadTriggers$ = this.loadingScopes
+      .getReloadTriggers('product', scope)
       .map(this.eventService.get);
 
-    return triggers.concat(reloadingTriggers$);
+    return triggers.concat(reloadTriggers$);
   }
 
   /**

@@ -66,7 +66,7 @@ export class LoadingScopesService {
    * @param scope for which to look up the config
    * @returns the configured triggers, or an empty array if not configured
    */
-  getReloadingTriggers(model: string, scope: string): Type<CxEvent>[] {
+  getReloadTriggers(model: string, scope: string): Type<CxEvent>[] {
     return this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
   }
 }

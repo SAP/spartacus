@@ -115,13 +115,13 @@ describe('LoadingScopesService', () => {
     });
   });
 
-  describe('getReloadingTriggers', () => {
+  describe('getReloadTriggers', () => {
     it('should return an empty array when no triggers are configured', () => {
-      const result = service.getReloadingTriggers('product', 'zczapy');
+      const result = service.getReloadTriggers('product', 'zczapy');
       expect(result.length).toEqual(0);
     });
     it('should return the configured triggers', () => {
-      const result = service.getReloadingTriggers('product', 'detail');
+      const result = service.getReloadTriggers('product', 'detail');
       expect(result.length).toEqual(2);
       expect(result).toEqual([MockEvent1, MockEvent2]);
     });
