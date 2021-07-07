@@ -16,6 +16,7 @@ import {
   SPARTACUS_SCOPE,
 } from '../../../shared/constants';
 import {
+  addPackageJsonDependencies,
   dependencyExists,
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
@@ -179,14 +180,16 @@ function updatePackageJsonDependencies(
   dependencies: NodeDependency[],
   packageJson: any
 ): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const dependenciesToAdd: NodeDependency[] = [];
+
     for (const dependency of dependencies) {
       const currentVersion = getCurrentDependencyVersion(
         dependency,
         packageJson
       );
       if (!currentVersion) {
-        addPackageJsonDependency(tree, dependency);
+        dependenciesToAdd.push(dependency);
         continue;
       }
 
@@ -209,7 +212,8 @@ function updatePackageJsonDependencies(
         `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
       );
     }
-    return tree;
+
+    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
   };
 }
 
