@@ -26,7 +26,7 @@ describe('B2B - Inventory Display', () => {
         const valueSelector = 'cx-add-to-cart .info';
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
-          const expected = '0 ' + sampleData.stockLabel;
+          const expected = sampleData.stockOutOfStockLabel;
           assert.equal(text, expected);
         });
       });
