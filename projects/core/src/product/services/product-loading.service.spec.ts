@@ -23,9 +23,7 @@ class MockLoadingScopesService {
     (_: string, scopes: string[]) => scopes
   );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
-  getReloadTriggers = createSpy('getReloadingTriggers').and.returnValue([
-    MyEvent,
-  ]);
+  getReloadTriggers = createSpy('getReloadTriggers').and.returnValue([MyEvent]);
 }
 
 class MockEventService implements Partial<EventService> {
