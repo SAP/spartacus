@@ -79,7 +79,7 @@ export class ImportService {
       file.size / 1000000 > validityConfig?.maxSize
     ) {
       isFileValid = false;
-      invalidFileInfo.fileTooLarge = true;
+      invalidFileInfo.tooLarge = true;
     }
     if (!validityConfig?.allowedExtensions?.includes(file.type)) {
       isFileValid = false;
@@ -87,7 +87,7 @@ export class ImportService {
     }
     if (validityConfig?.checkEmptyFile && file.size === 0) {
       isFileValid = false;
-      invalidFileInfo.fileEmpty = true;
+      invalidFileInfo.empty = true;
     }
     return { isFileValid, invalidFileInfo };
   }
