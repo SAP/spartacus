@@ -58,7 +58,6 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
-import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
 
@@ -176,7 +175,7 @@ if (environment.cdc) {
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
-    TrackingFeatureModule,
+    // TrackingFeatureModule,
     VariantsFeatureModule,
     ...featureModules,
   ],
