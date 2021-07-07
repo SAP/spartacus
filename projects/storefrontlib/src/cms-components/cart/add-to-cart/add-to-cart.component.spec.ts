@@ -20,7 +20,7 @@ import { AddToCartComponent } from './add-to-cart.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 const mockComponentData: CmsAddToCartComponent = {
-  inventoryDisplay: 'false',
+  inventoryDisplay: false,
 };
 
 const MockCmsComponent = <CmsComponentData<any>>{
