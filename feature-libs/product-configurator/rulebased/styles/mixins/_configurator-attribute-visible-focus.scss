@@ -2,8 +2,6 @@
   .form-check {
     input {
       &:focus {
-        //@include visible-focus();
-
         outline-width: var(--cx-visual-focus-width, 2px);
         outline: 2px auto var(--cx-color-visual-focus);
         outline-style: solid;
