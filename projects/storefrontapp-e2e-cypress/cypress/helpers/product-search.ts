@@ -34,7 +34,7 @@ export const QUERY_ALIAS = {
 };
 
 export function enterProduct() {
-  cy.get('cx-searchbox searchbox.input').type('camera{enter}');
+  cy.get('cx-searchbox input').type('camera{enter}');
 }
 
 export function clickSearchIcon() {
@@ -42,7 +42,7 @@ export function clickSearchIcon() {
 }
 
 export function searchForProduct(product: string) {
-  cy.get('cx-searchbox searchbox.input').type(`${product}{enter}`);
+  cy.get('cx-searchbox input').type(`${product}{enter}`);
 }
 
 export function assertFirstProduct() {
