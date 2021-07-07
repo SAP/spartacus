@@ -21,7 +21,7 @@ describe('B2B - Inventory Display', () => {
         });
       });
 
-      it("should render '0 In Stock' if product out of stock", () => {
+      it("should render 'out of stock' if stock level 0 and inventory display is on", () => {
         visitProduct(sampleData.OUT_OF_STOCK_PRODUCT);
         const valueSelector = 'cx-add-to-cart .info';
         cy.get(valueSelector).should(($ele) => {
