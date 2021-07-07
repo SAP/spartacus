@@ -185,10 +185,12 @@ function updatePackageJsonDependencies(
         dependency,
         packageJson
       );
-      if (
-        !currentVersion ||
-        semver.satisfies(currentVersion, dependency.version)
-      ) {
+      if (!currentVersion) {
+        addPackageJsonDependency(tree, dependency);
+        continue;
+      }
+
+      if (semver.satisfies(currentVersion, dependency.version)) {
         continue;
       }
 
