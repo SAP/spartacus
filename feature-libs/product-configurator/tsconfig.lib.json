@@ -11,7 +11,7 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strict": true, 
+    "strict": true,
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
