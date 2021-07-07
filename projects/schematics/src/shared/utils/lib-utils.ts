@@ -718,7 +718,7 @@ export function installPackageJsonDependencies(): Rule {
 
 export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson?: any
+  packageJson: any
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     for (const dependency of dependencies) {
