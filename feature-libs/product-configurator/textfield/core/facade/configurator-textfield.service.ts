@@ -196,7 +196,7 @@ export class ConfiguratorTextfieldService {
             filter(
               (configuration) => !this.isConfigurationInitial(configuration)
             ),
-            //save to assumem that the configuration exists, see previous filter
+            //save to assume that the configuration exists, see previous filter
             map((configuration) =>
               configuration
                 ? configuration
