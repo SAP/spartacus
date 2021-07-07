@@ -70,6 +70,7 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
+import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CpqFeatureModule } from './features/cpq-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
@@ -191,6 +192,7 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
+    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
