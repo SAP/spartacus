@@ -6,7 +6,7 @@ import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { NEVER, Observable, of, Subject, timer } from 'rxjs';
 import { delay, switchMap, take } from 'rxjs/operators';
-import { CxEvent } from '../../event';
+import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
