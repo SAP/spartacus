@@ -154,9 +154,11 @@ export const common = {
       pattern: 'Use dateformat yyyy-mm-dd',
       invalid: 'Use a valid date',
     },
-    fileEmpty: 'File should not be empty',
-    invalidExtension: 'File extension is not valid',
-    fileTooLarge: 'File size is too large',
+    file: {
+      empty: 'File should not be empty',
+      invalidExtension: 'File extension is not valid',
+      tooLarge: 'File size is too large',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
