@@ -1,10 +1,13 @@
+import { AbstractType } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { NEVER, of, Subject, timer } from 'rxjs';
+import { NEVER, Observable, of, Subject, timer } from 'rxjs';
 import { delay, switchMap, take } from 'rxjs/operators';
+import { CxEvent } from '../../event';
+import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { ProductActions } from '../store/actions/index';
@@ -13,14 +16,22 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
 import createSpy = jasmine.createSpy;
 
+class MyEvent extends CxEvent {}
+
 class MockLoadingScopesService {
   expand = createSpy('expand').and.callFake(
     (_: string, scopes: string[]) => scopes
   );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
-  getReloadingTriggers = createSpy('getReloadingTriggers').and.returnValue(
-    of(1)
-  );
+  getReloadingTriggers = createSpy('getReloadingTriggers').and.returnValue([
+    MyEvent,
+  ]);
+}
+
+class MockEventService implements Partial<EventService> {
+  get<T>(_eventType: AbstractType<T>): Observable<T> {
+    return of();
+  }
 }
 
 describe('ProductLoadingService', () => {
@@ -49,6 +60,10 @@ describe('ProductLoadingService', () => {
         {
           provide: Actions,
           useValue: mockActions,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
         },
       ],
     });
