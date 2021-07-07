@@ -89,6 +89,22 @@ export const productConfigurationWithoutIssues: Configurator.Configuration = {
   flatGroups: [groupsWithoutIssues],
 };
 
+export const attributeRadioButton: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+};
+
+export const attributeCheckbox: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+  groupId: '1',
+  attrCode: 123,
+};
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -97,27 +113,13 @@ export const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_1,
       configurable: true,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      attributes: [
-        {
-          name: ATTRIBUTE_1_CHECKBOX,
-          uiType: Configurator.UiType.CHECKBOXLIST,
-          required: true,
-          incomplete: true,
-        },
-      ],
+      attributes: [attributeCheckbox],
       subGroups: [],
     },
     {
       id: GROUP_ID_2,
       configurable: true,
-      attributes: [
-        {
-          name: 'ATTRIBUTE_2_RADIOBUTTON',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          required: false,
-          incomplete: false,
-        },
-      ],
+      attributes: [attributeRadioButton],
       subGroups: [],
     },
     {

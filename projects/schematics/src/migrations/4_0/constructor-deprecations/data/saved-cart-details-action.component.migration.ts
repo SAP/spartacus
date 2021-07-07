@@ -113,3 +113,49 @@ export const SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2: ConstructorDeprec
     },
   ],
 };
+
+export const SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V3: ConstructorDeprecation = {
+  // feature-libs/cart/saved-cart/components/details/saved-cart-details-action/saved-cart-details-action.component.ts
+  class: SAVED_CART_DETAILS_ACTION_COMPONENT,
+  importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
+  deprecatedParams: [
+    {
+      className: SAVED_CART_DETAILS_SERVICE,
+      importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
+    },
+    {
+      className: SAVED_CART_FACADE,
+      importPath: SPARTACUS_CART_SAVED_CART_ROOT,
+    },
+    {
+      className: ROUTING_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: GLOBAL_MESSAGE_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: VIEW_CONTAINER_REF,
+      importPath: ANGULAR_CORE,
+    },
+    {
+      className: LAUNCH_DIALOG_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
+  removeParams: [
+    {
+      className: SAVED_CART_FACADE,
+      importPath: SPARTACUS_CART_SAVED_CART_ROOT,
+    },
+    {
+      className: ROUTING_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: GLOBAL_MESSAGE_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+  ],
+};

@@ -1,4 +1,3 @@
-import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
@@ -37,6 +36,7 @@ import {
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
 import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
+import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard';
 import { CHECKOUT_EVENT_MODULE_MIGRATION } from './data/checkout-event.module.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
 import {
@@ -71,6 +71,7 @@ import {
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1,
   GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V2,
 } from './data/google-map-renderer.service.migration';
+import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
@@ -108,13 +109,17 @@ import {
 import {
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
+  SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V3,
 } from './data/saved-cart-details-action.component.migration';
 import {
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
 } from './data/saved-cart-details-overview.component.migration';
 import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
-import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
+import {
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V1,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V2,
+} from './data/saved-cart-list.component.migration';
 import { SCHEDULE_COMPONENT_MIGRATION } from './data/schedule.component.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
@@ -131,6 +136,7 @@ import {
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
 } from './data/toggle-status.component.migration';
+import { UNIT_ADDRESS_FORM_SERVICE_MIGRATION } from './data/unit-address-form.service.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
@@ -138,7 +144,7 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
-import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
+import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -181,7 +187,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ADDRESS_FORM_COMPONENT_MIGRATION,
   USER_ADDRESS_SERVICE_MIGRATION,
   CHECKOUT_EVENT_MODULE_MIGRATION,
-  SAVED_CART_LIST_COMPONENT_MIGRATION,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V1,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V2,
   SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION,
   QUALTRICS_LOADER_SERVICE_MIGRATION,
   LOGIN_REGISTER_COMPONENT_MIGRATION,
@@ -197,6 +204,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   REPLENISHMENT_ORDER_HISTORY_COMPONENT_MIGRATION_V2,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
+  SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V3,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
   DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
@@ -243,8 +251,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   MODAL_SERVICE_MIGRATION_V2,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2,
+  CHECKOUT_AUTH_GUARD_MIGRATION,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
+  POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
