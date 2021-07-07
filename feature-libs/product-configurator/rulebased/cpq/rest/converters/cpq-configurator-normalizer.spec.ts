@@ -11,6 +11,7 @@ const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
 
 const cpqValuePavId = 1;
 const cpqValueCode = 'VALUE_CODE';
+const cpqValueCode2 = 'VALUE_CODE2';
 const cpqValueDisplay = 'VALUE_DISPLAY';
 const cpqValueDescription = 'VALUE_DESCRIPTION';
 const cpqValueProductSystemId = 'VALUE_PRODUCT_SYSTEM_ID';
@@ -217,9 +218,9 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.totalNumberOfIssues).toBe(0);
     expect(result.groups.length).toBe(2);
     expect(result.groups[0].id).toBe(cpqGroupId.toString());
-    expect(result.groups[0].attributes.length).toBe(1);
+    expect(result.groups[0].attributes?.length).toBe(1);
     expect(result.groups[1].id).toBe(cpqGroupId2.toString());
-    expect(result.groups[1].attributes.length).toBe(0);
+    expect(result.groups[1].attributes?.length).toBe(0);
     expect(result.priceSummary?.currentTotal?.formattedValue).toBe('$3,333.33');
     expect(result.priceSummary?.basePrice?.formattedValue).toBe('$1,000.00');
     expect(result.priceSummary?.selectedOptions?.formattedValue).toBe(
@@ -383,7 +384,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
     const values = attribute.values;
-    expect(values.length).toBe(2);
+    expect(values?.length).toBe(2);
   });
 
   it('should convert attributes with values - with many sysId', () => {
@@ -420,7 +421,7 @@ describe('CpqConfiguratorNormalizer', () => {
     });
 
     const values = attribute.values;
-    expect(values.length).toBe(2);
+    expect(values?.length).toBe(2);
   });
 
   it('should convert attributes with values - with only 1 sysId', () => {
@@ -460,7 +461,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
     const values = attribute.values;
-    expect(values.length).toBe(2);
+    expect(values?.length).toBe(2);
   });
 
   it('should convert attributes without values', () => {
@@ -483,14 +484,14 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.required).toBe(cpqAttributeRequired2);
     expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem2);
     expect(attribute.uiType).toBe(Configurator.UiType.STRING);
-    expect(attribute.selectedSingleValue).toBeNull();
+    expect(attribute.selectedSingleValue).toBeUndefined();
     expect(attribute.groupId).toBe(cpqGroupId.toString());
     expect(attribute.userInput).toBe(cpqAttributeUserInput2);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
     expect(attribute.incomplete).toBe(false);
 
     const values = attribute.values;
-    expect(values.length).toBe(0);
+    expect(values?.length).toBe(undefined);
   });
 
   it('should use attribute name when attribute label is not available', () => {
@@ -532,8 +533,12 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(group.consistent).toBe(true);
     expect(group.groupType).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
     expect(group.subGroups.length).toBe(0);
-    expect(group.attributes.length).toBe(1);
-    expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
+    expect(group.attributes?.length).toBe(1);
+    if (group.attributes) {
+      expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
+    } else {
+      fail();
+    }
   });
 
   it('should convert a generic group', () => {
@@ -558,8 +563,12 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(group.consistent).toBe(true);
     expect(group.groupType).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
     expect(group.subGroups.length).toBe(0);
-    expect(group.attributes.length).toBe(1);
-    expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
+    expect(group.attributes?.length).toBe(1);
+    if (group.attributes) {
+      expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
+    } else {
+      fail();
+    }
   });
 
   describe('attribute with at least one value containing sysId', () => {
@@ -847,12 +856,12 @@ describe('CpqConfiguratorNormalizer', () => {
 
   it('should set incomplete by checkbox, checkboxlist and multi-selection-image type correctly', () => {
     const valuesWOSelectedOne: Configurator.Value[] = [
-      { name: 'name1', selected: false },
-      { name: 'name2', selected: false },
+      { name: 'name1', selected: false, valueCode: cpqValueCode },
+      { name: 'name2', selected: false, valueCode: cpqValueCode2 },
     ];
     const valuesWithSelectedOne: Configurator.Value[] = [
-      { name: 'name1', selected: true },
-      { name: 'name2', selected: false },
+      { name: 'name1', selected: true, valueCode: cpqValueCode },
+      { name: 'name2', selected: false, valueCode: cpqValueCode2 },
     ];
     const attributeCheckboxWOValue: Configurator.Attribute = {
       name: 'ATTRIBUTE_NAME',
@@ -998,7 +1007,7 @@ describe('CpqConfiguratorNormalizer', () => {
     const mappedConfiguration = cpqConfiguratorNormalizer.convert(
       cpqConfigurationIncompleteInconsistent
     );
-    expect(mappedConfiguration.errorMessages.length).toBe(2);
+    expect(mappedConfiguration.errorMessages?.length).toBe(2);
 
     checkMessagePresent(mappedConfiguration.errorMessages, ERROR_MSG);
     checkMessagePresent(mappedConfiguration.errorMessages, INVALID_MSG);
@@ -1008,14 +1017,16 @@ describe('CpqConfiguratorNormalizer', () => {
     const mappedConfiguration = cpqConfiguratorNormalizer.convert(
       cpqConfigurationIncompleteInconsistent
     );
-    expect(mappedConfiguration.warningMessages.length).toBe(2);
+    expect(mappedConfiguration.warningMessages?.length).toBe(2);
     checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
     checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
   });
 
-  function checkMessagePresent(messages: string[], expectedMsg: string) {
-    expect(messages.includes(expectedMsg)).toBeTruthy(
-      `message '${expectedMsg}' not found in message list '${messages}'`
-    );
+  function checkMessagePresent(messages?: string[], expectedMsg?: string) {
+    if (messages && expectedMsg) {
+      expect(messages.includes(expectedMsg)).toBeTruthy();
+    } else {
+      fail();
+    }
   }
 });

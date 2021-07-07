@@ -444,6 +444,15 @@ function checkConstructorParameters(
 
       if (constructorParameterType.length !== 0) {
         foundClassTypes.push(parameterClassType);
+        /*
+        the break is needed to cope with multiple parameters of one type,
+        e.g. constructor migrations for
+       constructor(
+          protected cartStore: Store<StateWithMultiCart>,
+          protected store: Store<StateWithConfigurator>,
+          protected configuratorUtilsService: ConfiguratorUtilsService
+        ) {}    */
+        break;
       }
     }
   }
@@ -663,7 +672,7 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    if (constructorParameter.getText().includes(classType.className)) {
+    if (getClassName(constructorParameter) === classType.className) {
       const paramVariableNode = constructorParameter
         .getChildren()
         .find((node) => node.kind === ts.SyntaxKind.Identifier);
@@ -675,6 +684,16 @@ function getParamName(
   }
 
   return undefined;
+}
+
+function getClassName(constructorParameter: ts.Node): string | undefined {
+  const identifierNode = constructorParameter
+    .getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.TypeReference)
+    ?.getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.Identifier);
+
+  return identifierNode ? identifierNode.getText() : undefined;
 }
 
 function shouldRemoveImportAndParam(

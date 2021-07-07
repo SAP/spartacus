@@ -11,3 +11,7 @@ export abstract class SiteContextConfig {
     [contextName: string]: string[] | undefined;
   };
 }
+
+declare module '../../config/config-tokens' {
+  interface Config extends SiteContextConfig {}
+}

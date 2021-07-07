@@ -48,12 +48,18 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   protected assembleSingleValue(): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
+    const value = this.attribute.values ? this.attribute.values[0] : undefined;
+    //we can assume that for this component, value is always present
+    if (value) {
+      const localAttributeValue: Configurator.Value = {
+        valueCode: value.valueCode,
+      };
 
-    const localAttributeValue: Configurator.Value = {};
-    localAttributeValue.valueCode = this.attribute.values[0].valueCode;
-    localAttributeValue.name = this.attribute.values[0].name;
-    localAttributeValue.selected = this.attributeCheckBoxForm.value;
-    localAssembledValues.push(localAttributeValue);
+      localAttributeValue.name = value.name;
+      localAttributeValue.selected = this.attributeCheckBoxForm.value;
+      localAssembledValues.push(localAttributeValue);
+    }
+
     return localAssembledValues;
   }
 }
