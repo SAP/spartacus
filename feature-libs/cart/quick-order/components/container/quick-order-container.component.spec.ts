@@ -31,6 +31,12 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
+class MockQuickOrderStatePersistenceService
+  implements Partial<QuickOrderStatePersistenceService> {
+  getProductsList(): any {}
+  initSync(): void {}
+}
+
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
@@ -44,7 +50,11 @@ describe('QuickOrderComponent', () => {
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: QuickOrderService, useClass: MockQuickOrderService },
-        QuickOrderStatePersistenceService,
+        {
+          provide: QuickOrderStatePersistenceService,
+          useClass: MockQuickOrderStatePersistenceService,
+        },
+        ,
       ],
     }).compileComponents();
 

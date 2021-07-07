@@ -47,9 +47,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     this.quickOrderService.search(productCode).subscribe(
       (product: Product) => {
+        console.log('success', product);
         this.quickOrderService.addProduct(product);
       },
       (error: HttpErrorResponse) => {
+        console.log('error', error);
         this.globalMessageService.add(
           error.error.errors[0].message,
           GlobalMessageType.MSG_TYPE_ERROR
