@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -22,6 +24,11 @@ class MockGenericLinkComponent {
   @Input() url: string | any[];
   @Input() target: string;
   @Input() title: string;
+}
+
+class MockHamburgerMenuService {
+  isExpanded = of(true);
+  toggle(_forceCollapse?: boolean): void {}
 }
 
 const childLength = 9;
@@ -85,7 +92,12 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [],
+      providers: [
+        {
+          provide: HamburgerMenuService,
+          useClass: MockHamburgerMenuService,
+        },
+      ],
     }).compileComponents();
   });
   beforeEach(() => {
@@ -94,6 +106,7 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
+    navigationComponent['resetMenuOnClose'] = false;
   });
 
   describe('calculate columns', () => {
@@ -236,6 +249,19 @@ describe('Navigation UI Component', () => {
         By.css('nav div .childs nav')
       );
       expect(child.length).toEqual(7);
+    });
+
+    it('should reinitialize menu, when menu is expanded', () => {
+      navigationComponent['resetMenuOnClose'] = true;
+      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      fixture.detectChanges();
+      expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
+    });
+
+    it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
+      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      fixture.detectChanges();
+      expect(navigationComponent.reinitalizeMenu).not.toHaveBeenCalled();
     });
   });
 });

@@ -6,13 +6,13 @@ export namespace ConfiguratorTextfield {
    */
   export interface Configuration {
     configurationInfos: ConfigurationInfo[];
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
   }
   /**
    * Represents a textfield configuration attribute. Carries a label, an alphanumeric value and a status
    */
   export interface ConfigurationInfo {
-    configurationLabel?: string;
+    configurationLabel: string;
     configurationValue?: string;
     status?: ConfigurationStatus;
   }

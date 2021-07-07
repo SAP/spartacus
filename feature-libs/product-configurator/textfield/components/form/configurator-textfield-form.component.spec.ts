@@ -7,7 +7,10 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
@@ -32,6 +35,7 @@ const mockRouterState: any = {
 };
 const productConfig: ConfiguratorTextfield.Configuration = {
   configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
