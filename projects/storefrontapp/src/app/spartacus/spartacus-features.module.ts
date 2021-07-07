@@ -52,7 +52,6 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  WishListModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
@@ -150,7 +149,6 @@ if (environment.cpq) {
     // Cart UI
     // CartComponentModule,
     CartSharedModule,
-    WishListModule,
 
     // Cost Center
     CostCenterOccModule,
