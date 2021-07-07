@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
-  CartModule,
-  CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
   ProductModule,
@@ -19,7 +17,6 @@ import {
   BannerModule,
   BreadcrumbModule,
   CartPageEventModule,
-  CartSharedModule,
   CategoryNavigationModule,
   CmsParagraphModule,
   ConsentManagementModule,
@@ -59,7 +56,6 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { CpqFeatureModule } from './features/cpq-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -83,9 +79,9 @@ if (environment.cdc) {
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-if (environment.cpq) {
-  featureModules.push(CpqFeatureModule);
-}
+// if (environment.cpq) {
+//   featureModules.push(CpqFeatureModule);
+// }
 
 @NgModule({
   imports: [
@@ -143,12 +139,12 @@ if (environment.cpq) {
     ProductSummaryModule,
     ProductIntroModule,
 
-    // Cart Core
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI
-    // CartComponentModule,
-    CartSharedModule,
+    // // Cart Core
+    // CartModule.forRoot(),
+    // CartOccModule,
+    // // Cart UI
+    // // CartComponentModule,
+    // CartSharedModule,
 
     // Cost Center
     CostCenterOccModule,
