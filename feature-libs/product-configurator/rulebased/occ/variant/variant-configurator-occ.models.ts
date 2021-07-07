@@ -33,9 +33,9 @@ export namespace OccConfigurator {
   }
 
   export interface PriceDetails {
-    currencyIso?: string;
+    currencyIso: string;
     formattedValue?: string;
-    value?: number;
+    value: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {
@@ -50,7 +50,7 @@ export namespace OccConfigurator {
     attributes?: Attribute[];
     description?: string;
     groupType: GroupType;
-    id?: string;
+    id: string;
     name?: string;
     subGroups?: Group[];
   }
@@ -74,7 +74,7 @@ export namespace OccConfigurator {
   }
 
   export interface Value {
-    key?: string;
+    key: string;
     name?: string;
     langDepName?: string;
     readonly?: boolean;
