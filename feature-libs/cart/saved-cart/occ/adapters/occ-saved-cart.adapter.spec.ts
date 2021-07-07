@@ -133,4 +133,23 @@ describe('OccSavedCartAdapter', () => {
       expect(converterService.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
     });
   });
+
+  describe('should clone a saved cart from cloneSavedCart endpoint', () => {
+    it('should clone a saved cart', () => {
+      adapter
+        .cloneSavedCart(mockUserId, mockCartId)
+        .subscribe((data) =>
+          expect(data).toEqual(mockSavedCartResult.savedCartData)
+        );
+
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'POST' && req.url === `/cloneSavedCart`
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockSavedCartResult);
+      expect(converterService.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
+    });
+  });
 });

@@ -20,3 +20,7 @@ export enum SkipLinkScrollPosition {
   BEFORE = 'BEFORE',
   AFTER = 'AFTER',
 }
+
+declare module '@spartacus/core' {
+  interface Config extends SkipLinkConfig {}
+}

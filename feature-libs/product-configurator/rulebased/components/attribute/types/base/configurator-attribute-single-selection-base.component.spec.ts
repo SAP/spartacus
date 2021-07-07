@@ -11,6 +11,7 @@ const createTestValue = (
   total: number | undefined,
   selected = true
 ): Configurator.Value => ({
+  valueCode: 'a',
   selected,
   valuePrice: {
     currencyIso: '$',
@@ -73,7 +74,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     component = fixture.componentInstance;
 
     component.attribute = {
-      name: name,
+      name: 'attrName',
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       selectedSingleValue: selectedValue,

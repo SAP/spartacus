@@ -18,3 +18,7 @@ export abstract class ViewConfig {
     };
   };
 }
+
+declare module '@spartacus/core' {
+  interface Config extends ViewConfig {}
+}

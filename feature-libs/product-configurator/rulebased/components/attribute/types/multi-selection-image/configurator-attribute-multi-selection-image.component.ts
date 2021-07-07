@@ -33,14 +33,17 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attributeCheckBoxForms = new Array<FormControl>();
 
   ngOnInit() {
-    for (const value of this.attribute.values) {
-      let attributeCheckBoxForm: FormControl;
-      if (value.selected === true) {
-        attributeCheckBoxForm = new FormControl(true);
-      } else {
-        attributeCheckBoxForm = new FormControl(false);
+    const values = this.attribute.values;
+    if (values) {
+      for (const value of values) {
+        let attributeCheckBoxForm: FormControl;
+        if (value.selected) {
+          attributeCheckBoxForm = new FormControl(true);
+        } else {
+          attributeCheckBoxForm = new FormControl(false);
+        }
+        this.attributeCheckBoxForms.push(attributeCheckBoxForm);
       }
-      this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
   }
 

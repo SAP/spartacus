@@ -25,6 +25,8 @@ export enum PopoverEvent {
   CLOSE_BUTTON_CLICK = 'closeButtonClick',
   CLOSE_BUTTON_KEYDOWN = 'closeButtonKeydown',
   ROUTE_CHANGE = 'routeChange',
+  OPEN = 'open',
+  OPEN_BY_KEYBOARD = 'openByKeyboard',
 }
 
 export interface PopoverOptions {
