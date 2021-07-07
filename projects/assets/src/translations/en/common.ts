@@ -155,9 +155,9 @@ export const common = {
       invalid: 'Use a valid date',
     },
     file: {
-      empty: 'File should not be empty',
-      invalidExtension: 'File extension is not valid',
-      tooLarge: 'File size is too large',
+      empty: 'File should not be empty.',
+      invalidExtension: 'File extension is not valid.',
+      tooLarge: 'File size is too large.',
     },
   },
   errorHandlers: {
