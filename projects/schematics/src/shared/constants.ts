@@ -299,6 +299,10 @@ export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const POPOVER_COMPONENT = 'PopoverComponent';
+export const POPOVER_DIRECTIVE = 'PopoverDirective';
+export const POPOVER_SERVICE = 'PopoverService';
+export const POSITIONING_SERVICE = 'PositioningService';
 export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
@@ -926,6 +930,9 @@ export const INCREMENT = 'increment';
 export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
 export const ORDER_PROMOTIONS$ = 'orderPromotions$';
+export const INSIDE_CLICKED = 'insideClicked';
+export const HANDLE_OPEN = 'handleOpen';
+export const TOGGLE = 'toggle';
 
 export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
