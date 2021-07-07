@@ -23,15 +23,14 @@ export class ConfiguratorCartEntryBundleInfoService {
     if (entry?.configurationInfos) {
       const configurationInfos: ConfigurationInfo[] = entry.configurationInfos.filter(
         (configurationInfo) =>
-          configurationInfo.configurationLabel ||
-          configurationInfo.configurationValue
+          configurationInfo &&
+          (configurationInfo.configurationLabel ||
+            configurationInfo.configurationValue)
       );
-      const firstLabel: string = configurationInfos[0].configurationLabel
-        ? configurationInfos[0].configurationLabel
-        : '';
-      const firstValue: string = configurationInfos[0].configurationValue
-        ? configurationInfos[0].configurationValue
-        : '';
+      const firstLabel: string =
+        configurationInfos[0]?.configurationLabel ?? '';
+      const firstValue: string =
+        configurationInfos[0]?.configurationValue ?? '';
 
       if (firstLabel !== ConfigurationInfoSpecialFields.VERSION) {
         configurationInfos.forEach((configurationInfo) =>
@@ -155,13 +154,15 @@ export class ConfiguratorCartEntryBundleInfoService {
     lineItemMap: Map<number, LineItem>,
     lineItemNumber: number
   ): LineItem {
-    return (
-      lineItemMap.get(lineItemNumber) ?? {
-        name: '',
-        formattedQuantity: '',
-        formattedPrice: '',
-      }
-    );
+    const lineItem: LineItem = lineItemMap.get(lineItemNumber) ?? {
+      name: '',
+      formattedQuantity: '',
+      formattedPrice: '',
+    };
+    if (!lineItemMap.get(lineItemNumber)) {
+      lineItemMap.set(lineItemNumber, lineItem);
+    }
+    return lineItem;
   }
 
   protected logWarning(text: string): void {
