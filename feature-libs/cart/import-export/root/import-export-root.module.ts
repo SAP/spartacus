@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { ImportToCartService } from '../components/public_api';
+import { ImportToCartService } from '@spartacus/cart/import-export/components';
 
 @NgModule({
   providers: [
