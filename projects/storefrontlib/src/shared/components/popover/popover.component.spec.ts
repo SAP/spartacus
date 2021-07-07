@@ -8,6 +8,7 @@ import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
+import { Subject } from 'rxjs';
 
 const mockPopoverPosition = 'top';
 
@@ -15,7 +16,7 @@ const mockPopoverProperties = {
   content: 'Test content',
   customClass: 'test-class',
   displayCloseButton: true,
-  triggerElement: new ElementRef('a'),
+  triggerElement: new ElementRef(document.createElement('a')),
 };
 
 class MockPositionService {
@@ -50,7 +51,7 @@ describe('PopoverComponent', () => {
     component.customClass = mockPopoverProperties.customClass;
     component.triggerElement = mockPopoverProperties.triggerElement;
     component.displayCloseButton = mockPopoverProperties.displayCloseButton;
-
+    component.eventSubject = new Subject<PopoverEvent>();
     component.ngOnInit();
 
     fixture.detectChanges();
@@ -117,7 +118,7 @@ describe('PopoverComponent', () => {
 
     fixture.debugElement
       .query(By.css('button.close'))
-      .triggerEventHandler('keydown.enter', null);
+      .triggerEventHandler('keydown.enter', new Event('keydown'));
     fixture.detectChanges();
   });
 

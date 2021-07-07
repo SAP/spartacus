@@ -69,6 +69,8 @@ describe('PopoverDirective', () => {
   });
 
   it('should open/close popover on button click', () => {
+    fixture.detectChanges();
+
     getPopoverOpener().nativeElement.click();
     expect(getPopoverComponent()).toBeTruthy();
 
@@ -138,6 +140,8 @@ describe('PopoverDirective', () => {
   });
 
   it('should call passed method on popover `close` event', () => {
+    fixture.detectChanges();
+
     getPopoverOpener().nativeElement.click();
     const spy = spyOn(component, 'close');
     fixture.detectChanges();

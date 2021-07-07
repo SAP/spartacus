@@ -85,6 +85,7 @@ import {
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
+import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
@@ -110,13 +111,17 @@ import {
 import {
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
+  SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V3,
 } from './data/saved-cart-details-action.component.migration';
 import {
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
 } from './data/saved-cart-details-overview.component.migration';
 import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
-import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
+import {
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V1,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V2,
+} from './data/saved-cart-list.component.migration';
 import { SCHEDULE_COMPONENT_MIGRATION } from './data/schedule.component.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
@@ -183,7 +188,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ADDRESS_FORM_COMPONENT_MIGRATION,
   USER_ADDRESS_SERVICE_MIGRATION,
   CHECKOUT_EVENT_MODULE_MIGRATION,
-  SAVED_CART_LIST_COMPONENT_MIGRATION,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V1,
+  SAVED_CART_LIST_COMPONENT_MIGRATION_V2,
   SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION,
   QUALTRICS_LOADER_SERVICE_MIGRATION,
   LOGIN_REGISTER_COMPONENT_MIGRATION,
@@ -199,6 +205,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   REPLENISHMENT_ORDER_HISTORY_COMPONENT_MIGRATION_V2,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
+  SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V3,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
   DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
@@ -249,6 +256,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
   LOADING_SCOPES_SERVICE_MIGRATION,
+  POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
