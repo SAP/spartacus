@@ -67,15 +67,13 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     );
   }
 
-  getDateSaved(saveTime: string): Observable<Card> {
+  getDateSaved(saveTime: string | null): Observable<Card> {
     return this.translation.translate('savedCartDetails.dateSaved').pipe(
       filter(() => Boolean(saveTime)),
       map((textTitle) => {
-        const date = this.getDate(new Date(saveTime));
-
         return {
           title: textTitle,
-          text: [date],
+          text: [saveTime ?? ''],
         };
       })
     );
@@ -122,16 +120,6 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
-  }
-
-  private getDate(givenDate: Date): string {
-    const date = givenDate.toDateString().split(' ');
-
-    const month = date[1];
-    const day = date[2];
-    const year = date[3];
-
-    return month + ' ' + day + ' ' + year;
   }
 
   ngOnDestroy(): void {
