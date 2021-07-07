@@ -8,11 +8,15 @@ import { FileValidity } from '../model/import-to-cart.model';
   useExisting: Config,
 })
 export abstract class ImportExportConfig {
-  importExport: {
+  importExport?: {
     fileValidity?: FileValidity;
     file: { separator: string };
     export?: {
       additionalColumns?: ExportColumn[];
     };
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends ImportExportConfig {}
 }
