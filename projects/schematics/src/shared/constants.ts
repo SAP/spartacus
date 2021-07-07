@@ -1014,6 +1014,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
 export const GO = 'go';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';
