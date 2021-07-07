@@ -13,12 +13,23 @@
     }
   }
 
-  .cx-attribute-label {
+  .cx-attribute-price-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     color: var(--cx-color-secondary);
-    width: 100%;
+    width: 60%;
 
-    @include media-breakpoint-up(md) {
-      width: 60%;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      align-items: flex-start;
+      padding-block-start: 5px;
+    }
+
+    .cx-attribute-label {
+      padding-inline-end: 10px;
     }
   }
 }
