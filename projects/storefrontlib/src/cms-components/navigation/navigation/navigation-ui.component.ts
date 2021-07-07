@@ -10,7 +10,6 @@ import {
   Renderer2,
   OnInit,
 } from '@angular/core';
-
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
