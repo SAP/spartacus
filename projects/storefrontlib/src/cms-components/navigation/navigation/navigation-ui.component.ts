@@ -18,7 +18,6 @@ import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { NavigationUiConfig } from './config/navigation-ui-config';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -35,6 +34,12 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * The number of child nodes that must be wrapped.
    */
   @Input() wrapAfter: number;
+
+  /**
+   * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
+   */
+  @Input() resetMenuOnClose: boolean;
+
   /**
    * the icon type that will be used for navigation nodes
    * with children.
@@ -63,7 +68,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    protected config: NavigationUiConfig,
     protected hamburgerMenuService: HamburgerMenuService
   ) {
     this.subscriptions.add(
@@ -82,7 +86,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
    */
   ngOnInit() {
-    if (this.config?.resetMenuOnClose) {
+    if (this.resetMenuOnClose) {
       this.resetOnMenuCollapse();
     }
   }

@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { NavigationUiConfig } from './config/navigation-ui-config';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { of } from 'rxjs';
 
@@ -31,10 +30,6 @@ class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
 }
-
-const mockConfig: NavigationUiConfig = {
-  resetMenuOnClose: false,
-};
 
 const childLength = 9;
 
@@ -111,9 +106,8 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
-    navigationComponent['config'] = mockConfig;
+    navigationComponent['resetMenuOnClose'] = false;
   });
-
   describe('calculate columns', () => {
     beforeEach(() => {
       navigationComponent.wrapAfter = 5;
@@ -257,10 +251,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should reinitialize menu, when menu is expanded', () => {
-      const config: NavigationUiConfig = {
-        resetMenuOnClose: true,
-      };
-      navigationComponent['config'] = config;
+      navigationComponent['resetMenuOnClose'] = true;
       spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
       fixture.detectChanges();
       expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
