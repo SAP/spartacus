@@ -101,7 +101,7 @@ describe('missing packages', () => {
     writeFile(host, '/src/index.ts', fileWithAsmImport);
 
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-    expect(loggerSpy).toHaveBeenCalledWith('ASM package missing');
+    expect(loggerSpy).toHaveBeenCalledWith('ASM package missing\n');
   });
 
   it('should not log when package is not used and not present in package.json', async () => {
@@ -122,6 +122,6 @@ describe('missing packages', () => {
     writeFile(host, '/src/index.ts', fileWithAsmEntryPointImport);
 
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-    expect(loggerSpy).toHaveBeenCalledWith('ASM package missing');
+    expect(loggerSpy).toHaveBeenCalledWith('ASM package missing\n');
   });
 });
