@@ -804,7 +804,7 @@ export function dependencyExists(
   dependency: NodeDependency,
   packageJson: any
 ): boolean {
-  return packageJson[dependency.type].hasOwnProperty(dependency.name);
+  return packageJson[dependency.type]?.hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
