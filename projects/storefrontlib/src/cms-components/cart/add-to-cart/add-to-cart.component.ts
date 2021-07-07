@@ -5,17 +5,24 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
+import {
+  ActiveCartService,
+  isNotNullable,
+  Product,
+  CmsAddToCartComponent as model,
+} from '@spartacus/core';
+
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import { InventoryDisplayConfig } from './config/inventory-display.config';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -64,11 +71,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    protected config: InventoryDisplayConfig
+    @Optional() protected componentData?: CmsComponentData<model>
   ) {}
 
   ngOnInit() {
-    this.showInventory = this.config?.showInventory ?? false;
+    this.componentData?.data$.subscribe((data: model) => {
+      if (data.inventoryDisplay && data.inventoryDisplay === 'true') {
+        this.showInventory = true;
+      }
+    });
 
     if (this.product) {
       this.productCode = this.product.code ?? '';

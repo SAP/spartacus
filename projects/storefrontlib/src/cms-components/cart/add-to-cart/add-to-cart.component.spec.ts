@@ -10,16 +10,21 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
+  CmsAddToCartComponent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
-import { InventoryDisplayConfig } from './config/inventory-display.config';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
-const mockInventoryDisplayConfig: InventoryDisplayConfig = {
-  showInventory: true,
+const mockComponentData: CmsAddToCartComponent = {
+  inventoryDisplay: 'false',
+};
+
+const MockCmsComponent = <CmsComponentData<any>>{
+  data$: of(mockComponentData),
 };
 
 const productCode = '1234';
@@ -111,6 +116,10 @@ describe('AddToCartComponent', () => {
           {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponent,
           },
         ],
       }).compileComponents();
@@ -274,7 +283,6 @@ describe('AddToCartComponent', () => {
       };
 
       addToCartComponent.productCode = productCode;
-      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.product = currentMockProduct;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
@@ -310,7 +318,6 @@ describe('AddToCartComponent', () => {
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
-      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
@@ -344,7 +351,6 @@ describe('AddToCartComponent', () => {
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
-      addToCartComponent['config'] = mockInventoryDisplayConfig;
       addToCartComponent.showInventory = true;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
