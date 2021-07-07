@@ -171,3 +171,8 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   searchResult?: string;
   minPerFacet?: string;
 }
+
+//Config used to control inventory display
+export interface CmsAddToCartComponent extends CmsComponent {
+  inventoryDisplay?: string;
+}
