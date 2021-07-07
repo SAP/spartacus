@@ -54,7 +54,13 @@ export class ConfiguratorTextfieldService {
       map((configurationState) => configurationState.loaderState.value),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
       //save to assume configuration is defined, see previous filter
-      map((configuration) => configuration ?? { configurationInfos: [] })
+      map(
+        (configuration) =>
+          configuration ?? {
+            configurationInfos: [],
+            owner: ConfiguratorModelUtils.createInitialOwner(),
+          }
+      )
     );
   }
 
@@ -72,14 +78,16 @@ export class ConfiguratorTextfieldService {
         take(1)
       )
       .subscribe((oldConfiguration) => {
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.UpdateConfiguration(
-            this.createNewConfigurationWithChange(
-              changedAttribute,
-              oldConfiguration
+        if (oldConfiguration) {
+          this.store.dispatch(
+            new ConfiguratorTextfieldActions.UpdateConfiguration(
+              this.createNewConfigurationWithChange(
+                changedAttribute,
+                oldConfiguration
+              )
             )
-          )
-        );
+          );
+        }
       });
   }
 
@@ -187,6 +195,15 @@ export class ConfiguratorTextfieldService {
             ),
             filter(
               (configuration) => !this.isConfigurationInitial(configuration)
+            ),
+            //save to assumem that the configuration exists, see previous filter
+            map((configuration) =>
+              configuration
+                ? configuration
+                : {
+                    configurationInfos: [],
+                    owner: ConfiguratorModelUtils.createInitialOwner(),
+                  }
             )
           )
       )

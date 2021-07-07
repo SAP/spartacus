@@ -47,6 +47,7 @@ const configuration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -110,7 +111,10 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
   it('should call createTextfieldConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
-      .createConfiguration(productCode, null)
+      .createConfiguration(
+        productCode,
+        ConfiguratorModelUtils.createInitialOwner()
+      )
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
