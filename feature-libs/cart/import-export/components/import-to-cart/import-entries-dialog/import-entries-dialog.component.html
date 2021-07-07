@@ -57,7 +57,10 @@
             {{ selectedFile.name }}
           </p>
         </div>
-        <cx-form-errors [control]="form.get('file')"></cx-form-errors>
+        <cx-form-errors
+          [control]="form.get('file')"
+          prefix="formErrors.file"
+        ></cx-form-errors>
 
         <div class="cx-import-entries-row">
           <ng-container>
