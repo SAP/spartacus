@@ -6,6 +6,16 @@ describe('B2B - Inventory Display', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+
+      cy.cxConfig({
+        cmsComponents: {
+          ProductAddToCartComponent: {
+            data: {
+              inventoryDisplay: true,
+            },
+          },
+        },
+      });
     });
 
     describe('Check inventory display', () => {
