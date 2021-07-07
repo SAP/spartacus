@@ -145,6 +145,7 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
+import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -255,6 +256,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_AUTH_GUARD_MIGRATION,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
+  POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
