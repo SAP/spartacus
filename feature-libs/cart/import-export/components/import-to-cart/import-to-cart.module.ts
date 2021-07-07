@@ -1,25 +1,40 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { ImportToCartComponent } from './import-to-cart.component';
-import { ImportToCartService } from './import-to-cart.service';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  provideConfig,
+} from '@spartacus/core';
+import { ImportEntriesComponent } from './import-entries/import-entries-component';
+import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormErrorsModule,
+  IconModule,
+  KeyboardFocusModule,
+} from '@spartacus/storefront';
+import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
 
 @NgModule({
   imports: [
     CommonModule,
     I18nModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    IconModule,
+    KeyboardFocusModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ImportProductsLinkComponent: {
-          component: ImportToCartComponent,
+        ImportProductsComponent: {
+          component: ImportEntriesComponent,
         },
       },
     }),
   ],
-  exports: [ImportToCartComponent],
-  declarations: [ImportToCartComponent],
-  entryComponents: [ImportToCartComponent],
-  providers: [ImportToCartService, SavedCartService],
+  declarations: [ImportEntriesComponent, ImportEntriesDialogComponent],
+  exports: [ImportEntriesComponent, ImportEntriesDialogComponent],
+  providers: [provideConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportToCartModule {}

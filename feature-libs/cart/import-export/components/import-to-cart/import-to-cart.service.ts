@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import {
   Cart,
   MultiCartService,
@@ -7,59 +7,53 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import {
-  ProductsData,
-  ImportService,
-} from '@spartacus/cart/import-export/core';
+import { ProductsData } from '@spartacus/cart/import-export/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
     protected savedCartService: SavedCartService,
-    protected importService: ImportService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
-  loadProductsToCart(file: FileList) {
-    this.importService
-      .loadFile(file)
+  loadProductsToCart(
+    productsData: string[][],
+    savedCartInfo: { name: string; description?: string }
+  ) {
+    const products = this.csvDataToProduct(productsData);
+
+    this.userIdService
+      .takeUserId()
       .pipe(
-        map((productsData: string[][]) => this.csvDataToProduct(productsData)),
-        switchMap((products: ProductsData) =>
-          this.userIdService.takeUserId().pipe(
-            switchMap((userId) =>
-              this.multiCartService
-                .createCart({
-                  userId,
-                  extraData: { active: false },
-                })
-                .pipe(
-                  filter(
-                    (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-                      cartData.value !== undefined
-                  ),
-                  tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
-                    const cartId: string = cartData.value?.code ?? '';
-                    if (cartId !== '')
-                      this.multiCartService.addEntries(
-                        userId,
-                        cartId,
-                        products
-                      );
-                    // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
-                    this.savedCartService.saveCart({
-                      cartId,
-                      saveCartName: 'imported cart',
-                      saveCartDescription: 'imported cart',
-                    });
-                    this.savedCartService.loadSavedCarts();
-                  })
-                )
+        switchMap((userId) =>
+          this.multiCartService
+            .createCart({
+              userId,
+              extraData: { active: false },
+            })
+            .pipe(
+              filter(
+                (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
+                  cartData.value !== undefined
+              ),
+              tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
+                const cartId: string = cartData.value?.code ?? '';
+                if (cartId !== '')
+                  this.multiCartService.addEntries(userId, cartId, products);
+                this.savedCartService.saveCart({
+                  cartId,
+                  saveCartName: savedCartInfo.name,
+                  saveCartDescription: savedCartInfo.description,
+                });
+                this.savedCartService.loadSavedCarts();
+                this.launchDialogService.closeDialog(
+                  'Close Import Products Dialog'
+                );
+              })
             )
-          )
         ),
         take(1)
       )

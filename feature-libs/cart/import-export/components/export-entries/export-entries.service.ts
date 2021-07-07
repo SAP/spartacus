@@ -27,7 +27,9 @@ export class ExportEntriesService {
   ) {}
 
   private get additionalColumns(): ExportColumn[] {
-    return this.importExportConfig.importExport.export?.additionalColumns ?? [];
+    return (
+      this.importExportConfig.importExport?.export?.additionalColumns ?? []
+    );
   }
 
   private columns: ExportColumn[] = [

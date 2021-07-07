@@ -4,14 +4,15 @@ export type ProductsData = {
 }[];
 
 export type InvalidFileInfo = {
-  fileTooLarge?: Boolean;
-  invalidExtension?: Boolean;
-  fileEmpty?: Boolean;
+  fileTooLarge?: boolean;
+  invalidExtension?: boolean;
+  fileEmpty?: boolean;
+  notParsable?: boolean;
 };
 
 export type FileValidity = {
   // size unit is MB
-  maxSize?: Number;
+  maxSize?: number;
   allowedExtensions?: string[];
-  checkEmptyFile?: Boolean;
+  checkEmptyFile?: boolean;
 };
