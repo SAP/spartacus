@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection',
@@ -70,12 +70,6 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     it('should allow quantity', () => {
       expect(component.withQuantity).toBe(true);
     });
-
-    // TODO(#11681):remove this test when the quantityService will be a required dependency
-    it('should not allow quantity when service is missing ', () => {
-      component['quantityService'] = undefined;
-      expect(component.withQuantity).toBe(false);
-    });
   });
 
   describe('withQuantityOnAttributeLevel', () => {
@@ -92,23 +86,11 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         fixture.detectChanges();
       expect(component.withQuantityOnAttributeLevel).toBe(false);
     });
-
-    // TODO(#11681):remove this test when the quantityService will be a required dependency
-    it('should not allow quantity on attribute level when service is missing ', () => {
-      component['quantityService'] = undefined;
-      expect(component.withQuantityOnAttributeLevel).toBe(false);
-    });
   });
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
       expect(component.disableQuantityActions).toBe(false);
-    });
-
-    // TODO(#11681):remove this test when the quantityService will be a required dependency
-    it('should not allow quantity actions when service is missing ', () => {
-      component['quantityService'] = undefined;
-      expect(component.disableQuantityActions).toBe(true);
     });
   });
 
