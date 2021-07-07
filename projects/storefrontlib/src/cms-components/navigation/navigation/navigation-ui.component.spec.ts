@@ -108,6 +108,7 @@ describe('Navigation UI Component', () => {
     navigationComponent.node = mockNode;
     navigationComponent['resetMenuOnClose'] = false;
   });
+
   describe('calculate columns', () => {
     beforeEach(() => {
       navigationComponent.wrapAfter = 5;
