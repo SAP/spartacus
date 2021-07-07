@@ -1,10 +1,14 @@
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
 
+const PRODUCT_CODE = 'HT-1010';
 describe('ConfiguratorTextfieldActions', () => {
   it('should provide create action with proper type', () => {
     const createAction: ConfiguratorTextfieldActions.ConfiguratorActions = new ConfiguratorTextfieldActions.CreateConfiguration(
-      { productCode: undefined, owner: undefined }
+      {
+        productCode: PRODUCT_CODE,
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      }
     );
     expect(createAction.type).toBe(
       ConfiguratorTextfieldActions.CREATE_CONFIGURATION
@@ -13,7 +17,10 @@ describe('ConfiguratorTextfieldActions', () => {
 
   it('should provide create success action with proper type', () => {
     const createAction: ConfiguratorTextfieldActions.ConfiguratorActions = new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-      { configurationInfos: [] }
+      {
+        configurationInfos: [],
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      }
     );
     expect(createAction.type).toBe(
       ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS
@@ -31,7 +38,10 @@ describe('ConfiguratorTextfieldActions', () => {
 
   it('should provide update action with proper type', () => {
     const updateAction: ConfiguratorTextfieldActions.ConfiguratorActions = new ConfiguratorTextfieldActions.UpdateConfiguration(
-      { configurationInfos: [] }
+      {
+        configurationInfos: [],
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      }
     );
     expect(updateAction.type).toBe(
       ConfiguratorTextfieldActions.UPDATE_CONFIGURATION

@@ -15,26 +15,27 @@ const USER_ID = 'theUser';
 const CART_ID = '98876';
 
 class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
-  readConfiguration = createSpy().and.callFake((configId) =>
+  readConfiguration = createSpy().and.callFake((configId: string) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake((configuration) =>
-    of('updateConfiguration' + configuration.configId)
-  );
-
-  createConfiguration = createSpy().and.callFake((productCode) =>
+  createConfiguration = createSpy().and.callFake((productCode: string) =>
     of('createConfiguration' + productCode)
   );
 
-  addToCart = createSpy().and.callFake((params) => of('addToCart' + params));
-
-  updateConfigurationForCartEntry = createSpy().and.callFake((params) =>
-    of('updateConfigurationForCartEntry' + params)
+  addToCart = createSpy().and.callFake(
+    (params: ConfiguratorTextfield.AddToCartParameters) =>
+      of('addToCart' + params)
   );
 
-  readConfigurationForCartEntry = createSpy().and.callFake((params) =>
-    of('readConfigurationForCartEntry' + params)
+  updateConfigurationForCartEntry = createSpy().and.callFake(
+    (params: ConfiguratorTextfield.UpdateCartEntryParameters) =>
+      of('updateConfigurationForCartEntry' + params)
+  );
+
+  readConfigurationForCartEntry = createSpy().and.callFake(
+    (params: CommonConfigurator.ReadConfigurationFromCartEntryParameters) =>
+      of('readConfigurationForCartEntry' + params)
   );
 }
 
@@ -71,13 +72,14 @@ describe('ConfiguratorTextfieldConnector', () => {
     );
 
     let result;
+    const owner = ConfiguratorModelUtils.createInitialOwner();
     service
-      .createConfiguration(PRODUCT_CODE, null)
+      .createConfiguration(PRODUCT_CODE, owner)
       .subscribe((res) => (result = res));
     expect(result).toBe('createConfiguration' + PRODUCT_CODE);
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       PRODUCT_CODE,
-      null
+      owner
     );
   });
 
