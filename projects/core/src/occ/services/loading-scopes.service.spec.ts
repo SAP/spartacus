@@ -1,18 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CxEvent } from '../../event/cx-event';
-import { EventService } from '../../event/event.service';
 import { LoadingScopesService } from './loading-scopes.service';
 
 class MockEvent1 extends CxEvent {}
 class MockEvent2 extends CxEvent {}
-const expectedEventPayload = of(1);
-class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return expectedEventPayload;
-  }
-}
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
@@ -42,10 +34,7 @@ describe('LoadingScopesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: OccConfig, useValue: mockConfig },
-        { provide: EventService, useClass: MockEventService },
-      ],
+      providers: [{ provide: OccConfig, useValue: mockConfig }],
     });
     service = TestBed.inject(LoadingScopesService);
   });
@@ -134,8 +123,7 @@ describe('LoadingScopesService', () => {
     it('should return the configured triggers', () => {
       const result = service.getReloadingTriggers('product', 'detail');
       expect(result.length).toEqual(2);
-      expect(result[0]).toEqual(expectedEventPayload);
-      expect(result[1]).toEqual(expectedEventPayload);
+      expect(result).toEqual([MockEvent1, MockEvent2]);
     });
   });
 });

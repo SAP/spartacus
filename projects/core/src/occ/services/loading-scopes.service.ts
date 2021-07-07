@@ -1,16 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EventService } from '../../event/event.service';
+import { Injectable, Type } from '@angular/core';
+import { CxEvent } from '../../event/cx-event';
 import { OccConfig } from '../config/occ-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingScopesService {
-  constructor(
-    protected config: OccConfig,
-    protected eventService: EventService
-  ) {}
+  constructor(protected config: OccConfig) {}
 
   /**
    * Aims to expand scopes based on loading scopes config.
@@ -70,10 +66,7 @@ export class LoadingScopesService {
    * @param scope for which to look up the config
    * @returns the configured triggers, or an empty array if not configured
    */
-  getReloadingTriggers(model: string, scope: string): Observable<unknown>[] {
-    const triggers =
-      this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
-
-    return triggers.map((trigger) => this.eventService.get(trigger));
+  getReloadingTriggers(model: string, scope: string): Type<CxEvent>[] {
+    return this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
   }
 }

@@ -15,6 +15,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
@@ -35,7 +36,8 @@ export class ProductLoadingService {
     protected store: Store<StateWithProduct>,
     protected loadingScopes: LoadingScopesService,
     protected actions$: Actions,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
+    protected eventService: EventService
   ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
@@ -171,10 +173,9 @@ export class ProductLoadingService {
       triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
-    const configuredTriggers$ = this.loadingScopes.getReloadingTriggers(
-      'product',
-      scope
-    );
+    const configuredTriggers$ = this.loadingScopes
+      .getReloadingTriggers('product', scope)
+      .map(this.eventService.get);
 
     return triggers.concat(configuredTriggers$);
   }

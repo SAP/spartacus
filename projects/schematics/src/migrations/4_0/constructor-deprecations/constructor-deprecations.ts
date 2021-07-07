@@ -74,7 +74,6 @@ import {
 import { GUEST_REGISTER_FORM_COMPONENT_MIGRATION } from './data/guest-register-form.component.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
-import { LOADING_SCOPES_SERVICE_MIGRATION } from './data/loading-scopes.service.migration';
 import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { MEDIA_SERVICE_MIGRATION } from './data/media.service.migration';
@@ -89,6 +88,7 @@ import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directiv
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
+import { PRODUCT_LOADING_SERVICE_MIGRATION } from './data/product-loading.service.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
@@ -255,7 +255,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_AUTH_GUARD_MIGRATION,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
-  LOADING_SCOPES_SERVICE_MIGRATION,
+  PRODUCT_LOADING_SERVICE_MIGRATION,
   POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
