@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
+import { WindowRef } from '@spartacus/core';
 import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
@@ -119,14 +119,9 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   iconTypes = ICON_TYPE;
 
   /**
-   * Flag indicates if mouse click event was fired inside component.
-   */
-  insideClicked: boolean;
-
-  /**
    * Subject which emits specific type of `PopoverEvent`.
    */
-  eventSubject: Subject<PopoverEvent> = new Subject<PopoverEvent>();
+  eventSubject: Subject<PopoverEvent>;
 
   /**
    * Scroll event unlistener.
@@ -144,36 +139,45 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   @HostListener('click')
   insideClick() {
     this.eventSubject.next(PopoverEvent.INSIDE_CLICK);
-    this.insideClicked = true;
   }
 
   /**
    * Listens for every document click and ignores clicks
    * inside component.
    */
-  @HostListener('document:click')
-  outsideClick() {
-    if (!this.insideClicked) {
+  @HostListener('document:click', ['$event'])
+  outsideClick(event: MouseEvent) {
+    if (!this.isClickedOnPopover(event) && !this.isClickedOnDirective(event)) {
       this.eventSubject.next(PopoverEvent.OUTSIDE_CLICK);
     }
-    this.insideClicked = false;
   }
 
   /**
-   * Listens for `escape` keyodwn event.
+   * Listens for `escape` keydown event.
    */
   @HostListener('keydown.escape')
   escapeKeydown() {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 
+  protected isClickedOnPopover(event) {
+    return this.popoverInstance.location.nativeElement.contains(event.target);
+  }
+
+  protected isClickedOnDirective(event) {
+    return this.triggerElement.nativeElement.contains(event.target);
+  }
+
   /**
    * Emits close event trigger.
    */
   close(event: MouseEvent | KeyboardEvent) {
-    if (event instanceof MouseEvent)
+    event.preventDefault();
+    if (event instanceof MouseEvent) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
-    else this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    } else {
+      this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    }
   }
 
   /**
