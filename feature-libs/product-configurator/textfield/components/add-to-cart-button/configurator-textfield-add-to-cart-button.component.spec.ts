@@ -74,7 +74,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     );
     expect(buttonElements).toBeDefined();
     expect(buttonElements.length).toBe(1);
-    expect(buttonElements[0].textContent.trim()).toBe(buttonText);
+    const seenText = buttonElements[0].textContent
+      ? buttonElements[0].textContent.trim()
+      : undefined;
+    expect(seenText).toBe(buttonText);
   }
 
   beforeEach(
