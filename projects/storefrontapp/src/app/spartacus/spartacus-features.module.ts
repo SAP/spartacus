@@ -18,10 +18,9 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
-  PageTitleModule,
   BreadcrumbModule,
-  CartComponentModule,
   CartPageEventModule,
+  CartSharedModule,
   CategoryNavigationModule,
   CmsParagraphModule,
   ConsentManagementModule,
@@ -41,6 +40,7 @@ import {
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
+  PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -69,11 +69,9 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CpqFeatureModule } from './features/cpq-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
-import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
@@ -160,7 +158,8 @@ if (environment.cpq) {
     CartModule.forRoot(),
     CartOccModule,
     // Cart UI
-    CartComponentModule,
+    // CartComponentModule,
+    CartSharedModule,
     WishListModule,
 
     // Cost Center
@@ -190,14 +189,12 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
-    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
     TrackingFeatureModule,
     VariantsFeatureModule,
-    SavedCartFeatureModule,
     ...featureModules,
   ],
 })
