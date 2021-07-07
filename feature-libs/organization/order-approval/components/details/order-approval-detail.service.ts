@@ -79,8 +79,8 @@ export class OrderApprovalDetailService {
   getOrderDetailsState(): Observable<StateUtils.LoaderState<OrderApproval>> {
     return this.orderApprovalState$.pipe(
       map((state) => {
-        const orderState = JSON.parse(JSON.stringify(state));
-        console.log(orderState, 'orderState');
+        // const orderState = JSON.parse(JSON.stringify(state));
+        // console.log(orderState, 'orderState');
         console.log(state, 'state');
         // return state;
         return { ...state, value: state?.value?.order || {} };

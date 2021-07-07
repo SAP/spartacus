@@ -109,6 +109,8 @@ fdescribe('OrderApprovalDetailService', () => {
       })
       .unsubscribe();
     expect(orderState).toBeTruthy();
+    console.log(orderState, 'ORDERSTATE');
+    console.log(mockState, 'mockState');
     expect(orderState).toEqual(mockState);
   });
 });
