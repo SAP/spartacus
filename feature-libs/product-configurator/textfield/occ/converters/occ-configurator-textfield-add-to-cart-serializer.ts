@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
+import { ConfigurationInfo } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 
@@ -23,18 +24,19 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     source: ConfiguratorTextfield.AddToCartParameters,
     target?: OccConfiguratorTextfield.AddToCartParameters
   ): OccConfiguratorTextfield.AddToCartParameters {
+    const configurationInfos: ConfigurationInfo[] = [];
+    source.configuration?.configurationInfos.forEach((info) =>
+      this.convertInfo(info, configurationInfos)
+    );
+
     const resultTarget: OccConfiguratorTextfield.AddToCartParameters = {
       ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.productCode },
       quantity: source.quantity,
-      configurationInfos: [],
+      configurationInfos: configurationInfos,
     };
-
-    source.configuration.configurationInfos.forEach((info) =>
-      this.convertInfo(info, resultTarget.configurationInfos)
-    );
 
     return resultTarget;
   }
