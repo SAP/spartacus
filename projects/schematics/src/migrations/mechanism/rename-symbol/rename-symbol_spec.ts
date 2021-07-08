@@ -180,7 +180,7 @@ describe('renamed symbols', () => {
       appTree = await runMigration(
         appTree,
         schematicRunner,
-        'migration-v4-constructor-deprecations-01'
+        '01-migration-v4-constructor-deprecations'
       );
 
       const content = appTree.readContent('/src/index.ts');
