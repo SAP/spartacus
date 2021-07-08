@@ -138,11 +138,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   /**
-   * Extract corresponding price formula parameters
+   * Extract corresponding value price formula parameters
    *
+   * @param {Configurator.Value} value - Configurator value
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
-  extractPriceFormulaParametersForValue(
+  extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
     if (value) {
