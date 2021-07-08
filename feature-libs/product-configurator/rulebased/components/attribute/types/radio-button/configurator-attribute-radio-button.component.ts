@@ -14,7 +14,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   attributeRadioButtonForm = new FormControl('');
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super();
+    super(quantityService);
   }
 
   ngOnInit(): void {

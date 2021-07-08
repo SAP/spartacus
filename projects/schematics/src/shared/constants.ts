@@ -42,6 +42,7 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
+export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
 export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
 export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
 export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
@@ -298,6 +299,10 @@ export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const POPOVER_COMPONENT = 'PopoverComponent';
+export const POPOVER_DIRECTIVE = 'PopoverDirective';
+export const POPOVER_SERVICE = 'PopoverService';
+export const POSITIONING_SERVICE = 'PositioningService';
 export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
@@ -500,6 +505,11 @@ export const FORM$ = 'form$';
 
 export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
 export const SCRIPT_LOADER = 'ScriptLoader';
+
+export const SAVED_CART_FORM_TYPE = 'savedCartFormType';
+export const OPEN_DIALOG = 'openDialog';
+export const RESTORE_SAVED_CART = 'restoreSavedCart';
+export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
 
 export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
@@ -920,6 +930,9 @@ export const INCREMENT = 'increment';
 export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
 export const ORDER_PROMOTIONS$ = 'orderPromotions$';
+export const INSIDE_CLICKED = 'insideClicked';
+export const HANDLE_OPEN = 'handleOpen';
+export const TOGGLE = 'toggle';
 
 export const DEFAULT_PAGE_SIZE = 'defaultPageSize';
 
@@ -1001,6 +1014,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
 export const GO = 'go';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';
