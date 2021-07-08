@@ -17,10 +17,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make quantityService a required dependency
-  constructor(
-    protected quantityService?: ConfiguratorAttributeQuantityService
-  ) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 

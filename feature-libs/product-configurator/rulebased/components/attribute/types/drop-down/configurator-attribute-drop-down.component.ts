@@ -21,7 +21,7 @@ export class ConfiguratorAttributeDropDownComponent
   @Input() group: string;
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super();
+    super(quantityService);
   }
 
   ngOnInit() {
