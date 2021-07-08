@@ -924,11 +924,6 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: SPARTACUS_CHECKOUT_CORE,
   },
   {
-    previousNode: 'AddressVerificationState',
-    previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
-  },
-  {
     previousNode: 'CardTypesState',
     previousImportPath: SPARTACUS_CORE,
     newImportPath: SPARTACUS_CHECKOUT_CORE,
