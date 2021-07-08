@@ -88,11 +88,15 @@ function installStyles(options: SpartacusOptions): Rule {
     }
 
     const htmlContent = buffer.toString();
-    const insertion =
+    let insertion =
       '\n' +
       `$styleVersion: ${
         options.featureLevel || getSpartacusCurrentFeatureLevel()
       };\n@import '~@spartacus/styles/index';\n`;
+
+    if (options && options.theme) {
+      insertion += `\n@import '~@spartacus/styles/scss/theme/${options.theme}';\n`;
+    }
 
     if (htmlContent.includes(insertion)) {
       return;
