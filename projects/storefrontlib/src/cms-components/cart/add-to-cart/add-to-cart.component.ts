@@ -5,11 +5,18 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import {
+  ActiveCartService,
+  CmsAddToCartComponent,
+  isNotNullable,
+  Product,
+} from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -33,7 +40,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   maxQuantity: number;
   modalRef: ModalRef;
 
-  hasStock = false;
+  hasStock: boolean | undefined = false;
+  inventoryThreshold: boolean = false;
+
+  showInventory$:
+    | Observable<boolean | undefined>
+    | undefined = this.component?.data$.pipe(
+    map((data) => data.inventoryDisplay)
+  );
+
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;
 
@@ -43,16 +58,37 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
+  // TODO(#13041): Remove deprecated constructors
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    component?: CmsComponentData<CmsAddToCartComponent>
+  );
+
+  /**
+   * @deprecated since 4.1
+   */
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService
+  );
+
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
   ) {}
 
   ngOnInit() {
     if (this.product) {
-      this.productCode = this.product.code;
+      this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
@@ -65,7 +101,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
-          this.productCode = product.code;
+          this.productCode = product.code ?? '';
           this.setStockInfo(product);
           this.cd.markForCheck();
         });
@@ -75,10 +111,26 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   protected setStockInfo(product: Product): void {
     this.quantity = 1;
     this.hasStock = Boolean(
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
+      product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
     );
+
+    this.inventoryThreshold = product.stock?.isValueRounded ?? false;
+
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
+    }
+  }
+
+  getInventory(): string {
+    // When backoffice forces 'In Stock' status, DO NOT display stock level info.
+    if (this.hasStock) {
+      // Don't show stock level if product forced to be in stock.
+      const quantityDisplay = this.maxQuantity
+        ? this.maxQuantity.toString()
+        : '';
+      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+    } else {
+      return '';
     }
   }
 
