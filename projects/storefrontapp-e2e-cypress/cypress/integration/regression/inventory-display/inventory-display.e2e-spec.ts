@@ -51,6 +51,36 @@ describe('B2B - Inventory Display', () => {
           assert.equal(text, expected);
         });
       });
+
+      it('should render + if threshold applied and inventory display is on', () => {
+        visitProduct(sampleData.THRESHOLD_STOCK);
+        const valueSelector = 'cx-add-to-cart .info span';
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          expect(text.includes('+')).to.be.true;
+        });
+      });
+
+      it('should NOT render + if threshold greater than stock level and inventory display is on', () => {
+        visitProduct(sampleData.STOCK_LESS_THAN_THRESHOLD);
+        const valueSelector = 'cx-add-to-cart .info span';
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          expect(text.includes('+')).to.be.false;
+        });
+      });
+
+      it('should NOT render + if threshold equal to stock level and inventory display is on', () => {
+        visitProduct(sampleData.STOCK_EQUAL_THRESHOLD);
+        const valueSelector = 'cx-add-to-cart .info span';
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          expect(text.includes('+')).to.be.false;
+        });
+      });
     });
   });
 });
