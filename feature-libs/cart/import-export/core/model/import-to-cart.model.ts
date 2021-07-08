@@ -1,3 +1,5 @@
+import { CmsComponent } from '../../../../../projects/core/src/model';
+
 export type ProductsData = {
   productCode: string;
   quantity: number;
@@ -13,6 +15,11 @@ export type InvalidFileInfo = {
 export type FileValidity = {
   // size unit is MB
   maxSize?: number;
+  // size unit is B
+  minSize?: number;
   allowedExtensions?: string[];
-  checkEmptyFile?: boolean;
 };
+
+export interface CmsImportEntriesComponent extends CmsComponent {
+  fileValidity: FileValidity;
+}

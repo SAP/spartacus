@@ -1,23 +1,27 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ImportExportConfig,
   InvalidFileInfo,
   ImportService,
+  FileValidity,
 } from '@spartacus/cart/import-export/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  CustomFormValidators,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
+import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent {
+export class ImportEntriesDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   form: FormGroup = this.build();
   focusConfig: FocusConfig = {
@@ -26,6 +30,8 @@ export class ImportEntriesDialogComponent {
     autofocus: 'button',
     focusOnEscape: true,
   };
+  fileValidity$: Observable<FileValidity> = this.launchDialogService.data$;
+  fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   selectedFile: File;
@@ -45,10 +51,14 @@ export class ImportEntriesDialogComponent {
     protected importToCartService: ImportToCartService,
     protected importService: ImportService
   ) {}
-  allowedExtensions =
-    this.importExportConfig.importExport?.fileValidity?.allowedExtensions ??
-    '*';
-  fileSize = this.importExportConfig.importExport?.fileValidity?.maxSize ?? 10;
+
+  ngOnInit() {
+    this.launchDialogService.data$.pipe(take(1)).subscribe((fileValidity) => {
+      console.log(fileValidity);
+      this.fileValidity = fileValidity;
+    });
+  }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
@@ -57,7 +67,13 @@ export class ImportEntriesDialogComponent {
     const form = new FormGroup({});
     form.setControl(
       'file',
-      new FormControl('', [Validators.required, () => this.fileError])
+      new FormControl('', [
+        Validators.required,
+        () => this.fileError,
+        CustomFormValidators.fileMinSize(this.fileValidity),
+        CustomFormValidators.fileMaxSize(this.fileValidity),
+        CustomFormValidators.extensionValidator(this.fileValidity),
+      ])
     );
     form.setControl(
       'name',
@@ -76,13 +92,13 @@ export class ImportEntriesDialogComponent {
   selectFile(file: File, form: FormGroup) {
     this.selectedFile = file;
     this.importService.loadFile(file).subscribe(
-      (data) => {
+      (data: string[][]) => {
         this.fileError = {};
-        this.loadedFile = data as string[][];
+        this.loadedFile = data;
         form.get('file')?.updateValueAndValidity();
       },
-      (error) => {
-        this.fileError = error;
+      () => {
+        this.fileError = { notParsable: true };
         this.loadedFile = null;
         form.get('file')?.updateValueAndValidity();
       }

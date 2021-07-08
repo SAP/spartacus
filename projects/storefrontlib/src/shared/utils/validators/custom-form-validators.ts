@@ -209,6 +209,57 @@ export class CustomFormValidators {
     };
     return validator;
   }
+
+  static fileMaxSize(validityConfig): ValidatorFn {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      const file = control.value;
+
+      if (
+        validityConfig?.maxSize &&
+        file.size / 1000000 > validityConfig?.maxSize
+      ) {
+        errors.tooLarge = true;
+      }
+
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+    return validator;
+  }
+
+  static fileMinSize(validityConfig): ValidatorFn {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      const file = control.value;
+
+      if (
+        validityConfig?.minSize !== undefined &&
+        file.size <= validityConfig.minSize
+      ) {
+        errors.empty = true;
+      }
+
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+    return validator;
+  }
+
+  static extensionValidator(validityConfig): ValidatorFn {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      const file = control.value;
+
+      if (
+        validityConfig?.allowedExtensions &&
+        !validityConfig?.allowedExtensions?.includes(file.type)
+      ) {
+        errors.invalidExtension = true;
+      }
+
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+    return validator;
+  }
 }
 
 /**
