@@ -40,6 +40,17 @@ describe('B2B - Inventory Display', () => {
           assert.equal(text, expected);
         });
       });
+
+      it("should render 'In Stock' if force inStock status and inventory display is on", () => {
+        visitProduct(sampleData.FORCE_IN_STOCK_PRODUCT);
+        const valueSelector = 'cx-add-to-cart .info';
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          const expected = sampleData.stockLabel;
+          assert.equal(text, expected);
+        });
+      });
     });
   });
 });
