@@ -16,7 +16,7 @@
       (click)="clear()"
       [disabled]="!entries.length"
       aria-label="Empty list"
-      class="btn btn-block btn-action"
+      class="btn btn-block btn-action clear-button"
       type="button"
     >
       {{ 'quickOrderContainer.emptyList' | cxTranslate }}
@@ -28,7 +28,7 @@
       (click)="addToCart()"
       [disabled]="!entries.length"
       aria-label="Save"
-      class="btn btn-block btn-primary"
+      class="btn btn-block btn-primary add-button"
       type="button"
     >
       {{ 'quickOrderContainer.addToCart' | cxTranslate }}
