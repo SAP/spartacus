@@ -1,6 +1,15 @@
 on:
   pull_request:
     types: [opened, synchronize]
+    branches:
+    - 'feature/GH-**'
+    - 'epic/**'
+    - '!develop'
+    - '!release/3.4.x'
+  push:
+    branches:
+      - develop
+      - release/3.4.x
 name: Hosting service - Deploy
 jobs:
   hostingServiceDeploy:
