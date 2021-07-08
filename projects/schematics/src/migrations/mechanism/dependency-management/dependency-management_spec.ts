@@ -21,7 +21,7 @@ describe('dependency management migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json') // TODO: Shouldn't we use migration-test.json ?
+      require.resolve('../../test/migrations-test.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
