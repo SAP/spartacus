@@ -33,6 +33,7 @@ import {
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
@@ -197,6 +198,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_PRODUCT_VARIANTS_FEATURE,
   ],
   [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   ],
@@ -716,17 +718,17 @@ export function installPackageJsonDependencies(): Rule {
 
 export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson?: any
+  packageJson: any
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    dependencies.forEach((dependency) => {
-      if (shouldAddDependency(dependency, packageJson)) {
+    for (const dependency of dependencies) {
+      if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
         );
       }
-    });
+    }
     return tree;
   };
 }
@@ -798,14 +800,11 @@ function logFeatureInstallation(
   }
 }
 
-function shouldAddDependency(
+export function dependencyExists(
   dependency: NodeDependency,
-  packageJson?: any
+  packageJson: any
 ): boolean {
-  return (
-    !packageJson ||
-    !packageJson[dependency.type].hasOwnProperty(dependency.name)
-  );
+  return packageJson[dependency.type]?.hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(

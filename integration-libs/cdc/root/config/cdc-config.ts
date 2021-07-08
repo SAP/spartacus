@@ -12,3 +12,7 @@ export abstract class CdcConfig {
     sessionExpiration: number;
   }[];
 }
+
+declare module '@spartacus/core' {
+  interface Config extends CdcConfig {}
+}

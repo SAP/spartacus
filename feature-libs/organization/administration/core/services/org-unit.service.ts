@@ -54,7 +54,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -62,14 +64,18 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadTree(): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => this.store.dispatch(new OrgUnitActions.LoadTree({ userId })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -79,7 +85,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadApprovalProcesses({ userId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -94,7 +102,9 @@ export class OrgUnitService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -108,7 +118,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -292,7 +304,9 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -302,7 +316,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -322,7 +338,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -336,7 +354,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -355,7 +375,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -374,7 +396,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -388,7 +412,9 @@ export class OrgUnitService {
             address,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -429,7 +455,9 @@ export class OrgUnitService {
             address,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -449,7 +477,9 @@ export class OrgUnitService {
             addressId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

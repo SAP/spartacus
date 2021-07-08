@@ -45,24 +45,26 @@ describe('ConfiguratorTextfieldSelectors', () => {
   });
 
   it('should return empty content when selecting with content selector initially', () => {
-    let result: ConfiguratorTextfield.Configuration;
+    let result;
     store
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(configurationInitial);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(configurationInitial);
+      });
   });
 
   it('should return content from state when selecting with content selector', () => {
-    let result: ConfiguratorTextfield.Configuration;
+    let result;
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(configuration)
     );
 
     store
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(configuration);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(configuration);
+      });
   });
 });

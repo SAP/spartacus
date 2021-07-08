@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart, StateUtils, facadeFactory } from '@spartacus/core';
+import { Cart, facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_SAVED_CART_CORE_FEATURE } from '../feature-name';
 
@@ -13,11 +13,15 @@ export function savedCartFacadeFactory() {
       'getSavedCart',
       'getSavedCartList',
       'loadSavedCart',
+      'clearCloneSavedCart',
       'clearRestoreSavedCart',
       'clearSaveCart',
       'clearSavedCarts',
       'get',
       'getList',
+      'getCloneSavedCartProcessError',
+      'getCloneSavedCartProcessLoading',
+      'getCloneSavedCartProcessSuccess',
       'getRestoreSavedCartProcessError',
       'getRestoreSavedCartProcessLoading',
       'getRestoreSavedCartProcessSuccess',
@@ -27,6 +31,7 @@ export function savedCartFacadeFactory() {
       'getSavedCartListProcess',
       'getSavedCartListProcessLoading',
       'isStable',
+      'cloneSavedCart',
       'loadSavedCarts',
       'restoreSavedCart',
       'saveCart',
@@ -202,4 +207,37 @@ export abstract class SavedCartFacade {
     saveCartName?: string;
     saveCartDescription?: string;
   }): void;
+
+  /**
+   * Triggers a clone saved cart
+   *
+   * @param cartId
+   */
+  abstract cloneSavedCart(cartId: string): void;
+
+  /**
+   * Gets the loading state of cloning a saved cart
+   *
+   * @returns observable with boolean of the loading state
+   */
+  abstract getCloneSavedCartProcessLoading(): Observable<boolean>;
+
+  /**
+   * Gets the success state of cloning a saved cart
+   *
+   * @returns observable with boolean of the success state
+   */
+  abstract getCloneSavedCartProcessSuccess(): Observable<boolean>;
+
+  /**
+   * Gets the error state of cloning a saved cart
+   *
+   * @returns observable with boolean of the error state
+   */
+  abstract getCloneSavedCartProcessError(): Observable<boolean>;
+
+  /**
+   * Clears the process state cloning a saved cart
+   */
+  abstract clearCloneSavedCart(): void;
 }

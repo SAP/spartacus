@@ -1,17 +1,16 @@
-import { JsonParseMode, parseJson } from '@angular-devkit/core';
 import {
   chain,
   Rule,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
 import {
   ProjectType,
   WorkspaceProject,
   WorkspaceSchema,
   WorkspaceTargets,
 } from '@schematics/angular/utility/workspace-models';
+import { parse } from 'jsonc-parser';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
@@ -71,10 +70,7 @@ export function getAngularJsonFile(
   }
 
   const angularJsonContent = configBuffer.toString();
-  return (parseJson(
-    angularJsonContent,
-    JsonParseMode.Loose
-  ) as unknown) as WorkspaceSchema;
+  return parse(angularJsonContent, undefined, { allowTrailingComma: true });
 }
 
 export function getProjectFromWorkspace<
@@ -156,7 +152,7 @@ export function getProject<
 ): WorkspaceProject<TProjectType> {
   const workspace = isWorkspaceSchema(workspaceOrHost)
     ? workspaceOrHost
-    : getWorkspaceAngular(workspaceOrHost);
+    : getWorkspace(workspaceOrHost).workspace;
 
   return workspace.projects[projectName] as WorkspaceProject<TProjectType>;
 }
