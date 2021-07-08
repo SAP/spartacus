@@ -4,9 +4,9 @@ export type ProductsData = {
 }[];
 
 export type InvalidFileInfo = {
-  fileTooLarge?: boolean;
+  tooLarge?: boolean;
   invalidExtension?: boolean;
-  fileEmpty?: boolean;
+  empty?: boolean;
   notParsable?: boolean;
 };
 
