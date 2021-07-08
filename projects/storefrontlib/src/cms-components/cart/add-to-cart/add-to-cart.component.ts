@@ -41,7 +41,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   modalRef: ModalRef;
 
   hasStock: boolean | undefined = false;
-  inventoryThreshold = false;
+  inventoryThreshold: boolean = false;
 
   showInventory$:
     | Observable<boolean | undefined>
@@ -125,8 +125,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     // When backoffice forces 'In Stock' status, DO NOT display stock level info.
     if (this.hasStock) {
       // Don't show stock level if product forced to be in stock.
-      const display = this.maxQuantity ? this.maxQuantity.toString() : '';
-      return this.inventoryThreshold ? display + '+' : display;
+      const quantityDisplay = this.maxQuantity
+        ? this.maxQuantity.toString()
+        : '';
+      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
     } else {
       return '';
     }
