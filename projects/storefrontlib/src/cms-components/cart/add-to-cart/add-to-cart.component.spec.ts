@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +33,7 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: {
+    stockLevel: 333,
     stockLevelStatus: 'inStock',
   },
 };
@@ -43,10 +44,20 @@ const mockProduct2: Product = {
   stock: { stockLevelStatus: 'inStock' },
 };
 
+const mockProduct3: Product = {
+  name: 'mockProduct',
+  code: 'code1',
+  stock: {
+    isValueRounded: true,
+    stockLevel: 10,
+    stockLevelStatus: 'inStock',
+  },
+};
+
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
-  stock: { stockLevelStatus: 'outOfStock' },
+  stock: { stockLevel: 0, stockLevelStatus: 'outOfStock' },
 };
 
 class MockActiveCartService {
@@ -273,40 +284,28 @@ describe('AddToCartComponent', () => {
   });
 
   describe('Inventory Display test', () => {
-    let currentMockProduct: Product = {
-      name: 'mockProduct',
-      code: 'code1',
-      stock: undefined,
-    };
-
     it('should display inventory quantity when enabled', () => {
-      currentMockProduct.stock = {
-        stockLevel: 333,
-        stockLevelStatus: 'inStock',
-      };
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
 
       config$.next({
         inventoryDisplay: true,
       });
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
       expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        currentMockProduct.stock?.stockLevel + ' addToCart.inStock'
+        mockProduct.stock?.stockLevel + ' addToCart.inStock'
       );
     });
 
     it('should NOT display inventory when disabled', () => {
-      currentMockProduct.stock = {
-        stockLevel: 333,
-        stockLevelStatus: 'inStock',
-      };
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
@@ -316,17 +315,14 @@ describe('AddToCartComponent', () => {
     });
 
     it('should display out of stock inventory when enabled and out of stock', () => {
-      currentMockProduct.stock = {
-        stockLevel: 0,
-        stockLevelStatus: 'outOfStock',
-      };
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockNoStockProduct)
+      );
 
       config$.next({
         inventoryDisplay: true,
       });
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
@@ -336,13 +332,10 @@ describe('AddToCartComponent', () => {
     });
 
     it('should display out of stock when inventory display disabled', () => {
-      currentMockProduct.stock = {
-        stockLevel: 0,
-        stockLevelStatus: 'outOfStock',
-      };
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockNoStockProduct)
+      );
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
@@ -352,22 +345,93 @@ describe('AddToCartComponent', () => {
     });
 
     it('should display `In Stock` when product forced in stock status and inventory display enabled', () => {
-      currentMockProduct.stock = {
-        stockLevelStatus: 'inStock',
-      };
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct2)
+      );
 
       config$.next({
         inventoryDisplay: true,
       });
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
       expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
         'addToCart.inStock'
       );
+    });
+
+    it('should display `+` when product stock level threshold applied when inventory display enabled', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct3)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
+        mockProduct3.stock?.stockLevel + '+ addToCart.inStock'
+      );
+    });
+
+    it('should return max quantity as string in getInventory()', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual(mockProduct.stock?.stockLevel + '');
+    });
+
+    it('should return empty string in getInventory() when out of stock', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockNoStockProduct)
+      );
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual('');
+    });
+
+    it('should return empty string in getInventory() when force InStock', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct2)
+      );
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual('');
+    });
+
+    it('should return threshold value with + in getInventory()', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct3)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual(mockProduct3.stock?.stockLevel + '+');
     });
   });
 });

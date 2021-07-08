@@ -11,13 +11,12 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
+  CmsAddToCartComponent,
   isNotNullable,
   Product,
-  CmsAddToCartComponent,
 } from '@spartacus/core';
-
-import { Subscription, Observable } from 'rxjs';
-import { filter, take, map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -43,6 +42,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   modalRef: ModalRef;
 
   hasStock: boolean | undefined = false;
+  inventoryThreshold: boolean = false;
 
   showInventory$:
     | Observable<boolean | undefined>
@@ -59,7 +59,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  // TODO(#issueNumber-Create the issue number now): Remove deprecated constructors
+  // TODO(#13041): Remove deprecated constructors
   constructor(
     modalService: ModalService,
     currentProductService: CurrentProductService,
@@ -115,6 +115,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       product.stock && product.stock?.stockLevelStatus !== 'outOfStock'
     );
 
+    this.inventoryThreshold = product.stock?.isValueRounded ?? false;
+
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
     } else if (!this.hasStock) {
@@ -123,10 +125,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   getInventory(): string {
-    //When backoffice forces 'In Stock' status, DO NOT display stock level info.
+    // When backoffice forces 'In Stock' status, DO NOT display stock level info.
     if (this.hasStock) {
-      //Don't show stock level if product forced to be in stock.
-      return this.maxQuantity !== undefined ? this.maxQuantity + '' : '';
+      // Don't show stock level if product forced to be in stock.
+      const quantityDisplay = this.maxQuantity
+        ? this.maxQuantity.toString()
+        : '';
+      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
     } else {
       return '';
     }
