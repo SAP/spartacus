@@ -11,16 +11,17 @@ const createTestValue = (
   total: number | undefined,
   selected = true
 ): Configurator.Value => ({
+  valueCode: 'a',
   selected,
   valuePrice: {
     currencyIso: '$',
     formattedValue: price ? '$' + price : '',
-    value: price,
+    value: price ?? 0,
   },
   valuePriceTotal: {
     currencyIso: '$',
     formattedValue: price ? '$' + price : '',
-    value: total,
+    value: total ?? 0,
   },
 });
 
@@ -73,7 +74,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     component = fixture.componentInstance;
 
     component.attribute = {
-      name: name,
+      name: 'attrName',
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       selectedSingleValue: selectedValue,
@@ -218,7 +219,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         fixture.detectChanges();
 
         const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice?.value).toBeUndefined();
+        expect(valuePrice?.value).toBe(0);
       });
     });
   });
@@ -303,23 +304,11 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       fixture.detectChanges();
       expect(component.withQuantity).toBe(true);
     });
-
-    // TODO(#11681):remove this test when the quantityService will be a required dependency
-    it('should not allow quantity when service is missing ', () => {
-      component['quantityService'] = undefined;
-      expect(component.withQuantity).toBe(false);
-    });
   });
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
       expect(component.disableQuantityActions).toBe(false);
-    });
-
-    // TODO(#11681):remove this test when the quantityService will be a required dependency
-    it('should not allow quantity actions when service is missing ', () => {
-      component['quantityService'] = undefined;
-      expect(component.disableQuantityActions).toBe(true);
     });
   });
 });

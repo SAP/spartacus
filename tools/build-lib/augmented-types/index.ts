@@ -19,7 +19,7 @@ const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 export default createBuilder(augmentedTypesBuilder);
 
 /**
- * Builder that runs default ng-packagr builder ('@angular-devkit/build-ng-packagr:build')
+ * Builder that runs default ng-packagr builder ('@angular-devkit/build-angular:ng-packagr')
  * and performs additional post step to move augmentable types to root d.ts file.
  *
  * It's a workaround to make TS types augmentable, reference issues:
@@ -52,7 +52,7 @@ async function ngPackagrBuild(
   options: NgPackagrBuilderOptions & JsonObject
 ): Promise<BuilderOutput> {
   const builderRun = await context.scheduleBuilder(
-    '@angular-devkit/build-ng-packagr:build',
+    '@angular-devkit/build-angular:ng-packagr',
     options
   );
   return await builderRun.result;

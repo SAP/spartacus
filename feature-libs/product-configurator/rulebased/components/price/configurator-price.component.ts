@@ -44,7 +44,8 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - 'true' if quantity and price should be displayed, otherwise 'false'
    */
   displayQuantityAndPrice(): boolean {
-    return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
+    const quantity = this.formula.quantity;
+    return quantity ? this.formula.price?.value !== 0 && quantity >= 1 : false;
   }
 
   /**
@@ -53,8 +54,10 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - 'true' if only price should be displayed, otherwise 'false'
    */
   displayPriceOnly(): boolean {
+    const priceValue = this.formula.price?.value ?? 0;
+    const priceTotalValue = this.formula.priceTotal?.value ?? 0;
     return (
-      (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
+      (priceValue !== 0 || priceTotalValue !== 0) &&
       !this.displayQuantityAndPrice()
     );
   }
@@ -65,11 +68,11 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - 'true' if price formula should be displayed, otherwise 'false'
    */
   displayFormula(): boolean {
-    return (
+    const displayFormula =
       (this.formula?.quantity && this.formula?.quantity !== 0) ||
       (this.formula?.price && this.formula?.price?.value !== 0) ||
-      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0)
-    );
+      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0);
+    return displayFormula ?? false;
   }
 
   /**
@@ -78,7 +81,7 @@ export class ConfiguratorPriceComponent {
    * @param {string} formattedQuantity- formatted quantity
    * @return {string} - price formula
    */
-  quantityWithPrice(formattedQuantity: string): string {
+  quantityWithPrice(formattedQuantity: string | null): string {
     return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
   }
 
@@ -88,7 +91,7 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - 'true' if price should be lighted up, otherwise 'false'
    */
   isPriceLightedUp(): boolean {
-    return this.formula.isLightedUp;
+    return this.formula.isLightedUp ?? false;
   }
 
   /**

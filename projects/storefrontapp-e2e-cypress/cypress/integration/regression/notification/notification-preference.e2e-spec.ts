@@ -1,12 +1,11 @@
-import { registerAndLogin } from '../../../helpers/update-email';
-import { viewportContext } from '../../../helpers/viewport-context';
 import {
   disableNotificationChannel,
   enableNotificationChannel,
-  navigateToNotificationPreferencePage,
   updateEmail,
   verifyEmailChannel,
 } from '../../../helpers/notification';
+import { registerAndLogin } from '../../../helpers/update-email';
+import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
 describe('Notification preference', () => {
@@ -31,15 +30,9 @@ describe('Notification preference', () => {
 
       it('should enable/disable notification preference', () => {
         enableNotificationChannel();
-
-        cy.visit('/');
-        navigateToNotificationPreferencePage();
         cy.get('[type="checkbox"]').first().should('be.checked');
 
         disableNotificationChannel();
-
-        cy.visit('/');
-        navigateToNotificationPreferencePage();
         cy.get('[type="checkbox"]').first().should('not.be.checked');
       });
 
