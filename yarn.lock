@@ -1987,10 +1987,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ng-select/ng-select@^5.0.9":
-  version "5.0.9"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-5.0.9.tgz#3b52b49e04280fdddeacd59e79f381219bd2cf16"
-  integrity sha512-YZeSAiS8/Nx/eHZJPmOOYL8YmcvSq+dr1P8WIrsKmRA7mueorBpPc5xlUj+nLQbpLtsiQvdWDQspf/ykOvD/lA==
+"@ng-select/ng-select@^7.0.1":
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.1.1.tgz#987f45e8e53ad61e266284a341c04a9c794e56ca"
+  integrity sha512-5+ZO81Vpa1DXyxdw6a1N252QhzKyUZfSJbQDskb8ITHE5k546eF4dANUfyzG7DCzkO0ocLNQkLiDn8pOCmrdKA==
   dependencies:
     tslib "^2.0.0"
 
