@@ -19,7 +19,6 @@ import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
-
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
   inventoryDisplay: false,
 });
@@ -34,7 +33,6 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: {
-    stockLevel: 0,
     stockLevelStatus: 'inStock',
   },
 };
@@ -87,7 +85,7 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-fdescribe('AddToCartComponent', () => {
+describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: ActiveCartService;

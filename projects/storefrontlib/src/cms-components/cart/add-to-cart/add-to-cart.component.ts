@@ -44,7 +44,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock: boolean | undefined = false;
 
-  showInventory$: Observable<boolean | undefined> | undefined = this.component?.data$.pipe(
+  showInventory$:
+    | Observable<boolean | undefined>
+    | undefined = this.component?.data$.pipe(
     map((data) => data.inventoryDisplay)
   );
 
@@ -56,7 +58,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCartForm = new FormGroup({
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
-
 
   // TODO(#issueNumber-Create the issue number now): Remove deprecated constructors
   constructor(
@@ -87,10 +88,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // this.component?.data$.subscribe((data: CmsAddToCartComponent) => {
-    //   this.showInventory = data.inventoryDisplay ?? false;
-    // });
-
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
@@ -120,8 +117,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
-    }
-    else if (!this.hasStock){
+    } else if (!this.hasStock) {
       this.maxQuantity = 0;
     }
   }
@@ -130,7 +126,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     //When backoffice forces 'In Stock' status, DO NOT display stock level info.
     if (this.hasStock) {
       //Don't show stock level if product forced to be in stock.
-      return (this.maxQuantity !== undefined)? this.maxQuantity + '' : '';
+      return this.maxQuantity !== undefined ? this.maxQuantity + '' : '';
     } else {
       return '';
     }
