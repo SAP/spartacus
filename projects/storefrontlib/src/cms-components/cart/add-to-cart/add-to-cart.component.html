@@ -8,7 +8,7 @@
     ></cx-item-counter>
 
     <span class="info">
-      <span *ngIf="showInventory">{{ getInventory() }}</span>
+      <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
       {{
         hasStock
           ? ('addToCart.inStock' | cxTranslate)
