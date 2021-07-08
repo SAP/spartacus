@@ -65,7 +65,7 @@ describe('dependency management migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the present dependencies are lower', () => {
+  describe('when the dependencies are not present', () => {
     beforeEach(() => {
       writeFile(
         host,
@@ -79,7 +79,7 @@ describe('dependency management migrations', () => {
         })
       );
     });
-    it('should update them', async () => {
+    it('should add them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const packageJson = appTree.readContent('/package.json');
@@ -90,30 +90,59 @@ describe('dependency management migrations', () => {
     });
   });
 
-  describe('when the present dependencies are higher', () => {
-    beforeEach(() => {
-      writeFile(
-        host,
-        '/package.json',
-        JSON.stringify({
-          name: 'xxx',
-          version: '3.0.0',
-          dependencies: {
-            '@spartacus/styles': '3.0.0',
-            bootstrap: '^5.0.0',
-          },
-        })
-      );
-    });
-    it('should downgrade them', async () => {
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+  describe('when the semver range is not satisfied', () => {
+    describe('and when the present dependencies are higher', () => {
+      beforeEach(() => {
+        writeFile(
+          host,
+          '/package.json',
+          JSON.stringify({
+            name: 'xxx',
+            version: '3.0.0',
+            dependencies: {
+              '@spartacus/styles': '3.0.0',
+              bootstrap: '^5.0.0',
+            },
+          })
+        );
+      });
+      it('should downgrade them', async () => {
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const packageJson = appTree.readContent('/package.json');
-      const updatedVersion: string = JSON.parse(packageJson).dependencies
-        .bootstrap;
-      expect(updatedVersion).toEqual(
-        collectedDependencies['@spartacus/styles'].bootstrap
-      );
+        const packageJson = appTree.readContent('/package.json');
+        const updatedVersion: string = JSON.parse(packageJson).dependencies
+          .bootstrap;
+        expect(updatedVersion).toEqual(
+          collectedDependencies['@spartacus/styles'].bootstrap
+        );
+      });
+    });
+
+    describe('and when the present dependencies are lower', () => {
+      beforeEach(() => {
+        writeFile(
+          host,
+          '/package.json',
+          JSON.stringify({
+            name: 'xxx',
+            version: '3.0.0',
+            dependencies: {
+              '@spartacus/styles': '3.0.0',
+              bootstrap: '^3.0.0',
+            },
+          })
+        );
+      });
+      it('should upgrade them', async () => {
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const packageJson = appTree.readContent('/package.json');
+        const updatedVersion: string = JSON.parse(packageJson).dependencies
+          .bootstrap;
+        expect(updatedVersion).toEqual(
+          collectedDependencies['@spartacus/styles'].bootstrap
+        );
+      });
     });
   });
 

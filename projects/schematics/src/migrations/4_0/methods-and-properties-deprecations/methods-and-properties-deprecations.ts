@@ -27,6 +27,7 @@ import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-item
 import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
 import { PAGE_EVENT_MIGRATION } from './data/page-event.builder.ts.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
+import { PRODUCT_SERVICE_MIGRATION } from './data/product.service.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION } from './data/saved-cart-details-action.component.migration';
 import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
@@ -66,6 +67,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...SAVED_CART_LIST_COMPONENT_MIGRATION,
   ...EXPRESS_CHECKOUT_SERVICE_MIGRATION,
   ...CONFIG_INITIALIZER_SERVICE_MIGRATION,
+  ...PRODUCT_SERVICE_MIGRATION,
   ...USER_ID_SERVICE_MIGRATION,
   ...POPOVER_COMPONENT_MIGRATION,
   ...POPOVER_DIRECTIVE_MIGRATION,
