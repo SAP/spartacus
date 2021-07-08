@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  QuickOrderService,
+  QuickOrderStatePersistenceService,
+} from '@spartacus/cart/quick-order/core';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
-import { QuickOrderService } from '../../core/services/quick-order.service';
 
 @Component({
   selector: 'cx-quick-order-container',

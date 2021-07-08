@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { QuickOrderService } from '@spartacus/cart/quick-order/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { QuickOrderService } from '../../core/services/quick-order.service';
 
 @Component({
   selector: 'cx-quick-order-form',
