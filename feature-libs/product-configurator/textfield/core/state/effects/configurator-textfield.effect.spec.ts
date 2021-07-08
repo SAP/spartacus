@@ -30,6 +30,7 @@ const quantity = 1;
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -100,7 +101,10 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
@@ -116,7 +120,10 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case something goes wrong', () => {
     createMock.and.returnValue(throwError(errorResponse));
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
@@ -172,6 +179,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   it('createConfiguration must not emit anything in case source action is not covered', () => {
     const action = new ConfiguratorTextfieldActions.CreateConfigurationSuccess({
       configurationInfos: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     });
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-');

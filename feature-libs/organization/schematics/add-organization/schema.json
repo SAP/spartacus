@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "OrganizationSchematics",
+  "$id": "OrganizationSchematics",
   "title": "Organization Schematics",
   "type": "object",
   "properties": {
