@@ -8,6 +8,8 @@
     }
   }
 
+  @include cx-configurator-attribute-visible-focus();
+
   .cx-quantity {
     padding-block-end: 1rem;
   }

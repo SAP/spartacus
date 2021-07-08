@@ -9,4 +9,6 @@
   .form-check input:disabled + .form-check-label {
     color: var(--cx-color-text);
   }
+
+  @include cx-configurator-attribute-visible-focus();
 }
