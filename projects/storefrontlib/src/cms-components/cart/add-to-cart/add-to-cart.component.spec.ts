@@ -378,7 +378,7 @@ describe('AddToCartComponent', () => {
       );
     });
 
-    it('should return max quantity as string in getInventory', () => {
+    it('should return max quantity as string in getInventory()', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
       );
@@ -394,15 +394,11 @@ describe('AddToCartComponent', () => {
       expect(obtained).toEqual(mockProduct.stock?.stockLevel + '');
     });
 
-    it('should return empty string in getInventory when out of stock', () => {
+    it('should return empty string in getInventory() when out of stock', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockNoStockProduct)
       );
 
-      config$.next({
-        inventoryDisplay: false,
-      });
-
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
@@ -410,15 +406,11 @@ describe('AddToCartComponent', () => {
       expect(obtained).toEqual('');
     });
 
-    it('should return empty string in getInventory when force InStock', () => {
+    it('should return empty string in getInventory() when force InStock', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct2)
       );
 
-      config$.next({
-        inventoryDisplay: false,
-      });
-
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
@@ -426,7 +418,7 @@ describe('AddToCartComponent', () => {
       expect(obtained).toEqual('');
     });
 
-    it('should return threshold value with + in getInventory', () => {
+    it('should return threshold value with + in getInventory()', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct3)
       );
