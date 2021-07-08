@@ -1,5 +1,6 @@
 %cx-configurator-attribute-radio-button {
   @include cx-configurator-attribute-type();
+  @include cx-configurator-attribute-level-quantity-price();
 
   .form-check {
     &:last-child {

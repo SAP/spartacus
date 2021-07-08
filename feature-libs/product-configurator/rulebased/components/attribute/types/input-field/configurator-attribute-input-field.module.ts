@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeInputFieldComponent],
   exports: [ConfiguratorAttributeInputFieldComponent],

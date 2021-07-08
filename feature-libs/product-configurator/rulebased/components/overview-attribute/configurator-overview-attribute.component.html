@@ -1,4 +1,12 @@
 <div class="cx-attribute-value">{{ attributeOverview.value }}</div>
-<div class="cx-attribute-label" [attr.aria-label]="attributeOverview.attribute">
-  {{ attributeOverview.attribute }}
+<div class="cx-attribute-price-container">
+  <div
+    class="cx-attribute-label"
+    [attr.aria-label]="attributeOverview.attribute"
+  >
+    {{ attributeOverview.attribute }}
+  </div>
+  <cx-configurator-price
+    [formula]="extractPriceFormulaParameters()"
+  ></cx-configurator-price>
 </div>

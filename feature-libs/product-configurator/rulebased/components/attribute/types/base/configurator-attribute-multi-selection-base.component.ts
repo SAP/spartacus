@@ -5,6 +5,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
@@ -98,5 +99,38 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
 
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+        currencyIso: '',
+      },
+      priceTotal: this.attribute?.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParametersForValue(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value?.selected,
+    };
   }
 }
