@@ -19,20 +19,13 @@ import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
-const invDisConfig1: CmsAddToCartComponent = {
+
+const config$ = new BehaviorSubject<CmsAddToCartComponent>({
   inventoryDisplay: false,
-};
+});
 
-const turnOffInventoryDisplay = <CmsComponentData<any>>{
-  data$: of(invDisConfig1),
-};
-
-let invDisConfig2: CmsAddToCartComponent = {
-  inventoryDisplay: true,
-};
-
-let turnOnInventoryDisplay = <CmsComponentData<any>>{
-  data$: of(invDisConfig2),
+const toggleInventoryDisplay = <CmsComponentData<any>>{
+  data$: config$.asObservable(),
 };
 
 const productCode = '1234';
@@ -94,7 +87,7 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-describe('AddToCartComponent', () => {
+fdescribe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: ActiveCartService;
@@ -127,7 +120,7 @@ describe('AddToCartComponent', () => {
           },
           {
             provide: CmsComponentData,
-            useValue: turnOffInventoryDisplay,
+            useValue: toggleInventoryDisplay,
           },
         ],
       }).compileComponents();
@@ -141,6 +134,10 @@ describe('AddToCartComponent', () => {
     modalInstance = TestBed.inject(ModalService);
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
+
+    config$.next({
+      inventoryDisplay: false,
+    });
 
     spyOn(modalInstance, 'open').and.callThrough();
     fixture.detectChanges();
@@ -290,7 +287,10 @@ describe('AddToCartComponent', () => {
         stockLevelStatus: 'inStock',
       };
 
-      addToCartComponent['componentData'] = turnOnInventoryDisplay;
+      config$.next({
+        inventoryDisplay: true,
+      });
+
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
@@ -323,7 +323,10 @@ describe('AddToCartComponent', () => {
         stockLevelStatus: 'outOfStock',
       };
 
-      addToCartComponent['componentData'] = turnOnInventoryDisplay;
+      config$.next({
+        inventoryDisplay: true,
+      });
+
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
@@ -355,7 +358,10 @@ describe('AddToCartComponent', () => {
         stockLevelStatus: 'inStock',
       };
 
-      addToCartComponent['componentData'] = turnOnInventoryDisplay;
+      config$.next({
+        inventoryDisplay: true,
+      });
+
       addToCartComponent.productCode = productCode;
       addToCartComponent.product = currentMockProduct;
       addToCartComponent.ngOnInit();
