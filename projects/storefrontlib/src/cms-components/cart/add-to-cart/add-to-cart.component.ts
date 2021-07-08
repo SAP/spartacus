@@ -125,7 +125,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     // When backoffice forces 'In Stock' status, DO NOT display stock level info.
     if (this.hasStock) {
       // Don't show stock level if product forced to be in stock.
-      let display = this.maxQuantity ? this.maxQuantity.toString() : '';
+      const display = this.maxQuantity ? this.maxQuantity.toString() : '';
       return this.inventoryThreshold ? display + '+' : display;
     } else {
       return '';
