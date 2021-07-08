@@ -38,14 +38,9 @@ export function configuratorReducer(
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS: {
-      return setInitialCurrentGroup(takeOverChanges(action, state));
-    }
-
+    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
-      return setInitialCurrentGroup(
-        takeOverPriceSupplementsChanges(action, state)
-      );
+      return setInitialCurrentGroup(takeOverChanges(action, state));
     }
 
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
@@ -186,6 +181,7 @@ function takeOverChanges(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummarySuccess
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
@@ -193,7 +189,6 @@ function takeOverChanges(
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const groups = content.groups.length > 0 ? content.groups : state.groups;
-
   const result = {
     ...state,
     ...content,
@@ -205,176 +200,4 @@ function takeOverChanges(
     },
   };
   return result;
-}
-
-// TODO: pricing - find out how to write tests without exporting them
-export function getGroup(
-  groups: Configurator.Group[],
-  attributeUiKey: string
-): Configurator.Group | undefined {
-  if (attributeUiKey) {
-    return groups?.find(
-      (group) =>
-        group?.id.indexOf(attributeUiKey) !== -1 ||
-        attributeUiKey.indexOf(group?.id) !== -1
-    );
-  }
-}
-
-export function getAttribute(
-  attributes: Configurator.Attribute[],
-  attributeName: string
-): Configurator.Attribute | undefined {
-  if (attributeName) {
-    return attributes.find((attribute) => attribute.name === attributeName);
-  }
-}
-
-export function getValue(
-  values: Configurator.Value[],
-  valueCode: string
-): Configurator.Value | undefined {
-  if (valueCode) {
-    return values.find((value) => value?.valueCode === valueCode);
-  }
-}
-
-function updateValuePrice(
-  groups: Configurator.Group[],
-  attributeUiKey: string,
-  attributeName: string,
-  attributeSupplement: Configurator.AttributeSupplement
-) {
-  const group: Configurator.Group = getGroup(groups, attributeUiKey);
-  if (group) {
-    console.log('VPR found group ID: ' + group?.id);
-    const attribute: Configurator.Attribute = getAttribute(
-      group?.attributes,
-      attributeName
-    );
-    if (attribute) {
-      console.log('VPR found attribute name: ' + attribute.name);
-      attributeSupplement?.valueSupplements?.forEach((valueSupplement) => {
-        let value: Configurator.Value = getValue(
-          attribute?.values,
-          valueSupplement?.attributeValueKey
-        );
-        if (value) {
-          console.log('VPR found value code: ' + value.valueCode);
-          if (value.valuePrice) {
-            console.log('VPR found existing value price: ' + value.valueCode);
-            /**
-            console.log(
-              'writable: ' +
-              Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
-            );
-             */
-            value.valuePrice = valueSupplement?.priceValue;
-          } else {
-            console.log(
-              'VPR value price will be taken from supplement: ' +
-                JSON.stringify(valueSupplement?.priceValue)
-            );
-            value.valuePrice = valueSupplement.priceValue;
-
-            //attribute.values?.push(newValue);
-            //value = newValue;
-          }
-
-          //console.log('VPR value object: ' + JSON.stringify(value));
-        }
-      });
-    }
-    updateValuePrice(
-      group?.subGroups,
-      attributeUiKey,
-      attributeName,
-      attributeSupplement
-    );
-  }
-}
-
-export function getAttributeName(attributeUiKey: string): string | undefined {
-  if (attributeUiKey) {
-    const lastIndexOf = attributeUiKey.lastIndexOf('@');
-    return attributeUiKey.slice(lastIndexOf + 1);
-  }
-}
-
-export function getKey(key: string, name: string): string | undefined {
-  if (key && name) {
-    return key.replace('@' + name, '');
-  }
-}
-
-export function updateValuePrices(
-  groups: Configurator.Group[],
-  attributeSupplements: Configurator.AttributeSupplement[]
-) {
-  attributeSupplements?.forEach((attributeSupplement) => {
-    const attributeName = getAttributeName(attributeSupplement?.attributeUiKey);
-    console.log('VPR attributeName: ' + attributeName);
-    const attributeUiKey: string = getKey(
-      attributeSupplement?.attributeUiKey,
-      attributeName
-    );
-    console.log('VPR attributeUiKey: ' + attributeUiKey);
-    updateValuePrice(
-      groups,
-      attributeUiKey,
-      attributeName,
-      attributeSupplement
-    );
-  });
-}
-
-function takeOverPriceSupplementsChanges(
-  action: ConfiguratorActions.UpdatePriceSummarySuccess,
-  state: Configurator.Configuration
-): Configurator.Configuration {
-  const content = { ...action.payload };
-  const groups = deepCopy(state.groups);
-
-  const priceSupplements = content?.priceSupplements;
-  updateValuePrices(groups, priceSupplements);
-
-  const result = {
-    ...state,
-    ...content,
-    groups: groups,
-    interactionState: {
-      ...state.interactionState,
-      ...content.interactionState,
-      issueNavigationDone: true,
-    },
-  };
-  return result;
-}
-
-function deepCopy<T>(target: T): T {
-  if (!target) {
-    return target;
-  }
-  if (typeof target === 'object') {
-    if (target instanceof Array) {
-      const resultArray = [] as any[];
-      if (((target as any) as any[]).length > 0) {
-        for (const arrayMember of (target as any) as any[]) {
-          resultArray.push(deepCopy(arrayMember));
-        }
-      }
-      return (resultArray as any) as T;
-    } else {
-      const targetKeys = Object.keys(target);
-      const resultObject = {} as { [key: string]: any };
-      if (targetKeys.length > 0) {
-        for (const key of targetKeys) {
-          resultObject[key] = deepCopy((target as { [key: string]: any })[key]);
-        }
-      }
-      return resultObject as T;
-    }
-  }
-  // target is atomic
-  return target;
 }

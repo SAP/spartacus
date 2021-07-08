@@ -92,7 +92,6 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
     });
   });
-
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
@@ -106,7 +105,6 @@ describe('Configurator reducer', () => {
       );
     });
   });
-
   describe('ReadConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
@@ -120,7 +118,6 @@ describe('Configurator reducer', () => {
       );
     });
   });
-
   describe('UpdateConfigurationSuccess action', () => {
     it('should not put configuration into the state because first we need to check for pending changes', () => {
       const { initialState } = StateReduce;
@@ -132,7 +129,6 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
-
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
@@ -147,7 +143,6 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
-
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
@@ -159,7 +154,6 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
-
   describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
@@ -217,7 +211,7 @@ describe('Configurator reducer', () => {
   });
 
   describe('UpdatePriceSummarySuccess action', () => {
-    it('should keep the existing groups although it does not provide groups in its data', () => {
+    it('should keep the existing groups altough it does not provide groups in its data', () => {
       const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
         configuration
       );
@@ -450,279 +444,6 @@ describe('Configurator reducer', () => {
       expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
-    });
-  });
-
-  describe('Update Configuration Value Prices', () => {
-    describe('getAttributeName', () => {
-      it('should return undefined because attribute UI key is null', () => {
-        expect(StateReduce.getAttributeName(null)).toBeUndefined();
-      });
-
-      it('should return undefined because attribute UI key is undefined', () => {
-        expect(StateReduce.getAttributeName(undefined)).toBeUndefined();
-      });
-
-      it('should return attribute name', () => {
-        expect(
-          StateReduce.getAttributeName('groupId@subGroupId@attributeId')
-        ).toEqual('attributeId');
-      });
-    });
-
-    describe('getKey', () => {
-      it('should return undefined because both key and name are null', () => {
-        expect(StateReduce.getKey(null, null)).toBeUndefined();
-      });
-
-      it('should return undefined because both key and name are undefined', () => {
-        expect(StateReduce.getKey(undefined, undefined)).toBeUndefined();
-      });
-
-      it('should return undefined because the key is undefined', () => {
-        expect(StateReduce.getKey(undefined, 'attributeId')).toBeUndefined();
-      });
-
-      it('should return undefined because the name is undefined', () => {
-        expect(
-          StateReduce.getKey('groupId@subGroupId@attributeId', undefined)
-        ).toBeUndefined();
-      });
-
-      it('should return a key', () => {
-        expect(
-          StateReduce.getKey('groupId@subGroupId@attributeId', 'attributeId')
-        ).toEqual('groupId@subGroupId');
-      });
-    });
-
-    describe('getGroup', () => {
-      it('should return undefined because there are no groups', () => {
-        const groups: Configurator.Group[] = [];
-        expect(
-          StateReduce.getGroup(groups, 'groupId@subGroupId@attributeId')
-        ).toBeUndefined();
-      });
-
-      it('should return undefined because there is no search group in the groups list', () => {
-        const groups: Configurator.Group[] = [];
-        for (let index = 1; index <= 4; index++) {
-          const groupId = 'group' + index;
-          const group: Configurator.Group = ConfiguratorTestUtils.createGroup(
-            groupId
-          );
-          groups.push(group);
-        }
-
-        expect(
-          StateReduce.getGroup(groups, 'groupId@subGroupId@attributeId')
-        ).toBeUndefined();
-      });
-
-      it('should return undefined because attribute UI key is undefined or null', () => {
-        const groups: Configurator.Group[] = [];
-        for (let index = 1; index <= 4; index++) {
-          const groupId = 'group' + index;
-          const group: Configurator.Group = ConfiguratorTestUtils.createGroup(
-            groupId
-          );
-          groups.push(group);
-        }
-
-        expect(StateReduce.getGroup(groups, null)).toBeUndefined();
-      });
-
-      it('should return a searched group', () => {
-        const groups: Configurator.Group[] = [];
-        for (let index = 1; index <= 4; index++) {
-          const groupId = 'group' + index;
-          const group: Configurator.Group = ConfiguratorTestUtils.createGroup(
-            groupId
-          );
-          groups.push(group);
-        }
-
-        const result = StateReduce.getGroup(
-          groups,
-          'group3@subGroupId@attributeId'
-        );
-        expect(result.id).toEqual('group3');
-      });
-    });
-
-    describe('getAttribute', () => {
-      it('should return undefined because there are no attribute', () => {
-        const attributes: Configurator.Attribute[] = [];
-        expect(
-          StateReduce.getAttribute(attributes, 'attributeId')
-        ).toBeUndefined();
-      });
-
-      it('should return undefined because there is no search attribute in the attributes list', () => {
-        const attributes: Configurator.Attribute[] = ConfiguratorTestUtils.createListOfAttributes(
-          1,
-          5,
-          0
-        );
-        expect(
-          StateReduce.getAttribute(attributes, 'attributeId')
-        ).toBeUndefined();
-      });
-
-      it('should return undefined because attribute name is undefined or null null', () => {
-        const attributes: Configurator.Attribute[] = ConfiguratorTestUtils.createListOfAttributes(
-          1,
-          5,
-          0
-        );
-        expect(StateReduce.getAttribute(attributes, null)).toBeUndefined();
-      });
-
-      it('should return a searched attribute', () => {
-        const attributes: Configurator.Attribute[] = ConfiguratorTestUtils.createListOfAttributes(
-          1,
-          5,
-          0
-        );
-
-        const result = StateReduce.getAttribute(attributes, 'attribute_1_3');
-        expect(result.name).toEqual('attribute_1_3');
-      });
-    });
-
-    describe('getValue', () => {
-      it('should return undefined because there are no values', () => {
-        const values: Configurator.Value[] = [];
-        expect(StateReduce.getValue(values, 'valueId')).toBeUndefined();
-      });
-
-      it('should return undefined because there is no search value in the values list', () => {
-        const values: Configurator.Value[] = ConfiguratorTestUtils.createListOfValues(
-          1,
-          5
-        );
-        expect(StateReduce.getValue(values, 'value_1_10')).toBeUndefined();
-      });
-
-      it('should return undefined because value code is undefined or null', () => {
-        const values: Configurator.Value[] = ConfiguratorTestUtils.createListOfValues(
-          1,
-          5
-        );
-        expect(StateReduce.getValue(values, null)).toBeUndefined();
-      });
-
-      it('should return a searched value', () => {
-        const values: Configurator.Value[] = ConfiguratorTestUtils.createListOfValues(
-          1,
-          5
-        );
-        const result = StateReduce.getValue(values, 'value_1_3');
-        expect(result.valueCode).toEqual('value_1_3');
-      });
-    });
-
-    describe('updateValuePrices', () => {
-      it('should not update value prices because the list of groups is empty', () => {
-        const groups: Configurator.Group[] = [];
-        const attributeSupplements: Configurator.AttributeSupplement[] = [];
-        StateReduce.updateValuePrices(groups, attributeSupplements);
-        expect(groups?.length).toBe(0);
-      });
-
-      it('should update value prices for simple product', () => {
-        const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
-          1,
-          0,
-          3,
-          3
-        );
-        const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
-          false,
-          1,
-          0,
-          1,
-          3
-        );
-        StateReduce.updateValuePrices(groups, attributeSupplements);
-
-        expect(groups.length).toBe(1);
-        expect(groups[0].subGroups.length).toBe(0);
-        expect(groups[0].attributes.length).toBe(3);
-
-        const values = groups[0].attributes[0].values;
-        const valueSupplements = attributeSupplements[0].valueSupplements;
-        expect(values.length).toBe(3);
-        expect(values[0].valueCode).toEqual(
-          valueSupplements[0].attributeValueKey
-        );
-        expect(values[0].valuePrice.formattedValue).toEqual(
-          valueSupplements[0].priceValue.formattedValue
-        );
-        expect(values[1].valueCode).toEqual(
-          valueSupplements[1].attributeValueKey
-        );
-        expect(values[1].valuePrice.formattedValue).toEqual(
-          valueSupplements[1].priceValue.formattedValue
-        );
-        expect(values[2].valueCode).toEqual(
-          valueSupplements[2].attributeValueKey
-        );
-        expect(values[2].valuePrice.formattedValue).toEqual(
-          valueSupplements[2].priceValue.formattedValue
-        );
-      });
-
-      it('should update value prices for complex product', () => {
-        const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
-          3,
-          3,
-          3,
-          3
-        );
-        const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
-          true,
-          1,
-          3,
-          1,
-          3
-        );
-        StateReduce.updateValuePrices(groups, attributeSupplements);
-
-        expect(groups.length).toBe(3);
-        expect(groups[0].subGroups.length).toBe(1);
-        expect(groups[0].attributes.length).toBe(0);
-        expect(groups[0].subGroups[0].subGroups.length).toBe(1);
-        expect(groups[0].subGroups[0].attributes.length).toBe(0);
-        expect(groups[0].subGroups[0].subGroups[0].subGroups.length).toBe(1);
-        expect(groups[0].subGroups[0].subGroups[0].attributes.length).toBe(0);
-        expect(
-          groups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length
-        ).toBe(0);
-        expect(
-          groups[0].subGroups[0].subGroups[0].subGroups[0].attributes.length
-        ).toBe(3);
-
-        const values =
-          groups[0].subGroups[0].subGroups[0].subGroups[0].attributes[0].values;
-        const valueSupplements = attributeSupplements[0].valueSupplements;
-
-        expect(values[0].valuePrice.formattedValue).toEqual(
-          valueSupplements[0].priceValue.formattedValue
-        );
-        expect(values[1].valueCode).toEqual(
-          valueSupplements[1].attributeValueKey
-        );
-        expect(values[1].valuePrice.formattedValue).toEqual(
-          valueSupplements[1].priceValue.formattedValue
-        );
-        expect(values[2].valueCode).toEqual(
-          valueSupplements[2].attributeValueKey
-        );
-        expect(values[2].valuePrice.formattedValue).toEqual(
-          valueSupplements[2].priceValue.formattedValue
-        );
-      });
     });
   });
 });

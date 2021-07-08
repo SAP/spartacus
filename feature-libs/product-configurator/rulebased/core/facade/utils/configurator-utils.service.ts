@@ -48,7 +48,7 @@ export class ConfiguratorUtilsService {
     if (groupFound) {
       return groupFound;
     } else {
-      //throw new Error('Group could not be found ' + groupId);
+      throw new Error('Group could not be found ' + groupId);
     }
   }
 
