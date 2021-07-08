@@ -86,7 +86,7 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-describe('AddToCartComponent', () => {
+fdescribe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: ActiveCartService;
@@ -349,6 +349,54 @@ describe('AddToCartComponent', () => {
       expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
         'addToCart.inStock'
       );
+    });
+
+    it('should return max quantity as string in getInventory', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual(mockProduct.stock?.stockLevel + '');
+    });
+
+    it('should return empty string in getInventory when out of stock', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockNoStockProduct)
+      );
+
+      config$.next({
+        inventoryDisplay: false,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual('');
+    });
+
+    it('should return empty string in getInventory when force InStock', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct2)
+      );
+
+      config$.next({
+        inventoryDisplay: false,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual('');
     });
   });
 });
