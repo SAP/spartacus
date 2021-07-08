@@ -44,6 +44,16 @@ const mockProduct2: Product = {
   stock: { stockLevelStatus: 'inStock' },
 };
 
+const mockProduct3: Product = {
+  name: 'mockProduct',
+  code: 'code1',
+  stock: {
+    isValueRounded: true,
+    stockLevel: 10,
+    stockLevelStatus: 'inStock',
+  },
+};
+
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
@@ -351,6 +361,23 @@ fdescribe('AddToCartComponent', () => {
       );
     });
 
+    it('should display `+` when product stock level threshold applied when inventory display enabled', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct3)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
+        mockProduct3.stock?.stockLevel + '+ addToCart.inStock'
+      );
+    });
+
     it('should return max quantity as string in getInventory', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
@@ -397,6 +424,22 @@ fdescribe('AddToCartComponent', () => {
 
       const obtained: string = addToCartComponent.getInventory();
       expect(obtained).toEqual('');
+    });
+
+    it('should return threshold value with + in getInventory', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct3)
+      );
+
+      config$.next({
+        inventoryDisplay: true,
+      });
+
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const obtained: string = addToCartComponent.getInventory();
+      expect(obtained).toEqual(mockProduct3.stock?.stockLevel + '+');
     });
   });
 });
