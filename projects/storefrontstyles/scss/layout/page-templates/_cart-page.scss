@@ -20,6 +20,18 @@
     flex-direction: column;
     justify-content: flex-start;
 
+    cx-cart-totals {
+      order: 1;
+    }
+
+    cx-cart-quick-form {
+      order: 2;
+    }
+
+    cx-cart-coupon {
+      order: 3;
+    }
+
     @include media-breakpoint-up(lg) {
       > * {
         flex: none;
@@ -35,6 +47,10 @@
         max-width: 50%;
       }
 
+      cx-cart-quick-form {
+        max-width: 50%;
+      }
+
       cx-cart-coupon {
         max-width: 50%;
       }
@@ -46,6 +62,10 @@
 
       cx-cart-totals {
         max-width: none;
+      }
+
+      cx-cart-quick-form {
+        max-width: 100%;
       }
 
       cx-cart-coupon {

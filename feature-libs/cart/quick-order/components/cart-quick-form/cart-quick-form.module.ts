@@ -10,8 +10,7 @@ import { CartQuickFormComponent } from './cart-quick-form.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        // TODO replace once new sample data will be ready
-        CartApplyCouponComponent: {
+        CartQuickOrderFormComponent: {
           component: CartQuickFormComponent,
         },
       },
