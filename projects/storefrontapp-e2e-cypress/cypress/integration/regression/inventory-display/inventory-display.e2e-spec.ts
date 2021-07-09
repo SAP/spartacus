@@ -81,6 +81,32 @@ describe('B2B - Inventory Display', () => {
           expect(text.includes('+')).to.be.false;
         });
       });
+
+      it('should NOT render maxQuantity if inventory display is off', () => {
+        cy.cxConfig({
+          cmsComponents: {
+            ProductAddToCartComponent: {
+              data: {
+                inventoryDisplay: false,
+              },
+            },
+          },
+        });
+
+        visitProduct(sampleData.IN_STOCK_WITH_QUANT_PRODUCT);
+        const quantitySelector = 'cx-add-to-cart .info span';
+        const valueSelector = 'cx-add-to-cart .info';
+
+        cy.get(quantitySelector).should(($ele) => {
+          const text = $ele.text().trim();
+          assert.equal(text, '');
+        });
+
+        cy.get(valueSelector).should(($ele) => {
+          const text = $ele.text().trim();
+          assert.equal(text, sampleData.stockLabel);
+        });
+      });
     });
   });
 });
