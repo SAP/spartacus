@@ -19,7 +19,7 @@ export namespace OccConfigurator {
   }
 
   export interface Prices {
-    configId?: string;
+    configId: string;
     attributes?: Supplements[];
     pricingError?: boolean;
     showDeltaPrices?: boolean;

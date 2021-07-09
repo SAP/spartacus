@@ -43,12 +43,12 @@ export class ConfiguratorUtilsService {
     }
     const groupFound = this.getGroupFromSubGroups(groups, groupId);
 
-    //we can safely assumed that a group exists, as we know the ID belongs to a
+    //we can safely assume that a group exists, as we know the ID belongs to a
     //group part of the configuration
     if (groupFound) {
       return groupFound;
     } else {
-      //throw new Error('Group could not be found ' + groupId);
+      throw new Error('Group could not be found ' + groupId);
     }
   }
 

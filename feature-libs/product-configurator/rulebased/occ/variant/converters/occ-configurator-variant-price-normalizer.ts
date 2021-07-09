@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
@@ -10,15 +11,20 @@ export class OccConfiguratorVariantPriceNormalizer
     source: OccConfigurator.Prices,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
+    const priceSupplements: Configurator.AttributeSupplement[] = [];
+    source.attributes?.forEach((attr) => {
+      this.convertAttributeSupplements(attr, priceSupplements);
+    });
     const resultTarget: Configurator.Configuration = {
       ...target,
+      configId: source.configId,
+      groups: [],
+      flatGroups: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+      interactionState: {},
       priceSummary: source?.priceSummary,
-      priceSupplements: [],
+      priceSupplements: priceSupplements,
     };
-
-    source?.attributes?.forEach((attr) => {
-      this.convertAttributeSupplements(attr, resultTarget.priceSupplements);
-    });
 
     return resultTarget;
   }

@@ -143,7 +143,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractPriceFormulaParametersForValue(
-    value: Configurator.Value
+    value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
     return {
       price: value?.valuePrice,
