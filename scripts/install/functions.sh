@@ -186,14 +186,14 @@ function install_from_sources {
     npm set @spartacus:registry http://localhost:4873/
 
     if [ ${BRANCH} == 'develop' ]; then
-        printh "Installing develop. Reusing current repo."
+        printh "Installing develop. Reusing current repo for the build."
 	pushd ../.. > /dev/null
 	CLONE_DIR=`pwd`
 	echo "CLONE DIR: ${CLONE_DIR}"
 	yarn build:libs
 	popd > /dev/null
     else
-        printh "Not installing develop. Cloning and installing source dependencies."
+        printh "Cloning and installing source dependencies."
         clone_repo
         ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
     fi
@@ -206,7 +206,7 @@ function install_from_sources {
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
-    sleep 45
+    sleep 15
 
     local dist_packages=(
         'core'
