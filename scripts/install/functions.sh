@@ -174,10 +174,16 @@ function create_apps {
     fi
 }
 
-function publish_package {
+function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
     ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+}
+
+function publish_package {
+    local PKG_NAME=${1};
+    printh "Creating ${PKG_NAME} npm package"
+    ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 }
 
 function install_from_sources {
@@ -205,26 +211,34 @@ function install_from_sources {
 
     sleep 45
 
+    local dist_packages=(
+        'core'
+        'storefrontlib'
+        'assets'
+        'checkout'
+        'product'
+        'setup'
+        'cart'
+        'asm'
+        'user'
+        'organization'
+        'storefinder'
+        'tracking'
+        'qualtrics'
+        'smartedit'
+        'cds'
+        'cdc'
+        'product-configurator'
+    )
+
     local packages=(
-        'core',
-        'storefrontlib',
-        'storefrontstyles',
-        'assets',
-        'schematics',
-        'checkout',
-        'product',
-        'setup',
-        'cart',
-        'asm',
-        'user',
-        'organization',
-        'storefinder',
-        'tracking',
-        'qualtrics',
-        'smartedit',
-        'cds',
-        'cdc',
-        'product-configurator')
+	'storefrontstyles'
+	'schematics'
+    )
+
+    for package in ${dist_packages[@]}; do
+        publish_dist_package ${package} 
+    done
 
     for package in ${packages[@]}; do
         publish_package ${package} 
