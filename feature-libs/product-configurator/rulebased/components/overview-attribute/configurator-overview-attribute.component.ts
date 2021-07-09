@@ -16,9 +16,9 @@ export class ConfiguratorOverviewAttributeComponent {
 
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attributeOverview?.quantity,
-      price: this.attributeOverview?.valuePrice,
-      priceTotal: this.attributeOverview?.valuePriceTotal,
+      quantity: this.attributeOverview.quantity,
+      price: this.attributeOverview.valuePrice,
+      priceTotal: this.attributeOverview.valuePriceTotal,
       isLightedUp: true,
     };
   }

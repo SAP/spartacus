@@ -169,12 +169,6 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   });
 
   describe('extractValuePriceFormulaParameters', () => {
-    it('should return `undefined`', () => {
-      expect(
-        component.extractValuePriceFormulaParameters(undefined)
-      ).toBeUndefined();
-    });
-
     it('should return price formula parameters', () => {
       const value = createTestValue(100, 100, true);
       value.quantity = 5;

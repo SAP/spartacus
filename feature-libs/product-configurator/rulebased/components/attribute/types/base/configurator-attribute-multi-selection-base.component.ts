@@ -102,7 +102,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   }
 
   /**
-   * Extract corresponding price formula parameters
+   * Extract corresponding price formula parameters.
+   * For the multi-selection attribute types only total price of the attribute should be displayed at the attribute level.
    *
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
@@ -119,7 +120,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   }
 
   /**
-   * Extract corresponding value price formula parameters
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
    *
    * @param {Configurator.Value} value - Configurator value
    * @return {ConfiguratorPriceComponentOptions} - New price formula
@@ -127,13 +129,11 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
-    if (value) {
-      return {
-        quantity: value?.quantity,
-        price: value?.valuePrice,
-        priceTotal: value?.valuePriceTotal,
-        isLightedUp: value?.selected,
-      };
-    }
+    return {
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
   }
 }

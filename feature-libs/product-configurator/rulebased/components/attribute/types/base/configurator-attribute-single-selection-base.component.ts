@@ -124,7 +124,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   /**
-   * Extract corresponding price formula parameters
+   * Extract corresponding price formula parameters.
+   * For the single-selection attribute types the complete price formula should be displayed at the attribute level.
    *
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
@@ -138,7 +139,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   /**
-   * Extract corresponding value price formula parameters
+   * Extract corresponding value price formula parameters.
+   * For the single-selection attribute types only value price should be displayed at the value level.
    *
    * @param {Configurator.Value} value - Configurator value
    * @return {ConfiguratorPriceComponentOptions} - New price formula
@@ -149,7 +151,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     if (value) {
       return {
         price: value?.valuePrice,
-        isLightedUp: value?.selected,
+        isLightedUp: value.selected,
       };
     }
   }

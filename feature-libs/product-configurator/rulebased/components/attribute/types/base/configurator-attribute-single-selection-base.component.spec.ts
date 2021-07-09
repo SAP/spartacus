@@ -303,10 +303,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const priceFormulaParameters = component.extractValuePriceFormulaParameters(
         value
       );
-      expect(priceFormulaParameters.price?.value).toBe(
+      expect(priceFormulaParameters?.price.value).toBe(
         value?.valuePrice?.value
       );
-      expect(priceFormulaParameters.isLightedUp).toBe(value?.selected);
+      expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
     });
   });
 

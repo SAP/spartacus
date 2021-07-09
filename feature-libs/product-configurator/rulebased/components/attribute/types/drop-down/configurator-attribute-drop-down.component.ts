@@ -29,6 +29,6 @@ export class ConfiguratorAttributeDropDownComponent
   }
 
   getSelectedValue(): Configurator.Value | undefined {
-    return this.attribute?.values?.find((value) => value?.selected);
+    return this.attribute.values?.find((value) => value?.selected);
   }
 }
