@@ -124,18 +124,18 @@ export class ConfiguratorCartEntryBundleInfoService {
   ): void {
     if (configurationInfoSplitted.length === 3) {
       const lineItemNumber: number = Number(configurationInfoSplitted[1]);
-      const lineItem: LineItem = this.getOrCreateLineItem(
-        lineItemMap,
-        lineItemNumber
-      );
+      let lineItem: LineItem;
       switch (configurationInfoSplitted[2]) {
         case ConfigurationInfoFields.NAME:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
           lineItem.name = configurationInfoValue;
           break;
         case ConfigurationInfoFields.QTY:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
           lineItem.formattedQuantity = configurationInfoValue;
           break;
         case ConfigurationInfoFields.FORMATTED_PRICE:
+          lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
           lineItem.formattedPrice = configurationInfoValue;
           break;
         case ConfigurationInfoFields.KEY:
