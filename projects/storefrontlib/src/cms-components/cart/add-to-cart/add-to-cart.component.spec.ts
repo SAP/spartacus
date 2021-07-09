@@ -7,17 +7,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
   Cart,
+  CmsAddToCartComponent,
   I18nTestingModule,
   OrderEntry,
   Product,
-  CmsAddToCartComponent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
   inventoryDisplay: false,
@@ -218,7 +218,7 @@ describe('AddToCartComponent', () => {
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
-      expect(addToCartComponent.maxQuantity).toBe(0);
+      expect(addToCartComponent.maxQuantity).toBe(undefined);
       expect(addToCartComponent.hasStock).toEqual(false);
     });
   });
