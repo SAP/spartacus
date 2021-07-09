@@ -175,6 +175,12 @@ function create_apps {
     fi
 }
 
+function publish_package {
+    local PKG_NAME=${1};
+    printh "Creating ${PKG_NAME} npm package"
+    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+}
+
 function install_from_sources {
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
@@ -200,62 +206,30 @@ function install_from_sources {
 
     sleep 45
 
-    printh "Creating core npm package"
-    ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    local packages=(
+        'core',
+        'storefrontlib',
+        'storefrontstyles',
+        'assets',
+        'schematics',
+        'checkout',
+        'product',
+        'setup',
+        'cart',
+        'asm',
+        'user',
+        'organization',
+        'storefinder',
+        'tracking',
+        'qualtrics',
+        'smartedit',
+        'cds',
+        'cdc',
+        'product-configurator')
 
-    printh "Creating storefrontlib npm package"
-    ( cd ${CLONE_DIR}/dist/storefrontlib && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating storefrontstyles npm package"
-    ( cd ${CLONE_DIR}/projects/storefrontstyles && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating assets npm package"
-    ( cd ${CLONE_DIR}/dist/assets && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating schematics npm package"
-    ( cd ${CLONE_DIR}/projects/schematics && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating cds npm package"
-    ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating cdc npm package"
-    ( cd ${CLONE_DIR}/dist/cdc && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating setup npm package"
-    ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating organization npm package"
-    ( cd ${CLONE_DIR}/dist/organization && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating storefinder npm package"
-    ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating checkout npm package"
-    ( cd ${CLONE_DIR}/dist/checkout && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating product-configurator npm package"
-    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating product npm package"
-    ( cd ${CLONE_DIR}/dist/product && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating asm npm package"
-    ( cd ${CLONE_DIR}/dist/asm && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating user npm package"
-    ( cd ${CLONE_DIR}/dist/user && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating tracking npm package"
-    ( cd ${CLONE_DIR}/dist/tracking && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating cart npm package"
-    ( cd ${CLONE_DIR}/dist/cart && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating qualtrics npm package"
-    ( cd ${CLONE_DIR}/dist/qualtrics && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-
-    printh "Creating smartedit npm package"
-    ( cd ${CLONE_DIR}/dist/smartedit && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    for package in ${packages[@]}; do
+        publish_package ${package} 
+    done
 
     create_apps
 
