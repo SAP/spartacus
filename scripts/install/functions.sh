@@ -80,14 +80,6 @@ function update_projects_versions {
         done
 }
 
-function install_from_npm {
-    printh "Installing Spartacus from npm libraries"
-
-    prepare_install
-
-    create_apps
-}
-
 function create_shell_app {
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
@@ -193,13 +185,18 @@ function install_from_sources {
 
     npm set @spartacus:registry http://localhost:4873/
 
-    clone_repo
-
-    printh "Installing source dependencies."
-    ( cd ${CLONE_DIR} && yarn install )
-
-    printh "Building spa libraries from source."
-    ( cd ${CLONE_DIR} && yarn build:libs)
+    if [ ${BRANCH} == 'develop' ]; then
+        printh "Installing develop. Reusing current repo."
+	pushd ../.. > /dev/null
+	CLONE_DIR=`pwd`
+	echo "CLONE DIR: ${CLONE_DIR}"
+	yarn build:libs
+	popd > /dev/null
+    else
+        printh "Not installing develop. Cloning and installing source dependencies."
+        clone_repo
+        ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
+    fi
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
@@ -252,6 +249,14 @@ function install_from_sources {
 
     npm set @spartacus:registry https://registry.npmjs.org/
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+}
+
+function install_from_npm {
+    printh "Installing Spartacus from npm libraries"
+
+    prepare_install
+
+    create_apps
 }
 
 function build_csr {
