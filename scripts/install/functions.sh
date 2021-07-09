@@ -37,13 +37,11 @@ function prepare_install {
 
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
-        echo "It seems Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
+        echo "Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
         kill ${VERDACCIO_PID}
     fi
 
     npm config set @spartacus:registry https://registry.npmjs.org/
-
-    printh "Installing installation script npm required packages"
 
     npm i -g verdaccio@5
     npm i -g serve
@@ -341,16 +339,6 @@ function stop_apps {
     pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
 
-function run_e2e_tests {
-    printh "Running e2e tests on app"
-    pushd ${E2E_TEST_DIR} > /dev/null
-    yarn
-    popd > /dev/null
-    pushd ${CLONE_DIR} > /dev/null
-    yarn e2e:cy:run
-    popd > /dev/null
-}
-
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
@@ -358,6 +346,5 @@ function cmd_help {
     echo " install_npm (from latest npm packages)"
     echo " start"
     echo " stop"
-    echo " e2e"
     echo " help"
 }

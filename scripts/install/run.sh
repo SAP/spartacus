@@ -43,9 +43,9 @@ if [ -z ${BASE_DIR} ]; then
     BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
     echo "Setting base directory to ${BASE_DIR}"
 fi
+
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
-E2E_TEST_DIR="${BASE_DIR}/${E2E_TEST_DIR}"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
@@ -60,8 +60,6 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             stop_apps;;
         'help' )
             cmd_help;;
-        'e2e' )
-            run_e2e_tests;;
         * )
             echo "Error: unknown command ${current_command}"
             cmd_help
