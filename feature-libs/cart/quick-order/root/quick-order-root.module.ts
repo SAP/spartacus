@@ -7,11 +7,7 @@ import { provideDefaultConfig, RoutingConfig } from '@spartacus/core';
     provideDefaultConfig({
       featureModules: {
         cartQuickOrder: {
-          cmsComponents: [
-            'QuickOrderComponent',
-            // TODO replace once new sample data will be ready
-            'CartApplyCouponComponent',
-          ],
+          cmsComponents: ['QuickOrderComponent', 'CartQuickOrderFormComponent'],
         },
       },
     }),
