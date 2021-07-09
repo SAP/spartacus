@@ -272,7 +272,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --prod )
+        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
     fi
 }
 
