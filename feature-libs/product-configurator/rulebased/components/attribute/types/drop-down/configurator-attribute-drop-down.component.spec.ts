@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -38,8 +40,17 @@ class MockConfiguratorAttributeQuantityComponent {
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
+  let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
 
   const ownerKey = 'theOwnerKey';
@@ -60,6 +71,7 @@ describe('ConfigAttributeDropDownComponent', () => {
           ConfiguratorAttributeDropDownComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
@@ -74,7 +86,7 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
-
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
@@ -112,5 +124,76 @@ describe('ConfigAttributeDropDownComponent', () => {
         }),
       })
     );
+  });
+
+  describe('attribute level', () => {
+    it('should not display quantity and no price', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price'
+      );
+    });
+
+    it('should display quantity and price', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+      component.attribute.values[0].valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should not display quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.values[0].valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });

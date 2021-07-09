@@ -17,6 +17,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 class MockGroupService {}
 
@@ -36,6 +37,14 @@ class MockConfiguratorAttributeQuantityComponent {
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -48,6 +57,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           ConfiguratorAttributeCheckBoxListComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
@@ -181,7 +191,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   // HTML
-
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
@@ -206,33 +215,86 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should display value quantity when dataType is with value quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
   it('should allow zero value quantity', () => {
     expect(component.allowZeroValueQuantity).toBe(true);
+  });
+
+  describe('attribute level', () => {
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '250.00$',
+        value: 250,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should display value quantity when dataType is with value quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      const value: Configurator.Value = {
+        valueCode: 'a',
+        selected: true,
+        quantity: 5,
+        valuePrice: {
+          currencyIso: '$',
+          formattedValue: '100.00$',
+          value: 250,
+        },
+        valuePriceTotal: {
+          currencyIso: '$',
+          formattedValue: '$500.0',
+          value: 500,
+        },
+      };
+
+      component.attribute.values[0] = value;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });

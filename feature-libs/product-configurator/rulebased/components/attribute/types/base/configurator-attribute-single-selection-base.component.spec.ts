@@ -291,6 +291,25 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
   });
 
+  describe('extractValuePriceFormulaParameters', () => {
+    it('should return `undefined`', () => {
+      expect(
+        component.extractValuePriceFormulaParameters(undefined)
+      ).toBeUndefined();
+    });
+
+    it('should return price formula parameters', () => {
+      const value = createTestValue(100, 100, true);
+      const priceFormulaParameters = component.extractValuePriceFormulaParameters(
+        value
+      );
+      expect(priceFormulaParameters.price?.value).toBe(
+        value?.valuePrice?.value
+      );
+      expect(priceFormulaParameters.isLightedUp).toBe(value?.selected);
+    });
+  });
+
   describe('withQuantity', () => {
     it('should not allow quantity', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;

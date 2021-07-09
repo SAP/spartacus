@@ -126,12 +126,14 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    return {
-      quantity: value?.quantity,
-      price: value?.valuePrice,
-      priceTotal: value?.valuePriceTotal,
-      isLightedUp: value?.selected,
-    };
+  ): ConfiguratorPriceComponentOptions | undefined {
+    if (value) {
+      return {
+        quantity: value?.quantity,
+        price: value?.valuePrice,
+        priceTotal: value?.valuePriceTotal,
+        isLightedUp: value?.selected,
+      };
+    }
   }
 }
