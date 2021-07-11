@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CartConfig, provideConfig /*, SiteContextConfig*/ } from '@spartacus/core';
+import { CartConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -12,7 +12,6 @@ import {
     provideConfig(layoutConfig),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
-    /*
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -25,7 +24,7 @@ import {
         ],
       },
     }),
-    */
+    
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
