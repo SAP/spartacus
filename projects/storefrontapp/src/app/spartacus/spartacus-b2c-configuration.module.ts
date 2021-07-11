@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CartConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
+import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -28,13 +28,6 @@ import {
       pwa: {
         enabled: true,
         addToHomeScreen: true,
-      },
-    }),
-    provideConfig(<CartConfig>{
-      cart: {
-        selectiveCart: {
-          enabled: true,
-        },
       },
     }),
   ],
