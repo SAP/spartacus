@@ -7,13 +7,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   CmsComponentData,
 } from '@spartacus/storefront';
 import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
+import { FileValidity } from '../../../core/model';
 
 @Component({
   selector: 'cx-import-entries',
@@ -24,28 +25,25 @@ export class ImportEntriesComponent implements OnDestroy {
   private subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
+  componentData$ = this.componentData.data$;
+
   constructor(
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService,
     protected componentData: CmsComponentData<CmsImportEntriesComponent>
   ) {}
 
-  openDialog(): void {
-    this.subscription.add(
-      this.componentData.data$
-        .pipe(
-          map((componentData: CmsImportEntriesComponent) => {
-            return this.launchDialogService.openDialog(
-              LAUNCH_CALLER.IMPORT_TO_CART,
-              this.element,
-              this.vcr,
-              componentData.fileValidity
-            );
-          }),
-          take(1)
-        )
-        .subscribe()
+  openDialog(fileValidity: FileValidity): void {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.IMPORT_TO_CART,
+      this.element,
+      this.vcr,
+      fileValidity
     );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   ngOnDestroy(): void {
