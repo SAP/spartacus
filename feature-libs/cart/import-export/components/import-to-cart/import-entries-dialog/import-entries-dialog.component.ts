@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
@@ -13,8 +14,6 @@ import {
   CustomFormValidators,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -30,7 +29,6 @@ export class ImportEntriesDialogComponent implements OnInit {
     autofocus: 'button',
     focusOnEscape: true,
   };
-  fileValidity$: Observable<FileValidity> = this.launchDialogService.data$;
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
@@ -53,10 +51,11 @@ export class ImportEntriesDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.launchDialogService.data$.pipe(take(1)).subscribe((fileValidity) => {
-      console.log(fileValidity);
-      this.fileValidity = fileValidity;
-    });
+    this.launchDialogService.data$
+      .pipe(take(1))
+      .subscribe((fileValidity: FileValidity) => {
+        this.fileValidity = fileValidity;
+      });
   }
 
   close(reason: string): void {

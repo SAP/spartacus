@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-// import { FileValidity, InvalidFileInfo } from '../model/import-to-cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,41 +28,6 @@ export class ImportService {
       };
     });
   }
-
-  /**
-   * Checks validity of the file
-   *
-   * @param file CSV file to check
-   * @param validityConfig optional object to pass any custom validity config
-   * @returns validity boolean and invalid file information object if any
-   */
-  // protected checkValidity(
-  //   file: File,
-  //   validityConfig?: FileValidity
-  // ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
-  //   let isFileValid: Boolean = true;
-  //   const invalidFileInfo: InvalidFileInfo = {};
-  //   validityConfig = this.setValidityConfig(validityConfig);
-  //   if (
-  //     validityConfig?.maxSize &&
-  //     file.size / 1000000 > validityConfig?.maxSize
-  //   ) {
-  //     isFileValid = false;
-  //     invalidFileInfo.tooLarge = true;
-  //   }
-  //   if (!validityConfig?.allowedExtensions?.includes(file.type)) {
-  //     isFileValid = false;
-  //     invalidFileInfo.invalidExtension = true;
-  //   }
-  //   if (
-  //     validityConfig?.checkEmptyFile &&
-  //     file.size <= (validityConfig?.minSize ?? 0)
-  //   ) {
-  //     isFileValid = false;
-  //     invalidFileInfo.empty = true;
-  //   }
-  //   return { isFileValid, invalidFileInfo };
-  // }
 
   /**
    * Processes the CSV data
