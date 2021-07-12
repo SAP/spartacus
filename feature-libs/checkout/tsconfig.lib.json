@@ -16,6 +16,8 @@
     "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
+      "@spartacus/cart/main/core": ["dist/cart/main/core"],
+      "@spartacus/cart/main": ["dist/cart/main"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [

@@ -5,6 +5,6 @@ import { Converter } from '../../../util/converter.service';
 /**
  * @deprecated since 4.1 - use cart lib instead
  */
- export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
+export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
   'CartNormalizer'
 );

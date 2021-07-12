@@ -10,10 +10,10 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
     CartPersistenceModule.forRoot(),
   ],
 })
-export class CartModule {
-  static forRoot(): ModuleWithProviders<CartModule> {
+export class CartCoreModule {
+  static forRoot(): ModuleWithProviders<CartCoreModule> {
     return {
-      ngModule: CartModule,
+      ngModule: CartCoreModule,
     };
   }
 }

@@ -16,6 +16,10 @@
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
+      "@spartacus/cart/main/core": [
+        "../../feature-libs/cart/main/core/public_api"
+      ],
+      "@spartacus/cart/main": ["../../feature-libs/cart/main/public_api"],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
       "@spartacus/cart/saved-cart/assets": [
         "../../feature-libs/cart/saved-cart/assets/public_api"
@@ -86,14 +90,14 @@
       "@spartacus/product-configurator": [
         "../../feature-libs/product-configurator/public_api"
       ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "../../feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],
       "@spartacus/product-configurator/rulebased": [
         "../../feature-libs/product-configurator/rulebased/public_api"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../feature-libs/product-configurator/rulebased/root/public_api"
-      ],
-      "@spartacus/product-configurator/rulebased/cpq": [
-        "../../feature-libs/product-configurator/rulebased/cpq/public_api"
       ],
       "@spartacus/product-configurator/textfield": [
         "../../feature-libs/product-configurator/textfield/public_api"

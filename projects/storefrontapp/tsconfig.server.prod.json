@@ -11,6 +11,8 @@
       "@spartacus/asm": ["../../dist/asm"],
       "@spartacus/asm/occ": ["../../dist/asm/occ"],
       "@spartacus/asm/root": ["../../dist/asm/root"],
+      "@spartacus/cart/main/core": ["../../dist/cart/main/core"],
+      "@spartacus/cart/main": ["../../dist/cart/main"],
       "@spartacus/cart": ["../../dist/cart"],
       "@spartacus/cart/saved-cart/assets": [
         "../../dist/cart/saved-cart/assets"
@@ -63,11 +65,11 @@
         "../../dist/product-configurator/common"
       ],
       "@spartacus/product-configurator": ["../../dist/product-configurator"],
-      "@spartacus/product-configurator/rulebased": [
-        "../../dist/product-configurator/rulebased"
-      ],
       "@spartacus/product-configurator/rulebased/cpq": [
         "../../dist/product-configurator/rulebased/cpq"
+      ],
+      "@spartacus/product-configurator/rulebased": [
+        "../../dist/product-configurator/rulebased"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
