@@ -86,8 +86,14 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.server();
-  createCameraQuery(QUERY_ALIAS.CAMERA);
+  cy.intercept({
+    method: 'GET',
+    pathname: searchUrlPrefix,
+    query: {
+      fields: '*',
+      query: 'camera',
+    },
+  }).as(QUERY_ALIAS.CAMERA);
   cy.onMobile(() => {
     clickSearchIcon();
   });
@@ -145,8 +151,14 @@ export function viewMode() {
 }
 
 export function filterUsingFacetFiltering() {
-  cy.server();
-  createFacetFilterQuery(QUERY_ALIAS.FACET);
+  cy.intercept({
+    method: 'GET',
+    pathname: searchUrlPrefix,
+    query: {
+      fields: '*',
+      query: 'camera:relevance:availableInStores:*',
+    },
+  }).as(QUERY_ALIAS.FACET);
 
   clickFacet('Stores');
 
@@ -243,23 +255,8 @@ export function clearSelectedFacet() {
   cy.get('cx-product-facet-navigation cx-active-facets a').first().click();
 }
 
-function createCameraQuery(alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}?fields=*&query=camera*`).as(alias);
-}
-
-function createFacetFilterQuery(alias: string): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=camera:relevance:availableInStores*`
-  ).as(alias);
-}
-
 export function createProductSortQuery(sort: string, alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
-}
-
-export function createAllProductQuery(alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
 }
 
 export function createProductQuery(
