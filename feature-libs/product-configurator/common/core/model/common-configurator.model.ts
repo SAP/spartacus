@@ -105,5 +105,5 @@ export enum ConfigurationInfoSpecialFields {
   VERSION = 'CONFIGURATION_INFO_##_VERSION',
   CURRENCY = 'CONFIGURATION_INFO_##_CURRENCY',
   LINE_ITEM = 'LINEITEM',
-  LINEITEM_DELIMITER = '_##_',
+  LINE_ITEM_DELIMITER = '_##_',
 }
