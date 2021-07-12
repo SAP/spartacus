@@ -1,4 +1,8 @@
 import { SampleProduct } from '../../sample-data/checkout-flow';
+import * as sampleData from '../../sample-data/b2b-quick-order';
+import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
+
 // import { waitForPage } from '../checkout-flow';
 
 export function visitCartPage() {
@@ -66,4 +70,24 @@ export function verifyQuickOrderListQuantity(quantity: number) {
 export function addProductToCartWithQuickForm(productCode: string) {
   cy.get('cx-cart-quick-form .input-product-code').type(`${productCode}`);
   cy.get('cx-cart-quick-form .apply-coupon-button').click();
+}
+
+export function prepareCartWithProduct() {
+  this.visitQuickOrderPage();
+  this.addProductToTheList(sampleData.products[0].code);
+  this.addToCart();
+  cy.wait(1000);
+  this.visitCartPage();
+}
+
+export function verifyCartPageTabbingOrder() {
+  cy.get(
+    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
+  ); // wait until counter is accessible
+
+  tabbingOrder('cx-page-layout.CartPageTemplate', config.cart);
+}
+
+export function verifyQuickOrderPageTabbingOrder() {
+  tabbingOrder('cx-quick-order-container', config.quickOrder);
 }

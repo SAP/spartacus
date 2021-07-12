@@ -1,7 +1,7 @@
 export const products = [
   {
-    name: 'Measuring beakers',
-    code: '2217258',
+    name: 'Cordless screwdriver 2436',
+    code: '3881074',
   },
   {
     name: '6 Inch Nylon Cable Ties 100-Pack',

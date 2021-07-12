@@ -131,6 +131,7 @@ export function verifyTabbingOrder(
   containerSelector: string,
   elements: TabElement[]
 ) {
+  console.log(elements);
   cy.get(containerSelector)
     .find(focusableSelectors.join(','))
     .then((focusableElements) =>

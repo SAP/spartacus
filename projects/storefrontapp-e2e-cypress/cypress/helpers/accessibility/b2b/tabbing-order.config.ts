@@ -325,6 +325,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Apply',
       type: TabbingOrderTypes.BUTTON,
     },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add To Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
   savedCartModal: [
     {
@@ -382,5 +391,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
+  ],
+  quickOrder: [
+    {
+      value: 'product',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Empty List', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add To Cart', type: TabbingOrderTypes.BUTTON },
   ],
 };
