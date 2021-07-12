@@ -23,9 +23,9 @@ export class ImportService {
         observer.next(this.readCsvData(fileReader.result as string));
         observer.complete();
       };
-      fileReader.onerror = () => {
+      fileReader.onerror = (error) => {
         fileReader.abort();
-        observer.error({ notParsable: true });
+        observer.error(error);
       };
     });
   }

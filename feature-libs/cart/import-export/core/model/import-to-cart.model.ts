@@ -1,4 +1,4 @@
-import { CmsComponent } from '../../../../../projects/core/src/model';
+import { CmsComponent } from '@spartacus/core';
 
 export type ProductsData = {
   productCode: string;
