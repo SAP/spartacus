@@ -237,7 +237,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
   describe('for enhanced OCC API format: ', () => {
     it('should retrieve an existing lineitem for requested lineitemNumber from lineitemMap', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const lineItemNumber: number = 123;
+      const lineItemNumber  = 123;
       lineItemMap.set(lineItemNumber, v2_expectedLineItem0);
       const lineItem: LineItem = configuratorCartEntryBundleInfoService[
         'getOrCreateLineItem'
