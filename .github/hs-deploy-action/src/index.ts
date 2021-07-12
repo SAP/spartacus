@@ -11,27 +11,29 @@ async function run() {
     throw new Error('Github token missing in action');
   }
 
+  const octoKit = github.getOctokit(GITHUB_TOKEN);
   const context = github.context;
-  const pr = context.payload.pull_request;
+  const eventName = context.eventName;
 
-  if (!pr) {
-    throw new Error(
-      'Missing pull request context! Make sure to run this action only for pull_requests.'
-    );
+  let branch;
+
+  if (eventName === 'push') {
+    branch = context.payload.ref.replace('refs/heads/', '');
+  } else if (eventName === 'pull_request') {
+    branch = context.payload.pull_request.head.ref;
   }
 
-  const branch = pr.head.ref;
-  const octoKit = github.getOctokit(GITHUB_TOKEN);
-
-  console.log(`Starting Hosting service deployment of PR branch ${branch}.`);
+  console.log(
+    `Starting Hosting service deployment on '${eventName}' of branch '${branch}'`
+  );
 
   //run sh to get CLI and prep
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
   if (UPP_ACTION === 'deploy') {
     await build();
-    await deploy(github, octoKit);
-    console.log('--> Hosting service deployment done');
+    await deploy(github, octoKit, branch);
+    console.log('--> Hosting service deployment done!');
   } else if (UPP_ACTION === 'undeploy') {
     await undeploy(branch);
   }
