@@ -225,7 +225,7 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
+"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
 "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
@@ -252,7 +252,7 @@ Add `- [ ] `npm run release:TODO::with-changelog` (needed since `x.x.x`)` under 
     "publishPath": "./../../dist/TODO:"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build TODO: --prod"
+    "after:version:bump": "cd ../.. && ng build TODO: --configuration production"
   },
   "github": {
     "release": true,
@@ -339,7 +339,7 @@ Don't forget to:
 
 - run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
-- build the generated library (without Ivy) - `ng build <lib-name> --prod`
+- build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `yarn build:libs` (build all the libs)
   - `yarn build`
