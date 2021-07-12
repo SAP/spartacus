@@ -21,7 +21,9 @@
       "@spartacus/checkout/core": ["dist/checkout/core"],
       "@spartacus/checkout": ["dist/checkout"],
       "@spartacus/checkout/occ": ["dist/checkout/occ"],
-      "@spartacus/checkout/root": ["dist/checkout/root"]
+      "@spartacus/checkout/root": ["dist/checkout/root"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {
