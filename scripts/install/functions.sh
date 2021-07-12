@@ -196,14 +196,14 @@ function install_from_sources {
     npm set @spartacus:registry http://localhost:4873/
 
     if [ ${BRANCH} == 'develop' ]; then
-        printh "Installing develop. Reusing current repo for the build."
-	pushd ../.. > /dev/null
-	CLONE_DIR=`pwd`
-	echo "CLONE DIR: ${CLONE_DIR}"
-	yarn build:libs
-	popd > /dev/null
+        echo "Installing develop. Reusing current repo for the build."
+        pushd ../.. > /dev/null
+        CLONE_DIR=`pwd`
+        echo "CLONE DIR: ${CLONE_DIR}"
+        yarn build:libs
+        popd > /dev/null
     else
-        printh "Cloning and installing source dependencies."
+        echo "Not installing develop. Cloning repo and installing dependencies."
         clone_repo
         ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
     fi
@@ -239,8 +239,8 @@ function install_from_sources {
     )
 
     local packages=(
-	'storefrontstyles'
-	'schematics'
+        'storefrontstyles'
+        'schematics'
     )
 
     for package in ${dist_packages[@]}; do
