@@ -20,13 +20,15 @@ export function createUser(): AccountData {
   // TODO: optimize below code to avoid unnecessary login and logout
   // we just need to register
   cy.requireLoggedIn(user);
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?*/logout*`
-  ).as('logOut');
+    )}/cms/pages`,
+    query: {
+      pageLabelOrId: '/logout',
+    },
+  }).as('logOut');
   cy.visit('/logout');
   cy.wait('@logOut');
 
