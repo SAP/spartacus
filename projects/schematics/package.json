@@ -28,7 +28,7 @@
     "@schematics/angular": "^12.0.5",
     "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "~4.2.4"
+    "typescript": "^4.2.4"
   },
   "ng-add": {
     "save": "devDependencies"
