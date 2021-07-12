@@ -61,7 +61,7 @@ const orderEntry: OrderEntry = {
   ],
 };
 
-const productName0: string = 'PRODUCT_NAME_0';
+const productName0 = 'PRODUCT_NAME_0';
 const productQty0: string = '1';
 const productFormattedPrice0: string = '$100.00';
 const productKey0: string = 'PRODUCT_KEY_0';
