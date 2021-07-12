@@ -4,10 +4,15 @@ context('Language Switcher', () => {
   const productPath = siteContextSelector.PRODUCT_PATH_1;
 
   beforeEach(() => {
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as(
-      siteContextSelector.LANGUAGES
-    );
+    cy.intercept({
+      pathname: `${Cypress.env('OCC_PREFIX')}/${
+        siteContextSelector.CONTENT_CATALOG
+      }/languages`,
+      query: {
+        lang: siteContextSelector.LANGUAGE_EN,
+        curr: siteContextSelector.CURRENCY_USD,
+      },
+    }).as(siteContextSelector.LANGUAGES);
   });
 
   describe('Product Page', () => {
