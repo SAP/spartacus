@@ -6,8 +6,7 @@ context('Currency change', () => {
 
   beforeEach(() => {
     cy.server();
-    siteContextSelector.createRoute(
-      siteContextSelector.CURRENCY_REQUEST,
+    cy.route(siteContextSelector.CURRENCY_REQUEST).as(
       siteContextSelector.CURRENCIES
     );
   });

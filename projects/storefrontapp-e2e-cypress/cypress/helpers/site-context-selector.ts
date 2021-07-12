@@ -125,15 +125,11 @@ export function paymentDetailsNextStep() {
   cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
-export function createRoute(request: string, alias: string): void {
-  cy.route(request).as(alias);
-}
-
 export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
     cy.server();
-    createRoute(request, alias);
+    cy.route(request).as(alias);
   });
 
   afterEach(() => {

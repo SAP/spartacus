@@ -282,12 +282,17 @@ export function changeLanguageTest() {
     checkAllInputConsentState(BE_CHECKED);
     closeAnonymousConsentsDialog();
 
-    cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
+    cy.intercept({
+      method: 'GET',
+      query: {
+        lang: LANGUAGE_DE,
+      },
+    }).as('switchedContext');
     cy.onMobile(() => {
       clickHamburger();
     });
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
-    cy.wait('@switchedContext').its('status').should('eq', 200);
+    cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 
     openAnonymousConsentsDialog();
     checkAllInputConsentState(BE_CHECKED);
