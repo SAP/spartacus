@@ -195,3 +195,7 @@ title: Changes to Styles in 4.0
 ## Changes in `_header.scss` Changes 
 
 - `min-height` is changed to `max-height` to accomedate for the header navigation height.
+
+## Changes in `_versioning.scss` Changes 
+
+-  Themes for minors versioning is changed from `$_fullVersion: 3.3;` and `$_majorVersion: 3;` to `$_fullVersion: 4;` and `$_majorVersion: 4;` for 4.0 release.
