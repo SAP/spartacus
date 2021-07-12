@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/digital-payments",
   "version": "0.300.0",
-  "description": "Customer Data Cloud Integration library for Spartacus",
+  "description": "Digital Payments Integration library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
