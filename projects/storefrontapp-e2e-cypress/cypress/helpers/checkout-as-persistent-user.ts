@@ -1,17 +1,5 @@
 import { product } from '../sample-data/checkout-flow';
 
-export const username = 'test-user-cypress@ydev.hybris.com';
-export const password = 'Password123.';
-export const firstName = 'Test';
-export const lastName = 'User';
-export const titleCode = 'mr';
-
-export function loginSuccessfully() {
-  cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
-  cy.visit('/');
-  cy.get('.cx-login-greet').should('contain', 'Test User');
-}
-
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
@@ -187,18 +175,4 @@ export function verifyAndPlaceOrder() {
 
   cy.get('.form-check-input').check();
   cy.get('button.btn-primary').click();
-}
-
-export function displaySummaryPage() {
-  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
-  cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-summary .container').within(() => {
-    cy.get('.cx-summary-card:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
-      cy.contains('Standard Delivery');
-    });
-    cy.get('.cx-summary-card:nth-child(3) .cx-card').should('not.be.empty');
-  });
-  cy.get('cx-cart-item .cx-code').should('contain', product.code);
-  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
