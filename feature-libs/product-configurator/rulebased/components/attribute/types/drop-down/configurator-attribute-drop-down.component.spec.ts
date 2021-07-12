@@ -156,6 +156,8 @@ describe('ConfigAttributeDropDownComponent', () => {
           formattedValue: '$100.00',
           value: 100,
         };
+      } else {
+        fail('Value not available');
       }
 
       fixture.detectChanges();
@@ -196,7 +198,10 @@ describe('ConfigAttributeDropDownComponent', () => {
           formattedValue: '$100.00',
           value: 100,
         };
+      } else {
+        fail('Value not available');
       }
+
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(

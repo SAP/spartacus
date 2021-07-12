@@ -155,6 +155,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           formattedValue: '$100.00',
           value: 100,
         };
+      } else {
+        fail('Value not available');
       }
 
       fixture.detectChanges();
@@ -195,6 +197,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           formattedValue: '$100.00',
           value: 100,
         };
+      } else {
+        fail('Value not available');
       }
 
       fixture.detectChanges();

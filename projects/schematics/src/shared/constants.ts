@@ -483,9 +483,9 @@ export const CONFIGURATOR_GROUP_MENU_COMPONENT =
 export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
 export const MESSAGE_CONFIG = 'MessageConfig';
 export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
-export const CONFIGURATOR_OVERVIEW_ATTRIBUTE =
-  'ConfiguratorOverviewAttributeComponent';
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
+export const CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT =
+  'ConfiguratorOverviewAttributeComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';

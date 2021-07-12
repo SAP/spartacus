@@ -290,6 +290,8 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
             value: 500,
           },
         };
+      } else {
+        fail('Value not available');
       }
 
       fixture.detectChanges();
