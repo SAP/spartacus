@@ -159,7 +159,7 @@ export const common = {
       empty: 'File should not be empty',
       invalidExtension: 'File extension is not valid',
       tooLarge: 'File size is too large',
-      notParsable: 'File size is not parsable',
+      notParsable: 'File is not parsable',
     },
   },
   errorHandlers: {
