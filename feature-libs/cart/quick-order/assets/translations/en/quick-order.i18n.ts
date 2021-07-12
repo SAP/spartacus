@@ -30,6 +30,8 @@ export const quickOrderList = {
   inStock: 'In Stock',
   lowStock: 'Low Stock',
   outOfStock: 'Out of Stock',
+  listCleared: 'Quick order list has been cleared',
+  addedtoCart: 'Quick order list has been added to the cart',
 };
 
 export const quickOrder = {

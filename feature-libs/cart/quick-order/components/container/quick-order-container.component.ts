@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
-  QuickOrderService,
-  QuickOrderStatePersistenceService,
-} from '@spartacus/cart/quick-order/core';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
+  ActiveCartService,
+  GlobalMessageService,
+  GlobalMessageType,
+  OrderEntry,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order-container',
@@ -17,7 +21,8 @@ export class QuickOrderComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected quickOrderService: QuickOrderService,
+    protected globalMessageService: GlobalMessageService,
+    protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
   ) {}
 
@@ -30,12 +35,25 @@ export class QuickOrderComponent implements OnInit {
 
   clear(): void {
     this.quickOrderService.clearList();
+
+    this.globalMessageService.add(
+      {
+        key: 'quickOrderList.listCleared',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
   }
 
   addToCart(): void {
-    this.entries$.subscribe((entries) => {
+    this.entries$.pipe(first()).subscribe((entries) => {
       this.activeCartService.addEntries(entries);
       this.quickOrderService.clearList();
+      this.globalMessageService.add(
+        {
+          key: 'quickOrderList.addedtoCart',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   }
 }

@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { OrderEntry } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
@@ -26,7 +26,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(protected quickOrderService: QuickOrderService) {}
+  constructor(protected quickOrderService: QuickOrderFacade) {}
 
   ngOnInit(): void {
     this.quantityControl = new FormControl(this.entry.quantity);

@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   OrderEntry,
   Product,
+  Translatable,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
-import { QuickOrderService } from '../../core/services/quick-order.service';
 import { QuickOrderComponent } from './quick-order-container.component';
 
 const mockProduct: Product = {
@@ -17,7 +20,7 @@ const mockEntry: OrderEntry = {
   product: mockProduct,
 };
 
-class MockQuickOrderService implements Partial<QuickOrderService> {
+class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
     return new BehaviorSubject<OrderEntry[]>([mockEntry]);
   }
@@ -31,17 +34,20 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
-class MockQuickOrderStatePersistenceService
-  implements Partial<QuickOrderStatePersistenceService> {
-  getProductsList(): any {}
-  initSync(): void {}
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(
+    _text: string | Translatable,
+    _type: GlobalMessageType,
+    _timeout?: number
+  ): void {}
 }
 
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
   let activeCartService: ActiveCartService;
-  let quickOrderService: QuickOrderService;
+  let quickOrderService: QuickOrderFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,17 +55,15 @@ describe('QuickOrderComponent', () => {
       declarations: [QuickOrderComponent],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: QuickOrderService, useClass: MockQuickOrderService },
-        {
-          provide: QuickOrderStatePersistenceService,
-          useClass: MockQuickOrderStatePersistenceService,
-        },
-        ,
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
+        QuickOrderStatePersistenceService,
       ],
     }).compileComponents();
 
     activeCartService = TestBed.inject(ActiveCartService);
-    quickOrderService = TestBed.inject(QuickOrderService);
+    quickOrderService = TestBed.inject(QuickOrderFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   beforeEach(() => {
@@ -75,14 +79,22 @@ describe('QuickOrderComponent', () => {
 
   it('should trigger clear the list method from the service', () => {
     spyOn(quickOrderService, 'clearList');
+    spyOn(globalMessageService, 'add').and.stub();
 
     component.clear();
     expect(quickOrderService.clearList).toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quickOrderList.listCleared',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
   });
 
   it('should trigger add to cart', () => {
     spyOn(quickOrderService, 'clearList');
     spyOn(activeCartService, 'addEntries');
+    spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart();
 
@@ -93,5 +105,11 @@ describe('QuickOrderComponent', () => {
 
     expect(activeCartService.addEntries).toHaveBeenCalledWith(entryList);
     expect(quickOrderService.clearList).toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quickOrderList.addedtoCart',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
 });

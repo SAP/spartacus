@@ -1,9 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { QuickOrderService } from '../../core/services/quick-order.service';
 import { QuickOrderListComponent } from './quick-order-list.component';
 
 const mockEntries: OrderEntry[] = [
@@ -15,7 +15,7 @@ const mockEntries: OrderEntry[] = [
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
 
-class MockQuickOrderService implements Partial<QuickOrderService> {
+class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
     return mockEntries$;
   }
@@ -31,7 +31,7 @@ describe('QuickOrderListComponent', () => {
       imports: [I18nTestingModule],
       declarations: [QuickOrderListComponent],
       providers: [
-        { provide: QuickOrderService, useClass: MockQuickOrderService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
     }).compileComponents();
   });

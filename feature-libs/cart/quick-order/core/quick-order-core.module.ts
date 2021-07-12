@@ -1,10 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { QuickOrderConnector } from './connectors/quick-order.connector';
+import { facadeProviders } from './facade/facade-providers';
 import { QuickOrderStatePersistenceService } from './services/quick-order-state-persistance.service';
-import { QuickOrderService } from './services/quick-order.service';
 
 @NgModule({
-  providers: [QuickOrderStatePersistenceService, QuickOrderService],
+  providers: [...facadeProviders, QuickOrderStatePersistenceService],
 })
 export class QuickOrderCoreModule {
   static forRoot(): ModuleWithProviders<QuickOrderCoreModule> {
