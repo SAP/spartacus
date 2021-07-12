@@ -62,77 +62,77 @@ const orderEntry: OrderEntry = {
 };
 
 const productName0 = 'PRODUCT_NAME_0';
-const productQty0: string = '1';
-const productFormattedPrice0: string = '$100.00';
-const productKey0: string = 'PRODUCT_KEY_0';
-const productPriceValue0: string = '100.00';
-const productName1: string = 'PRODUCT_NAME_1';
-const productQty1: string = '1';
-const productFormattedPrice1: string = '$100.00';
-const productKey1: string = 'PRODUCT_KEY_1';
-const productPriceValue1: string = '100.00';
+const productQty0 = '1';
+const productFormattedPrice0 = '$100.00';
+const productKey0 = 'PRODUCT_KEY_0';
+const productPriceValue0 = '100.00';
+const productName1 = 'PRODUCT_NAME_1';
+const productQty1 = '1';
+const productFormattedPrice1 = '$100.00';
+const productKey1 = 'PRODUCT_KEY_1';
+const productPriceValue1 = '100.00';
 const v2_confInfo_version: ConfigurationInfo = {
-  configurationLabel: 'CONFIGURATION_INFO_##_VERSION',
+  configurationLabel: 'CI#@#VERSION',
   configurationValue: '2',
 };
 
 const v2_confInfo0_name_novalue: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_NAME',
+  configurationLabel: 'LI#0#NAME',
   configurationValue: '',
 };
 
 const v2_confInfo0_unexpected: ConfigurationInfo = {
-  configurationLabel: 'UNEXPECTED_##_0_##_NAME',
+  configurationLabel: 'UNEXPECTED#0#NAME',
   configurationValue: 'VALUE',
 };
 
 const v2_confInfo0_name: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_NAME',
+  configurationLabel: 'LI#0#NAME',
   configurationValue: productName0,
 };
 
 const v2_confInfo0_qty: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_QTY',
+  configurationLabel: 'LI#0#QTY',
   configurationValue: productQty0,
 };
 
 const v2_confInfo0_formattedprice: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_FORMATTED_PRICE',
+  configurationLabel: 'LI#0#FORMATTED_PRICE',
   configurationValue: productFormattedPrice0,
 };
 
 const v2_confInfo0_key: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_KEY',
+  configurationLabel: 'LI#0#KEY',
   configurationValue: productKey0,
 };
 
 const v2_confInfo0_pricevalue: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_0_##_PRICE_VALUE',
+  configurationLabel: 'LI#0#PRICE_VALUE',
   configurationValue: productPriceValue0,
 };
 
 const v2_confInfo1_name: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_1_##_NAME',
+  configurationLabel: 'LI#1#NAME',
   configurationValue: productName1,
 };
 
 const v2_confInfo1_qty: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_1_##_QTY',
+  configurationLabel: 'LI#1#QTY',
   configurationValue: productQty1,
 };
 
 const v2_confInfo1_formattedprice: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_1_##_FORMATTED_PRICE',
+  configurationLabel: 'LI#1#FORMATTED_PRICE',
   configurationValue: productFormattedPrice1,
 };
 
 const v2_confInfo1_key: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_1_##_KEY',
+  configurationLabel: 'LI#1#KEY',
   configurationValue: productKey1,
 };
 
 const v2_confInfo1_pricevalue: ConfigurationInfo = {
-  configurationLabel: 'LINEITEM_##_1_##_PRICE_VALUE',
+  configurationLabel: 'LI#1#PRICE_VALUE',
   configurationValue: productPriceValue1,
 };
 
@@ -235,9 +235,9 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
   });
 
   describe('for enhanced OCC API format: ', () => {
-    it('should retrieve an existing lineitem for requested lineitemNumber from lineitemMap', () => {
+    it('should retrieve an existing line item for requested line item number from line item map', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const lineItemNumber  = 123;
+      const lineItemNumber = 123;
       lineItemMap.set(lineItemNumber, v2_expectedLineItem0);
       const lineItem: LineItem = configuratorCartEntryBundleInfoService[
         'getOrCreateLineItem'
@@ -247,9 +247,9 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(lineItemNumber)).toEqual(v2_expectedLineItem0);
     });
 
-    it('should retrieve a new lineitem for requested lineitemNumber if it doesnt exist in lineItemMap yet', () => {
+    it('should retrieve a new line item for requested line item number if it doesnt exist in line item map yet', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const lineItemNumber: number = 123;
+      const lineItemNumber = 123;
       const lineItem: LineItem = configuratorCartEntryBundleInfoService[
         'getOrCreateLineItem'
       ](lineItemMap, lineItemNumber);
@@ -258,43 +258,43 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(lineItemNumber)).toEqual(v2_initializedLineItem);
     });
 
-    it('should add lineItemData for expected Fields(NAME, QTY, FORMATTED_PRICE): ', () => {
+    it('should add line item data for expected fields(NAME, QTY, FORMATTED_PRICE): ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const lineItemNumber: number = 123;
-      const lineItemNumberAsString: string = '123';
-      const configurationInfosSplittedName: string[] = [
+      const lineItemNumber = 123;
+      const lineItemNumberAsString = '123';
+      const configurationInfosSplitName = [
         'LINEITEM',
         lineItemNumberAsString,
         'NAME',
       ];
-      const configurationInfosSplittedQty: string[] = [
+      const configurationInfosSplitQty = [
         'LINEITEM',
         lineItemNumberAsString,
         'QTY',
       ];
-      const configurationInfosSplittedFormattedPrice: string[] = [
+      const configurationInfosSplitFormattedPrice = [
         'LINEITEM',
         lineItemNumberAsString,
         'FORMATTED_PRICE',
       ];
 
-      const configurationInfoValueName: string = 'Name';
-      const configurationInfoValueQty: string = 'QtY';
-      const configurationInfoValueFormattedPrice: string = 'FormattedPrice';
+      const configurationInfoValueName = 'Name';
+      const configurationInfoValueQty = 'QtY';
+      const configurationInfoValueFormattedPrice = 'FormattedPrice';
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedName,
+        configurationInfosSplitName,
         configurationInfoValueName
       );
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedQty,
+        configurationInfosSplitQty,
         configurationInfoValueQty
       );
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedFormattedPrice,
+        configurationInfosSplitFormattedPrice,
         configurationInfoValueFormattedPrice
       );
 
@@ -310,68 +310,67 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       );
     });
 
-    it('should not add lineItem data for unexpected fields ', () => {
+    it('should not add line item data for unexpected fields ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const lineItemNumberAsString: string = '123';
-      const configurationInfosSplittedUnexpectedFieldName: string[] = [
+      const lineItemNumberAsString = '123';
+      const configurationInfosSplitUnexpectedFieldName = [
         'LINEITEM',
         lineItemNumberAsString,
         'UNEXPECTED_FIELD_NAME',
       ];
 
-      const configurationInfosSplittedKey: string[] = [
+      const configurationInfosSplitKey = [
         'LINEITEM',
         lineItemNumberAsString,
         'KEY',
       ];
 
-      const configurationInfosSplittedPriceValue: string[] = [
+      const configurationInfosSplitPriceValue = [
         'LINEITEM',
         lineItemNumberAsString,
         'PRICE_VALUE',
       ];
 
-      const configurationInfoValueUnexpectedField: string =
-        'ValueOfUnexpectedField';
+      const configurationInfoValueUnexpectedField = 'ValueOfUnexpectedField';
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedUnexpectedFieldName,
+        configurationInfosSplitUnexpectedFieldName,
         configurationInfoValueUnexpectedField
       );
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedKey,
+        configurationInfosSplitKey,
         configurationInfoValueUnexpectedField
       );
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedPriceValue,
+        configurationInfosSplitPriceValue,
         configurationInfoValueUnexpectedField
       );
 
       expect(lineItemMap.size).toBe(0);
     });
 
-    it('should not add lineItem data for unexpected format ', () => {
+    it('should not add line item data for unexpected format ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
-      const configurationInfosSplittedUnexpectedFormat: string[] = [
+      const configurationInfosSplitUnexpectedFormat = [
         'LINEITEM',
         '0',
         'NAME',
         'unexpectedField',
       ];
-      const configurationInfoValue: string = 'Value of unexpected Field';
+      const configurationInfoValue = 'Value of unexpected Field';
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
-        configurationInfosSplittedUnexpectedFormat,
+        configurationInfosSplitUnexpectedFormat,
         configurationInfoValue
       );
       expect(lineItemMap.size).toBe(0);
     });
 
-    it('should add lineItemData if configurationSplitted[0] is "LINEITEM" ', () => {
+    it('should add line item data if configurationSplit[0] is "LI" ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
@@ -381,7 +380,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(0)?.name).toBe(productName0);
     });
 
-    it('should not add lineItem Data if configurationSplitted[0] is not "LINEITEM" ', () => {
+    it('should not add line item data if configurationSplit[0] is not "LI" ', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
@@ -390,7 +389,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.size).toBe(0);
     });
 
-    it('should not add lineItem Data to Map if configurationLabel is empty or undefined', () => {
+    it('should not add line item data to the map if configuration label is empty or undefined', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
@@ -409,7 +408,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.size).toBe(0);
     });
 
-    it('should set configurationValue to empty String if configurationInfo has no configurationValue set', () => {
+    it('should set configuration value to empty string if configuration info has no configuration value set', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
@@ -418,7 +417,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemMap.get(0)?.name).toEqual('');
     });
 
-    it('should deliver a correctly sorted lineItem Array when a sorted configurationInfo Array is given', () => {
+    it('should deliver a correctly sorted line item array when a sorted configuration info array is given', () => {
       const configurationInfoArraySorted: ConfigurationInfo[] = [
         v2_confInfo0_key,
         v2_confInfo0_name,
@@ -439,7 +438,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItemArray[1]).toEqual(v2_expectedLineItem1);
     });
 
-    it('should deliver a correctly sorted lineItem Array when an unsorted configurationInfo Array is given', () => {
+    it('should deliver a correctly sorted line item array when an unsorted configuration info array is given', () => {
       const configurationInfoArrayUnSorted: ConfigurationInfo[] = [
         v2_confInfo1_key,
         v2_confInfo0_key,

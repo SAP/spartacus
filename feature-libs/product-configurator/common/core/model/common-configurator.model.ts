@@ -102,8 +102,8 @@ export enum ConfigurationInfoFields {
  * An enum representing ConfigurationInfo special fields.
  */
 export enum ConfigurationInfoSpecialFields {
-  VERSION = 'CONFIGURATION_INFO_##_VERSION',
-  CURRENCY = 'CONFIGURATION_INFO_##_CURRENCY',
-  LINE_ITEM = 'LINEITEM',
-  LINE_ITEM_DELIMITER = '_##_',
+  VERSION = 'CI#@#VERSION',
+  CURRENCY = 'CI#@#CURRENCY',
+  LINE_ITEM = 'LI',
+  LINE_ITEM_DELIMITER = '#',
 }

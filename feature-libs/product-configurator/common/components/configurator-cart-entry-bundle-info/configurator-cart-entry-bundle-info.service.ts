@@ -27,8 +27,8 @@ export class ConfiguratorCartEntryBundleInfoService {
           (configurationInfo.configurationLabel ||
             configurationInfo.configurationValue)
       );
-      const firstLabel  =   configurationInfos[0]?.configurationLabel;
-      const firstValue  =   configurationInfos[0]?.configurationValue;
+      const firstLabel = configurationInfos[0]?.configurationLabel;
+      const firstValue = configurationInfos[0]?.configurationValue;
 
       if (firstLabel !== ConfigurationInfoSpecialFields.VERSION) {
         configurationInfos.forEach((configurationInfo) =>
@@ -97,18 +97,18 @@ export class ConfiguratorCartEntryBundleInfoService {
     configurationInfo: ConfigurationInfo
   ): void {
     if (configurationInfo.configurationLabel) {
-      const configurationInfoSplitted: string[] = configurationInfo.configurationLabel.split(
-        ConfigurationInfoSpecialFields.LINEITEM_DELIMITER
+      const configurationInfoSplit: string[] = configurationInfo.configurationLabel.split(
+        ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
       );
       if (
-        configurationInfoSplitted[0] === ConfigurationInfoSpecialFields.LINEITEM
+        configurationInfoSplit[0] === ConfigurationInfoSpecialFields.LINE_ITEM
       ) {
         const configurationInfoValue: string = configurationInfo.configurationValue
           ? configurationInfo.configurationValue
           : '';
         this.addLineItemData(
           lineItemMap,
-          configurationInfoSplitted,
+          configurationInfoSplit,
           configurationInfoValue
         );
       }
@@ -117,13 +117,13 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected addLineItemData(
     lineItemMap: Map<number, LineItem>,
-    configurationInfoSplitted: string[],
+    configurationInfoSplit: string[],
     configurationInfoValue: string
   ): void {
-    if (configurationInfoSplitted.length === 3) {
-      const lineItemNumber: number = Number(configurationInfoSplitted[1]);
+    if (configurationInfoSplit.length === 3) {
+      const lineItemNumber: number = Number(configurationInfoSplit[1]);
       let lineItem: LineItem;
-      switch (configurationInfoSplitted[2]) {
+      switch (configurationInfoSplit[2]) {
         case ConfigurationInfoFields.NAME:
           lineItem = this.getOrCreateLineItem(lineItemMap, lineItemNumber);
           lineItem.name = configurationInfoValue;
