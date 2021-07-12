@@ -569,7 +569,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "integration-libs/digital-payments/tsconfig.lib.json",
             "project": "integration-libs/digital-payments/ng-package.json"
