@@ -7,14 +7,14 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -145,11 +145,17 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         formattedValue: '500.00$',
         value: 500,
       };
-      component.attribute.values[0].valuePrice = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      }
 
       fixture.detectChanges();
 
@@ -180,11 +186,16 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should display price formula', () => {
-      component.attribute.values[0].valuePrice = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      }
 
       fixture.detectChanges();
 

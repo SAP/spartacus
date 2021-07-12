@@ -150,7 +150,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ): ConfiguratorPriceComponentOptions | undefined {
     if (value) {
       return {
-        price: value?.valuePrice,
+        price: value.valuePrice,
         isLightedUp: value.selected,
       };
     }

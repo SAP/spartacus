@@ -13,11 +13,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
 
@@ -270,23 +270,27 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
 
-      const value: Configurator.Value = {
-        valueCode: 'a',
-        selected: true,
-        quantity: 5,
-        valuePrice: {
-          currencyIso: '$',
-          formattedValue: '100.00$',
-          value: 250,
-        },
-        valuePriceTotal: {
-          currencyIso: '$',
-          formattedValue: '$500.0',
-          value: 500,
-        },
-      };
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
 
-      component.attribute.values[0] = value;
+      if (value) {
+        value = {
+          valueCode: 'a',
+          selected: true,
+          quantity: 5,
+          valuePrice: {
+            currencyIso: '$',
+            formattedValue: '100.00$',
+            value: 250,
+          },
+          valuePriceTotal: {
+            currencyIso: '$',
+            formattedValue: '$500.0',
+            value: 500,
+          },
+        };
+      }
 
       fixture.detectChanges();
 

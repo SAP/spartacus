@@ -9,11 +9,11 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -146,11 +146,17 @@ describe('ConfigAttributeDropDownComponent', () => {
         formattedValue: '500.00$',
         value: 500,
       };
-      component.attribute.values[0].valuePrice = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      }
 
       fixture.detectChanges();
 
@@ -181,12 +187,16 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
 
     it('should display price formula', () => {
-      component.attribute.values[0].valuePrice = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
-
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      }
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
