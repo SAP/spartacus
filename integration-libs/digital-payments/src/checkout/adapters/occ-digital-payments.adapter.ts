@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
+import { DpPaymentRequest } from '../models';
 
 @Injectable()
 export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
@@ -21,7 +22,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   createPaymentRequest(
     userId = CURRENT_USER,
     cartId = CURRENT_CART
-  ): Observable<any> {
+  ): Observable<DpPaymentRequest> {
     return this.http.post<any>(
       `${this.occEndpoints.getBaseUrl()}/users/${userId}/carts/${cartId}/payment/digitalPayments/request`,
       null
