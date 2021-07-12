@@ -13,8 +13,10 @@ import {
   LAUNCH_CALLER,
   CmsComponentData,
 } from '@spartacus/storefront';
-import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
-import { FileValidity } from '../../../core/model';
+import {
+  CmsImportEntriesComponent,
+  FileValidity,
+} from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',
