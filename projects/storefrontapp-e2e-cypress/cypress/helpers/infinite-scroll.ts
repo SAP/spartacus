@@ -1,5 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { clickFacet, searchUrlPrefix } from './product-search';
+import { clickFacet } from './product-search';
 
 const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;
@@ -27,13 +27,6 @@ export function configScroll(
       },
     },
   });
-}
-
-export function createDefaultQuery() {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816*`
-  ).as(defaultQueryName);
 }
 
 export function assertDefaultNumberOfProducts(view) {
