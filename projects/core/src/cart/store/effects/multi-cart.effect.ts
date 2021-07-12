@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable()
 export class MultiCartEffects {
   @Effect()

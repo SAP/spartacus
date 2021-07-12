@@ -13,29 +13,80 @@ import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { ProcessesLoaderResetAction } from '../../../state/utils/processes-loader/processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_CART = '[Cart] Create Cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_CART_SUCCESS = '[Cart] Create Cart Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_CART = '[Cart] Load Cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_CART_FAIL = '[Cart] Load Cart Fail';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_CARTS_SUCCESS = '[Cart] Load Carts Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const ADD_EMAIL_TO_CART = '[Cart] Add Email to Cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const ADD_EMAIL_TO_CART_FAIL = '[Cart] Add Email to Cart Fail';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const ADD_EMAIL_TO_CART_SUCCESS = '[Cart] Add Email to Cart Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const MERGE_CART = '[Cart] Merge Cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const REMOVE_CART = '[Cart] Remove Cart';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const DELETE_CART = '[Cart] Delete Cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const DELETE_CART_SUCCESS = '[Cart] Delete Cart Success';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
 interface CreateCartPayload {
@@ -51,6 +102,9 @@ interface CreateCartPayload {
   toMergeCartGuid?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: CreateCartPayload) {
@@ -62,6 +116,9 @@ interface CreateCartFailPayload extends CreateCartPayload {
   error: any;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
@@ -74,6 +131,9 @@ interface CreateCartSuccessPayload extends CreateCartPayload {
   cartId: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
   constructor(public payload: CreateCartSuccessPayload) {
@@ -81,6 +141,9 @@ export class CreateCartSuccess extends EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class AddEmailToCart extends EntityProcessesIncrementAction {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
@@ -90,6 +153,9 @@ export class AddEmailToCart extends EntityProcessesIncrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class AddEmailToCartFail extends EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
@@ -104,6 +170,9 @@ export class AddEmailToCartFail extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class AddEmailToCartSuccess extends EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
   constructor(
@@ -121,6 +190,9 @@ interface LoadCartPayload {
   };
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadCart extends EntityLoadAction {
   readonly type = LOAD_CART;
   constructor(public payload: LoadCartPayload) {
@@ -132,6 +204,9 @@ interface LoadCartFailPayload extends LoadCartPayload {
   error: any;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadCartFail extends EntityFailAction {
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: LoadCartFailPayload) {
@@ -143,6 +218,9 @@ interface LoadCartSuccessPayload extends LoadCartPayload {
   cart: Cart;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_CART_SUCCESS;
   constructor(public payload: LoadCartSuccessPayload) {
@@ -150,6 +228,9 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadCartsSuccess extends EntitySuccessAction {
   readonly type = LOAD_CARTS_SUCCESS;
   constructor(public payload: Cart[]) {
@@ -170,6 +251,9 @@ interface MergeCartPayload {
   tempCartId: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class MergeCart implements Action {
   readonly type = MERGE_CART;
   constructor(public payload: MergeCartPayload) {}
@@ -183,6 +267,9 @@ interface MergeCartSuccessPayload extends MergeCartPayload {
   oldCartId: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class MergeCartSuccess extends EntityRemoveAction {
   readonly type = MERGE_CART_SUCCESS;
   constructor(public payload: MergeCartSuccessPayload) {
@@ -193,6 +280,9 @@ export class MergeCartSuccess extends EntityRemoveAction {
 /**
  * On site context change we want to keep current list of entities, but we want to clear the value and flags.
  * With ProcessesLoaderResetAction we run it on every entity of this type.
+ */
+/**
+ * @deprecated since 4.1 - use cart lib instead
  */
 export class ResetCartDetails extends ProcessesLoaderResetAction {
   readonly type = RESET_CART_DETAILS;
@@ -205,6 +295,9 @@ export class ResetCartDetails extends ProcessesLoaderResetAction {
  * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
  * For removing particular cart in both places use DeleteCart actions.
  */
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class RemoveCart extends EntityRemoveAction {
   readonly type = REMOVE_CART;
   constructor(public payload: { cartId: string }) {
@@ -212,11 +305,17 @@ export class RemoveCart extends EntityRemoveAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class DeleteCart implements Action {
   readonly type = DELETE_CART;
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class DeleteCartSuccess extends EntityRemoveAction {
   readonly type = DELETE_CART_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
@@ -224,11 +323,17 @@ export class DeleteCartSuccess extends EntityRemoveAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class DeleteCartFail implements Action {
   readonly type = DELETE_CART_FAIL;
   constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export type CartAction =
   | CreateCart
   | CreateCartFail

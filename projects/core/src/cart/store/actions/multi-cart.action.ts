@@ -8,19 +8,36 @@ import {
 import { EntityRemoveAllAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const SET_TEMP_CART = '[Cart] Set Temp Cart';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_PROCESSES_INCREMENT = '[Cart] Cart Processes Increment';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_PROCESSES_DECREMENT = '[Cart] Cart Processes Decrement';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const SET_ACTIVE_CART_ID = '[Cart] Set Active Cart Id';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
 
 /**
  * To keep track of cart creation process we use cart with `temp-${uuid}` id.
  * After creating cart we switch to entity with `code` or `guid`.
  * We need `temp-${uuid}` cart entities for loading/error state.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export class SetTempCart extends EntitySuccessAction {
   readonly type = SET_TEMP_CART;
@@ -57,6 +74,8 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
 
 /**
  * Only sets active cart property with id of active cart. Then services take care of loading that cart.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export class SetActiveCartId implements Action {
   readonly type = SET_ACTIVE_CART_ID;
@@ -65,6 +84,8 @@ export class SetActiveCartId implements Action {
 
 /**
  * Clear whole cart store state: all entities + reset rest of the cart state.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export class ClearCartState extends EntityRemoveAllAction {
   readonly type = CLEAR_CART_STATE;
@@ -73,6 +94,9 @@ export class ClearCartState extends EntityRemoveAllAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export type MultiCartActions =
   | SetTempCart
   | CartProcessesIncrement

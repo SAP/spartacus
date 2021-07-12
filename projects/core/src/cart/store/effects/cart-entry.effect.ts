@@ -9,6 +9,9 @@ import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable()
 export class CartEntryEffects {
   private contextChange$ = this.actions$.pipe(
