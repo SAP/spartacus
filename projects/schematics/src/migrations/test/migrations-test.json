@@ -30,15 +30,20 @@
       "factory": "./rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
-    "migration-v4-constructor-deprecations-01": {
+    "01-migration-v4-constructor-deprecations": {
       "version": "4.0.0",
       "factory": "./constructor-deprecations/constructor-deprecations#migrate",
       "description": "Constructor deprecation"
     },
-    "migration-v4-dependency-management-03": {
+    "02-migration-v4-dependency-management": {
       "version": "4.0.0",
       "factory": "./dependency-management/dependency-management#migrate",
       "description": "Update dependencies"
+    },
+    "03-migration-v4-missing-packages": {
+      "version": "4.0.0",
+      "factory": "./missing-packages/missing-packages#migrate",
+      "description": "Check missing packages"
     }
   }
 }
