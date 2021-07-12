@@ -4,7 +4,7 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree
+  Tree,
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
@@ -16,11 +16,11 @@ import {
   addSchematicsTasks,
   createSpartacusFeatureOptionsForLibrary,
   LibraryOptions,
-  prepareCliPackageAndSubFeature
+  prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
 import {
   addModuleImport,
-  ensureModuleExists
+  ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
@@ -28,7 +28,7 @@ import {
   mapPackageToNodeDependencies,
   prepare3rdPartyDependencies,
   prepareSpartacusDependencies,
-  readPackageJson
+  readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -37,7 +37,7 @@ import {
   getProjectFromWorkspace,
   getProjectTargets,
   getWorkspace,
-  scaffoldStructure
+  scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
