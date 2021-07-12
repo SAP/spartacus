@@ -29,6 +29,19 @@ import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.confi
       cmsComponents: {
         ImportProductsComponent: {
           component: ImportEntriesComponent,
+          data: {
+            fileValidity: {
+              maxSize: 1,
+              minSize: 3,
+              allowedExtensions: [
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel',
+                'text/csv',
+                '.csv',
+              ],
+              checkEmptyFile: true,
+            },
+          },
         },
       },
     }),

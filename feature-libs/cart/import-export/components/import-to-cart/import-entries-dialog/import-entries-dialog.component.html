@@ -33,14 +33,14 @@
         <p>
           {{
             'importEntriesDialog.importProductFileText'
-              | cxTranslate: { size: fileSize }
+              | cxTranslate: { size: fileValidity?.maxSize }
           }}
         </p>
         <input
           class="cx-import-entries-select-file"
           type="file"
           formControlName="file"
-          [accept]="allowedExtensions"
+          [accept]="fileValidity?.allowedExtensions"
           (change)="selectFile($event.target.files[0], form)"
           #uploadCSV
         />
