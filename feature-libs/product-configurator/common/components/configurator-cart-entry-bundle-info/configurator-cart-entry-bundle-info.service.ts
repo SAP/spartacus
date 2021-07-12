@@ -27,10 +27,8 @@ export class ConfiguratorCartEntryBundleInfoService {
           (configurationInfo.configurationLabel ||
             configurationInfo.configurationValue)
       );
-      const firstLabel: string =
-        configurationInfos[0]?.configurationLabel ?? '';
-      const firstValue: string =
-        configurationInfos[0]?.configurationValue ?? '';
+      const firstLabel  =   configurationInfos[0]?.configurationLabel;
+      const firstValue  =   configurationInfos[0]?.configurationValue;
 
       if (firstLabel !== ConfigurationInfoSpecialFields.VERSION) {
         configurationInfos.forEach((configurationInfo) =>
