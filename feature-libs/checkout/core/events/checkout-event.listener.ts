@@ -36,7 +36,7 @@ export class CheckoutEventListener implements OnDestroy {
    * Clears the checkout delivery info when an address in the address book is
    * changed ( updated, set as default or deleted )
    *
-   * Listens for UpdateUserAddressEvent or DeleteUserAddressEvent or SetDefaultUserAddressSuccessEvent
+   * Listens for UpdateUserAddressEvent or DeleteUserAddressEvent
    */
   protected onUserAddressChange() {
     this.subscription.add(

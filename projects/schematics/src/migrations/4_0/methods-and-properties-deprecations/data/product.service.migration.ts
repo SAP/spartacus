@@ -11,6 +11,6 @@ export const PRODUCT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: PRODUCT_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: `reload`,
-    comment: `// ${TODO_SPARTACUS} Please use the reloading triggers configuration instead (see https://sap.github.io/spartacus-docs/loading-scopes/#Reloading-triggers for more).`,
+    comment: `// ${TODO_SPARTACUS} Please use the reloading triggers configuration instead (see https://sap.github.io/spartacus-docs/loading-scopes/#reloading-triggers for more).`,
   },
 ];
