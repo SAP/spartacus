@@ -42,6 +42,7 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
+export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
 export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
 export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
 export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
@@ -1013,6 +1014,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
 export const GO = 'go';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';

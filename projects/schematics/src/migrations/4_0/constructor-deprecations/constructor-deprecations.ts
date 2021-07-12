@@ -81,12 +81,15 @@ import {
   MODAL_SERVICE_MIGRATION_V1,
   MODAL_SERVICE_MIGRATION_V2,
 } from './data/modal.service.migration';
+import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
+import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
+import { PRODUCT_LOADING_SERVICE_MIGRATION } from './data/product-loading.service.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
@@ -144,7 +147,6 @@ import { UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION } from './data/update-email-co
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address-service.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
-import { POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/popover.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATION_SERVICE_MIGRATION,
@@ -216,6 +218,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
+  NAVIGATION_UI_COMPONENT_MIGRATION,
   CONFIGURATOR_FORM_COMPONENT_MIGRATION,
   CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
@@ -254,6 +257,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_AUTH_GUARD_MIGRATION,
   UNIT_ADDRESS_FORM_SERVICE_MIGRATION,
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
+  PRODUCT_LOADING_SERVICE_MIGRATION,
   POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
