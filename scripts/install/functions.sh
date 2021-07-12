@@ -176,6 +176,18 @@ function publish_package {
     ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 }
 
+function restore_clone {
+    if [ ${BRANCH} == 'develop' ]; then
+        pushd ../.. > /dev/null
+        for path in ${SPARTACUS_PROJECTS[@]} 
+        do
+            rm ${path}/package.json-E
+        done
+        git checkout .
+        popd > /dev/null
+    fi
+}
+
 function install_from_sources {
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
@@ -246,6 +258,9 @@ function install_from_sources {
     (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
     npm set @spartacus:registry https://registry.npmjs.org/
+
+    restore_clone
+
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
