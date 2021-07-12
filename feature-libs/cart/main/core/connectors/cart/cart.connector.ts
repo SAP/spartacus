@@ -3,9 +3,7 @@ import { Observable } from 'rxjs';
 import { Cart } from '../../../model/cart.model';
 import { CartAdapter } from './cart.adapter';
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */@Injectable({
+@Injectable({
   providedIn: 'root',
 })
 export class CartConnector {
