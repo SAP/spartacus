@@ -18,6 +18,7 @@
     "paths": {
       "@spartacus/cart/main/core": ["dist/cart/main/core"],
       "@spartacus/cart/main": ["dist/cart/main"],
+      "@spartacus/cart/main/occ": ["dist/cart/main/occ"],
       "@spartacus/cart/main/root": ["dist/cart/main/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
