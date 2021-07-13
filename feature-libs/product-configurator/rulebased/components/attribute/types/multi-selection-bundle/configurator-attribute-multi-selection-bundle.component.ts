@@ -10,7 +10,7 @@ interface SelectionValue {
   name?: string;
   quantity?: number;
   selected?: boolean;
-  valueCode?: string;
+  valueCode: string;
 }
 
 @Component({
@@ -88,7 +88,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: string;
     quantity: number;
   }): ConfigFormUpdateEvent | undefined {
-    const value: Configurator.Value = this.multipleSelectionValues.find(
+    const value:
+      | Configurator.Value
+      | undefined = this.multipleSelectionValues.find(
       (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
 
@@ -162,6 +164,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       quantity: 0,
       price: {
         value: 0,
+        currencyIso: '',
       },
       priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
@@ -176,18 +179,18 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean,
-    hideRemoveButton: boolean,
+    disableAllButtons: boolean | null,
+    hideRemoveButton: boolean | null,
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      disableAllButtons: disableAllButtons,
-      hideRemoveButton: hideRemoveButton,
+      disableAllButtons: disableAllButtons ? disableAllButtons : false,
+      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
-      attributeId: this.attribute.attrCode,
+      attributeId: this.getAttributeCode(this.attribute),
     };
   }
 }
