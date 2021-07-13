@@ -105,6 +105,7 @@ export function verifyQuantityInCart() {
   cy.get(addToCartButton)
     .findByText(/Add To Cart/i)
     .click();
+  cy.get(atcModalTitle).should('contain', 'Item(s) added to your cart');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }
