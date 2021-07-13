@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../../config/config-tokens';
+import { Config } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,6 @@ export abstract class CartConfig {
   };
 }
 
-declare module '../../config/config-tokens' {
+declare module '@spartacus/core' {
   interface Config extends CartConfig {}
 }

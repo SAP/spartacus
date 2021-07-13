@@ -20,6 +20,9 @@
         "../../feature-libs/cart/main/core/public_api"
       ],
       "@spartacus/cart/main": ["../../feature-libs/cart/main/public_api"],
+      "@spartacus/cart/main/root": [
+        "../../feature-libs/cart/main/root/public_api"
+      ],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
       "@spartacus/cart/saved-cart/assets": [
         "../../feature-libs/cart/saved-cart/assets/public_api"
