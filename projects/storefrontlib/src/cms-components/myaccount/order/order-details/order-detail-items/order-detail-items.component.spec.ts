@@ -199,7 +199,6 @@ describe('OrderDetailItemsComponent', () => {
       component.order$
         .subscribe((value) => {
           order = value;
-          console.log(order);
         })
         .unsubscribe();
       expect(order).toEqual(null);

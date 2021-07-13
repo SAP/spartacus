@@ -28,9 +28,12 @@ export class OrderDetailsService {
 
     this.orderLoad$ = this.orderCode$.pipe(
       tap((orderCode) => {
+        console.log('orderLoad ordercode', orderCode);
         if (orderCode) {
+          console.log('with order code');
           this.userOrderService.loadOrderDetails(orderCode);
         } else {
+          console.log('without order code');
           this.userOrderService.clearOrderDetails();
         }
       }),

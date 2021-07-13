@@ -96,7 +96,7 @@ fdescribe('OrderApprovalService', () => {
       .getState(orderApprovalCode)
       .subscribe((data) => {
         orderApprovalState = data;
-        console.log(data, '&&&&&&');
+        console.log('order approval log', data);
       })
       .unsubscribe();
 

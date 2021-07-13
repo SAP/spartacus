@@ -98,7 +98,7 @@ class MockRoutingService {
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
-  let userService: UserOrderService;
+  let userOrderService: UserOrderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -116,7 +116,7 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.inject(OrderDetailsService);
-    userService = TestBed.inject(UserOrderService);
+    userOrderService = TestBed.inject(UserOrderService);
   });
 
   it('should be created', () => {
@@ -125,11 +125,11 @@ describe('OrderDetailsService', () => {
 
   describe('should load', () => {
     beforeEach(() => {
-      spyOn(userService, 'loadOrderDetails');
-      spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+      spyOn(userOrderService, 'loadOrderDetails').and.callThrough();
     });
 
     it('order details', () => {
+      spyOn(userOrderService, 'getOrderDetails').and.returnValue(of(mockOrder));
       routerSubject.next(mockRouter);
 
       let orderDetails: Order;
@@ -137,12 +137,13 @@ describe('OrderDetailsService', () => {
         .getOrderDetails()
         .subscribe((data) => (orderDetails = data))
         .unsubscribe();
-      expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
-      expect(userService.getOrderDetails).toHaveBeenCalled();
+      expect(userOrderService.loadOrderDetails).toHaveBeenCalledWith('1');
+      expect(userOrderService.getOrderDetails).toHaveBeenCalled();
       expect(orderDetails).toBe(mockOrder);
     });
 
     it('order details state', () => {
+      spyOn(userOrderService, 'getOrderDetailsState').and.callThrough();
       routerSubject.next(mockRouter);
 
       let orderDetailsState: StateUtils.LoaderState<Order>;
@@ -151,14 +152,15 @@ describe('OrderDetailsService', () => {
         .subscribe((data) => (orderDetailsState = data))
         .unsubscribe();
 
-      expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
-      expect(userService.getOrderDetailsState).toHaveBeenCalled();
+      expect(userOrderService.loadOrderDetails).toHaveBeenCalledWith('1');
+      expect(userOrderService.getOrderDetailsState).toHaveBeenCalled();
       expect(orderDetailsState).toBe(mockOrderLoaderState);
     });
   });
 
   it('should clean order details', () => {
-    spyOn(userService, 'clearOrderDetails');
+    spyOn(userOrderService, 'clearOrderDetails').and.callThrough();
+    spyOn(userOrderService, 'getOrderDetails').and.callThrough();
     routerSubject.next(mockRouterWithoutOrderCode);
 
     let orderDetails: Order;
@@ -166,8 +168,8 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
       .unsubscribe();
-    expect(userService.clearOrderDetails).toHaveBeenCalled();
-    expect(userService.getOrderDetails).toHaveBeenCalled();
+    expect(userOrderService.clearOrderDetails).toHaveBeenCalled();
+    expect(userOrderService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });
 
@@ -190,9 +192,7 @@ describe('OrderDetailsService', () => {
     });
 
     expect(orderCode).toEqual(mockRouter.state.params.orderCode);
-
     routerSubject.next(mockRouterNewOrderCode);
-
     expect(orderCode).toEqual(mockRouterNewOrderCode.state.params.orderCode);
   });
 });
