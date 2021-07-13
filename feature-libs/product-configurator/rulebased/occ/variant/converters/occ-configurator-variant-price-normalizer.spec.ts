@@ -82,7 +82,9 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
 
   describe('convert', () => {
     it('should return a configuration with empty list of price supplements', () => {
-      const source: OccConfigurator.Prices = {};
+      const source: OccConfigurator.Prices = {
+        configId: 'configId',
+      };
       const result: Configurator.Configuration = classUnderTest.convert(source);
       expect(result.priceSupplements.length).toBe(0);
     });

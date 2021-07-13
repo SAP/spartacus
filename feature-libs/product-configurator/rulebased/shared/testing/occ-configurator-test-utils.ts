@@ -108,6 +108,7 @@ export class OccConfiguratorTestUtils {
       amountOfValues
     );
     return {
+      configId: 'configId',
       attributes: supplements,
       priceSummary: {
         basePrice: { currencyIso: 'USD', value: 10 },

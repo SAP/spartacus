@@ -49,11 +49,11 @@ export class ConfiguratorStateUtils {
             if (value.valuePrice) {
               console.log('VPR found existing value price: ' + value.valueCode);
               /**
-            console.log(
-              'writable: ' +
-              Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
-            );
-             */
+               console.log(
+               'writable: ' +
+               Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
+               );
+               */
               value.valuePrice = valueSupplement?.priceValue;
             } else {
               console.log(
@@ -132,26 +132,14 @@ export class ConfiguratorStateUtils {
   static getAttribute(
     attributes: Configurator.Attribute[] | undefined,
     attributeName: string
-  ): Configurator.Attribute {
-    const attribute = attributes?.find(
-      (attribute) => attribute.name === attributeName
-    );
-    if (attribute) {
-      return attribute;
-    } else {
-      throw new Error('Attribute not found: ' + attributeName);
-    }
+  ): Configurator.Attribute | undefined {
+    return attributes?.find((attribute) => attribute.name === attributeName);
   }
 
   static getValue(
     values: Configurator.Value[] | undefined,
     valueCode: string
-  ): Configurator.Value {
-    const value = values?.find((value) => value?.valueCode === valueCode);
-    if (value) {
-      return value;
-    } else {
-      throw new Error('Value not found: ' + valueCode);
-    }
+  ): Configurator.Value | undefined {
+    return values?.find((value) => value?.valueCode === valueCode);
   }
 }

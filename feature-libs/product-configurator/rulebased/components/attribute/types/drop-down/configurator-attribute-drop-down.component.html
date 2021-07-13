@@ -18,9 +18,12 @@
       {{ item.valueDisplay }}
     </option>
   </select>
-  <div *ngIf="!withQuantity" class="cx-value-price">
+  <div
+    *ngIf="!withQuantity && getSelectedValue()?.valuePrice"
+    class="cx-value-price"
+  >
     <cx-configurator-price
-      [formula]="extractPriceFormulaParametersForValue(getSelectedValue())"
+      [formula]="extractValuePriceFormulaParameters(getSelectedValue())"
     ></cx-configurator-price>
   </div>
 </div>
