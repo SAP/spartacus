@@ -267,12 +267,11 @@ describe('OrderDetailItemsComponent', () => {
     );
     fixture.detectChanges();
     let order: ReplenishmentOrder;
-    mockOrderDetailsService.getOrderDetails().subscribe((value) => {
-      order = value;
-    });
-    expect(order.appliedOrderPromotions).toContain(
-      mockReplenishmentOrder.appliedOrderPromotions[0]
-    );
+    mockOrderDetailsService
+      .getOrderDetails()
+      .subscribe((value) => (order = value))
+      .unsubscribe();
+    expect(order).toEqual(mockReplenishmentOrder);
     expect(el.query(By.css('.cx-promotions'))).toBeTruthy();
   });
 });
