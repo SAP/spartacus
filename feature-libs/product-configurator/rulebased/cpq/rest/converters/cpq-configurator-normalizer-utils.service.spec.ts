@@ -44,9 +44,9 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       valueSelected,
       CURRENCY
     );
-    expect(valuePrice.currencyIso).toBe(CURRENCY);
-    expect(valuePrice.value).toBe(123.45);
-    expect(valuePrice.formattedValue).toBe('$123.45');
+    expect(valuePrice?.currencyIso).toBe(CURRENCY);
+    expect(valuePrice?.value).toBe(123.45);
+    expect(valuePrice?.formattedValue).toBe('$123.45');
   });
 
   it('should convert price when no price exists', () => {
@@ -55,7 +55,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       valueSelected,
       CURRENCY
     );
-    expect(valuePrice).toBeNull();
+    expect(valuePrice).toBeUndefined();
   });
 
   it('should calculate value price total', () => {
@@ -68,9 +68,9 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       quantity,
       valuePrice
     );
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(370.35);
-    expect(valuePriceTotal.formattedValue).toBe('$370.35');
+    expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
+    expect(valuePriceTotal?.value).toBe(370.35);
+    expect(valuePriceTotal?.formattedValue).toBe('$370.35');
   });
 
   it('should calculate value price total when no quantity', () => {
@@ -83,9 +83,9 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       quantity,
       valuePrice
     );
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(123.45);
-    expect(valuePriceTotal.formattedValue).toBe('$123.45');
+    expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
+    expect(valuePriceTotal?.value).toBe(123.45);
+    expect(valuePriceTotal?.formattedValue).toBe('$123.45');
   });
 
   it('should convert quantity for attribute with quantity on attribute level', () => {
@@ -153,7 +153,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       cpqValue,
       cpqAttr
     );
-    expect(quantity).toBeNull();
+    expect(quantity).toBeUndefined();
   });
 
   it('should convert quantity for Radiobutton attribute with quantity on value level', () => {
@@ -170,7 +170,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       cpqValue,
       cpqAttr
     );
-    expect(quantity).toBeNull();
+    expect(quantity).toBeUndefined();
   });
 
   it('should retrieve quantity null for attribute without quantity', () => {
@@ -186,7 +186,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       cpqValue,
       cpqAttr
     );
-    expect(quantity).toBeNull();
+    expect(quantity).toBeUndefined();
   });
 
   it('should format price', () => {
@@ -435,20 +435,6 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
         value: 1000,
       },
     };
-    expect(
-      cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
-    ).toEqual(expectedPriceSummary);
-  });
-
-  it('should convert price summary when no currency ISO code exists', () => {
-    const cpqConfiguration: Cpq.Configuration = {
-      productSystemId: 'productSystemId',
-      currencySign: '$',
-      responder: { totalPrice: '$3333.33', baseProductPrice: '1000.00' },
-    };
-    const expectedPriceSummary: Configurator.PriceSummary = {};
     expect(
       cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
         cpqConfiguration
