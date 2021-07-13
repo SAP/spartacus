@@ -1,4 +1,5 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
+import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
 import { waitForPage } from './checkout-flow';
 
@@ -141,7 +142,9 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
   });
 
   it('Should display promotions for cart quantities increase/decrease', () => {
+    registerCartPageRoute();
     goToCartDetailsViewFromCartDialog();
+    cy.wait('@cart_page');
     cy.get('.cx-promotions').should('contain', '200');
 
     decreaseQuantityOfCartEntry();
