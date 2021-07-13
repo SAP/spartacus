@@ -408,14 +408,18 @@ describe('add-spartacus', () => {
 
   it('Add theme to styles.scss', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', { ...defaultOptions, theme: 'santorini' }, appTree)
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, theme: 'santorini' },
+        appTree
+      )
       .toPromise();
     const stylesFile = tree.readContent(
       '/projects/schematics-test/src/styles.scss'
     );
-    expect(stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)).toBe(
-      true
-    );
+    expect(
+      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
+    ).toBe(true);
   });
 
   it('Overwrite app.component with cx-storefront', async () => {
