@@ -5,6 +5,7 @@ import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
     CommonModule,
     I18nModule,
     ConfiguratorAttributeQuantityModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeCheckBoxListComponent],
   exports: [ConfiguratorAttributeCheckBoxListComponent],
