@@ -1,6 +1,17 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  Cart,
+  EMAIL_PATTERN,
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
+  OrderEntry,
+  StateUtils,
+  User,
+  UserIdService,
+} from '@spartacus/core';
+import {
   combineLatest,
   EMPTY,
   Observable,
@@ -22,17 +33,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserIdService } from '../../auth/index';
-import { Cart } from '../../model/cart.model';
-import { User } from '../../model/misc.model';
-import { OrderEntry } from '../../model/order.model';
-import {
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_GUEST,
-} from '../../occ/utils/occ-constants';
-import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
-import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -108,7 +108,7 @@ export class ActiveCartService implements OnDestroy {
 
     // Stream for getting the cart value
     const activeCartValue$ = this.cartSelector$.pipe(
-      map((cartEntity: ProcessesLoaderState<Cart>): {
+      map((cartEntity: StateUtils.ProcessesLoaderState<Cart>): {
         cart: Cart;
         isStable: boolean;
         loaded: boolean;
@@ -311,7 +311,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   protected isCartCreating(
-    cartState: ProcessesLoaderState<Cart>,
+    cartState: StateUtils.ProcessesLoaderState<Cart>,
     cartId: string
   ) {
     // cart creating is always represented with loading flags
@@ -324,8 +324,8 @@ export class ActiveCartService implements OnDestroy {
   }
 
   requireLoadedCart(
-    customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
-  ): Observable<ProcessesLoaderState<Cart>> {
+    customCartSelector$?: Observable<StateUtils.ProcessesLoaderState<Cart>>
+  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     // For guest cart merge we want to filter guest cart in the whole stream
     // We have to wait with load/create/addEntry after guest cart will be deleted.
     // That's why you can provide custom selector with this filter applied.

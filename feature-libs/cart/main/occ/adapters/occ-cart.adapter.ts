@@ -1,21 +1,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
-import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
-import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
-import { Cart } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
-import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { CartAdapter, CART_NORMALIZER } from '@spartacus/cart/main/core';
 import {
+  Cart,
+  ConverterService,
   InterceptorUtil,
-  USE_CLIENT_TOKEN,
-} from '../../utils/interceptor-util';
-import {
+  Occ,
+  OccEndpointsService,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
-} from '../../utils/occ-constants';
+  USE_CLIENT_TOKEN,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {

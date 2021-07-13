@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 

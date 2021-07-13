@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  ProcessSelectors,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { UserIdService } from '../../auth/index';
-import * as fromProcessStore from '../../process/store/process-state';
-import {
-  getProcessErrorFactory,
-  getProcessLoadingFactory,
-  getProcessSuccessFactory,
-} from '../../process/store/selectors/process.selectors';
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
@@ -18,7 +16,7 @@ import { ActiveCartService } from './active-cart.service';
 })
 export class CartVoucherService {
   constructor(
-    protected store: Store<fromProcessStore.StateWithProcess<void>>,
+    protected store: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -54,7 +52,7 @@ export class CartVoucherService {
    */
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
@@ -65,7 +63,7 @@ export class CartVoucherService {
    */
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
@@ -76,7 +74,7 @@ export class CartVoucherService {
    */
   getAddVoucherResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 

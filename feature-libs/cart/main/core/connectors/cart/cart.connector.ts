@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { Cart } from '../../../model/cart.model';
 import { CartAdapter } from './cart.adapter';
 
 @Injectable({

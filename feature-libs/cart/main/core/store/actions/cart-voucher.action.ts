@@ -1,14 +1,4 @@
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntityLoaderResetAction,
-  EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import {
-  EntityProcessesDecrementAction,
-  EntityProcessesIncrementAction,
-} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
@@ -24,7 +14,7 @@ export const CART_REMOVE_VOUCHER_SUCCESS =
   '[Cart-voucher] Remove Cart Voucher Success';
 
 // Adding cart voucher actions
-export class CartAddVoucher extends EntityLoadAction {
+export class CartAddVoucher extends StateUtils.EntityLoadAction {
   readonly type = CART_ADD_VOUCHER;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
@@ -33,7 +23,7 @@ export class CartAddVoucher extends EntityLoadAction {
   }
 }
 
-export class CartAddVoucherFail extends EntityFailAction {
+export class CartAddVoucherFail extends StateUtils.EntityFailAction {
   readonly type = CART_ADD_VOUCHER_FAIL;
   constructor(
     public payload: {
@@ -47,7 +37,7 @@ export class CartAddVoucherFail extends EntityFailAction {
   }
 }
 
-export class CartAddVoucherSuccess extends EntitySuccessAction {
+export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CART_ADD_VOUCHER_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
@@ -62,7 +52,7 @@ export class CartAddVoucherSuccess extends EntitySuccessAction {
  *
  * @deprecated since 2.0
  */
-export class CartResetAddVoucher extends EntityLoaderResetAction {
+export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
@@ -70,7 +60,7 @@ export class CartResetAddVoucher extends EntityLoaderResetAction {
 }
 
 // Deleting cart voucher
-export class CartRemoveVoucher extends EntityProcessesIncrementAction {
+export class CartRemoveVoucher extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_VOUCHER;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
@@ -79,7 +69,7 @@ export class CartRemoveVoucher extends EntityProcessesIncrementAction {
   }
 }
 
-export class CartRemoveVoucherFail extends EntityProcessesDecrementAction {
+export class CartRemoveVoucherFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_VOUCHER_FAIL;
   constructor(
     public payload: {
@@ -93,7 +83,7 @@ export class CartRemoveVoucherFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartRemoveVoucherSuccess extends EntityProcessesDecrementAction {
+export class CartRemoveVoucherSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_VOUCHER_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }

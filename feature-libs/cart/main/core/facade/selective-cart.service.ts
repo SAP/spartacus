@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  BaseSiteService,
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OrderEntry,
+  StateUtils,
+  UserIdService,
+  UserService,
+} from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Cart } from '../../model/cart.model';
-import { OrderEntry } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { LoaderState } from '../../state/utils/loader/loader-state';
-import { UserService } from '../../user/facade/user.service';
 import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
@@ -67,7 +69,7 @@ export class SelectiveCartService {
     });
 
     this.selectiveCart$ = this.cartSelector$.pipe(
-      map((cartEntity: LoaderState<Cart>): {
+      map((cartEntity: StateUtils.LoaderState<Cart>): {
         cart: Cart;
         loading: boolean;
         loaded: boolean;

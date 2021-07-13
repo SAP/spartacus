@@ -1,6 +1,4 @@
-import { ErrorModel } from '../../model';
-import { Cart } from '../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { Cart, ErrorModel, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 
 /**
  * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.

@@ -1,16 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart } from '../../../model/cart.model';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import {
-  EntityProcessesDecrementAction,
-  EntityProcessesIncrementAction,
-} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
-import { ProcessesLoaderResetAction } from '../../../state/utils/processes-loader/processes-loader.action';
+import { Cart, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -51,7 +40,7 @@ interface CreateCartPayload {
   toMergeCartGuid?: string;
 }
 
-export class CreateCart extends EntityLoadAction {
+export class CreateCart extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: CreateCartPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
@@ -62,7 +51,7 @@ interface CreateCartFailPayload extends CreateCartPayload {
   error: any;
 }
 
-export class CreateCartFail extends EntityFailAction {
+export class CreateCartFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
@@ -74,14 +63,14 @@ interface CreateCartSuccessPayload extends CreateCartPayload {
   cartId: string;
 }
 
-export class CreateCartSuccess extends EntitySuccessAction {
+export class CreateCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
   constructor(public payload: CreateCartSuccessPayload) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class AddEmailToCart extends EntityProcessesIncrementAction {
+export class AddEmailToCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
@@ -90,7 +79,7 @@ export class AddEmailToCart extends EntityProcessesIncrementAction {
   }
 }
 
-export class AddEmailToCartFail extends EntityProcessesDecrementAction {
+export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
@@ -104,7 +93,7 @@ export class AddEmailToCartFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class AddEmailToCartSuccess extends EntityProcessesDecrementAction {
+export class AddEmailToCartSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
@@ -121,7 +110,7 @@ interface LoadCartPayload {
   };
 }
 
-export class LoadCart extends EntityLoadAction {
+export class LoadCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CART;
   constructor(public payload: LoadCartPayload) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -132,7 +121,7 @@ interface LoadCartFailPayload extends LoadCartPayload {
   error: any;
 }
 
-export class LoadCartFail extends EntityFailAction {
+export class LoadCartFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: LoadCartFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -143,14 +132,14 @@ interface LoadCartSuccessPayload extends LoadCartPayload {
   cart: Cart;
 }
 
-export class LoadCartSuccess extends EntitySuccessAction {
+export class LoadCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CART_SUCCESS;
   constructor(public payload: LoadCartSuccessPayload) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class LoadCartsSuccess extends EntitySuccessAction {
+export class LoadCartsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CARTS_SUCCESS;
   constructor(public payload: Cart[]) {
     super(
@@ -183,7 +172,7 @@ interface MergeCartSuccessPayload extends MergeCartPayload {
   oldCartId: string;
 }
 
-export class MergeCartSuccess extends EntityRemoveAction {
+export class MergeCartSuccess extends StateUtils.EntityRemoveAction {
   readonly type = MERGE_CART_SUCCESS;
   constructor(public payload: MergeCartSuccessPayload) {
     super(MULTI_CART_DATA, payload.oldCartId);
@@ -194,7 +183,7 @@ export class MergeCartSuccess extends EntityRemoveAction {
  * On site context change we want to keep current list of entities, but we want to clear the value and flags.
  * With ProcessesLoaderResetAction we run it on every entity of this type.
  */
-export class ResetCartDetails extends ProcessesLoaderResetAction {
+export class ResetCartDetails extends StateUtils.ProcessesLoaderResetAction {
   readonly type = RESET_CART_DETAILS;
   constructor() {
     super(MULTI_CART_DATA);
@@ -205,7 +194,7 @@ export class ResetCartDetails extends ProcessesLoaderResetAction {
  * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
  * For removing particular cart in both places use DeleteCart actions.
  */
-export class RemoveCart extends EntityRemoveAction {
+export class RemoveCart extends StateUtils.EntityRemoveAction {
   readonly type = REMOVE_CART;
   constructor(public payload: { cartId: string }) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -217,7 +206,7 @@ export class DeleteCart implements Action {
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartSuccess extends EntityRemoveAction {
+export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
   readonly type = DELETE_CART_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
     super(MULTI_CART_DATA, payload.cartId);

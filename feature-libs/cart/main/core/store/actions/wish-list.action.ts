@@ -1,10 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart } from '../../../model/cart.model';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
+import { Cart, StateUtils } from '@spartacus/core';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
@@ -29,14 +24,14 @@ export class CreateWishList implements Action {
   ) {}
 }
 
-export class CreateWishListSuccess extends EntitySuccessAction {
+export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_WISH_LIST_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string }) {
     super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
-export class CreateWishListFail extends EntityFailAction {
+export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
   constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -56,7 +51,7 @@ interface LoadWishListPayload {
   tempCartId: string;
 }
 
-export class LoadWishList extends EntityLoadAction {
+export class LoadWishList extends StateUtils.EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
   constructor(public payload: LoadWishListPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
@@ -83,7 +78,7 @@ interface LoadWishListSuccessPayload {
   cartId: string;
 }
 
-export class LoadWishListSuccess extends EntitySuccessAction {
+export class LoadWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
   constructor(public payload: LoadWishListSuccessPayload) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -105,7 +100,7 @@ interface LoadWishListFailPayload {
   error: any;
 }
 
-export class LoadWishListFail extends EntityFailAction {
+export class LoadWishListFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_WISH_LIST_FAIL;
   constructor(public payload: LoadWishListFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);

@@ -1,11 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+  CartEntryAdapter,
+  CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/main/core';
+import {
+  CartModification,
+  ConverterService,
+  OccEndpointsService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
-import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
-import { CartModification } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccCartEntryAdapter implements CartEntryAdapter {

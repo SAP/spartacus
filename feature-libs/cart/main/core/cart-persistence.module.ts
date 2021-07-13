@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
+import { ConfigInitializerService } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
-import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
 

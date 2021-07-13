@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { SaveCartResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { SaveCartResult } from '../../../model/cart.model';
 import { SaveCartAdapter } from './save-cart.adapter';
 
 @Injectable({

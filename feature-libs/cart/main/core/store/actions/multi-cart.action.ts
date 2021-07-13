@@ -1,11 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart } from '../../../model/cart.model';
-import { EntitySuccessAction } from '../../../state/utils/entity-loader/entity-loader.action';
-import {
-  EntityProcessesDecrementAction,
-  EntityProcessesIncrementAction,
-} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import { EntityRemoveAllAction } from '../../../state/utils/entity/entity.action';
+import { Cart, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const SET_TEMP_CART = '[Cart] Set Temp Cart';
@@ -22,7 +16,7 @@ export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
  * After creating cart we switch to entity with `code` or `guid`.
  * We need `temp-${uuid}` cart entities for loading/error state.
  */
-export class SetTempCart extends EntitySuccessAction {
+export class SetTempCart extends StateUtils.EntitySuccessAction {
   readonly type = SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
@@ -35,7 +29,7 @@ export class SetTempCart extends EntitySuccessAction {
  * All actions that cause computations on cart should extend EntityProcessesIncrementAction instead of dispatching this action.
  * @deprecated since 2.0
  */
-export class CartProcessesIncrement extends EntityProcessesIncrementAction {
+export class CartProcessesIncrement extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_DATA, payload);
@@ -48,7 +42,7 @@ export class CartProcessesIncrement extends EntityProcessesIncrementAction {
  * All actions that cause computations on cart should extend EntityProcessesDecrementAction instead of dispatching this action.
  * @deprecated since 2.0
  */
-export class CartProcessesDecrement extends EntityProcessesDecrementAction {
+export class CartProcessesDecrement extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_DATA, payload);
@@ -66,7 +60,7 @@ export class SetActiveCartId implements Action {
 /**
  * Clear whole cart store state: all entities + reset rest of the cart state.
  */
-export class ClearCartState extends EntityRemoveAllAction {
+export class ClearCartState extends StateUtils.EntityRemoveAllAction {
   readonly type = CLEAR_CART_STATE;
   constructor() {
     super(MULTI_CART_DATA);

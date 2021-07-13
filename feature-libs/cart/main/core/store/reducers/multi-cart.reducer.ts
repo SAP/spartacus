@@ -1,5 +1,4 @@
-import { Cart } from '../../../model/cart.model';
-import { LoaderAction } from '../../../state/utils/loader/loader.action';
+import { Cart, StateUtils } from '@spartacus/core';
 import { CartActions } from '../actions/index';
 
 export const activeCartInitialState = null;
@@ -40,7 +39,7 @@ export const cartEntitiesInitialState = undefined;
 
 export function cartEntitiesReducer(
   state = cartEntitiesInitialState,
-  action: LoaderAction
+  action: StateUtils.LoaderAction
 ): Cart {
   switch (action.type) {
     case CartActions.LOAD_CARTS_SUCCESS:

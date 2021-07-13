@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Cart, OrderEntry, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
-import { UserIdService } from '../../auth/user-auth/facade/index';
-import { Cart } from '../../model/cart.model';
-import { OrderEntry } from '../../model/order.model';
-import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -43,7 +40,9 @@ export class MultiCartService {
    *
    * @param cartId
    */
-  getCartEntity(cartId: string): Observable<ProcessesLoaderState<Cart>> {
+  getCartEntity(
+    cartId: string
+  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
     );
@@ -91,7 +90,7 @@ export class MultiCartService {
     extraData?: {
       active?: boolean;
     };
-  }): Observable<ProcessesLoaderState<Cart>> {
+  }): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     // to support creating multiple carts at the same time we need to use different entity for every process
     // simple random uuid generator is used here for entity names
     const tempCartId = this.generateTempCartId();

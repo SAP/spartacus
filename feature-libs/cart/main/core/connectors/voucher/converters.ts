@@ -1,6 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { Voucher } from '../../../model/cart.model';
-import { Converter } from '../../../util/converter.service';
+import { Converter, Voucher } from '@spartacus/core';
 
 export const CART_VOUCHER_NORMALIZER = new InjectionToken<
   Converter<any, Voucher>

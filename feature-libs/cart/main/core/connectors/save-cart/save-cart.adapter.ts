@@ -1,5 +1,5 @@
+import { SaveCartResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { SaveCartResult } from '../../../model/cart.model';
 
 export abstract class SaveCartAdapter {
   /**

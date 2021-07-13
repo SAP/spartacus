@@ -1,16 +1,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+  CartVoucherAdapter,
+  CART_VOUCHER_NORMALIZER,
+} from '@spartacus/cart/main/core';
+import {
+  ConverterService,
+  InterceptorUtil,
+  OccEndpointsService,
+  OCC_USER_ID_ANONYMOUS,
+  USE_CLIENT_TOKEN,
+} from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
-import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
-import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
-import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN,
-} from '../../utils/interceptor-util';
 
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {

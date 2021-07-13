@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import {
+  Cart,
+  normalizeHttpError,
+  OCC_CART_ID_CURRENT,
+  SiteContextActions,
+  withdrawOn,
+} from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -12,11 +19,6 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Cart } from '../../../model/cart.model';
-import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';

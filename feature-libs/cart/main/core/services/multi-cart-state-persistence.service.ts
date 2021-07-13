@@ -1,10 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import {
+  BASE_SITE_CONTEXT_ID,
+  SiteContextParamsService,
+  StatePersistenceService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
-import { BASE_SITE_CONTEXT_ID } from '../../site-context';
-import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
-import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { CartActions, MultiCartSelectors } from '../store';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import {
+  ActionToEventMapping,
+  createFrom,
+  EventService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
-import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
-import { createFrom } from '../../util/create-from';
 import { ActiveCartService } from '../facade/active-cart.service';
 import { CartActions } from '../store/index';
 import {

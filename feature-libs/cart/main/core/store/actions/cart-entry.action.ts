@@ -1,8 +1,4 @@
-import { OrderEntry } from '../../../model/order.model';
-import {
-  EntityProcessesDecrementAction,
-  EntityProcessesIncrementAction,
-} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
+import { OrderEntry, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
@@ -16,7 +12,7 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export class CartAddEntry extends EntityProcessesIncrementAction {
+export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
   constructor(
     public payload: {
@@ -30,7 +26,7 @@ export class CartAddEntry extends EntityProcessesIncrementAction {
   }
 }
 
-export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
+export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
   constructor(
     public payload: {
@@ -49,7 +45,7 @@ export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartAddEntryFail extends EntityProcessesDecrementAction {
+export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(
     public payload: {
@@ -64,7 +60,7 @@ export class CartAddEntryFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartRemoveEntry extends EntityProcessesIncrementAction {
+export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(
     public payload: { cartId: string; userId: string; entryNumber: string }
@@ -73,7 +69,7 @@ export class CartRemoveEntry extends EntityProcessesIncrementAction {
   }
 }
 
-export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
+export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; entryNumber: string }
@@ -82,7 +78,7 @@ export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
+export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(
     public payload: {
@@ -96,7 +92,7 @@ export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartUpdateEntry extends EntityProcessesIncrementAction {
+export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_UPDATE_ENTRY;
   constructor(
     public payload: {
@@ -110,7 +106,7 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
   }
 }
 
-export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
+export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
   constructor(
     public payload: {
@@ -124,7 +120,7 @@ export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
-export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
+export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(
     public payload: {

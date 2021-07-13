@@ -1,8 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { AuthActions } from '../../../auth/user-auth/store/actions/index';
-import { Cart } from '../../../model/cart.model';
-import { entityProcessesLoaderReducer } from '../../../state/utils/entity-processes-loader/entity-processes-loader.reducer';
+import { AuthActions, Cart, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
   activeCartReducer,
@@ -29,7 +27,7 @@ export const multiCartReducerToken: InjectionToken<
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
-    carts: entityProcessesLoaderReducer<Cart>(
+    carts: StateUtils.entityProcessesLoaderReducer<Cart>(
       MULTI_CART_DATA,
       cartEntitiesReducer
     ),
