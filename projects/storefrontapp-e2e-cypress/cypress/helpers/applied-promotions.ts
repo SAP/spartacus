@@ -122,7 +122,7 @@ export function checkAppliedPromotions() {
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('cx-item-counter button').first().click();
+  cy.get('cx-item-counter button').should('be.enabled').first().click();
 }
 
 export function removeCartEntry() {
