@@ -2,7 +2,6 @@ import { SampleProduct } from '../../sample-data/checkout-flow';
 import * as sampleData from '../../sample-data/b2b-quick-order';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
-
 // import { waitForPage } from '../checkout-flow';
 
 export function visitCartPage() {
