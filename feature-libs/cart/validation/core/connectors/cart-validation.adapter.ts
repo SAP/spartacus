@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-import { CartModification } from '@spartacus/core';
+import { CartModificationList } from '../model/index';
 
 export abstract class CartValidationAdapter {
-  abstract validate(
+  abstract load(
     cartId: string,
     userId: string
-  ): Observable<CartModification>;
+  ): Observable<CartModificationList>;
 }

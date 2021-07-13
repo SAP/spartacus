@@ -7,12 +7,11 @@ import { HttpClient } from '@angular/common/http';
 import {
   ConverterService,
   normalizeHttpError,
-  Occ,
   OccEndpointsService,
-  CartModification,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CartModificationList } from '@spartacus/cart/validation/core';
 
 @Injectable()
 export class OccCartValidationAdapter implements CartValidationAdapter {
@@ -22,11 +21,12 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
     protected converter: ConverterService
   ) {}
 
-  validate(cartId: string, userId: string): Observable<CartModification> {
+  load(cartId: string, userId: string): Observable<CartModificationList> {
     const url = this.occEndpoints.buildUrl('validate', {
       urlParams: { cartId, userId },
     });
-    return this.http.get<Occ.CartModification>(url).pipe(
+
+    return this.http.post<any>(url, null).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
       this.converter.pipeable(CART_VALIDATION_NORMALIZER)
     );

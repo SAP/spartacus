@@ -149,6 +149,7 @@
       ],
       "@spartacus/cart/validation": ["dist/cart/validation"],
       "@spartacus/cart/validation/occ": ["dist/cart/validation/occ"],
+      "@spartacus/cart/validation/core": ["dist/cart/validation/core"],
       "@spartacus/cart/validation/root": ["dist/cart/validation/root"]
     }
   }

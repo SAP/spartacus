@@ -238,6 +238,9 @@
       "@spartacus/cart/validation": [
         "../../feature-libs/cart/validation/public_api"
       ],
+      "@spartacus/cart/validation/core": [
+        "../../feature-libs/cart/validation/core/public_api"
+      ],
       "@spartacus/cart/validation/occ": [
         "../../feature-libs/cart/validation/occ/public_api"
       ],
