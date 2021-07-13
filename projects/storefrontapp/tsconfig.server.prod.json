@@ -22,6 +22,16 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
+      "@spartacus/cart/validation/assets": [
+        "../../dist/cart/validation/assets"
+      ],
+      "@spartacus/cart/validation/components": [
+        "../../dist/cart/validation/components"
+      ],
+      "@spartacus/cart/validation/core": ["../../dist/cart/validation/core"],
+      "@spartacus/cart/validation": ["../../dist/cart/validation"],
+      "@spartacus/cart/validation/occ": ["../../dist/cart/validation/occ"],
+      "@spartacus/cart/validation/root": ["../../dist/cart/validation/root"],
       "@spartacus/checkout/assets": ["../../dist/checkout/assets"],
       "@spartacus/checkout/components": ["../../dist/checkout/components"],
       "@spartacus/checkout/core": ["../../dist/checkout/core"],
@@ -63,11 +73,11 @@
         "../../dist/product-configurator/common"
       ],
       "@spartacus/product-configurator": ["../../dist/product-configurator"],
-      "@spartacus/product-configurator/rulebased": [
-        "../../dist/product-configurator/rulebased"
-      ],
       "@spartacus/product-configurator/rulebased/cpq": [
         "../../dist/product-configurator/rulebased/cpq"
+      ],
+      "@spartacus/product-configurator/rulebased": [
+        "../../dist/product-configurator/rulebased"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
