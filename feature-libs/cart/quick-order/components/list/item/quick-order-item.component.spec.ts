@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
-import { QuickOrderService } from 'feature-libs/cart/quick-order/core/services/quick-order.service';
 import { QuickOrderItemComponent } from './quick-order-item.component';
 
 const mockIndex: number = 1;
@@ -11,7 +11,7 @@ const mockEntry: OrderEntry = {
   product: { name: 'mockProduct', code: 'mockCode' },
 };
 
-class MockQuickOrderService implements Partial<QuickOrderService> {
+class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   removeEntry(_index: number): void {}
   updateEntryQuantity(_index: number, _quantity: number): void {}
 }
@@ -26,18 +26,18 @@ class MockUrlPipe implements PipeTransform {
 describe('QuickOrderItemComponent', () => {
   let component: QuickOrderItemComponent;
   let fixture: ComponentFixture<QuickOrderItemComponent>;
-  let quickOrderService: QuickOrderService;
+  let quickOrderService: QuickOrderFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [QuickOrderItemComponent, MockUrlPipe],
       providers: [
-        { provide: QuickOrderService, useClass: MockQuickOrderService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
     }).compileComponents();
 
-    quickOrderService = TestBed.inject(QuickOrderService);
+    quickOrderService = TestBed.inject(QuickOrderFacade);
   });
 
   beforeEach(() => {

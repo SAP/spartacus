@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/storefrontlib"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build storefrontlib --prod"
+    "after:version:bump": "cd ../.. && ng build storefrontlib --configuration production"
   },
   "github": {
     "release": true,

@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -28,7 +28,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected quickOrderService: QuickOrderService
+    protected quickOrderService: QuickOrderFacade
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +47,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     this.quickOrderService.search(productCode).subscribe(
       (product: Product) => {
-        console.log('success', product);
         this.quickOrderService.addProduct(product);
       },
       (error: HttpErrorResponse) => {
-        console.log('error', error);
         this.globalMessageService.add(
           error.error.errors[0].message,
           GlobalMessageType.MSG_TYPE_ERROR
@@ -73,7 +71,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected watchProductAdd(): Subscription {
-    return this.quickOrderService.productAdded$.subscribe(() => this.clear());
+    return this.quickOrderService
+      .getProductAdded()
+      .subscribe(() => this.clear());
   }
 
   ngOnDestroy(): void {

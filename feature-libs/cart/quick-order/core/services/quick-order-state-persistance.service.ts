@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
@@ -6,7 +7,6 @@ import {
   StorageSyncType,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { QuickOrderService } from './quick-order.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected quickOrderService: QuickOrderService,
+    protected quickOrderService: QuickOrderFacade,
     protected siteContextParamsService: SiteContextParamsService,
     protected statePersistenceService: StatePersistenceService
   ) {}

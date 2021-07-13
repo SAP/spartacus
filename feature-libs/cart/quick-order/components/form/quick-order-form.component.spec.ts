@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -7,8 +8,7 @@ import {
   Product,
   Translatable,
 } from '@spartacus/core';
-import { Observable, of, Subject, throwError } from 'rxjs';
-import { QuickOrderService } from '../../core/services/quick-order.service';
+import { Observable, of, throwError } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
 const mockProductCode: string = 'mockCode';
@@ -26,11 +26,11 @@ const mockError = {
   },
 };
 
-class MockQuickOrderService implements Partial<QuickOrderService> {
+class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   search(_code: any): Observable<Product> {
     return of(mockProduct);
   }
-  productAdded$ = new Subject<void>();
+  setProductAdded(): void;
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -44,7 +44,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 describe('QuickOrderFormComponent', () => {
   let component: QuickOrderFormComponent;
   let fixture: ComponentFixture<QuickOrderFormComponent>;
-  let quickOrderService: QuickOrderService;
+  let quickOrderService: QuickOrderFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(async () => {
@@ -52,12 +52,12 @@ describe('QuickOrderFormComponent', () => {
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [QuickOrderFormComponent],
       providers: [
-        { provide: QuickOrderService, useClass: MockQuickOrderService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
 
-    quickOrderService = TestBed.inject(QuickOrderService);
+    quickOrderService = TestBed.inject(QuickOrderFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -92,7 +92,7 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('on product added', () => {
-      quickOrderService.productAdded$.next();
+      quickOrderService.setProductAdded().next();
 
       expect(component.form.get('product')?.value).toBeNull();
     });

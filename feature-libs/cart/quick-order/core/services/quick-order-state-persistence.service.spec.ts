@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   OrderEntry,
   SiteContextParamsService,
@@ -6,7 +7,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';
-import { QuickOrderService } from './quick-order.service';
 
 class MockSiteContextParamsService {
   getValues(): Observable<Array<string>> {
@@ -14,7 +14,7 @@ class MockSiteContextParamsService {
   }
 }
 
-class MockQuickOrderService implements Partial<QuickOrderService> {
+class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
     return new BehaviorSubject<OrderEntry[]>([]);
   }
@@ -24,7 +24,7 @@ class MockQuickOrderService implements Partial<QuickOrderService> {
 describe('QuickOrderStatePersistenceService', () => {
   let service: QuickOrderStatePersistenceService;
   let persistenceService: StatePersistenceService;
-  let quickOrderService: QuickOrderService;
+  let quickOrderService: QuickOrderFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,14 +34,14 @@ describe('QuickOrderStatePersistenceService', () => {
           provide: SiteContextParamsService,
           useClass: MockSiteContextParamsService,
         },
-        { provide: QuickOrderService, useClass: MockQuickOrderService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         StatePersistenceService,
       ],
     });
 
     service = TestBed.inject(QuickOrderStatePersistenceService);
     persistenceService = TestBed.inject(StatePersistenceService);
-    quickOrderService = TestBed.inject(QuickOrderService);
+    quickOrderService = TestBed.inject(QuickOrderFacade);
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
 

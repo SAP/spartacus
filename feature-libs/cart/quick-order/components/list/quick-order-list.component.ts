@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 
 @Component({
   selector: 'cx-quick-order-list',
@@ -9,5 +9,5 @@ import { QuickOrderService } from '@spartacus/cart/quick-order/core';
 export class QuickOrderListComponent {
   entries$ = this.quickOrderService.getEntries();
 
-  constructor(protected quickOrderService: QuickOrderService) {}
+  constructor(protected quickOrderService: QuickOrderFacade) {}
 }

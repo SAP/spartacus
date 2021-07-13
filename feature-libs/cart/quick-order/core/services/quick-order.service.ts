@@ -8,8 +8,7 @@ import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
   providedIn: 'root',
 })
 export class QuickOrderService {
-  productAdded$: Subject<void> = new Subject<void>();
-
+  protected productAdded$: Subject<void> = new Subject<void>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
@@ -71,6 +70,20 @@ export class QuickOrderService {
   addProduct(product: Product): void {
     const entry = this.generateOrderEntry(product);
     this.addEntry(entry);
+  }
+
+  /**
+   * Return product added subject
+   */
+  getProductAdded(): Subject<void> {
+    return this.productAdded$;
+  }
+
+  /**
+   * Set product added subject
+   */
+  setProductAdded(): void {
+    this.productAdded$.next();
   }
 
   /**

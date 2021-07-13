@@ -7,6 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { Configurator } from '../../../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -25,5 +26,9 @@ export class ConfiguratorAttributeDropDownComponent
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+  }
+
+  getSelectedValue(): Configurator.Value | undefined {
+    return this.attribute.values?.find((value) => value?.selected);
   }
 }
