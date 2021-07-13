@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -12,6 +13,8 @@ export class OrderDetailTotalsComponent implements OnInit {
   order$: Observable<any>;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
+    this.order$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(map((order) => (Object.keys(order).length ? order : null)));
   }
 }

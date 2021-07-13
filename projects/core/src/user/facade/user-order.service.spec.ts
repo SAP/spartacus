@@ -7,6 +7,7 @@ import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
@@ -77,6 +78,26 @@ describe('UserOrderService', () => {
       })
       .unsubscribe();
     expect(order).toEqual({ code: 'testOrder' });
+  });
+
+  it('should be able to get order details state', () => {
+    store.dispatch(
+      new UserActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
+    );
+
+    let state: LoaderState<Order>;
+    userOrderService
+      .getOrderDetailsState()
+      .subscribe((data) => {
+        state = data;
+      })
+      .unsubscribe();
+    expect(state).toEqual({
+      loading: false,
+      error: false,
+      success: true,
+      value: { code: 'testOrder' },
+    } as LoaderState<Order>);
   });
 
   it('should be able to load order details', () => {

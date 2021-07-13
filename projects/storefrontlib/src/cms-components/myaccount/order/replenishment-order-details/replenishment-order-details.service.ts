@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ReplenishmentOrder,
   RoutingService,
+  StateUtils,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -39,6 +40,16 @@ export class ReplenishmentOrderDetailsService {
     protected routingService: RoutingService,
     protected userReplenishmentOrderService: UserReplenishmentOrderService
   ) {}
+
+  getOrderDetailsState(): Observable<
+    StateUtils.LoaderState<ReplenishmentOrder>
+  > {
+    return this.replenishmentOrderLoad$.pipe(
+      switchMap(() =>
+        this.userReplenishmentOrderService.getReplenishmentOrderDetailsState()
+      )
+    );
+  }
 
   getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderLoad$.pipe(

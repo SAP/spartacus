@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  Order,
+  RoutingService,
+  StateUtils,
+  UserOrderService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -45,6 +50,13 @@ const mockOrder: Order = {
   },
 };
 
+const mockOrderLoaderState: StateUtils.LoaderState<Order> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
 const mockRouterWithoutOrderCode = {
   state: {
     url: '/',
@@ -71,6 +83,9 @@ class MockUserOrderService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return of(mockOrderLoaderState);
+  }
   loadOrderDetails(_orderCode: string): void {}
   clearOrderDetails(): void {}
 }
@@ -83,8 +98,7 @@ class MockRoutingService {
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
-  let userService;
-  let routingService;
+  let userOrderService: UserOrderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,33 +116,51 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.inject(OrderDetailsService);
-    userService = TestBed.inject(UserOrderService);
-    routingService = TestBed.inject(RoutingService);
-
-    spyOn(routingService, 'getRouterState');
-    spyOn(userService, 'loadOrderDetails');
-    spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+    userOrderService = TestBed.inject(UserOrderService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load order details', () => {
-    routerSubject.next(mockRouter);
+  describe('should load', () => {
+    beforeEach(() => {
+      spyOn(userOrderService, 'loadOrderDetails').and.callThrough();
+    });
 
-    let orderDetails: Order;
-    service
-      .getOrderDetails()
-      .subscribe((data) => (orderDetails = data))
-      .unsubscribe();
-    expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
-    expect(userService.getOrderDetails).toHaveBeenCalled();
-    expect(orderDetails).toBe(mockOrder);
+    it('order details', () => {
+      spyOn(userOrderService, 'getOrderDetails').and.returnValue(of(mockOrder));
+      routerSubject.next(mockRouter);
+
+      let orderDetails: Order;
+      service
+        .getOrderDetails()
+        .subscribe((data) => (orderDetails = data))
+        .unsubscribe();
+      expect(userOrderService.loadOrderDetails).toHaveBeenCalledWith('1');
+      expect(userOrderService.getOrderDetails).toHaveBeenCalled();
+      expect(orderDetails).toBe(mockOrder);
+    });
+
+    it('order details state', () => {
+      spyOn(userOrderService, 'getOrderDetailsState').and.callThrough();
+      routerSubject.next(mockRouter);
+
+      let orderDetailsState: StateUtils.LoaderState<Order>;
+      service
+        .getOrderDetailsState()
+        .subscribe((data) => (orderDetailsState = data))
+        .unsubscribe();
+
+      expect(userOrderService.loadOrderDetails).toHaveBeenCalledWith('1');
+      expect(userOrderService.getOrderDetailsState).toHaveBeenCalled();
+      expect(orderDetailsState).toBe(mockOrderLoaderState);
+    });
   });
 
   it('should clean order details', () => {
+    spyOn(userOrderService, 'clearOrderDetails').and.callThrough();
+    spyOn(userOrderService, 'getOrderDetails').and.callThrough();
     routerSubject.next(mockRouterWithoutOrderCode);
 
     let orderDetails: Order;
@@ -136,8 +168,8 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
       .unsubscribe();
-    expect(userService.clearOrderDetails).toHaveBeenCalled();
-    expect(userService.getOrderDetails).toHaveBeenCalled();
+    expect(userOrderService.clearOrderDetails).toHaveBeenCalled();
+    expect(userOrderService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });
 
@@ -160,9 +192,7 @@ describe('OrderDetailsService', () => {
     });
 
     expect(orderCode).toEqual(mockRouter.state.params.orderCode);
-
     routerSubject.next(mockRouterNewOrderCode);
-
     expect(orderCode).toEqual(mockRouterNewOrderCode.state.params.orderCode);
   });
 });

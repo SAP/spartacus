@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Order, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -6,12 +7,10 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
 })
-export class OrderDetailShippingComponent implements OnInit {
+export class OrderDetailShippingComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<any>;
-
-  ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
-  }
+  state$: Observable<
+    StateUtils.LoaderState<Order>
+  > = this.orderDetailsService.getOrderDetailsState();
 }

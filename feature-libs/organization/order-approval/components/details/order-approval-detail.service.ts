@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService } from '@spartacus/core';
+import { Order, RoutingService, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { Observable } from 'rxjs';
@@ -27,6 +27,17 @@ export class OrderApprovalDetailService {
     ),
     switchMap((approvalCode: string) =>
       this.orderApprovalService.get(approvalCode)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  orderApprovalState$ = this.approvalCode$.pipe(
+    filter(Boolean),
+    tap((approvalCode: string) =>
+      this.orderApprovalService.loadOrderApproval(approvalCode)
+    ),
+    switchMap((approvalCode: string) =>
+      this.orderApprovalService.getState(approvalCode)
     ),
     shareReplay({ bufferSize: 1, refCount: true })
   );
@@ -60,5 +71,21 @@ export class OrderApprovalDetailService {
    */
   getOrderApproval(): Observable<OrderApproval> {
     return this.orderApproval$;
+  }
+
+  /**
+   * Returns the order details state
+   */
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<OrderApproval>> {
+    return this.orderApprovalState$.pipe(
+      map((state) => {
+        // const orderState = JSON.parse(JSON.stringify(state));
+        // console.log(orderState, 'orderState');
+        console.log(state, 'state');
+        // return state;
+        return { ...state, value: state?.value?.order || {} };
+        // return Object.assign(orderState, { value: state?.value?.order });
+      })
+    );
   }
 }

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService } from '@spartacus/core';
+import { Order, RoutingService, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { Observable, of } from 'rxjs';
@@ -25,6 +25,14 @@ const mockRouterState = {
     },
   },
 };
+
+const mockState: StateUtils.LoaderState<OrderApproval> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
 class MockRoutingService {
   getRouterState() {
     return of(mockRouterState);
@@ -35,9 +43,14 @@ class MockOrderApprovalService {
   get(_orderApprovalCode: string): Observable<OrderApproval> {
     return of(mockOrderApproval);
   }
+  getState(
+    _orderApprovalCode: string
+  ): Observable<StateUtils.LoaderState<OrderApproval>> {
+    return of(mockState);
+  }
 }
 
-describe('OrderApprovalDetailService', () => {
+fdescribe('OrderApprovalDetailService', () => {
   let service: OrderApprovalDetailService;
 
   beforeEach(() => {
@@ -55,6 +68,8 @@ describe('OrderApprovalDetailService', () => {
   });
 
   it('should provide the order data', () => {
+    spyOn(service, 'getOrderDetails').and.callThrough();
+
     let order: Order;
     service
       .getOrderDetails()
@@ -62,9 +77,12 @@ describe('OrderApprovalDetailService', () => {
       .unsubscribe();
     expect(order).toBeTruthy();
     expect(order).toEqual(mockOrder);
+    expect(service.getOrderDetails).toHaveBeenCalled();
   });
 
   it('should provide the order approval data', () => {
+    spyOn(service, 'getOrderApproval').and.callThrough();
+
     let orderApproval: OrderApproval;
     service
       .getOrderApproval()
@@ -72,9 +90,12 @@ describe('OrderApprovalDetailService', () => {
       .unsubscribe();
     expect(orderApproval).toBeTruthy();
     expect(orderApproval).toEqual(mockOrderApproval);
+    expect(service.getOrderApproval).toHaveBeenCalled();
   });
 
   it('should provide the order approval code', () => {
+    spyOn(service, 'getOrderApprovalCodeFromRoute').and.callThrough();
+
     let approvalCodeReturned: string;
     service
       .getOrderApprovalCodeFromRoute()
@@ -84,5 +105,25 @@ describe('OrderApprovalDetailService', () => {
     expect(approvalCodeReturned).toEqual(
       mockRouterState.state.params.approvalCode
     );
+    expect(service.getOrderApprovalCodeFromRoute).toHaveBeenCalled();
+  });
+
+  it('should provide the order state', () => {
+    spyOn(service, 'getOrderDetailsState').and.callThrough();
+
+    let orderState: any;
+    service
+      .getOrderDetailsState()
+      .subscribe((value) => {
+        console.log('subscribe orderstate', value);
+        orderState = value;
+      })
+      .unsubscribe();
+    console.log(orderState, 'ORDERSTATE');
+    console.log(mockState, 'mockState');
+
+    expect(orderState).toBeTruthy();
+    expect(service.getOrderDetailsState).toHaveBeenCalled();
+    // expect(orderState).toEqual(mockState);
   });
 });

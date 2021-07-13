@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -27,13 +28,22 @@ export class OrderDetailsService {
 
     this.orderLoad$ = this.orderCode$.pipe(
       tap((orderCode) => {
+        console.log('orderLoad ordercode', orderCode);
         if (orderCode) {
+          console.log('with order code');
           this.userOrderService.loadOrderDetails(orderCode);
         } else {
+          console.log('without order code');
           this.userOrderService.clearOrderDetails();
         }
       }),
       shareReplay({ bufferSize: 1, refCount: true })
+    );
+  }
+
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return this.orderLoad$.pipe(
+      switchMap(() => this.userOrderService.getOrderDetailsState())
     );
   }
 

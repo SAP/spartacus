@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
@@ -34,6 +35,13 @@ export class UserOrderService {
    */
   getOrderDetails(): Observable<Order> {
     return this.store.pipe(select(UsersSelectors.getOrderDetails));
+  }
+
+  /**
+   * Returns an order details state
+   */
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return this.store.pipe(select(UsersSelectors.getOrderState));
   }
 
   /**

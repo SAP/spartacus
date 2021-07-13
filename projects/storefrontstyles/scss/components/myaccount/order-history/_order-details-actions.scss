@@ -3,6 +3,12 @@
     justify-content: center;
     padding: 1rem 0 2rem;
 
+    .header {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 1rem;
+    }
+
     div:empty {
       display: none;
     }

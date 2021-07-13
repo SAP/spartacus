@@ -1,6 +1,13 @@
+import { DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import {
+  I18nTestingModule,
+  Order,
+  ReplenishmentOrder,
+  StateUtils,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';
 
@@ -15,6 +22,20 @@ const mockOrder: Order = {
       name: 'Rustic',
     },
   },
+};
+
+const mockState: StateUtils.LoaderState<Order> = {
+  loading: false,
+  error: false,
+  success: true,
+  value: mockOrder,
+};
+
+const mockStateWithError: StateUtils.LoaderState<Order> = {
+  loading: false,
+  error: true,
+  success: true,
+  value: undefined,
 };
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -39,9 +60,15 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   },
 };
 
+const mockState$ = new BehaviorSubject(mockState);
+const mockOrder$ = new BehaviorSubject(mockOrder);
+
 class MockOrderDetailsService {
+  getOrderDetailsState(): Observable<StateUtils.LoaderState<Order>> {
+    return mockState$.asObservable();
+  }
   getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
+    return mockOrder$.asObservable();
   }
 }
 
@@ -49,6 +76,7 @@ describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
   let orderDetailsService: OrderDetailsService;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -64,12 +92,14 @@ describe('OrderDetailShippingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
-    orderDetailsService = TestBed.inject(OrderDetailsService);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    el = fixture.debugElement;
+
+    orderDetailsService = TestBed.inject(OrderDetailsService);
   });
 
   it('should create', () => {
-    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
@@ -93,5 +123,14 @@ describe('OrderDetailShippingComponent', () => {
       .unsubscribe();
 
     expect(result).toEqual(mockReplenishmentOrder);
+  });
+
+  it('should not display order overview when state has error', () => {
+    mockState$.next(mockStateWithError);
+
+    fixture.detectChanges();
+    const element: DebugElement = el.query(By.css('cx-order-overview'));
+
+    expect(element).toBeFalsy();
   });
 });
