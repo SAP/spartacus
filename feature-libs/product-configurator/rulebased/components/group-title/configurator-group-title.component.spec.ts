@@ -11,13 +11,14 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 let routerStateObservable = null;
-const group = { id: '1-CPQ_LAPTOP.1' };
+const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;

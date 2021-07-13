@@ -27,7 +27,7 @@ export namespace Configurator {
   }
 
   export interface Value {
-    valueCode?: string;
+    valueCode: string;
     name?: string;
     valueDisplay?: string;
     description?: string;
@@ -42,14 +42,14 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    id?: string;
+    id: string;
     name?: string;
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
     consistent?: boolean;
-    subGroups?: Group[];
+    subGroups: Group[];
   }
 
   export interface Configuration {
@@ -59,7 +59,7 @@ export namespace Configurator {
     totalNumberOfIssues?: number;
     productCode?: string;
     groups: Group[];
-    flatGroups?: Group[];
+    flatGroups: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;
@@ -81,7 +81,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
-    configId?: string;
+    configId: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
@@ -92,6 +92,7 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
@@ -112,9 +113,9 @@ export namespace Configurator {
   }
 
   export interface PriceDetails {
-    currencyIso?: string;
+    currencyIso: string;
     formattedValue?: string;
-    value?: number;
+    value: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {

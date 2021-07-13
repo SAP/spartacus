@@ -1,0 +1,21 @@
+@mixin cx-configurator-bundle-attribute-level-quantity-price {
+  .cx-attribute-level-quantity-price {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-start: 32px;
+    margin-block-end: 32px;
+    margin-inline-start: 16px;
+    margin-inline-end: 16px;
+
+    cx-configurator-attribute-quantity {
+      padding-inline-end: 10px;
+      padding-block-end: 10px;
+    }
+
+    cx-configurator-price {
+      padding-block-end: 10px;
+    }
+  }
+}

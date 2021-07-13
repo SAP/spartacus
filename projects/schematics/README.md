@@ -38,7 +38,9 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ### Preparing setup
 
-- Install verdaccio `npm i -g verdaccio@4` (only for the first time)
+- Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
+- Run it: `$ verdaccio`
+- Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
 - Create new angular project `ng new schematics-test --style=scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally).
 
@@ -77,7 +79,7 @@ After upgrading to a new major version, the migration mechanism should be update
 The `projects/schematics/src/migrations/migrations.json` file contains a list of all the migration scripts for every Spartacus version. The following is an example of a migration script:
 
 ```json
-"migration-v3-constructor-deprecations-03": {
+"03-migration-v3-constructor-deprecations": {
       "version": "3.0.0",
       "factory": "./3_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
@@ -86,10 +88,10 @@ The `projects/schematics/src/migrations/migrations.json` file contains a list of
 
 Each script has a set of properties, which are described as follows:
 
-- `name` allows developers to quickly understand what the migration script is doing. The migration `name` has the following pattern: `migration-v<version>-<migration-feature-name>-<sequence-number>`. The elements of `name` are as follows:
+- `name` allows developers to quickly understand what the migration script is doing. The migration `name` has the following pattern: `<sequence-number>-migration-v<version>-<migration-feature-name>`. The elements of `name` are as follows:
+  - `sequence-number` indicates the order of execution for the migration scripts. For example, if a script has a `sequence-number` of `03`, it will be the third script to execute when the migration scripts are run.
   - `version` indicates which version of Spartacus the migration is intended for.
   - `migration-feature-name` is a short name that describes what the migration is doing.
-  - `sequence-number` indicates the order of execution for the migration scripts. For example, if a script has a `sequence-number` of `03`, it will be the third script to execute when the migration scripts are run.
 - `version` is very important for the Angular update mechanism. It is used to automatically run the required migration scripts for a specific version. For more information, see the [releasing update schematics](#releasing-update-schematics) section of the schematics README.
 - `factory` points to the relevant migration script.
 - `description` is a short, free-form description field to describe what the migration script does.
@@ -140,14 +142,16 @@ This section is for developers who do the release, and it specifies how to manag
 
 The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
 
-- `migration-v*-validate-01`
-- `migration-v*-methods-and-properties-deprecations-02`
-- `migration-v*-constructor-deprecations-03`
-- `migration-v*-removed-public-api-deprecation-04`
-- `migration-v*-component-deprecations-05`
-- `migration-v*-css-06`
-- `migration-v*-config-deprecations-09`
-- `migration-v*-dependency-management-03`
+- `**-migration-v*-validate`
+- `**-migration-v*-rename-symbol`
+- `**-migration-v*-methods-and-properties-deprecations`
+- `**-migration-v*-constructor-deprecations`
+- `**-migration-v*-removed-public-api-deprecation`
+- `**-migration-v*-component-deprecations`
+- `**-migration-v*-css`
+- `**-migration-v*-config-deprecations`
+- `**-migration-v*-dependency-management`
+- `**-migration-v*-missing-packages`
 
 The `v*` refers _only_ to the _latest major_ Spartacus version (v3 as of this moment).
 

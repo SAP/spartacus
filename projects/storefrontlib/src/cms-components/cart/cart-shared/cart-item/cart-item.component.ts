@@ -1,18 +1,6 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  OrderEntry,
-  PromotionLocation,
-  PromotionResult,
-} from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -31,7 +19,7 @@ export interface CartItemComponentOptions {
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
 })
-export class CartItemComponent implements OnInit, OnChanges {
+export class CartItemComponent implements OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
@@ -45,21 +33,10 @@ export class CartItemComponent implements OnInit, OnChanges {
     optionalBtn: null,
   };
 
-  appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(
-    protected promotionService: PromotionService,
-    protected cartItemContextSource: CartItemContextSource
-  ) {}
-
-  ngOnInit() {
-    this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
-      this.item,
-      this.promotionLocation
-    );
-  }
+  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
@@ -75,9 +52,6 @@ export class CartItemComponent implements OnInit, OnChanges {
       this.cartItemContextSource.quantityControl$.next(this.quantityControl);
     }
     if (changes?.promotionLocation) {
-      this.cartItemContextSource.promotionLocation$.next(
-        this.promotionLocation
-      );
       this.cartItemContextSource.location$.next(this.promotionLocation);
     }
     if (changes?.options) {

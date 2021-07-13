@@ -1,5 +1,3 @@
-import { experimental } from '@angular-devkit/core';
-import { italic } from '@angular-devkit/core/src/terminal';
 import {
   chain,
   noop,
@@ -9,13 +7,8 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
-import {
-  ANGULAR_HTTP,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_FEATURES_MODULE,
-  SPARTACUS_MODULE,
-  SPARTACUS_ROUTING_MODULE,
-} from '../shared/constants';
+import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
+import { ANGULAR_HTTP, SPARTACUS_ROUTING_MODULE } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -40,8 +33,11 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
+  getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
+  getWorkspace,
+  scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
@@ -83,9 +79,7 @@ function installStyles(options: SpartacusOptions): Rule {
 
     if (!buffer) {
       context.logger.warn(
-        `Could not read the default style file within the project ${italic(
-          styleFilePath
-        )}`
+        `Could not read the default style file within the project ${styleFilePath}`
       );
       context.logger.warn(
         `Please consider manually importing spartacus styles.`
@@ -112,7 +106,7 @@ function installStyles(options: SpartacusOptions): Rule {
 }
 
 function updateMainComponent(
-  project: experimental.workspace.WorkspaceProject,
+  project: WorkspaceProject,
   options: SpartacusOptions
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree | void => {
@@ -164,7 +158,59 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-export function prepareDependencies(): NodeDependency[] {
+function increaseBudgets(): Rule {
+  return (tree: Tree): Tree => {
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const configurations = build?.configurations;
+    const productionConfiguration = configurations?.production;
+    const productionBudgets = (((productionConfiguration as any).budgets ??
+      []) as {
+      type: string;
+      maximumError: string;
+    }[]).map((budget) => {
+      if (budget.type === 'initial') {
+        return {
+          ...budget,
+          maximumError: '2.5mb',
+        };
+      }
+      return budget;
+    });
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              configurations: {
+                ...configurations,
+                production: {
+                  ...productionConfiguration,
+                  budgets: productionBudgets,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+    return tree;
+  };
+}
+
+function prepareDependencies(): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
   return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
@@ -231,7 +277,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies()),
+      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
+
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
@@ -239,36 +286,22 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         project: options.project,
       }),
       setupRouterModule(options.project),
+
       setupStoreModules(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
-        module: 'app',
-        project: options.project,
-      }),
+      scaffoldStructure(options),
+
       setupSpartacusModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       setupSpartacusFeaturesModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       addSpartacusConfiguration(options),
 
       updateAppModule(options.project),
       installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
+      increaseBudgets(),
 
       addSpartacusFeatures(options),
     ])(tree, context);

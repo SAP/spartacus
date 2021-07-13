@@ -3,29 +3,38 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
+  justify-content: space-between;
 
   .cx-attribute-value {
-    width: 100%;
+    width: 50%;
+    font-weight: 600;
+    line-break: anywhere;
+    padding-inline-end: 10px;
 
     @include media-breakpoint-up(md) {
-      width: 41.6666666667%;
-
-      @include forVersion(3.3) {
-        width: 40%;
-      }
+      width: 40%;
     }
   }
 
   .cx-attribute-label {
-    color: var(--cx-color-secondary);
     width: 100%;
+    padding-inline-end: 10px;
+    line-break: anywhere;
+    color: var(--cx-color-secondary);
 
     @include media-breakpoint-up(md) {
-      width: 58.3333333333%;
+      width: 30%;
+    }
+  }
 
-      @include forVersion(3.3) {
-        width: 60%;
-      }
+  .cx-attribute-price {
+    align-self: flex-start;
+    color: var(--cx-color-secondary);
+    width: 50%;
+
+    @include media-breakpoint-up(md) {
+      width: 30%;
+      padding-block-start: 5px;
     }
   }
 }
