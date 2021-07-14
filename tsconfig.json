@@ -206,6 +206,9 @@
       "@spartacus/user/anonymous-consents": [
         "feature-libs/user/anonymous-consents/public_api"
       ],
+      "@spartacus/user/anonymous-consents/occ": [
+        "feature-libs/user/anonymous-consents/occ/public_api"
+      ],
       "@spartacus/user/anonymous-consents/root": [
         "feature-libs/user/anonymous-consents/root/public_api"
       ],

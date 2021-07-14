@@ -149,6 +149,9 @@
       "@spartacus/user/anonymous-consents": [
         "../../dist/user/anonymous-consents"
       ],
+      "@spartacus/user/anonymous-consents/occ": [
+        "../../dist/user/anonymous-consents/occ"
+      ],
       "@spartacus/user/anonymous-consents/root": [
         "../../dist/user/anonymous-consents/root"
       ],
