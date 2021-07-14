@@ -16,10 +16,10 @@ export class DpPaymentCallbackComponent implements OnInit {
   paymentDetailsAdded = new EventEmitter<any>();
 
   constructor(
-    private dpPaymentService: DpCheckoutPaymentService,
-    private dpStorageService: DpLocalStorageService,
-    private globalMsgService: GlobalMessageService,
-    private route: ActivatedRoute
+    protected dpPaymentService: DpCheckoutPaymentService,
+    protected dpStorageService: DpLocalStorageService,
+    protected globalMsgService: GlobalMessageService,
+    protected route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

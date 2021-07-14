@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [CommonModule, SpinnerModule, I18nModule],
   declarations: [DpPaymentCallbackComponent],
-  entryComponents: [DpPaymentCallbackComponent],
   exports: [DpPaymentCallbackComponent],
   providers: [DpCheckoutPaymentService],
 })
