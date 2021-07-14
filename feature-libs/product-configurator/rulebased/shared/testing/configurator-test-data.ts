@@ -27,6 +27,10 @@ export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
 export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
+export const VALUE_01 = 'VALUE_01';
+export const VALUE_02 = 'VALUE_02';
+export const VALUE_03 = 'VALUE_03';
+
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
 export const mockRouterState: any = {
@@ -71,6 +75,26 @@ export const subGroupWith2Attributes: Configurator.Group = {
       uiType: Configurator.UiType.DROPDOWN,
       required: true,
       incomplete: true,
+      values: [
+        {
+          name: VALUE_01,
+          valueCode: VALUE_01,
+          valueDisplay: 'Value 01',
+          images: [],
+        },
+        {
+          name: VALUE_02,
+          valueCode: VALUE_02,
+          valueDisplay: 'Value 02',
+          images: [],
+        },
+        {
+          name: VALUE_03,
+          valueCode: VALUE_03,
+          valueDisplay: 'Value 03',
+          images: [],
+        },
+      ],
     },
   ],
 };
@@ -94,6 +118,26 @@ export const attributeRadioButton: Configurator.Attribute = {
   uiType: Configurator.UiType.RADIOBUTTON,
   required: false,
   incomplete: false,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
 };
 
 export const attributeCheckbox: Configurator.Attribute = {
@@ -103,6 +147,26 @@ export const attributeCheckbox: Configurator.Attribute = {
   incomplete: false,
   groupId: '1',
   attrCode: 123,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
 };
 
 export const productConfiguration: Configurator.Configuration = {
@@ -152,7 +216,6 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-
       subGroups: [
         {
           id: GROUP_ID_6,
@@ -182,7 +245,6 @@ export const productConfiguration: Configurator.Configuration = {
         },
       ],
     },
-
     {
       id: GROUP_ID_9,
       configurable: true,
