@@ -122,7 +122,7 @@ export function checkAppliedPromotions() {
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('cx-item-counter button').should('be.enabled').first().click();
+  cy.get('cx-item-counter button').first().click();
 }
 
 export function removeCartEntry() {
@@ -143,8 +143,15 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
 
   it('Should display promotions for cart quantities increase/decrease', () => {
     registerCartPageRoute();
+    cy.intercept({
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/*/customercoupons`,
+    }).as('customer_coupons');
     goToCartDetailsViewFromCartDialog();
     cy.wait('@cart_page');
+    cy.wait('@customer_coupons');
     cy.get('.cx-promotions').should('contain', '200');
 
     decreaseQuantityOfCartEntry();
