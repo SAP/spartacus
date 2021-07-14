@@ -1,6 +1,6 @@
 import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
 import { viewportContext } from '../../../../helpers/viewport-context';
-import * as sampleData from '../../../../sample-data/b2b-quick-order';
+import * as sampleData from '../../../../sample-data/b2b-checkout';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -17,13 +17,13 @@ context('B2B - Quick Order', () => {
         });
 
         it('should conform to tabbing order', () => {
-          quickOrder.addProductToTheList(sampleData.products[0].code);
+          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
           cy.wait(1000);
           quickOrder.verifyQuickOrderPageTabbingOrder();
         });
 
         it('should add product to the list', () => {
-          quickOrder.addProductToTheList(sampleData.products[0].code);
+          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
           quickOrder.verifyQuickOrderListQuantity(1);
           quickOrder.clearList();
         });
@@ -42,7 +42,7 @@ context('B2B - Quick Order', () => {
         });
 
         it('should add product to the cart', () => {
-          quickOrder.addProductToTheList(sampleData.products[0].code);
+          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
           quickOrder.addToCart();
           quickOrder.verifyMiniCartQuantity(1);
           quickOrder.verifyQuickOrderListQuantity(0);
@@ -71,7 +71,7 @@ context('B2B - Quick Order', () => {
         });
 
         it('should add product with quick form', () => {
-          quickOrder.addProductToCartWithQuickForm(sampleData.products[1].code);
+          quickOrder.addProductToCartWithQuickForm(sampleData.b2bProduct2.code);
           quickOrder.verifyMiniCartQuantity(2);
         });
       });
