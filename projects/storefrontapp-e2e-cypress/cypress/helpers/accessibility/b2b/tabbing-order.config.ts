@@ -403,7 +403,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-    { value: 'Empty List', type: TabbingOrderTypes.BUTTON },
-    { value: 'Add To Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Empty list', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
   ],
 };

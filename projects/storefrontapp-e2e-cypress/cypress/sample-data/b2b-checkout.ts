@@ -42,7 +42,7 @@ export const b2bAccountShipToUser: SampleUser = {
   },
 };
 
-export const products: SampleProduct[] = [b2bProduct, b2bProduct2];
+export const products: SampleProduct[] = [b2bProduct];
 
 export const b2bUser: AccountData = {
   user: 'b2bUser',

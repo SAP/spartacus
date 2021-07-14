@@ -10,70 +10,81 @@ context('B2B - Quick Order', () => {
       cy.clearLocalStorageMemory();
     });
 
-    describe('Accessibility - keyboarding', () => {
-      describe('Quick Order Page', () => {
-        beforeEach(() => {
-          quickOrder.visitQuickOrderPage();
-        });
-
-        it('should conform to tabbing order', () => {
-          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-          cy.wait(1000);
-          quickOrder.verifyQuickOrderPageTabbingOrder();
-        });
-
-        it('should add product to the list', () => {
-          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-          quickOrder.verifyQuickOrderListQuantity(1);
-          quickOrder.clearList();
-        });
-
-        it('should add 2 different products to the list', () => {
-          quickOrder.addMultipleProductsToTheList(sampleData.products);
-          quickOrder.verifyQuickOrderListQuantity(2);
-          quickOrder.clearList();
-        });
-
-        it('should remove first product on the list', () => {
-          quickOrder.addMultipleProductsToTheList(sampleData.products);
-          quickOrder.removeFirstRow();
-          quickOrder.verifyQuickOrderListQuantity(1);
-          quickOrder.clearList();
-        });
-
-        it('should add product to the cart', () => {
-          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-          quickOrder.addToCart();
-          quickOrder.verifyMiniCartQuantity(1);
-          quickOrder.verifyQuickOrderListQuantity(0);
-        });
-
-        it('should clear the list', () => {
-          quickOrder.addMultipleProductsToTheList(sampleData.products);
-          quickOrder.clearList();
-          quickOrder.verifyQuickOrderListQuantity(0);
-        });
-
-        it('should show message if product code is invalid', () => {
-          quickOrder.addProductToTheList('invalidCode');
-
-          cy.get('cx-global-message .alert-danger').should('exist');
-        });
+    describe('Quick Order Page', () => {
+      beforeEach(() => {
+        quickOrder.visitQuickOrderPage();
       });
 
-      describe('Cart Page', () => {
-        beforeEach(() => {
-          quickOrder.prepareCartWithProduct();
-        });
+      it('should add product to the list', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.clearList();
+      });
 
-        it('should conform to tabbing order', () => {
-          quickOrder.verifyCartPageTabbingOrder();
-        });
+      it('should add 2 different products to the list', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        cy.wait(1000);
+        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
 
-        it('should add product with quick form', () => {
-          quickOrder.addProductToCartWithQuickForm(sampleData.b2bProduct2.code);
-          quickOrder.verifyMiniCartQuantity(2);
-        });
+        quickOrder.verifyQuickOrderListQuantity(2);
+        quickOrder.clearList();
+      });
+
+      it('should remove first product on the list', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        cy.wait(1000);
+        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
+
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.clearList();
+      });
+
+      it('should add product to the cart', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.addToCart();
+        quickOrder.verifyMiniCartQuantity(1);
+        quickOrder.verifyQuickOrderListQuantity(0);
+      });
+
+      it('should clear the list', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        cy.wait(1000);
+        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
+
+        quickOrder.clearList();
+        quickOrder.verifyQuickOrderListQuantity(0);
+      });
+
+      it('should show message if product code is invalid', () => {
+        quickOrder.addProductToTheList('invalidCode');
+
+        cy.get('cx-global-message .alert-danger').should('exist');
+      });
+    });
+
+    describe('Cart Page', () => {
+      beforeEach(() => {
+        quickOrder.prepareCartWithProduct();
+      });
+
+      it('should add product with quick form', () => {
+        quickOrder.addProductToCartWithQuickForm(sampleData.b2bProduct2.code);
+        quickOrder.verifyMiniCartQuantity(2);
+      });
+    });
+
+    describe('Accessibility - keyboarding', () => {
+      it('should conform to tabbing order', () => {
+        quickOrder.visitQuickOrderPage();
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        cy.wait(1000);
+        quickOrder.verifyQuickOrderPageTabbingOrder();
+      });
+
+      it('should conform to tabbing order', () => {
+        quickOrder.prepareCartWithProduct();
+        quickOrder.verifyCartPageTabbingOrder();
       });
     });
   });
