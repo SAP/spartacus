@@ -17,13 +17,13 @@
     "@angular/core": "^12.0.5"
   },
   "@spartacus/schematics": {
-    "@angular-devkit/core": "12.0.5",
+    "@angular-devkit/core": "^12.0.5",
     "@angular-devkit/schematics": "^12.0.5",
     "@angular/compiler": "^12.0.5",
-    "@schematics/angular": "12.0.5",
+    "@schematics/angular": "^12.0.5",
     "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "~4.2.4"
+    "typescript": "^4.2.4"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
@@ -33,8 +33,8 @@
     "@angular/platform-browser": "^12.0.5",
     "@angular/router": "^12.0.5",
     "@angular/service-worker": "^12.0.5",
-    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/router-store": "^12.1.0",
     "@ngrx/store": "^12.1.0",
@@ -43,13 +43,14 @@
     "rxjs": "^6.6.0"
   },
   "@spartacus/styles": {
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^7.0.1",
     "bootstrap": "^4.3.1"
   },
   "@spartacus/setup": {
     "@angular/core": "^12.0.5",
     "@spartacus/checkout": "3.2.0-next.2",
-    "@spartacus/core": "3.2.0-next.2"
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/user": "3.2.0-next.2"
   },
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^12.0.5",
@@ -84,7 +85,7 @@
     "@angular/core": "^12.0.5",
     "@angular/forms": "^12.0.5",
     "@angular/router": "^12.0.5",
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@spartacus/cart": "3.2.0-next.2",
@@ -92,6 +93,7 @@
     "@spartacus/schematics": "3.2.0-next.2",
     "@spartacus/storefront": "3.2.0-next.2",
     "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/user": "3.2.0-next.2",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
@@ -101,12 +103,13 @@
     "@angular/core": "^12.0.5",
     "@angular/forms": "^12.0.5",
     "@angular/router": "^12.0.5",
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@spartacus/core": "3.2.0-next.2",
     "@spartacus/schematics": "3.2.0-next.2",
     "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/user": "3.2.0-next.2",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
@@ -127,7 +130,7 @@
     "@angular/core": "^12.0.5",
     "@angular/forms": "^12.0.5",
     "@angular/router": "^12.0.5",
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@spartacus/checkout": "3.2.0-next.2",
@@ -160,7 +163,7 @@
     "@angular/core": "^12.0.5",
     "@angular/forms": "^12.0.5",
     "@angular/router": "^12.0.5",
-    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@spartacus/core": "3.2.0-next.2",
@@ -229,8 +232,8 @@
     "@angular/pwa": "^12.0.5",
     "@angular/router": "^12.0.5",
     "@angular/service-worker": "^12.0.5",
-    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ng-select/ng-select": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/router-store": "^12.1.0",
     "@ngrx/store": "^12.1.0",

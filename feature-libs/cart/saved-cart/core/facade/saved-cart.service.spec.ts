@@ -532,4 +532,79 @@ describe('SavedCartService', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('Clone saved cart', () => {
+    it('should dispatch a clone of a single saved cart ', () => {
+      service.cloneSavedCart(mockCartId);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SavedCartActions.CloneSavedCart({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+    });
+
+    it('should clear the clone saved cart process state', () => {
+      service.clearCloneSavedCart();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SavedCartActions.ClearCloneSavedCart()
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new SavedCartActions.CloneSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getCloneSavedCartProcessLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new SavedCartActions.CloneSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getCloneSavedCartProcessSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new SavedCartActions.CloneSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error: mockError,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getCloneSavedCartProcessError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+  });
 });

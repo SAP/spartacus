@@ -1,5 +1,7 @@
 // We need this import for augmentation of OccEndpoints to pick up
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
+import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
+import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
 import { OccConfig } from '@spartacus/core';
 
 // While it is not strictly required to define checkout endpoints in a separate `CheckoutOccEndpoints`
@@ -11,11 +13,22 @@ const defaultB2bCheckoutOccEndpoints: CheckoutOccEndpoints = {
   placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
 };
 
+const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
+  user: 'orgUsers/${userId}',
+};
+
+const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
+  userUpdateProfile: 'users/${userId}',
+  userCloseAccount: 'users/${userId}',
+};
+
 export const defaultB2bOccConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
         ...defaultB2bCheckoutOccEndpoints,
+        ...defaultB2bUserAccountOccEndpoints,
+        ...defaultB2bUserProfileOccEndpoints,
         user: 'orgUsers/${userId}',
         userUpdateProfile: 'users/${userId}',
         userCloseAccount: 'users/${userId}',

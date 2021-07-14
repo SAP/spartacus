@@ -5,6 +5,8 @@ import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
+const INITIAL_OV_VALUE_ATTRIBUTE_NAME = '';
+
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview> {
@@ -21,13 +23,14 @@ export class CpqConfiguratorOverviewNormalizer
   ): Configurator.Overview {
     const resultTarget: Configurator.Overview = {
       ...target,
+      configId: '',
       productCode: source.productSystemId,
       priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
         source
       ),
       groups: source.tabs
         ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
-        .filter((tab) => tab.attributes.length > 0),
+        .filter((tab) => tab.attributes && tab.attributes.length > 0),
       totalNumberOfIssues: this.calculateTotalNumberOfIssues(source),
     };
     return resultTarget;
@@ -37,7 +40,7 @@ export class CpqConfiguratorOverviewNormalizer
     tab: Cpq.Tab,
     currency: string
   ): Configurator.GroupOverview {
-    let ovAttributes = [];
+    let ovAttributes: Configurator.AttributeOverview[] = [];
     tab.attributes?.forEach((attr) => {
       ovAttributes = ovAttributes.concat(this.convertAttribute(attr, currency));
     });
@@ -93,7 +96,10 @@ export class CpqConfiguratorOverviewNormalizer
             ovValues.push(this.extractValueUserInput(attr, currency));
           }
         } else {
-          ovValues.push({ attribute: undefined, value: 'NOT_IMPLEMENTED' });
+          ovValues.push({
+            attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
+            value: 'NOT_IMPLEMENTED',
+          });
         }
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
@@ -113,7 +119,10 @@ export class CpqConfiguratorOverviewNormalizer
           });
         break;
       default:
-        ovValues.push({ attribute: undefined, value: 'NOT_IMPLEMENTED' });
+        ovValues.push({
+          attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
+          value: 'NOT_IMPLEMENTED',
+        });
     }
     return ovValues;
   }
@@ -124,8 +133,8 @@ export class CpqConfiguratorOverviewNormalizer
     currency: string
   ): Configurator.AttributeOverview {
     const ovValue: Configurator.AttributeOverview = {
-      attribute: undefined,
-      value: valueSelected.valueDisplay,
+      attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
+      value: valueSelected.valueDisplay ?? valueSelected.paV_ID.toString(),
       productCode: valueSelected.productSystemId,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         valueSelected,
@@ -137,7 +146,7 @@ export class CpqConfiguratorOverviewNormalizer
       ),
     };
     ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      ovValue.quantity,
+      ovValue.quantity ?? 1,
       ovValue.valuePrice
     );
     return ovValue;
@@ -147,20 +156,22 @@ export class CpqConfiguratorOverviewNormalizer
     attr: Cpq.Attribute,
     currency: string
   ): Configurator.AttributeOverview {
-    const value: Cpq.Value = attr.values[0];
+    const value = attr.values ? attr.values[0] : undefined;
     const ovValue: Configurator.AttributeOverview = {
-      attribute: undefined,
-      value: attr.userInput,
-      quantity: null,
-      valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
+      attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
+      value: attr.userInput ?? attr.stdAttrCode.toString(),
+      quantity: 1,
+    };
+    if (value) {
+      ovValue.valuePrice = this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
         value,
         currency
-      ),
-    };
-    ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      ovValue.quantity,
-      ovValue.valuePrice
-    );
+      );
+      ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        ovValue.quantity ?? 1,
+        ovValue.valuePrice
+      );
+    }
     return ovValue;
   }
 

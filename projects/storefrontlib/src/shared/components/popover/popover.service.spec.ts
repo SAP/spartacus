@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PopoverService } from './popover.service';
 import { Component, ElementRef } from '@angular/core';
+import { PopoverEvent } from '@spartacus/storefront';
 
 const focusConfig = {
   trap: true,
@@ -32,28 +33,20 @@ describe('PopoverService', () => {
   });
 
   describe('getFocusConfig', () => {
-    ['Enter', 'Space'].forEach((code) => {
-      it(`should return config for pressing ${code}`, () => {
-        const event = new KeyboardEvent('keydown', { code });
-        expect(service.getFocusConfig(event, true)).toEqual(focusConfig);
-      });
-
-      it(`should return empty config for pressing ${code} with appendToBody flag set as false`, () => {
-        const event = new KeyboardEvent('keydown', { code });
-        expect(service.getFocusConfig(event, false)).toEqual({});
-      });
+    it(`should return config for pressing ${PopoverEvent.OPEN_BY_KEYBOARD}`, () => {
+      expect(
+        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, true)
+      ).toEqual(focusConfig);
     });
 
-    ['Ctrl', 'Shift', 'x', '1'].forEach((code) => {
-      it(`should return empty config for pressing ${code}`, () => {
-        const event = new KeyboardEvent('keydown', { code });
-        expect(service.getFocusConfig(event, true)).toEqual({});
-      });
+    it(`should return empty config for pressing ${PopoverEvent.OPEN_BY_KEYBOARD} with appendToBody flag set as false`, () => {
+      expect(
+        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, false)
+      ).toEqual({});
     });
 
     it(`should return empty config for click a mouse`, () => {
-      const event = new MouseEvent('click', {});
-      expect(service.getFocusConfig(event, true)).toEqual({});
+      expect(service.getFocusConfig(PopoverEvent.OPEN, true)).toEqual({});
     });
   });
 

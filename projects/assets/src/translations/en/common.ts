@@ -4,6 +4,7 @@ export const common = {
     delete: 'Delete',
     remove: 'Remove',
     edit: 'Edit',
+    restore: 'Restore',
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',

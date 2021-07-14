@@ -193,11 +193,9 @@ describe('StockNotificationComponent', () => {
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
-    expect(
-      el
-        .query(By.css('.btn-notify'))
-        .nativeElement.getAttribute('aria-disabled')
-    ).toEqual('true');
+    expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
+      true
+    );
   });
 
   it('should show correct elements for active customer without enabled preferences', () => {
@@ -209,11 +207,9 @@ describe('StockNotificationComponent', () => {
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
-    expect(
-      el
-        .query(By.css('.btn-notify'))
-        .nativeElement.getAttribute('aria-disabled')
-    ).toEqual('true');
+    expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
+      true
+    );
   });
 
   it('should be able to show dialog for create stock notification for active user with channel set', () => {
