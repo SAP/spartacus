@@ -2,4 +2,4 @@
  * Public API Surface of user anonymous consents
  */
 
-export * from './index';
+export * from './user-anonymous-consents.module';
