@@ -19,7 +19,7 @@
         />
         <button
           [class.disabled]="cartIsLoading$ | async"
-          [disabled]="(cartIsLoading$ | async) || orderForm.invalid"
+          [disabled]="cartIsLoading$ | async"
           class="btn btn-block btn-action apply-coupon-button"
           type="submit"
         >

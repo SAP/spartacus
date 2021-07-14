@@ -60,6 +60,7 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
 
   applyQuickOrder(): void {
     if (this.orderForm.invalid) {
+      this.orderForm.markAllAsTouched();
       return;
     }
     const productCode = this.orderForm.get('productCode')?.value;

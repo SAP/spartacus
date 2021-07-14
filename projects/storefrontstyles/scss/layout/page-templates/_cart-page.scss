@@ -20,18 +20,6 @@
     flex-direction: column;
     justify-content: flex-start;
 
-    cx-cart-totals {
-      order: 1;
-    }
-
-    cx-cart-quick-form {
-      order: 2;
-    }
-
-    cx-cart-coupon {
-      order: 3;
-    }
-
     @include media-breakpoint-up(lg) {
       > * {
         flex: none;

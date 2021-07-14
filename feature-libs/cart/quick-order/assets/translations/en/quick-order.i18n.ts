@@ -24,7 +24,6 @@ export const quickOrderList = {
   product: 'Product',
   price: 'Price',
   quantity: 'QTY',
-  total: 'Total',
   itemPrice: 'Item price',
   qty: 'Qty',
   inStock: 'In Stock',
