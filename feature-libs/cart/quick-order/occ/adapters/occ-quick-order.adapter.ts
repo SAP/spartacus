@@ -8,7 +8,7 @@ import {
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { QuickOrderAdapter } from '../../core/connectors/quick-order.adapter';
+import { QuickOrderAdapter } from '@spartacus/cart/quick-order/core';
 
 @Injectable()
 export class OccQuickOrderAdapter implements QuickOrderAdapter {

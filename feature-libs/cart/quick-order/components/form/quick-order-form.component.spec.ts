@@ -8,7 +8,7 @@ import {
   Product,
   Translatable,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
 const mockProductCode: string = 'mockCode';
@@ -30,7 +30,10 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   search(_code: any): Observable<Product> {
     return of(mockProduct);
   }
-  setProductAdded(): void;
+  setProductAdded(): void {}
+  getProductAdded(): Subject<void> {
+    return new Subject<void>();
+  }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -92,7 +95,7 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('on product added', () => {
-      quickOrderService.setProductAdded().next();
+      quickOrderService.setProductAdded();
 
       expect(component.form.get('product')?.value).toBeNull();
     });
