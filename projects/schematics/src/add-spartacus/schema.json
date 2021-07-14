@@ -192,6 +192,10 @@
       "type": "boolean",
       "description": "Add Server-side rendering support to the project.",
       "default": false
+    },
+    "theme": {
+      "type": "string",
+      "description": "Select a style theme to add. E.g: santorini"
     }
   },
   "required": []
