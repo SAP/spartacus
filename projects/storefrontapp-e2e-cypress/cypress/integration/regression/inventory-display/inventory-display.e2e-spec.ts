@@ -6,19 +6,21 @@ describe('B2B - Inventory Display', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-
-      cy.cxConfig({
-        cmsComponents: {
-          ProductAddToCartComponent: {
-            data: {
-              inventoryDisplay: true,
-            },
-          },
-        },
-      });
     });
 
     describe('Check inventory display', () => {
+      beforeEach(() => {
+        cy.cxConfig({
+          cmsComponents: {
+            ProductAddToCartComponent: {
+              data: {
+                inventoryDisplay: true,
+              },
+            },
+          },
+        });
+      });
+
       it('should render number of available stock', () => {
         visitProduct(sampleData.IN_STOCK_WITH_QUANT_PRODUCT);
         const valueSelector = 'cx-add-to-cart .info';
@@ -27,7 +29,7 @@ describe('B2B - Inventory Display', () => {
           const text = $ele.text().trim();
           const regex = '[0-9]* ' + sampleData.stockLabel;
           const match = text.match(regex);
-          expect(match).not.to.be.empty;
+          expect(match.length).equal(1);
         });
       });
 
@@ -54,7 +56,7 @@ describe('B2B - Inventory Display', () => {
 
       it('should render + if threshold applied and inventory display is on', () => {
         visitProduct(sampleData.THRESHOLD_STOCK);
-        const valueSelector = 'cx-add-to-cart .info span';
+        const valueSelector = 'cx-add-to-cart .info';
 
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
@@ -64,7 +66,7 @@ describe('B2B - Inventory Display', () => {
 
       it('should NOT render + if threshold greater than stock level and inventory display is on', () => {
         visitProduct(sampleData.STOCK_LESS_THAN_THRESHOLD);
-        const valueSelector = 'cx-add-to-cart .info span';
+        const valueSelector = 'cx-add-to-cart .info';
 
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
@@ -74,7 +76,7 @@ describe('B2B - Inventory Display', () => {
 
       it('should NOT render + if threshold equal to stock level and inventory display is on', () => {
         visitProduct(sampleData.STOCK_EQUAL_THRESHOLD);
-        const valueSelector = 'cx-add-to-cart .info span';
+        const valueSelector = 'cx-add-to-cart .info';
 
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
@@ -94,13 +96,7 @@ describe('B2B - Inventory Display', () => {
         });
 
         visitProduct(sampleData.IN_STOCK_WITH_QUANT_PRODUCT);
-        const quantitySelector = 'cx-add-to-cart .info span';
         const valueSelector = 'cx-add-to-cart .info';
-
-        cy.get(quantitySelector).should(($ele) => {
-          const text = $ele.text().trim();
-          assert.equal(text, '');
-        });
 
         cy.get(valueSelector).should(($ele) => {
           const text = $ele.text().trim();
