@@ -77,8 +77,13 @@ export class ImportEntriesDialogComponent {
     this.selectedFile = file;
     this.importService.loadFile(file).subscribe(
       (data) => {
-        this.fileError = {};
-        this.loadedFile = data as string[][];
+        if (this.importToCartService.isDataParsable(data)) {
+          this.fileError = {};
+          this.loadedFile = data as string[][];
+        } else {
+          this.fileError = { notParsable: true };
+          this.loadedFile = null;
+        }
         form.get('file')?.updateValueAndValidity();
       },
       (error) => {

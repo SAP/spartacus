@@ -66,4 +66,15 @@ export class ImportToCartService {
       quantity: Number(row[1]),
     }));
   }
+
+  isDataParsable(data: string[][]): Boolean {
+    const patternRegex = new RegExp(/(?<=\s|^)\d+(?=\s|$)/);
+    return data.every(
+      (value, index) =>
+        !(
+          patternRegex.test(value[1]) === false &&
+          !(index === 0 || index === data.length - 1)
+        )
+    );
+  }
 }
