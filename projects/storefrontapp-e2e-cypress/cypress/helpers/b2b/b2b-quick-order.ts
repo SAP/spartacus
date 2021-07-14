@@ -95,7 +95,7 @@ export function prepareCartWithProduct() {
 export function verifyCartPageTabbingOrder() {
   cy.get(
     'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
-  ); // wait until counter is accessible
+  );
 
   tabbingOrder('cx-page-layout.CartPageTemplate', config.cart);
 }
