@@ -86,14 +86,14 @@
       "@spartacus/product-configurator": [
         "../../feature-libs/product-configurator/public_api"
       ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "../../feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],
       "@spartacus/product-configurator/rulebased": [
         "../../feature-libs/product-configurator/rulebased/public_api"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../feature-libs/product-configurator/rulebased/root/public_api"
-      ],
-      "@spartacus/product-configurator/rulebased/cpq": [
-        "../../feature-libs/product-configurator/rulebased/cpq/public_api"
       ],
       "@spartacus/product-configurator/textfield": [
         "../../feature-libs/product-configurator/textfield/public_api"
@@ -200,6 +200,18 @@
       ],
       "@spartacus/user/account/root": [
         "../../feature-libs/user/account/root/public_api"
+      ],
+      "@spartacus/user/anonymous-consents/components": [
+        "../../feature-libs/user/anonymous-consents/components/public_api"
+      ],
+      "@spartacus/user/anonymous-consents/core": [
+        "../../feature-libs/user/anonymous-consents/core/public_api"
+      ],
+      "@spartacus/user/anonymous-consents": [
+        "../../feature-libs/user/anonymous-consents/public_api"
+      ],
+      "@spartacus/user/anonymous-consents/root": [
+        "../../feature-libs/user/anonymous-consents/root/public_api"
       ],
       "@spartacus/user": ["../../feature-libs/user/public_api"],
       "@spartacus/user/profile/assets": [

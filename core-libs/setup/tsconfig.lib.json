@@ -27,6 +27,16 @@
       "@spartacus/user/account": ["dist/user/account"],
       "@spartacus/user/account/occ": ["dist/user/account/occ"],
       "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user/anonymous-consents/components": [
+        "dist/user/anonymous-consents/components"
+      ],
+      "@spartacus/user/anonymous-consents/core": [
+        "dist/user/anonymous-consents/core"
+      ],
+      "@spartacus/user/anonymous-consents": ["dist/user/anonymous-consents"],
+      "@spartacus/user/anonymous-consents/root": [
+        "dist/user/anonymous-consents/root"
+      ],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
       "@spartacus/user/profile/components": ["dist/user/profile/components"],
