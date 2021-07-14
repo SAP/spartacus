@@ -147,7 +147,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   /**
    * In specific scenarios, we need to omit displaying the stock level or append a plus to the value.
    * When backoffice forces a product to be in stock, omit showing the stock level.
-   * When product stock level is limited by a threshold value,  append '+' at end.
+   * When product stock level is limited by a threshold value, append '+' at the end.
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
