@@ -1,13 +1,13 @@
-import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -18,9 +18,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(
-    protected quantityService?: ConfiguratorAttributeQuantityService
-  ) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
@@ -126,7 +124,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   /**
-   * Extract corresponding price formula parameters
+   * Extract corresponding price formula parameters.
+   * For the single-selection attribute types the complete price formula should be displayed at the attribute level.
    *
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
@@ -137,6 +136,24 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the single-selection attribute types only value price should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractValuePriceFormulaParameters(
+    value?: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    if (value) {
+      return {
+        price: value.valuePrice,
+        isLightedUp: value.selected,
+      };
+    }
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
