@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry, Product } from '@spartacus/core';
+import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -50,26 +49,26 @@ const mockEntry1AfterUpdate: OrderEntry = {
 };
 const mockEntries: OrderEntry[] = [mockEntry1, mockEntry2];
 
-class MockQuickOrderAdapter implements Partial<QuickOrderAdapter> {
-  search(_productCode: any): Observable<Product> {
+class MockProductAdapter implements Partial<ProductAdapter> {
+  load(_productCode: any, _scope?: string): Observable<Product> {
     return of(mockProduct1);
   }
 }
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
-  let quickOrderAdapter: QuickOrderAdapter;
+  let productAdapter: ProductAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
-        { provide: QuickOrderAdapter, useClass: MockQuickOrderAdapter },
+        { provide: ProductAdapter, useClass: MockProductAdapter },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
-    quickOrderAdapter = TestBed.inject(QuickOrderAdapter);
+    productAdapter = TestBed.inject(ProductAdapter);
   });
 
   beforeEach(() => {
@@ -102,10 +101,10 @@ describe('QuickOrderService', () => {
   });
 
   it('should trigger search', () => {
-    spyOn(quickOrderAdapter, 'search');
+    spyOn(productAdapter, 'load');
 
     service.search(mockProduct1Code);
-    expect(quickOrderAdapter.search).toHaveBeenCalledWith(mockProduct1Code);
+    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
   });
 
   it('should update entry quantity', () => {
