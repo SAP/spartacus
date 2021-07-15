@@ -141,6 +141,10 @@ When you contribute anything to Spartacus (code, documentation, analysis, anythi
 
 This applies to all contributors, including those contributing on behalf of a company.
 
+### Developer Certificate of Origin (DCO)
+
+Due to legal reasons, contributors will be asked to accept a DCO when they create the first pull request to this project. This happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
+
 #### Company Contributors
 
 If employees of a company contribute code, in **addition** to the individual agreement above, there needs to be one company agreement submitted. This is mainly for the protection of the contributing employees.

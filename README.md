@@ -116,7 +116,7 @@ To get help from the Spartacus community:
 - For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
-# Contributing
+## Contributing
 
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
