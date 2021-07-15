@@ -273,7 +273,3 @@ title: Changes to Styles in 4.0
 ## Changes in `_versioning.scss` Changes 
 
 -  Themes for minors versioning is changed from `$_fullVersion: 3.3;` and `$_majorVersion: 3;` to `$_fullVersion: 4;` and `$_majorVersion: 4;` for 4.0 release.
-
-## Changes in `santorini.scss` Changes 
-
--  `background-color: var(--cx-color-light)` added to `cx-site-context-selector` in the medium viewport.
