@@ -140,8 +140,6 @@ describe('ExportEntriesComponent', () => {
   });
 
   it('should display export to csv link and run downloadCsv on click', () => {
-    spyOn(component, 'downloadCsv');
-
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
     expect(btn.nativeElement).toBeTruthy();
 
