@@ -105,6 +105,7 @@
 #
 #   - znikola
 #   - psmul
+#   - marlass
 
 
 
@@ -121,44 +122,46 @@
 ######################################################################################################
 
 
-# ================================================
+# ==============================================================
 #  NOT ENABLED IN INITIAL PHASE
 #  As we need full ownership coverage first
 #
 #  Default Owners
 # (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
-# ================================================
+# ==============================================================
 
 # * @dunqan @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  Spartacus Core
-# ================================================
+# ==============================================================
 /projects/core/src/**                                                        @SAP/spartacus-core-owners @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  Spartacus Styles
-# ================================================
+# ==============================================================
 /projects/storefrontstyles/src/**                                            @SAP/spartacus-style-owners @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  Cart Functionality
-# ================================================
+# ==============================================================
 /projects/core/src/cart/**                                               @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
 /projects/storefrontlib/src/cms-components/cart/**                       @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  Routing Functionality
-# ================================================
+# ==============================================================
 /projects/core/src/routing/**                                            @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  Schematics
-# ================================================
-/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+# ==============================================================
+/projects/schematics/src/!migrations/!mechanism/**/!constants.ts                  @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+/feature-libs/organization/schematics/!migrations/**                              @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+/feature-libs/storefinder/schematics/!migrations/**                               @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
 
-# ================================================
+# ==============================================================
 #  CODEOWNERS Owners owners ...
-# ================================================
+# ==============================================================
 
-/.github/CODEOWNERS                                                      @dunqan @SAP/spartacus-global-owners
+/.github/CODEOWNERS                                                      @dunqan @marlass @SAP/spartacus-global-owners
