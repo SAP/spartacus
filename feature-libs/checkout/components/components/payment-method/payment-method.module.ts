@@ -11,6 +11,8 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { PaymentFormModule } from './payment-form/payment-form.module';
 import { PaymentMethodComponent } from './payment-method.component';
 
+import { CartValidationGuard } from '@spartacus/cart/validation/components';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +28,7 @@ import { PaymentMethodComponent } from './payment-method.component';
         CheckoutPaymentDetails: {
           component: PaymentMethodComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

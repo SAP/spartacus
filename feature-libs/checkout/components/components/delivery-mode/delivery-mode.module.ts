@@ -6,6 +6,8 @@ import { CartNotEmptyGuard, SpinnerModule } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { DeliveryModeComponent } from './delivery-mode.component';
 
+import { CartValidationGuard } from '@spartacus/cart/validation/components';
+
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule, SpinnerModule],
   providers: [
@@ -14,7 +16,7 @@ import { DeliveryModeComponent } from './delivery-mode.component';
         CheckoutDeliveryMode: {
           component: DeliveryModeComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard here?
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

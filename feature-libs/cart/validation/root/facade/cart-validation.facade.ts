@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
 import { CART_VALIDATION_FEATURE } from '../feature-name';
-import { CartModificationList } from '@spartacus/cart/validation/core';
+import { CartModificationList } from '../model';
 
 export function cartValidationFacadeFactory() {
   return facadeFactory({

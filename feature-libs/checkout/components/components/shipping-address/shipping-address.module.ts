@@ -10,6 +10,7 @@ import {
 } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { ShippingAddressComponent } from './shipping-address.component';
+import { CartValidationGuard } from '@spartacus/cart/validation/components';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { ShippingAddressComponent } from './shipping-address.component';
       cmsComponents: {
         CheckoutShippingAddress: {
           component: ShippingAddressComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

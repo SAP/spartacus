@@ -7,25 +7,30 @@ import {
   CommandService,
   UserIdService,
   ActiveCartService,
+  CommandStrategy,
 } from '@spartacus/core';
 import { CartValidationConnector } from '../connectors/cart-validation.connector';
 import { switchMap } from 'rxjs/operators';
-import { CartModificationList } from '../model';
+import { CartModificationList } from '@spartacus/cart/validation/root';
 
 @Injectable()
 export class CartValidationService implements CartValidationFacade {
   protected getCartModificationListCommand: Command<
     undefined,
-    Observable<CartModificationList>
-  > = this.command.create(() =>
-    combineLatest([
-      this.activeCartService.getActiveCartId(),
-      this.userIdService.takeUserId(),
-    ]).pipe(
-      switchMap(([cartId, userId]) =>
-        this.cartValidationConnector.get(cartId, userId)
-      )
-    )
+    CartModificationList
+  > = this.command.create(
+    () =>
+      combineLatest([
+        this.activeCartService.getActiveCartId(),
+        this.userIdService.takeUserId(),
+      ]).pipe(
+        switchMap(([cartId, userId]) =>
+          this.cartValidationConnector.get(cartId, userId)
+        )
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
   );
 
   constructor(
@@ -42,7 +47,7 @@ export class CartValidationService implements CartValidationFacade {
    * @param cartId
    * @param userId
    */
-  getCartModificationList(): Observable<unknown> {
+  getCartModificationList(): Observable<CartModificationList> {
     return this.getCartModificationListCommand.execute(undefined);
   }
 }
