@@ -15,18 +15,18 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   private readonly paramEncoder = new HttpParamsURIEncoder();
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService
   ) {}
 
   createPaymentRequest(
     userId = CURRENT_USER,
     cartId = CURRENT_CART
   ): Observable<DpPaymentRequest> {
-    return this.http.post<any>(
-      `${this.occEndpoints.getBaseUrl()}/users/${userId}/carts/${cartId}/payment/digitalPayments/request`,
-      null
-    );
+    const url = this.occEndpoints.buildUrl('paymentRequest', {
+      urlParams: { userId, cartId },
+    });
+    return this.http.post<any>(url, null);
   }
 
   createPaymentDetails(
@@ -38,11 +38,9 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     let params = new HttpParams({ encoder: this.paramEncoder });
     params = params.append('sid', sessionId);
     params = params.append('sign', signature);
-
-    return this.http.post<any>(
-      `${this.occEndpoints.getBaseUrl()}/users/${userId}/carts/${cartId}/payment/digitalPayments/response`,
-      null,
-      { params: params }
-    );
+    const url = this.occEndpoints.buildUrl('paymentDetails', {
+      urlParams: { userId, cartId },
+    });
+    return this.http.post<any>(url, null, { params: params });
   }
 }
