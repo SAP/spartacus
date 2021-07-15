@@ -1,6 +1,12 @@
-<nav>
-  <span *ngFor="let crumb of crumbs$ | async">
-    <a [routerLink]="crumb.link" [innerHTML]="crumb.label"></a>
-  </span>
+<nav aria-label="Breadcrumb">
+  <ol>
+    <li span *ngFor="let crumb of crumbs$ | async; last as isLast">
+      <a
+        [routerLink]="crumb.link"
+        [innerHTML]="crumb.label"
+        [attr.aria-current]="isLast ? 'page' : null"
+      ></a>
+    </li>
+  </ol>
 </nav>
 <h1>{{ title$ | async }}</h1>
