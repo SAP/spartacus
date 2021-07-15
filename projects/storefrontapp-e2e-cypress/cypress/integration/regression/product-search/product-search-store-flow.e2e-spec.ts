@@ -68,6 +68,10 @@ context('Product search store flow', () => {
 
         // Add product to cart from search listing page
         cy.get('cx-add-to-cart:first button').click({ force: true });
+        cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
+          'contain',
+          'Item(s) added to your cart'
+        );
         cy.get('.cx-dialog-header .close').click();
         cy.get('cx-mini-cart .count').should('contain', '1');
       });
