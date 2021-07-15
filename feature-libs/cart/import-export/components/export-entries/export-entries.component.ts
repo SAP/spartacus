@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { ActiveCartService } from '@spartacus/core';
 import { ExportService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-
 @Component({
   selector: 'cx-export-entries',
   templateUrl: './export-entries.component.html',
