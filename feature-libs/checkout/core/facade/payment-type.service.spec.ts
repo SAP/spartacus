@@ -32,9 +32,8 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
 }
 
 class UserIdServiceStub implements Partial<UserIdService> {
-  userId;
   takeUserId() {
-    return of(this.userId);
+    return of(userId);
   }
 }
 describe('PaymentTypeService', () => {
@@ -111,8 +110,7 @@ describe('PaymentTypeService', () => {
     );
   });
 
-  // Temporarily diisabled. Fix and re-enable in GH-13102
-  xit('should be able to set selected payment type to cart', () => {
+  it('should be able to set selected payment type to cart', () => {
     service.setPaymentType('typeCode', 'poNumber');
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentType({
