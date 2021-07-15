@@ -368,6 +368,7 @@ describe('ActiveCartService', () => {
 
   describe('updateEntry', () => {
     it('should call multiCartService update entry method with active cart', () => {
+      userId$.next('userId');
       service['activeCartId$'] = of('cartId');
       spyOn(multiCartService, 'updateEntry').and.callThrough();
 
@@ -423,6 +424,7 @@ describe('ActiveCartService', () => {
 
   describe('addEmail', () => {
     it('should assign email to active cart', () => {
+      userId$.next('userId');
       service['activeCartId$'] = of('cartId');
       spyOn(multiCartService, 'assignEmail').and.callThrough();
 
@@ -664,6 +666,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should try to create cart after failed load cart for logged user', (done) => {
+      userId$.next(OCC_USER_ID_CURRENT);
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
