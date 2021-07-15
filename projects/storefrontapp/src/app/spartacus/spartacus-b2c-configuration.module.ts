@@ -24,6 +24,7 @@ import {
         ],
       },
     }),
+    
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
