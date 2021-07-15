@@ -48,6 +48,7 @@ export class GenericLinkComponent implements OnChanges {
   @Input() class: string;
   @Input() style: string;
   @Input() title: string;
+  @Input() activeClass: string;
 
   /**
    * Returns true when the @Input `url` is a string starting with `http://` or `https://`.
