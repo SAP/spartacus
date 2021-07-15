@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.viewMode$.next(
             template === 'ProductGridPageTemplate'
               ? ViewModes.Grid
-              : ViewModes.List
+                : ViewModes.List
           );
         })
     );

@@ -141,7 +141,6 @@ class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
-  clearSearchResults = createSpy('clearSearchResults');
   getPageItems = createSpy('getPageItems');
   model$ = createSpy('model$');
 }
