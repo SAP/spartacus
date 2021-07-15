@@ -123,8 +123,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       if (event.type === 'keydown') {
         this.back();
       } else {
-        this.openNodes = this.openNodes.filter((n) => n !== node);
         this.renderer.removeClass(node, 'is-open');
+        this.openNodes.pop();
       }
     } else {
       this.openNodes.push(node);
