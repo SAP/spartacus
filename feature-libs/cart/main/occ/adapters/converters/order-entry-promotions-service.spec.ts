@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PromotionResult } from '../../../../model/cart.model';
+import { PromotionResult } from '@spartacus/core';
 import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 const mockAppliedProductPromotions: PromotionResult[] = [

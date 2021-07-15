@@ -1,5 +1,8 @@
-import { Cart } from '@spartacus/core';
-import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
+import {
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '@spartacus/core';
 import {
   getCartIdByUserId,
   getWishlistName,

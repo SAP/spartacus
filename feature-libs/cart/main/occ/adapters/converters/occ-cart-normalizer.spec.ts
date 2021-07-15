@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { PromotionResult } from '../../../../model/cart.model';
-import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
-import { ConverterService } from '../../../../util/converter.service';
+import {
+  ConverterService,
+  PRODUCT_NORMALIZER,
+  PromotionResult,
+} from '@spartacus/core';
 import { OccCartNormalizer } from './occ-cart-normalizer';
 import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
