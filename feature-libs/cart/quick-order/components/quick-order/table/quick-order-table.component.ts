@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 
 @Component({
-  selector: 'cx-quick-order-list',
-  templateUrl: './quick-order-list.component.html',
+  selector: 'cx-quick-order-table',
+  templateUrl: './quick-order-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderListComponent {
+export class QuickOrderTableComponent {
   entries$ = this.quickOrderService.getEntries();
 
   constructor(protected quickOrderService: QuickOrderFacade) {}

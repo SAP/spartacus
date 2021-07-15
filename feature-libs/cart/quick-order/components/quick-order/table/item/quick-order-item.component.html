@@ -27,7 +27,7 @@
 
       <div class="cx-value">
         {{
-          ('quickOrderList.' + entry.product?.stock?.stockLevelStatus
+          ('quickOrderTable.' + entry.product?.stock?.stockLevelStatus
             | cxTranslate) || '-'
         }}
       </div>
@@ -35,14 +35,14 @@
 
     <div class="quick-order-list-item-price col-md-2 col-lg-2 col-xl-2">
       <span class="cx-label">
-        {{ 'quickOrderList.itemPrice' | cxTranslate }}
+        {{ 'quickOrderTable.itemPrice' | cxTranslate }}
       </span>
       {{ entry.basePrice?.formattedValue || '-' }}
     </div>
 
     <div class="quick-order-list-item-quantity col-md-4 col-lg-4 col-xl-4">
       <span class="cx-label">
-        {{ 'quickOrderList.qty' | cxTranslate }}
+        {{ 'quickOrderTable.qty' | cxTranslate }}
       </span>
       <cx-item-counter
         [control]="quantityControl"

@@ -10,17 +10,17 @@ export const quickOrderCartForm = {
   products: 'Products',
 };
 
-export const quickOrderContainer = {
-  addProducts: 'Add Products/Skus',
-  emptyList: 'Empty list',
-  addToCart: 'Add to cart',
-};
-
 export const quickOrderForm = {
   placeholder: 'Enter Product SKU',
 };
 
 export const quickOrderList = {
+  addProducts: 'Add Products/Skus',
+  emptyList: 'Empty list',
+  addToCart: 'Add to cart',
+};
+
+export const quickOrderTable = {
   product: 'Product',
   price: 'Price',
   quantity: 'QTY',
@@ -35,7 +35,7 @@ export const quickOrderList = {
 
 export const quickOrder = {
   quickOrderCartForm,
-  quickOrderContainer,
   quickOrderForm,
   quickOrderList,
+  quickOrderTable,
 };

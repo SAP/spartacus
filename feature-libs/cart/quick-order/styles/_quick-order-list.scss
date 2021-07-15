@@ -1,8 +1,8 @@
-cx-quick-order-list {
+cx-quick-order-table {
   display: block;
   margin-top: 30px;
 
-  .quick-order-list-header {
+  .quick-order-table-header {
     @include type('8');
     border-color: var(--cx-color-light);
     border-style: solid;
@@ -39,12 +39,12 @@ cx-quick-order-list {
     }
   }
 
-  .quick-order-list-item-product {
+  .quick-order-table-item-product {
     padding: 0;
     text-align: start;
   }
 
-  .quick-order-list-item-product-information {
+  .quick-order-table-item-product-information {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -63,7 +63,7 @@ cx-quick-order-list {
     }
   }
 
-  .quick-order-list-item-price {
+  .quick-order-table-item-price {
     padding: 0;
     text-align: center;
 
@@ -72,7 +72,7 @@ cx-quick-order-list {
     }
   }
 
-  .quick-order-list-item-quantity {
+  .quick-order-table-item-quantity {
     text-align: center;
     padding: 0;
 
@@ -91,7 +91,7 @@ cx-quick-order-list {
     }
   }
 
-  .quick-order-list-item-total {
+  .quick-order-table-item-total {
     padding: 0;
     text-align: center;
 
@@ -100,32 +100,32 @@ cx-quick-order-list {
     }
   }
 
-  .quick-order-list-item-action {
+  .quick-order-table-item-action {
     padding: 0;
     text-align: end;
   }
 
-  .quick-order-list-row {
+  .quick-order-table-row {
     border-color: var(--cx-color-light);
     border-style: solid;
     border-width: 0 0 1px 0;
     padding: 1.25rem 0;
   }
 
-  .quick-order-list-item {
+  .quick-order-table-item {
     margin: 0;
   }
 
   // ------------------------------------ MEDIA QUERIES ------------------------------------
 
   @include media-breakpoint-down(md) {
-    .cx-quick-order-list {
+    .cx-quick-order-table {
       padding: 1.125rem 2.5rem;
     }
   }
 
   @include media-breakpoint-down(sm) {
-    .quick-order-list-items {
+    .quick-order-table-items {
       padding-inline-start: 1rem;
     }
   }
