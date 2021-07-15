@@ -1,6 +1,6 @@
-![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
+# ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
-# What is Spartacus?
+## What is Spartacus?
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
@@ -8,7 +8,7 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
 - Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
 - Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
-- For details on the 2.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
+- For details on the 4.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
 
@@ -18,7 +18,7 @@ Spartacus is...
 - **Open Source**: Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus. See our [contributing documentation](CONTRIBUTING.md) for more information.
 - **Modern**: The Spartacus storefront is part of our exciting new journey towards a customizable-yet-upgradable technology for SAP Commerce Cloud installations. See [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
-# Storefront Features
+## Storefront Features
 
 Spartacus provides core storefront features such as:
 
@@ -33,7 +33,7 @@ Spartacus provides core storefront features such as:
 
 See the [Release documentation](https://sap.github.io/spartacus-docs/release-information/) for more information.
 
-# Requirements
+## Requirements
 
 If you are working with Spartacus 4.x, your Angular development environment should include the following:
 
@@ -63,7 +63,7 @@ For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP
 
 **Note:** Some Spartacus features require API endpoints that are only available in newer versions of SAP Commerce Cloud. For more information, see [Feature Compatibility](https://sap.github.io/spartacus-docs/feature-release-versions/) in the Spartacus documentation.
 
-# Download and Installation
+## Download and Installation
 
 To get up and running with Spartacus, the recommended approach is to build your storefront application from ready-made libraries. You can also clone and build from source, but upgrading is not as simple.
 
@@ -83,7 +83,7 @@ Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content 
 
 The documentation for customizing and extending Spartacus is still under development and is being released as it becomes available.
 
-# API Documentation
+## API Documentation
 
 The Spartacus API documentation is hosted here: [https://sap.github.io/spartacus/](https://sap.github.io/spartacus/)
 
@@ -95,17 +95,17 @@ For example, to download the API documentation for the 2.0.0 release, you could 
 
 **Note:** The Spartacus API is separate from the Commerce OCC REST APIs that Spartacus consumes. For more information, see the [Commerce API Documentation and YAML Files](https://help.sap.com/viewer/c5613bd3cc9942efb74d017b40eb0892/latest/en-US/18caa4b5c32c4bcf8b38c6260c0f30e8.html) on the SAP Help Portal.
 
-# Limitations
+## Limitations
 
 When 1.0.0 is released, it is recommended to use SAP Commerce 1905. Spartacus works with Release 1808 and 1811 of SAP Commerce Cloud, with some limitations.
 
 Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud. This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
 
-# Known Issues
+## Known Issues
 
 Known issues are documented in the GitHub issue tracking system.
 
-# How to Obtain Support
+## How to Obtain Support
 
 Spartacus is provided "as-is" with no official lines of support.
 
@@ -124,12 +124,11 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
   - Report an issue
   - Contribute code to Spartacus
 
-# To Do
+## To Do
 
 Many improvements are coming! All tasks will be posted to our GitHub issue tracking system. As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.
 
-# License
+## License
 
-Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
-
