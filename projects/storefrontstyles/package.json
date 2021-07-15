@@ -15,7 +15,7 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^7.0.1",
     "bootstrap": "^4.3.1"
   },
   "publishConfig": {

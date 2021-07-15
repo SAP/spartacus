@@ -56,6 +56,7 @@ import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.se
 import { CONFIGURATOR_FORM_COMPONENT_MIGRATION } from './data/configurator-form.component.migration';
 import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator-group-menu.component.migration';
 import { CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION } from './data/configurator-issues-notification.component.migration';
+import { CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT_MIGRATION } from './data/configurator-overview-attribute.component.migration';
 import { CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION } from './data/configurator-storefront-utils.service.migration';
 import { CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION } from './data/configurator-update-message.component.migration';
 import {
@@ -243,6 +244,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
+  CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
   CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
   UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION,
