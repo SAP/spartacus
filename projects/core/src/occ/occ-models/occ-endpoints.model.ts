@@ -658,5 +658,11 @@ export interface OccEndpoints {
    * @member {string}
    */
   saveCart?: string | OccEndpoint;
+  /**
+   * Endpoint for add quick order to active cart
+   *
+   * @member {string}
+   */
+  addToCart?: string | OccEndpoint;
   // DEPRECATION END
 }

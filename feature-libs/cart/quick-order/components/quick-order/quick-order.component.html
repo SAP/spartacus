@@ -1,0 +1,37 @@
+<div class="quick-order-header">
+  <h3>{{ 'quickOrderList.addProducts' | cxTranslate }}</h3>
+</div>
+
+<div class="quick-order-form-body">
+  <cx-quick-order-form></cx-quick-order-form>
+</div>
+
+<div class="quick-order-table-body">
+  <cx-quick-order-table></cx-quick-order-table>
+</div>
+
+<div *ngIf="entries$ | async as entries" class="quick-order-footer row">
+  <div class="col-xs-12 col-md-5 col-lg-4">
+    <button
+      (click)="clear()"
+      [disabled]="!entries.length"
+      aria-label="Empty list"
+      class="btn btn-block btn-action clear-button"
+      type="button"
+    >
+      {{ 'quickOrderList.emptyList' | cxTranslate }}
+    </button>
+  </div>
+
+  <div class="col-xs-12 col-md-5 col-lg-4">
+    <button
+      (click)="addToCart()"
+      [disabled]="!entries.length"
+      aria-label="Save"
+      class="btn btn-block btn-primary add-button"
+      type="button"
+    >
+      {{ 'quickOrderList.addToCart' | cxTranslate }}
+    </button>
+  </div>
+</div>

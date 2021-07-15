@@ -1,0 +1,21 @@
+cx-quick-order-form {
+  .cx-quick-order-container {
+    align-items: center;
+    display: flex;
+  }
+
+  .quick-order-form-input {
+    align-items: center;
+    display: flex;
+
+    .form-control {
+      padding: 0 36px 0 12px;
+    }
+
+    .reset {
+      cursor: pointer;
+      position: absolute;
+      right: 26px;
+    }
+  }
+}
