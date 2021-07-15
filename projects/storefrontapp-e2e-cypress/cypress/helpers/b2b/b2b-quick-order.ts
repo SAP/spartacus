@@ -51,9 +51,9 @@ export function clearList() {
 }
 
 export function removeFirstRow() {
-  cy.get(`cx-quick-order-list .quick-order-list-row`)
+  cy.get(`cx-quick-order .quick-order-table-row`)
     .first()
-    .find('.quick-order-list-item-action .cx-action-link')
+    .find('.quick-order-table-item-action .cx-action-link')
     .click();
 }
 
@@ -66,8 +66,8 @@ export function verifyMiniCartQuantity(quantity: number) {
 }
 
 export function verifyQuickOrderListQuantity(quantity: number) {
-  cy.get('cx-quick-order-list')
-    .find('.quick-order-list-row')
+  cy.get('cx-quick-order')
+    .find('.quick-order-table-row')
     .should('have.length', quantity);
 }
 
@@ -101,5 +101,5 @@ export function verifyCartPageTabbingOrder() {
 }
 
 export function verifyQuickOrderPageTabbingOrder() {
-  tabbingOrder('cx-quick-order-container', config.quickOrder);
+  tabbingOrder('cx-quick-order', config.quickOrder);
 }

@@ -75,14 +75,14 @@ context('B2B - Quick Order', () => {
     });
 
     describe('Accessibility - keyboarding', () => {
-      it('should conform to tabbing order', () => {
+      it('should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         cy.wait(1000);
         quickOrder.verifyQuickOrderPageTabbingOrder();
       });
 
-      it('should conform to tabbing order', () => {
+      it('should conform to tabbing order for cart page', () => {
         quickOrder.prepareCartWithProduct();
         quickOrder.verifyCartPageTabbingOrder();
       });
