@@ -26,6 +26,9 @@ export const ADD_NEXT_OWNER = '[Configurator] Add next owner';
 export const SET_NEXT_OWNER_CART_ENTRY =
   '[Configurator] Set next owner cart entry';
 
+export const REMOVE_CART_BOUND_CONFIGURATIONS =
+  '[Configurator] Remove cart bound configurations';
+
 export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
