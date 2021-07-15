@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  Address,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -49,6 +50,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryYear,
     cardNumber,
     cardType,
+    billingAddress,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -80,6 +82,7 @@ export class PaymentMethodsComponent implements OnInit {
             actions,
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType.code),
+            additionalInfo: this.getAdditionalInfo(billingAddress),
           };
 
           return card;
@@ -120,5 +123,25 @@ export class PaymentMethodsComponent implements OnInit {
     }
 
     return ccIcon;
+  }
+
+  getAdditionalInfo(billingAddress: Address): string[] {
+    const SPACE = ' ';
+    const NIL = '';
+
+    return [
+      (billingAddress.title ? billingAddress.title : NIL) +
+        SPACE +
+        billingAddress.firstName +
+        SPACE +
+        billingAddress.lastName,
+      billingAddress.line1 +
+        SPACE +
+        (billingAddress.line2 ? billingAddress.line2 : NIL),
+      billingAddress.town +
+        SPACE +
+        (billingAddress.country.name ? billingAddress.country.name : NIL),
+      billingAddress.postalCode,
+    ];
   }
 }
