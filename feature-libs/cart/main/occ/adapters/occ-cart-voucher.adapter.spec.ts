@@ -3,16 +3,18 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
-import { Cart } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
-import { OccConfig } from '../../index';
-import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
-import { OccEndpointsService } from '../../services';
+import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/main/core';
+import {
+  Cart,
+  ConverterService,
+  OccConfig,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from '../user/unit-test.helper';
+} from '../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
+import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 
 const userId = '123';
 const cartId = '456';

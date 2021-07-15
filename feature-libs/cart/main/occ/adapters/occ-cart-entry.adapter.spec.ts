@@ -3,14 +3,15 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
-import { Cart, CartModification } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/core';
 import {
   BaseOccUrlProperties,
+  Cart,
+  CartModification,
+  ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-} from '../../services';
+} from '@spartacus/core';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';

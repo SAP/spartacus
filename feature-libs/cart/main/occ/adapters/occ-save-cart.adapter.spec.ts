@@ -3,12 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Occ } from '../../occ-models';
 import {
   BaseOccUrlProperties,
   DynamicAttributes,
+  Occ,
   OccEndpointsService,
-} from '../../services';
+} from '@spartacus/core';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 
 const userId = '123';

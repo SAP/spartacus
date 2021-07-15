@@ -4,24 +4,20 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
-import { Occ } from '../../occ-models/occ.models';
 import {
   BaseOccUrlProperties,
+  Cart,
+  ConverterService,
   DynamicAttributes,
-  OccEndpointsService,
-} from '../../services';
-import {
   InterceptorUtil,
-  USE_CLIENT_TOKEN,
-} from '../../utils/interceptor-util';
-import {
+  Occ,
+  OccEndpointsService,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
-} from '../../utils/occ-constants';
+  ProductImageNormalizer,
+  USE_CLIENT_TOKEN,
+} from '@spartacus/core';
 import { OccCartAdapter } from './occ-cart.adapter';
-import { ProductImageNormalizer } from '../product/converters/product-image-normalizer';
 
 const userId = '123';
 const cartId = '456';
