@@ -12,6 +12,6 @@ export const BASE_SITE_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: BASE_SITE_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: INITIALIZE,
-    comment: `// ${TODO_SPARTACUS} Method '${INITIALIZE}' was removed. The state initialization is done with the 'BaseSiteInitializer' .`,
+    comment: `// ${TODO_SPARTACUS} Method '${BASE_SITE_SERVICE}.${INITIALIZE}' was removed. The state initialization is done with the 'BaseSiteInitializer' .`,
   },
 ];
