@@ -230,6 +230,7 @@ export class VariantConfiguratorOccAdapter
         urlParams: {
           configId: configuration.configId,
         },
+        queryParams: { groupId: configuration.interactionState.currentGroup },
       }
     );
 
