@@ -1,17 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Cart, UserIdService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserIdService } from '../../auth';
-import * as fromReducers from '../../cart/store/reducers/index';
-import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
 import {
   MULTI_CART_FEATURE,
   StateWithMultiCart,
 } from '../store/multi-cart-state';
+import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
 import createSpy = jasmine.createSpy;
-import { of } from 'rxjs';
 
 const testCart: Cart = {
   code: 'xxx',

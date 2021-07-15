@@ -1,20 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { UserIdService } from '../../auth/index';
-import * as fromReducers from '../../cart/store/reducers/index';
-import { OrderEntry, User } from '../../model';
 import {
+  BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
-import { StateWithProcess } from '../../process';
-import * as fromProcessReducers from '../../process/store/reducers/index';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { UserService } from '../../user';
+  OrderEntry,
+  StateWithProcess,
+  User,
+  UserIdService,
+  UserService,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { CartConfigService } from '../services';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
+import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
 import { SelectiveCartService } from './selective-cart.service';
 

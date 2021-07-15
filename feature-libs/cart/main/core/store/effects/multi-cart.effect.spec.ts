@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';

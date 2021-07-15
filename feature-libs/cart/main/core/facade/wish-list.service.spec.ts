@@ -1,16 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import {
+  Cart,
+  OrderEntry,
+  User,
+  UserIdService,
+  UserService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import * as fromReducers from '../../cart/store/reducers/index';
-import { OrderEntry, User } from '../../model';
-import { Cart } from '../../model/cart.model';
-import { UserService } from '../../user/index';
 import { CartActions } from '../store/actions/index';
 import {
   MULTI_CART_FEATURE,
   StateWithMultiCart,
 } from '../store/multi-cart-state';
+import * as fromReducers from '../store/reducers/index';
 import { getCartIdByUserId, getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';

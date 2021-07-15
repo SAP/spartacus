@@ -1,17 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import {
+  Cart,
+  SaveCartResult,
+  SiteContextActions,
+  UserIdService,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { UserIdService } from '../../../auth/user-auth/facade/user-id.service';
-import * as fromReducers from '../../../cart/store/reducers/index';
-import { Cart, SaveCartResult } from '../../../model/cart.model';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
 import { CartActions } from '../actions';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
+import * as fromReducers from '../reducers/index';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 import createSpy = jasmine.createSpy;

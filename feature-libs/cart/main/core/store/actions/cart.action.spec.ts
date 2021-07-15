@@ -1,6 +1,4 @@
-import { Cart } from '../../../model/cart.model';
-import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
-import { StateUtils } from '../../../state/utils/index';
+import { Cart, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import * as CartActions from './cart.action';
 
@@ -222,7 +220,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART_SUCCESS,
           payload,
-          meta: entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
+          meta: StateUtils.entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
         });
       });
     });
@@ -256,7 +254,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.DELETE_CART_SUCCESS,
           payload,
-          meta: entityRemoveMeta(MULTI_CART_DATA, payload.cartId),
+          meta: StateUtils.entityRemoveMeta(MULTI_CART_DATA, payload.cartId),
         });
       });
     });
@@ -298,7 +296,7 @@ describe('Cart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.REMOVE_CART,
         payload: { cartId },
-        meta: entityRemoveMeta(MULTI_CART_DATA, cartId),
+        meta: StateUtils.entityRemoveMeta(MULTI_CART_DATA, cartId),
       });
     });
   });

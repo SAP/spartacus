@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { UserIdService } from '../../auth/index';
-import * as fromReducers from '../../cart/store/reducers/index';
-import { Cart } from '../../model/cart.model';
-import { OrderEntry } from '../../model/order.model';
 import {
+  Cart,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
-} from '../../occ/utils/occ-constants';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers/index';
-import { StateUtils } from '../../state';
+  OrderEntry,
+  PROCESS_FEATURE,
+  StateUtils,
+  UserIdService,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
+import * as fromReducers from '../store/reducers/index';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 

@@ -1,17 +1,19 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import {
+  GlobalMessageService,
+  normalizeHttpError,
+  OccConfig,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { OccConfig } from '../../../occ/index';
 import { CartVoucherAdapter } from '../../connectors';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-voucher.effect';
 import createSpy = jasmine.createSpy;
-import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

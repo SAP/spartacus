@@ -1,24 +1,26 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import {
+  Cart,
+  CLIENT_AUTH_FEATURE,
+  normalizeHttpError,
+  OccConfig,
+  OCC_CART_ID_CURRENT,
+  SiteContextActions,
+  USER_FEATURE,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { CLIENT_AUTH_FEATURE } from '../../../auth/client-auth/store/client-auth-state';
-import * as fromClientAuthReducers from '../../../auth/client-auth/store/reducers/index';
-import { Cart } from '../../../model/cart.model';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
-import * as fromUserReducers from '../../../user/store/reducers/index';
-import { USER_FEATURE } from '../../../user/store/user-state';
+import * as fromClientAuthReducers from '../../../../../../projects/core/src/auth/client-auth/store/reducers/index';
+import * as fromUserReducers from '../../../../../../projects/core/src/user/store/reducers/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
-import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {

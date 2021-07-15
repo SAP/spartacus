@@ -1,5 +1,4 @@
-import { CartModification } from '../../../model/cart.model';
-import { StateUtils } from '../../../state/utils/index';
+import { CartModification, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 

@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import {
+  BASE_SITE_CONTEXT_ID,
+  SiteContextParamsService,
+  StatePersistenceService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as fromCartReducers from '../../cart/store/reducers/index';
-import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
-import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
-import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { CartActions, MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
+import * as fromCartReducers from '../store/reducers/index';
 import { MultiCartStatePersistenceService } from './multi-cart-state-persistence.service';
 
 class MockSiteContextParamsService {

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { UserIdService } from '../../auth/index';
-import { Cart } from '../../model/cart.model';
 import {
+  Cart,
   PROCESS_FEATURE,
   StateWithProcess,
-} from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
+  UserIdService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { CartActions } from '../store/actions/index';
 import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';

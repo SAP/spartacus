@@ -1,11 +1,4 @@
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import { StateUtils } from '../../../state/utils/index';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
@@ -26,7 +19,10 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER,
           payload: payload,
-          meta: entityLoadMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            ADD_VOUCHER_PROCESS_ID
+          ),
         });
       });
     });
@@ -45,7 +41,11 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER_FAIL,
           payload,
-          meta: entityFailMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, error),
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            ADD_VOUCHER_PROCESS_ID,
+            error
+          ),
         });
       });
     });
@@ -61,7 +61,10 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER_SUCCESS,
           payload,
-          meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            ADD_VOUCHER_PROCESS_ID
+          ),
         });
       });
     });
@@ -71,7 +74,10 @@ describe('Cart-voucher Actions', () => {
         const action = new CartActions.CartResetAddVoucher();
         expect({ ...action }).toEqual({
           type: CartActions.CART_RESET_ADD_VOUCHER,
-          meta: entityResetMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            ADD_VOUCHER_PROCESS_ID
+          ),
         });
       });
     });
