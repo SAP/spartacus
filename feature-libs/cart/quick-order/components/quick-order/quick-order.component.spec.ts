@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
-import { QuickOrderComponent } from './quick-order-list.component';
+import { QuickOrderComponent } from './quick-order.component';
 
 const mockProduct: Product = {
   code: '123456789',

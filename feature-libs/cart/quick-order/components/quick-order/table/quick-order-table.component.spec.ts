@@ -48,12 +48,12 @@ describe('QuickOrderTableComponent', () => {
   });
 
   describe('if there are entries', () => {
-    it('should show the list header', () => {
-      expect(el.query(By.css('.quick-order-list-header'))).toBeTruthy();
+    it('should show the table header', () => {
+      expect(el.query(By.css('.quick-order-table-header'))).toBeTruthy();
     });
 
-    it('should show the list row', () => {
-      expect(el.query(By.css('.quick-order-list-row'))).toBeTruthy();
+    it('should show the table row', () => {
+      expect(el.query(By.css('.quick-order-table-row'))).toBeTruthy();
     });
   });
 });
