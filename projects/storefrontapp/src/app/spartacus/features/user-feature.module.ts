@@ -9,6 +9,10 @@ import {
   USER_ACCOUNT_FEATURE,
 } from '@spartacus/user/account/root';
 import {
+  UserAnonymousConsentsRootModule,
+  USER_ANONYMOUS_CONSENTS_FEATURE,
+} from '@spartacus/user/anonymous-consents/root';
+import {
   userProfileTranslationChunksConfig,
   userProfileTranslations,
 } from '@spartacus/user/profile/assets';
@@ -19,7 +23,11 @@ import {
 
 @NgModule({
   declarations: [],
-  imports: [UserAccountRootModule, UserProfileRootModule],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule,
+    UserAnonymousConsentsRootModule,
+  ],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
@@ -51,6 +59,17 @@ import {
         fallbackLang: 'en',
       },
     }),
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [USER_ANONYMOUS_CONSENTS_FEATURE]: {
+          module: () =>
+            import('@spartacus/user/anonymous-consents').then(
+              (m) => m.UserAnonymousConsentsModule
+            ),
+        },
+      },
+    }),
+    // TODO:#anon provide translations
   ],
 })
 export class UserFeatureModule {}

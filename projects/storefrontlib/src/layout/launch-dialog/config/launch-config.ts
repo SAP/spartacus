@@ -77,6 +77,7 @@ export enum DIALOG_TYPE {
 export const enum LAUNCH_CALLER {
   ASM = 'ASM',
   SKIP_LINKS = 'SKIP_LINKS',
+  // TODO:#anon - make augmentable and move this const to the anon entry point
   ANONYMOUS_CONSENT = 'ANONYMOUS_CONSENT',
   REPLENISHMENT_ORDER = 'REPLENISHMENT_ORDER',
   PLACE_ORDER_SPINNER = 'PLACE_ORDER_SPINNER',
