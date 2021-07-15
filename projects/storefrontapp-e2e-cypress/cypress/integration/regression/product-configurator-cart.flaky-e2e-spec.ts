@@ -1,5 +1,4 @@
 import * as cart from '../../helpers/cart';
-import { listenForTokenAuthenticationRequest } from '../../helpers/login';
 import * as login from '../../helpers/login';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
@@ -177,7 +176,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.only('Configuration process', () => {
+  describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       login.registerUser();
       const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
