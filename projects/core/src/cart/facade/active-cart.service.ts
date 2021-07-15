@@ -29,6 +29,7 @@ import { OrderEntry } from '../../model/order.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
@@ -36,7 +37,7 @@ import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { getCartIdByUserId, isTempCartId } from '../utils/utils';
+import { getCartIdByUserId, isCartIdGuid, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
 @Injectable({
@@ -134,7 +135,8 @@ export class ActiveCartService implements OnDestroy {
           isStable &&
           this.isEmpty(cart) &&
           !loaded &&
-          !isTempCartId(cartId)
+          !isTempCartId(cartId) &&
+          !(userId === OCC_USER_ID_CURRENT && isCartIdGuid(cartId))
         ) {
           this.load(cartId, userId);
         }
