@@ -5,7 +5,7 @@
       <div class="cx-dialog-title modal-title">
         {{
           (addedEntryWasMerged$ | async)
-            ? 'addToCart.itemsIncrementedInYourCart'
+            ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
             : ('addToCart.itemsAddedToYourCart' | cxTranslate)
         }}
       </div>
