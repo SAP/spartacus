@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
-import { MessageService } from '../message/services/message.service';
+// import { MessageService } from '../message/services/message.service';
+import { EventService } from '@spartacus/core';
+import { OrgMessageEvent } from '../../constants';
 
 const DISABLED_STATUS = 'DISABLED';
 
@@ -60,9 +62,11 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     map((status) => status === DISABLED_STATUS)
   );
 
+  // TODO: add constructors for deprecation
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    // protected messageService: MessageService,
+    protected event?: EventService
   ) {}
 
   save(form: FormGroup): void {
@@ -90,14 +94,29 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   protected notify(item: T, action: string) {
-    this.messageService.add({
-      message: {
-        key: `${this.i18nRoot}.messages.${action}`,
-        params: {
-          item,
-        },
-      },
-    });
+    if (this.event) {
+      setTimeout(() => {
+        this.event.dispatch(
+          new OrgMessageEvent({
+            message: {
+              key: `${this.i18nRoot}.messages.${action}`,
+              params: {
+                item,
+              },
+            },
+          })
+        );
+      }, 500);
+    } else {
+      // this.messageService.add({
+      //   message: {
+      //     key: `${this.i18nRoot}.messages.${action}`,
+      //     params: {
+      //       item,
+      //     },
+      //   },
+      // });
+    }
   }
 
   protected setI18nRoot(item: T): void {

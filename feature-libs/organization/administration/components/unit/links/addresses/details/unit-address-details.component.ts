@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
+import {
+  Address,
+  B2BUnit,
+  Country,
+  EventService,
+  UserAddressService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -11,6 +17,7 @@ import {
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
+import { DetailsComponent } from '../../../../shared/detail/detail.component';
 
 @Component({
   selector: 'cx-org-unit-address-details',
@@ -24,7 +31,7 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
     },
   ],
 })
-export class UnitAddressDetailsComponent {
+export class UnitAddressDetailsComponent extends DetailsComponent<Address> {
   unit$: Observable<B2BUnit> = this.currentUnitService.item$;
 
   model$: Observable<Address> = this.itemService.key$.pipe(
@@ -49,6 +56,9 @@ export class UnitAddressDetailsComponent {
   constructor(
     protected itemService: ItemService<Address>,
     protected currentUnitService: CurrentUnitService,
-    protected userAddressService: UserAddressService
-  ) {}
+    protected userAddressService: UserAddressService,
+    protected event?: EventService
+  ) {
+    super(itemService, event);
+  }
 }
