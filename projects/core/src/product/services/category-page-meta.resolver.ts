@@ -15,9 +15,10 @@ import {
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
-import { PageType } from '../../model/cms.model';
+import { CmsComponent, PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { ProductSearchService } from '../facade/product-search.service';
+import { MetaResolversConfigService } from './meta-resolvers-config.service';
 
 /**
  * Resolves the page data for the Product Listing Page.
@@ -50,7 +51,8 @@ export class CategoryPageMetaResolver
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver,
+    protected metaResolversConfigService: MetaResolversConfigService
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -112,10 +114,8 @@ export class CategoryPageMetaResolver
   protected hasProductListComponent(page: Page): boolean {
     return !!Object.keys(page.slots || {}).find(
       (key) =>
-        !!page.slots?.[key].components?.find(
-          (comp) =>
-            comp.typeCode === 'CMSProductListComponent' ||
-            comp.typeCode === 'ProductGridComponent'
+        !!page.slots?.[key].components?.find((comp) =>
+          this.isProductListComponent(comp)
         )
     );
   }
@@ -132,5 +132,11 @@ export class CategoryPageMetaResolver
    */
   resolveCanonicalUrl(): Observable<string> {
     return this.basePageMetaResolver.resolveCanonicalUrl();
+  }
+
+  private isProductListComponent(comp: CmsComponent): boolean {
+    return this.metaResolversConfigService?.categoryPage?.productListComponents?.includes(
+      comp.typeCode
+    );
   }
 }

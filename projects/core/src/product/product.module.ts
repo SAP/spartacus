@@ -1,5 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
+import { provideDefaultConfig } from '../config/config-providers';
+import { defaultMetaResolversConfig } from './config/default-meta-resolvers-config';
+import { MetaResolversConfig } from './config/meta-resolvers-config';
 import { ProductEventModule } from './event/product-event.module';
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 import { CouponSearchPageResolver } from './services/coupon-search-page-meta.resolver';
@@ -37,7 +40,10 @@ export class ProductModule {
   static forRoot(): ModuleWithProviders<ProductModule> {
     return {
       ngModule: ProductModule,
-      providers: [...pageTitleResolvers],
+      providers: [
+        ...pageTitleResolvers,
+        provideDefaultConfig(<MetaResolversConfig>defaultMetaResolversConfig),
+      ],
     };
   }
 }
