@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -28,6 +28,17 @@ export class LanguageService implements SiteContext<Language> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllLanguages),
       tap((languages) => {
+        if (isDevMode() && languages) {
+          let languageMismatch = false;
+          languages.forEach((language) => {
+            if (!this.config.context.language.includes(language.isocode))
+              languageMismatch = true;
+          });
+          if (languageMismatch)
+            console.warn(
+              'A mismatch between context config and available CMS Languages detected.'
+            );
+        }
         if (!languages) {
           this.store.dispatch(new SiteContextActions.LoadLanguages());
         }

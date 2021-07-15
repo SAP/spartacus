@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -28,6 +28,17 @@ export class CurrencyService implements SiteContext<Currency> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllCurrencies),
       tap((currencies) => {
+        if (isDevMode && currencies) {
+          let currencyMismatch = false;
+          currencies.forEach((currency) => {
+            if (!this.config.context.currency.includes(currency.isocode))
+              currencyMismatch = true;
+          });
+          if (currencyMismatch)
+            console.warn(
+              'A mismatch between context config and available CMS Currencies detected.'
+            );
+        }
         if (!currencies) {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
