@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
@@ -98,5 +99,41 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
 
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * Extract corresponding price formula parameters.
+   * For the multi-selection attribute types only total price of the attribute should be displayed at the attribute level.
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+        currencyIso: '',
+      },
+      priceTotal: this.attribute.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractValuePriceFormulaParameters(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    return {
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
   }
 }
