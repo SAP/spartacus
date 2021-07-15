@@ -21,6 +21,11 @@ export const b2bProduct: SampleProduct = {
   code: '3881074',
 };
 
+export const b2bProduct2: SampleProduct = {
+  name: '6 Inch Nylon Cable Ties 100-Pack',
+  code: '1128763',
+};
+
 export const cartWithB2bProduct: SampleCartProduct = {
   estimatedShipping: '$9.99',
   total: '$35.00',
