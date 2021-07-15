@@ -92,8 +92,13 @@ export class ImportEntriesDialogComponent implements OnInit {
     this.selectedFile = file;
     this.importService.loadFile(file).subscribe(
       (data: string[][]) => {
-        this.fileError = {};
-        this.loadedFile = data;
+        if (this.importToCartService.isDataParsable(data)) {
+          this.fileError = {};
+          this.loadedFile = data;
+        } else {
+          this.fileError = { notParsable: true };
+          this.loadedFile = null;
+        }
         form.get('file')?.updateValueAndValidity();
       },
       () => {

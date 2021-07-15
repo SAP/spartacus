@@ -43,7 +43,7 @@ export class ImportService {
         row.split(this.separator).map((cell) => cell.replace(/"/g, ''))
       )
       .filter(
-        (value, index) => !(ignoreHeader && index === 0) || value[0] !== ''
+        (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
       );
   }
 
