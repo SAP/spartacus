@@ -193,5 +193,9 @@
     margin-top: -5px;
     margin-inline-end: -5px;
     font-size: 1rem;
+
+    html[dir='rtl'] & {
+      float: left;
+    }
   }
 }
