@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
-import { QuickOrderComponentsModule } from './components/quick-order-components.module';
-import { QuickOrderCoreModule } from './core/quick-order-core.module';
-import { QuickOrderOccModule } from './occ/quick-order-occ.module';
+import { QuickOrderComponentsModule } from '@spartacus/cart/quick-order/components';
+import { QuickOrderCoreModule } from '@spartacus/cart/quick-order/core';
 
 @NgModule({
-  imports: [
-    QuickOrderCoreModule,
-    QuickOrderOccModule,
-    QuickOrderComponentsModule,
-  ],
+  imports: [QuickOrderCoreModule, QuickOrderComponentsModule],
 })
 export class QuickOrderModule {}

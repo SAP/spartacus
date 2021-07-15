@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { QuickOrderListComponent } from './quick-order-list.component';
+import { QuickOrderTableComponent } from './quick-order-table.component';
 
 const mockEntries: OrderEntry[] = [
   {
@@ -21,15 +21,15 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
 }
 
-describe('QuickOrderListComponent', () => {
-  let component: QuickOrderListComponent;
-  let fixture: ComponentFixture<QuickOrderListComponent>;
+describe('QuickOrderTableComponent', () => {
+  let component: QuickOrderTableComponent;
+  let fixture: ComponentFixture<QuickOrderTableComponent>;
   let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuickOrderListComponent],
+      declarations: [QuickOrderTableComponent],
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
@@ -37,7 +37,7 @@ describe('QuickOrderListComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuickOrderListComponent);
+    fixture = TestBed.createComponent(QuickOrderTableComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -48,12 +48,12 @@ describe('QuickOrderListComponent', () => {
   });
 
   describe('if there are entries', () => {
-    it('should show the list header', () => {
-      expect(el.query(By.css('.quick-order-list-header'))).toBeTruthy();
+    it('should show the table header', () => {
+      expect(el.query(By.css('.quick-order-table-header'))).toBeTruthy();
     });
 
-    it('should show the list row', () => {
-      expect(el.query(By.css('.quick-order-list-row'))).toBeTruthy();
+    it('should show the table row', () => {
+      expect(el.query(By.css('.quick-order-table-row'))).toBeTruthy();
     });
   });
 });

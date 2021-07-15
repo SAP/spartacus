@@ -1,13 +1,13 @@
 <div class="quick-order-header">
-  <h3>{{ 'quickOrderContainer.addProducts' | cxTranslate }}</h3>
+  <h3>{{ 'quickOrderList.addProducts' | cxTranslate }}</h3>
 </div>
 
 <div class="quick-order-form-body">
   <cx-quick-order-form></cx-quick-order-form>
 </div>
 
-<div class="quick-order-list-body">
-  <cx-quick-order-list></cx-quick-order-list>
+<div class="quick-order-table-body">
+  <cx-quick-order-table></cx-quick-order-table>
 </div>
 
 <div *ngIf="entries$ | async as entries" class="quick-order-footer row">
@@ -19,7 +19,7 @@
       class="btn btn-block btn-action clear-button"
       type="button"
     >
-      {{ 'quickOrderContainer.emptyList' | cxTranslate }}
+      {{ 'quickOrderList.emptyList' | cxTranslate }}
     </button>
   </div>
 
@@ -31,7 +31,7 @@
       class="btn btn-block btn-primary add-button"
       type="button"
     >
-      {{ 'quickOrderContainer.addToCart' | cxTranslate }}
+      {{ 'quickOrderList.addToCart' | cxTranslate }}
     </button>
   </div>
 </div>

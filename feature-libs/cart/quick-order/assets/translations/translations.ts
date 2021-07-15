@@ -9,8 +9,8 @@ export const quickOrderTranslations: TranslationResources = {
 export const quickOrderTranslationChunksConfig: TranslationChunksConfig = {
   quickOrder: [
     'quickOrderCartForm',
-    'quickOrderContainer',
     'quickOrderForm',
     'quickOrderList',
+    'quickOrderTable',
   ],
 };

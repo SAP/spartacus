@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
-import { QuickOrderComponent } from './quick-order-container.component';
+import { QuickOrderComponent } from './quick-order.component';
 
 const mockProduct: Product = {
   code: '123456789',
@@ -85,7 +85,7 @@ describe('QuickOrderComponent', () => {
     expect(quickOrderService.clearList).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'quickOrderList.listCleared',
+        key: 'quickOrderTable.listCleared',
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
@@ -107,7 +107,7 @@ describe('QuickOrderComponent', () => {
     expect(quickOrderService.clearList).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'quickOrderList.addedtoCart',
+        key: 'quickOrderTable.addedtoCart',
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );

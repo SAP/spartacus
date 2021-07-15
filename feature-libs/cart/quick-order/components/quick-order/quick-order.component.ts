@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-quick-order-container',
-  templateUrl: './quick-order-container.component.html',
+  selector: 'cx-quick-order',
+  templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderComponent implements OnInit {
@@ -38,7 +38,7 @@ export class QuickOrderComponent implements OnInit {
 
     this.globalMessageService.add(
       {
-        key: 'quickOrderList.listCleared',
+        key: 'quickOrderTable.listCleared',
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
@@ -50,7 +50,7 @@ export class QuickOrderComponent implements OnInit {
       this.quickOrderService.clearList();
       this.globalMessageService.add(
         {
-          key: 'quickOrderList.addedtoCart',
+          key: 'quickOrderTable.addedtoCart',
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );

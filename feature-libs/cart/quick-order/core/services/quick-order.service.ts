@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry, Product } from '@spartacus/core';
+import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class QuickOrderService {
     OrderEntry[]
   >([]);
 
-  constructor(protected quickOrderAdapter: QuickOrderAdapter) {}
+  constructor(protected productAdapter: ProductAdapter) {}
 
   /**
    * Get entries
@@ -26,7 +25,7 @@ export class QuickOrderService {
    * Search product using sku
    */
   search(productCode: string): Observable<Product> {
-    return this.quickOrderAdapter.search(productCode);
+    return this.productAdapter.load(productCode);
   }
 
   /**
