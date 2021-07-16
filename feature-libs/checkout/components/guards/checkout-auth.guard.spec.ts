@@ -62,8 +62,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-// Temporarily disabled. Fix and re-enable in GH-13099
-xdescribe('CheckoutAuthGuard', () => {
+describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;

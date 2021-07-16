@@ -88,8 +88,8 @@ describe('CheckoutCostCenterService', () => {
       new CheckoutActions.SetCostCenterSuccess('testCostCenterId')
     );
   });
-  // Temporarily diisabled. Fix and re-enable in GH-13101
-  xit('should be able to set cost center to cart', () => {
+
+  it('should be able to set cost center to cart', () => {
     service.setCostCenter('testCostCenterId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetCostCenter({
