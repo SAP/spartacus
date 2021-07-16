@@ -10,6 +10,9 @@ import {
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { MiniCartComponent } from './mini-cart.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, IconModule, I18nModule],
   providers: [

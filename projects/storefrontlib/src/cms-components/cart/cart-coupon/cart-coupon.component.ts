@@ -11,12 +11,15 @@ import {
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
-  MAX_CUSTOMER_COUPON_PAGE = 100;
+  MAX_CUSTOMER_COUPsON_PAGE = 100;
   couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;

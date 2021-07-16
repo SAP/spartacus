@@ -1,7 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Voucher, CartVoucherService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CartVoucherService, Voucher } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
