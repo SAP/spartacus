@@ -5,6 +5,7 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_LAYOUT_CONFIG,
   B2C_STOREFRONT_MODULE,
+  CART_ITEM_COMPONENT,
   CART_PAGE_META_RESOLVER,
   CLOSE_ACCOUNT_MODAL_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
@@ -342,9 +343,9 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   },
   // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   {
-    node: ITEM,
+    node: CART_ITEM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${ITEM}' interface was removed. Use ${ORDER_ENTRY} instead.`,
+    comment: `'${ITEM}' interface was removed from ${CART_ITEM_COMPONENT}. User ${ORDER_ENTRY} instad.`,
   },
   {
     node: FEATURE_MODULES_SERVICE,

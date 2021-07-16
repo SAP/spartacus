@@ -26,16 +26,16 @@ import { OCC_ENDPOINTS_SERVICE_MIGRATION } from './data/occ-endpoints.service.mi
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORDER_OVERVIEW_COMPONENT_MIGRATION } from './data/order-overview.component.migration';
 import { PAGE_EVENT_MIGRATION } from './data/page-event.builder.ts.migration';
-import { POPOVER_COMPONENT_MIGRATION } from './data/popover-component.migration';
-import { POPOVER_DIRECTIVE_MIGRATION } from './data/popover-directive.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product.service.migration';
-import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
+import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.ts.migration';
 import { SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION } from './data/saved-cart-details-action.component.migration';
 import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { UNIT_FORM_COMPONENT_MIGRATION } from './data/unit-form.component.migration';
 import { USER_ID_SERVICE_MIGRATION } from './data/user-id.service.migration';
+import { POPOVER_COMPONENT_MIGRATION } from './data/popover-component.migration';
+import { POPOVER_DIRECTIVE_MIGRATION } from './data/popover-directive.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
