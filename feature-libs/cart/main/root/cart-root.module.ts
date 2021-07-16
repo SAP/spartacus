@@ -6,7 +6,7 @@ export function defaultCartComponentsConfig() {
   const config = {
     featureModules: {
       [CART_FEATURE]: {
-        cmsComponents: ['TODO: cart components will go here'],
+        cmsComponents: ['WishListComponent'],
       },
       // by default core is bundled together with components
       [CART_CORE_FEATURE]: CART_FEATURE,
