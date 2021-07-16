@@ -10,8 +10,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
   Cart,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -21,13 +21,15 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  ModalDirective,
+  PromotionsModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components';
-import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @Directive({

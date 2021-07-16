@@ -4,6 +4,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
+  SelectiveCartService,
+} from '@spartacus/cart/main/core';
+import {
   AuthService,
   Cart,
   FeaturesConfigModule,
@@ -12,10 +15,9 @@ import {
   OrderEntry,
   PromotionLocation,
   RoutingService,
-  SelectiveCartService,
 } from '@spartacus/core';
+import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {

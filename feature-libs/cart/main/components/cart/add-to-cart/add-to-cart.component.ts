@@ -7,12 +7,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
+import { isNotNullable, Product } from '@spartacus/core';
+import {
+  CurrentProductService,
+  ModalRef,s
+  ModalService,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { ModalRef } from '../../../shared/components/modal/modal-ref';
-import { ModalService } from '../../../shared/components/modal/modal.service';
-import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Component({

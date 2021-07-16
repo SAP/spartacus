@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-mini-cart',

@@ -1,19 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
+  SelectiveCartService,
+} from '@spartacus/cart/main/core';
+import {
   Cart,
   CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
-  SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CartItemComponentOptions } from '../cart-shared/cart-item/cart-item.component';
 import { SaveForLaterComponent } from './save-for-later.component';
-
 @Component({
   template: '',
   selector: 'cx-cart-item-list',

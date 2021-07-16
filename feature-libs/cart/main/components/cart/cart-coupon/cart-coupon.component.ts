@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartService,
-  Cart,
   CartVoucherService,
+} from '@spartacus/cart/main/core';
+import {
+  Cart,
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,

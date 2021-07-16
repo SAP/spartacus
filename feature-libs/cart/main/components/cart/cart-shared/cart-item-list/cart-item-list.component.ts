@@ -8,11 +8,13 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
-  ConsignmentEntry,
   MultiCartService,
+  SelectiveCartService,
+} from '@spartacus/cart/main/core';
+import {
+  ConsignmentEntry,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';

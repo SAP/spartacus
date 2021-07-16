@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
   ActiveCartService,
+  SelectiveCartService,
+} from '@spartacus/cart/main/core';
+import {
   Cart,
   CmsParagraphComponent,
   CmsService,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

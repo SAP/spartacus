@@ -6,19 +6,19 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { WishListService } from '@spartacus/cart/main/core';
 import {
   AuthService,
   Cart,
   I18nTestingModule,
   OrderEntry,
   Product,
-  WishListService,
 } from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CurrentProductService } from '../../product/current-product.service';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
 

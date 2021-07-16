@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  ActiveCartService,
-  Cart,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
+import { Cart, OrderEntry, PromotionLocation } from '@spartacus/core';
+import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -16,8 +13,6 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
-import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',

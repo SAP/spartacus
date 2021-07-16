@@ -1,12 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  Voucher,
-  CartVoucherService,
-} from '@spartacus/core';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
+import { CartVoucherService } from '@spartacus/cart/main/core';
+import { I18nTestingModule, Voucher } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
 const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };

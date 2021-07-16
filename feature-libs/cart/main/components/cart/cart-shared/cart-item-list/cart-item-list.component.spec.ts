@@ -4,18 +4,20 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
+  MultiCartService,
+  SelectiveCartService,
+} from '@spartacus/cart/main/core';
+import {
   ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
-  MultiCartService,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
+import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
