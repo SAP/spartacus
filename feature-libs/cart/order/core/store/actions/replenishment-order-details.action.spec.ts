@@ -4,7 +4,7 @@ import { StateUtils } from '../../../state/utils/index';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
   USER_REPLENISHMENT_ORDER_DETAILS,
-} from '../user-state';
+} from '../order-state';
 import { UserActions } from './index';
 
 const mockUserId = 'test-user';

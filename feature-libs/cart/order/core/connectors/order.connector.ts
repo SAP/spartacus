@@ -12,9 +12,7 @@ import {
 import { Observable } from 'rxjs';
 import { OrderAdapter } from './order.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OrderConnector {
   constructor(protected adapter: OrderAdapter) {}
 

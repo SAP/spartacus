@@ -26,7 +26,6 @@ import { OrderConsignedEntriesComponent } from './order-detail-items/order-consi
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
-import { OrderDetailsService } from './order-details.service';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -84,7 +83,6 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
-    OrderDetailsService,
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

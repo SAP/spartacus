@@ -6,21 +6,23 @@ import {
   ReplenishmentOrderList,
 } from '@spartacus/cart/order/root';
 import {
-  CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
   ProcessSelectors,
   StateWithProcess,
-  StateWithUser,
   UserIdService,
-  UsersSelectors,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
+import {
+  CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
+  StateWithOrder,
+} from '../store/order-state';
+import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder | StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
 
@@ -50,7 +52,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrderDetailsValue)
+      select(OrderSelectors.getReplenishmentOrderDetailsValue)
     );
   }
 
@@ -59,7 +61,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderDetailsLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrderDetailsLoading)
+      select(OrderSelectors.getReplenishmentOrderDetailsLoading)
     );
   }
 
@@ -68,7 +70,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderDetailsSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrderDetailsSuccess)
+      select(OrderSelectors.getReplenishmentOrderDetailsSuccess)
     );
   }
 
@@ -77,7 +79,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderDetailsError(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrderDetailsError)
+      select(OrderSelectors.getReplenishmentOrderDetailsError)
     );
   }
 
@@ -162,7 +164,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
     pageSize: number
   ): Observable<ReplenishmentOrderList> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrdersState),
+      select(OrderSelectors.getReplenishmentOrdersState),
       tap((replenishmentOrderListState) => {
         const attemptedLoad =
           replenishmentOrderListState.loading ||
@@ -181,7 +183,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderHistoryListLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrdersLoading)
+      select(OrderSelectors.getReplenishmentOrdersLoading)
     );
   }
 
@@ -189,7 +191,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    * Returns a error flag for replenishment order history list
    */
   getReplenishmentOrderHistoryListError(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getReplenishmentOrdersError));
+    return this.store.pipe(select(OrderSelectors.getReplenishmentOrdersError));
   }
 
   /**
@@ -197,7 +199,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getReplenishmentOrdersSuccess)
+      select(OrderSelectors.getReplenishmentOrdersSuccess)
     );
   }
 

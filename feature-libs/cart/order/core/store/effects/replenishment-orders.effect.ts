@@ -8,7 +8,7 @@ import { ReplenishmentOrderConnector } from '../../connectors/replenishment-orde
 import { OrderActions } from '../actions/index';
 
 @Injectable()
-export class UserReplenishmentOrdersEffect {
+export class ReplenishmentOrdersEffect {
   @Effect()
   loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> = this.actions$.pipe(
     ofType(OrderActions.LOAD_USER_REPLENISHMENT_ORDERS),

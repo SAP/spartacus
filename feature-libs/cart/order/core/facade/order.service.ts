@@ -8,22 +8,21 @@ import {
   OrderHistoryList,
 } from '@spartacus/cart/order/root';
 import {
-  CANCEL_ORDER_PROCESS_ID,
   ProcessSelectors,
   RoutingService,
   StateWithProcess,
-  StateWithUser,
   UserIdService,
-  UsersSelectors,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
+import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
+import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class OrderService implements OrderFacade {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder | StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
@@ -32,7 +31,7 @@ export class OrderService implements OrderFacade {
    * Returns an order's detail
    */
   getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(UsersSelectors.getOrderDetails));
+    return this.store.pipe(select(OrderSelectors.getOrderDetails));
   }
 
   /**
@@ -63,7 +62,7 @@ export class OrderService implements OrderFacade {
    */
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
-      select(UsersSelectors.getOrdersState),
+      select(OrderSelectors.getOrdersState),
       tap((orderListState) => {
         const attemptedLoad =
           orderListState.loading ||
@@ -81,7 +80,7 @@ export class OrderService implements OrderFacade {
    * Returns a loaded flag for order history list
    */
   getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getOrdersLoaded));
+    return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
   }
 
   /**
@@ -131,7 +130,7 @@ export class OrderService implements OrderFacade {
    *  Returns a consignment tracking detail
    */
   getConsignmentTracking(): Observable<ConsignmentTracking> {
-    return this.store.pipe(select(UsersSelectors.getConsignmentTracking));
+    return this.store.pipe(select(OrderSelectors.getConsignmentTracking));
   }
 
   /**

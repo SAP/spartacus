@@ -1,5 +1,6 @@
 import { ReplenishmentOrderList } from '@spartacus/cart/order/root';
-import { StateUtils, USER_REPLENISHMENT_ORDERS } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { USER_REPLENISHMENT_ORDERS } from '../order-state';
 
 export const LOAD_USER_REPLENISHMENT_ORDERS =
   '[User] Load User Replenishment Orders';

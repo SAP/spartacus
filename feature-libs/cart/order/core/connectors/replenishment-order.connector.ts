@@ -7,9 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ReplenishmentOrderConnector {
   constructor(protected adapter: ReplenishmentOrderAdapter) {}
 

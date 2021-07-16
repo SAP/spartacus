@@ -1,10 +1,9 @@
 import { ReplenishmentOrder } from '@spartacus/cart/order/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-  PROCESS_FEATURE,
-  StateUtils,
   USER_REPLENISHMENT_ORDER_DETAILS,
-} from '@spartacus/core';
+} from '../order-state';
 
 export const LOAD_REPLENISHMENT_ORDER_DETAILS =
   '[User] Load Replenishment Order Details';

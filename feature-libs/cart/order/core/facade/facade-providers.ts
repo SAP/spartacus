@@ -14,10 +14,12 @@ export const facadeProviders: Provider[] = [
     provide: OrderReturnRequestFacade,
     useExisting: OrderReturnRequestService,
   },
+  OrderService,
   {
     provide: OrderFacade,
     useExisting: OrderService,
   },
+  ReplenishmentOrderService,
   {
     provide: ReplenishmentOrderFacade,
     useExisting: ReplenishmentOrderService,

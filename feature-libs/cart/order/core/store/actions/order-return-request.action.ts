@@ -4,13 +4,12 @@ import {
   ReturnRequestList,
   ReturnRequestModification,
 } from '@spartacus/cart/order/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_RETURN_PROCESS_ID,
-  PROCESS_FEATURE,
-  StateUtils,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
-} from '@spartacus/core';
+} from '../order-state';
 
 export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
 export const CREATE_ORDER_RETURN_REQUEST_FAIL =

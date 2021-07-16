@@ -1,6 +1,6 @@
 import { OrderHistoryList } from '../../../model/order.model';
 import { StateUtils } from '../../../state/utils/index';
-import { USER_ORDERS } from '../user-state';
+import { USER_ORDERS } from '../order-state';
 import { UserActions } from './index';
 
 describe('UserOrdersActions', () => {

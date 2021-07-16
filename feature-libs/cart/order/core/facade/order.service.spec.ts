@@ -8,8 +8,8 @@ import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { UserActions } from '../store/actions/index';
+import { StateWithUser, USER_FEATURE } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserOrderService } from './order.service';
 
 const mockReplenishmentOrderCode = 'test-repl-code';

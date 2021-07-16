@@ -1,6 +1,6 @@
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { StateUtils } from '../../../state/utils/index';
-import { USER_REPLENISHMENT_ORDERS } from '../user-state';
+import { USER_REPLENISHMENT_ORDERS } from '../order-state';
 import { UserActions } from './index';
 
 describe('User Replenishment Orders Actions', () => {

@@ -11,7 +11,7 @@ import {
 import { OrderActions } from '../actions/index';
 
 @Injectable()
-export class UserOrdersEffect {
+export class OrdersEffect {
   constructor(
     private actions$: Actions,
     private orderConnector: OrderConnector,

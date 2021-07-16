@@ -13,8 +13,8 @@ import {
 } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
+import { StateWithUser, USER_FEATURE } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserReplenishmentOrderService } from './replenishment-order.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;

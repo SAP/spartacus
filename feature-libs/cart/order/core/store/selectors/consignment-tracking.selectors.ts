@@ -1,28 +1,22 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ConsignmentTracking } from '../../../model/index';
+import { ConsignmentTracking } from '@spartacus/cart/order/root';
 import {
   ConsignmentTrackingState,
-  StateWithUser,
-  UserState,
-} from '../user-state';
-import { getUserState } from './feature.selector';
+  OrderState,
+  StateWithOrder,
+} from '../order-state';
+import { getOrderState } from './feature.selector';
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */
 export const getConsignmentTrackingState: MemoizedSelector<
-  StateWithUser,
+  StateWithOrder,
   ConsignmentTrackingState
 > = createSelector(
-  getUserState,
-  (state: UserState) => state.consignmentTracking
+  getOrderState,
+  (state: OrderState) => state.consignmentTracking
 );
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */
 export const getConsignmentTracking: MemoizedSelector<
-  StateWithUser,
+  StateWithOrder,
   ConsignmentTracking
 > = createSelector(
   getConsignmentTrackingState,

@@ -1,4 +1,4 @@
-import { Provider } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import {
   Order,
@@ -8,31 +8,30 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '@spartacus/cart/order/root';
+import { StateUtils } from '@spartacus/core';
 import {
-  StateUtils,
-  UserState,
+  OrderState,
   USER_ORDERS,
   USER_ORDER_DETAILS,
   USER_REPLENISHMENT_ORDERS,
   USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
-} from '@spartacus/core';
+} from '../order-state';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
-import { reducerToken } from './index';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 import * as fromUserOrdersReducer from './orders.reducer';
 import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
 import * as fromUserReplenishmentOrdersReducer from './replenishment-orders.reducer';
 
-export function getReducers(): ActionReducerMap<Partial<UserState>> {
+export function getReducers(): ActionReducerMap<Partial<OrderState>> {
   return {
     orders: StateUtils.loaderReducer<OrderHistoryList>(
       USER_ORDERS,
       fromUserOrdersReducer.reducer
     ),
-    order: StateUtils.loaderReducer<Order>(
+    orderDetail: StateUtils.loaderReducer<Order>(
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
@@ -54,6 +53,10 @@ export function getReducers(): ActionReducerMap<Partial<UserState>> {
     ),
   };
 }
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<OrderState>
+> = new InjectionToken<ActionReducerMap<OrderState>>('OrderReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

@@ -1,17 +1,17 @@
 import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 import { OrderDetailsEffect } from './order-details.effect';
 import { OrderReturnRequestEffect } from './order-return-request.effect';
-import { UserOrdersEffect } from './orders.effect';
+import { OrdersEffect } from './orders.effect';
 import { ReplenishmentOrderDetailsEffect } from './replenishment-order-details.effect';
-import { UserReplenishmentOrdersEffect } from './replenishment-orders.effect';
+import { ReplenishmentOrdersEffect } from './replenishment-orders.effect';
 
 export const effects: any[] = [
-  UserOrdersEffect,
+  OrdersEffect,
   OrderDetailsEffect,
   ConsignmentTrackingEffects,
   OrderReturnRequestEffect,
   ReplenishmentOrderDetailsEffect,
-  UserReplenishmentOrdersEffect,
+  ReplenishmentOrdersEffect,
 ];
 
 export * from './consignment-tracking.effect';

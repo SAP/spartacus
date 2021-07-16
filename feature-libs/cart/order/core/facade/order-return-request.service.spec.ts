@@ -7,8 +7,8 @@ import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
+import { StateWithUser, USER_FEATURE } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 class MockUserIdService implements Partial<UserIdService> {

@@ -1,8 +1,8 @@
 import { Order } from '../../../model/order.model';
-import { UserActions } from './index';
-import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { USER_ORDER_DETAILS, CANCEL_ORDER_PROCESS_ID } from '../user-state';
+import { StateUtils } from '../../../state/utils/index';
+import { CANCEL_ORDER_PROCESS_ID, USER_ORDER_DETAILS } from '../order-state';
+import { UserActions } from './index';
 
 const mockOrderDetails: Order = { code: '123' };
 

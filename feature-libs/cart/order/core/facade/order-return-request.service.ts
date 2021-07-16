@@ -8,21 +8,20 @@ import {
   ReturnRequestModification,
 } from '@spartacus/cart/order/root';
 import {
-  CANCEL_RETURN_PROCESS_ID,
   ProcessSelectors,
   StateWithProcess,
-  StateWithUser,
   UserIdService,
-  UsersSelectors,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
+import { CANCEL_RETURN_PROCESS_ID, StateWithOrder } from '../store/order-state';
+import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class OrderReturnRequestService implements OrderReturnRequestFacade {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder | StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
 
@@ -48,7 +47,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Return an order return request
    */
   getOrderReturnRequest(): Observable<ReturnRequest> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
+    return this.store.pipe(select(OrderSelectors.getOrderReturnRequest));
   }
 
   /**
@@ -56,7 +55,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    */
   getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
     return this.store.pipe(
-      select(UsersSelectors.getOrderReturnRequestListState),
+      select(OrderSelectors.getOrderReturnRequestListState),
       tap((returnListState) => {
         const attemptedLoad =
           returnListState.loading ||
@@ -124,14 +123,14 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Get the order return request loading flag
    */
   getReturnRequestLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestLoading));
+    return this.store.pipe(select(OrderSelectors.getOrderReturnRequestLoading));
   }
 
   /**
    * Get the order return request success flag
    */
   getReturnRequestSuccess(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestSuccess));
+    return this.store.pipe(select(OrderSelectors.getOrderReturnRequestSuccess));
   }
 
   /**

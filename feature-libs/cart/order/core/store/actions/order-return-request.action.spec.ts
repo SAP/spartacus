@@ -2,13 +2,13 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
-import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import { StateUtils } from '../../../state/utils/index';
 import {
+  CANCEL_RETURN_PROCESS_ID,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
-  CANCEL_RETURN_PROCESS_ID,
-} from '../user-state';
+} from '../order-state';
 import { UserActions } from './index';
 
 const returnRequestInput: ReturnRequestEntryInputList = {
