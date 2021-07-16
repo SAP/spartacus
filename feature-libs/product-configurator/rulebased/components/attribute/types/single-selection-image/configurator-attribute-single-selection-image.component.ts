@@ -9,6 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -44,5 +45,21 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       },
     };
     this.selectionChange.emit(event);
+  }
+
+  extractValuePriceFormulaParameters(
+    value?: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    if (value) {
+      if (value.valuePrice) {
+        console.log('value name: ' + JSON.stringify(value.valueDisplay));
+        console.log('value price: ' + JSON.stringify(value.valuePrice));
+      }
+
+      return {
+        price: value.valuePrice,
+        isLightedUp: value.selected,
+      };
+    }
   }
 }
