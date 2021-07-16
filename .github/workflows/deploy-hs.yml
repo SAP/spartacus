@@ -5,11 +5,11 @@ on:
     - 'feature/GH-**'
     - 'epic/**'
     - '!develop'
-    - '!release/4.0.x'
+    - '!release/3.4.x'
   push:
     branches:
       - develop
-      - release/4.0.x
+      - release/3.4.x
 name: Hosting service - Deploy
 jobs:
   hostingServiceDeploy:
@@ -33,3 +33,4 @@ jobs:
           UPP_TENANT: ${{ secrets.UPP_TENANT}}
           UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
           UPP_SECRET: ${{ secrets.UPP_SECRET}}
+      

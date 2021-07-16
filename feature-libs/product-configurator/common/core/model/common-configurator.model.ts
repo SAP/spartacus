@@ -84,26 +84,3 @@ export interface ConfigurationInfo {
   configuratorType?: string;
   status?: string;
 }
-
-/**
- *
- * An enum representing ConfigurationInfo fields.
- */
-export enum ConfigurationInfoFields {
-  KEY = 'KEY',
-  NAME = 'NAME',
-  QTY = 'QTY',
-  FORMATTED_PRICE = 'FORMATTED_PRICE',
-  PRICE_VALUE = 'PRICE_VALUE',
-}
-
-/**
- *
- * An enum representing ConfigurationInfo special fields.
- */
-export enum ConfigurationInfoSpecialFields {
-  VERSION = 'CI#@#VERSION',
-  CURRENCY = 'CI#@#CURRENCY',
-  LINE_ITEM = 'LI',
-  LINE_ITEM_DELIMITER = '#',
-}
