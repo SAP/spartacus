@@ -96,6 +96,11 @@ export class AddNextOwner implements Action {
   constructor(public payload: { ownerKey: string; cartEntryNo: string }) {}
 }
 
+export class RemoveCartBoundConfigurations implements Action {
+  readonly type = REMOVE_CART_BOUND_CONFIGURATIONS;
+  constructor() {}
+}
+
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
 
@@ -118,4 +123,5 @@ export type ConfiguratorCartAction =
   | ReadOrderEntryConfiguration
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfigurationFail
+  | RemoveCartBoundConfigurations
   | UpdateCartEntry;
