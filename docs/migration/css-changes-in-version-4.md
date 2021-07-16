@@ -303,7 +303,6 @@ title: Changes to Styles in 4.0
 
 - added styling for `.cx-sort-dropdown`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
 
-
 - `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 
 
 ## Changes in `_navigation-ui_.scss` Changes 
