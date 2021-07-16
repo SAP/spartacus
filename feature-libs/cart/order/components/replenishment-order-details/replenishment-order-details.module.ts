@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   I18nModule,
   provideConfig,
@@ -12,9 +11,7 @@ import {
 import {
   CardModule,
   CartSharedModule,
-  CmsPageGuard,
   ListNavigationModule,
-  PageLayoutComponent,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -41,14 +38,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     ReplenishmentOrderCancellationDialogModule,
     SpinnerModule,
     ListNavigationModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'replenishmentDetails' },
-      },
-    ]),
+    RouterModule,
   ],
   providers: [
     provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),

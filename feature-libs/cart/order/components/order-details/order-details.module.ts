@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -13,8 +11,6 @@ import {
 import {
   CardModule,
   CartSharedModule,
-  CmsPageGuard,
-  PageLayoutComponent,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -48,20 +44,6 @@ const moduleComponents = [
     OrderOverviewModule,
     UrlModule,
     SpinnerModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'order', cxRoute: 'orderGuest' },
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'orderDetails' },
-      },
-    ]),
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

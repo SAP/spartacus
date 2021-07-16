@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  FormErrorsModule,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
 import { OrderAmendService } from '../../amend-order.service';
@@ -16,16 +11,6 @@ import { ReturnOrderComponent } from './return-order.component';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderReturn',
-        },
-      },
-    ]),
     AmendOrderItemsModule,
     AmendOrderActionsModule,
     FormErrorsModule,

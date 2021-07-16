@@ -9,25 +9,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ListNavigationModule,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { ListNavigationModule } from '@spartacus/storefront';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishment-order-details/default-replenishment-order-cancellation-layout.config';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'replenishmentOrders' },
-      },
-    ]),
     RouterModule,
     ListNavigationModule,
     UrlModule,
