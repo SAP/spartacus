@@ -17,10 +17,11 @@ import {
   GlobalMessageType,
   Region,
   Title,
+  TranslationService,
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
@@ -28,6 +29,7 @@ import {
 } from '../../../../shared/components/modal/index';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-address-form',
@@ -92,7 +94,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected translation: TranslationService,
+    protected userProfile: UserProfileFacade
   ) {}
 
   ngOnInit() {
@@ -106,13 +110,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching titles
-    this.titles$ = this.userService.getTitles().pipe(
-      map((titles) => {
-        titles.sort(sortTitles);
-        const noneTitle = { code: '', name: 'Title' };
-        return [noneTitle, ...titles];
-      })
-    );
+    this.titles$ = this.getTitles();
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
@@ -137,6 +135,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     this.addresses$ = this.userAddressService.getAddresses();
+  }
+
+  getTitles(): Observable<Title[]> {
+    return combineLatest([
+      this.translation.translate('addressForm.defaultTitle'),
+      this.userProfile.getTitles(),
+    ]).pipe(
+      map(([noneTitleText, titles]) => {
+        const noneTitle = { code: '', name: noneTitleText };
+        titles.sort(sortTitles);
+        return [noneTitle, ...titles];
+      })
+    );
   }
 
   protected handleAddressVerificationResults(results: AddressValidation) {
