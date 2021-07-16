@@ -29,6 +29,10 @@
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-light);
+      }
     }
     cx-icon {
       color: var(--cx-color-text);
@@ -94,7 +98,7 @@
 
   cx-login {
     .cx-login-greet,
-    cx-navigation-ui.flyout h5 {
+    cx-navigation-ui.flyout span {
       color: var(--cx-color-text);
     }
   }
