@@ -23,7 +23,6 @@ import {
   FORGOT_PASSWORD_COMPONENT,
   FORGOT_PASSWORD_EMAIL_ACTION,
   FORGOT_PASSWORD_MODULE,
-  ITEM,
   LOGIN_COMPONENT,
   LOGIN_FORM_COMPONENT,
   LOGIN_FORM_MODULE,
@@ -43,7 +42,6 @@ import {
   OCC_USER_ACCOUNT_ADAPTER,
   OCC_USER_ADAPTER,
   OCC_USER_PROFILE_ADAPTER,
-  ORDER_ENTRY,
   PAGE_EVENT_BUILDER,
   PAGE_EVENT_MODULE,
   PERSONALIZATION_MODULE,
@@ -339,12 +337,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_PAGE_META_RESOLVER,
     importPath: SPARTACUS_CORE,
     comment: `'${CART_PAGE_META_RESOLVER}' was removed since all data is now data driven by CMS page data and is resolved by the ${CONTENT_PAGE_META_RESOLVER}`,
-  },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
-  {
-    node: ITEM,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${ITEM}' interface was removed. Use ${ORDER_ENTRY} instead.`,
   },
   {
     node: FEATURE_MODULES_SERVICE,
