@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "strict": false,
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
     "target": "es2015",

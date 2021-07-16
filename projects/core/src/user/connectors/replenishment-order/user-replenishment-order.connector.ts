@@ -7,6 +7,9 @@ import {
 } from '../../../model/index';
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

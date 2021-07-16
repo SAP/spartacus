@@ -20,6 +20,9 @@ import {
   StateWithUser,
 } from '../store/user-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

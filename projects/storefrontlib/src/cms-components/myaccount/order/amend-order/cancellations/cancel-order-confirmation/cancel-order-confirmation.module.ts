@@ -12,6 +12,9 @@ import { OrderCancellationGuard } from '../order-cancellation.guard';
 import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

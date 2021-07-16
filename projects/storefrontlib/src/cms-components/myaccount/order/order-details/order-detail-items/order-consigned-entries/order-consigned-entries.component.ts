@@ -6,6 +6,9 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-order-consigned-entries',
   templateUrl: './order-consigned-entries.component.html',

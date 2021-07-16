@@ -13,6 +13,9 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
 import { AmendOrderType } from '../amend-order.model';
 import { OrderAmendService } from '../amend-order.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

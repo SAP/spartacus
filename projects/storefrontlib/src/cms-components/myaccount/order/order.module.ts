@@ -10,6 +10,9 @@ import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/r
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
 import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     OrderHistoryModule,

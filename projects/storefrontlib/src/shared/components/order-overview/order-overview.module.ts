@@ -4,6 +4,9 @@ import { I18nModule } from '@spartacus/core';
 import { CardModule } from '../card/card.module';
 import { OrderOverviewComponent } from './order-overview.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [CommonModule, I18nModule, CardModule],
   declarations: [OrderOverviewComponent],

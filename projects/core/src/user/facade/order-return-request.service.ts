@@ -18,6 +18,9 @@ import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

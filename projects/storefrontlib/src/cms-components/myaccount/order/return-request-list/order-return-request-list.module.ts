@@ -11,6 +11,9 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

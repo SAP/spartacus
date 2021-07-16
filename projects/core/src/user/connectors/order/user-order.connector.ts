@@ -12,6 +12,9 @@ import {
 } from '../../../model/order.model';
 import { UserOrderAdapter } from './user-order.adapter';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

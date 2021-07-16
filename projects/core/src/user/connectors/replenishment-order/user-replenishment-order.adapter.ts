@@ -5,6 +5,9 @@ import {
   ReplenishmentOrderList,
 } from '../../../model/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export abstract class UserReplenishmentOrderAdapter {
   /**
    * Abstract method used to load replenishment order details.

@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
+  OrderDetailItemsComponent,
+  OrderDetailShippingComponent,
+  OrderDetailsService,
+  OrderDetailTotalsComponent,
+} from '@spartacus/cart/order/components';
+import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
@@ -12,10 +18,6 @@ import {
 import {
   CartSharedModule,
   FormErrorsModule,
-  OrderDetailItemsComponent,
-  OrderDetailShippingComponent,
-  OrderDetailsService,
-  OrderDetailTotalsComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';

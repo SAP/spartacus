@@ -38,6 +38,9 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
 ];
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     CartSharedModule,

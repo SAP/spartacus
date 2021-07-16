@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderReturnService } from './order-return.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

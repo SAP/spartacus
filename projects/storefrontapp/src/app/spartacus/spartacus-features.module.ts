@@ -6,7 +6,6 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -18,7 +17,6 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
-  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -37,10 +35,7 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  OrderCancellationModule,
-  OrderDetailsModule,
-  OrderHistoryModule,
-  OrderReturnModule,
+  PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -53,10 +48,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderDetailsModule,
-  ReplenishmentOrderHistoryModule,
-  ReturnRequestDetailModule,
-  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -165,17 +156,6 @@ if (environment.cpq) {
 
     // Cost Center
     CostCenterOccModule,
-
-    // Order
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    OrderOccModule,
 
     // Page Events
     NavigationEventModule,
