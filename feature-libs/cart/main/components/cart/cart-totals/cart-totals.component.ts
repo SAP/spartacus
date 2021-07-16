@@ -18,7 +18,7 @@ export class CartTotalsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
     this.entries$ = this.activeCartService
-      .getEntries()s
+      .getEntries()
       .pipe(filter((entries) => entries.length > 0));
   }
 }

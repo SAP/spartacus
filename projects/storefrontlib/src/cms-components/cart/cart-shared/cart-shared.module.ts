@@ -20,7 +20,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
  */
 @NgModule({
   imports: [
-    CommonModule,s
+    CommonModule,
     RouterModule,
     CartCouponModule,
     ReactiveFormsModule,

@@ -22,7 +22,7 @@ import { ModalService } from '../../../../shared/components/modal/modal.service'
 /**
  * @deprecated since 4.1 - use cart lib instead
  */
-@Component({s
+@Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })

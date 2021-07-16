@@ -19,7 +19,7 @@ import { map, tap } from 'rxjs/operators';
   templateUrl: './cart-coupon.component.html',
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
-  MAX_CUSTOMER_COUPsON_PAGE = 100;
+  MAX_CUSTOMER_COUPON_PAGE = 100;
   couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;

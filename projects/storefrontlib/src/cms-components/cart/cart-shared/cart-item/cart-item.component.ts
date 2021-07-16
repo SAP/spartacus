@@ -20,7 +20,7 @@ export interface CartItemComponentOptions {
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
-  providers: [s
+  providers: [
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],

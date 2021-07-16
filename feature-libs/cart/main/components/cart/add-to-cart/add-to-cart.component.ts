@@ -11,7 +11,7 @@ import { ActiveCartService } from '@spartacus/cart/main/core';
 import { isNotNullable, Product } from '@spartacus/core';
 import {
   CurrentProductService,
-  ModalRef,s
+  ModalRef,
   ModalService,
 } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
