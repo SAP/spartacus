@@ -3,8 +3,6 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CartValidationFacade } from '@spartacus/cart/validation/root';
 import {
-  UserIdService,
-  ActiveCartService,
   SemanticPathService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,8 +15,6 @@ import { map } from 'rxjs/operators';
 export class CartValidationGuard implements CanActivate {
   constructor(
     protected cartValidationService: CartValidationFacade,
-    protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected globalMessageService: GlobalMessageService
