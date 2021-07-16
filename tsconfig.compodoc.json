@@ -30,6 +30,21 @@
       "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
       "@spartacus/cart": ["feature-libs/cart/public_api"],
+      "@spartacus/cart/import-export/assets": [
+        "feature-libs/cart/import-export/assets/public_api"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "feature-libs/cart/import-export/components/public_api"
+      ],
+      "@spartacus/cart/import-export/core": [
+        "feature-libs/cart/import-export/core/public_api"
+      ],
+      "@spartacus/cart/import-export": [
+        "feature-libs/cart/import-export/public_api"
+      ],
+      "@spartacus/cart/import-export/root": [
+        "feature-libs/cart/import-export/root/public_api"
+      ],
       "@spartacus/cart/saved-cart/assets": [
         "feature-libs/cart/saved-cart/assets/public_api"
       ],
