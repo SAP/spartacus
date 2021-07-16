@@ -13,6 +13,6 @@ export const CART_ITEM_CONTEXT_MIGRATION: MethodPropertyDeprecation[] = [
     class: CART_ITEM_CONTEXT,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: PROMOTION_LOCATION$,
-    comment: `// ${TODO_SPARTACUS} Property '${PROMOTION_LOCATION$}' has been renamed to '${LOCATION$}'.`,
+    comment: `// ${TODO_SPARTACUS} Property '${CART_ITEM_CONTEXT}.${PROMOTION_LOCATION$}' has been renamed to '${LOCATION$}'.`,
   },
 ];

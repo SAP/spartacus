@@ -12,6 +12,6 @@ export const CART_ITEM_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
     class: CART_ITEM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: NG_ON_INIT,
-    comment: `// ${TODO_SPARTACUS} Method '${NG_ON_INIT}' was removed. ${CART_DETAILS_COMPONENT} does not implement OnInit anymore`,
+    comment: `// ${TODO_SPARTACUS} Method '${CART_ITEM_COMPONENT}.${NG_ON_INIT}' was removed. ${CART_DETAILS_COMPONENT} does not implement OnInit anymore`,
   },
 ];

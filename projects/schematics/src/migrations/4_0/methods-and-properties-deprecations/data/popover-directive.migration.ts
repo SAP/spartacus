@@ -14,12 +14,12 @@ export const POPOVER_DIRECTIVE_MIGRATION: MethodPropertyDeprecation[] = [
     class: POPOVER_DIRECTIVE,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: HANDLE_OPEN,
-    comment: `// ${TODO_SPARTACUS} Method '${HANDLE_OPEN}' was removed, use methods 'handleEscape', 'handleClick', 'handlePress', 'handleTab' instead.`,
+    comment: `// ${TODO_SPARTACUS} Method '${POPOVER_DIRECTIVE}.${HANDLE_OPEN}' was removed, use methods 'handleEscape', 'handleClick', 'handlePress', 'handleTab' instead.`,
   },
   {
     class: POPOVER_DIRECTIVE,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: TOGGLE,
-    comment: `// ${TODO_SPARTACUS} Method '${TOGGLE}' was removed, use methods 'handleEscape', 'handleClick', 'handlePress', 'handleTab' instead.`,
+    comment: `// ${TODO_SPARTACUS} Method '${POPOVER_DIRECTIVE}.${TOGGLE}' was removed, use methods 'handleEscape', 'handleClick', 'handlePress', 'handleTab' instead.`,
   },
 ];

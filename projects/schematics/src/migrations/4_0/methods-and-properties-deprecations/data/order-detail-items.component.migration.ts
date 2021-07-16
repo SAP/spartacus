@@ -11,6 +11,6 @@ export const ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION: MethodPropertyDeprecation[]
     class: ORDER_DETAIL_ITEMS_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: ORDER_PROMOTIONS$,
-    comment: `// ${TODO_SPARTACUS} Property '${ORDER_PROMOTIONS$}' was removed. The component may get promotions directly from the cart.`,
+    comment: `// ${TODO_SPARTACUS} Property '${ORDER_DETAIL_ITEMS_COMPONENT}.${ORDER_PROMOTIONS$}' was removed. The component may get promotions directly from the cart.`,
   },
 ];

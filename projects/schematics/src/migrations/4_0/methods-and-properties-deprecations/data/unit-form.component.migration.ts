@@ -13,12 +13,12 @@ export const UNIT_FORM_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
     class: UNIT_FORM_COMPONENT,
     importPath: SPARTACUS_ORGANIZATION,
     deprecatedNode: FORM_GROUP,
-    comment: `// ${TODO_SPARTACUS} Property '${FORM_GROUP}' has been renamed to 'form'.`,
+    comment: `// ${TODO_SPARTACUS} Property '${UNIT_FORM_COMPONENT}.${FORM_GROUP}' has been renamed to 'form'.`,
   },
   {
     class: UNIT_FORM_COMPONENT,
     importPath: SPARTACUS_ORGANIZATION,
     deprecatedNode: FORM$,
-    comment: `// ${TODO_SPARTACUS} Property '${FORM$}' was removed. Please use 'form' property instead.`,
+    comment: `// ${TODO_SPARTACUS} Property '${UNIT_FORM_COMPONENT}.${FORM$}' was removed. Please use 'form' property instead.`,
   },
 ];

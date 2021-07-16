@@ -13,6 +13,6 @@ export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: EXPRESS_CHECKOUT_SERVICE,
     importPath: SPARTACUS_CHECKOUT_COMPONENTS,
     deprecatedNode: RESET_CHECKOUT_PROCESSES,
-    comment: `// ${TODO_SPARTACUS} Method '${RESET_CHECKOUT_PROCESSES}' was removed, use method '${RESET_CHECKOUT_PROCESSES}' from '${CLEAR_CHECKOUT_FACADE}' instead`,
+    comment: `// ${TODO_SPARTACUS} Method '${EXPRESS_CHECKOUT_SERVICE}.${RESET_CHECKOUT_PROCESSES}' was removed, use method '${RESET_CHECKOUT_PROCESSES}' from '${CLEAR_CHECKOUT_FACADE}' instead`,
   },
 ];

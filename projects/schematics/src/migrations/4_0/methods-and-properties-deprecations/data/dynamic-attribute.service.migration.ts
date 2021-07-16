@@ -11,6 +11,6 @@ export const DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION: MethodPropertyDeprecation[] = 
     class: DYNAMIC_ATTRIBUTE_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: `addDynamicAttributes`,
-    comment: `// ${TODO_SPARTACUS} 'addDynamicAttributes' method was removed. Please use functions 'addAttributesToComponent' or 'addAttributesToSlot' instead`,
+    comment: `// ${TODO_SPARTACUS} '${DYNAMIC_ATTRIBUTE_SERVICE}.addDynamicAttributes' method was removed. Please use functions 'addAttributesToComponent' or 'addAttributesToSlot' instead`,
   },
 ];
