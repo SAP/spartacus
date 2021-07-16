@@ -15,7 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../../checkout';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 

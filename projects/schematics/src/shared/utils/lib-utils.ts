@@ -27,11 +27,13 @@ import {
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
+  CLI_CHECKOUT_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
@@ -48,6 +50,7 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -195,6 +198,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_PRODUCT_VARIANTS_FEATURE,
   ],
   [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   ],
@@ -207,6 +211,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_TRACKING_TMS_AEP_FEATURE,
   ],
   [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
+  [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
 };
 
 export function shouldAddFeature(
@@ -580,7 +585,13 @@ function addLibraryAssets(
         },
       },
     };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    const initialContent = tree.read(path)?.toString(UTF_8) ?? '';
+    const toUpdate = JSON.stringify(updatedAngularJson, null, 2);
+    // prevent the unnecessary Angular logs about the files being updated
+    if (initialContent !== toUpdate) {
+      tree.overwrite(path, toUpdate);
+    }
   };
 }
 
@@ -625,12 +636,17 @@ export function addLibraryStyles(
     const toAdd = `@import "${stylingConfig.importStyle}";`;
 
     if (tree.exists(libraryScssPath)) {
-      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      let content = initialContent;
+
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
 
-      tree.overwrite(libraryScssPath, content);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (initialContent !== content) {
+        tree.overwrite(libraryScssPath, content);
+      }
       return tree;
     }
 
@@ -702,17 +718,17 @@ export function installPackageJsonDependencies(): Rule {
 
 export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson?: any
+  packageJson: any
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    dependencies.forEach((dependency) => {
-      if (shouldAddDependency(dependency, packageJson)) {
+    for (const dependency of dependencies) {
+      if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
         );
       }
-    });
+    }
     return tree;
   };
 }
@@ -784,14 +800,11 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+export function dependencyExists(
   dependency: NodeDependency,
-  packageJson?: any
+  packageJson: any
 ): boolean {
-  return (
-    !packageJson ||
-    !packageJson[dependency.type].hasOwnProperty(dependency.name)
-  );
+  return packageJson[dependency.type]?.hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(

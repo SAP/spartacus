@@ -8,6 +8,7 @@ import semver from 'semver';
 const featureLibsFolders: string[] = [
   'asm',
   'cart',
+  'checkout',
   'organization',
   'product',
   'product-configurator',
@@ -22,9 +23,11 @@ const integrationLibsFolders: string[] = ['cdc', 'cds'];
 
 const commands = [
   'publish',
+  'publish (reload version)',
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
+  'build checkout/schematics',
   'build cdc/schematics',
   'build cds/schematics',
   'build organization/schematics',
@@ -66,8 +69,8 @@ function beforeExit(): void {
   }
 }
 
-function publishLibs(): void {
-  if (!currentVersion) {
+function publishLibs(reload = false): void {
+  if (!currentVersion || reload) {
     currentVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
     );
@@ -149,11 +152,15 @@ async function executeCommand(command: Command): Promise<void> {
     case 'publish':
       publishLibs();
       break;
+    case 'publish (reload version)':
+      publishLibs(true);
+      break;
     case 'build projects/schematics':
       buildSchematics({ publish: true });
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
+    case 'build checkout/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build organization/schematics':

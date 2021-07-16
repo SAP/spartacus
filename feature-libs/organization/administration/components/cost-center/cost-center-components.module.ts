@@ -8,7 +8,6 @@ import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import { CostCenterBudgetListModule } from './budgets/cost-center-budget-list.module';
 import {
   costCenterCmsConfig,
-  costCenterRoutingConfig,
   costCenterTableConfigFactory,
 } from './cost-center.config';
 import { CostCenterDetailsModule } from './details/cost-center-details.module';
@@ -23,7 +22,6 @@ import { CostCenterFormModule } from './form/cost-center-form.module';
     BudgetDetailsCellModule,
   ],
   providers: [
-    provideDefaultConfig(costCenterRoutingConfig),
     provideDefaultConfig(costCenterCmsConfig),
     provideDefaultConfigFactory(costCenterTableConfigFactory),
   ],

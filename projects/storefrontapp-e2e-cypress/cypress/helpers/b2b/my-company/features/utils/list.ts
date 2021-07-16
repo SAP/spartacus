@@ -66,7 +66,7 @@ export function testListSorting(config: MyCompanyConfig): void {
             getListRowsFromBody(data, config.objectType, config.rows),
             config.rows
           );
-        }, ngSelect(`Sort by ${row.sortLabel}`));
+        }, ngSelect(row.sortLabel));
       });
     }
   });
@@ -83,7 +83,7 @@ function ngSelect(sortKey: string): void {
  * @param configs Row configurations containing header labels.
  */
 export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
-  configs.forEach((config: any) => {
+  configs.forEach((config) => {
     if (config.showInTable) {
       cy.get('th').should('contain.text', config.label);
     }

@@ -8,7 +8,7 @@
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
-  --cx-button-text-transform: uppercase;
+  --cx-text-transform: uppercase;
   --cx-spinner-primary-color: #2480c5;
   --cx-text-decoration: underline;
 
@@ -29,6 +29,10 @@
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-light);
+      }
     }
     cx-icon {
       color: var(--cx-color-text);
@@ -94,7 +98,7 @@
 
   cx-login {
     .cx-login-greet,
-    cx-navigation-ui.flyout h5 {
+    cx-navigation-ui.flyout span {
       color: var(--cx-color-text);
     }
   }

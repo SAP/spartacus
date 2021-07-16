@@ -31,7 +31,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {

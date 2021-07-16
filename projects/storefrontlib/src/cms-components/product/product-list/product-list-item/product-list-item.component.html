@@ -17,8 +17,9 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
       class="cx-product-name"
-      [innerHtml]="product.nameHtml"
-    ></a>
+    >
+      <h2 [innerHtml]="product.nameHtml"></h2>
+    </a>
 
     <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
       <cx-star-rating
@@ -28,7 +29,10 @@
       <div *ngIf="!product.averageRating" class="cx-product-no-review">
         {{ 'productDetails.noReviews' | cxTranslate }}
       </div>
-      <div class="cx-product-price" aria-label="Product price">
+      <div
+        class="cx-product-price"
+        [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+      >
         {{ product.price?.formattedValue }}
       </div>
     </ng-template>

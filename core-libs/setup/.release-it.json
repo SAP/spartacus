@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/setup"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build setup --prod"
+    "after:version:bump": "cd ../.. && ng build setup --configuration production"
   },
   "github": {
     "release": true,
@@ -24,8 +24,9 @@
         {
           "file": "package.json",
           "path": [
+            "peerDependencies.@spartacus/checkout",
             "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
+            "peerDependencies.@spartacus/user"
           ]
         }
       ]

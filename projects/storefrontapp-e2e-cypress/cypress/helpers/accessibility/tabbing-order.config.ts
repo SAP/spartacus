@@ -183,22 +183,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
     {
-      value: 'Specification',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Display',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Lens',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Options',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
       value: 'attributeRadioButtonForm',
       type: TabbingOrderTypes.RADIO,
     },
@@ -554,6 +538,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,

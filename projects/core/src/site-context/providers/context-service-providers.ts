@@ -15,6 +15,11 @@ export function initializeContext(
       .getStable('context')
       .pipe(
         tap(() => {
+          // `siteContextRoutesHandler.init()` should be executed before CurrencyInitializer,
+          // LanguageInitializer and BaseSiteInitializer
+          // (now it's the case, thanks to the order of providers for APP_INITIALIZER).
+          //
+          // TODO(#12351): move it to the logic of specific context initializers
           siteContextRoutesHandler.init();
         })
       )

@@ -5,14 +5,14 @@
       <div class="cx-dialog-title modal-title">
         {{
           (addedEntryWasMerged$ | async)
-            ? 'addToCart.itemsIncrementedInYourCart'
+            ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
             : ('addToCart.itemsAddedToYourCart' | cxTranslate)
         }}
       </div>
       <button
         type="button"
         class="close"
-        aria-label="Close"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
         cxModal="dismiss"
         cxModalReason="Cross click"
       >
@@ -37,8 +37,11 @@
           class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
         ></div>
         <!-- Total container -->
-        <div class="cx-dialog-actions col-sm-12 col-md-6">
-          <div class="cx-dialog-total" *ngIf="cart$ | async as cart">
+        <div
+          class="cx-dialog-actions col-sm-12 col-md-6"
+          *ngIf="cart$ | async as cart"
+        >
+          <div class="cx-dialog-total">
             <div>
               {{
                 'cartItems.cartTotal'
@@ -50,11 +53,14 @@
           </div>
 
           <!-- Promotions -->
-          <div
-            class="cx-dialog-promotions"
-            *ngIf="orderPromotions$ | async as orderPromotions"
-          >
-            <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+          <div class="cx-dialog-promotions">
+            <cx-promotions
+              [promotions]="
+                (cart.appliedOrderPromotions || []).concat(
+                  cart.potentialOrderPromotions || []
+                )
+              "
+            ></cx-promotions>
           </div>
 
           <!-- Actions -->
@@ -90,7 +96,7 @@
       <button
         type="button"
         class="close"
-        aria-label="Close"
+        [attr.aria-label]="'common.close' | cxTranslate"
         cxModal="dismiss"
         cxModalReason="Cross click"
       >

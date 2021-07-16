@@ -6,8 +6,10 @@ import {
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
+  provideDefaultConfig,
   RoutingService,
 } from '@spartacus/core';
+import { defaultViewConfig, ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
@@ -80,6 +82,7 @@ describe('ProductListComponentService', () => {
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: LanguageService, useClass: MockLanguageService },
+        provideDefaultConfig(<ViewConfig>defaultViewConfig),
       ],
     });
 
@@ -135,7 +138,7 @@ describe('ProductListComponentService', () => {
     }));
 
     describe('should perform search on change of routing', () => {
-      it('with default "pageSize" 10', fakeAsync(() => {
+      it('with default "pageSize" 12', fakeAsync(() => {
         const subscription: Subscription = service.model$.subscribe();
 
         tick();
@@ -143,7 +146,7 @@ describe('ProductListComponentService', () => {
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
-          pageSize: 10,
+          pageSize: 12,
         });
       }));
 

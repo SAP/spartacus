@@ -50,7 +50,7 @@ function getFirstValue(
   component: ConfiguratorAttributeSingleSelectionBundleComponent
 ): Configurator.Value {
   const values = component?.attribute?.values;
-  return values ? values[0] : {};
+  return values ? values[0] : { valueCode: 'a' };
 }
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;

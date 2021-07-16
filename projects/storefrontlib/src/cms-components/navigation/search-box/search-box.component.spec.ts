@@ -129,6 +129,7 @@ describe('SearchBoxComponent', () => {
     );
     search() {}
     toggleBodyClass() {}
+    clearResults() {}
   }
 
   beforeEach(
@@ -207,7 +208,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should launch the search page, given it is not an empty search', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
 
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -218,7 +219,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not launch search page on empty search', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       input.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
@@ -268,12 +269,11 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-
+        const box = fixture.debugElement.query(By.css('.searchbox > input'))
+          .nativeElement;
+        box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
-        const box = fixture.debugElement.query(
-          By.css('input[aria-label="search"]')
-        ).nativeElement;
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
       });
@@ -306,7 +306,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should contain chosen word from the dropdown', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       mockRouterState.state.context = {
         id: 'search',
         type: PageType.CONTENT_PAGE,
@@ -320,7 +320,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not contain searched word when navigating to another page', () => {
-      const input = fixture.debugElement.query(By.css('input'));
+      const input = fixture.debugElement.query(By.css('.searchbox > input'));
       mockRouterState.state.context = null;
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -337,7 +337,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input[aria-label="search"]')
+          By.css('.searchbox > input')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
@@ -347,7 +347,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
 
         expect(
-          fixture.debugElement.query(By.css('.results div > a:first-child'))
+          fixture.debugElement.query(By.css('.results .suggestions > li > a'))
             .nativeElement
         ).toBe(getFocusedElement());
       });
@@ -357,8 +357,9 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
 
         expect(
-          fixture.debugElement.query(By.css('.results div > a:nth-child(2)'))
-            .nativeElement
+          fixture.debugElement.query(
+            By.css('.results .suggestions > li:nth-child(2) > a')
+          ).nativeElement
         ).toBe(getFocusedElement());
       });
 
@@ -367,7 +368,7 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(
-            By.css('.results div:last-child > a:last-child')
+            By.css('.results .products > li > a:last-child')
           ).nativeElement
         ).toBe(getFocusedElement());
       });
@@ -375,10 +376,11 @@ describe('SearchBoxComponent', () => {
       it('should navigate to second last child', () => {
         searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
         searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+        fixture.detectChanges();
 
         expect(
           fixture.debugElement.query(
-            By.css('.results div:nth-child(2) > a:last-child')
+            By.css('.results .suggestions > li:nth-child(2) > a')
           ).nativeElement
         ).toBe(getFocusedElement());
       });

@@ -59,12 +59,9 @@ export class ConfiguratorOverviewFormComponent {
    * @returns {boolean} - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
-    if (!(configuration?.overview?.groups?.length > 0)) {
-      return false;
-    }
     return (
-      configuration.overview.groups.find(
-        (group) => group.attributes?.length > 0
+      configuration.overview?.groups?.find((group) =>
+        group.attributes ? group.attributes.length : 0 > 0
       ) !== undefined
     );
   }
