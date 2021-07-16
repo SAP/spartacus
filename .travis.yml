@@ -37,6 +37,8 @@ jobs:
     <<: *defaults
   - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
     name: "E2E tests for CDC"
+  - script: "export CYPRESS_CONFIG=cypress.ci.digital-payments.json && export SPA_ENV='digital-payments' && ./ci-scripts/e2e-cypress.sh -s digital-payments || exit 0"
+    name: "E2E tests for Digital Payments"   
 addons:
   chrome: stable
   sonarcloud:
