@@ -66,7 +66,7 @@ export function testListSorting(config: MyCompanyConfig): void {
             getListRowsFromBody(data, config.objectType, config.rows),
             config.rows
           );
-        }, ngSelect(`Sort by ${row.sortLabel}`));
+        }, ngSelect(row.sortLabel));
       });
     }
   });

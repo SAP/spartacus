@@ -16,7 +16,7 @@
 </ng-container>
 
 <ng-template #disableNotify>
-  <div class="stock-notification-notes">
+  <div class="stock-notification-notes" id="outOfStockMessage">
     <p>
       <ng-container *ngIf="anonymous; else loggedIn">
         <a [routerLink]="{ cxRoute: 'login' } | cxUrl">
@@ -38,6 +38,7 @@
     class="btn btn-primary btn-block btn-notify"
     type="button"
     disabled="true"
+    aria-describedby="outOfStockMessage"
   >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>

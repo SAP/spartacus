@@ -14,17 +14,18 @@
       >
         <!-- Select Form and Pagination Top -->
         <div class="cx-replenishment-order-history-sort top row">
-          <div
+          <label
             class="cx-replenishment-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
+            <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="replenishmentOrders.sorts"
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="replenishmentOrders.pagination.sort"
-              placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
+              placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
             ></cx-sorting>
-          </div>
+          </label>
           <div
             class="cx-replenishment-order-history-pagination"
             *ngIf="replenishmentOrders.pagination.totalPages > 1"

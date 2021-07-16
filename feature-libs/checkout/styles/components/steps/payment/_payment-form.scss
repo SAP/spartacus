@@ -21,7 +21,9 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-
+    legend {
+      font-size: 1rem;
+    }
     &-wrapper {
       flex: 1;
 

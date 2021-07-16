@@ -62,7 +62,7 @@ export function checkAttrPriceDisplayed(
       if (priceString) {
         cy.get('cx-configurator-price').should('contain.text', priceString);
       } else {
-        cy.get('cx-configurator-price').should('not.exist');
+        cy.get('cx-configurator-price').should('not.be.visible');
       }
     });
 }

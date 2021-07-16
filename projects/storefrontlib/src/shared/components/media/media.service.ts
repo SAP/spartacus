@@ -40,7 +40,8 @@ export class MediaService {
   getMedia(
     mediaContainer: MediaContainer | Image,
     format?: string,
-    alt?: string
+    alt?: string,
+    role?: string
   ): Media | undefined {
     if (!mediaContainer) {
       return;
@@ -52,7 +53,8 @@ export class MediaService {
 
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url),
-      alt: alt || mainMedia?.altText,
+      alt: alt ?? mainMedia?.altText,
+      role: role ?? mainMedia?.role,
       srcset: this.resolveSrcSet(mediaContainer, format),
     };
   }

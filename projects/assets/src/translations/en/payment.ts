@@ -18,6 +18,8 @@ export const payment = {
     selectOne: 'Select One...',
     monthMask: 'MM',
     yearMask: 'YYYY',
+    expirationYear: 'Expiration year {{ selected }}',
+    expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
     changePayment: 'Change Payment',

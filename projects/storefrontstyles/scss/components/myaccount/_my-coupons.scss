@@ -14,6 +14,15 @@
   .cx-my-coupons-form-group {
     padding: 0;
     margin-bottom: 0;
+    align-items: center;
+    display: flex;
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+    cx-sorting {
+      width: 100%;
+    }
   }
 
   .cx-my-coupons-sort {

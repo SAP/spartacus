@@ -16,7 +16,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -50,7 +50,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',
@@ -77,7 +77,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -131,7 +131,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',
@@ -156,7 +156,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -220,7 +220,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',

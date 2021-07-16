@@ -29,19 +29,19 @@
         >
           <!-- Select Form and Pagination Top -->
           <div class="cx-order-history-sort top row">
-            <div
+            <label
               class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
-            >
+              ><span>
+                {{ 'orderHistory.sortBy' | cxTranslate }}
+              </span>
               <cx-sorting
                 [sortOptions]="type.orderHistory.sorts"
                 [sortLabels]="getSortLabels() | async"
                 (sortListEvent)="changeSortCode($event)"
                 [selectedOption]="type.orderHistory.pagination.sort"
-                placeholder="{{
-                  'orderHistory.sortByMostRecent' | cxTranslate
-                }}"
+                placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               ></cx-sorting>
-            </div>
+            </label>
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"

@@ -82,8 +82,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
-    - [ ] `npm run release:schematics:with-changelog`
-    - [ ] `npm run release:checkout:with-changelog`
+    - [ ] `npm run release:checkout:with-changelog` (needed since `4.0.0-rc.0`)
     - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
@@ -95,6 +94,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] (for <3.2.0 releases set the spartacus peerDependencies manually, then)  
       `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+    - [ ] `npm run release:schematics:with-changelog`
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.

@@ -35,7 +35,7 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
       createValue: `123 Uratiti`,
       updateValue: `456 Waiwhakamukau`,
       formLabel: 'Address',
-      sortLabel: 'name',
+      sortLabel: 'Name',
     },
     {
       inputType: INPUT_TYPE.TEXT,
@@ -94,7 +94,7 @@ export const unitConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Name',
-      sortLabel: 'name',
+      sortLabel: 'Name',
     },
     {
       label: 'Status',
@@ -157,7 +157,7 @@ export const unitConfig: MyCompanyConfig = {
             showInTable: true,
             showInDetails: true,
             formLabel: 'Name',
-            sortLabel: 'name',
+            sortLabel: 'Name',
           },
           {
             label: 'Status',
