@@ -5,11 +5,15 @@ context('Currency change', () => {
   const productPath = siteContextSelector.PRODUCT_PATH_1;
 
   beforeEach(() => {
-    cy.server();
-    siteContextSelector.createRoute(
-      siteContextSelector.CURRENCY_REQUEST,
-      siteContextSelector.CURRENCIES
-    );
+    cy.intercept({
+      pathname: `${Cypress.env('OCC_PREFIX')}/${
+        siteContextSelector.CONTENT_CATALOG
+      }/currencies`,
+      query: {
+        lang: siteContextSelector.LANGUAGE_EN,
+        curr: siteContextSelector.CURRENCY_USD,
+      },
+    }).as(siteContextSelector.CURRENCIES);
   });
 
   describe('on the product page', () => {
@@ -44,7 +48,7 @@ context('Currency change', () => {
     it('user input should not be removed on currency change', () => {
       cy.visit(`${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
-      cy.wait('@currencies').its('status').should('eq', 200);
+      cy.wait('@currencies').its('response.statusCode').should('eq', 200);
 
       switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
