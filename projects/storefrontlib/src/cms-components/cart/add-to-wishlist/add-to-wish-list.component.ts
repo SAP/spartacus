@@ -11,6 +11,9 @@ import { filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CurrentProductService } from '../../product/current-product.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-add-to-wishlist',
   templateUrl: './add-to-wish-list.component.html',

@@ -11,6 +11,9 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',

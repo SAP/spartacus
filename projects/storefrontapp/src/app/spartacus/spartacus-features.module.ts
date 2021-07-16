@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
-  CartModule,
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
@@ -18,7 +17,6 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
-  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -41,6 +39,7 @@ import {
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
+  PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -67,6 +66,7 @@ import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
@@ -157,7 +157,7 @@ if (environment.cpq) {
     ProductIntroModule,
 
     // Cart Core
-    CartModule.forRoot(),
+    //CartModule.forRoot(),
     CartOccModule,
     // Cart UI
     CartComponentModule,
@@ -190,6 +190,7 @@ if (environment.cpq) {
 
     /************************* External features *************************/
     UserFeatureModule,
+    CartFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,

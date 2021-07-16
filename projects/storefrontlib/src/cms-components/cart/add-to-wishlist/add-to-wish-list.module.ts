@@ -10,6 +10,9 @@ import {
 import { IconModule } from '../../misc/icon/icon.module';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [CommonModule, I18nModule, IconModule, RouterModule, UrlModule],
   providers: [

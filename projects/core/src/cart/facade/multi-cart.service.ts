@@ -10,6 +10,9 @@ import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

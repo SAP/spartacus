@@ -2,10 +2,22 @@ import { Cart } from '../../../model/cart.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import { CartActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const activeCartInitialState = null;
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const activeCartDefaultState = '';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const wishListInitialState = '';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function activeCartReducer(
   state = activeCartDefaultState,
   action: CartActions.CartAction | CartActions.MultiCartActions
@@ -36,8 +48,14 @@ export function activeCartReducer(
   return state;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const cartEntitiesInitialState = undefined;
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function cartEntitiesReducer(
   state = cartEntitiesInitialState,
   action: LoaderAction
@@ -56,6 +74,9 @@ export function cartEntitiesReducer(
   return state;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function wishListReducer(
   state = wishListInitialState,
   action: CartActions.WishListActions | CartActions.ClearCartState

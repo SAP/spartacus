@@ -1,7 +1,13 @@
 import { Cart } from '../../model/cart.model';
 import { EntityProcessesLoaderState } from '../../state/utils/entity-processes-loader/entity-processes-loader-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const MULTI_CART_FEATURE = 'cart';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';
 
 // TODO(#7241): Drop after event system implementation for cart vouchers
@@ -11,10 +17,16 @@ export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';
  */
 export const ADD_VOUCHER_PROCESS_ID = 'addVoucher';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export interface StateWithMultiCart {
   [MULTI_CART_FEATURE]: MultiCartState;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export interface MultiCartState {
   carts: EntityProcessesLoaderState<Cart>;
   active: string;

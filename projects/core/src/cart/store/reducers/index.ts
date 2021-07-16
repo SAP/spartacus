@@ -10,6 +10,9 @@ import {
   wishListReducer,
 } from './multi-cart.reducer';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function clearMultiCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
@@ -21,12 +24,21 @@ export function clearMultiCartState(
   };
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const multiCartReducerToken: InjectionToken<
   ActionReducerMap<MultiCartState>
 > = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
     carts: entityProcessesLoaderReducer<Cart>(
@@ -38,6 +50,9 @@ export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   };
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const multiCartReducerProvider: Provider = {
   provide: multiCartReducerToken,
   useFactory: getMultiCartReducers,

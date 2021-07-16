@@ -8,6 +8,9 @@ import { StatePersistenceService } from '../../state/services/state-persistence.
 import { CartActions, MultiCartSelectors } from '../store';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

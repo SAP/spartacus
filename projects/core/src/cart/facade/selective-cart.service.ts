@@ -13,6 +13,9 @@ import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

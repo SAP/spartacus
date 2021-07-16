@@ -15,6 +15,9 @@ import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',

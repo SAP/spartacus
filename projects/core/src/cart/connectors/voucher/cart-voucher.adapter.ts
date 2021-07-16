@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export abstract class CartVoucherAdapter {
   /**
    * Abstract method used to apply voucher to cart

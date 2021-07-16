@@ -4,6 +4,8 @@ import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 /**
  * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function getCartIdByUserId(cart: Cart, userId: string): string {
   if (userId === OCC_USER_ID_ANONYMOUS) {
@@ -14,6 +16,8 @@ export function getCartIdByUserId(cart: Cart, userId: string): string {
 
 /**
  * Check if cart is selective (save for later) based on id.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function isSelectiveCart(cartId = ''): boolean {
   return cartId.startsWith('selectivecart');
@@ -26,6 +30,8 @@ export function isSelectiveCart(cartId = ''): boolean {
  * For selective cart this error can happen only when extension is disabled.
  * It should never happen, because in that case, selective cart should also be disabled in our configuration.
  * However if that happens we want to handle these errors silently.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function isCartNotFoundError(error: ErrorModel): boolean {
   return (
@@ -37,6 +43,8 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
 
 /**
  * Compute wishlist cart name for customer.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function getWishlistName(customerId: string): string {
   return `wishlist${customerId}`;
@@ -59,6 +67,8 @@ export function getWishlistName(customerId: string): string {
  * - normal cart entity is saved under correct id (eg. for logged user under cart `code` key)
  * - temporary cart value is set to backend response (anyone observing this cart can read code/guid from it and switch selector to normal cart)
  * - in next tick temporary cart is removed
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function isTempCartId(cartId: string): boolean {
   return cartId.startsWith('temp-');
