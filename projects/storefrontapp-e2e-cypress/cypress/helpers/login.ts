@@ -83,11 +83,3 @@ export function listenForTokenRevocationRequest(): string {
 
   return `@${aliasName}`;
 }
-
-export function listenForTokenAuthenticationRequest(): string {
-  const aliasName = 'tokenAuthentication';
-  cy.server();
-  cy.route('POST', '/authorizationserver/oauth/token').as(aliasName);
-
-  return `@${aliasName}`;
-}

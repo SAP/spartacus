@@ -307,7 +307,11 @@ title: Changes to Styles in 4.0
 
 ## Changes in `_navigation-ui_.scss` Changes 
 
-- `padding-bottom: 25px` is changed to `padding-bottom: 22px` to accomedate for the header navigation links line-heights.
+- `padding-bottom: 25px` is changed to `padding-bottom: 22px` to accomedate for the header navigation links line-heights. 
+
+## Changes in `_header.scss` Changes 
+
+- `min-height` is changed to `max-height` to accomedate for the header navigation height.
 
 ## Changes in `_versioning.scss` Changes 
 
