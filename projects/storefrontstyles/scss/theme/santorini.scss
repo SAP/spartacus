@@ -29,6 +29,10 @@
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-light);
+      }
     }
     cx-icon {
       color: var(--cx-color-text);
