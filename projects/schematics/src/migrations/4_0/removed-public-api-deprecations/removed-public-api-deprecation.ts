@@ -248,19 +248,19 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: SMART_EDIT_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead.`,
+    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/smartedit'.`,
   },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
     node: PRODUCT_VARIANTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead.`,
+    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   {
@@ -557,7 +557,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'.`,
+    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/user'.`,
   },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
