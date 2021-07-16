@@ -38,7 +38,7 @@ export function enterProduct() {
 }
 
 export function clickSearchIcon() {
-  cy.get('cx-searchbox div.search').click({ force: true });
+  cy.get('cx-searchbox button.search').click({ force: true });
 }
 
 export function searchForProduct(product: string) {
