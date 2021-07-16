@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
@@ -90,23 +90,27 @@ export class ImportEntriesDialogComponent implements OnInit {
 
   selectFile(file: File, form: FormGroup) {
     this.selectedFile = file;
-    this.importService.loadFile(file).subscribe(
-      (data: string[][]) => {
-        if (this.importToCartService.isDataParsable(data)) {
+    this.importService
+      .loadFile(file)
+      .pipe(
+        tap((data: string[][]) => {
+          if (!this.importToCartService.isDataParsable(data)) {
+            throw new Error();
+          }
+        })
+      )
+      .subscribe(
+        (data: string[][]) => {
           this.fileError = {};
           this.loadedFile = data;
-        } else {
+          form.get('file')?.updateValueAndValidity();
+        },
+        () => {
           this.fileError = { notParsable: true };
           this.loadedFile = null;
+          form.get('file')?.updateValueAndValidity();
         }
-        form.get('file')?.updateValueAndValidity();
-      },
-      () => {
-        this.fileError = { notParsable: true };
-        this.loadedFile = null;
-        form.get('file')?.updateValueAndValidity();
-      }
-    );
+      );
   }
 
   importProducts(): void {
