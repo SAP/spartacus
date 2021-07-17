@@ -250,29 +250,65 @@ title: Changes to Styles in 4.0
 
 - `type(3)` and `font-weight` added to retain existing styling after change in markup template for improved screen reader support (a11y)
 
-## Changes in `_index.scss` Changes 
+## Changes in `_index.scss` 
 
 - `_screen-reader.scss` added which will contain screen reader specific styles (a11y)
 
-## Changes in `_screen-reader.scss` Changes 
+## Changes in `_screen-reader.scss` 
 
 - `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
 
-## Changes in `_list.scss` Changes 
+## Changes in `_list.scss` 
 
 - `.cx-table td .text` and `.cx-table td a` padding-inline-start removed to align cx-org table items with head labels.
 
-## Changes in `buttons.scss` Changes 
+## Changes in `buttons.scss` 
+
+- `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accommodate for theme changes. 
+
+## Changes in `_searchbox.scss` 
+
+- `cx-icon.reset` is changed to `button.reset`
+- `.dirty cx-icon.search` is changed to `.dirty div.search` 
+- `:not(.dirty) cx-icon.reset` is changed to `:not(.dirty) button.reset` 
+- `cx-icon` is changed to `button, div.search` and `cursor: pointer`  is removed.
+- `.reset` is changed to `.reset cx-icon`
+- `h4.name` is changed to `div.name`
+
+## Changes in `_payment-form.scss`
+
+- added `legend` with `font-size: 1rem` in `.cx-payment-form-exp-date`
+
+## Changes in `_list.scss`
+
+- `.sort` has been wrapped in to `label` in `.header.actions`. Added `min-width: 170px;` for `.sort` and few other styling for `label`.
+
+## Changes in `_my-coupons.scss`
+
+- added styling for `.cx-my-coupons-form-group`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
+
+## Changes in `_my-interests.scss`
+
+- added styling for `.cx-product-interests-form-group`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
+
+## Changes in `_order-history.scss` and `_order-return-request-list.scss`
+
+- added styling for `cx-order-history-form-group`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
+
+## Changes in `_replenishment-order-history.scss`
+
+- added styling for `.cx-replenishment-order-history-form-group`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
+
+## Changes in `_product-list.scss`
+
+- added styling for `.cx-sort-dropdown`: `align-items: center;  display: flex;` and few other styling for `span` and `cx-sorting`.
+
 
 - `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 
 
 ## Changes in `_navigation-ui_.scss` Changes 
 
-- `padding-bottom: 25px` is changed to `padding-bottom: 22px` to accomedate for the header navigation links line-heights. 
-
-## Changes in `_header.scss` Changes 
-
-- `min-height` is changed to `max-height` to accomedate for the header navigation height.
+- `padding-bottom: 25px` is changed to `padding-bottom: 22px` to accomedate for the header navigation links line-heights.
 
 ## Changes in `_versioning.scss` Changes 
 
