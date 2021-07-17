@@ -1,8 +1,14 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AnonymousConsentsService, I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { AnonymousConsentsConfig } from '@spartacus/user/anonymous-consents/core';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  ConsentManagementFormComponent,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+} from '@spartacus/user/anonymous-consents/core';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -30,7 +36,8 @@ class MockCxIconComponent {
   selector: 'cx-consent-management-form',
   template: ``,
 })
-class MockConsentManagementFormComponent {
+class MockConsentManagementFormComponent
+  implements Partial<ConsentManagementFormComponent> {
   @Input()
   consentTemplate: ConsentTemplate;
   @Input()
@@ -39,7 +46,8 @@ class MockConsentManagementFormComponent {
   consent: AnonymousConsent;
 }
 
-class MockAnonymousConsentsService {
+class MockAnonymousConsentsService
+  implements Partial<AnonymousConsentsService> {
   getTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
@@ -59,7 +67,7 @@ class MockAnonymousConsentsService {
   }
 }
 
-class MockLaunchDialogService {
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog() {}
 }
 
@@ -348,7 +356,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   describe('getCorrespondingConsent', () => {
     it('should return null if no consent matches the provided template', () => {
       expect(component.getCorrespondingConsent(mockTemplates[0], [])).toEqual(
-        null
+        undefined
       );
     });
     it('should return the corresponding consent', () => {

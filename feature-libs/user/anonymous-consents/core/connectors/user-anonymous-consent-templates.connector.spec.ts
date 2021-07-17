@@ -28,6 +28,7 @@ describe('AnonymousConsentTemplatesConnector', () => {
           provide: UserAnonymousConsentTemplatesAdapter,
           useClass: MockUserAnonymousConsentTemplatesAdapter,
         },
+        UserAnonymousConsentTemplatesConnector,
       ],
     });
 

@@ -1,7 +1,8 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AnonymousConsentsService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { AnonymousConsentsService } from '@spartacus/user/anonymous-consents/core';
 import { ConsentTemplate } from '@spartacus/user/anonymous-consents/root';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
@@ -80,7 +81,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       expect(component.hideBanner).toHaveBeenCalled();
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.ANONYMOUS_CONSENT,
-        null,
+        undefined,
         component['vcr']
       );
     });

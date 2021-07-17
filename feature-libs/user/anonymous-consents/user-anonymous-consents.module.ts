@@ -5,9 +5,9 @@ import { UserAnonymousConsentsOccModule } from '@spartacus/user/anonymous-consen
 
 @NgModule({
   imports: [
-    UserAnonymousConsentsCoreModule,
-    UserAnonymousConsentsOccModule,
     UserAnonymousConsentsComponentsModule,
+    UserAnonymousConsentsCoreModule.forRoot(),
+    UserAnonymousConsentsOccModule,
   ],
 })
 export class UserAnonymousConsentsModule {}

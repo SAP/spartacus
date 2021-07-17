@@ -1,7 +1,6 @@
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-// TODO:#anon - switch to the facade
-import { AnonymousConsentsService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { AnonymousConsentsService } from '@spartacus/user/anonymous-consents/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 

@@ -6,14 +6,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-// TODO:#anon - switch to the facade
-import { AnonymousConsentsService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { AnonymousConsentsConfig } from '@spartacus/user/anonymous-consents/core';
+import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+} from '@spartacus/user/anonymous-consents/core';
 import {
   AnonymousConsent,
   ConsentTemplate,
