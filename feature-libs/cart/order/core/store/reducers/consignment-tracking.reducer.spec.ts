@@ -1,12 +1,12 @@
-import { ConsignmentTracking } from '../../../model/index';
-import { UserActions } from '../actions/index';
+import { ConsignmentTracking } from '@spartacus/cart/order/root';
+import { OrderActions } from '../actions/index';
 import * as fromTrackingReducer from './consignment-tracking.reducer';
 
 describe('Consignment Tracking Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromTrackingReducer;
-      const action = {} as UserActions.ConsignmentTrackingAction;
+      const action = {} as OrderActions.ConsignmentTrackingAction;
       const state = fromTrackingReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -21,7 +21,7 @@ describe('Consignment Tracking Reducer', () => {
       };
 
       const { initialState } = fromTrackingReducer;
-      const action = new UserActions.LoadConsignmentTrackingSuccess(
+      const action = new OrderActions.LoadConsignmentTrackingSuccess(
         mockTracking
       );
       const state = fromTrackingReducer.reducer(initialState, action);
@@ -33,7 +33,7 @@ describe('Consignment Tracking Reducer', () => {
   describe('CLEAR_CONSIGNMENT_TRACKING action', () => {
     it('should return the default state', () => {
       const { initialState } = fromTrackingReducer;
-      const action = new UserActions.ClearConsignmentTracking();
+      const action = new OrderActions.ClearConsignmentTracking();
       const state = fromTrackingReducer.reducer(initialState, action);
       expect(state).toBe(initialState);
     });

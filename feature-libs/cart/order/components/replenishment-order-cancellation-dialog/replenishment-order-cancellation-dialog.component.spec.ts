@@ -1,15 +1,17 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderFacade,
+} from '@spartacus/cart/order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  ReplenishmentOrder,
   Translatable,
-  UserReplenishmentOrderService,
 } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
-import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -51,7 +53,7 @@ class MockLaunchDialogService {
 
 describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let component: ReplenishmentOrderCancellationDialogComponent;
-  let userReplenishmentOrderService: UserReplenishmentOrderService;
+  let userReplenishmentOrderService: ReplenishmentOrderFacade;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
@@ -63,7 +65,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         declarations: [ReplenishmentOrderCancellationDialogComponent],
         providers: [
           {
-            provide: UserReplenishmentOrderService,
+            provide: ReplenishmentOrderFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -77,9 +79,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     fixture = TestBed.createComponent(
       ReplenishmentOrderCancellationDialogComponent
     );
-    userReplenishmentOrderService = TestBed.inject(
-      UserReplenishmentOrderService
-    );
+    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
 

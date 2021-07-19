@@ -9,15 +9,14 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
+  ReplenishmentOrderFacade,
   ReplenishmentOrderList,
-  RoutingService,
-  UserReplenishmentOrderService,
-} from '@spartacus/core';
+} from '@spartacus/cart/order/root';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
@@ -117,7 +116,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  let userService: UserReplenishmentOrderService;
+  let userService: ReplenishmentOrderFacade;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
@@ -135,7 +134,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
           {
-            provide: UserReplenishmentOrderService,
+            provide: ReplenishmentOrderFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           {
@@ -145,7 +144,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         ],
       }).compileComponents();
 
-      userService = TestBed.inject(UserReplenishmentOrderService);
+      userService = TestBed.inject(ReplenishmentOrderFacade);
       routingService = TestBed.inject(RoutingService);
       launchDialogService = TestBed.inject(LaunchDialogService);
     })

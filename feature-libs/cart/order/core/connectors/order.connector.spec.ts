@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { UserOrderAdapter } from './order.adapter';
-import { UserOrderConnector } from './order.connector';
+import { OrderAdapter } from './order.adapter';
+import { OrderConnector } from './order.connector';
 import createSpy = jasmine.createSpy;
 
-class MockOrderAdapter implements UserOrderAdapter {
+class MockOrderAdapter implements OrderAdapter {
   load = createSpy('UserOrderAdapter.load').and.callFake((userId, orderCode) =>
     of(`order-${userId}-${orderCode}`)
   );
@@ -47,16 +47,16 @@ class MockOrderAdapter implements UserOrderAdapter {
 }
 
 describe('UserOrderConnector', () => {
-  let service: UserOrderConnector;
-  let adapter: UserOrderAdapter;
+  let service: OrderConnector;
+  let adapter: OrderAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: UserOrderAdapter, useClass: MockOrderAdapter }],
+      providers: [{ provide: OrderAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.inject(UserOrderConnector);
-    adapter = TestBed.inject(UserOrderAdapter);
+    service = TestBed.inject(OrderConnector);
+    adapter = TestBed.inject(OrderAdapter);
   });
 
   it('should be created', () => {

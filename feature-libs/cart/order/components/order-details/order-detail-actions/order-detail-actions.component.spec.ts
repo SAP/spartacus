@@ -1,12 +1,12 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Order } from '@spartacus/cart/order/root';
 import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';

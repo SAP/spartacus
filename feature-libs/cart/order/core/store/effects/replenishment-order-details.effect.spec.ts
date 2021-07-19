@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { ReplenishmentOrder } from '@spartacus/cart/order/root';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  normalizeHttpError,
+  Translatable,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { Translatable } from '../../../i18n/translatable';
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { UserReplenishmentOrderConnector } from '../../connectors/replenishment-order/user-replenishment-order.connector';
-import { UserActions } from '../actions/index';
+import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';
+import { OrderActions } from '../actions/index';
 import * as fromEffects from './replenishment-order-details.effect';
 
 const mockUserId = 'test-user';
@@ -48,7 +50,7 @@ class MockGlobalMessageService {
 }
 
 describe('ReplenishmentOrderDetailsEffect', () => {
-  let connector: UserReplenishmentOrderConnector;
+  let connector: ReplenishmentOrderConnector;
   let effects: fromEffects.ReplenishmentOrderDetailsEffect;
   let actions$: Observable<Action>;
 
@@ -56,7 +58,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: UserReplenishmentOrderConnector,
+          provide: ReplenishmentOrderConnector,
           useClass: MockReplenishmentOrderConnector,
         },
         {
@@ -68,7 +70,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
       ],
     });
 
-    connector = TestBed.inject(UserReplenishmentOrderConnector);
+    connector = TestBed.inject(ReplenishmentOrderConnector);
     effects = TestBed.inject(fromEffects.ReplenishmentOrderDetailsEffect);
   });
 
@@ -76,11 +78,11 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     it('should load replenishment order details', () => {
       spyOn(connector, 'load').and.returnValue(of(mockReplenishmentOrder));
 
-      const action = new UserActions.LoadReplenishmentOrderDetails({
+      const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
-      const completion = new UserActions.LoadReplenishmentOrderDetailsSuccess(
+      const completion = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
         mockReplenishmentOrder
       );
 
@@ -95,11 +97,11 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     it('should return an error when it fails to load a replenishment order details', () => {
       spyOn(connector, 'load').and.returnValue(throwError(mockError));
 
-      const action = new UserActions.LoadReplenishmentOrderDetails({
+      const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
-      const completion = new UserActions.LoadReplenishmentOrderDetailsFail(
+      const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
         normalizeHttpError(mockError)
       );
 
@@ -118,11 +120,11 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         of(mockReplenishmentOrder)
       );
 
-      const action = new UserActions.CancelReplenishmentOrder({
+      const action = new OrderActions.CancelReplenishmentOrder({
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
-      const completion = new UserActions.CancelReplenishmentOrderSuccess(
+      const completion = new OrderActions.CancelReplenishmentOrderSuccess(
         mockReplenishmentOrder
       );
 
@@ -139,11 +141,11 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         throwError(mockError)
       );
 
-      const action = new UserActions.CancelReplenishmentOrder({
+      const action = new OrderActions.CancelReplenishmentOrder({
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
-      const completion = new UserActions.CancelReplenishmentOrderFail(
+      const completion = new OrderActions.CancelReplenishmentOrderFail(
         normalizeHttpError(mockError)
       );
 

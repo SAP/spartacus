@@ -1,13 +1,13 @@
-import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
-import { PaginationModel, SortModel } from '../../../model/misc.model';
-import { UserActions } from '../actions/index';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/cart/order/root';
+import { PaginationModel, SortModel } from '@spartacus/core';
+import { OrderActions } from '../actions/index';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 
 describe('Order Return Request Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrderReturnRequestReducer;
-      const action = {} as UserActions.OrderReturnRequestAction;
+      const action = {} as OrderActions.OrderReturnRequestAction;
       const state = fromOrderReturnRequestReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -30,7 +30,7 @@ describe('Order Return Request Reducer', () => {
       };
 
       const { initialState } = fromOrderReturnRequestReducer;
-      const action = new UserActions.LoadOrderReturnRequestListSuccess(
+      const action = new OrderActions.LoadOrderReturnRequestListSuccess(
         mockUserOrders
       );
       const state = fromOrderReturnRequestReducer.reducer(initialState, action);

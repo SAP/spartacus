@@ -1,15 +1,14 @@
 import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '../../../model/order.model';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateUtils } from '../../../state/utils/index';
+} from '@spartacus/cart/order/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_RETURN_PROCESS_ID,
-  USER_RETURN_REQUESTS,
-  USER_RETURN_REQUEST_DETAILS,
+  RETURN_REQUESTS,
+  RETURN_REQUEST_DETAILS,
 } from '../order-state';
-import { UserActions } from './index';
+import { OrderActions } from './index';
 
 const returnRequestInput: ReturnRequestEntryInputList = {
   orderCode: 'orderCode',
@@ -39,18 +38,18 @@ const mockReturnRequestList: ReturnRequestList = {
 describe('Order Return Request actions', () => {
   describe('CreateOrderReturnRequest Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.CreateOrderReturnRequest({
+      const action = new OrderActions.CreateOrderReturnRequest({
         userId: 'userId',
         returnRequestInput,
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.CREATE_ORDER_RETURN_REQUEST,
+        type: OrderActions.CREATE_ORDER_RETURN_REQUEST,
         payload: {
           userId: 'userId',
           returnRequestInput,
         },
-        meta: StateUtils.loadMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.loadMeta(RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -58,44 +57,44 @@ describe('Order Return Request actions', () => {
   describe('CreateOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.CreateOrderReturnRequestFail(error);
+      const action = new OrderActions.CreateOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
+        type: OrderActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateUtils.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+        meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
     });
   });
 
   describe('CreateOrderReturnRequestSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.CreateOrderReturnRequestSuccess({
+      const action = new OrderActions.CreateOrderReturnRequestSuccess({
         rma: '0000',
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
+        type: OrderActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
-        meta: StateUtils.successMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.successMeta(RETURN_REQUEST_DETAILS),
       });
     });
   });
 
   describe('LoadOrderReturnRequest Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadOrderReturnRequest({
+      const action = new OrderActions.LoadOrderReturnRequest({
         userId: 'userId',
         returnRequestCode: 'test',
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST,
         payload: {
           userId: 'userId',
           returnRequestCode: 'test',
         },
-        meta: StateUtils.loadMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.loadMeta(RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -103,40 +102,40 @@ describe('Order Return Request actions', () => {
   describe('LoadOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.LoadOrderReturnRequestFail(error);
+      const action = new OrderActions.LoadOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateUtils.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+        meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
     });
   });
 
   describe('LoadOrderReturnRequestSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadOrderReturnRequestSuccess({
+      const action = new OrderActions.LoadOrderReturnRequestSuccess({
         rma: '0000',
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
-        meta: StateUtils.successMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.successMeta(RETURN_REQUEST_DETAILS),
       });
     });
   });
 
   describe('CancelOrderReturnRequest Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.CancelOrderReturnRequest({
+      const action = new OrderActions.CancelOrderReturnRequest({
         userId: 'userId',
         returnRequestCode: 'test',
         returnRequestModification: {},
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.CANCEL_ORDER_RETURN_REQUEST,
+        type: OrderActions.CANCEL_ORDER_RETURN_REQUEST,
         payload: {
           userId: 'userId',
           returnRequestCode: 'test',
@@ -153,10 +152,10 @@ describe('Order Return Request actions', () => {
   describe('CancelOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.CancelOrderReturnRequestFail(error);
+      const action = new OrderActions.CancelOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
+        type: OrderActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -169,10 +168,10 @@ describe('Order Return Request actions', () => {
 
   describe('CancelOrderReturnRequestSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.CancelOrderReturnRequestSuccess();
+      const action = new OrderActions.CancelOrderReturnRequestSuccess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
+        type: OrderActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID
@@ -184,14 +183,14 @@ describe('Order Return Request actions', () => {
 
   describe('LoadOrderReturnRequestList Actions', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadOrderReturnRequestList(
+      const action = new OrderActions.LoadOrderReturnRequestList(
         mockLoadPayload
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST,
         payload: mockLoadPayload,
-        meta: StateUtils.loadMeta(USER_RETURN_REQUESTS),
+        meta: StateUtils.loadMeta(RETURN_REQUESTS),
       });
     });
   });
@@ -199,58 +198,58 @@ describe('Order Return Request actions', () => {
   describe('LoadOrderReturnRequestListFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.LoadOrderReturnRequestListFail(error);
+      const action = new OrderActions.LoadOrderReturnRequestListFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
         payload: error,
-        meta: StateUtils.failMeta(USER_RETURN_REQUESTS, error),
+        meta: StateUtils.failMeta(RETURN_REQUESTS, error),
       });
     });
   });
 
   describe('LoadOrderReturnRequestListSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadOrderReturnRequestListSuccess(
+      const action = new OrderActions.LoadOrderReturnRequestListSuccess(
         mockReturnRequestList
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS,
+        type: OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS,
         payload: mockReturnRequestList,
-        meta: StateUtils.successMeta(USER_RETURN_REQUESTS),
+        meta: StateUtils.successMeta(RETURN_REQUESTS),
       });
     });
   });
 
   describe('ClearOrderReturnRequestList Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.ClearOrderReturnRequestList();
+      const action = new OrderActions.ClearOrderReturnRequestList();
 
       expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_ORDER_RETURN_REQUEST_LIST,
-        meta: StateUtils.resetMeta(USER_RETURN_REQUESTS),
+        type: OrderActions.CLEAR_ORDER_RETURN_REQUEST_LIST,
+        meta: StateUtils.resetMeta(RETURN_REQUESTS),
       });
     });
   });
 
   describe('ClearOrderReturnRequest Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.ClearOrderReturnRequest();
+      const action = new OrderActions.ClearOrderReturnRequest();
 
       expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_ORDER_RETURN_REQUEST,
-        meta: StateUtils.resetMeta(USER_RETURN_REQUEST_DETAILS),
+        type: OrderActions.CLEAR_ORDER_RETURN_REQUEST,
+        meta: StateUtils.resetMeta(RETURN_REQUEST_DETAILS),
       });
     });
   });
 
   describe('ResetCancelReturnProcess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.ResetCancelReturnProcess();
+      const action = new OrderActions.ResetCancelReturnProcess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.RESET_CANCEL_RETURN_PROCESS,
+        type: OrderActions.RESET_CANCEL_RETURN_PROCESS,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID

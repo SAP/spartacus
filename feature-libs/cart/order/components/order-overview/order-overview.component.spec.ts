@@ -1,16 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DeliveryMode, ReplenishmentOrder } from '@spartacus/cart/order/root';
 import {
   Address,
-  DeliveryMode,
   I18nTestingModule,
-  Order,
   PaymentDetails,
-  ReplenishmentOrder,
   TranslationService,
 } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { Card } from '../card/card.component';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({ selector: 'cx-card', template: '' })

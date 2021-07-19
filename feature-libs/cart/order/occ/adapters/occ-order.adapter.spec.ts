@@ -4,29 +4,31 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
-import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import {
-  CancellationRequestEntryInputList,
-  Order,
-  ReturnRequest,
-  ReturnRequestEntryInputList,
-} from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-} from '../../../user/connectors/order/converters';
-import { ConverterService } from '../../../util/index';
-import { OccConfig } from '../../config/occ-config';
-import { OccEndpointsService } from '../../services';
-import { OccUserOrderAdapter } from './occ-order.adapter';
+} from '@spartacus/cart/order/core';
+import {
+  CancellationRequestEntryInputList,
+  ConsignmentTracking,
+  Order,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+} from '@spartacus/cart/order/root';
+import {
+  ConverterService,
+  OccConfig,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from './unit-test.helper';
+} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { OccOrderAdapter } from './occ-order.adapter';
 
 const userId = '123';
 
@@ -40,7 +42,7 @@ const consignmentCode = 'a00001004';
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
 describe('OccOrderAdapter', () => {
-  let occUserOrderAdapter: OccUserOrderAdapter;
+  let occUserOrderAdapter: OccOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;

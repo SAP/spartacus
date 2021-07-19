@@ -2,14 +2,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Order } from '@spartacus/cart/order/root';
+import { GlobalMessageService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { Order } from '../../../model/order.model';
-import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { UserActions } from '../actions/index';
+import { OrderAdapter } from '../../connectors/order.adapter';
+import { OrderConnector } from '../../connectors/order.connector';
+import { OrderActions } from '../actions/index';
 import * as fromOrderDetailsEffect from './order-details.effect';
-import { GlobalMessageService } from '@spartacus/core';
 
 const mockOrderDetails: Order = {};
 
@@ -30,7 +30,7 @@ class MockGlobalMessageService {
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderConnector: UserOrderConnector;
+  let orderConnector: OrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('Order Details effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         fromOrderDetailsEffect.OrderDetailsEffect,
-        { provide: UserOrderAdapter, useValue: {} },
+        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
         {
           provide: GlobalMessageService,
@@ -51,15 +51,15 @@ describe('Order Details effect', () => {
     orderDetailsEffect = TestBed.inject(
       fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.inject(UserOrderConnector);
+    orderConnector = TestBed.inject(OrderConnector);
   });
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
       spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
-      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
+      const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new UserActions.LoadOrderDetailsSuccess(
+      const completion = new OrderActions.LoadOrderDetailsSuccess(
         mockOrderDetails
       );
 
@@ -72,9 +72,9 @@ describe('Order Details effect', () => {
     it('should handle failures for load order details', () => {
       spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
 
-      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
+      const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new UserActions.LoadOrderDetailsFail(undefined);
+      const completion = new OrderActions.LoadOrderDetailsFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -87,9 +87,9 @@ describe('Order Details effect', () => {
     it('should cancel an order', () => {
       spyOn(orderConnector, 'cancel').and.returnValue(of({}));
 
-      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+      const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
-      const completion = new UserActions.CancelOrderSuccess();
+      const completion = new OrderActions.CancelOrderSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -100,9 +100,9 @@ describe('Order Details effect', () => {
     it('should handle failures for cancel an order', () => {
       spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
 
-      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+      const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
-      const completion = new UserActions.CancelOrderFail(undefined);
+      const completion = new OrderActions.CancelOrderFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

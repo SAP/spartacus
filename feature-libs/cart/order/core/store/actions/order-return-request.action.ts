@@ -7,8 +7,8 @@ import {
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_RETURN_PROCESS_ID,
-  USER_RETURN_REQUESTS,
-  USER_RETURN_REQUEST_DETAILS,
+  RETURN_REQUESTS,
+  RETURN_REQUEST_DETAILS,
 } from '../order-state';
 
 export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
@@ -52,21 +52,21 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
       returnRequestInput: ReturnRequestEntryInputList;
     }
   ) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
 export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUEST_DETAILS, payload);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
 export class CreateOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_SUCCESS;
   constructor(public payload: ReturnRequest) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
@@ -78,21 +78,21 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
       returnRequestCode: string;
     }
   ) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
 export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUEST_DETAILS, payload);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
 export class LoadOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_SUCCESS;
   constructor(public payload: ReturnRequest) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
@@ -133,35 +133,35 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
       sort?: string;
     }
   ) {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 
 export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUESTS, payload);
+    super(RETURN_REQUESTS, payload);
   }
 }
 
 export class LoadOrderReturnRequestListSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS;
   constructor(public payload: ReturnRequestList) {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 
 export class ClearOrderReturnRequest extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_RETURN_REQUEST;
   constructor() {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
 export class ClearOrderReturnRequestList extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_RETURN_REQUEST_LIST;
   constructor() {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 

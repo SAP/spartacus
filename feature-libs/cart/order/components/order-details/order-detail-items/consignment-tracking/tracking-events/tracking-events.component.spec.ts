@@ -1,14 +1,11 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ConsignmentTracking,
-  I18nTestingModule,
-  UserOrderService,
-} from '@spartacus/core';
+import { ConsignmentTracking, OrderFacade } from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { SpinnerModule } from '../../../../../../../shared/components/spinner/spinner.module';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -36,7 +33,7 @@ describe('TrackingEventsComponent', () => {
         declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
         providers: [
           { provide: NgbActiveModal, useValue: ngbActiveModal },
-          { provide: UserOrderService, useValue: userOrderService },
+          { provide: OrderFacade, useValue: userOrderService },
         ],
       }).compileComponents();
     })

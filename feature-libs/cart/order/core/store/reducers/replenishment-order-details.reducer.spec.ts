@@ -1,5 +1,5 @@
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
-import { UserActions } from '../actions/index';
+import { ReplenishmentOrder } from '@spartacus/cart/order/root';
+import { OrderActions } from '../actions/index';
 import * as fromReducer from './replenishment-order-details.reducer';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -14,7 +14,7 @@ describe('ReplenishmentOrderDetailsReducer', () => {
     it('should load a replenishment order details', () => {
       const { initialState } = fromReducer;
 
-      const action = new UserActions.LoadReplenishmentOrderDetailsSuccess(
+      const action = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
         mockReplenishmentOrder
       );
       const state = fromReducer.reducer(initialState, action);
@@ -26,7 +26,7 @@ describe('ReplenishmentOrderDetailsReducer', () => {
     it('should update replenishment order details', () => {
       const { initialState } = fromReducer;
 
-      const action = new UserActions.CancelReplenishmentOrderSuccess(
+      const action = new OrderActions.CancelReplenishmentOrderSuccess(
         mockReplenishmentOrder
       );
       const state = fromReducer.reducer(initialState, action);

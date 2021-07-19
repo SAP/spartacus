@@ -2,7 +2,7 @@ import { ReplenishmentOrder } from '@spartacus/cart/order/root';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-  USER_REPLENISHMENT_ORDER_DETAILS,
+  REPLENISHMENT_ORDER_DETAILS,
 } from '../order-state';
 
 export const LOAD_REPLENISHMENT_ORDER_DETAILS =
@@ -30,28 +30,28 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
       replenishmentOrderCode: string;
     }
   ) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 
 export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS;
   constructor(public payload: ReplenishmentOrder) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 
 export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS, payload);
+    super(REPLENISHMENT_ORDER_DETAILS, payload);
   }
 }
 
 export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction {
   readonly type = ClEAR_REPLENISHMENT_ORDER_DETAILS;
   constructor() {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 

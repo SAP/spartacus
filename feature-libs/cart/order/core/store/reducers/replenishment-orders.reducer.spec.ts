@@ -1,9 +1,9 @@
-import { PaginationModel, SortModel } from '../../../model/misc.model';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '../../../model/replenishment-order.model';
-import { UserActions } from '../actions/index';
+} from '@spartacus/cart/order/root';
+import { PaginationModel, SortModel } from '@spartacus/core';
+import { OrderActions } from '../actions/index';
 import * as fromReducer from './replenishment-orders.reducer';
 
 const replenishmentOrders: ReplenishmentOrder[] = [
@@ -31,7 +31,7 @@ describe('User Orders Replenishment Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as UserActions.UserReplenishmentOrdersAction;
+      const action = {} as OrderActions.UserReplenishmentOrdersAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -41,7 +41,7 @@ describe('User Orders Replenishment Reducer', () => {
   describe('LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS action', () => {
     it('should populate the User Replenishment Orders state entities', () => {
       const { initialState } = fromReducer;
-      const action = new UserActions.LoadUserReplenishmentOrdersSuccess(
+      const action = new OrderActions.LoadUserReplenishmentOrdersSuccess(
         mockUserReplenishmentOrders
       );
       const state = fromReducer.reducer(initialState, action);
@@ -52,7 +52,7 @@ describe('User Orders Replenishment Reducer', () => {
 
   describe('CANCEL_REPLENISHMENT_ORDER_SUCCESS action', () => {
     it('should update replenishment order details', () => {
-      const action = new UserActions.CancelReplenishmentOrderSuccess(
+      const action = new OrderActions.CancelReplenishmentOrderSuccess(
         replenishmentOrders[0]
       );
       const state = fromReducer.reducer(mockUserReplenishmentOrders, action);

@@ -3,18 +3,17 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { OrderHistoryList } from '@spartacus/cart/order/root';
+import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { OrderHistoryList } from '../../../model/order.model';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
 import {
-  UserOrderAdapter,
-  UserOrderConnector,
-  UserReplenishmentOrderAdapter,
-  UserReplenishmentOrderConnector,
+  OrderAdapter,
+  OrderConnector,
+  ReplenishmentOrderAdapter,
+  ReplenishmentOrderConnector,
 } from '../../connectors/index';
-import { UserActions } from '../actions/index';
+import { OrderActions } from '../actions/index';
 import * as fromUserOrdersEffect from './orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
@@ -26,27 +25,27 @@ const mockUserOrders: OrderHistoryList = {
 const mockError = 'test-error';
 
 describe('User Orders effect', () => {
-  let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
-  let orderConnector: UserOrderConnector;
-  let userReplenishmentOrderConnector: UserReplenishmentOrderConnector;
+  let userOrdersEffect: fromUserOrdersEffect.OrdersEffect;
+  let orderConnector: OrderConnector;
+  let userReplenishmentOrderConnector: ReplenishmentOrderConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        fromUserOrdersEffect.UserOrdersEffect,
-        { provide: UserOrderAdapter, useValue: {} },
-        { provide: UserReplenishmentOrderAdapter, useValue: {} },
+        fromUserOrdersEffect.OrdersEffect,
+        { provide: OrderAdapter, useValue: {} },
+        { provide: ReplenishmentOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.inject(Actions);
-    userOrdersEffect = TestBed.inject(fromUserOrdersEffect.UserOrdersEffect);
-    orderConnector = TestBed.inject(UserOrderConnector);
+    userOrdersEffect = TestBed.inject(fromUserOrdersEffect.OrdersEffect);
+    orderConnector = TestBed.inject(OrderConnector);
     userReplenishmentOrderConnector = TestBed.inject(
-      UserReplenishmentOrderConnector
+      ReplenishmentOrderConnector
     );
   });
 
@@ -55,12 +54,12 @@ describe('User Orders effect', () => {
       it('should load user Orders', () => {
         spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
 
-        const action = new UserActions.LoadUserOrders({
+        const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',
           pageSize: 5,
         });
 
-        const completion = new UserActions.LoadUserOrdersSuccess(
+        const completion = new OrderActions.LoadUserOrdersSuccess(
           mockUserOrders
         );
         actions$ = hot('-a', { a: action });
@@ -75,12 +74,12 @@ describe('User Orders effect', () => {
           throwError(mockError)
         );
 
-        const action = new UserActions.LoadUserOrders({
+        const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',
           pageSize: 5,
         });
 
-        const completion = new UserActions.LoadUserOrdersFail(
+        const completion = new OrderActions.LoadUserOrdersFail(
           normalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
@@ -98,13 +97,13 @@ describe('User Orders effect', () => {
           'loadReplenishmentDetailsHistory'
         ).and.returnValue(of(mockUserOrders));
 
-        const action = new UserActions.LoadUserOrders({
+        const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',
           pageSize: 5,
           replenishmentOrderCode: 'test-repl-code',
         });
 
-        const completion = new UserActions.LoadUserOrdersSuccess(
+        const completion = new OrderActions.LoadUserOrdersSuccess(
           mockUserOrders
         );
         actions$ = hot('-a', { a: action });
@@ -120,13 +119,13 @@ describe('User Orders effect', () => {
           'loadReplenishmentDetailsHistory'
         ).and.returnValue(throwError(mockError));
 
-        const action = new UserActions.LoadUserOrders({
+        const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',
           pageSize: 5,
           replenishmentOrderCode: 'test-repl-code',
         });
 
-        const completion = new UserActions.LoadUserOrdersFail(
+        const completion = new OrderActions.LoadUserOrdersFail(
           normalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
@@ -145,7 +144,7 @@ describe('User Orders effect', () => {
         current: 'current',
       });
 
-      const completion = new UserActions.ClearUserOrders();
+      const completion = new OrderActions.ClearUserOrders();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -1,13 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ReturnRequestList } from '@spartacus/cart/order/root';
+import {
+  OCC_USER_ID_CURRENT,
+  PROCESS_FEATURE,
+  StateWithUser,
+  UserIdService,
+} from '@spartacus/core';
+import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { ReturnRequestList } from '../../model/order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { UserActions } from '../store/actions/index';
-import { StateWithUser, USER_FEATURE } from '../store/order-state';
+import { OrderActions } from '../store/actions';
+import { ORDER_FEATURE } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { OrderReturnRequestService } from './order-return-request.service';
 
@@ -26,7 +29,7 @@ describe('OrderReturnRequestService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
@@ -55,7 +58,7 @@ describe('OrderReturnRequestService', () => {
   it('should be able to create order return request', () => {
     orderReturnRequestService.createOrderReturnRequest({ orderCode: 'test' });
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.CreateOrderReturnRequest({
+      new OrderActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestInput: { orderCode: 'test' },
       })
@@ -64,7 +67,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get an order return request', () => {
     store.dispatch(
-      new UserActions.CreateOrderReturnRequestSuccess({
+      new OrderActions.CreateOrderReturnRequestSuccess({
         rma: '000000',
       })
     );
@@ -77,7 +80,7 @@ describe('OrderReturnRequestService', () => {
   it('should be able to load an order return requests data', () => {
     orderReturnRequestService.loadOrderReturnRequestDetail('test');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadOrderReturnRequest({
+      new OrderActions.LoadOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestCode: 'test',
       })
@@ -86,7 +89,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get return requests loading flag', () => {
     store.dispatch(
-      new UserActions.CreateOrderReturnRequest({
+      new OrderActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestInput: {},
       })
@@ -99,7 +102,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get return requests success flag', () => {
     store.dispatch(
-      new UserActions.CreateOrderReturnRequestSuccess({
+      new OrderActions.CreateOrderReturnRequestSuccess({
         rma: '000000',
       })
     );
@@ -111,7 +114,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get order return requests list', () => {
     store.dispatch(
-      new UserActions.LoadOrderReturnRequestListSuccess({
+      new OrderActions.LoadOrderReturnRequestListSuccess({
         returnRequests: [],
         pagination: {},
         sorts: [],
@@ -135,7 +138,7 @@ describe('OrderReturnRequestService', () => {
   it('should be able to load order return requests list', () => {
     orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadOrderReturnRequestList({
+      new OrderActions.LoadOrderReturnRequestList({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
@@ -156,14 +159,14 @@ describe('OrderReturnRequestService', () => {
   it('should be able to clear order return requests list', () => {
     orderReturnRequestService.clearOrderReturnRequestList();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearOrderReturnRequestList()
+      new OrderActions.ClearOrderReturnRequestList()
     );
   });
 
   it('should be able to clear order return requests details', () => {
     orderReturnRequestService.clearOrderReturnRequestDetail();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearOrderReturnRequest()
+      new OrderActions.ClearOrderReturnRequest()
     );
   });
 
@@ -172,7 +175,7 @@ describe('OrderReturnRequestService', () => {
       status: 'CANCELLING',
     });
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.CancelOrderReturnRequest({
+      new OrderActions.CancelOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestCode: 'test',
         returnRequestModification: { status: 'CANCELLING' },
@@ -182,7 +185,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should be able to get CancelReturnRequest loading flag', () => {
     store.dispatch(
-      new UserActions.CancelOrderReturnRequest({
+      new OrderActions.CancelOrderReturnRequest({
         userId: 'current',
         returnRequestCode: 'test',
         returnRequestModification: {},
@@ -195,7 +198,7 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should be able to get CancelReturnRequest Success flag', () => {
-    store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
+    store.dispatch(new OrderActions.CancelOrderReturnRequestSuccess());
     orderReturnRequestService
       .getCancelReturnRequestSuccess()
       .subscribe((data) => expect(data).toEqual(true))
@@ -205,7 +208,7 @@ describe('OrderReturnRequestService', () => {
   it('should be able to reset CancelReturnRequest process state', () => {
     orderReturnRequestService.resetCancelReturnRequestProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetCancelReturnProcess()
+      new OrderActions.ResetCancelReturnProcess()
     );
   });
 });

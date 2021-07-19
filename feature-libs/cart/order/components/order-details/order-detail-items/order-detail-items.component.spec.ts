@@ -2,17 +2,15 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Consignment, Order } from '@spartacus/cart/order/root';
 import {
-  Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
   PromotionLocation,
 } from '@spartacus/core';
+import { CardModule, PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { CardModule } from '../../../../../shared/components/card/card.module';
-import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';

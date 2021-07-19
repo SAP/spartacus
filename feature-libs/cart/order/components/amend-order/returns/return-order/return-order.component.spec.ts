@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/order/root';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { FormErrorsModule } from '../../../../../../shared/index';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
 

@@ -4,22 +4,26 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { REPLENISHMENT_ORDER_NORMALIZER } from '../../../checkout/connectors/replenishment-order/converters';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/cart/order/core';
 import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '../../../model/index';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
-import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
-import { ConverterService } from '../../../util/converter.service';
-import { OccConfig } from '../../config/occ-config';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+} from '@spartacus/cart/order/root';
+import {
+  ConverterService,
+  OccConfig,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from '../user/unit-test.helper';
-import { OccUserReplenishmentOrderAdapter } from './occ-replenishment-order.adapter';
+} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { OccReplenishmentOrderAdapter } from './occ-replenishment-order.adapter';
 
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
@@ -50,8 +54,8 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-describe('OccUserReplenishmentOrderAdapter', () => {
-  let occAdapter: OccUserReplenishmentOrderAdapter;
+describe('OccReplenishmentOrderAdapter', () => {
+  let occAdapter: OccReplenishmentOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEndpointService: OccEndpointsService;
@@ -60,13 +64,13 @@ describe('OccUserReplenishmentOrderAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccUserReplenishmentOrderAdapter,
+        OccReplenishmentOrderAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    occAdapter = TestBed.inject(OccUserReplenishmentOrderAdapter);
+    occAdapter = TestBed.inject(OccReplenishmentOrderAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);

@@ -2,14 +2,10 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  Consignment,
-  I18nTestingModule,
-  UserOrderService,
-} from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
+import { Consignment, OrderFacade } from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { ModalService, SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
 import createSpy = jasmine.createSpy;
 
@@ -67,7 +63,7 @@ describe('ConsignmentTrackingComponent', () => {
         declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
         providers: [
           { provide: ModalService, useClass: MockModalService },
-          { provide: UserOrderService, useValue: userOrderService },
+          { provide: OrderFacade, useValue: userOrderService },
         ],
       }).compileComponents();
     })

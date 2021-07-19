@@ -1,6 +1,6 @@
 import { ReplenishmentOrderList } from '@spartacus/cart/order/root';
 import { StateUtils } from '@spartacus/core';
-import { USER_REPLENISHMENT_ORDERS } from '../order-state';
+import { REPLENISHMENT_ORDERS } from '../order-state';
 
 export const LOAD_USER_REPLENISHMENT_ORDERS =
   '[User] Load User Replenishment Orders';
@@ -21,28 +21,28 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
       sort?: string;
     }
   ) {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 
 export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
   constructor(public payload: any) {
-    super(USER_REPLENISHMENT_ORDERS, payload);
+    super(REPLENISHMENT_ORDERS, payload);
   }
 }
 
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
   constructor(public payload: ReplenishmentOrderList) {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 
 export class ClearUserReplenishmentOrders extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_USER_REPLENISHMENT_ORDERS;
   constructor() {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 

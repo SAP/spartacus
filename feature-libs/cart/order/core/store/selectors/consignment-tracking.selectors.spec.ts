@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConsignmentTracking } from '../../../model/index';
+import { ConsignmentTracking } from '@spartacus/cart/order/root';
+import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers';
-import { UsersSelectors } from '../selectors/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { OrderSelectors } from '../selectors/index';
 
 describe('Consignment Tracking Selectors', () => {
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithOrder>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromReducers.getReducers()),
       ],
     });
 
@@ -23,7 +23,7 @@ describe('Consignment Tracking Selectors', () => {
     it('should return the consignment tracking state from the store', () => {
       let result: ConsignmentTracking;
       store
-        .pipe(select(UsersSelectors.getConsignmentTracking))
+        .pipe(select(OrderSelectors.getConsignmentTracking))
         .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });

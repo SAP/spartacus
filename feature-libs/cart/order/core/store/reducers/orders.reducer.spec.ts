@@ -1,13 +1,13 @@
-import { PaginationModel, SortModel } from '../../../model/misc.model';
-import { OrderHistory, OrderHistoryList } from '../../../model/order.model';
-import { UserActions } from '../actions/index';
+import { OrderHistory, OrderHistoryList } from '@spartacus/cart/order/root';
+import { PaginationModel, SortModel } from '@spartacus/core';
+import { OrderActions } from '../actions/index';
 import * as fromUserOrdersReducer from './orders.reducer';
 
-describe('User Orders Reducer', () => {
+describe('Orders Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = {} as UserActions.UserOrdersAction;
+      const action = {} as OrderActions.UserOrdersAction;
       const state = fromUserOrdersReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -30,7 +30,7 @@ describe('User Orders Reducer', () => {
       };
 
       const { initialState } = fromUserOrdersReducer;
-      const action = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
+      const action = new OrderActions.LoadUserOrdersSuccess(mockUserOrders);
       const state = fromUserOrdersReducer.reducer(initialState, action);
 
       expect(state).toEqual(mockUserOrders);
@@ -40,7 +40,7 @@ describe('User Orders Reducer', () => {
   describe('LOAD_USER_ORDERS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = new UserActions.LoadUserOrdersFail('error');
+      const action = new OrderActions.LoadUserOrdersFail('error');
       const state = fromUserOrdersReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

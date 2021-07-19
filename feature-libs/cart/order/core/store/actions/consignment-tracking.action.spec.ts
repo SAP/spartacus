@@ -1,4 +1,5 @@
-import { ConsignmentTracking } from '../../../model/index';
+i;
+import { ConsignmentTracking } from '@spartacus/cart/order/root';
 import * as fromAction from './consignment-tracking.action';
 
 const mockTracking: ConsignmentTracking = { trackingID: '1234567890' };

@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Order } from '../../../model/order.model';
+import { Order } from '@spartacus/cart/order/root';
+import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers';
-import { UsersSelectors } from '../selectors/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { OrderSelectors } from '../selectors/index';
 
 describe('Order Details Selectors', () => {
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithOrder>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromReducers.getReducers()),
       ],
     });
 
@@ -23,7 +23,7 @@ describe('Order Details Selectors', () => {
     it('should return the Order state from the store', () => {
       let result: Order;
       store
-        .pipe(select(UsersSelectors.getOrderDetails))
+        .pipe(select(OrderSelectors.getOrderDetails))
         .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });

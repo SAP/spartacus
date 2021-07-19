@@ -14,13 +14,13 @@ export const ORDER_FEATURE = 'order';
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';
 export const CANCEL_RETURN_PROCESS_ID = 'cancelReturn';
 export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID = 'cancelReplenishmentOrder';
-export const USER_ORDERS = '[User] User Orders';
-export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
-export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
-export const USER_ORDER_DETAILS = '[User] User Order Details';
-export const USER_REPLENISHMENT_ORDERS = '[User] User Replenishment Orders';
-export const USER_REPLENISHMENT_ORDER_DETAILS =
-  '[User] User Replenishment Order Details';
+export const ORDERS = '[Order] User Orders';
+export const RETURN_REQUESTS = '[Order] Order Return Requests';
+export const RETURN_REQUEST_DETAILS = '[Order] Return Request Details';
+export const ORDER_DETAILS = '[Order] User Order Details';
+export const REPLENISHMENT_ORDERS = '[Order] User Replenishment Orders';
+export const REPLENISHMENT_ORDER_DETAILS =
+  '[Order] User Replenishment Order Details';
 
 export interface StateWithOrder {
   [ORDER_FEATURE]: OrderState;

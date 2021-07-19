@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of, throwError } from 'rxjs';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '../../model/replenishment-order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+} from '@spartacus/cart/order/root';
 import {
+  OCC_USER_ID_CURRENT,
   PROCESS_FEATURE,
   StateWithProcess,
-} from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { UserActions } from '../store/actions/index';
-import { StateWithUser, USER_FEATURE } from '../store/order-state';
+  UserIdService,
+} from '@spartacus/core';
+import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import { of, throwError } from 'rxjs';
+import { OrderActions } from '../store/actions/index';
+import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { UserReplenishmentOrderService } from './replenishment-order.service';
+import { ReplenishmentOrderService } from './replenishment-order.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockReplenishmentOrderCode = 'test-repl-code';
@@ -41,29 +41,27 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 describe('UserReplenishmentOrderService', () => {
-  let userReplenishmentOrderService: UserReplenishmentOrderService;
+  let userReplenishmentOrderService: ReplenishmentOrderService;
   let userIdService: UserIdService;
-  let store: Store<StateWithUser | StateWithProcess<void>>;
+  let store: Store<StateWithOrder | StateWithProcess<void>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
         ),
       ],
       providers: [
-        UserReplenishmentOrderService,
+        ReplenishmentOrderService,
         { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
-    userReplenishmentOrderService = TestBed.inject(
-      UserReplenishmentOrderService
-    );
+    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderService);
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
@@ -81,7 +79,7 @@ describe('UserReplenishmentOrderService', () => {
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadReplenishmentOrderDetails({
+        new OrderActions.LoadReplenishmentOrderDetails({
           userId: mockUserId,
           replenishmentOrderCode: mockReplenishmentOrderCode,
         })
@@ -102,7 +100,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the value state', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -119,7 +117,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the loading flag', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -136,7 +134,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the success flag', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -153,7 +151,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the error flag', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsFail(mockError)
+        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError)
       );
 
       let result: boolean;
@@ -170,7 +168,7 @@ describe('UserReplenishmentOrderService', () => {
       userReplenishmentOrderService.clearReplenishmentOrderDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.ClearReplenishmentOrderDetails()
+        new OrderActions.ClearReplenishmentOrderDetails()
       );
     });
   });

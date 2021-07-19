@@ -2,13 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ConsignmentTracking } from '@spartacus/cart/order/root';
+import { OccConfig } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { UserActions } from '../actions/index';
+import { OrderAdapter } from '../../connectors/order.adapter';
+import { OrderConnector } from '../../connectors/order.connector';
+import { OrderActions } from '../actions/index';
 import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 
 const mockTracking: ConsignmentTracking = {};
@@ -30,7 +30,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('Consignment Tracking effect', () => {
   let trackingEffect: ConsignmentTrackingEffects;
-  let userOrderConnector: UserOrderConnector;
+  let userOrderConnector: OrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -39,14 +39,14 @@ describe('Consignment Tracking effect', () => {
       providers: [
         ConsignmentTrackingEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: UserOrderAdapter, useValue: {} },
+        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.inject(Actions);
     trackingEffect = TestBed.inject(ConsignmentTrackingEffects);
-    userOrderConnector = TestBed.inject(UserOrderConnector);
+    userOrderConnector = TestBed.inject(OrderConnector);
   });
 
   describe('loadConsignmentTracking$', () => {
@@ -54,11 +54,11 @@ describe('Consignment Tracking effect', () => {
       spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
         of(mockTracking)
       );
-      const action = new UserActions.LoadConsignmentTracking(
+      const action = new OrderActions.LoadConsignmentTracking(
         mockTrackingParams
       );
 
-      const completion = new UserActions.LoadConsignmentTrackingSuccess(
+      const completion = new OrderActions.LoadConsignmentTrackingSuccess(
         mockTracking
       );
 
@@ -73,11 +73,13 @@ describe('Consignment Tracking effect', () => {
         throwError('Error')
       );
 
-      const action = new UserActions.LoadConsignmentTracking(
+      const action = new OrderActions.LoadConsignmentTracking(
         mockTrackingParams
       );
 
-      const completion = new UserActions.LoadConsignmentTrackingFail(undefined);
+      const completion = new OrderActions.LoadConsignmentTrackingFail(
+        undefined
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

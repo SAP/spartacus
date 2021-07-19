@@ -5,14 +5,14 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
   ReplenishmentOrder,
-  UserReplenishmentOrderService,
-} from '@spartacus/core';
+  ReplenishmentOrderFacade,
+} from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
@@ -54,7 +54,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 describe('ReplenishmentOrderCancellationComponent', () => {
   let component: ReplenishmentOrderCancellationComponent;
-  let userReplenishmentOrderService: UserReplenishmentOrderService;
+  let userReplenishmentOrderService: ReplenishmentOrderFacade;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
@@ -66,7 +66,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
         declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
         providers: [
           {
-            provide: UserReplenishmentOrderService,
+            provide: ReplenishmentOrderFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           {
@@ -80,9 +80,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
-    userReplenishmentOrderService = TestBed.inject(
-      UserReplenishmentOrderService
-    );
+    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
     launchDialogService = TestBed.inject(LaunchDialogService);
 
     component = fixture.componentInstance;

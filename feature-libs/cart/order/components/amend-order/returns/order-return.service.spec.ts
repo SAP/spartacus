@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import {
-  GlobalMessageService,
-  Order,
-  OrderReturnRequestService,
-  RoutingService,
-} from '@spartacus/core';
+import { OrderReturnRequestService } from '@spartacus/cart/order/core';
+import { Order } from '@spartacus/cart/order/root';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderReturnService } from './order-return.service';

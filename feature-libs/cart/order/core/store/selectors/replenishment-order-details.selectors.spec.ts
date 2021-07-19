@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
-import { StateUtils } from '../../../state/utils/index';
-import { UserActions } from '../actions/index';
+import { ReplenishmentOrder } from '@spartacus/cart/order/root';
+import { StateUtils } from '@spartacus/core';
+import { OrderActions } from '../actions/index';
+import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers/index';
-import { UsersSelectors } from '../selectors/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { OrderSelectors } from '../selectors/index';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
@@ -15,13 +15,13 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 describe('ReplenishmentOrderDetailsSelectors', () => {
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithOrder>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromReducers.getReducers()),
       ],
     });
 
@@ -33,7 +33,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
   describe('getReplenishmentOrderState', () => {
     it('should return the replenishment order state', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -41,7 +41,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       let result: StateUtils.LoaderState<ReplenishmentOrder>;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrderState))
+        .pipe(select(OrderSelectors.getReplenishmentOrderState))
         .subscribe((value) => (result = value))
         .unsubscribe();
 
@@ -57,7 +57,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
   describe('getReplenishmentOrderDetailsValue', () => {
     it('should return the order details from the loader state value', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -65,7 +65,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       let result: ReplenishmentOrder;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrderDetailsValue))
+        .pipe(select(OrderSelectors.getReplenishmentOrderDetailsValue))
         .subscribe((value) => (result = value))
         .unsubscribe();
 
@@ -76,7 +76,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
   describe('getReplenishmentOrderDetailsLoading', () => {
     it('should return the boolean value from the loader state loading', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetails({
+        new OrderActions.LoadReplenishmentOrderDetails({
           userId: 'test-user-id',
           replenishmentOrderCode: 'test-repl-code',
         })
@@ -85,7 +85,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       let result: boolean;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrderDetailsLoading))
+        .pipe(select(OrderSelectors.getReplenishmentOrderDetailsLoading))
         .subscribe((value) => (result = value))
         .unsubscribe();
 
@@ -96,7 +96,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
   describe('getReplenishmentOrderDetailsSuccess', () => {
     it('should return the boolean value from the loader state success', () => {
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           mockReplenishmentOrder
         )
       );
@@ -104,7 +104,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       let result: boolean;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrderDetailsSuccess))
+        .pipe(select(OrderSelectors.getReplenishmentOrderDetailsSuccess))
         .subscribe((value) => (result = value))
         .unsubscribe();
 
@@ -117,13 +117,13 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       const mockError = 'test-error';
 
       store.dispatch(
-        new UserActions.LoadReplenishmentOrderDetailsFail(mockError)
+        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError)
       );
 
       let result: boolean;
 
       store
-        .pipe(select(UsersSelectors.getReplenishmentOrderDetailsError))
+        .pipe(select(OrderSelectors.getReplenishmentOrderDetailsError))
         .subscribe((value) => (result = value))
         .unsubscribe();
 

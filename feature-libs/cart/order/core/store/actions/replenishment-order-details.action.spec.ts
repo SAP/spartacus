@@ -1,11 +1,10 @@
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateUtils } from '../../../state/utils/index';
+import { ReplenishmentOrder } from '@spartacus/cart/order/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-  USER_REPLENISHMENT_ORDER_DETAILS,
+  REPLENISHMENT_ORDER_DETAILS,
 } from '../order-state';
-import { UserActions } from './index';
+import { OrderActions } from './index';
 
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
@@ -30,12 +29,12 @@ describe('ReplenishmentOrderActions', () => {
           replenishmentOrderCode: mockReplenishmentOrderCode,
         };
 
-        const action = new UserActions.LoadReplenishmentOrderDetails(payload);
+        const action = new OrderActions.LoadReplenishmentOrderDetails(payload);
 
         expect({ ...action }).toEqual({
-          type: UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS,
+          type: OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS,
           payload,
-          meta: StateUtils.loadMeta(USER_REPLENISHMENT_ORDER_DETAILS),
+          meta: StateUtils.loadMeta(REPLENISHMENT_ORDER_DETAILS),
         });
       });
     });
@@ -43,14 +42,14 @@ describe('ReplenishmentOrderActions', () => {
     describe('LoadReplenishmentOrderDetailsSuccess action', () => {
       it('should create an action', () => {
         const payload: ReplenishmentOrder = mockReplenishmentOrder;
-        const action = new UserActions.LoadReplenishmentOrderDetailsSuccess(
+        const action = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
           payload
         );
 
         expect({ ...action }).toEqual({
-          type: UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS,
+          type: OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS,
           payload,
-          meta: StateUtils.successMeta(USER_REPLENISHMENT_ORDER_DETAILS),
+          meta: StateUtils.successMeta(REPLENISHMENT_ORDER_DETAILS),
         });
       });
     });
@@ -58,25 +57,25 @@ describe('ReplenishmentOrderActions', () => {
     describe('LoadReplenishmentOrderDetailsFail action', () => {
       it('should create an action', () => {
         const payload = mockError;
-        const action = new UserActions.LoadReplenishmentOrderDetailsFail(
+        const action = new OrderActions.LoadReplenishmentOrderDetailsFail(
           payload
         );
 
         expect({ ...action }).toEqual({
-          type: UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL,
+          type: OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL,
           payload,
-          meta: StateUtils.failMeta(USER_REPLENISHMENT_ORDER_DETAILS, payload),
+          meta: StateUtils.failMeta(REPLENISHMENT_ORDER_DETAILS, payload),
         });
       });
     });
 
     describe('ClearReplenishmentOrderDetails action', () => {
       it('should create the action', () => {
-        const action = new UserActions.ClearReplenishmentOrderDetails();
+        const action = new OrderActions.ClearReplenishmentOrderDetails();
 
         expect({ ...action }).toEqual({
-          type: UserActions.ClEAR_REPLENISHMENT_ORDER_DETAILS,
-          meta: StateUtils.resetMeta(USER_REPLENISHMENT_ORDER_DETAILS),
+          type: OrderActions.ClEAR_REPLENISHMENT_ORDER_DETAILS,
+          meta: StateUtils.resetMeta(REPLENISHMENT_ORDER_DETAILS),
         });
       });
     });
@@ -92,10 +91,10 @@ describe('ReplenishmentOrderActions', () => {
           userId: mockUserId,
           replenishmentOrderCode: mockReplenishmentOrderCode,
         };
-        const action = new UserActions.CancelReplenishmentOrder(payload);
+        const action = new OrderActions.CancelReplenishmentOrder(payload);
 
         expect({ ...action }).toEqual({
-          type: UserActions.CANCEL_REPLENISHMENT_ORDER,
+          type: OrderActions.CANCEL_REPLENISHMENT_ORDER,
           payload,
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
@@ -108,10 +107,12 @@ describe('ReplenishmentOrderActions', () => {
     describe('CancelReplenishmentOrderSuccess action', () => {
       it('should create an action', () => {
         const payload: ReplenishmentOrder = mockReplenishmentOrder;
-        const action = new UserActions.CancelReplenishmentOrderSuccess(payload);
+        const action = new OrderActions.CancelReplenishmentOrderSuccess(
+          payload
+        );
 
         expect({ ...action }).toEqual({
-          type: UserActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS,
+          type: OrderActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS,
           payload,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
@@ -124,10 +125,10 @@ describe('ReplenishmentOrderActions', () => {
     describe('CancelReplenishmentOrderFail action', () => {
       it('should create an action', () => {
         const payload = mockError;
-        const action = new UserActions.CancelReplenishmentOrderFail(payload);
+        const action = new OrderActions.CancelReplenishmentOrderFail(payload);
 
         expect({ ...action }).toEqual({
-          type: UserActions.CANCEL_REPLENISHMENT_ORDER_FAIL,
+          type: OrderActions.CANCEL_REPLENISHMENT_ORDER_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
@@ -140,10 +141,10 @@ describe('ReplenishmentOrderActions', () => {
 
     describe('ClearCancelReplenishmentOrder action', () => {
       it('should create the action', () => {
-        const action = new UserActions.ClearCancelReplenishmentOrder();
+        const action = new OrderActions.ClearCancelReplenishmentOrder();
 
         expect({ ...action }).toEqual({
-          type: UserActions.CLEAR_CANCEL_REPLENISHMENT_ORDER,
+          type: OrderActions.CLEAR_CANCEL_REPLENISHMENT_ORDER,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID

@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
-  OrderReturnRequestService,
+  OrderReturnRequestFacade,
   ReturnRequestList,
-} from '@spartacus/core';
+} from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { ListNavigationModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 const mockReturns: ReturnRequestList = {
@@ -52,7 +52,7 @@ class MockOrderReturnRequestService {
 describe('OrderReturnRequestListComponent', () => {
   let component: OrderReturnRequestListComponent;
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
-  let returnService: OrderReturnRequestService;
+  let returnService: OrderReturnRequestFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -61,13 +61,13 @@ describe('OrderReturnRequestListComponent', () => {
         declarations: [OrderReturnRequestListComponent, MockUrlPipe],
         providers: [
           {
-            provide: OrderReturnRequestService,
+            provide: OrderReturnRequestFacade,
             useClass: MockOrderReturnRequestService,
           },
         ],
       }).compileComponents();
 
-      returnService = TestBed.inject(OrderReturnRequestService);
+      returnService = TestBed.inject(OrderReturnRequestFacade);
     })
   );
 

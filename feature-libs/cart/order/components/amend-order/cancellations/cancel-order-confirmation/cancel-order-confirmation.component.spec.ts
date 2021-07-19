@@ -1,13 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
+import { Order, OrderEntry } from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
 import createSpy = jasmine.createSpy;
-import { CommonModule } from '@angular/common';
 
 @Component({
   template: '',

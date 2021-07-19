@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReturnRequest } from '@spartacus/cart/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 import { ReturnRequestItemsComponent } from './return-request-items.component';
-import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 
 const mockReturnRequest: ReturnRequest = {
   rma: 'test',

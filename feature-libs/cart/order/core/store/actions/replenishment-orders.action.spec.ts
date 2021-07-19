@@ -1,9 +1,9 @@
-import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { StateUtils } from '../../../state/utils/index';
-import { USER_REPLENISHMENT_ORDERS } from '../order-state';
-import { UserActions } from './index';
+import { ReplenishmentOrderList } from '@spartacus/cart/order/root';
+import { StateUtils } from '@spartacus/core';
+import { REPLENISHMENT_ORDERS } from '../order-state';
+import { OrderActions } from './index';
 
-describe('User Replenishment Orders Actions', () => {
+describe('Replenishment Orders Actions', () => {
   describe('LoadUserReplenishmentOrders Actions', () => {
     it('should create the action', () => {
       const mockUserReplenishmentOrderPayload: {
@@ -17,14 +17,14 @@ describe('User Replenishment Orders Actions', () => {
         currentPage: 1,
         sort: 'byDate',
       };
-      const action = new UserActions.LoadUserReplenishmentOrders(
+      const action = new OrderActions.LoadUserReplenishmentOrders(
         mockUserReplenishmentOrderPayload
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_USER_REPLENISHMENT_ORDERS,
+        type: OrderActions.LOAD_USER_REPLENISHMENT_ORDERS,
         payload: mockUserReplenishmentOrderPayload,
-        meta: StateUtils.loadMeta(USER_REPLENISHMENT_ORDERS),
+        meta: StateUtils.loadMeta(REPLENISHMENT_ORDERS),
       });
     });
   });
@@ -32,12 +32,12 @@ describe('User Replenishment Orders Actions', () => {
   describe('LoadUserReplenishmentOrdersFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.LoadUserReplenishmentOrdersFail(error);
+      const action = new OrderActions.LoadUserReplenishmentOrdersFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL,
+        type: OrderActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL,
         payload: error,
-        meta: StateUtils.failMeta(USER_REPLENISHMENT_ORDERS, error),
+        meta: StateUtils.failMeta(REPLENISHMENT_ORDERS, error),
       });
     });
   });
@@ -51,25 +51,25 @@ describe('User Replenishment Orders Actions', () => {
       sorts: [{ selected: true }, { selected: false }],
     };
     it('should create the action', () => {
-      const action = new UserActions.LoadUserReplenishmentOrdersSuccess(
+      const action = new OrderActions.LoadUserReplenishmentOrdersSuccess(
         mockUserReplenishmentOrders
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS,
+        type: OrderActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS,
         payload: mockUserReplenishmentOrders,
-        meta: StateUtils.successMeta(USER_REPLENISHMENT_ORDERS),
+        meta: StateUtils.successMeta(REPLENISHMENT_ORDERS),
       });
     });
   });
 
   describe('ClearUserReplenishmentOrders Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.ClearUserReplenishmentOrders();
+      const action = new OrderActions.ClearUserReplenishmentOrders();
 
       expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_USER_REPLENISHMENT_ORDERS,
-        meta: StateUtils.resetMeta(USER_REPLENISHMENT_ORDERS),
+        type: OrderActions.CLEAR_USER_REPLENISHMENT_ORDERS,
+        meta: StateUtils.resetMeta(REPLENISHMENT_ORDERS),
       });
     });
   });

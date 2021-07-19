@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ReplenishmentOrder,
-  RoutingService,
-  UserReplenishmentOrderService,
-} from '@spartacus/core';
+  ReplenishmentOrderFacade,
+} from '@spartacus/cart/order/root';
+import { RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
@@ -67,14 +67,14 @@ class MockRoutingService {
 
 describe('ReplenishmentOrderDetailsService', () => {
   let replenishmentOrderDetailsService: ReplenishmentOrderDetailsService;
-  let userReplenishmentOrderService: UserReplenishmentOrderService;
+  let userReplenishmentOrderService: ReplenishmentOrderFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ReplenishmentOrderDetailsService,
         {
-          provide: UserReplenishmentOrderService,
+          provide: ReplenishmentOrderFacade,
           useClass: MockUserReplenishmentOrderService,
         },
         {
@@ -87,9 +87,7 @@ describe('ReplenishmentOrderDetailsService', () => {
     replenishmentOrderDetailsService = TestBed.inject(
       ReplenishmentOrderDetailsService
     );
-    userReplenishmentOrderService = TestBed.inject(
-      UserReplenishmentOrderService
-    );
+    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
 
     spyOn(
       userReplenishmentOrderService,

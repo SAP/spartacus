@@ -1,12 +1,11 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cart, Order } from '@spartacus/core';
-
+import { Order } from '@spartacus/cart/order/root';
+import { Cart } from '@spartacus/core';
 import { of } from 'rxjs';
-
-import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 
 @Component({
   selector: 'cx-order-summary',

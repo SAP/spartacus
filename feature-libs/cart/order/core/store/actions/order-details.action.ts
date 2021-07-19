@@ -3,7 +3,7 @@ import {
   Order,
 } from '@spartacus/cart/order/root';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { CANCEL_ORDER_PROCESS_ID, USER_ORDER_DETAILS } from '../order-state';
+import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 
 export const LOAD_ORDER_DETAILS = '[User] Load Order Details';
 export const LOAD_ORDER_DETAILS_FAIL = '[User] Load Order Details Fail';
@@ -23,28 +23,28 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
       orderCode: string;
     }
   ) {
-    super(USER_ORDER_DETAILS);
+    super(ORDER_DETAILS);
   }
 }
 
 export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(USER_ORDER_DETAILS, payload);
+    super(ORDER_DETAILS, payload);
   }
 }
 
 export class LoadOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_DETAILS_SUCCESS;
   constructor(public payload: Order) {
-    super(USER_ORDER_DETAILS);
+    super(ORDER_DETAILS);
   }
 }
 
 export class ClearOrderDetails extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_DETAILS;
   constructor() {
-    super(USER_ORDER_DETAILS);
+    super(ORDER_DETAILS);
   }
 }
 

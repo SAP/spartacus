@@ -1,16 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Order, OrderHistoryList } from '@spartacus/cart/order/root';
+import {
+  OCC_USER_ID_CURRENT,
+  PROCESS_FEATURE,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
+import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Order, OrderHistoryList } from '../../model/order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { UserActions } from '../store/actions/index';
-import { StateWithUser, USER_FEATURE } from '../store/order-state';
+import { OrderActions } from '../store/actions/index';
+import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { UserOrderService } from './order.service';
+import { OrderService } from './order.service';
 
 const mockReplenishmentOrderCode = 'test-repl-code';
 
@@ -26,30 +28,30 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-describe('UserOrderService', () => {
-  let userOrderService: UserOrderService;
+describe('OrderService', () => {
+  let userOrderService: OrderService;
   let userIdService: UserIdService;
   let routingService: RoutingService;
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithOrder>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
+        StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
         ),
       ],
       providers: [
-        UserOrderService,
+        OrderService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    userOrderService = TestBed.inject(UserOrderService);
+    userOrderService = TestBed.inject(OrderService);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
@@ -57,16 +59,16 @@ describe('UserOrderService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should UserOrderService is injected', inject(
-    [UserOrderService],
-    (service: UserOrderService) => {
+  it('should OrderService is injected', inject(
+    [OrderService],
+    (service: OrderService) => {
       expect(service).toBeTruthy();
     }
   ));
 
   it('should be able to get order details', () => {
     store.dispatch(
-      new UserActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
+      new OrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
     );
 
     let order: Order;
@@ -82,7 +84,7 @@ describe('UserOrderService', () => {
   it('should be able to load order details', () => {
     userOrderService.loadOrderDetails('orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadOrderDetails({
+      new OrderActions.LoadOrderDetails({
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
       })
@@ -92,13 +94,13 @@ describe('UserOrderService', () => {
   it('should be able to clear order details', () => {
     userOrderService.clearOrderDetails();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearOrderDetails()
+      new OrderActions.ClearOrderDetails()
     );
   });
 
   it('should be able to get order history list', () => {
     store.dispatch(
-      new UserActions.LoadUserOrdersSuccess({
+      new OrderActions.LoadUserOrdersSuccess({
         orders: [],
         pagination: {},
         sorts: [],
@@ -120,7 +122,7 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
-    store.dispatch(new UserActions.LoadUserOrdersSuccess({}));
+    store.dispatch(new OrderActions.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
     userOrderService
@@ -136,7 +138,7 @@ describe('UserOrderService', () => {
     userOrderService.loadOrderList(10, 1, 'byDate');
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserOrders({
+      new OrderActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
@@ -160,7 +162,7 @@ describe('UserOrderService', () => {
     userOrderService.loadOrderList(10, 1, 'byDate');
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserOrders({
+      new OrderActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
@@ -182,13 +184,13 @@ describe('UserOrderService', () => {
   it('should be able to clear order list', () => {
     userOrderService.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearUserOrders()
+      new OrderActions.ClearUserOrders()
     );
   });
 
   it('should be able to get consignment tracking', () => {
     store.dispatch(
-      new UserActions.LoadConsignmentTrackingSuccess({
+      new OrderActions.LoadConsignmentTrackingSuccess({
         trackingID: '1234567890',
       })
     );
@@ -201,7 +203,7 @@ describe('UserOrderService', () => {
   it('should be able to load consignment tracking', () => {
     userOrderService.loadConsignmentTracking('orderCode', 'consignmentCode');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadConsignmentTracking({
+      new OrderActions.LoadConsignmentTracking({
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
         consignmentCode: 'consignmentCode',
@@ -212,14 +214,14 @@ describe('UserOrderService', () => {
   it('should be able to clear consignment tracking', () => {
     userOrderService.clearConsignmentTracking();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearConsignmentTracking()
+      new OrderActions.ClearConsignmentTracking()
     );
   });
 
   it('should be able to cancel an order', () => {
     userOrderService.cancelOrder('test', {});
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.CancelOrder({
+      new OrderActions.CancelOrder({
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'test',
         cancelRequestInput: {},
@@ -229,7 +231,7 @@ describe('UserOrderService', () => {
 
   it('should be able to get CancelOrder loading flag', () => {
     store.dispatch(
-      new UserActions.CancelOrder({
+      new OrderActions.CancelOrder({
         userId: 'current',
         orderCode: 'test',
         cancelRequestInput: {},
@@ -242,7 +244,7 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to get CancelOrder Success flag', () => {
-    store.dispatch(new UserActions.CancelOrderSuccess());
+    store.dispatch(new OrderActions.CancelOrderSuccess());
     userOrderService
       .getCancelOrderSuccess()
       .subscribe((data) => expect(data).toEqual(true))
@@ -252,7 +254,7 @@ describe('UserOrderService', () => {
   it('should be able to reset CancelOrder process state', () => {
     userOrderService.resetCancelOrderProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetCancelOrderProcess()
+      new OrderActions.ResetCancelOrderProcess()
     );
   });
 });

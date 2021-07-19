@@ -6,17 +6,19 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
+  OrderFacade,
   OrderHistoryList,
   ReplenishmentOrder,
+  ReplenishmentOrderFacade,
+} from '@spartacus/cart/order/root';
+import {
+  I18nTestingModule,
   RoutingService,
   TranslationService,
-  UserOrderService,
-  UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
@@ -119,7 +121,7 @@ class MockUserReplenishmentOrderService {
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: UserOrderService | MockUserOrderService;
+  let userService: OrderFacade | MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(
@@ -134,16 +136,16 @@ describe('OrderHistoryComponent', () => {
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
-          { provide: UserOrderService, useClass: MockUserOrderService },
+          { provide: OrderFacade, useClass: MockUserOrderService },
           { provide: TranslationService, useClass: MockTranslationService },
           {
-            provide: UserReplenishmentOrderService,
+            provide: ReplenishmentOrderFacade,
             useClass: MockUserReplenishmentOrderService,
           },
         ],
       }).compileComponents();
 
-      userService = TestBed.inject(UserOrderService);
+      userService = TestBed.inject(OrderFacade);
       routingService = TestBed.inject(RoutingService);
     })
   );

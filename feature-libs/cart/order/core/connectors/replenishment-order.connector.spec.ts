@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
 import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '../../../model/index';
-import { UserReplenishmentOrderAdapter } from './replenishment-order.adapter';
-import { UserReplenishmentOrderConnector } from './replenishment-order.connector';
+} from '@spartacus/cart/order/root';
+import { Observable, of } from 'rxjs';
+import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
+import { ReplenishmentOrderConnector } from './replenishment-order.connector';
 
 const userId = 'test-user-id';
 const replenishmentCode = 'test-order-id';
@@ -28,8 +28,7 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-class MockUserReplenishmentOrderAdapter
-  implements UserReplenishmentOrderAdapter {
+class MockReplenishmentOrderAdapter implements ReplenishmentOrderAdapter {
   load(
     _userId: string,
     _replenishmentOrderCode: string
@@ -59,23 +58,23 @@ class MockUserReplenishmentOrderAdapter
   }
 }
 
-describe('UserReplenishmentOrderConnector', () => {
-  let adapter: UserReplenishmentOrderAdapter;
-  let connector: UserReplenishmentOrderConnector;
+describe('ReplenishmentOrderConnector', () => {
+  let adapter: ReplenishmentOrderAdapter;
+  let connector: ReplenishmentOrderConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UserReplenishmentOrderConnector,
+        ReplenishmentOrderConnector,
         {
-          provide: UserReplenishmentOrderAdapter,
-          useClass: MockUserReplenishmentOrderAdapter,
+          provide: ReplenishmentOrderAdapter,
+          useClass: MockReplenishmentOrderAdapter,
         },
       ],
     });
 
-    adapter = TestBed.inject(UserReplenishmentOrderAdapter);
-    connector = TestBed.inject(UserReplenishmentOrderConnector);
+    adapter = TestBed.inject(ReplenishmentOrderAdapter);
+    connector = TestBed.inject(ReplenishmentOrderConnector);
   });
 
   it('should create', () => {
