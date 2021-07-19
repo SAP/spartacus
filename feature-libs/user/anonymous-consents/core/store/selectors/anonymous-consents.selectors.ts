@@ -6,7 +6,8 @@ import { getAnonymousConsentState } from './feature.selector';
 export const getAnonymousConsents: MemoizedSelector<
   StateWithAnonymousConsents,
   AnonymousConsent[]
-> = createSelector(getAnonymousConsentState, (state) => state.consents);
+  // TODO:#anon - added due to the fact that the ngrx store is not yet initialized when invoked from the interceptor
+> = createSelector(getAnonymousConsentState, (state) => state?.consents ?? []);
 
 export const getAnonymousConsentByTemplateCode = (
   templateCode: string
