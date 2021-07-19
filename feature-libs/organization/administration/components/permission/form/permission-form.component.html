@@ -31,6 +31,9 @@
         bindValue="code"
         [readonly]="form.disabled"
         appendTo="cx-org-list"
+        [placeholder]="
+          'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
+        "
       >
       </ng-select>
       <cx-form-errors
@@ -48,6 +51,7 @@
         [clearable]="false"
         [items]="periods"
         appendTo="cx-org-list"
+        [placeholder]="'orgPurchaseLimit.periodRange' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -69,6 +73,7 @@
         [items]="currencies"
         bindLabel="name"
         bindValue="isocode"
+        [placeholder]="'orgPurchaseLimit.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
