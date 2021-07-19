@@ -103,27 +103,6 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      it('should load cart saved in browser storage', () => {
-        cart.loginCartUser();
-        cy.visit(`/product/${cart.products[0].code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
-        cy.reload();
-        cy.intercept(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts*`
-        ).as('carts');
-        cy.wait('@carts');
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
-
-        // cleanup
-        cart.removeCartItem(cart.products[0]);
-        cart.validateEmptyCart();
-      });
-
       // will fail right now, as this is not implemented yet
       it('should first try to load cart when adding first entry for logged user', () => {
         cart.loginCartUser();
