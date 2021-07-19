@@ -1,0 +1,25 @@
+<input
+  class="cx-import-entries-select-file"
+  type="file"
+  [formControl]="control"
+  [accept]="allowedExtensions"
+  (change)="selectFile($event.target.files[0])"
+  #uploadCSV
+/>
+<div class="cx-import-entries-select-button">
+  <button
+    [attr.aria-label]="buttonText"
+    class="btn btn-action"
+    type="button"
+    (click)="uploadCSV.click()"
+  >
+    {{ buttonText }}
+  </button>
+  <p *ngIf="selectedFile?.name">
+    {{ selectedFile.name }}
+  </p>
+</div>
+<cx-form-errors
+  [control]="control"
+  prefix="formErrors.file"
+></cx-form-errors>

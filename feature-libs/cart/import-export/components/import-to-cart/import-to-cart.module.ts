@@ -15,6 +15,7 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
+import { FileUploadModule } from '../../../../../projects/storefrontlib/src/shared';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.confi
     FormErrorsModule,
     IconModule,
     KeyboardFocusModule,
+    FileUploadModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportProductsComponent: {

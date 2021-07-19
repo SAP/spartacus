@@ -32,7 +32,7 @@ export class ImportEntriesDialogComponent implements OnInit {
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  selectedFile: File;
+  // selectedFile: File;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo | {};
 
@@ -89,7 +89,6 @@ export class ImportEntriesDialogComponent implements OnInit {
   }
 
   selectFile(file: File, form: FormGroup) {
-    this.selectedFile = file;
     this.importService
       .loadFile(file)
       .pipe(

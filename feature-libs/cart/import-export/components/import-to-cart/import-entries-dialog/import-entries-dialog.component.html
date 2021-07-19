@@ -36,32 +36,12 @@
               | cxTranslate: { size: fileValidity?.maxSize }
           }}
         </p>
-        <input
-          class="cx-import-entries-select-file"
-          type="file"
-          formControlName="file"
-          [accept]="fileValidity?.allowedExtensions"
-          (change)="selectFile($event.target.files[0], form)"
-          #uploadCSV
-        />
-        <div class="cx-import-entries-select-button">
-          <button
-            [attr.aria-label]="'importEntriesDialog.selectFile' | cxTranslate"
-            class="btn btn-action"
-            type="button"
-            (click)="uploadCSV.click()"
-          >
-            {{ 'importEntriesDialog.selectFile' | cxTranslate }}
-          </button>
-          <p *ngIf="selectedFile?.name">
-            {{ selectedFile.name }}
-          </p>
-        </div>
-        <cx-form-errors
+        <cx-file-upload
           [control]="form.get('file')"
-          prefix="formErrors.file"
-        ></cx-form-errors>
-
+          [buttonText]="'importEntriesDialog.selectFile' | cxTranslate"
+          [allowedExtensions]="fileValidity?.allowedExtensions"
+          (update)="selectFile($event, form)"
+        ></cx-file-upload>
         <div class="cx-import-entries-row">
           <ng-container>
             <label>
