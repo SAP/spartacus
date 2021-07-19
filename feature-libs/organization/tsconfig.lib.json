@@ -29,16 +29,7 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/cart": ["dist/cart"],
-      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
-      "@spartacus/cart/saved-cart/components": [
-        "dist/cart/saved-cart/components"
-      ],
-      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
-      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
-      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
-      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {
