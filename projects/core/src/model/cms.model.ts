@@ -171,3 +171,7 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   searchResult?: string;
   minPerFacet?: string;
 }
+
+export interface CmsAddToCartComponent extends CmsComponent {
+  inventoryDisplay?: boolean;
+}
