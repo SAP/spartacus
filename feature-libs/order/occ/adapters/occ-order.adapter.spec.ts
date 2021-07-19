@@ -42,7 +42,7 @@ const consignmentCode = 'a00001004';
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
 describe('OccOrderAdapter', () => {
-  let occUserOrderAdapter: OccOrderAdapter;
+  let occOrderAdapter: OccOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -51,7 +51,7 @@ describe('OccOrderAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
-        OccUserOrderAdapter,
+        OccOrderAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
@@ -60,7 +60,7 @@ describe('OccOrderAdapter', () => {
       ],
     });
 
-    occUserOrderAdapter = TestBed.inject(OccUserOrderAdapter);
+    occOrderAdapter = TestBed.inject(OccOrderAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
@@ -78,7 +78,7 @@ describe('OccOrderAdapter', () => {
       'should fetch user Orders with default options',
       waitForAsync(() => {
         const PAGE_SIZE = 5;
-        occUserOrderAdapter.loadHistory(userId, PAGE_SIZE).subscribe();
+        occOrderAdapter.loadHistory(userId, PAGE_SIZE).subscribe();
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET method and url`);
@@ -99,7 +99,7 @@ describe('OccOrderAdapter', () => {
         const currentPage = 1;
         const sort = 'byDate';
 
-        occUserOrderAdapter
+        occOrderAdapter
           .loadHistory(userId, PAGE_SIZE, currentPage, sort)
           .subscribe();
         httpMock.expectOne((req: HttpRequest<any>) => {
@@ -120,7 +120,7 @@ describe('OccOrderAdapter', () => {
     );
 
     it('should use converter', () => {
-      occUserOrderAdapter.loadHistory(userId).subscribe();
+      occOrderAdapter.loadHistory(userId).subscribe();
       httpMock
         .expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
@@ -134,7 +134,7 @@ describe('OccOrderAdapter', () => {
     it(
       'should fetch a single order',
       waitForAsync(() => {
-        occUserOrderAdapter.load(userId, orderData.code).subscribe();
+        occOrderAdapter.load(userId, orderData.code).subscribe();
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET a single order`);
@@ -148,7 +148,7 @@ describe('OccOrderAdapter', () => {
     );
 
     it('should use converter', () => {
-      occUserOrderAdapter.load(userId, orderData.code).subscribe();
+      occOrderAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req) => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
@@ -162,7 +162,7 @@ describe('OccOrderAdapter', () => {
           trackingID: '1234567890',
           trackingEvents: [],
         };
-        occUserOrderAdapter
+        occOrderAdapter
           .getConsignmentTracking(orderData.code, consignmentCode, userId)
           .subscribe((result) => expect(result).toEqual(tracking));
         const mockReq = httpMock.expectOne((req) => {
@@ -181,7 +181,7 @@ describe('OccOrderAdapter', () => {
     );
 
     it('should use converter', () => {
-      occUserOrderAdapter
+      occOrderAdapter
         .getConsignmentTracking(orderData.code, consignmentCode, userId)
         .subscribe();
       httpMock
@@ -206,7 +206,7 @@ describe('OccOrderAdapter', () => {
         };
 
         let result;
-        occUserOrderAdapter
+        occOrderAdapter
           .cancel(userId, orderData.code, cancelRequestInput)
           .subscribe((res) => (result = res));
 
@@ -237,7 +237,7 @@ describe('OccOrderAdapter', () => {
         };
 
         let result;
-        occUserOrderAdapter
+        occOrderAdapter
           .createReturnRequest(userId, returnRequestInput)
           .subscribe((res) => (result = res));
 
@@ -263,7 +263,7 @@ describe('OccOrderAdapter', () => {
 
     it('should use converter', () => {
       const returnRequestInput: ReturnRequestEntryInputList = {};
-      occUserOrderAdapter
+      occOrderAdapter
         .createReturnRequest(userId, returnRequestInput)
         .subscribe();
       httpMock
@@ -281,7 +281,7 @@ describe('OccOrderAdapter', () => {
     it(
       'should fetch order return request list with default options',
       waitForAsync(() => {
-        occUserOrderAdapter.loadReturnRequestList(userId).subscribe();
+        occOrderAdapter.loadReturnRequestList(userId).subscribe();
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         });
@@ -299,7 +299,7 @@ describe('OccOrderAdapter', () => {
         const currentPage = 1;
         const sort = 'byDate';
 
-        occUserOrderAdapter
+        occOrderAdapter
           .loadReturnRequestList(userId, PAGE_SIZE, currentPage, sort)
           .subscribe();
         httpMock.expectOne((req: HttpRequest<any>) => {
@@ -320,7 +320,7 @@ describe('OccOrderAdapter', () => {
     );
 
     it('should use converter', () => {
-      occUserOrderAdapter.loadReturnRequestList(userId).subscribe();
+      occOrderAdapter.loadReturnRequestList(userId).subscribe();
       httpMock
         .expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
@@ -335,7 +335,7 @@ describe('OccOrderAdapter', () => {
       'should be able to load an order return request data',
       waitForAsync(() => {
         let result;
-        occUserOrderAdapter
+        occOrderAdapter
           .loadReturnRequestDetail(userId, 'test')
           .subscribe((res) => (result = res));
 
@@ -355,7 +355,7 @@ describe('OccOrderAdapter', () => {
     );
 
     it('should use converter', () => {
-      occUserOrderAdapter.loadReturnRequestDetail(userId, 'test').subscribe();
+      occOrderAdapter.loadReturnRequestDetail(userId, 'test').subscribe();
       httpMock
         .expectOne((req) => {
           return req.method === 'GET';
@@ -372,7 +372,7 @@ describe('OccOrderAdapter', () => {
       'should be able to cancel one return request',
       waitForAsync(() => {
         let result;
-        occUserOrderAdapter
+        occOrderAdapter
           .cancelReturnRequest(userId, 'returnCode', { status: 'CANCELLING' })
           .subscribe((res) => (result = res));
 

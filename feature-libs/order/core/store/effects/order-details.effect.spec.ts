@@ -37,6 +37,7 @@ describe('Order Details effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        OrderConnector,
         fromOrderDetailsEffect.OrderDetailsEffect,
         { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),

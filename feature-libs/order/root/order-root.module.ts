@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
-import { CART_ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
+import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultCartOrderComponentsConfig(): CmsConfig {
@@ -38,7 +38,7 @@ export function defaultCartOrderComponentsConfig(): CmsConfig {
         ],
       },
       // by default core is bundled together with components
-      [CART_ORDER_CORE_FEATURE]: ORDER_FEATURE,
+      [ORDER_CORE_FEATURE]: ORDER_FEATURE,
     },
   };
   return config;

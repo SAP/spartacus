@@ -44,6 +44,7 @@ describe('Order Return Request effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        OrderConnector,
         fromOrderReturnRequestEffect.OrderReturnRequestEffect,
         { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),

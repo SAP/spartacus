@@ -5,54 +5,57 @@ import { OrderConnector } from './order.connector';
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements OrderAdapter {
-  load = createSpy('UserOrderAdapter.load').and.callFake((userId, orderCode) =>
+  load = createSpy('OrderAdapter.load').and.callFake((userId, orderCode) =>
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy(
-    'UserOrderAdapter.loadHistory'
-  ).and.callFake((userId) => of(`orderHistory-${userId}`));
+  loadHistory = createSpy('OrderAdapter.loadHistory').and.callFake((userId) =>
+    of(`orderHistory-${userId}`)
+  );
 
   getConsignmentTracking = createSpy(
-    'UserOrderAdapter.getConsignmentTracking'
+    'OrderAdapter.getConsignmentTracking'
   ).and.callFake((orderCode, consignmentCode, userId) =>
     of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
   );
 
   createReturnRequest = createSpy(
-    'UserOrderAdapter.createReturnRequest'
+    'OrderAdapter.createReturnRequest'
   ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
 
   loadReturnRequestList = createSpy(
-    'UserOrderAdapter.loadReturnRequestList'
+    'OrderAdapter.loadReturnRequestList'
   ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = createSpy(
-    'UserOrderAdapter.loadReturnRequestDetail'
+    'OrderAdapter.loadReturnRequestDetail'
   ).and.callFake((userId, returnRequestCode) =>
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
   cancel = createSpy(
-    'UserOrderAdapter.cancel'
+    'OrderAdapter.cancel'
   ).and.callFake((userId, orderCode, {}) =>
     of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(
-    'UserOrderAdapter.cancelReturnRequest'
+    'OrderAdapter.cancelReturnRequest'
   ).and.callFake((userId, returnRequestCode, {}) =>
     of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
   );
 }
 
-describe('UserOrderConnector', () => {
+describe('OrderConnector', () => {
   let service: OrderConnector;
   let adapter: OrderAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: OrderAdapter, useClass: MockOrderAdapter }],
+      providers: [
+        OrderConnector,
+        { provide: OrderAdapter, useClass: MockOrderAdapter },
+      ],
     });
 
     service = TestBed.inject(OrderConnector);

@@ -1,4 +1,3 @@
-i;
 import { ConsignmentTracking } from '@spartacus/order/root';
 import * as fromAction from './consignment-tracking.action';
 

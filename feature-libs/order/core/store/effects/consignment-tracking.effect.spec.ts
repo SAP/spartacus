@@ -37,6 +37,7 @@ describe('Consignment Tracking effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        OrderConnector,
         ConsignmentTrackingEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OrderAdapter, useValue: {} },

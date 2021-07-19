@@ -27,6 +27,7 @@ describe('Replenishment Orders effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        ReplenishmentOrderConnector,
         fromEffect.ReplenishmentOrdersEffect,
         { provide: ReplenishmentOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),

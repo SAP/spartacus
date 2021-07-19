@@ -6,7 +6,7 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { DeliveryMode, ReplenishmentOrder } from '@spartacus/order/root';
+import { DeliveryMode, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderOverviewComponent } from './order-overview.component';

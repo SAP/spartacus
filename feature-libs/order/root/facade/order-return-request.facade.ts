@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CART_ORDER_CORE_FEATURE } from '../feature-name';
+import { ORDER_CORE_FEATURE } from '../feature-name';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -12,7 +12,7 @@ import {
 export function orderReturnRequestFacadeFactory() {
   return facadeFactory({
     facade: OrderReturnRequestFacade,
-    feature: CART_ORDER_CORE_FEATURE,
+    feature: ORDER_CORE_FEATURE,
     methods: [
       'createOrderReturnRequest',
       'getOrderReturnRequest',
