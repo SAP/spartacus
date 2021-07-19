@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
-  CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
   OrderOccModule,
@@ -18,7 +17,6 @@ import {
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
-  CartComponentModule,
   CartPageEventModule,
   CategoryNavigationModule,
   CmsParagraphModule,
@@ -60,7 +58,6 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  WishListModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
@@ -157,11 +154,11 @@ if (environment.cpq) {
     ProductIntroModule,
 
     // Cart Core
-    //CartModule.forRoot(),
-    CartOccModule,
+    // CartModule.forRoot(),
+    // CartOccModule,
     // Cart UI
-    CartComponentModule,
-    WishListModule,
+    // CartComponentModule,
+    // WishListModule,
 
     // Cost Center
     CostCenterOccModule,

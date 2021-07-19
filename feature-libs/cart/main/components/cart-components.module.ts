@@ -30,7 +30,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     MiniCartModule,
     SaveForLaterModule,
   ],
-  declarations: [],
   providers: [
     {
       provide: PAGE_LAYOUT_HANDLER,
