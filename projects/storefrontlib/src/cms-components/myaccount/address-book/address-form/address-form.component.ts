@@ -137,7 +137,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   getTitles(): Observable<Title[]> {
     return combineLatest([
-      this.translation.translate('addressForm.noneTitle'),
+      this.translation.translate('addressForm.defaultTitle'),
       this.userService.getTitles(),
     ]).pipe(
       map(([noneTitleText, titles]) => {
