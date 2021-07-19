@@ -27,7 +27,7 @@
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "
-      (click)="onClick(value.valueCode)"
+      (click)="onSelect(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
     <div class="cx-label-container">

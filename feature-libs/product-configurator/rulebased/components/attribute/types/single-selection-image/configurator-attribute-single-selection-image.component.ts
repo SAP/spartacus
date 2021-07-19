@@ -1,15 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -17,20 +10,21 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+    super(quantityService);
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   /**
+   * @deprecated since 4.1
+   *
    * Submits a value.
    *
    * @param {string} value - Selected value
