@@ -32,19 +32,22 @@ export function getStorage(
 export function persistToStorage(
   configKey: string,
   value: any,
-  storage: Storage
+  storage: Storage | undefined
 ): void {
   if (!isSsr(storage) && value) {
-    storage.setItem(configKey, JSON.stringify(value));
+    storage?.setItem(configKey, JSON.stringify(value));
   }
 }
 
-export function readFromStorage(storage: Storage, key: string): unknown {
+export function readFromStorage(
+  storage: Storage | undefined,
+  key: string
+): unknown {
   if (isSsr(storage)) {
     return;
   }
 
-  const storageValue = storage.getItem(key);
+  const storageValue = storage?.getItem(key);
   if (!storageValue) {
     return;
   }
@@ -52,6 +55,6 @@ export function readFromStorage(storage: Storage, key: string): unknown {
   return JSON.parse(storageValue);
 }
 
-export function isSsr(storage: Storage): boolean {
+export function isSsr(storage?: Storage): boolean {
   return !Boolean(storage);
 }

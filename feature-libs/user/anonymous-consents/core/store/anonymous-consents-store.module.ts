@@ -26,6 +26,8 @@ export function anonymousConsentsStatePersistenceFactory(
   ],
   providers: [
     reducerProvider,
+    // TODO:#anon doesn't make sense to provide it here (im the core), as this needs to fire as soon as the app starts.
+    // Therefore, the best place to provide it is the root module. However, it becomes tricky at this point since it depends on the AnonymousConsentsService / ngrx store which is LL.
     {
       provide: APP_INITIALIZER,
       useFactory: anonymousConsentsStatePersistenceFactory,

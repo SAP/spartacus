@@ -34,6 +34,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return combineLatest([
+      // TODO:#anon - causes an ngrx warning, as the store isn't initialized yet
       this.anonymousConsentsService.getConsents(),
       this.authService.isUserLoggedIn(),
     ]).pipe(
