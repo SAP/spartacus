@@ -278,7 +278,7 @@
 
   cx-store-finder-list-item {
     .cx-button {
-      line-height: 2.2;
+      line-height: var(--cx-line-height, 2.2);
     }
   }
 }
