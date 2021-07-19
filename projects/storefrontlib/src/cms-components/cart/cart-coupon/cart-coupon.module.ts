@@ -29,7 +29,5 @@ import { FormErrorsModule } from '../../../shared/index';
       },
     }),
   ],
-
-  entryComponents: [CartCouponComponent],
 })
 export class CartCouponModule {}

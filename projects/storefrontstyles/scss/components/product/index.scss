@@ -4,9 +4,9 @@
 @import './carousel/index';
 @import './star-rating';
 
-$product-components-whitelist: mergeAll(
+$product-components-allowlist: mergeAll(
   (
-    $product-list-whitelist,
+    $product-list-allowlist,
     cx-searchbox,
     cx-product-carousel,
     cx-product-references,
@@ -18,7 +18,6 @@ $product-components-whitelist: mergeAll(
     cx-star-rating,
     cx-tab-paragraph-container,
     cx-stock-notification,
-    cx-stock-notification-dialog,
-    cx-product-variants
+    cx-stock-notification-dialog
   )
 ) !default;

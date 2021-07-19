@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address } from '../../model/address.model';
 import { CostCenter } from '../../model/org-unit.model';
@@ -14,9 +14,8 @@ import { UserCostCenterService } from './user-cost-center.service';
 const userId = 'testUserId';
 class MockUserIdService implements Partial<UserIdService> {
   userId;
-  invokeWithUserId(cb) {
-    cb(userId);
-    return new Subscription();
+  takeUserId() {
+    return of(userId);
   }
 }
 describe('PaymentTypeService', () => {

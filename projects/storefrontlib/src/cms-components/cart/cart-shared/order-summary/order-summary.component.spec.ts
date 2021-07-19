@@ -7,7 +7,7 @@ import {
   Voucher,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { PromotionsModule } from '../../../checkout';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderSummaryComponent } from './order-summary.component';
 
 @Component({

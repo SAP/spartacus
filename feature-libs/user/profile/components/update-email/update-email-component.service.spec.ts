@@ -1,6 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -20,9 +21,14 @@ class MockAuthService {
 }
 class MockRoutingService {
   go = createSpy().and.stub();
+  getUrl = createSpy().and.returnValue('');
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  setRedirectUrl = createSpy('setRedirectUrl');
 }
 
 describe('UpdateEmailComponentService', () => {
@@ -34,6 +40,7 @@ describe('UpdateEmailComponentService', () => {
   let newUid: AbstractControl;
   let confirmNewUid: AbstractControl;
   let password: AbstractControl;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +63,10 @@ describe('UpdateEmailComponentService', () => {
           provide: AuthService,
           useClass: MockAuthService,
         },
+        {
+          provide: AuthRedirectService,
+          useClass: MockAuthRedirectService,
+        },
       ],
     }).compileComponents();
   });
@@ -67,6 +78,7 @@ describe('UpdateEmailComponentService', () => {
     authService = TestBed.inject(AuthService);
     userService = TestBed.inject(UserEmailFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
 
     newUid = service.form.controls.email;
     confirmNewUid = service.form.controls.confirmEmail;
@@ -127,27 +139,43 @@ describe('UpdateEmailComponentService', () => {
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
-      it('should reroute to the login page', (done: DoneFn) => {
-        service.save();
-        authService.coreLogout().then(() => {
-          expect(routingService.go).toHaveBeenCalledWith(
-            { cxRoute: 'login' },
-            undefined,
-            {
-              state: {
-                newUid: 'tester@sap.com',
-              },
-            }
-          );
-          done();
-        });
-      });
+      it(
+        'should reroute to the login page',
+        waitForAsync(() => {
+          service.save();
+          authService.coreLogout().then(() => {
+            expect(routingService.go).toHaveBeenCalledWith(
+              { cxRoute: 'login' },
+              {
+                state: {
+                  newUid: 'tester@sap.com',
+                },
+              }
+            );
+          });
+        })
+      );
 
       it('reset form', () => {
         spyOn(service.form, 'reset').and.callThrough();
         service.save();
         expect(service.form.reset).toHaveBeenCalled();
       });
+
+      it(
+        'should set the redirect url to the home page before navigating to the login page',
+        waitForAsync(() => {
+          service.save();
+          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
+            routingService.getUrl({ cxRoute: 'home' })
+          );
+          authService.coreLogout().then(() => {
+            expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
+              routingService.go
+            );
+          });
+        })
+      );
     });
 
     describe('error', () => {

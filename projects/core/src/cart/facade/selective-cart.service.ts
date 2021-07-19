@@ -98,12 +98,6 @@ export class SelectiveCartService {
     return this.multiCartService.getEntries(this.cartId);
   }
 
-  getLoaded(): Observable<boolean> {
-    return this.cartSelector$.pipe(
-      map((cart) => (cart.success || cart.error) && !cart.loading)
-    );
-  }
-
   /**
    * Returns true when selective cart is stable (not loading and not pending processes on cart)
    */

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -6,11 +13,37 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -20,7 +53,12 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeCheckBoxListComponent],
+        declarations: [
+          ConfiguratorAttributeCheckBoxListComponent,
+          MockFocusDirective,
+          MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
+        ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
           ConfiguratorStorefrontUtilsService,
@@ -153,7 +191,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   // HTML
-
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
@@ -178,39 +215,92 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should display value quantity when dataType is with value quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
   it('should allow zero value quantity', () => {
     expect(component.allowZeroValueQuantity).toBe(true);
   });
 
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow zero value quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.allowZeroValueQuantity).toBe(false);
+  describe('attribute level', () => {
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '250.00$',
+        value: 250,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should display value quantity when dataType is with value quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+
+      if (value) {
+        value = {
+          valueCode: 'a',
+          selected: true,
+          quantity: 5,
+          valuePrice: {
+            currencyIso: '$',
+            formattedValue: '100.00$',
+            value: 250,
+          },
+          valuePriceTotal: {
+            currencyIso: '$',
+            formattedValue: '$500.0',
+            value: 500,
+          },
+        };
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });

@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorType } from 'feature-libs/product-configurator/common';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 import { OccConfiguratorCpqAddToCartSerializer } from './occ-configurator-cpq-add-to-cart-serializer';
 
@@ -20,7 +23,12 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
     productCode: PRODUCT_CODE,
     quantity: QUANTITY,
     configId: CONFIG_ID,
-    owner: { key: 'A', configuratorType: ConfiguratorType.CPQ },
+    owner: {
+      key: 'A',
+      id: PRODUCT_CODE,
+      configuratorType: ConfiguratorType.CPQ,
+      type: CommonConfigurator.OwnerType.PRODUCT,
+    },
   };
 
   const targetParameters: OccCpqConfigurator.AddToCartParameters = {
@@ -45,8 +53,8 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
     const convertedParameters = serializerUnderTest.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
-    expect(convertedParameters.product.code).toEqual(
-      targetParameters.product.code
+    expect(convertedParameters.product?.code).toEqual(
+      targetParameters.product?.code
     );
   });
 });

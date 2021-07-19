@@ -17,6 +17,7 @@ export class CpqAccessStorageService implements OnDestroy {
   protected readonly EXPIRED_TOKEN: CpqAccessData = {
     accessToken: 'INVALID DUMMY',
     accessTokenExpirationTime: 0,
+    endpoint: '',
   };
 
   constructor(
@@ -107,25 +108,33 @@ export class CpqAccessStorageService implements OnDestroy {
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
-    const authSettings = this.config.productConfigurator.cpq.authentication;
-    // we schedule a request to update our cache some time before expiration
-    let fetchNextIn: number =
-      data.accessTokenExpirationTime -
-      Date.now() -
-      authSettings.tokenExpirationBuffer;
-    if (fetchNextIn < authSettings.tokenMinValidity) {
-      fetchNextIn = authSettings.tokenMinValidity;
-    } else if (fetchNextIn > authSettings.tokenMaxValidity) {
-      fetchNextIn = authSettings.tokenMaxValidity;
+    const authSettings = this.config.productConfigurator.cpq?.authentication;
+    if (authSettings) {
+      // we schedule a request to update our cache some time before expiration
+      let fetchNextIn: number =
+        data.accessTokenExpirationTime -
+        Date.now() -
+        authSettings.tokenExpirationBuffer;
+      if (fetchNextIn < authSettings.tokenMinValidity) {
+        fetchNextIn = authSettings.tokenMinValidity;
+      } else if (fetchNextIn > authSettings.tokenMaxValidity) {
+        fetchNextIn = authSettings.tokenMaxValidity;
+      }
+      return fetchNextIn;
+    } else {
+      throw new Error('CPQ authentication configuration not present');
     }
-    return fetchNextIn;
   }
 
-  protected isTokenExpired(tokenData: CpqAccessData) {
-    return (
-      Date.now() >
-      tokenData.accessTokenExpirationTime -
-        this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer
-    );
+  protected isTokenExpired(tokenData: CpqAccessData): boolean {
+    const authSettings = this.config.productConfigurator.cpq?.authentication;
+    if (authSettings) {
+      return (
+        Date.now() >
+        tokenData.accessTokenExpirationTime - authSettings.tokenExpirationBuffer
+      );
+    } else {
+      throw new Error('CPQ authentication configuration not present');
+    }
   }
 }

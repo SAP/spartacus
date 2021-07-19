@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -14,6 +14,12 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
 describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
@@ -26,7 +32,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeInputFieldComponent],
+        declarations: [
+          ConfiguratorAttributeInputFieldComponent,
+          MockFocusDirective,
+        ],
         imports: [ReactiveFormsModule],
         providers: [
           {
@@ -116,16 +125,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
-  it('should delay emit inputValue for debounce fallback with fallback config', fakeAsync(() => {
-    component['config'] = undefined;
-    component.attributeInputForm.setValue('testValue');
-    fixture.detectChanges();
-    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
     expect(component.inputChange.emit).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).toHaveBeenCalled();

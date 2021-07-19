@@ -4,6 +4,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
+import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
 export const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
@@ -25,6 +26,10 @@ export const GROUP_ID_CONFLICT_1 = '9999-99-0001';
 export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
 export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
+
+export const VALUE_01 = 'VALUE_01';
+export const VALUE_02 = 'VALUE_02';
+export const VALUE_03 = 'VALUE_03';
 
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
@@ -52,16 +57,116 @@ const groupsWithoutIssues: Configurator.Group = {
   ],
   subGroups: [],
 };
+
+export const subGroupWith2Attributes: Configurator.Group = {
+  id: GROUP_ID_4,
+  configurable: true,
+  subGroups: [],
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [
+    {
+      name: 'ATTRIBUTE_5_STRING',
+      uiType: Configurator.UiType.STRING,
+      required: true,
+      incomplete: false,
+    },
+    {
+      name: 'ATTRIBUTE_5_DROPDOWN',
+      uiType: Configurator.UiType.DROPDOWN,
+      required: true,
+      incomplete: true,
+      values: [
+        {
+          name: VALUE_01,
+          valueCode: VALUE_01,
+          valueDisplay: 'Value 01',
+          images: [],
+        },
+        {
+          name: VALUE_02,
+          valueCode: VALUE_02,
+          valueDisplay: 'Value 02',
+          images: [],
+        },
+        {
+          name: VALUE_03,
+          valueCode: VALUE_03,
+          valueDisplay: 'Value 03',
+          images: [],
+        },
+      ],
+    },
+  ],
+};
+
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
+};
+
+export const attributeRadioButton: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
+};
+
+export const attributeCheckbox: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_RADIOBUTTON',
+  uiType: Configurator.UiType.RADIOBUTTON,
+  required: false,
+  incomplete: false,
+  groupId: '1',
+  attrCode: 123,
+  values: [
+    {
+      name: VALUE_01,
+      valueCode: VALUE_01,
+      valueDisplay: 'Value 01',
+      images: [],
+    },
+    {
+      name: VALUE_02,
+      valueCode: VALUE_02,
+      valueDisplay: 'Value 02',
+      images: [],
+    },
+    {
+      name: VALUE_03,
+      valueCode: VALUE_03,
+      valueDisplay: 'Value 03',
+      images: [],
+    },
+  ],
 };
 
 export const productConfiguration: Configurator.Configuration = {
@@ -72,28 +177,13 @@ export const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_1,
       configurable: true,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      attributes: [
-        {
-          name: ATTRIBUTE_1_CHECKBOX,
-          uiType: Configurator.UiType.CHECKBOXLIST,
-          required: true,
-          incomplete: true,
-        },
-      ],
+      attributes: [attributeCheckbox],
       subGroups: [],
     },
-
     {
       id: GROUP_ID_2,
       configurable: true,
-      attributes: [
-        {
-          name: 'ATTRIBUTE_2_RADIOBUTTON',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          required: false,
-          incomplete: false,
-        },
-      ],
+      attributes: [attributeRadioButton],
       subGroups: [],
     },
     {
@@ -107,28 +197,7 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-      subGroups: [
-        {
-          id: GROUP_ID_4,
-          configurable: true,
-          subGroups: [],
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          attributes: [
-            {
-              name: 'ATTRIBUTE_5_STRING',
-              uiType: Configurator.UiType.STRING,
-              required: true,
-              incomplete: false,
-            },
-            {
-              name: 'ATTRIBUTE_5_DROPDOWN',
-              uiType: Configurator.UiType.DROPDOWN,
-              required: true,
-              incomplete: true,
-            },
-          ],
-        },
-      ],
+      subGroups: [subGroupWith2Attributes],
     },
     {
       id: GROUP_ID_5,
@@ -147,7 +216,6 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-
       subGroups: [
         {
           id: GROUP_ID_6,
@@ -177,7 +245,6 @@ export const productConfiguration: Configurator.Configuration = {
         },
       ],
     },
-
     {
       id: GROUP_ID_9,
       configurable: true,
@@ -212,11 +279,11 @@ export const productConfiguration: Configurator.Configuration = {
         },
       ],
     },
-    { id: GROUP_ID_2 },
-    { id: GROUP_ID_4 },
-    { id: GROUP_ID_6 },
-    { id: GROUP_ID_7 },
-    { id: GROUP_ID_10 },
+    ConfiguratorTestUtils.createGroup(GROUP_ID_2),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_4),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_6),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_7),
+    ConfiguratorTestUtils.createGroup(GROUP_ID_10),
   ],
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
@@ -231,6 +298,7 @@ export const productConfiguration: Configurator.Configuration = {
     issueNavigationDone: true,
   },
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: '1',

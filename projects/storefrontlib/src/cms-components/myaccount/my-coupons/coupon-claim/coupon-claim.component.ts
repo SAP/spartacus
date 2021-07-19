@@ -8,7 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 
 @Component({
-  templateUrl: './coupon-claim.component.html',
+  template: '',
   selector: 'cx-coupon-claim',
 })
 export class CouponClaimComponent implements OnInit, OnDestroy {

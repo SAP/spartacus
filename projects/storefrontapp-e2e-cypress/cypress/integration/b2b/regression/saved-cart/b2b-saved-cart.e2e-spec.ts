@@ -117,6 +117,15 @@ context('B2B - Saved Cart', () => {
         );
       });
 
+      it('should make cart active and not swap cart when active cart is empty, and clone saved cart', () => {
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          true,
+          true
+        );
+      });
+
       it('should make cart active and swap cart when active cart has entries', () => {
         savedCart.waitForCartPageData(sampleData.products[2]);
         savedCart.visitCartPage();
@@ -126,6 +135,20 @@ context('B2B - Saved Cart', () => {
         savedCart.restoreCart(
           sampleData.products[1],
           sampleData.savedActiveCartForm[2]
+        );
+      });
+
+      it('should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
+        savedCart.waitForCartPageData(sampleData.products[2]);
+        savedCart.visitCartPage();
+
+        savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
+
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          false,
+          true
         );
       });
     });
