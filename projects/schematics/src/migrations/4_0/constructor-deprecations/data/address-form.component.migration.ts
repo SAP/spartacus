@@ -3,6 +3,7 @@ import {
   ANGULAR_FORMS,
   CHECKOUT_DELIVERY_SERVICE,
   FORM_BUILDER,
+  GLOBAL_MESSAGE_SERVICE,
   MODAL_SERVICE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -34,13 +35,10 @@ export const ADDRESS_FORM_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
     { className: FORM_BUILDER, importPath: ANGULAR_FORMS },
-    { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
     { className: USER_SERVICE, importPath: SPARTACUS_CORE },
     { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
+    { className: GLOBAL_MESSAGE_SERVICE, importPath: SPARTACUS_CORE },
     { className: MODAL_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
-  ],
-  removeParams: [
-    { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
   ],
   addParams: [{ className: TRANSLATION_SERVICE, importPath: SPARTACUS_CORE }],
 };
