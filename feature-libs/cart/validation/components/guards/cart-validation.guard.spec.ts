@@ -6,7 +6,7 @@ import { CartValidationFacade } from '@spartacus/cart/validation/root';
 import { BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-const cartModification = new BehaviorSubject({ cartModifications: [] });
+const cartModification = new BehaviorSubject({});
 
 class MockCartValidationFacade implements Partial<CartValidationFacade> {
   getCartModificationList() {
@@ -39,6 +39,8 @@ fdescribe(`CartValidationGuard`, () => {
 
     guard = TestBed.inject(CartValidationGuard);
     globalMessageService = TestBed.inject(GlobalMessageService);
+
+    cartModification.next({ cartModifications: [] });
   });
 
   it('should return true if cart modification list is empty / cart is valid', () => {
