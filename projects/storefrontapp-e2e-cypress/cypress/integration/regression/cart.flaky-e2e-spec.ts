@@ -7,13 +7,13 @@ import { login } from '../../support/utils/login';
 
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    context('Basic functionality', () => {
+    context('Anonymous user', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
 
-    context('visiting homepage', () => {
+    context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
@@ -36,6 +36,16 @@ describe('Cart', () => {
 
       it('should add product and manipulate cart quantity', () => {
         cart.manipulateCartQuantity();
+      });
+    });
+  });
+
+  viewportContext(['desktop'], () => {
+    context('Registered user', () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cart.loginRegisteredUser();
+        visitHomePage();
       });
 
       it('should be unable to add out of stock products to cart', () => {
