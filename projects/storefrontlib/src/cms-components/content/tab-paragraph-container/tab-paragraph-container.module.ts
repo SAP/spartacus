@@ -30,7 +30,6 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     }),
   ],
   declarations: [TabParagraphContainerComponent],
-  entryComponents: [TabParagraphContainerComponent],
   exports: [TabParagraphContainerComponent],
 })
 export class TabParagraphContainerModule {}

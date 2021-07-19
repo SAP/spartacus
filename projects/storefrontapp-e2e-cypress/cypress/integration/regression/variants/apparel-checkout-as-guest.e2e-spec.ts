@@ -9,7 +9,6 @@ import {
   addVariantOfSameProductToCart,
   APPAREL_BASESITE,
   APPAREL_CURRENCY,
-  APPAREL_DEFAULT_DELIVERY_MODE,
   configureProductWithVariants,
   visitProductWithoutVariantPage,
 } from '../../../helpers/variants/apparel-checkout-flow';
@@ -57,7 +56,7 @@ context('Apparel - checkout as guest', () => {
         cartWithTotalVariantProduct
       );
 
-      checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
+      checkout.verifyDeliveryMethod();
 
       checkout.fillPaymentFormWithCheapProduct(
         variantUser,

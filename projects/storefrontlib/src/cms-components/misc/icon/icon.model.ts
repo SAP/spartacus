@@ -48,6 +48,10 @@ export abstract class IconConfig {
   icon?: IconOptions;
 }
 
+declare module '@spartacus/core' {
+  interface Config extends IconConfig {}
+}
+
 export interface IconOptions {
   /**
    * Each icon type can be configured with a so-called symbol. The symbol will

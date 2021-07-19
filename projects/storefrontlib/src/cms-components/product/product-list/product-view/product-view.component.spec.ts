@@ -3,6 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ProductViewComponent, ViewModes } from './product-view.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
   selector: 'cx-icon',
@@ -19,7 +20,7 @@ describe('ProductViewComponent in product-list', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NgSelectModule, FormsModule],
+        imports: [NgSelectModule, FormsModule, I18nTestingModule],
         declarations: [ProductViewComponent, MockCxIconComponent],
       }).compileComponents();
     })

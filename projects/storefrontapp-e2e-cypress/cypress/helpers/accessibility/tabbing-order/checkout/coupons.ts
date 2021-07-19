@@ -1,4 +1,4 @@
-import * as cartCoupon from '../../../cart-coupon';
+import * as cartCoupon from '../../../coupons/cart-coupon';
 import { addProduct, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -25,7 +25,7 @@ export function checkoutAppliedCouponsTabbingOrder(config: TabElement[]) {
     )}/users/current/carts*`
   ).as('getCarts');
   addProduct(cartCoupon.productCode1);
-  cartCoupon.applyCoupon(cartCoupon.couponCode1);
+  cartCoupon.applyCoupon(cartCoupon.couponForCart);
   cy.wait('@getCarts');
   verifyTabbingOrder(appliedCouponsContainerSelector, config);
 }

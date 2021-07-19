@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -10,13 +11,16 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
+  LibraryOptions,
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_USER,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
@@ -45,7 +49,6 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -58,12 +61,12 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const accountFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ACCOUNT_FEATURE],
+    features: [CLI_USER_ACCOUNT_FEATURE],
   };
 
   const profileFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PROFILE_FEATURE],
+    features: [CLI_USER_PROFILE_FEATURE],
   };
 
   beforeEach(async () => {
@@ -201,6 +204,26 @@ describe('Spartacus User schematics: ng-add', () => {
           const content = appTree.readContent('/angular.json');
           expect(content).toMatchSnapshot();
         });
+      });
+
+      it('should run the proper installation tasks', async () => {
+        const tasks = schematicRunner.tasks
+          .filter((task) => task.name === 'run-schematic')
+          .map(
+            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
+          );
+        expect(tasks.length).toEqual(1);
+
+        const userTaskWithSubFeatures = tasks[0];
+        expect(userTaskWithSubFeatures).toBeTruthy();
+        expect(userTaskWithSubFeatures.name).toEqual('add-spartacus-library');
+        expect(userTaskWithSubFeatures.options).toHaveProperty(
+          'collection',
+          SPARTACUS_USER
+        );
+        expect(userTaskWithSubFeatures.options.options?.features).toEqual([
+          CLI_USER_ACCOUNT_FEATURE,
+        ]);
       });
     });
 

@@ -5,8 +5,10 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
 import {
@@ -18,7 +20,11 @@ import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converter
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -41,6 +47,7 @@ const configuration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -95,7 +102,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -104,17 +111,22 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
   it('should call createTextfieldConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
-      .createConfiguration(productCode, null)
+      .createConfiguration(
+        productCode,
+        ConfiguratorModelUtils.createInitialOwner()
+      )
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'createTextfieldConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createTextfieldConfiguration',
       {
-        productCode,
+        urlParams: {
+          productCode,
+        },
       }
     );
 
@@ -137,12 +149,14 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readTextfieldConfigurationForCartEntry',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
-        cartEntryNumber: '0',
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+          cartEntryNumber: '0',
+        },
       }
     );
 
@@ -162,11 +176,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addTextfieldConfigurationToCart',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+        },
       }
     );
 
@@ -189,12 +205,14 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateTextfieldConfigurationForCartEntry',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
-        cartEntryNumber: CART_ENTRY_NUMBER,
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+          cartEntryNumber: CART_ENTRY_NUMBER,
+        },
       }
     );
 

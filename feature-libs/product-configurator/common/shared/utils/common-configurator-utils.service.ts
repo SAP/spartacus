@@ -59,9 +59,9 @@ export class CommonConfiguratorUtilsService {
    * @param {Cart} cart - Cart
    * @returns {string} - Cart identifier
    */
-  getCartId(cart: Cart): string {
+  getCartId(cart?: Cart): string {
     const cartId =
-      cart.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+      cart?.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart?.code;
     if (!cartId) {
       throw new Error('Cart ID is not defined');
     }

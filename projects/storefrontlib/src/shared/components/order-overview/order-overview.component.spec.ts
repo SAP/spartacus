@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Address,
   DeliveryMode,
@@ -107,6 +107,9 @@ const mockOrder: Order = {
   },
 };
 
+const mockUnformattedAddress = 'test1, , test3, test4';
+const mockFormattedAddress = 'test1, test2, test3, test4';
+
 class MockTranslationService {
   translate(): Observable<string> {
     return of();
@@ -167,23 +170,6 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent()', () => {
-      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
-
-      const date = component['getDate'](new Date());
-
-      component
-        .getOrderCurrentDateCardContent()
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([date]);
-        })
-        .unsubscribe();
-
-      expect(component.getOrderCurrentDateCardContent).toHaveBeenCalled();
-    });
-
     it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
       spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
 
@@ -204,12 +190,10 @@ describe('OrderOverviewComponent', () => {
     it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
       spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
 
-      const date = component['getDate'](
-        new Date(mockReplenishmentOrder.firstDate)
-      );
+      const date = mockReplenishmentOrder.firstDate;
 
       component
-        .getReplenishmentStartOnCardContent(mockReplenishmentOrder.firstDate)
+        .getReplenishmentStartOnCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -249,14 +233,10 @@ describe('OrderOverviewComponent', () => {
     it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
       spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
 
-      const date = component['getDate'](
-        new Date(mockReplenishmentOrder.trigger.activationTime)
-      );
+      const date = mockReplenishmentOrder.trigger.activationTime;
 
       component
-        .getReplenishmentNextDateCardContent(
-          mockReplenishmentOrder.trigger.activationTime
-        )
+        .getReplenishmentNextDateCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -266,7 +246,7 @@ describe('OrderOverviewComponent', () => {
 
       expect(
         component.getReplenishmentNextDateCardContent
-      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.activationTime);
+      ).toHaveBeenCalledWith(date);
     });
   });
 
@@ -293,13 +273,13 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should call getOrderCurrentDateCardContent(isoDate?: string)', () => {
+    it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
       spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
 
-      const date = component['getDate'](mockOrder.created);
+      const date = mockOrder.created.toDateString();
 
       component
-        .getOrderCurrentDateCardContent(mockOrder.created.toDateString())
+        .getOrderCurrentDateCardContent(date)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
@@ -489,6 +469,24 @@ describe('OrderOverviewComponent', () => {
       expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
         mockOrder.deliveryMode
       );
+    });
+  });
+
+  describe('normalize formatted address', () => {
+    it('should normalize address when line 2 is empty in address', () => {
+      const address = component['normalizeFormattedAddress'](
+        mockUnformattedAddress
+      );
+
+      expect(address).toEqual('test1, test3, test4');
+    });
+
+    it('should not change the format when line 2 exist in address', () => {
+      const address = component['normalizeFormattedAddress'](
+        mockFormattedAddress
+      );
+
+      expect(address).toEqual(mockFormattedAddress);
     });
   });
 });

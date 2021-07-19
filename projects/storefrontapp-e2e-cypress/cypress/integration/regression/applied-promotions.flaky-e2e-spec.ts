@@ -1,47 +1,37 @@
-import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user';
 import * as appliedPromotions from '../../helpers/applied-promotions';
+import { waitForPage } from '../../helpers/checkout-flow';
+import { viewportContext } from '../../helpers/viewport-context';
+import { standardUser } from '../../sample-data/shared-users';
 
 context('Applied promotions', () => {
-  const eosCameraProductCode = '1382080';
-
-  before(() =>
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    })
-  );
-
-  describe('Applied promotions as a logged user', () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      retrieveTokenAndLogin();
-      cy.reload();
-      cy.visit(`/product/${eosCameraProductCode}`);
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.requireLoggedIn(standardUser);
     });
 
-    beforeEach(() => {
-      cy.restoreLocalStorage();
+    describe('As a logged in user', () => {
+      before(() => {
+        const eosCameraProductCode = '1382080';
+        const productPage = waitForPage(eosCameraProductCode, 'getProductPage');
+        cy.visit(`/product/${eosCameraProductCode}`);
+        cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      });
+
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+      });
+
+      appliedPromotions.checkAppliedPromotions();
+
+      appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
+
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
     });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    appliedPromotions.checkAppliedPromotionsForLoggedUser();
-  });
-
-  describe('Applied promotions for different cart totals', () => {
-    before(() => {
-      retrieveTokenAndLogin();
-      cy.reload();
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
   });
 });

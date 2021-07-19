@@ -50,7 +50,6 @@ class TestComponent {
 
 @NgModule({
   declarations: [TestComponent],
-  entryComponents: [TestComponent],
   exports: [TestComponent],
 })
 class TestModule {}
@@ -108,7 +107,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [PageComponentModule, TestModule],
+      imports: [PageComponentModule.forRoot(), TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,

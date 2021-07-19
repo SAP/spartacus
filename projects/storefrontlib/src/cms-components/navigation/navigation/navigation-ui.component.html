@@ -3,10 +3,10 @@
   class="back is-open"
   (click)="back()"
 >
-  <h5>
+  <span>
     <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
     {{ 'common.back' | cxTranslate }}
-  </h5>
+  </span>
 </div>
 
 <ng-container *ngFor="let child of node?.children">
@@ -40,7 +40,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5
+      <span
         [attr.aria-label]="node.title"
         [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
       >
@@ -49,7 +49,7 @@
           *ngIf="flyout && node.children?.length > 0"
           [type]="iconType.CARET_DOWN"
         ></cx-icon>
-      </h5>
+      </span>
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->

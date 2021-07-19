@@ -6,6 +6,7 @@ import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -16,9 +17,9 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
     KeyboardFocusModule,
     NgSelectModule,
     ReactiveFormsModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeDropDownComponent],
   exports: [ConfiguratorAttributeDropDownComponent],
-  entryComponents: [ConfiguratorAttributeDropDownComponent],
 })
 export class ConfiguratorAttributeDropDownModule {}

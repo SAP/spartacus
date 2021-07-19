@@ -3,7 +3,6 @@ import { SPARTACUS_PRODUCT } from '@spartacus/schematics';
 export const PRODUCT_FOLDER_NAME = 'product';
 export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
 
-export const CLI_BULK_PRICING_FEATURE = 'Bulk-Pricing';
 export const BULK_PRICING_MODULE_NAME = 'ProductBulkPricing';
 export const BULK_PRICING_FEATURE_NAME_CONSTANT =
   'PRODUCT_BULK_PRICING_FEATURE';
@@ -16,7 +15,6 @@ export const BULK_PRICING_TRANSLATIONS = 'bulkPricingTranslations';
 export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
   'bulkPricingTranslationChunksConfig';
 
-export const CLI_VARIANTS_FEATURE = 'Product-Variants';
 export const VARIANTS_MODULE_NAME = 'ProductVariants';
 export const VARIANTS_FEATURE_NAME_CONSTANT = 'PRODUCT_VARIANTS_FEATURE';
 export const VARIANTS_MODULE = 'ProductVariantsModule';

@@ -19,8 +19,11 @@ export const orgUser = {
 
   actions: '',
 
-  byName: 'Sort by name',
-  byUnit: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnit: 'Unit',
+  },
 
   details: {
     title: 'User Details',
@@ -44,8 +47,7 @@ export const orgUser = {
 
   messages: {
     deactivateTitle: 'Disable this user?',
-    deactivate: 'Are you sure you want to disable this user?',
-    deactivateBody:
+    deactivate:
       'Disabled users cannot log onto the storefront and place orders.',
     confirmEnabled:
       'User {{item.firstName}} {{item.lastName}} enabled successfully',

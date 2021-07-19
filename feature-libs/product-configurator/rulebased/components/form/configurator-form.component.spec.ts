@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -20,6 +20,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
@@ -31,6 +32,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/ra
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -54,20 +56,18 @@ const owner = ConfiguratorModelUtils.createOwner(
 const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 
 const configRead2: Configurator.Configuration = {
-  configId: 'b',
+  ...ConfiguratorTestUtils.createConfiguration('b', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 
@@ -168,55 +168,60 @@ describe('ConfigurationFormComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
 
-  beforeEach(async(() => {
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: jasmine.createSpy().and.returnValue(of('en')),
-    };
+  beforeEach(
+    waitForAsync(() => {
+      mockLanguageService = {
+        getAll: () => of([]),
+        getActive: jasmine.createSpy().and.returnValue(of('en')),
+      };
 
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorFormComponent,
-        ConfiguratorAttributeHeaderComponent,
-        ConfiguratorAttributeFooterComponent,
-        ConfiguratorAttributeRadioButtonComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        ConfiguratorAttributeDropDownComponent,
-        ConfiguratorAttributeReadOnlyComponent,
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [
+          ConfiguratorFormComponent,
+          ConfiguratorAttributeHeaderComponent,
+          ConfiguratorAttributeFooterComponent,
+          ConfiguratorAttributeRadioButtonComponent,
+          ConfiguratorAttributeInputFieldComponent,
+          ConfiguratorAttributeDropDownComponent,
+          ConfiguratorAttributeReadOnlyComponent,
 
-        ConfiguratorAttributeCheckBoxComponent,
-        ConfiguratorAttributeCheckBoxListComponent,
-        ConfiguratorAttributeMultiSelectionImageComponent,
-        ConfiguratorAttributeSingleSelectionImageComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+          ConfiguratorAttributeCheckBoxComponent,
+          ConfiguratorAttributeCheckBoxListComponent,
+          ConfiguratorAttributeMultiSelectionImageComponent,
+          ConfiguratorAttributeSingleSelectionImageComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
 
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
 
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-
-        { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
+          },
+          { provide: LanguageService, useValue: mockLanguageService },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: ConfiguratorStorefrontUtilsService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     configuratorUtils = TestBed.inject(
@@ -396,5 +401,19 @@ describe('ConfigurationFormComponent', () => {
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
+  });
+
+  describe('createGroupId', () => {
+    it('should return empty string because groupID is null', () => {
+      expect(createComponent().createGroupId(null)).toBeUndefined();
+    });
+
+    it('should return empty string because groupID is undefined', () => {
+      expect(createComponent().createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
   });
 });

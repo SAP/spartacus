@@ -40,7 +40,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   addToCartForm = new FormGroup({
-    quantity: new FormControl(1),
+    quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
   constructor(

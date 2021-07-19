@@ -8,6 +8,7 @@ export const costCenterConfig: MyCompanyConfig = {
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
       label: 'Name',
@@ -15,7 +16,7 @@ export const costCenterConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
-      sortLabel: 'name',
+      sortLabel: 'Name',
       showInTable: true,
       formLabel: 'Name',
       showInDetails: true,
@@ -31,7 +32,7 @@ export const costCenterConfig: MyCompanyConfig = {
     },
     {
       label: 'Code',
-      sortLabel: 'code',
+      sortLabel: 'Code',
       variableName: 'uid',
       inputType: INPUT_TYPE.TEXT,
       createValue: `test-entity-${randomString()}`,
@@ -53,7 +54,7 @@ export const costCenterConfig: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/Custom%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
-      sortLabel: 'unit',
+      sortLabel: 'Unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
       updateValue: 'Rustic Retail',

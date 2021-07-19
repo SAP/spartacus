@@ -60,36 +60,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   chosenWord = '';
   public subscription: Subscription;
 
-  /**
-   * The component data is optional, so that this component
-   * can be reused without CMS integration.
-   */
-
-  constructor(
-    searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>,
-    winRef: WindowRef
-  );
-
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(searchBoxComponentService: SearchBoxComponentService, componentData: CmsComponentData<CmsSearchBoxComponent>, winRef: WindowRef, protected routingService: RoutingService); instead
-   */
-  // TODO(#11041): Remove deprecated constructors
-  constructor(
-    searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>,
-    winRef: WindowRef,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    routingService: RoutingService
-  );
-
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService?: RoutingService
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -197,7 +173,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private isSearchBoxFocused(): boolean {
     return (
       this.getResultElements().includes(this.getFocusedElement()) ||
-      this.winRef.document.querySelector('input[aria-label="search"]') ===
+      this.winRef.document.querySelector('input[aria-label="Search"]') ===
         this.getFocusedElement()
     );
   }
@@ -216,7 +192,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   // Return result list as HTMLElement array
   private getResultElements(): HTMLElement[] {
     return Array.from(
-      this.winRef.document.querySelectorAll('.products > a, .suggestions > a')
+      this.winRef.document.querySelectorAll(
+        '.products > li a, .suggestions > li a'
+      )
     );
   }
 

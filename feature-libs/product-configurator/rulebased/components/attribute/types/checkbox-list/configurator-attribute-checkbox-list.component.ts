@@ -24,27 +24,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   @Input() group: string;
 
-  // TODO(#11681): make quantityService a required dependency and remove deprecated constructor
-  /**
-   * default constructor
-   * @param {ConfiguratorStorefrontUtilsService} configUtilsService
-   * @param {ConfiguratorAttributeQuantityService} quantityService
-   */
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configUtilsService: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    quantityService: ConfiguratorAttributeQuantityService
-  );
-
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(configUtilsService: ConfiguratorStorefrontUtilsService);
-
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService?: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService
   ) {
     super(quantityService);
   }
@@ -52,18 +34,20 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ngOnInit(): void {
     const disabled = !this.allowZeroValueQuantity;
 
-    for (const value of this.attribute.values) {
-      let attributeCheckBoxForm;
+    if (this.attribute.values) {
+      for (const value of this.attribute.values) {
+        let attributeCheckBoxForm;
 
-      if (value.selected === true) {
-        attributeCheckBoxForm = new FormControl({
-          value: true,
-          disabled: disabled,
-        });
-      } else {
-        attributeCheckBoxForm = new FormControl(false);
+        if (value.selected) {
+          attributeCheckBoxForm = new FormControl({
+            value: true,
+            disabled: disabled,
+          });
+        } else {
+          attributeCheckBoxForm = new FormControl(false);
+        }
+        this.attributeCheckBoxForms.push(attributeCheckBoxForm);
       }
-      this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
   }
 
@@ -102,7 +86,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
       return;
     }
 
-    const value: Configurator.Value = this.configUtilsService
+    const value:
+      | Configurator.Value
+      | undefined = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute
