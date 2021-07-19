@@ -67,6 +67,7 @@ export interface Price {
 }
 
 export interface Stock {
+  isValueRounded?: boolean;
   stockLevel?: number;
   stockLevelStatus?: string;
 }
