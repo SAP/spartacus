@@ -8,8 +8,8 @@ import {
   I18nTestingModule,
   PromotionLocation,
 } from '@spartacus/core';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule } from '@spartacus/storefront';
-import { Consignment, Order } from 'feature-libs/order/root/public_api';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 
 const mockProduct = { product: { code: 'test' } };

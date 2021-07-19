@@ -1,5 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import { ReplenishmentOrderList } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
 export const LOAD_USER_REPLENISHMENT_ORDERS =

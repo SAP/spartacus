@@ -17,7 +17,7 @@ import {
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-} from 'feature-libs/order/core/public_api';
+} from '@spartacus/order/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
@@ -27,7 +27,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

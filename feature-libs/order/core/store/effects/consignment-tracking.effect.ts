@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderConnector } from '../../connectors/order.connector';

@@ -5,7 +5,7 @@ import {
   Occ,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { OrderEntry, ReturnRequest } from 'feature-libs/order/root/public_api';
+import { OrderEntry, ReturnRequest } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReturnRequestNormalizer

@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 

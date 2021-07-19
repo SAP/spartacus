@@ -3,7 +3,7 @@ import {
   OrderFacade,
   OrderReturnRequestFacade,
   ReplenishmentOrderFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
 import { ReplenishmentOrderService } from './replenishment-order.service';

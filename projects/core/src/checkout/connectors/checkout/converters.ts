@@ -4,7 +4,7 @@ import { PointOfService } from '../../../model/point-of-service.model';
 import { Converter } from '../../../util/converter.service';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
   'OrderNormalizer'

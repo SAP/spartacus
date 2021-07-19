@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PromotionLocation } from '@spartacus/core';
-import { Consignment } from 'feature-libs/order/root/public_api';
+import { Consignment } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';

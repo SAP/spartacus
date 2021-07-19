@@ -3,7 +3,7 @@ import { RoutingService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,

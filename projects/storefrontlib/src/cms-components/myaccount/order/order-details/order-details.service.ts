@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Injectable({
   providedIn: 'root',

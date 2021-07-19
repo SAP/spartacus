@@ -12,7 +12,7 @@ import {
 import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Component({
   selector: 'cx-consignment-tracking',

@@ -7,48 +7,48 @@ import {
 } from '../user-state';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const LOAD_REPLENISHMENT_ORDER_DETAILS =
   '[User] Load Replenishment Order Details';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS =
   '[User] Load Replenishment Order Details Success';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL =
   '[User] Load Replenishment Order Details Fail';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const ClEAR_REPLENISHMENT_ORDER_DETAILS =
   '[User] Clear Replenishment Order Details';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_REPLENISHMENT_ORDER = '[User] Cancel Replenishment Order';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_REPLENISHMENT_ORDER_SUCCESS =
   '[User] Cancel Replenishment Order Success';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_REPLENISHMENT_ORDER_FAIL =
   '[User] Cancel Replenishment Order Fail';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CLEAR_CANCEL_REPLENISHMENT_ORDER =
   '[User] Clear Cancel Replenishment Order';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS;
@@ -63,7 +63,7 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS;
@@ -73,7 +73,7 @@ export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSucce
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
@@ -83,7 +83,7 @@ export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailActi
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction {
   readonly type = ClEAR_REPLENISHMENT_ORDER_DETAILS;
@@ -93,7 +93,7 @@ export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER;
@@ -108,7 +108,7 @@ export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_SUCCESS;
@@ -118,7 +118,7 @@ export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAct
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_FAIL;
@@ -128,7 +128,7 @@ export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export class ClearCancelReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_CANCEL_REPLENISHMENT_ORDER;
@@ -138,7 +138,7 @@ export class ClearCancelReplenishmentOrder extends StateUtils.EntityLoaderResetA
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export type ReplenishmentOrderDetailsAction =
   | LoadReplenishmentOrderDetails

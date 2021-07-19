@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Component({
   selector: 'cx-order-consigned-entries',

@@ -18,7 +18,7 @@ import { OrderReturnService } from '../order-return.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [

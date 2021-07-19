@@ -9,7 +9,7 @@ import {
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

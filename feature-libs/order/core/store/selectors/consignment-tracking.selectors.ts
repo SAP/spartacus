@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import {
   ConsignmentTrackingState,
   OrderState,

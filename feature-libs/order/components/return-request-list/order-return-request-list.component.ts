@@ -3,7 +3,7 @@ import { isNotUndefined, TranslationService } from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 

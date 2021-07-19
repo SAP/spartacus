@@ -6,7 +6,7 @@ import { OccOrderNormalizer } from './converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './converters/occ-replenishment-order-normalizer';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [CommonModule],

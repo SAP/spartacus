@@ -3,7 +3,7 @@ import { ReturnOrderConfirmationModule } from './return-order-confirmation/retur
 import { ReturnOrderModule } from './return-order/return-order.module';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [ReturnOrderModule, ReturnOrderConfirmationModule],

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Price } from '@spartacus/core';
-import { OrderEntry } from 'feature-libs/order/root/public_api';
+import { OrderEntry } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 

@@ -1,8 +1,5 @@
 import { PaginationModel, SortModel } from '@spartacus/core';
-import {
-  ReturnRequest,
-  ReturnRequestList,
-} from 'feature-libs/order/root/public_api';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 

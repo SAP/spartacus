@@ -7,7 +7,7 @@ import {
   ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 
 export const ORDER_FEATURE = 'order';
 

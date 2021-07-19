@@ -1,4 +1,4 @@
-import { ReturnRequestList } from 'feature-libs/order/root/public_api';
+import { ReturnRequestList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReturnRequestList = {

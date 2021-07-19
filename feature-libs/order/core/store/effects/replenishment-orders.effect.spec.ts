@@ -4,7 +4,7 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { ReplenishmentOrderList } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderAdapter } from '../../connectors/replenishment-order.adapter';

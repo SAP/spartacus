@@ -5,7 +5,7 @@ import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboar
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [CommonModule, I18nModule, KeyboardFocusModule],

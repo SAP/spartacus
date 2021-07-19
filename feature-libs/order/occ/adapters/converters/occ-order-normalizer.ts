@@ -7,7 +7,7 @@ import {
   PRODUCT_NORMALIZER,
   PromotionResult,
 } from '@spartacus/core';
-import { Order, OrderEntry } from 'feature-libs/order/root/public_api';
+import { Order, OrderEntry } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {

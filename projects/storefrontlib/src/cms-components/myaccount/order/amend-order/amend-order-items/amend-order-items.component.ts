@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Component({
   selector: 'cx-amend-order-items',

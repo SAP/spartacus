@@ -4,10 +4,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import {
-  OrderReturnRequestFacade,
-  ReturnRequest,
-} from 'feature-libs/order/root/public_api';
+import { OrderReturnRequestFacade, ReturnRequest } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from './return-request.service';
 

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Component({
   selector: 'cx-order-details-actions',

@@ -16,7 +16,7 @@ import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishm
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [

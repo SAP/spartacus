@@ -8,7 +8,7 @@ import {
   CancelOrReturnRequestEntryInput,
   OrderEntry,
   OrderReturnRequestFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../order-details/order-details.service';

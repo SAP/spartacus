@@ -1,4 +1,4 @@
-import { Order } from 'feature-libs/order/root/public_api';
+import { Order } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 

@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
-import { ReplenishmentOrderFacade } from 'feature-libs/order/root/public_api';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 

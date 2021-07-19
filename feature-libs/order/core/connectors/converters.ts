@@ -9,7 +9,7 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 
 export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
   'OrderNormalizer'

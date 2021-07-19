@@ -5,7 +5,7 @@ import { CardModule } from '../card/card.module';
 import { OrderOverviewComponent } from './order-overview.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [CommonModule, I18nModule, CardModule],

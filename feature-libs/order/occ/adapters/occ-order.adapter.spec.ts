@@ -16,14 +16,14 @@ import {
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-} from 'feature-libs/order/core/public_api';
+} from '@spartacus/order/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
   Order,
   ReturnRequest,
   ReturnRequestEntryInputList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

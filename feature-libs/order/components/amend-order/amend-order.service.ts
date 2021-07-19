@@ -2,7 +2,7 @@ import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Price } from '@spartacus/core';
-import { Order, OrderEntry } from 'feature-libs/order/root/public_api';
+import { Order, OrderEntry } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';

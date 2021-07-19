@@ -6,7 +6,7 @@ import {
   StateWithUser,
   UserIdService,
 } from '@spartacus/core';
-import { ReturnRequestList } from 'feature-libs/order/root/public_api';
+import { ReturnRequestList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions';

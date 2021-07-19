@@ -3,7 +3,7 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
 

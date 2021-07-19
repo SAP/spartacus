@@ -12,7 +12,7 @@ import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface DeliveryMode {
   code?: string;
@@ -22,7 +22,7 @@ export interface DeliveryMode {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface OrderEntry {
   orderCode?: string;
@@ -42,7 +42,7 @@ export interface OrderEntry {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
@@ -50,7 +50,7 @@ export interface CancelOrReturnRequestEntryInput {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
@@ -58,14 +58,14 @@ export interface ReturnRequestEntryInputList {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
@@ -74,7 +74,7 @@ export interface ReturnRequestEntry {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReturnRequest {
   cancellable?: boolean;
@@ -92,7 +92,7 @@ export interface ReturnRequest {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
@@ -101,14 +101,14 @@ export interface ReturnRequestList {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReturnRequestModification {
   status?: string;
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
@@ -119,7 +119,7 @@ export interface PickupOrderEntryGroup {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
@@ -129,7 +129,7 @@ export interface PromotionOrderEntryConsumed {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
@@ -138,7 +138,7 @@ export interface ConsignmentEntry {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface Consignment {
   code?: string;
@@ -151,7 +151,7 @@ export interface Consignment {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface OrderHistory {
   code?: string;
@@ -163,7 +163,7 @@ export interface OrderHistory {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
@@ -172,7 +172,7 @@ export interface OrderHistoryList {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];

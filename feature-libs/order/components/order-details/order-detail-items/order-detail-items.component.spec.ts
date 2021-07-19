@@ -8,8 +8,8 @@ import {
   I18nTestingModule,
   PromotionLocation,
 } from '@spartacus/core';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, PromotionsModule } from '@spartacus/storefront';
-import { Consignment, Order } from 'feature-libs/order/root/public_api';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';

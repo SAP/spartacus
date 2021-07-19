@@ -19,7 +19,7 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 

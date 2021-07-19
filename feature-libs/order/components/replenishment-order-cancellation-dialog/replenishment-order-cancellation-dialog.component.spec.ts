@@ -5,11 +5,11 @@ import {
   I18nTestingModule,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderFacade,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';

@@ -1,4 +1,4 @@
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ConsignmentTrackingState } from '../order-state';
 

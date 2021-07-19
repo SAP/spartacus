@@ -3,11 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
 import { SpinnerModule } from '@spartacus/storefront';
-import {
-  ConsignmentTracking,
-  OrderFacade,
-} from 'feature-libs/order/root/public_api';
 import { of } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events.component';
 

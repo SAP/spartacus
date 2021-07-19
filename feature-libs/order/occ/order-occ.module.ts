@@ -7,7 +7,7 @@ import {
   ORDER_RETURN_REQUEST_NORMALIZER,
   ReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from 'feature-libs/order/core/public_api';
+} from '@spartacus/order/core';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';

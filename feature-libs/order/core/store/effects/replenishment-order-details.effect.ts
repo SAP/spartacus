@@ -5,7 +5,7 @@ import {
   GlobalMessageType,
   normalizeHttpError,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';

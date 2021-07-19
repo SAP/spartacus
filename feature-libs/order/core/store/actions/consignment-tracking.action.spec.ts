@@ -1,5 +1,5 @@
 i;
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import * as fromAction from './consignment-tracking.action';
 
 const mockTracking: ConsignmentTracking = { trackingID: '1234567890' };

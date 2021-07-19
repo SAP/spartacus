@@ -1,7 +1,7 @@
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReplenishmentOrderList = {

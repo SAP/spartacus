@@ -1,8 +1,5 @@
 import { PaginationModel, SortModel } from '@spartacus/core';
-import {
-  OrderHistory,
-  OrderHistoryList,
-} from 'feature-libs/order/root/public_api';
+import { OrderHistory, OrderHistoryList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromUserOrdersReducer from './orders.reducer';
 

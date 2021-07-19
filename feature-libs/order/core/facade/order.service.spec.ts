@@ -6,7 +6,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { Order, OrderHistoryList } from 'feature-libs/order/root/public_api';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

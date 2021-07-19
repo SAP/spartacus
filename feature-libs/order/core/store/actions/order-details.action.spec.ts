@@ -1,5 +1,5 @@
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { Order } from 'feature-libs/order/root/public_api';
+import { Order } from '@spartacus/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 import { OrderActions } from './index';
 

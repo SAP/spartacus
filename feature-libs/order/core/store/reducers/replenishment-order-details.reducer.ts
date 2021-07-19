@@ -1,4 +1,4 @@
-import { ReplenishmentOrder } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReplenishmentOrder = {};

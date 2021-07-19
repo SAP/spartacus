@@ -6,7 +6,7 @@ import {
   OrderEntryPromotionsService,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer

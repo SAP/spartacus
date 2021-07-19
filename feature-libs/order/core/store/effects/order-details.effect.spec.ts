@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { GlobalMessageService } from '@spartacus/core';
-import { Order } from 'feature-libs/order/root/public_api';
+import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderAdapter } from '../../connectors/order.adapter';

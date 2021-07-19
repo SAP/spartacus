@@ -3,18 +3,18 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  OrderDetailItemsComponent,
-  OrderDetailShippingComponent,
-  OrderDetailsService,
-  OrderDetailTotalsComponent,
-} from '@spartacus/cart/order/components';
-import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import {
+  OrderDetailItemsComponent,
+  OrderDetailShippingComponent,
+  OrderDetailsService,
+  OrderDetailTotalsComponent,
+} from '@spartacus/order/components';
 import {
   CartSharedModule,
   FormErrorsModule,

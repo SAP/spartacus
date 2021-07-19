@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[User] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =

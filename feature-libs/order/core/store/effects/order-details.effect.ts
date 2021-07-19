@@ -5,7 +5,7 @@ import {
   GlobalMessageType,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Order } from 'feature-libs/order/root/public_api';
+import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderConnector } from '../../connectors/order.connector';

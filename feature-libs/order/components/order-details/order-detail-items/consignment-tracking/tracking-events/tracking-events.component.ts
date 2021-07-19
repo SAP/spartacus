@@ -1,9 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ConsignmentTracking,
-  OrderFacade,
-} from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

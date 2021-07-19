@@ -7,7 +7,7 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Order } from 'feature-libs/order/root/public_api';
+import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';

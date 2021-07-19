@@ -11,7 +11,7 @@ import { filter, map } from 'rxjs/operators';
 import { Card } from '../card/card.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @Component({
   selector: 'cx-order-overview',

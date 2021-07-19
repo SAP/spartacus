@@ -1,9 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import {
-  ReturnRequest,
-  ReturnRequestList,
-} from 'feature-libs/order/root/public_api';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { OrderState, StateWithOrder } from '../order-state';
 import { getOrderState } from './feature.selector';
 

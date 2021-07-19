@@ -12,7 +12,7 @@ import { ListNavigationModule } from '../../../../shared/components/list-navigat
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 @NgModule({
   imports: [

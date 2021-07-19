@@ -13,7 +13,7 @@ import { CostCenter } from './org-unit.model';
 import { Price } from './product.model';
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReplenishmentOrder {
   active?: boolean;
@@ -62,7 +62,7 @@ export interface ReplenishmentOrder {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
@@ -71,7 +71,7 @@ export interface ReplenishmentOrderList {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface Trigger {
   activationTime?: string;
@@ -79,7 +79,7 @@ export interface Trigger {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ScheduleReplenishmentForm {
   daysOfWeek?: DaysOfWeek[];
@@ -91,7 +91,7 @@ export interface ScheduleReplenishmentForm {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export enum DaysOfWeek {
   MONDAY = 'MONDAY',
@@ -104,7 +104,7 @@ export enum DaysOfWeek {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const recurrencePeriod = {
   DAILY: 'DAILY',
@@ -113,7 +113,7 @@ export const recurrencePeriod = {
 };
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export enum ORDER_TYPE {
   PLACE_ORDER = 'PLACE_ORDER',

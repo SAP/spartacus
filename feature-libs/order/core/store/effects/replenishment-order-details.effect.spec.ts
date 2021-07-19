@@ -7,7 +7,7 @@ import {
   normalizeHttpError,
   Translatable,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from 'feature-libs/order/root/public_api';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';

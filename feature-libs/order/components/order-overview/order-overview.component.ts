@@ -5,8 +5,8 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { DeliveryMode } from 'feature-libs/order/root/public_api';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

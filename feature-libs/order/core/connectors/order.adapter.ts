@@ -7,7 +7,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class OrderAdapter {

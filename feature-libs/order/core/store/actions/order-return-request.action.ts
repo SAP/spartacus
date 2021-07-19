@@ -4,7 +4,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import {
   CANCEL_RETURN_PROCESS_ID,
   RETURN_REQUESTS,

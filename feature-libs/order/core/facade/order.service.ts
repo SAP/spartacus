@@ -12,7 +12,7 @@ import {
   Order,
   OrderFacade,
   OrderHistoryList,
-} from 'feature-libs/order/root/public_api';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';

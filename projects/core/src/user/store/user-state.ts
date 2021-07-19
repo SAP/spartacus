@@ -27,44 +27,44 @@ export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
 export const ADD_PRODUCT_INTEREST_PROCESS_ID = 'addProductInterests';
 export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID = 'removeProductInterests';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_RETURN_PROCESS_ID = 'cancelReturn';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID = 'cancelReplenishmentOrder';
 
 export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_ORDER_DETAILS = '[User] User Order Details';
 export const USER_COST_CENTERS = '[User] User Cost Centers';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_REPLENISHMENT_ORDERS = '[User] User Replenishment Orders';
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export const USER_REPLENISHMENT_ORDER_DETAILS =
   '[User] User Replenishment Order Details';
@@ -92,28 +92,28 @@ export interface UserState {
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState<PaymentDetails[]>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   orders: StateUtils.LoaderState<OrderHistoryList>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   order: StateUtils.LoaderState<Order>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   regions: StateUtils.LoaderState<RegionsState>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
@@ -121,7 +121,7 @@ export interface UserState {
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
   costCenters: StateUtils.LoaderState<CostCenter[]>;
   /**
-   * @deprecated since 4.1 - use cart lib instead
+   * @deprecated since 4.1 - use order lib instead
    */
   replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
 }
@@ -148,7 +148,7 @@ export interface DeliveryCountriesState {
 }
 
 /**
- * @deprecated since 4.1 - use cart lib instead
+ * @deprecated since 4.1 - use order lib instead
  */
 export interface ConsignmentTrackingState {
   tracking?: ConsignmentTracking;

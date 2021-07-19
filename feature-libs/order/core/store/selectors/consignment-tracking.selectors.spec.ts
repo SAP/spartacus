@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConsignmentTracking } from 'feature-libs/order/root/public_api';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers';
 import { OrderSelectors } from './index';
