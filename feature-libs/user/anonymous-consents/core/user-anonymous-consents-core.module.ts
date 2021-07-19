@@ -2,8 +2,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultAnonymousConsentsConfig } from './config/default-anonymous-consents-config';
 import { UserAnonymousConsentTemplatesConnector } from './connectors/user-anonymous-consent-templates.connector';
-import { AnonymousConsentsService } from './facade/anonymous-consents.service';
-import { interceptors } from './http-interceptors/index';
 import { AnonymousConsentsStoreModule } from './store/anonymous-consents-store.module';
 
 // TODO:#anon - add facade providers
@@ -17,8 +15,6 @@ export class UserAnonymousConsentsCoreModule {
       providers: [
         provideDefaultConfig(defaultAnonymousConsentsConfig),
         UserAnonymousConsentTemplatesConnector,
-        ...interceptors,
-        AnonymousConsentsService,
       ],
     };
   }

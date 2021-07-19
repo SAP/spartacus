@@ -8,14 +8,16 @@ import {
 import { Injectable } from '@angular/core';
 import { AuthService, OccEndpointsService } from '@spartacus/core';
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+} from '@spartacus/user/anonymous-consents/core';
+import {
   AnonymousConsent,
   ANONYMOUS_CONSENTS_HEADER,
   ANONYMOUS_CONSENT_STATUS,
 } from '@spartacus/user/anonymous-consents/root';
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
-import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
-import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 // TODO:#anon check provided in
 @Injectable({ providedIn: 'root' })

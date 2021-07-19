@@ -13,7 +13,7 @@ import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 // TODO:#anon check provided in
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
   constructor(
     protected store: Store<StateWithAnonymousConsents>,

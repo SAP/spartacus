@@ -11,14 +11,16 @@ import {
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AuthService, OccEndpointsService } from '@spartacus/core';
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+} from '@spartacus/user/anonymous-consents/core';
+import {
   AnonymousConsent,
   ANONYMOUS_CONSENTS_HEADER,
   ANONYMOUS_CONSENT_STATUS,
 } from '@spartacus/user/anonymous-consents/root';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
-import { AnonymousConsentsService } from '../facade/index';
 import { AnonymousConsentsInterceptor } from './anonymous-consents-interceptor';
 
 const mockAnonymousConsents: AnonymousConsent[] = [
