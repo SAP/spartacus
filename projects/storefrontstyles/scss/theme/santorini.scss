@@ -232,14 +232,18 @@
   }
 
   cx-org-list {
-    button,
-    .btn,
+    .btn-sm,
     a.button,
     a.link,
-    button.link,
-    .actions .primary {
+    button.button,
+    button.link {
       border-radius: var(--cx-buttons-border-radius);
-      padding: 0 25px;
+    }
+
+    .link-list {
+      a {
+        border-radius: 0;
+      }
     }
   }
 
