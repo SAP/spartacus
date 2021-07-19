@@ -84,6 +84,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
     - [ ] `npm run release:checkout:with-changelog`
+    - [ ] `npm run release:order:with-changelog`
     - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)

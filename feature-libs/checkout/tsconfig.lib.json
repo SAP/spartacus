@@ -13,96 +13,33 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
-      "@spartacus/cart": [
-        "dist/cart"
-      ],
-      "@spartacus/cart/order/assets": [
-        "dist/cart/order/assets"
-      ],
-      "@spartacus/cart/order/components": [
-        "dist/cart/order/components"
-      ],
-      "@spartacus/cart/order/core": [
-        "dist/cart/order/core"
-      ],
-      "@spartacus/cart/order": [
-        "dist/cart/order"
-      ],
-      "@spartacus/cart/order/occ": [
-        "dist/cart/order/occ"
-      ],
-      "@spartacus/cart/order/root": [
-        "dist/cart/order/root"
-      ],
-      "@spartacus/cart/saved-cart/assets": [
-        "dist/cart/saved-cart/assets"
-      ],
+      "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [
         "dist/cart/saved-cart/components"
       ],
-      "@spartacus/cart/saved-cart/core": [
-        "dist/cart/saved-cart/core"
-      ],
-      "@spartacus/cart/saved-cart": [
-        "dist/cart/saved-cart"
-      ],
-      "@spartacus/cart/saved-cart/occ": [
-        "dist/cart/saved-cart/occ"
-      ],
-      "@spartacus/cart/saved-cart/root": [
-        "dist/cart/saved-cart/root"
-      ],
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ],
-      "@spartacus/user/account/assets": [
-        "dist/user/account/assets"
-      ],
-      "@spartacus/user/account/components": [
-        "dist/user/account/components"
-      ],
-      "@spartacus/user/account/core": [
-        "dist/user/account/core"
-      ],
-      "@spartacus/user/account": [
-        "dist/user/account"
-      ],
-      "@spartacus/user/account/occ": [
-        "dist/user/account/occ"
-      ],
-      "@spartacus/user/account/root": [
-        "dist/user/account/root"
-      ],
-      "@spartacus/user": [
-        "dist/user"
-      ],
-      "@spartacus/user/profile/assets": [
-        "dist/user/profile/assets"
-      ],
-      "@spartacus/user/profile/components": [
-        "dist/user/profile/components"
-      ],
-      "@spartacus/user/profile/core": [
-        "dist/user/profile/core"
-      ],
-      "@spartacus/user/profile": [
-        "dist/user/profile"
-      ],
-      "@spartacus/user/profile/occ": [
-        "dist/user/profile/occ"
-      ],
-      "@spartacus/user/profile/root": [
-        "dist/user/profile/root"
-      ]
+      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {
@@ -113,8 +50,5 @@
     "enableResourceInlining": true,
     "strictInputAccessModifiers": true
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }

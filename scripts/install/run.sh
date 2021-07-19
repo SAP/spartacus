@@ -251,6 +251,9 @@ function install_from_sources {
     printh "Creating cart npm package"
     ( cd ${CLONE_DIR}/dist/cart && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
+    printh "Creating order npm package"
+    ( cd ${CLONE_DIR}/dist/order && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
     printh "Creating qualtrics npm package"
     ( cd ${CLONE_DIR}/dist/qualtrics && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 

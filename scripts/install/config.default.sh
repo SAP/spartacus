@@ -27,6 +27,7 @@ SPARTACUS_PROJECTS=(
         "feature-libs/product-configurator"
         "feature-libs/qualtrics"
         "feature-libs/cart"
+        "feature-libs/order"
         "feature-libs/user"
         "feature-libs/tracking"
         )
