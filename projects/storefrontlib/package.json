@@ -25,6 +25,7 @@
     "@ngrx/router-store": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/user": "3.2.0-next.2",
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "^6.6.0"
   },
