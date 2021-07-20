@@ -63,9 +63,6 @@ describe('Cart', () => {
         cart.registerSaveCartRoute();
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
-        // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
-        // Related issue: #4672
-        cy.wait(2000);
         cy.window().then((window) => {
           const storage = JSON.parse(
             window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
@@ -81,9 +78,6 @@ describe('Cart', () => {
           cy.get('.cart-details-wrapper .cx-total').contains(
             `Cart #${cartCode}`
           );
-          cy.selectUserMenuOption({
-            option: 'Sign Out',
-          });
         });
       });
 
