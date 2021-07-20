@@ -107,15 +107,17 @@ export class QuickOrderService {
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
-
       const quantity = entries[entryIndex].quantity;
 
       if (quantity && entry.quantity) {
         entries[entryIndex].quantity = quantity + entry?.quantity;
       }
+
+      this.entries$.next([...entries]);
+    } else {
+      this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.entries$.next([...entries, ...[entry]]);
     this.productAdded$.next();
   }
 
