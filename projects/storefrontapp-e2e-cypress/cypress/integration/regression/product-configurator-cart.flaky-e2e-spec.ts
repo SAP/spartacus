@@ -179,7 +179,9 @@ context('Product Configuration', () => {
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       login.registerUser();
+      const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
       login.loginUser();
+      cy.wait(tokenAuthRequestAlias).its('status').should('eq', 200);
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
@@ -187,7 +189,9 @@ context('Product Configuration', () => {
       configurationCart.navigateToOrderDetails();
       //don't check the order history aspect because this part is flaky
       //configuration.selectOrderByOrderNumberAlias();
+      const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
       login.signOutUser();
+      cy.wait(tokenRevocationRequestAlias);
     });
   });
 });
