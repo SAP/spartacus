@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CartModificationList } from '@spartacus/cart/validation/core';
+import { CartModificationList } from '@spartacus/cart/validation/root';
 
 @Injectable()
 export class OccCartValidationAdapter implements CartValidationAdapter {
