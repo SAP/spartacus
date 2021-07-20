@@ -22,7 +22,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
 }
 
-fdescribe(`CartValidationGuard`, () => {
+describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
 
