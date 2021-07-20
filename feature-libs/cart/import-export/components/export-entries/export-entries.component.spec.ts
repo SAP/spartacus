@@ -1,12 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  ImageType,
-  PriceType,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, ImageType, PriceType } from '@spartacus/core';
 import { ExportService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 import { of } from 'rxjs';
@@ -90,12 +85,6 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
-class MockRoutingService {
-  getRouterState() {
-    return of();
-  }
-}
-
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
@@ -109,12 +98,6 @@ describe('ExportEntriesComponent', () => {
           StoreModule.forRoot({}),
           I18nTestingModule,
           RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
         ],
         declarations: [ExportEntriesComponent],
       }).compileComponents();
