@@ -19,8 +19,11 @@ export const orgUser = {
 
   actions: '',
 
-  byName: 'Sort by name',
-  byUnit: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnit: 'Unit',
+  },
 
   details: {
     title: 'User Details',

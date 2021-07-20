@@ -5,14 +5,14 @@
       <div class="cx-dialog-title modal-title">
         {{
           (addedEntryWasMerged$ | async)
-            ? 'addToCart.itemsIncrementedInYourCart'
+            ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
             : ('addToCart.itemsAddedToYourCart' | cxTranslate)
         }}
       </div>
       <button
         type="button"
         class="close"
-        [attr.aria-label]="'common.close' | cxTranslate"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
         cxModal="dismiss"
         cxModalReason="Cross click"
       >

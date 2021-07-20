@@ -9,8 +9,9 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
+  ReplenishmentOrder,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
 import { OrderDetailsService } from '../order-details.service';
@@ -90,6 +91,24 @@ const mockOrder: Order = {
       status: 'OTHERS',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
+};
+
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [],
+      description: 'test-promotion',
+      promotion: {
+        code: 'test_promotion',
+        description: 'A test promotion',
+        promotionType: 'Rule Based Promotion',
+      },
     },
   ],
 };
@@ -270,5 +289,18 @@ describe('OrderDetailItemsComponent', () => {
     order$.next({});
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeFalsy();
+  });
+
+  it('should show promotions on replenishment details', () => {
+    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockReplenishmentOrder)
+    );
+    fixture.detectChanges();
+    let order: ReplenishmentOrder;
+    mockOrderDetailsService
+      .getOrderDetails()
+      .subscribe((value) => (order = value))
+      .unsubscribe();
+    expect(order).toEqual(mockReplenishmentOrder);
   });
 });
