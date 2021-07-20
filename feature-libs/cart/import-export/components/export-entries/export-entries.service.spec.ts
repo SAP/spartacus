@@ -94,8 +94,6 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
-const columnHeadingTranslation = 'Column Heading Translation';
-
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState(): Observable<RouterState> {
     return of();
@@ -113,14 +111,10 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
     return of({});
   }
 }
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of(columnHeadingTranslation);
-  }
-}
 
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
+  let translationService: TranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -134,13 +128,10 @@ describe('ExportEntriesService', () => {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
         },
-        {
-          provide: TranslationService,
-          useClass: MockTranslationService,
-        },
       ],
     });
     service = TestBed.inject(ExportEntriesService);
+    translationService = TestBed.inject(TranslationService);
   });
 
   it('should be created', () => {
@@ -149,14 +140,15 @@ describe('ExportEntriesService', () => {
 
   it('should translate headings and export entries to specific format', () => {
     spyOn(service, 'getEntries').and.returnValue(of([entry]));
+    spyOn(translationService, 'translate').and.callThrough();
 
     const entries = service.exportEntries();
 
     const headings = [
-      columnHeadingTranslation,
-      columnHeadingTranslation,
-      columnHeadingTranslation,
-      columnHeadingTranslation,
+      'exportEntries.columnNames.code',
+      'exportEntries.columnNames.quantity',
+      'exportEntries.columnNames.name',
+      'exportEntries.columnNames.price',
     ];
 
     const values = [
@@ -166,7 +158,11 @@ describe('ExportEntriesService', () => {
       entry.totalPrice?.formattedValue,
     ];
 
-    expect(entries).toEqual([Object.assign(headings), Object.assign(values)]);
+    expect(entries).toEqual([
+      Object.assign({}, headings),
+      Object.assign({}, values),
+    ]);
+    expect(translationService.translate).toHaveBeenCalledTimes(4);
   });
 
   describe('resolveValue', () => {
