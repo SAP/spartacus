@@ -43,10 +43,15 @@ export function assertInventoryDisplay(productCode: string, alias: string) {
       const text = $ele.text().trim();
 
       if (isInventoryDisplayActive) {
+        // Out of stock
         if (stock.stockLevelStatus === 'outOfStock') {
           expect(text).to.equal(sampleData.stockOutOfStockLabel);
         } else {
           if (stock?.stockLevel) {
+            /**
+             * Currently have sample data set for the 'Webcams' category to have a threshold
+             * Threshold is set to 343.
+             **/
             if (stock?.isValueRounded) {
               expect(text).to.equal(
                 `${stock.stockLevel}+ ${sampleData.stockLabel}`
@@ -56,6 +61,10 @@ export function assertInventoryDisplay(productCode: string, alias: string) {
                 `${stock.stockLevel} ${sampleData.stockLabel}`
               );
             }
+            /**
+             * Out of stock, but is 'Forced in stock'
+             * Forced in stock products does not have the property 'stockLevel'
+             **/
           } else {
             expect(text).to.equal(`${sampleData.stockLabel}`);
           }
