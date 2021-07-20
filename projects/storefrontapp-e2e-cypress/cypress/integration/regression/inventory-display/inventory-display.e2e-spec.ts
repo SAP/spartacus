@@ -1,7 +1,8 @@
 import { visitProductPage } from '../../../helpers/coupons/cart-coupon';
 import {
+  assertInventoryDisplay,
   configureInventoryDisplay,
-  stockSelector,
+  interceptProductDetails,
 } from '../../../helpers/inventory-display';
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as sampleData from '../../../sample-data/inventory-display';
@@ -18,14 +19,19 @@ context('B2B - Inventory Display', () => {
       });
 
       it('should NOT render number of available stock', () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT
+        );
         visitProductPage(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
 
-        cy.get(stockSelector).then(($ele) => {
-          console.log($ele.text());
-          console.log($ele.text().trim());
-          const text = $ele.text().trim();
-          assert.equal(text, sampleData.stockLabel);
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT,
+          `@${productDetailsAlias}`
+        );
       });
     });
 
@@ -35,64 +41,99 @@ context('B2B - Inventory Display', () => {
       });
 
       it('should render number of available stock', () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT
+        );
         visitProductPage(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
 
-        cy.get(stockSelector).then(($ele) => {
-          console.log('a', $ele.text());
-          console.log($ele.text().trim());
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
-          const text = $ele.text().trim();
-          const regex = '[0-9]* ' + sampleData.stockLabel;
-          const match = text.match(regex);
-          expect(match.length).equal(1);
-        });
+        assertInventoryDisplay(
+          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT,
+          `@${productDetailsAlias}`
+        );
       });
 
       it("should render 'out of stock' if stock level 0 and inventory display is on", () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.OUT_OF_STOCK_PRODUCT
+        );
         visitProductPage(sampleData.OUT_OF_STOCK_PRODUCT);
 
-        cy.get(stockSelector).then(($ele) => {
-          const text = $ele.text().trim();
-          const expected = sampleData.stockOutOfStockLabel;
-          assert.equal(text, expected);
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.OUT_OF_STOCK_PRODUCT,
+          `@${productDetailsAlias}`
+        );
       });
 
       it("should render 'In Stock' if force inStock status and inventory display is on", () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.FORCE_IN_STOCK_PRODUCT
+        );
         visitProductPage(sampleData.FORCE_IN_STOCK_PRODUCT);
 
-        cy.get(stockSelector).then(($ele) => {
-          const text = $ele.text().trim();
-          const expected = sampleData.stockLabel;
-          assert.equal(text, expected);
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.FORCE_IN_STOCK_PRODUCT,
+          `@${productDetailsAlias}`
+        );
       });
 
       it('should render + if threshold applied and inventory display is on', () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.THRESHOLD_STOCK
+        );
         visitProductPage(sampleData.THRESHOLD_STOCK);
 
-        cy.get(stockSelector).then(($ele) => {
-          const text = $ele.text().trim();
-          expect(text.includes('+')).to.be.true;
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.THRESHOLD_STOCK,
+          `@${productDetailsAlias}`
+        );
       });
 
       it('should NOT render + if threshold greater than stock level and inventory display is on', () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.STOCK_LESS_THAN_THRESHOLD
+        );
         visitProductPage(sampleData.STOCK_LESS_THAN_THRESHOLD);
 
-        cy.get(stockSelector).then(($ele) => {
-          const text = $ele.text().trim();
-          expect(text.includes('+')).to.be.false;
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.STOCK_LESS_THAN_THRESHOLD,
+          `@${productDetailsAlias}`
+        );
       });
 
       it('should NOT render + if threshold equal to stock level and inventory display is on', () => {
+        const productDetailsAlias = interceptProductDetails(
+          sampleData.STOCK_EQUAL_THRESHOLD
+        );
         visitProductPage(sampleData.STOCK_EQUAL_THRESHOLD);
 
-        cy.get(stockSelector).then(($ele) => {
-          const text = $ele.text().trim();
-          expect(text.includes('+')).to.be.false;
-        });
+        cy.wait(`@${productDetailsAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        assertInventoryDisplay(
+          sampleData.STOCK_EQUAL_THRESHOLD,
+          `@${productDetailsAlias}`
+        );
       });
     });
   });
