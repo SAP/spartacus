@@ -38,14 +38,6 @@ export function addProductToTheList(productCode: string) {
   cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
 }
 
-export function fillFormWithProductCode(product: SampleProduct) {
-  cy.get('.quick-order-form-input input').type(`${product.code}`);
-}
-
-export function clearForm() {
-  cy.get(`.quick-order-form-input cx-icon`).click();
-}
-
 export function clearList() {
   cy.get(`.quick-order-footer .clear-button`).click();
 }
