@@ -258,7 +258,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: PRODUCT_VARIANTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product'.`,
+    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product --features=Product-Variants'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   {
