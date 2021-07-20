@@ -1,17 +1,16 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const savedCartTranslations: TranslationResources = {
+export const orderTranslations: TranslationResources = {
   en,
 };
 
-// expose all translation chunk mapping for savedCart feature
-export const savedCartTranslationChunksConfig: TranslationChunksConfig = {
-  savedCart: [
-    'savedCartDetails',
-    'savedCartList',
-    'savedCartCartPage',
-    'savedCartDialog',
-    'addToSavedCart',
+export const orderTranslationChunksConfig: TranslationChunksConfig = {
+  order: [
+    'orderDetails',
+    'orderHistory',
+    'AccountOrderHistoryTabContainer',
+    'returnRequestList',
+    'returnRequest',
   ],
 };

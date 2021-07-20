@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {
+  orderTranslationChunksConfig,
+  orderTranslations,
+} from '@spartacus/order/assets';
 import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
 
 @NgModule({
@@ -12,13 +16,13 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
         },
       },
     }),
-    /*provideConfig(<I18nConfig>{
+    provideConfig(<I18nConfig>{
       i18n: {
-        resources: savedCartTranslations,
-        chunks: savedCartTranslationChunksConfig,
+        resources: orderTranslations,
+        chunks: orderTranslationChunksConfig,
         fallbackLang: 'en',
       },
-    }),*/
+    }),
   ],
 })
 export class OrderFeatureModule {}

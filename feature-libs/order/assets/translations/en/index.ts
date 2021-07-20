@@ -1,5 +1,5 @@
-import { savedCart } from './saved-cart.i18n';
+import { order } from './order.i18n';
 
 export const en = {
-  savedCart,
+  order,
 };

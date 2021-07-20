@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   FeaturesConfig,
@@ -44,6 +45,7 @@ const moduleComponents = [
     OrderOverviewModule,
     UrlModule,
     SpinnerModule,
+    RouterModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
