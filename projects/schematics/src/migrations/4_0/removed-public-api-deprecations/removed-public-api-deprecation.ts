@@ -252,7 +252,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking'.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking --features=Personalization'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
