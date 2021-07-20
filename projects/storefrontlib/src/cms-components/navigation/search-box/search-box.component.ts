@@ -192,7 +192,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   // Return result list as HTMLElement array
   private getResultElements(): HTMLElement[] {
     return Array.from(
-      this.winRef.document.querySelectorAll('.products > a, .suggestions > a')
+      this.winRef.document.querySelectorAll(
+        '.products > li a, .suggestions > li a'
+      )
     );
   }
 

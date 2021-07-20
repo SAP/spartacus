@@ -6,7 +6,7 @@ export namespace CommonConfigurator {
     /**
      * Type of the owner, can be product or document related
      */
-    type?: OwnerType;
+    type: OwnerType;
     /**
      * Specifies an owner uniquely, is used as key in the configuration store
      */
@@ -83,4 +83,27 @@ export interface ConfigurationInfo {
   configurationValue?: string;
   configuratorType?: string;
   status?: string;
+}
+
+/**
+ *
+ * An enum representing ConfigurationInfo fields.
+ */
+export enum ConfigurationInfoFields {
+  KEY = 'KEY',
+  NAME = 'NAME',
+  QTY = 'QTY',
+  FORMATTED_PRICE = 'FORMATTED_PRICE',
+  PRICE_VALUE = 'PRICE_VALUE',
+}
+
+/**
+ *
+ * An enum representing ConfigurationInfo special fields.
+ */
+export enum ConfigurationInfoSpecialFields {
+  VERSION = 'CI#@#VERSION',
+  CURRENCY = 'CI#@#CURRENCY',
+  LINE_ITEM = 'LI',
+  LINE_ITEM_DELIMITER = '#',
 }

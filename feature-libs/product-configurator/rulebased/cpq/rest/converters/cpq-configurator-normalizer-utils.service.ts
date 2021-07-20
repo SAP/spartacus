@@ -22,14 +22,17 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @param {Cpq.Attribute} attribute - CPQ Attribute
    * @returns {number} - Quantity
    */
-  convertQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
+  convertQuantity(
+    value: Cpq.Value,
+    attribute: Cpq.Attribute
+  ): number | undefined {
     if (!value.selected) {
-      return null;
+      return undefined;
     }
     const configuratorDataType: Configurator.DataType = this.convertDataType(
       attribute
     );
-    let quantity: number;
+    let quantity;
     switch (configuratorDataType) {
       case Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL:
         quantity = Number(attribute.quantity);
@@ -38,7 +41,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         quantity = Number(value.quantity);
         break;
       default:
-        quantity = null;
+        quantity = undefined;
     }
     return quantity;
   }
@@ -53,8 +56,8 @@ export class CpqConfiguratorNormalizerUtilsService {
   convertValuePrice(
     value: Cpq.Value,
     currency: string
-  ): Configurator.PriceDetails {
-    let price: Configurator.PriceDetails = null;
+  ): Configurator.PriceDetails | undefined {
+    let price;
     if (value.price) {
       price = {
         currencyIso: currency,
@@ -74,9 +77,9 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   calculateValuePriceTotal(
     quantity: number,
-    valuePrice: Configurator.PriceDetails
-  ): Configurator.PriceDetails {
-    let valuePriceTotal: Configurator.PriceDetails = null;
+    valuePrice?: Configurator.PriceDetails
+  ): Configurator.PriceDetails | undefined {
+    let valuePriceTotal;
     if (valuePrice) {
       const calculationQuantity: number = quantity ? quantity : 1;
       valuePriceTotal = {
@@ -99,12 +102,12 @@ export class CpqConfiguratorNormalizerUtilsService {
     attribute: Configurator.Attribute,
     currency: string
   ): Configurator.PriceDetails {
-    const priceTotal: number = attribute.values
-      .filter((entry) => entry.selected && entry.valuePriceTotal)
-      .reduce((total, item) => total + item.valuePriceTotal.value, 0);
+    const priceTotal = attribute.values
+      ?.filter((entry) => entry.selected && entry.valuePriceTotal)
+      .reduce((total, item) => total + (item.valuePriceTotal?.value ?? 0), 0);
     const attributePriceTotal: Configurator.PriceDetails = {
       currencyIso: currency,
-      value: priceTotal,
+      value: priceTotal ?? 0,
     };
     this.formatPriceForLocale(attributePriceTotal, this.getLanguage());
     return attributePriceTotal;
@@ -219,7 +222,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
       }
-      if (priceSummary.currentTotal?.value && priceSummary.basePrice?.value) {
+      if (priceSummary.currentTotal && priceSummary.basePrice) {
         const selectedOptionsPrice: Configurator.PriceDetails = {
           currencyIso: currency,
           value: priceSummary.currentTotal.value - priceSummary.basePrice.value,
@@ -283,7 +286,7 @@ export class CpqConfiguratorNormalizerUtilsService {
       .subscribe((lang) => (result = lang))
       .unsubscribe();
 
-    return result;
+    return result ?? 'en';
   }
 
   /**

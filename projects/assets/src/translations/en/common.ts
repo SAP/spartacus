@@ -4,6 +4,7 @@ export const common = {
     delete: 'Delete',
     remove: 'Remove',
     edit: 'Edit',
+    restore: 'Restore',
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',
@@ -48,6 +49,16 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
+    ariaLabelInput: 'Search here...',
+    ariaLabelSuggestions: 'typing suggestions',
+    ariaLabelProducts: 'product results',
+    initialDescription:
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    suggestionsResult: '{{ count }} suggestion and ',
+    suggestionsResult_plural: '{{ count }} suggestions and ',
+    productsResult: '{{ count }} product is available.',
+    productsResult_plural: '{{ count }} products are available.',
+    resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',

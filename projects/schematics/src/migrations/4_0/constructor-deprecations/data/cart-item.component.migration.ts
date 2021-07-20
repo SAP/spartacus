@@ -22,4 +22,10 @@ export const CART_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],
+  removeParams: [
+    {
+      className: PROMOTION_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
 };

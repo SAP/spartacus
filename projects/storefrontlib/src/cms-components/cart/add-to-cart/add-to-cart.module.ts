@@ -16,7 +16,7 @@ import {
   ModalModule,
   SpinnerModule,
 } from '../../../shared/index';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -42,6 +42,9 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
+          data: {
+            inventoryDisplay: false,
+          },
         },
       },
     }),
