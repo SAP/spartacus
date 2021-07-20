@@ -4,17 +4,6 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
-/**
-const attributeCode = 1;
-const currentAttribute: Configurator.Attribute = {
-  name: 'attributeId',
-  attrCode: attributeCode,
-  uiType: Configurator.UiType.RADIOBUTTON,
-};
-
-const attributeIncomplete: Configurator.Attribute = { name: 'name' };
- */
-
 @Component({
   selector: 'cx-configurator-attribute-base',
   template: 'test-configurator-attribute-base',
