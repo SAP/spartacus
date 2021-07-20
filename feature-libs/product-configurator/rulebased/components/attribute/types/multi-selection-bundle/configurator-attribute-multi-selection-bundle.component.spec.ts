@@ -331,10 +331,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
-  it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
-    spyOn<any>(component, 'onHandleAttributeQuantity');
+  it('should call onHandleQuantity of event onChangeAttributeQuantity', () => {
+    spyOn<any>(component, 'onHandleQuantity');
     component.onChangeAttributeQuantity(2);
-    expect(component['onHandleAttributeQuantity']).toHaveBeenCalled();
+    expect(component['onHandleQuantity']).toHaveBeenCalled();
   });
 
   it('should call onDeselectAll of event onChangeAttributeQuantity', () => {

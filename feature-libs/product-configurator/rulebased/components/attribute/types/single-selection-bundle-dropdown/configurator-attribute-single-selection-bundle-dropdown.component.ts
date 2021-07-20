@@ -7,6 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -21,7 +22,14 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   attributeDropDownForm = new FormControl('');
   selectionValue: Configurator.Value;
 
+  /**
+   * @deprecated since 4.1: remove redundant input parameter
+   */
   @Input() group: string;
+
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+    super(quantityService);
+  }
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);

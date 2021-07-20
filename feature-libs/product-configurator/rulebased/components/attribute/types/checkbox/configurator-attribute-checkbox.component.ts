@@ -1,15 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key-generator.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
@@ -17,14 +15,18 @@ import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeCheckBoxComponent
-  extends ConfiguratorUiKeyGeneratorComponent
+  extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit {
-  @Input() attribute: Configurator.Attribute;
+  /**
+   * @deprecated since 4.1: remove redundant input parameter
+   */
   @Input() group: string;
-  @Input() ownerKey: string;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   attributeCheckBoxForm = new FormControl('');
+
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+    super(quantityService);
+  }
 
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
@@ -34,16 +36,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    * Fired when a check box has been selected i.e. when a value has been set
    */
   onSelect(): void {
-    const selectedValues = this.assembleSingleValue();
-
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        values: selectedValues,
-      },
-    };
-    this.selectionChange.emit(event);
+    super.onSelect(this.assembleSingleValue());
   }
 
   protected assembleSingleValue(): Configurator.Value[] {

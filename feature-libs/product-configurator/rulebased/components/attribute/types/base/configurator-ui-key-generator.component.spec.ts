@@ -10,7 +10,7 @@ const currentAttribute: Configurator.Attribute = {
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
 
-describe('ConfigUIKeyGeneratorService', () => {
+describe('ConfiguratorUiKeyGeneratorComponent', () => {
   let classUnderTest: ConfiguratorUiKeyGeneratorComponent;
 
   beforeEach(() => {

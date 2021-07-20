@@ -18,6 +18,9 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
+  /**
+   * @deprecated since 4.1: remove redundant input parameter
+   */
   @Input() group: string;
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {

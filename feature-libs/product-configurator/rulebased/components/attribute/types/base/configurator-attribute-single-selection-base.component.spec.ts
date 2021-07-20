@@ -64,10 +64,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     );
     spyOn(
       configuratorAttributeQuantityService,
-      'withQuantity'
-    ).and.callThrough();
-    spyOn(
-      configuratorAttributeQuantityService,
       'disableQuantityActions'
     ).and.callThrough();
 
@@ -100,26 +96,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
             groupId: groupId,
           }),
           updateType: Configurator.UpdateType.ATTRIBUTE,
-        })
-      );
-    });
-  });
-
-  describe('onHandleQuantity', () => {
-    it('should call emit of selectionChange onHandleQuantity', () => {
-      const quantity = 2;
-      spyOn(component.selectionChange, 'emit').and.callThrough();
-      component.onHandleQuantity(quantity);
-
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue: selectedValue,
-            groupId: groupId,
-            quantity,
-          }),
-          ownerKey: ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
         })
       );
     });
@@ -307,21 +283,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         value?.valuePrice?.value
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
-    });
-  });
-
-  describe('withQuantity', () => {
-    it('should not allow quantity', () => {
-      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      component.attribute.dataType = Configurator.DataType.NOT_IMPLEMENTED;
-      fixture.detectChanges();
-      expect(component.withQuantity).toBe(false);
-    });
-
-    it('should allow quantity', () => {
-      component.attribute.uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
-      fixture.detectChanges();
-      expect(component.withQuantity).toBe(true);
     });
   });
 

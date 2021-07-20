@@ -1,12 +1,10 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import { Configurator } from '../../core/model/configurator.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,41 +35,6 @@ export class ConfiguratorStorefrontUtilsService {
         result ? true : owner.type === CommonConfigurator.OwnerType.CART_ENTRY
       )
     );
-  }
-
-  /**
-   * Assemble an attribute value with the currently selected values from a checkbox list.
-   *
-   * @param {FormControl[]} controlArray - Control array
-   * @param {Configurator.Attribute} attribute -  Configuration attribute
-   * @return {Configurator.Value[]} - list of configurator values
-   */
-  assembleValuesForMultiSelectAttributes(
-    controlArray: FormControl[],
-    attribute: Configurator.Attribute
-  ): Configurator.Value[] {
-    const localAssembledValues: Configurator.Value[] = [];
-
-    for (let i = 0; i < controlArray.length; i++) {
-      const value = attribute.values ? attribute.values[i] : undefined;
-      if (value) {
-        const localAttributeValue: Configurator.Value = {
-          valueCode: value.valueCode,
-        };
-        localAttributeValue.name = value.name;
-        localAttributeValue.quantity = value.quantity;
-        localAttributeValue.selected = controlArray[i].value;
-
-        localAssembledValues.push(localAttributeValue);
-      } else {
-        if (isDevMode()) {
-          console.warn(
-            'ControlArray does not match values, at least one value could not been found'
-          );
-        }
-      }
-    }
-    return localAssembledValues;
   }
 
   /**

@@ -22,9 +22,15 @@ export class ConfiguratorAttributeCheckBoxListComponent
   implements OnInit {
   attributeCheckBoxForms = new Array<FormControl>();
 
+  /**
+   * @deprecated since 4.1: remove redundant input parameter
+   */
   @Input() group: string;
 
   constructor(
+    /**
+     * @deprecated since 4.1: remove ConfiguratorStorefrontUtilsService dependency
+     */
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected quantityService: ConfiguratorAttributeQuantityService
   ) {
@@ -58,21 +64,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   onSelect(): void {
-    const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
-      this.attributeCheckBoxForms,
-      this.attribute
+    super.onSelect(
+      this.assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      )
     );
-
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        values: selectedValues,
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
   }
 
   onChangeValueQuantity(
@@ -88,12 +85,10 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     const value:
       | Configurator.Value
-      | undefined = this.configUtilsService
-      .assembleValuesForMultiSelectAttributes(
-        this.attributeCheckBoxForms,
-        this.attribute
-      )
-      .find((item) => item.valueCode === valueCode);
+      | undefined = this.assembleValuesForMultiSelectAttributes(
+      this.attributeCheckBoxForms,
+      this.attribute
+    ).find((item) => item.valueCode === valueCode);
 
     if (!value) {
       if (isDevMode()) {
@@ -114,7 +109,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       updateType: Configurator.UpdateType.VALUE_QUANTITY,
     };
 
-    this.selectionChange.emit(event);
+    this.emitEvent(event);
   }
 
   onChangeQuantity(eventObject: any): void {
@@ -124,7 +119,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       );
       this.onSelect();
     } else {
-      this.onHandleAttributeQuantity(eventObject);
+      this.onHandleQuantity(eventObject);
     }
   }
 }

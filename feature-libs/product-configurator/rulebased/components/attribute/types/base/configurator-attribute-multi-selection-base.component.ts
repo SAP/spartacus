@@ -1,19 +1,15 @@
-import { Directive } from '@angular/core';
+import { Directive, isDevMode } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super();
-  }
-
   /**
    * Checks if we are supposed to render a quantity control on attribute level, which
    * can be derived from the attribute meta data
@@ -24,21 +20,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     return (
       this.quantityService?.withQuantityOnAttributeLevel(this.attribute) ??
       false
-    );
-  }
-
-  /**
-   * Checks if we are supposed to render a quantity control, which
-   * can be derived from the attribute meta data
-   *
-   * @return {boolean} - Display quantity picker?
-   */
-  get withQuantity(): boolean {
-    return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
     );
   }
 
@@ -79,17 +60,51 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
   }
 
-  protected onHandleAttributeQuantity(quantity: number): void {
+  /**
+   * Assemble an attribute value with the currently selected values from a checkbox list.
+   *
+   * @param {FormControl[]} controlArray - Control array
+   * @param {Configurator.Attribute} attribute -  Configuration attribute
+   * @return {Configurator.Value[]} - list of configurator values
+   */
+  assembleValuesForMultiSelectAttributes(
+    controlArray: FormControl[],
+    attribute: Configurator.Attribute
+  ): Configurator.Value[] {
+    const localAssembledValues: Configurator.Value[] = [];
+
+    for (let i = 0; i < controlArray.length; i++) {
+      const value = attribute.values ? attribute.values[i] : undefined;
+      if (value) {
+        const localAttributeValue: Configurator.Value = {
+          valueCode: value.valueCode,
+        };
+        localAttributeValue.name = value.name;
+        localAttributeValue.quantity = value.quantity;
+        localAttributeValue.selected = controlArray[i].value;
+
+        localAssembledValues.push(localAttributeValue);
+      } else {
+        if (isDevMode()) {
+          console.warn(
+            'ControlArray does not match values, at least one value could not been found'
+          );
+        }
+      }
+    }
+    return localAssembledValues;
+  }
+
+  onSelect(values: Configurator.Value[]): void {
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        quantity,
+        values: values,
       },
       ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
-
-    this.emitEvent(event);
+    this.selectionChange.emit(event);
   }
 
   /**

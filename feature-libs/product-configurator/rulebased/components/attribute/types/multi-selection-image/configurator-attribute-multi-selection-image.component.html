@@ -14,7 +14,7 @@
       [value]="value.valueCode"
       [formControl]="attributeCheckBoxForms[i]"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
-      (click)="onSelect(i)"
+      (click)="onSelect()"
       [attr.aria-labelledby]="
         createValueUiKey('label', attribute.name, value.valueCode)
       "

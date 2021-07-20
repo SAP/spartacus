@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -10,6 +11,9 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+    super(quantityService);
+  }
   /**
    * Extract corresponding product card parameters
    *

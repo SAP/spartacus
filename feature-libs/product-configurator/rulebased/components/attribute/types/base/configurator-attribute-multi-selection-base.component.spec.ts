@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
@@ -85,12 +86,6 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('withQuantity', () => {
-    it('should allow quantity', () => {
-      expect(component.withQuantity).toBe(true);
-    });
-  });
-
   describe('withQuantityOnAttributeLevel', () => {
     it('should allow quantity on attribute level when specified as attribute level', () => {
       component.attribute.dataType =
@@ -135,7 +130,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     it('should call emit of selectionChange', () => {
       const quantity = 2;
       spyOn(component.selectionChange, 'emit').and.callThrough();
-      component['onHandleAttributeQuantity'](quantity);
+      component['onHandleQuantity'](quantity);
       expect(component.selectionChange.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({
           changedAttribute: jasmine.objectContaining({
@@ -183,6 +178,48 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         value?.valuePriceTotal?.value
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
+    });
+  });
+
+  describe('assembleValuesForMultiSelectAttributes', () => {
+    it('should assemble values from a checkbox list into an attribute value', () => {
+      const controlArray = new Array<FormControl>();
+      const control1 = new FormControl(true);
+      const control2 = new FormControl(false);
+      controlArray.push(control1, control2);
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        values: [{ valueCode: 'b' }, { name: 'blue', valueCode: 'a' }],
+      };
+
+      const values: Configurator.Value[] = component.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+      if (attribute.values) {
+        expect(values.length).toBe(2);
+        expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
+        expect(values[0].selected).toBe(true);
+        expect(values[1].name).toBe(attribute.values[1].name);
+        expect(values[1].selected).toBe(false);
+      } else fail();
+    });
+
+    it('should gracefully handle situation that control array has values not present in attribute', () => {
+      const controlArray = new Array<FormControl>();
+      const control1 = new FormControl(true);
+      const control2 = new FormControl(false);
+      controlArray.push(control1, control2);
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        values: [{ name: 'blue', valueCode: 'a' }],
+      };
+
+      const values: Configurator.Value[] = component.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+      expect(values.length).toBe(1);
     });
   });
 });

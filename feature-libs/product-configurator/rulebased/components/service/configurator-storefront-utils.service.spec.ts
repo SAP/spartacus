@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -9,7 +8,6 @@ import {
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
 
 let isGroupVisited: Observable<boolean> = of(false);
@@ -107,46 +105,6 @@ describe('ConfigUtilsService', () => {
   it('should return true because the current group was visited', () => {
     isGroupVisited = of(true);
     expect(getCurrentResult()).toBe(true);
-  });
-
-  it('should assemble values from a checkbox list into an attribute value', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
-    controlArray.push(control1, control2);
-    const attribute: Configurator.Attribute = {
-      name: 'attr',
-      values: [{ valueCode: 'b' }, { name: 'blue', valueCode: 'a' }],
-    };
-
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
-    if (attribute.values) {
-      expect(values.length).toBe(2);
-      expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
-      expect(values[0].selected).toBe(true);
-      expect(values[1].name).toBe(attribute.values[1].name);
-      expect(values[1].selected).toBe(false);
-    } else fail();
-  });
-
-  it('should gracefully handle situation that control array has values not present in attribute', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
-    controlArray.push(control1, control2);
-    const attribute: Configurator.Attribute = {
-      name: 'attr',
-      values: [{ name: 'blue', valueCode: 'a' }],
-    };
-
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
-    expect(values.length).toBe(1);
   });
 
   describe('focusFirstAttribute', () => {

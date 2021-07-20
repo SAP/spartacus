@@ -3,7 +3,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
-
 export class ConfiguratorUiKeyGeneratorComponent {
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';

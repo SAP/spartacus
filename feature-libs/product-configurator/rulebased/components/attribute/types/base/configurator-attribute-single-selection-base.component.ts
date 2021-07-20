@@ -5,31 +5,11 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super();
-  }
-
-  /**
-   * Checks if we are supposed to render a quantity control, which
-   * can be derived from the attribute meta data
-   *
-   * @return {boolean} - Display quantity picker?
-   */
-  get withQuantity(): boolean {
-    return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
-    );
-  }
-
   /**
    * Checks if quantity control should be disabled
    *
@@ -51,19 +31,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.emitEvent(event);
-  }
-
-  onHandleQuantity(quantity: number): void {
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        quantity,
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     };
 
     this.emitEvent(event);
