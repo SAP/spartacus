@@ -153,13 +153,6 @@ if (environment.cpq) {
     ProductSummaryModule,
     ProductIntroModule,
 
-    // Cart Core
-    // CartModule.forRoot(),
-    // CartOccModule,
-    // Cart UI
-    // CartComponentModule,
-    // WishListModule,
-
     // Cost Center
     CostCenterOccModule,
 
