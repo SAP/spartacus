@@ -5,7 +5,6 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_LAYOUT_CONFIG,
   B2C_STOREFRONT_MODULE,
-  CART_ITEM_COMPONENT,
   CART_PAGE_META_RESOLVER,
   CLOSE_ACCOUNT_MODAL_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
@@ -24,7 +23,6 @@ import {
   FORGOT_PASSWORD_COMPONENT,
   FORGOT_PASSWORD_EMAIL_ACTION,
   FORGOT_PASSWORD_MODULE,
-  ITEM,
   LOGIN_COMPONENT,
   LOGIN_FORM_COMPONENT,
   LOGIN_FORM_MODULE,
@@ -44,7 +42,6 @@ import {
   OCC_USER_ACCOUNT_ADAPTER,
   OCC_USER_ADAPTER,
   OCC_USER_PROFILE_ADAPTER,
-  ORDER_ENTRY,
   PAGE_EVENT_BUILDER,
   PAGE_EVENT_MODULE,
   PERSONALIZATION_MODULE,
@@ -228,7 +225,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: ASM_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core.`,
+    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/asm'.`,
   },
   {
     node: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
@@ -249,19 +246,19 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: SMART_EDIT_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead.`,
+    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/smartedit'.`,
   },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking --features=Personalization'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
     node: PRODUCT_VARIANTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead.`,
+    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product --features=Product-Variants'.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   {
@@ -341,12 +338,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${CART_PAGE_META_RESOLVER}' was removed since all data is now data driven by CMS page data and is resolved by the ${CONTENT_PAGE_META_RESOLVER}`,
   },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
-  {
-    node: CART_ITEM_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${ITEM}' interface was removed from ${CART_ITEM_COMPONENT}. User ${ORDER_ENTRY} instad.`,
-  },
   {
     node: FEATURE_MODULES_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -356,19 +347,19 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `Following translation chunks '${MINI_LOGIN_TRANSLATION_CHUNK}', '${UPDATE_EMAIL_FORM_TRANSLATION_CHUNK}', '${FORGOTTEN_PASSWORD_TRANSLATION_CHUNK}', '${LOGIN_FORM_TRANSLATION_CHUNK}', '${REGISTER_TRANSLATION_CHUNK}' were moved to ${SPARTACUS_USER}.`,
+    comment: `'${TRANSLATION_CHUNKS_CONFIG}' - Following translation chunks '${MINI_LOGIN_TRANSLATION_CHUNK}', '${UPDATE_EMAIL_FORM_TRANSLATION_CHUNK}', '${FORGOTTEN_PASSWORD_TRANSLATION_CHUNK}', '${LOGIN_FORM_TRANSLATION_CHUNK}', '${REGISTER_TRANSLATION_CHUNK}' were moved to ${SPARTACUS_USER}.`,
   },
   // projects/storefrontlib/src/cms-components/cms-lib.module.ts
   {
     node: CMS_LIB_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `Following module imports '${CLOSE_ACCOUNT_MODULE}', '${FORGOT_PASSWORD_MODULE}', '${RESET_PASSWORD_MODULE}', '${UPDATE_EMAIL_MODULE}', '${UPDATE_PASSWORD_MODULE}', '${UPDATE_PROFILE_MODULE}', '${USER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
+    comment: `'${CMS_LIB_MODULE}' - Following module imports '${CLOSE_ACCOUNT_MODULE}', '${FORGOT_PASSWORD_MODULE}', '${RESET_PASSWORD_MODULE}', '${UPDATE_EMAIL_MODULE}', '${UPDATE_PASSWORD_MODULE}', '${UPDATE_PROFILE_MODULE}', '${USER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
   // projects/storefrontlib/src/cms-components/user/user.module.ts
   {
     node: USER_COMPONENT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
+    comment: `'${USER_COMPONENT_MODULE}' - Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
   {
@@ -474,7 +465,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: OCC_ENDPOINTS,
     importPath: SPARTACUS_CORE,
-    comment: `Following endpoints '${TITLES_ENDPOINT}', '${USER_ENDPOINT}', '${USER_REGISTER_ENDPOINT}', '${USER_FORGOT_PASSWORD_ENDPOINT}', '${USER_RESET_PASSWORD_ENDPOINT}', '${USER_UPDATE_LOGIN_ID_ENDPOINT}', '${USER_UPDATE_PASSWORD_ENDPOINT}' , '${USER_UPDATE_PROFILE_ENDPOINT}' , '${USER_CLOSE_ACCOUNT_ENDPOINT}' were removed. For replacement please use following endpoints from '${SPARTACUS_USER_ACCOUNT}' and '${SPARTACUS_USER_PROFILE}'.`,
+    comment: `'${OCC_ENDPOINTS} - Following endpoints '${TITLES_ENDPOINT}', '${USER_ENDPOINT}', '${USER_REGISTER_ENDPOINT}', '${USER_FORGOT_PASSWORD_ENDPOINT}', '${USER_RESET_PASSWORD_ENDPOINT}', '${USER_UPDATE_LOGIN_ID_ENDPOINT}', '${USER_UPDATE_PASSWORD_ENDPOINT}' , '${USER_UPDATE_PROFILE_ENDPOINT}' , '${USER_CLOSE_ACCOUNT_ENDPOINT}' were removed. For replacement please use following endpoints from '${SPARTACUS_USER_ACCOUNT}' and '${SPARTACUS_USER_PROFILE}'.`,
   },
   // projects/core/src/user/connectors/user/converters.ts
   {
@@ -528,7 +519,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_ACTIONS,
     importPath: SPARTACUS_CORE,
-    comment: `Following actions '${FORGOT_PASSWORD_EMAIL_ACTION}', '${RESET_PASSWORD_ACTION}', '${EMAIL_ACTIONS}', '${UPDATE_PASSWORD_ACTION}', '${USER_DETAILS_ACTION}' were removed. Logic was moved to '${SPARTACUS_USER}'.`,
+    comment: `${USER_ACTIONS} - Following actions '${FORGOT_PASSWORD_EMAIL_ACTION}', '${RESET_PASSWORD_ACTION}', '${EMAIL_ACTIONS}', '${UPDATE_PASSWORD_ACTION}', '${USER_DETAILS_ACTION}' were removed. Logic was moved to '${SPARTACUS_USER}'.`,
   },
   // projects/core/src/user/store/user-state.ts
   {
@@ -558,7 +549,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'.`,
+    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/user'.`,
   },
   // projects/storefrontlib/src/shared/components/table/table.model.ts
   {
@@ -576,7 +567,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: EXTERNAL_JS_FILE_LOADER,
     importPath: SPARTACUS_CORE,
-    comment: `'ExternalJsFileLoader' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
+    comment: `'${EXTERNAL_JS_FILE_LOADER}' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
   },
   // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
   {
