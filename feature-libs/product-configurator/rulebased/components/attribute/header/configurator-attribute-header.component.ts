@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { ConfiguratorUiKeyGeneratorComponent } from '../types/base/configurator-ui-key-generator.component';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -18,7 +18,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeHeaderComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorUiKeyGeneratorComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;

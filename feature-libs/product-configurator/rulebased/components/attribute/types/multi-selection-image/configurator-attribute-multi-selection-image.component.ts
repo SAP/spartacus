@@ -10,14 +10,14 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key-generator.component';
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorUiKeyGeneratorComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;

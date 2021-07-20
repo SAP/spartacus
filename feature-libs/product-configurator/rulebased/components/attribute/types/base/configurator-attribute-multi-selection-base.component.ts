@@ -1,5 +1,4 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Directive } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
@@ -11,12 +10,6 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
-  loading$ = new BehaviorSubject<boolean>(false);
-
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
@@ -87,8 +80,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   }
 
   protected onHandleAttributeQuantity(quantity: number): void {
-    this.loading$.next(true);
-
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
@@ -98,7 +89,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     };
 
-    this.selectionChange.emit(event);
+    this.emitEvent(event);
   }
 
   /**

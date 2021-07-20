@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key-generator.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
@@ -17,7 +17,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeCheckBoxComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorUiKeyGeneratorComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;

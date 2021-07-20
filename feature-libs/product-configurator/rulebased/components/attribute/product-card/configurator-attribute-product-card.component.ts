@@ -19,7 +19,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { ConfiguratorUiKeyGeneratorComponent } from '../types/base/configurator-ui-key-generator.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -47,7 +47,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeProductCardComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorUiKeyGeneratorComponent
   implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
