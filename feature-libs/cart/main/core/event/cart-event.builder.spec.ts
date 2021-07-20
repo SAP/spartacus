@@ -1,12 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Cart, createFrom, EventService } from '@spartacus/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ActiveCartService } from '../facade/active-cart.service';
-import { CartActions } from '../store/actions';
-import { CartEventBuilder } from './cart-event.builder';
 import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -15,7 +9,13 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
-} from './cart.events';
+} from '@spartacus/cart/main/root';
+import { Cart, createFrom, EventService } from '@spartacus/core';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ActiveCartService } from '../facade/active-cart.service';
+import { CartActions } from '../store/actions';
+import { CartEventBuilder } from './cart-event.builder';
 
 let getActiveCartIdSubject: BehaviorSubject<string>;
 

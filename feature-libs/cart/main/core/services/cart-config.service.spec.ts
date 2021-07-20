@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CartConfig, CartConfigService } from '@spartacus/cart/main/core';
+import { CartConfig } from '@spartacus/cart/main/root';
+import { CartConfigService } from './cart-config.service';
 
 describe('CartConfigService', () => {
   let mockCartConfig: CartConfig;
