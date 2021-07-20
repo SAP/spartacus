@@ -11,7 +11,6 @@ import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
-  CustomFormValidators,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
 
@@ -66,13 +65,7 @@ export class ImportEntriesDialogComponent implements OnInit {
     const form = new FormGroup({});
     form.setControl(
       'file',
-      new FormControl('', [
-        Validators.required,
-        () => this.fileError,
-        CustomFormValidators.fileMinSize(this.fileValidity),
-        CustomFormValidators.fileMaxSize(this.fileValidity),
-        CustomFormValidators.extensionValidator(this.fileValidity),
-      ])
+      new FormControl('', [Validators.required, () => this.fileError])
     );
     form.setControl(
       'name',
@@ -89,27 +82,32 @@ export class ImportEntriesDialogComponent implements OnInit {
   }
 
   selectFile(file: File, form: FormGroup) {
-    this.importService
-      .loadFile(file)
-      .pipe(
-        tap((data: string[][]) => {
-          if (!this.importToCartService.isDataParsable(data)) {
-            throw new Error();
+    if (file) {
+      this.importService
+        .loadFile(file)
+        .pipe(
+          tap((data: string[][]) => {
+            if (!this.importToCartService.isDataParsable(data)) {
+              throw new Error();
+            }
+          })
+        )
+        .subscribe(
+          (data: string[][]) => {
+            this.fileError = {};
+            this.loadedFile = data;
+            form.get('file')?.updateValueAndValidity();
+          },
+          () => {
+            this.fileError = { notParsable: true };
+            this.loadedFile = null;
+            form.get('file')?.updateValueAndValidity();
           }
-        })
-      )
-      .subscribe(
-        (data: string[][]) => {
-          this.fileError = {};
-          this.loadedFile = data;
-          form.get('file')?.updateValueAndValidity();
-        },
-        () => {
-          this.fileError = { notParsable: true };
-          this.loadedFile = null;
-          form.get('file')?.updateValueAndValidity();
-        }
-      );
+        );
+    } else {
+      this.fileError = {};
+      form.get('file')?.updateValueAndValidity();
+    }
   }
 
   importProducts(): void {
