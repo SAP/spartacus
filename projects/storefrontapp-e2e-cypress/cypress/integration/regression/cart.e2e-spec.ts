@@ -11,10 +11,6 @@ describe('Cart', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
       });
-
-      it('should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
-      });
     });
 
     context('Registered user', () => {
@@ -45,17 +41,23 @@ describe('Cart', () => {
   });
 
   viewportContext(['desktop'], () => {
-    context('Registered user', () => {
-      before(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
-        cart.loginRegisteredUser();
-        visitHomePage();
+    context('Anonymous user', () => {
+      it('should be unable to add out of stock products to cart', () => {
+        cart.outOfStock();
       });
 
       it('should keep cart on page refresh', () => {
         cart.addProductAsAnonymous();
         cy.reload();
         cart.verifyCartNotEmpty();
+      });
+    });
+
+    context('Registered user', () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cart.loginRegisteredUser();
+        visitHomePage();
       });
 
       it('should be loaded for authenticated user after "cart not found" error', () => {
@@ -189,7 +191,7 @@ describe('Cart', () => {
           false
         ).then((res) => {
           expect(res.status).to.eq(200);
-          // remove cart
+          cy.log('Removing current Cart for the test case');
           cy.request({
             method: 'DELETE',
             url: `${Cypress.env('API_URL')}/${Cypress.env(
