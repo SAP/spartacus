@@ -2,6 +2,15 @@ import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
+  CartAddEntryEvent,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
+  CartRemoveEntryFailEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntryFailEvent,
+  CartUpdateEntrySuccessEvent,
+} from '@spartacus/cart/main/root';
+import {
   ActionToEventMapping,
   createFrom,
   EventService,
@@ -10,15 +19,6 @@ import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ActiveCartService } from '../facade/active-cart.service';
 import { CartActions } from '../store/index';
-import {
-  CartAddEntryEvent,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
-  CartRemoveEntryFailEvent,
-  CartRemoveEntrySuccessEvent,
-  CartUpdateEntryFailEvent,
-  CartUpdateEntrySuccessEvent,
-} from './cart.events';
 
 /**
  * Registers events for the active cart
