@@ -33,6 +33,11 @@ export class ConfiguratorAttributeBaseComponent extends ConfiguratorUiKeyGenerat
     );
   }
 
+  /**
+   * Fires an event to handle a quantity.
+   *
+   * @param {number} quantity - Quantity value
+   */
   onHandleQuantity(quantity: number): void {
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -46,6 +51,11 @@ export class ConfiguratorAttributeBaseComponent extends ConfiguratorUiKeyGenerat
     this.emitEvent(event);
   }
 
+  /**
+   * Emits an event containing a given value..
+   *
+   * @param {ConfigFormUpdateEvent} eventValue - Value to emit
+   */
   emitEvent(eventValue: ConfigFormUpdateEvent): void {
     this.loading$.next(true);
     this.selectionChange.emit(eventValue);

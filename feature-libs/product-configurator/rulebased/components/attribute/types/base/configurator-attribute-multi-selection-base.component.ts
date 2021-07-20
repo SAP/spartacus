@@ -95,6 +95,11 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     return localAssembledValues;
   }
 
+  /**
+   * Fires an event when the values have been selected.
+   *
+   * @param { Configurator.Value[]} values - List of selected values
+   */
   onSelect(values: Configurator.Value[]): void {
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {

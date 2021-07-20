@@ -23,6 +23,11 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     );
   }
 
+  /**
+   * Fires an event when a value has been selected.
+   *
+   * @param {string} value - selected value
+   */
   onSelect(value: string): void {
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -36,6 +41,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.emitEvent(event);
   }
 
+  /**
+   * Fires an event when the quantity has been changed.
+   *
+   * @param {any} eventObject - event object
+   * @param {FormControl} form - Form control
+   */
   onChangeQuantity(eventObject: any, form?: FormControl): void {
     if (!eventObject) {
       if (form) {
