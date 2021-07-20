@@ -1,10 +1,13 @@
-@import '~@spartacus/styles/scss/core';
+@import '~@spartacus/styles';
 
 @import './account/styles/index';
 @import './profile/styles/index';
+@import './anonymous-consents/styles/index';
 
 $skipComponentStyles: () !default;
-$selectors: cx-login, cx-login-form, cx-register, cx-reset-password !default;
+$selectors: cx-login, cx-login-form, cx-register, cx-reset-password,
+  cx-anonymous-consent-management-banner, cx-anonymous-consent-dialog,
+  cx-anonymous-consent-open-dialog !default;
 
 @each $selector in $selectors {
   #{$selector} {

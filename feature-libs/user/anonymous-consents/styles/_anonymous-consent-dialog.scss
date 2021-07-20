@@ -1,0 +1,63 @@
+%cx-anonymous-consent-dialog {
+  color: var(--cx-color-text);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-anonymous-consent-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+
+    .cx-dialog-content {
+      @extend .modal-content;
+
+      .cx-dialog-header {
+        @extend .modal-header;
+        padding-top: 2rem;
+        padding-inline-end: 1.75rem;
+        padding-bottom: 0.85rem;
+        padding-inline-start: 1.75rem;
+      }
+      .cx-dialog-body {
+        @extend .modal-body;
+        padding-top: 0;
+        background-color: var(--cx-color-inverse);
+
+        @include media-breakpoint-only(xs) {
+          padding: 1.5rem;
+          border-top: 1px solid var(--cx-color-light);
+        }
+      }
+      .cx-dialog-buttons {
+        text-align: end;
+        padding: 1rem 4rem;
+        @include media-breakpoint-only(xs) {
+          padding: 1rem;
+        }
+      }
+
+      .cx-action-link {
+        margin: 0 0.35rem;
+      }
+
+      .cx-dialog-row {
+        max-width: 100%;
+        @include media-breakpoint-down(xs) {
+          padding: 0;
+        }
+      }
+
+      h3 {
+        @include type('3');
+      }
+
+      .cx-dialog-description {
+        @include type();
+        padding: 1.5rem 1.75rem 0;
+      }
+
+      a:not([href]):not([tabindex]) {
+        text-decoration: underline;
+      }
+    }
+  }
+}
