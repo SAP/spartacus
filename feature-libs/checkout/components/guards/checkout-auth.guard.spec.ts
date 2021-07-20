@@ -9,9 +9,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-  User,
-  UserService,
 } from '@spartacus/core';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
@@ -52,7 +51,7 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
   }
@@ -62,14 +61,13 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-// Temporarily disabled. Fix and re-enable in GH-13099
-xdescribe('CheckoutAuthGuard', () => {
+describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
-  let userService: UserService;
+  let userService: UserAccountFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -97,8 +95,8 @@ xdescribe('CheckoutAuthGuard', () => {
           useClass: MockCheckoutConfigService,
         },
         {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserAccountFacade,
+          useClass: MockUserAccountFacade,
         },
         {
           provide: GlobalMessageService,
@@ -112,7 +110,7 @@ xdescribe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-    userService = TestBed.inject(UserService);
+    userService = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -129,21 +127,21 @@ xdescribe('CheckoutAuthGuard', () => {
 
       it('should return url to login with forced flag when guestCheckout feature enabled', () => {
         spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result.toString()).toEqual(`/login?forced=true`);
+        expect(result?.toString()).toEqual(`/login?forced=true`);
       });
 
       it('should return url to login without forced flag when guestCheckout feature disabled', () => {
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result.toString()).toEqual(`/login`);
+        expect(result?.toString()).toEqual(`/login`);
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
@@ -160,7 +158,7 @@ xdescribe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -194,7 +192,7 @@ xdescribe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -211,7 +209,7 @@ xdescribe('CheckoutAuthGuard', () => {
       });
 
       it('should redirect to same route when cart is stable', () => {
-        let result: boolean;
+        let result: boolean | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value != null))
@@ -220,7 +218,7 @@ xdescribe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -238,7 +236,7 @@ xdescribe('CheckoutAuthGuard', () => {
         spyOn(userService, 'get').and.returnValue(
           of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
         );
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -246,16 +244,16 @@ xdescribe('CheckoutAuthGuard', () => {
         expect(result).toBe(true);
       });
 
-      it('should return false when user roles does not have b2bcustomergroup', () => {
+      it('should return to /home when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
           of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
         );
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result).toBe(false);
+        expect(result?.toString()).toBe('/home');
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'checkout.invalid.accountType' },
           GlobalMessageType.MSG_TYPE_WARNING
