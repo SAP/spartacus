@@ -201,6 +201,9 @@
       "@spartacus/user/account/root": [
         "../../feature-libs/user/account/root/public_api"
       ],
+      "@spartacus/user/anonymous-consents/assets": [
+        "../../feature-libs/user/anonymous-consents/assets/public_api"
+      ],
       "@spartacus/user/anonymous-consents/components": [
         "../../feature-libs/user/anonymous-consents/components/public_api"
       ],

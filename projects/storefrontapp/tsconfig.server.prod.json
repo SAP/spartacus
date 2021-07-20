@@ -140,6 +140,9 @@
       "@spartacus/user/account": ["../../dist/user/account"],
       "@spartacus/user/account/occ": ["../../dist/user/account/occ"],
       "@spartacus/user/account/root": ["../../dist/user/account/root"],
+      "@spartacus/user/anonymous-consents/assets": [
+        "../../dist/user/anonymous-consents/assets"
+      ],
       "@spartacus/user/anonymous-consents/components": [
         "../../dist/user/anonymous-consents/components"
       ],
