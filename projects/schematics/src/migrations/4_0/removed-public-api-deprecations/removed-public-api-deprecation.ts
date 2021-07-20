@@ -225,7 +225,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: ASM_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core.`,
+    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/asm'.`,
   },
   {
     node: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
