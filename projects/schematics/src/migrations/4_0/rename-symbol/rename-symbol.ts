@@ -412,14 +412,13 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: LOGIN_REGISTER_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
-    // feature-libs/checkout/components/services/express-checkout.service.ts
   },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   {
     previousNode: ITEM,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: ORDER_ENTRY,
     newImportPath: SPARTACUS_CORE,
-    // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   },
 ];
 
