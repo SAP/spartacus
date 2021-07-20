@@ -11,6 +11,10 @@ describe('Cart', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
       });
+
+      it('should be unable to add out of stock products to cart', () => {
+        cart.outOfStock();
+      });
     });
 
     context('Registered user', () => {
@@ -46,10 +50,6 @@ describe('Cart', () => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
         visitHomePage();
-      });
-
-      it('should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
       });
 
       it('should keep cart on page refresh', () => {
