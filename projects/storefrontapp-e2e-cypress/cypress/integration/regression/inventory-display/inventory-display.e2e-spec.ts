@@ -7,6 +7,17 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as sampleData from '../../../sample-data/inventory-display';
 
+function testInventoryDisplay(productCode: string) {
+  const productDetailsAlias = interceptProductDetails(productCode);
+  visitProductPage(productCode);
+
+  cy.wait(`@${productDetailsAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  assertInventoryDisplay(productCode, `@${productDetailsAlias}`);
+}
+
 context('B2B - Inventory Display', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
@@ -19,19 +30,7 @@ context('B2B - Inventory Display', () => {
       });
 
       it('should NOT render number of available stock', () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT
-        );
-        visitProductPage(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
       });
     });
 
@@ -41,99 +40,27 @@ context('B2B - Inventory Display', () => {
       });
 
       it('should render number of available stock', () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT
-        );
-        visitProductPage(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
       });
 
       it("should render 'out of stock' if stock level 0 and inventory display is on", () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.OUT_OF_STOCK_PRODUCT
-        );
-        visitProductPage(sampleData.OUT_OF_STOCK_PRODUCT);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.OUT_OF_STOCK_PRODUCT,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.OUT_OF_STOCK_PRODUCT);
       });
 
       it("should render 'In Stock' if force inStock status and inventory display is on", () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.FORCE_IN_STOCK_PRODUCT
-        );
-        visitProductPage(sampleData.FORCE_IN_STOCK_PRODUCT);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.FORCE_IN_STOCK_PRODUCT,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.FORCE_IN_STOCK_PRODUCT);
       });
 
       it('should render + if threshold applied and inventory display is on', () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.THRESHOLD_STOCK
-        );
-        visitProductPage(sampleData.THRESHOLD_STOCK);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.THRESHOLD_STOCK,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.THRESHOLD_STOCK);
       });
 
       it('should NOT render + if threshold greater than stock level and inventory display is on', () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.STOCK_LESS_THAN_THRESHOLD
-        );
-        visitProductPage(sampleData.STOCK_LESS_THAN_THRESHOLD);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.STOCK_LESS_THAN_THRESHOLD,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.STOCK_LESS_THAN_THRESHOLD);
       });
 
       it('should NOT render + if threshold equal to stock level and inventory display is on', () => {
-        const productDetailsAlias = interceptProductDetails(
-          sampleData.STOCK_EQUAL_THRESHOLD
-        );
-        visitProductPage(sampleData.STOCK_EQUAL_THRESHOLD);
-
-        cy.wait(`@${productDetailsAlias}`)
-          .its('response.statusCode')
-          .should('eq', 200);
-
-        assertInventoryDisplay(
-          sampleData.STOCK_EQUAL_THRESHOLD,
-          `@${productDetailsAlias}`
-        );
+        testInventoryDisplay(sampleData.STOCK_EQUAL_THRESHOLD);
       });
     });
   });
