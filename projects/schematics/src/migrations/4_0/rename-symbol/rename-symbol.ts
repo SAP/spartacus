@@ -173,13 +173,13 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/core/src/occ/adapters/asm/asm-occ.module.ts
   {
     previousNode: ASM_OCC_MODULE,
-    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/occ`,
   },
   // projects/core/src/occ/adapters/asm/occ-asm.adapter.ts
   {
     previousNode: OCC_ASM_ADAPTER,
-    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_ASM}/occ`,
   },
   // projects/core/src/asm/config/asm-config.ts
