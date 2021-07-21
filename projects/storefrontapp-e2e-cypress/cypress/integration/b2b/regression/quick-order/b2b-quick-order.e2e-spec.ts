@@ -15,31 +15,6 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
-      it('should add product to the list', () => {
-        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        quickOrder.verifyQuickOrderListQuantity(1);
-        quickOrder.clearList();
-      });
-
-      it('should add 2 different products to the list', () => {
-        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        cy.wait(1000);
-        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
-
-        quickOrder.verifyQuickOrderListQuantity(2);
-        quickOrder.clearList();
-      });
-
-      it('should remove first product on the list', () => {
-        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        cy.wait(1000);
-        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
-
-        quickOrder.removeFirstRow();
-        quickOrder.verifyQuickOrderListQuantity(1);
-        quickOrder.clearList();
-      });
-
       it('should add product to the cart', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.addToCart();
@@ -47,18 +22,30 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderListQuantity(0);
       });
 
-      it('should clear the list', () => {
+      it('should add product to the list', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        cy.wait(1000);
-        quickOrder.addProductToTheList(sampleData.b2bProduct2.code);
+        quickOrder.verifyQuickOrderListQuantity(1);
+      });
 
+      it('should add 2 different products to the list', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.verifyQuickOrderListQuantity(2);
+      });
+
+      it('should remove first product on the list', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+      });
+
+      it('should clear the list', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.clearList();
         quickOrder.verifyQuickOrderListQuantity(0);
       });
 
       it('should show message if product code is invalid', () => {
-        quickOrder.addProductToTheList('invalidCode');
-
+        quickOrder.addWrongProductToTheList('invalidCode');
         cy.get('cx-global-message .alert-danger').should('exist');
       });
     });
@@ -75,10 +62,13 @@ context('B2B - Quick Order', () => {
     });
 
     describe('Accessibility - keyboarding', () => {
+      beforeEach(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+      });
+
       it('should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        cy.wait(1000);
         quickOrder.verifyQuickOrderPageTabbingOrder();
       });
 

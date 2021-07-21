@@ -404,6 +404,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'Empty list', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },

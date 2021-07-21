@@ -5,6 +5,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/ta
 import { waitForPage } from '../checkout-flow';
 
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
+export const GET_PRODUCT_ENDPOINT_ALIAS = 'getProduct';
 
 export function interceptAddToCartEndpoint() {
   cy.intercept(
@@ -15,6 +16,17 @@ export function interceptAddToCartEndpoint() {
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
 
   return ADD_TO_CART_ENDPOINT_ALIAS;
+}
+
+export function interceptGetProductEndpoint(productCode: string) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${productCode}?fields=*&lang=en&curr=USD`
+  ).as(GET_PRODUCT_ENDPOINT_ALIAS);
+
+  return GET_PRODUCT_ENDPOINT_ALIAS;
 }
 
 export function visitCartPage() {
@@ -35,7 +47,23 @@ export function visitQuickOrderPage() {
 }
 
 export function addProductToTheList(productCode: string) {
+  const alias = this.interceptGetProductEndpoint(productCode);
+
   cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+}
+
+export function addWrongProductToTheList(productCode: string) {
+  const alias = this.interceptGetProductEndpoint(productCode);
+
+  cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 400);
+}
+
+export function addManyProductsToTheList(products: SampleProduct[]) {
+  products.forEach((product) => {
+    this.addProductToTheList(product.code);
+  });
 }
 
 export function clearList() {
