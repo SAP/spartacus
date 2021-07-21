@@ -221,6 +221,20 @@
     }
   }
 
+  cx-replenishment-order-history {
+    .cx-replenishment-order-history-code .cx-replenishment-order-history-value {
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+    }
+
+    .cx-replenishment-order-history-cancel {
+      .cx-order-cancel {
+        color: var(--cx-color-primary);
+        font-weight: var(--cx-font-weight-semi);
+      }
+    }
+  }
+
   %cx-pagination {
     a {
       @include type('4');
