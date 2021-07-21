@@ -47,7 +47,8 @@ export const savedCartDialog = {
   save: 'Save',
   restore: 'Restore',
   followingCartDelete: 'The following saved cart will be deleted',
-  followingCartRestore: 'The following saved cart will be restored as the active cart',
+  followingCartRestore:
+    'The following saved cart will be restored as the active cart',
   delete: 'Delete',
   deleteCartSuccess: 'Cart Deleted Successfully',
   editCartSuccess: 'Cart Edited Successfully',
