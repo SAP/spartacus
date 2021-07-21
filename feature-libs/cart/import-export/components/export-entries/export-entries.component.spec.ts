@@ -89,7 +89,7 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
-const mockOutput = '"3803058","2"';
+const csvOutput = '"3803058","2"';
 
 const entries$ = new BehaviorSubject([entry]);
 
@@ -98,7 +98,7 @@ class MockExportEntriesService {
   exportEntries = createSpy('getEntries').and.returnValue([entry]);
 }
 class MockExportService {
-  dataToCsv = createSpy('dataToCsv').and.returnValue(mockOutput);
+  dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);
 }
 
 fdescribe('ExportEntriesComponent', () => {
@@ -155,7 +155,7 @@ fdescribe('ExportEntriesComponent', () => {
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
       expect(exportToCsvSpy).toHaveBeenCalledWith();
-      expect(downloadCsvSpy).toHaveBeenCalledWith(mockOutput);
+      expect(downloadCsvSpy).toHaveBeenCalledWith(csvOutput);
       expect(exportEntriesService.exportEntries).toHaveBeenCalledWith();
       expect(exportService.dataToCsv).toHaveBeenCalledWith([entry] as any);
     });
