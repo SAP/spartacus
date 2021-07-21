@@ -66,6 +66,7 @@ context('B2B - Quick Order', () => {
 
     describe('Cart Page', () => {
       beforeEach(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
         quickOrder.prepareCartWithProduct();
       });
 
