@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -18,19 +19,27 @@ import { Subscription } from 'rxjs';
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: FormControl;
 
-  @Input()
-  entry: OrderEntry;
+  get entry(): OrderEntry {
+    return this._entry;
+  }
+
+  @Input('entry') set entry(value: OrderEntry) {
+    this._entry = value;
+    this.quantityControl = new FormControl(this.entry.quantity);
+  }
 
   @Input()
   index: number;
 
+  protected _entry: OrderEntry;
   private subscription = new Subscription();
 
-  constructor(protected quickOrderService: QuickOrderFacade) {}
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected quickOrderService: QuickOrderFacade
+  ) {}
 
   ngOnInit(): void {
-    this.quantityControl = new FormControl(this.entry.quantity);
-
     this.subscription.add(
       this.quantityControl.valueChanges.subscribe(() => {
         this.quickOrderService.updateEntryQuantity(
@@ -39,10 +48,19 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
         );
       })
     );
+
+    this.subscription.add(this.watchProductAdd());
   }
 
   removeEntry(): void {
     this.quickOrderService.removeEntry(this.index);
+  }
+
+  protected watchProductAdd(): Subscription {
+    return this.quickOrderService.getProductAdded().subscribe(() => {
+      this.quantityControl = new FormControl(this.entry.quantity);
+      this.cd.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
