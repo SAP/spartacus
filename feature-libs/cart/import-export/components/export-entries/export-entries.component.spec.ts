@@ -101,7 +101,7 @@ class MockExportService {
   dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);
 }
 
-fdescribe('ExportEntriesComponent', () => {
+describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
   let exportService: ExportService;
