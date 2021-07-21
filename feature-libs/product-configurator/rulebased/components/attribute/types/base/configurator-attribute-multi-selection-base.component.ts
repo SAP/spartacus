@@ -109,7 +109,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE,
     };
-    this.selectionChange.emit(event);
+    this.emitEvent(event);
   }
 
   /**
