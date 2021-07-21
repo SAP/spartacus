@@ -91,10 +91,18 @@ export function verifyQuickOrderListQuantity(quantity: number) {
     .should('have.length', quantity);
 }
 
-export function addProductToCartWithQuickForm(productCode: string) {
+export function addProductToCartWithQuickForm(
+  productCode: string,
+  quantity?: number
+) {
   const alias = this.interceptAddToCartEndpoint();
 
   cy.get('cx-cart-quick-form .input-product-code').type(`${productCode}`);
+
+  if (quantity) {
+    cy.get('cx-cart-quick-form .input-quantity').type(`${quantity}`);
+  }
+
   cy.get('cx-cart-quick-form .apply-quick-order-button').click();
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);

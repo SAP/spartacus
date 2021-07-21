@@ -1,6 +1,7 @@
 import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-checkout';
+import * as alerts from '../../../../helpers/global-message';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -20,6 +21,9 @@ context('B2B - Quick Order', () => {
         quickOrder.addToCart();
         quickOrder.verifyMiniCartQuantity(1);
         quickOrder.verifyQuickOrderListQuantity(0);
+        alerts
+          .getSuccessAlert()
+          .should('contain', `Quick order list has been added to the cart`);
       });
 
       it('should add product to the list', () => {
@@ -42,11 +46,21 @@ context('B2B - Quick Order', () => {
         quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.clearList();
         quickOrder.verifyQuickOrderListQuantity(0);
+        alerts
+          .getAlert()
+          .should('contain', `Quick order list has been cleared`);
       });
 
       it('should show message if product code is invalid', () => {
-        quickOrder.addWrongProductToTheList('invalidCode');
-        cy.get('cx-global-message .alert-danger').should('exist');
+        const invalidProductCode = 'invalidCode';
+
+        quickOrder.addWrongProductToTheList(invalidProductCode);
+        alerts
+          .getErrorAlert()
+          .should(
+            'contain',
+            `Product with code '${invalidProductCode}' not found!`
+          );
       });
     });
 
@@ -58,6 +72,28 @@ context('B2B - Quick Order', () => {
       it('should add product with quick form', () => {
         quickOrder.addProductToCartWithQuickForm(sampleData.b2bProduct2.code);
         quickOrder.verifyMiniCartQuantity(2);
+
+        alerts
+          .getSuccessAlert()
+          .should(
+            'contain',
+            `${sampleData.b2bProduct2.name} has been added to the cart`
+          );
+      });
+
+      it('should reach product maximum stock level while adding product with quick form', () => {
+        quickOrder.addProductToCartWithQuickForm(
+          sampleData.b2bProduct2.code,
+          9999
+        );
+        quickOrder.addProductToCartWithQuickForm(
+          sampleData.b2bProduct2.code,
+          9999
+        );
+
+        alerts
+          .getWarningAlert()
+          .should('contain', `The maximum stock level has been reached`);
       });
     });
 
