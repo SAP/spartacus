@@ -1,13 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, ImageType, PriceType } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ImageType,
+  OrderEntry,
+  PriceType,
+} from '@spartacus/core';
 import { ExportService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
-import { OrderEntry } from './../../../../../projects/core/src/model/order.model';
+import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
   basePrice: {
@@ -84,8 +89,19 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
+const mockOutput = '"3803058","2"';
 
-describe('ExportEntriesComponent', () => {
+const entries$ = new BehaviorSubject([entry]);
+
+class MockExportEntriesService {
+  getEntries = createSpy('getEntries').and.returnValue(entries$.asObservable());
+  exportEntries = createSpy('getEntries').and.returnValue([entry]);
+}
+class MockExportService {
+  dataToCsv = createSpy('dataToCsv').and.returnValue(mockOutput);
+}
+
+fdescribe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
   let exportService: ExportService;
@@ -98,6 +114,16 @@ describe('ExportEntriesComponent', () => {
           StoreModule.forRoot({}),
           I18nTestingModule,
           RouterTestingModule,
+        ],
+        providers: [
+          {
+            provide: ExportEntriesService,
+            useClass: MockExportEntriesService,
+          },
+          {
+            provide: ExportService,
+            useClass: MockExportService,
+          },
         ],
         declarations: [ExportEntriesComponent],
       }).compileComponents();
@@ -117,28 +143,26 @@ describe('ExportEntriesComponent', () => {
   });
 
   it('should display export to csv link and run downloadCsv on click', () => {
-    component.entries$ = of([entry]);
+    entries$.next([entry]);
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportToCsv').and.callThrough();
     const downloadCsvSpy = spyOn(component, 'downloadCsv');
-    const dataToCsvSpy = spyOn(exportService, 'dataToCsv');
-    const exportEntriesSpy = spyOn(exportEntriesService, 'exportEntries');
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
 
     expect(btn.nativeElement).toBeTruthy();
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportToCsvSpy).toHaveBeenCalled();
-      expect(downloadCsvSpy).toHaveBeenCalled();
-      expect(dataToCsvSpy).toHaveBeenCalled();
-      expect(exportEntriesSpy).toHaveBeenCalled();
+      expect(exportToCsvSpy).toHaveBeenCalledWith();
+      expect(downloadCsvSpy).toHaveBeenCalledWith(mockOutput);
+      expect(exportEntriesService.exportEntries).toHaveBeenCalledWith();
+      expect(exportService.dataToCsv).toHaveBeenCalledWith([entry] as any);
     });
   });
 
   it('should to not display button if no entries', () => {
-    component.entries$ = of([]);
+    entries$.next([]);
 
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
     fixture.detectChanges();
