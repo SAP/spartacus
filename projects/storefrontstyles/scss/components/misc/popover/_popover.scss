@@ -189,13 +189,14 @@
     transition: opacity 0.4s;
   }
 
-  .popover-body > .close {
-    margin-top: -5px;
-    margin-inline-end: -5px;
-    font-size: 1rem;
+  .popover-body > .close-row {
+    display: flex;
+    justify-content: flex-end;
 
-    html[dir='rtl'] & {
-      float: left;
+    .close {
+      margin-top: -5px;
+      margin-inline-end: -5px;
+      font-size: 1rem;
     }
   }
 }

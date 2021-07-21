@@ -1,15 +1,17 @@
 <div class="arrow"></div>
 <div class="popover-body" [cxFocus]="focusConfig">
-  <button
-    *ngIf="displayCloseButton"
-    type="button"
-    class="close"
-    (keydown.enter)="close($event)"
-    (keydown.space)="close($event)"
-    (click)="close($event)"
-  >
-    <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-  </button>
+  <div class="close-row">
+    <button
+      *ngIf="displayCloseButton"
+      type="button"
+      class="close"
+      (keydown.enter)="close($event)"
+      (keydown.space)="close($event)"
+      (click)="close($event)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
   <ng-container *ngIf="isTemplate">
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </ng-container>
