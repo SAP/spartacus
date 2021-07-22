@@ -24,6 +24,57 @@ describe('ConfiguratorStateUtils', () => {
     });
   });
 
+  describe('updateArrayElement', () => {
+    const code = 'VALUE_CODE';
+    const priceDetails: Configurator.PriceDetails = {
+      currencyIso: 'EUR',
+      value: 12,
+    };
+    let values: Configurator.Value[] = [{ valueCode: code }];
+    const valueSupplement: Configurator.ValueSupplement = {
+      attributeValueKey: code,
+      priceValue: priceDetails,
+      obsoletePriceValue: priceDetails,
+    };
+
+    it('should create new array in case predicate matches', () => {
+      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+        values,
+        (value) => value.valueCode === valueSupplement.attributeValueKey,
+        (value) => {
+          return {
+            ...value,
+          };
+        }
+      );
+      expect(mergedValues).not.toBe(values);
+    });
+
+    it('should return same array if no match is found', () => {
+      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+        values,
+        (value) => value.valueCode === 'NOT EXISTING',
+        (value) => {
+          return {
+            ...value,
+          };
+        }
+      );
+      expect(mergedValues).toBe(values);
+    });
+
+    it('should cope with undefined input', () => {
+      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+        undefined,
+        (value) => value === 'NOT EXISTING',
+        (value) => {
+          return value;
+        }
+      );
+      expect(mergedValues).toBeUndefined();
+    });
+  });
+
   describe('mergeGroupsWithSupplements', () => {
     it('should not update value prices in case the list of groups is empty', () => {
       const groups: Configurator.Group[] = [];
@@ -105,42 +156,56 @@ describe('ConfiguratorStateUtils', () => {
         1,
         3
       );
-      ConfiguratorStateUtils.mergeGroupsWithSupplements(
+      const mergedGroups = ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
         attributeSupplements
       );
 
-      expect(groups.length).toBe(3);
-      expect(groups[0].subGroups.length).toBe(1);
-      expect(groups[0].attributes.length).toBe(0);
-      expect(groups[0].subGroups[0].subGroups.length).toBe(1);
-      expect(groups[0].subGroups[0].attributes.length).toBe(0);
-      expect(groups[0].subGroups[0].subGroups[0].subGroups.length).toBe(1);
-      expect(groups[0].subGroups[0].subGroups[0].attributes.length).toBe(0);
+      expect(mergedGroups.length).toBe(3);
+      expect(mergedGroups[0].subGroups.length).toBe(1);
+      expect(mergedGroups[0].attributes?.length).toBe(0);
+      expect(mergedGroups[0].subGroups[0].subGroups.length).toBe(1);
+      expect(mergedGroups[0].subGroups[0].attributes?.length).toBe(0);
+      expect(mergedGroups[0].subGroups[0].subGroups[0].subGroups.length).toBe(
+        1
+      );
+      expect(mergedGroups[0].subGroups[0].subGroups[0].attributes?.length).toBe(
+        0
+      );
       expect(
-        groups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length
+        mergedGroups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length
       ).toBe(0);
       expect(
-        groups[0].subGroups[0].subGroups[0].subGroups[0].attributes.length
+        mergedGroups[0].subGroups[0].subGroups[0].subGroups[0].attributes
+          ?.length
       ).toBe(3);
 
-      const values =
-        groups[0].subGroups[0].subGroups[0].subGroups[0].attributes[0].values;
+      const deepSubgroup =
+        mergedGroups[0].subGroups[0].subGroups[0].subGroups[0];
+
+      const firstAttribute: Configurator.Attribute = deepSubgroup.attributes
+        ? deepSubgroup.attributes[0]
+        : { name: '' };
+
+      const values: Configurator.Value[] = firstAttribute.values
+        ? firstAttribute.values
+        : [];
+
       const valueSupplements = attributeSupplements[0].valueSupplements;
 
-      expect(values[0].valuePrice.formattedValue).toEqual(
+      expect(values[0].valuePrice?.formattedValue).toEqual(
         valueSupplements[0].priceValue.formattedValue
       );
       expect(values[1].valueCode).toEqual(
         valueSupplements[1].attributeValueKey
       );
-      expect(values[1].valuePrice.formattedValue).toEqual(
+      expect(values[1].valuePrice?.formattedValue).toEqual(
         valueSupplements[1].priceValue.formattedValue
       );
       expect(values[2].valueCode).toEqual(
         valueSupplements[2].attributeValueKey
       );
-      expect(values[2].valuePrice.formattedValue).toEqual(
+      expect(values[2].valuePrice?.formattedValue).toEqual(
         valueSupplements[2].priceValue.formattedValue
       );
     });

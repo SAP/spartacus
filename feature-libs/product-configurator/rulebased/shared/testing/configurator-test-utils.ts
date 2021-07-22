@@ -155,28 +155,28 @@ export class ConfiguratorTestUtils {
 
   static createListOfAttributeSupplements(
     isMultiLevel: boolean,
-    amountOfGroups: number,
-    amountOfSubgroups: number,
-    amountOfSupplements: number,
-    amountOfValues: number
+    numberOfGroups: number,
+    numberOfSubgroups: number,
+    numberOfSupplements: number,
+    numberOfValues: number
   ): Configurator.AttributeSupplement[] {
     let attributeSupplements: Configurator.AttributeSupplement[] = [];
-    for (let i = 0; i < amountOfGroups; i++) {
+    for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
       let uiKey = 'group' + groupNr + '@';
       if (isMultiLevel) {
-        for (let k = 0; k < amountOfSubgroups; k++) {
+        for (let k = 0; k < numberOfSubgroups; k++) {
           const subgroupNr = k + 1;
           uiKey += 'subGroup' + subgroupNr + '@';
         }
       }
-      for (let j = 0; j < amountOfSupplements; j++) {
+      for (let j = 0; j < numberOfSupplements; j++) {
         const attributeNr = j + 1;
         const csticUiKey = uiKey + 'attribute_' + groupNr + '_' + attributeNr;
         const attributeSupplement = this.createAttributeSupplement(
           attributeNr,
           csticUiKey,
-          amountOfValues
+          numberOfValues
         );
         attributeSupplements.push(attributeSupplement);
       }
@@ -229,12 +229,12 @@ export class ConfiguratorTestUtils {
   protected static createComplexGroup(
     groupNr: number,
     groupId: string,
-    amountOfSubgroups: number,
-    amountOfAttributes: number,
-    amountOfValues: number
+    numberOfSubgroups: number,
+    numberOfAttributes: number,
+    numberOfValues: number
   ): Configurator.Group {
     const groupType: Configurator.GroupType =
-      amountOfSubgroups === 0
+      numberOfSubgroups === 0
         ? Configurator.GroupType.ATTRIBUTE_GROUP
         : Configurator.GroupType.SUB_ITEM_GROUP;
     let group: Configurator.Group = {
@@ -243,15 +243,15 @@ export class ConfiguratorTestUtils {
       groupType: groupType,
       subGroups: [],
     };
-    if (amountOfSubgroups > 0) {
+    if (numberOfSubgroups > 0) {
       let subGroupNr = groupNr;
       let subGroupId = groupId.concat('@subGroup') + subGroupNr;
       let subGroup = this.createComplexGroup(
         subGroupNr + 1,
         subGroupId,
-        amountOfSubgroups - 1,
-        amountOfAttributes,
-        amountOfValues
+        numberOfSubgroups - 1,
+        numberOfAttributes,
+        numberOfValues
       );
 
       group.subGroups.push(subGroup);
@@ -263,8 +263,8 @@ export class ConfiguratorTestUtils {
       }
       group.attributes = this.createListOfAttributes(
         groupNr,
-        amountOfAttributes,
-        amountOfValues
+        numberOfAttributes,
+        numberOfValues
       );
     }
 
@@ -272,21 +272,21 @@ export class ConfiguratorTestUtils {
   }
 
   static createListOfGroups(
-    amountOfGroups: number,
-    amountOfSubgroups: number,
-    amountOfAttributes: number,
-    amountOfValues: number
+    numberOfGroups: number,
+    numberOfSubgroups: number,
+    numberOfAttributes: number,
+    numberOfValues: number
   ): Configurator.Group[] {
     let groups: Configurator.Group[] = [];
-    for (let i = 0; i < amountOfGroups; i++) {
+    for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
       let groupId = 'group' + groupNr;
       const group = this.createComplexGroup(
         groupNr,
         groupId,
-        amountOfSubgroups,
-        amountOfAttributes,
-        amountOfValues
+        numberOfSubgroups,
+        numberOfAttributes,
+        numberOfValues
       );
       groups.push(group);
     }

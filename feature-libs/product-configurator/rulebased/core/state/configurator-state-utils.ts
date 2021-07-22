@@ -37,7 +37,7 @@ export class ConfiguratorStateUtils {
   ): Configurator.Group {
     let mergedAttributes = group.attributes;
 
-    attributeSupplements?.forEach((attributeSupplement) => {
+    attributeSupplements.forEach((attributeSupplement) => {
       const attributeName = ConfiguratorStateUtils.getAttributeName(
         attributeSupplement.attributeUiKey
       );
@@ -55,6 +55,7 @@ export class ConfiguratorStateUtils {
         }
       );
     });
+
     return {
       ...group,
       attributes: mergedAttributes,
@@ -66,6 +67,7 @@ export class ConfiguratorStateUtils {
     attributeSupplement: Configurator.AttributeSupplement
   ): Configurator.Value[] | undefined {
     let mergedValues = attributeValues;
+
     attributeSupplement.valueSupplements.forEach((valueSupplement) => {
       mergedValues = this.updateArrayElement(
         mergedValues,
@@ -78,6 +80,7 @@ export class ConfiguratorStateUtils {
         }
       );
     });
+
     return mergedValues;
   }
 
@@ -87,6 +90,7 @@ export class ConfiguratorStateUtils {
     return {
       currencyIso: valueSupplement.priceValue.currencyIso,
       value: valueSupplement.priceValue.value,
+      formattedValue: valueSupplement.priceValue.formattedValue,
     };
   }
 
