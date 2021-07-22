@@ -44,9 +44,7 @@ export function configuratorReducer(
     }
 
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
-      return setInitialCurrentGroup(
-        takeOverPriceSupplementsChanges(action, state)
-      );
+      return setInitialCurrentGroup(takeOverPricingChanges(action, state));
     }
 
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
@@ -208,7 +206,7 @@ function takeOverChanges(
   return result;
 }
 
-function takeOverPriceSupplementsChanges(
+function takeOverPricingChanges(
   action: ConfiguratorActions.UpdatePriceSummarySuccess,
   state: Configurator.Configuration
 ): Configurator.Configuration {
