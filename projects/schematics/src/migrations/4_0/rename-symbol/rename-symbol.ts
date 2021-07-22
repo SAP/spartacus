@@ -30,10 +30,12 @@ import {
   DEFAULT_USER_GROUP_ROUTING_CONFIG,
   DEFAULT_USER_ROUTING_CONFIG,
   FORGOT_PASSWORD_MODULE,
+  ITEM,
   LOGIN_FORM_MODULE,
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
+  ORDER_ENTRY,
   PERMISSION_ROUTING_CONFIG,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -410,7 +412,13 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: LOGIN_REGISTER_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
-    // feature-libs/checkout/components/services/express-checkout.service.ts
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
+  {
+    previousNode: ITEM,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newNode: ORDER_ENTRY,
+    newImportPath: SPARTACUS_CORE,
   },
 ];
 
