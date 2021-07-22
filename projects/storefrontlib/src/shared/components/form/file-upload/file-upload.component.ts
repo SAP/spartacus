@@ -20,10 +20,6 @@ export class FileUploadComponent {
 
   @Output() update: EventEmitter<File> = new EventEmitter();
 
-  fileError: {
-    tooLarge?: boolean;
-  } = {};
-
   selectFile(file: File) {
     this.selectedFile = file;
     this.update.emit(file);

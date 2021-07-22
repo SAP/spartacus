@@ -19,7 +19,7 @@ const mockEvent = {
   stopPropagation: () => {},
 };
 
-describe('DatePickerComponent', () => {
+describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
 
@@ -37,7 +37,7 @@ describe('DatePickerComponent', () => {
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
 
-    control = new FormControl('min');
+    control = new FormControl('file');
 
     component.control = control;
     fixture.detectChanges();
@@ -49,46 +49,7 @@ describe('DatePickerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('minimum date', () => {
-    beforeEach(() => {
-      component.min = '2020-12-1';
-      fixture.detectChanges();
-    });
-
-    it('should add minControl value to the min value', () => {
-      expect(inputEl.nativeElement.min).toContain('2020-12-1');
-    });
-
-    it('should not have max value', () => {
-      expect(inputEl.nativeElement.max).toEqual('');
-    });
-  });
-
-  describe('maximum date', () => {
-    beforeEach(() => {
-      component.max = '2020-12-1';
-      fixture.detectChanges();
-    });
-
-    it('should add maxControl value to the min value', () => {
-      expect(inputEl.nativeElement.max).toContain('2020-12-1');
-    });
-
-    it('should not have min value', () => {
-      expect(inputEl.nativeElement.min).toEqual('');
-    });
-  });
-
-  describe('validates input date', () => {
-    it('should not return invalid date', () => {
-      expect(component.getDate('2020-12')).toBeNull();
-    });
-    it('should not return invalid date', () => {
-      expect(component.getDate('2020-12-2')).toEqual('2020-12-2');
-    });
-  });
-
-  describe('change date', () => {
+  describe('change file', () => {
     it('should emit event', () => {
       spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
