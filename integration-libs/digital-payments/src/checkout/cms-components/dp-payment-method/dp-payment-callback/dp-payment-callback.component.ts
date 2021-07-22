@@ -50,7 +50,7 @@ export class DpPaymentCallbackComponent implements OnInit {
           paymentRequest.sessionId,
           paymentRequest.signature
         )
-        .subscribe((details) => {
+        .subscribe((details: any) => {
           if (details && details.id) {
             this.paymentDetailsAdded.emit(details);
           } else if (details === null) {

@@ -11,7 +11,7 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://backoffice.cyu8swz-sapcxteam1-d12-public.model-t.cc.commerce.ondemand.com",
+    "API_URL": "https://solr.cyu8swz-sapcxteam1-d37-public.model-t.cc.commerce.ondemand.com",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",

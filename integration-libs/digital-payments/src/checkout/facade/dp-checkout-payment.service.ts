@@ -1,65 +1,67 @@
-import { tap, map } from 'rxjs/operators';
-import { StateWithDigitalPayments } from '../store/digital-payments-state';
+import { map, catchError } from 'rxjs/operators';
 import { DpPaymentRequest } from '../models/dp-checkout.model';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PaymentDetails } from '@spartacus/core';
-import { DigitalPaymentActions, DigitalPaymentSelectors } from '../store';
+import { Command, CommandService, CommandStrategy } from '@spartacus/core';
+import { Query, QueryService } from '@spartacus/core';
+import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DpCheckoutPaymentService {
-  constructor(protected dpStore: Store<StateWithDigitalPayments>) {}
-  //w;
-  loadCardRegistrationDetails(): void {
-    this.dpStore.dispatch(
-      new DigitalPaymentActions.LoadCheckoutPaymentRequest()
-    );
-  }
+  constructor(
+    protected dpAdapter: DigitalPaymentsAdapter,
+    protected command: CommandService,
+    protected query: QueryService
+  ) {}
+
+  protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() =>
+    this.dpAdapter.createPaymentRequest().pipe(
+      map((payload: any) => {
+        var payment_req = {
+          url: payload.postUrl,
+          sessionId: payload.parameters.entry.find(
+            (it: any) => it.key === 'session_id'
+          ).value,
+          signature: payload.parameters.entry.find(
+            (it: any) => it.key === 'signature'
+          ).value,
+        };
+        return payment_req;
+      }),
+      catchError(() => of({}))
+    )
+  );
 
   getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
-    return this.dpStore.pipe(
-      select(DigitalPaymentSelectors.getDpCheckoutPaymentRequestState),
-      tap((state) => {
-        const attemptedLoad = state.loading || state.success || state.error;
-        if (!attemptedLoad) {
-          this.loadCardRegistrationDetails();
-        }
-      }),
-      map((state) => state.value)
-    );
+    var req = this.RequestUrlQuery.get();
+    return req;
   }
 
-  loadCheckoutPaymentDetails(sessionId: string, signature: string): void {
-    this.dpStore.dispatch(
-      new DigitalPaymentActions.LoadCheckoutPaymentDetails({
-        sessionId,
-        signature,
-      })
-    );
-  }
-
+  protected createPaymentDetailsCommand: Command<{
+    sessionId: string;
+    signature: string;
+  }> = this.command.create(
+    (payload) =>
+      this.dpAdapter
+        .createPaymentDetails(payload.sessionId, payload.signature)
+        .pipe(
+          map((payload: any) => {
+            console.log(payload);
+            return payload;
+          }),
+          catchError(() => of({}))
+        ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
   createPaymentDetails(
     sessionId: string,
     signature: string
-  ): Observable<PaymentDetails | undefined> {
-    return this.dpStore.pipe(
-      select(DigitalPaymentSelectors.getDpCheckoutPaymentDetailsState),
-      tap((state) => {
-        const attemptedLoad = state.loading || state.success || state.error;
-        if (!attemptedLoad) {
-          this.loadCheckoutPaymentDetails(sessionId, signature);
-        }
-      }),
-      map((state) => state.value)
-    );
-  }
-
-  clearCardRegitrationState(): void {
-    this.dpStore.dispatch(
-      new DigitalPaymentActions.ResetCheckoutPaymentRequest()
-    );
+  ): Observable<PaymentDetails | unknown> {
+    return this.createPaymentDetailsCommand.execute({ sessionId, signature });
   }
 }

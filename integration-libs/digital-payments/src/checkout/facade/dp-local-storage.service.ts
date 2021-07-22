@@ -1,12 +1,8 @@
-import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { StateWithDigitalPayments } from '../store/digital-payments-state';
-import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { StatePersistenceService } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import { DigitalPaymentSelectors } from '../store';
 
 const KEY = 'digital-payment.checkout.request';
 
@@ -16,14 +12,13 @@ const KEY = 'digital-payment.checkout.request';
 export class DpLocalStorageService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected dpService: DpCheckoutPaymentService,
-    protected dpStore: Store<StateWithDigitalPayments>
+    protected dpService: DpCheckoutPaymentService
   ) {}
 
-  syncCardRegistrationState(): void {
+  syncCardRegistrationState(request: DpPaymentRequest): void {
     this.statePersistenceService.syncWithStorage<DpPaymentRequest | undefined>({
       key: KEY,
-      state$: this.getPaymentRequestState(),
+      state$: of(request),
     });
   }
 
@@ -34,13 +29,6 @@ export class DpLocalStorageService {
 
     this.clearDpStorage();
     return paymentRequest;
-  }
-
-  protected getPaymentRequestState(): Observable<DpPaymentRequest | undefined> {
-    return this.dpStore.pipe(
-      select(DigitalPaymentSelectors.getDpCheckoutPaymentRequestState),
-      map((state) => state.value)
-    );
   }
 
   protected clearDpStorage() {
