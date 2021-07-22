@@ -1088,7 +1088,7 @@ export function insertCommentAboveIdentifier(
     );
   });
 
-  return changes.length ? changes : [new NoopChange()];
+  return changes;
 }
 
 function getImportDeclarations(
