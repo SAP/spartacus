@@ -5,7 +5,7 @@ import * as alerts from '../../../../helpers/global-message';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.window().then((win) => win.localStorage.clear());
       cy.clearLocalStorageMemory();
@@ -66,7 +66,6 @@ context('B2B - Quick Order', () => {
 
     describe('Cart Page', () => {
       beforeEach(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
         quickOrder.prepareCartWithProduct();
       });
 
@@ -99,10 +98,6 @@ context('B2B - Quick Order', () => {
     });
 
     describe('Accessibility - keyboarding', () => {
-      beforeEach(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
-      });
-
       it('should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
