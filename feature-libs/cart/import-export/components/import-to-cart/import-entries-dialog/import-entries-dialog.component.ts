@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { finalize, take, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
@@ -60,12 +61,30 @@ export class ImportEntriesDialogComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  selectFile(file: File, form: FormGroup) {
-    if (this.isFileValid(file)) {
-      this.loadFile(file, form);
-    } else {
-      form.get('file')?.updateValueAndValidity();
-    }
+  loadFile(file: File, form: FormGroup) {
+    this.fileError = {};
+    of(file)
+      .pipe(
+        tap((fileData: File) => {
+          this.validateMaxSize(fileData);
+        }),
+        switchMap((fileData) => this.importService.loadFile(fileData)),
+        tap((data: string[][]) => {
+          this.validateEmpty(data);
+          this.validateParsable(data);
+        }),
+        finalize(() => {
+          form.get('file')?.updateValueAndValidity();
+        })
+      )
+      .subscribe(
+        (data: string[][]) => {
+          this.loadedFile = data;
+        },
+        () => {
+          this.loadedFile = null;
+        }
+      );
   }
 
   importProducts(): void {
@@ -97,52 +116,27 @@ export class ImportEntriesDialogComponent implements OnInit {
     return form;
   }
 
-  protected isFileValid(file: File): boolean {
-    return this.validateMaxSize(file);
-  }
-
-  protected validateMaxSize(file: File): boolean {
+  protected validateMaxSize(file: File) {
     if (
       this.fileValidity?.maxSize &&
       file.size / 1000000 > this.fileValidity?.maxSize
     ) {
       this.fileError.tooLarge = true;
-      return false;
-    } else {
-      if (this.fileError.tooLarge !== undefined) {
-        delete this.fileError.tooLarge;
-      }
-      return true;
+      throw Error();
     }
   }
 
-  protected loadFile(file: File, form: FormGroup) {
-    this.importService
-      .loadFile(file)
-      .pipe(
-        tap((data: string[][]) => {
-          if (data.toString().length === 0) {
-            const error = { empty: true };
-            throw error;
-          }
-          if (!this.importToCartService.isDataParsable(data)) {
-            const error = { notParsable: true };
-            throw error;
-          }
-        }),
-        finalize(() => {
-          form.get('file')?.updateValueAndValidity();
-        })
-      )
-      .subscribe(
-        (data: string[][]) => {
-          this.fileError = {};
-          this.loadedFile = data;
-        },
-        (error: InvalidFileInfo) => {
-          this.fileError = error;
-          this.loadedFile = null;
-        }
-      );
+  protected validateEmpty(data: string[][]) {
+    if (data.toString().length === 0) {
+      this.fileError.empty = true;
+      throw Error();
+    }
+  }
+
+  protected validateParsable(data: string[][]) {
+    if (!this.importToCartService.isDataParsable(data)) {
+      this.fileError.notParsable = true;
+      throw Error();
+    }
   }
 }

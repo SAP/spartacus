@@ -38,7 +38,7 @@
           [buttonText]="'importEntriesDialog.selectFile' | cxTranslate"
           [allowedExtensions]="fileValidity?.allowedExtensions"
           [maxSize]="fileValidity?.maxSize"
-          (update)="selectFile($event, form)"
+          (update)="loadFile($event, form)"
         ></cx-file-upload>
         <div class="cx-import-entries-row">
           <ng-container>
