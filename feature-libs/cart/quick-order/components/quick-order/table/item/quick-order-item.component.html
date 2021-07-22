@@ -1,59 +1,69 @@
-<div class="quick-order-table-item row">
-  <div class="col-2 col-md-1 quick-order-image-container">
-    <div class="quick-order-table-item-product-image">
-      <a
-        [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
-        tabindex="-1"
-      >
-        <cx-media
-          [container]="entry?.product?.images?.PRIMARY"
-          format="cartIcon"
-        ></cx-media>
-      </a>
-    </div>
-  </div>
-
-  <div class="col-10 col-md-11 quick-order-info-container row">
-    <div
-      class="quick-order-table-item-product-information col-md-4 col-lg-4 col-xl-4"
-    >
-      <div class="cx-name">
+<div class="cx-quick-order-table-item">
+  <div class="row">
+    <div class="col-2 col-md-1 cx-quick-order-image-container">
+      <div class="cx-quick-order-table-item-product-image">
         <a
-          class="cx-link"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
-          >{{ entry.product?.name || '-' }}
+          tabindex="-1"
+        >
+          <cx-media
+            [container]="entry?.product?.images?.PRIMARY"
+            format="cartIcon"
+          ></cx-media>
         </a>
       </div>
+    </div>
 
-      <div class="cx-value">
-        {{
-          ('quickOrderTable.' + entry.product?.stock?.stockLevelStatus
-            | cxTranslate) || '-'
-        }}
+    <div class="col-10 col-md-11 cx-quick-order-info-container">
+      <div class="row">
+        <div
+          class="cx-quick-order-table-item-product-information col-md-4 col-lg-4 col-xl-4"
+        >
+          <div class="cx-name">
+            <a
+              class="cx-link"
+              [routerLink]="
+                { cxRoute: 'product', params: entry.product } | cxUrl
+              "
+              >{{ entry.product?.name || '-' }}
+            </a>
+          </div>
+
+          <div class="cx-value">
+            {{
+              ('quickOrderTable.' + entry.product?.stock?.stockLevelStatus
+                | cxTranslate) || '-'
+            }}
+          </div>
+        </div>
+
+        <div class="cx-quick-order-table-item-price col-md-2 col-lg-2 col-xl-2">
+          <span class="cx-label">
+            {{ 'quickOrderTable.itemPrice' | cxTranslate }}
+          </span>
+          {{ entry.basePrice?.formattedValue || '-' }}
+        </div>
+
+        <div
+          class="cx-quick-order-table-item-quantity col-md-4 col-lg-4 col-xl-4"
+        >
+          <span class="cx-label">
+            {{ 'quickOrderTable.qty' | cxTranslate }}
+          </span>
+          <cx-item-counter
+            [control]="quantityControl"
+            [max]="entry.product?.stock?.stockLevel"
+          ></cx-item-counter>
+        </div>
+
+        <div
+          class="cx-quick-order-table-item-action col-md-2 col-lg-2 col-xl-2"
+        >
+          <button (click)="removeEntry()" class="link cx-action-link">
+            {{ 'common.remove' | cxTranslate }}
+          </button>
+        </div>
       </div>
-    </div>
-
-    <div class="quick-order-table-item-price col-md-2 col-lg-2 col-xl-2">
-      <span class="cx-label">
-        {{ 'quickOrderTable.itemPrice' | cxTranslate }}
-      </span>
-      {{ entry.basePrice?.formattedValue || '-' }}
-    </div>
-
-    <div class="quick-order-table-item-quantity col-md-4 col-lg-4 col-xl-4">
-      <span class="cx-label">
-        {{ 'quickOrderTable.qty' | cxTranslate }}
-      </span>
-      <cx-item-counter
-        [control]="quantityControl"
-        [max]="entry.product?.stock?.stockLevel"
-      ></cx-item-counter>
-    </div>
-
-    <div class="quick-order-table-item-action col-md-2 col-lg-2 col-xl-2">
-      <button (click)="removeEntry()" class="link cx-action-link">
-        {{ 'common.remove' | cxTranslate }}
-      </button>
     </div>
   </div>
 </div>

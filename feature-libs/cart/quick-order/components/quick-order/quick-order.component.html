@@ -1,16 +1,16 @@
-<div class="quick-order-header">
+<div class="cx-quick-order-header">
   <h3>{{ 'quickOrderList.addProducts' | cxTranslate }}</h3>
 </div>
 
-<div class="quick-order-form-body">
+<div class="cx-quick-order-form-body">
   <cx-quick-order-form></cx-quick-order-form>
 </div>
 
-<div class="quick-order-table-body">
+<div class="cx-quick-order-table-body">
   <cx-quick-order-table></cx-quick-order-table>
 </div>
 
-<div *ngIf="entries$ | async as entries" class="quick-order-footer row">
+<div *ngIf="entries$ | async as entries" class="cx-quick-order-footer row">
   <div class="col-xs-12 col-md-5 col-lg-4">
     <button
       (click)="clear()"

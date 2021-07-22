@@ -2,7 +2,7 @@ cx-quick-order-table {
   display: block;
   margin-top: 30px;
 
-  .quick-order-table-header {
+  .cx-quick-order-table-header {
     @include type('8');
     border-color: var(--cx-color-light);
     border-style: solid;
@@ -12,16 +12,16 @@ cx-quick-order-table {
     padding: 1.125rem 0;
     text-transform: uppercase;
 
-    .quick-order-info-header {
+    .cx-quick-order-info-header {
       margin: 0;
     }
   }
 
-  .quick-order-image-container {
+  .cx-quick-order-image-container {
     padding: 0;
   }
 
-  .quick-order-info-container {
+  .cx-quick-order-info-container {
     margin: 0;
 
     .cx-label {
@@ -39,12 +39,12 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-product {
+  .cx-quick-order-table-item-product {
     padding: 0;
     text-align: start;
   }
 
-  .quick-order-table-item-product-information {
+  .cx-quick-order-table-item-product-information {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -63,7 +63,7 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-price {
+  .cx-quick-order-table-item-price {
     padding: 0;
     text-align: center;
 
@@ -72,7 +72,7 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-quantity {
+  .cx-quick-order-table-item-quantity {
     text-align: center;
     padding: 0;
 
@@ -91,7 +91,7 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-total {
+  .cx-quick-order-table-item-total {
     padding: 0;
     text-align: center;
 
@@ -100,19 +100,19 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-action {
+  .cx-quick-order-table-item-action {
     padding: 0;
     text-align: end;
   }
 
-  .quick-order-table-row {
+  .cx-quick-order-table-row {
     border-color: var(--cx-color-light);
     border-style: solid;
     border-width: 0 0 1px 0;
     padding: 1.25rem 0;
   }
 
-  .quick-order-table-item {
+  .cx-quick-order-table-item {
     margin: 0;
   }
 
@@ -125,7 +125,7 @@ cx-quick-order-table {
   }
 
   @include media-breakpoint-down(sm) {
-    .quick-order-table-items {
+    .cx-quick-order-table-items {
       padding-inline-start: 1rem;
     }
   }
