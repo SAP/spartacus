@@ -20,16 +20,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Saved-Cart",
-          "Quick-Order"
-        ],
+        "enum": ["Saved-Cart", "Quick-Order"],
         "type": "string"
       },
-      "default": [
-        "Saved-Cart",
-        "Quick-Order"
-      ],
+      "default": ["Saved-Cart", "Quick-Order"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
