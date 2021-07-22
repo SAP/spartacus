@@ -19,6 +19,9 @@ import { CartActions } from '../actions';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { MultiCartSelectors } from '../selectors';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable()
 export class WishListEffects {
   @Effect()

@@ -1,8 +1,11 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CartEntryAdapter } from './cart-entry.adapter';
+import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
+import { CartEntryAdapter } from './cart-entry.adapter';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -8,16 +8,40 @@ import {
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CREATE_WISH_LIST_SUCCESS = '[Wish List] Create Wish List Success';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_WISH_LIST = '[Wish List] Load Wish List';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_WISH_LIST_SUCCESS = '[Wish List] Load Wish List Success';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const LOAD_WISH_LIST_FAIL = '[Wish List] Load Wish List Fail';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const RESET_WISH_LIST_DETAILS = '[Wish List] Reset Wish List';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateWishList implements Action {
   readonly type = CREATE_WISH_LIST;
   constructor(
@@ -29,6 +53,9 @@ export class CreateWishList implements Action {
   ) {}
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateWishListSuccess extends EntitySuccessAction {
   readonly type = CREATE_WISH_LIST_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string }) {
@@ -36,6 +63,9 @@ export class CreateWishListSuccess extends EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CreateWishListFail extends EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
   constructor(public payload: { cartId: string; error?: any }) {
@@ -56,6 +86,9 @@ interface LoadWishListPayload {
   tempCartId: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadWishList extends EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
   constructor(public payload: LoadWishListPayload) {
@@ -83,6 +116,9 @@ interface LoadWishListSuccessPayload {
   cartId: string;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadWishListSuccess extends EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
   constructor(public payload: LoadWishListSuccessPayload) {
@@ -105,6 +141,9 @@ interface LoadWishListFailPayload {
   error: any;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class LoadWishListFail extends EntityFailAction {
   readonly type = LOAD_WISH_LIST_FAIL;
   constructor(public payload: LoadWishListFailPayload) {
@@ -112,6 +151,9 @@ export class LoadWishListFail extends EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess

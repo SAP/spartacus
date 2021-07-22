@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 import { SaveCartResult } from '../../../model/cart.model';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export abstract class SaveCartAdapter {
   /**
    * Abstract method used to save a cart

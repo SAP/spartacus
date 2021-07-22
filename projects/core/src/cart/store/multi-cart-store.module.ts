@@ -23,6 +23,9 @@ const effects: any[] = [
   MultiCartEffects,
 ];
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 import { Cart } from '../../../model/cart.model';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export abstract class CartAdapter {
   /**
    * Abstract method used to load all carts

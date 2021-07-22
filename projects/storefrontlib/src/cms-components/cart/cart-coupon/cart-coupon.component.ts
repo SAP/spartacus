@@ -11,6 +11,9 @@ import {
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',

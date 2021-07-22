@@ -9,6 +9,8 @@ import { CartItemContext } from './cart-item-context.model';
  * Context source for `CartItemComponent`.
  *
  * `CartItemContext` should be injected instead in child components.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 @Injectable()
 export class CartItemContextSource implements CartItemContext {
