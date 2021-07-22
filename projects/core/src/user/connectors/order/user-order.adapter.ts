@@ -11,7 +11,7 @@ import {
 } from '../../../model/order.model';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.1 - use OrderAdapter in @spartacus/order/core
  */
 export abstract class UserOrderAdapter {
   /**

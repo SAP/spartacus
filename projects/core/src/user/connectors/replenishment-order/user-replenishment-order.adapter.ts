@@ -6,7 +6,7 @@ import {
 } from '../../../model/index';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.1 - use ReplenishmentOrderAdapter in @spartacus/order/core
  */
 export abstract class UserReplenishmentOrderAdapter {
   /**

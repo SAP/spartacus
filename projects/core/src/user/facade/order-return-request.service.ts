@@ -19,7 +19,7 @@ import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.1 - use OrderReturnFacade in @spartacus/order/root instead
  */
 @Injectable({
   providedIn: 'root',

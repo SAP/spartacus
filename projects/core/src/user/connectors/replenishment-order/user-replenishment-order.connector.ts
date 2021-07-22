@@ -8,7 +8,7 @@ import {
 import { UserReplenishmentOrderAdapter } from './user-replenishment-order.adapter';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.1 - use ReplenishmentOrderConnector in @spartacus/order/core
  */
 @Injectable({
   providedIn: 'root',
