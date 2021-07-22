@@ -7,7 +7,6 @@ export type ProductsData = {
 
 export type InvalidFileInfo = {
   tooLarge?: boolean;
-  invalidExtension?: boolean;
   empty?: boolean;
   notParsable?: boolean;
 };
@@ -15,8 +14,6 @@ export type InvalidFileInfo = {
 export type FileValidity = {
   // size unit is MB
   maxSize?: number;
-  // size unit is B
-  minSize?: number;
   allowedExtensions?: string[];
 };
 

@@ -32,7 +32,7 @@ export class ImportEntriesDialogComponent implements OnInit {
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
-  fileError: InvalidFileInfo | {};
+  fileError: InvalidFileInfo = {};
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -81,6 +81,42 @@ export class ImportEntriesDialogComponent implements OnInit {
   }
 
   selectFile(file: File, form: FormGroup) {
+    if (this.isFileValid(file)) {
+      this.loadFile(file, form);
+    } else {
+      form.get('file')?.updateValueAndValidity();
+    }
+  }
+
+  importProducts(): void {
+    if (this.loadedFile) {
+      this.importToCartService.loadProductsToCart(this.loadedFile, {
+        name: this.form.get('name')?.value,
+        description: this.form.get('description')?.value,
+      });
+    }
+  }
+
+  protected isFileValid(file: File): boolean {
+    return this.validateMaxSize(file);
+  }
+
+  protected validateMaxSize(file: File): boolean {
+    if (
+      this.fileValidity?.maxSize &&
+      file.size / 1000000 > this.fileValidity?.maxSize
+    ) {
+      this.fileError.tooLarge = true;
+      return false;
+    } else {
+      if (this.fileError.tooLarge !== undefined) {
+        delete this.fileError.tooLarge;
+      }
+      return true;
+    }
+  }
+
+  protected loadFile(file: File, form: FormGroup) {
     this.importService
       .loadFile(file)
       .pipe(
@@ -106,14 +142,5 @@ export class ImportEntriesDialogComponent implements OnInit {
           this.loadedFile = null;
         }
       );
-  }
-
-  importProducts(): void {
-    if (this.loadedFile) {
-      this.importToCartService.loadProductsToCart(this.loadedFile, {
-        name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
-      });
-    }
   }
 }

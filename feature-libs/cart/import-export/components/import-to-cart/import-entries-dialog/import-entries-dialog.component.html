@@ -31,15 +31,13 @@
           {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
         </p>
         <p>
-          {{
-            'importEntriesDialog.importProductFileText'
-              | cxTranslate: { size: fileValidity?.maxSize }
-          }}
+          {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
         </p>
         <cx-file-upload
           [control]="form.get('file')"
           [buttonText]="'importEntriesDialog.selectFile' | cxTranslate"
           [allowedExtensions]="fileValidity?.allowedExtensions"
+          [maxSize]="fileValidity?.maxSize"
           (update)="selectFile($event, form)"
         ></cx-file-upload>
         <div class="cx-import-entries-row">

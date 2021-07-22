@@ -14,10 +14,15 @@ export class FileUploadComponent {
   selectedFile: File;
 
   @Input() control: FormControl;
-  @Input() allowedExtensions?: string = '*';
   @Input() buttonText: string;
+  @Input() allowedExtensions?: string = '*';
+  @Input() maxSize?: number;
 
   @Output() update: EventEmitter<File> = new EventEmitter();
+
+  fileError: {
+    tooLarge?: boolean;
+  } = {};
 
   selectFile(file: File) {
     this.selectedFile = file;
