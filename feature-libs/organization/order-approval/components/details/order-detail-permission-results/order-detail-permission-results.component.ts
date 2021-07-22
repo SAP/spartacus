@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { Order } from '@spartacus/order/root';
+import { Order } from '@spartacus/core';
+import { OrderDetailsService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -11,6 +11,9 @@ import {
 } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 @Injectable()
 export class UserOrdersEffect {
   constructor(

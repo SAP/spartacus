@@ -10,14 +10,12 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  CartSharedModule,
+  FormErrorsModule,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
-} from '@spartacus/order/components';
-import {
-  CartSharedModule,
-  FormErrorsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
