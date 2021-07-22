@@ -60,6 +60,23 @@ export class ImportEntriesDialogComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
+  selectFile(file: File, form: FormGroup) {
+    if (this.isFileValid(file)) {
+      this.loadFile(file, form);
+    } else {
+      form.get('file')?.updateValueAndValidity();
+    }
+  }
+
+  importProducts(): void {
+    if (this.loadedFile) {
+      this.importToCartService.loadProductsToCart(this.loadedFile, {
+        name: this.form.get('name')?.value,
+        description: this.form.get('description')?.value,
+      });
+    }
+  }
+
   protected build(): FormGroup {
     const form = new FormGroup({});
     form.setControl(
@@ -78,23 +95,6 @@ export class ImportEntriesDialogComponent implements OnInit {
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     return form;
-  }
-
-  selectFile(file: File, form: FormGroup) {
-    if (this.isFileValid(file)) {
-      this.loadFile(file, form);
-    } else {
-      form.get('file')?.updateValueAndValidity();
-    }
-  }
-
-  importProducts(): void {
-    if (this.loadedFile) {
-      this.importToCartService.loadProductsToCart(this.loadedFile, {
-        name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
-      });
-    }
   }
 
   protected isFileValid(file: File): boolean {
