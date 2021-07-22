@@ -27,6 +27,11 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   clearList(): void {}
 }
 
+class MockQuickOrderStatePersistenceService
+  implements Partial<QuickOrderStatePersistenceService> {
+  initSync(): void {}
+}
+
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
     return of('123456789');
@@ -57,7 +62,10 @@ describe('QuickOrderComponent', () => {
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
-        QuickOrderStatePersistenceService,
+        {
+          provide: QuickOrderStatePersistenceService,
+          useClass: MockQuickOrderStatePersistenceService,
+        },
       ],
     }).compileComponents();
 

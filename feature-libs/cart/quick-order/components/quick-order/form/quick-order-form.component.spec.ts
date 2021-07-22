@@ -34,6 +34,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getProductAdded(): Subject<void> {
     return new Subject<void>();
   }
+  addProduct(_product: Product): void {}
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
