@@ -25,6 +25,7 @@ export const importEntriesDialog = {
   charactersLeft: 'characters left: {{count}}',
   cancel: 'Cancel',
   upload: 'Upload',
+  close: 'Close',
 };
 
 export const importExport = {
