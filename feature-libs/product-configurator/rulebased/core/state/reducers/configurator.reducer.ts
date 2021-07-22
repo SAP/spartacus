@@ -213,10 +213,13 @@ function takeOverPriceSupplementsChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const groups = ConfiguratorStateUtils.deepCopy(state.groups);
-
   const priceSupplements = content.priceSupplements;
-  ConfiguratorStateUtils.updateValuePrices(groups, priceSupplements);
+  const groups = priceSupplements
+    ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
+        state.groups,
+        priceSupplements
+      )
+    : state.groups;
 
   const result = {
     ...state,

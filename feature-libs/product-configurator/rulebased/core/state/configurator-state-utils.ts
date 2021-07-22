@@ -1,81 +1,131 @@
 import { Configurator } from '../model/configurator.model';
 
 export class ConfiguratorStateUtils {
-  static updateValuePrices(
+  static mergeGroupsWithSupplements(
     groups: Configurator.Group[],
-    attributeSupplements?: Configurator.AttributeSupplement[]
-  ) {
+    attributeSupplements: Configurator.AttributeSupplement[]
+  ): Configurator.Group[] {
+    const mergedGroups: Configurator.Group[] = [];
+    groups.forEach((group) =>
+      mergedGroups.push(
+        this.mergeGroupWithSupplements(group, attributeSupplements)
+      )
+    );
+    return mergedGroups;
+  }
+
+  static mergeGroupWithSupplements(
+    group: Configurator.Group,
+    attributeSupplements: Configurator.AttributeSupplement[]
+  ): Configurator.Group {
+    if (this.isTargetGroup(group, attributeSupplements)) {
+      return this.mergeTargetGroupWithSupplements(group, attributeSupplements);
+    } else {
+      return {
+        ...group,
+        subGroups: this.mergeGroupsWithSupplements(
+          group.subGroups,
+          attributeSupplements
+        ),
+      };
+    }
+  }
+
+  static mergeTargetGroupWithSupplements(
+    group: Configurator.Group,
+    attributeSupplements: Configurator.AttributeSupplement[]
+  ): Configurator.Group {
+    let mergedAttributes = group.attributes;
+
     attributeSupplements?.forEach((attributeSupplement) => {
       const attributeName = ConfiguratorStateUtils.getAttributeName(
         attributeSupplement.attributeUiKey
       );
-      console.log('VPR attributeName: ' + attributeName);
-      const attributeUiKey = ConfiguratorStateUtils.getKey(
-        attributeSupplement?.attributeUiKey,
-        attributeName
-      );
-      console.log('VPR attributeUiKey: ' + attributeUiKey);
-      ConfiguratorStateUtils.updateValuePrice(
-        groups,
-        attributeUiKey,
-        attributeName,
-        attributeSupplement
+      mergedAttributes = this.updateArrayElement(
+        mergedAttributes,
+        (attribute) => attribute.name === attributeName,
+        (attribute) => {
+          return {
+            ...attribute,
+            values: this.mergeValuesWithSupplement(
+              attribute.values,
+              attributeSupplement
+            ),
+          };
+        }
       );
     });
+    return {
+      ...group,
+      attributes: mergedAttributes,
+    };
   }
 
-  static updateValuePrice(
-    groups: Configurator.Group[],
-    attributeUiKey: string,
-    attributeName: string,
+  static mergeValuesWithSupplement(
+    attributeValues: Configurator.Value[] | undefined,
     attributeSupplement: Configurator.AttributeSupplement
-  ) {
-    const group = ConfiguratorStateUtils.getGroup(groups, attributeUiKey);
-    if (group) {
-      console.log('VPR found group ID: ' + group?.id);
-      const attribute: Configurator.Attribute = ConfiguratorStateUtils.getAttribute(
-        group.attributes,
-        attributeName
+  ): Configurator.Value[] | undefined {
+    let mergedValues = attributeValues;
+    attributeSupplement.valueSupplements.forEach((valueSupplement) => {
+      mergedValues = this.updateArrayElement(
+        mergedValues,
+        (value) => value.valueCode === valueSupplement.attributeValueKey,
+        (value) => {
+          return {
+            ...value,
+            valuePrice: this.getValuePriceFromSupplement(valueSupplement),
+          };
+        }
       );
-      if (attribute) {
-        console.log('VPR found attribute name: ' + attribute.name);
-        attributeSupplement?.valueSupplements?.forEach((valueSupplement) => {
-          let value = ConfiguratorStateUtils.getValue(
-            attribute.values,
-            valueSupplement?.attributeValueKey
-          );
-          if (value) {
-            console.log('VPR found value code: ' + value.valueCode);
-            if (value.valuePrice) {
-              console.log('VPR found existing value price: ' + value.valueCode);
-              /**
-               console.log(
-               'writable: ' +
-               Object.getOwnPropertyDescriptor(value, 'valuePrice')?.writable
-               );
-               */
-              value.valuePrice = valueSupplement?.priceValue;
-            } else {
-              console.log(
-                'VPR value price will be taken from supplement: ' +
-                  JSON.stringify(valueSupplement?.priceValue)
-              );
-              value.valuePrice = valueSupplement.priceValue;
+    });
+    return mergedValues;
+  }
 
-              //attribute.values?.push(newValue);
-              //value = newValue;
-            }
+  static getValuePriceFromSupplement(
+    valueSupplement: Configurator.ValueSupplement
+  ): Configurator.PriceDetails {
+    return {
+      currencyIso: valueSupplement.priceValue.currencyIso,
+      value: valueSupplement.priceValue.value,
+    };
+  }
 
-            //console.log('VPR value object: ' + JSON.stringify(value));
-          }
-        });
+  static isTargetGroup(
+    group: Configurator.Group,
+    attributeSupplements: Configurator.AttributeSupplement[]
+  ): boolean {
+    const firstSupplement = attributeSupplements[0];
+    const attributeName = ConfiguratorStateUtils.getAttributeName(
+      firstSupplement.attributeUiKey
+    );
+    const attributeUiKey = ConfiguratorStateUtils.getKey(
+      firstSupplement.attributeUiKey,
+      attributeName
+    );
+    return group.id.indexOf(attributeUiKey) >= 0;
+  }
+
+  /**
+   * It searches in the given `array` for the first element satisfying the `predicate` function.
+   * Then it returns a fresh array, where this element is replaced with the result of the `projection` function.
+   *
+   * If no element of the `array` satisfied the `predicate`, it returns the original `array`.
+   */
+  static updateArrayElement<T>(
+    array: T[] | undefined,
+    predicate: (value: T, index: number, obj: T[]) => unknown,
+    projection: (value: T, index: number) => T
+  ): T[] | undefined {
+    if (array) {
+      const index = array.findIndex(predicate);
+      if (index === -1) {
+        return array;
       }
-      ConfiguratorStateUtils.updateValuePrice(
-        group?.subGroups,
-        attributeUiKey,
-        attributeName,
-        attributeSupplement
-      );
+      const value = array[index];
+      const newValue = projection(value, index);
+      const newArray = [...array];
+      newArray[index] = newValue;
+      return newArray;
     }
   }
 
@@ -86,60 +136,5 @@ export class ConfiguratorStateUtils {
 
   static getKey(key: string, name: string): string {
     return key.replace('@' + name, '');
-  }
-
-  static deepCopy<T>(target: T): T {
-    if (!target) {
-      return target;
-    }
-    if (typeof target === 'object') {
-      if (target instanceof Array) {
-        const resultArray = [] as any[];
-        if (((target as any) as any[]).length > 0) {
-          for (const arrayMember of (target as any) as any[]) {
-            resultArray.push(ConfiguratorStateUtils.deepCopy(arrayMember));
-          }
-        }
-        return (resultArray as any) as T;
-      } else {
-        const targetKeys = Object.keys(target);
-        const resultObject = {} as { [key: string]: any };
-        if (targetKeys.length > 0) {
-          for (const key of targetKeys) {
-            resultObject[key] = ConfiguratorStateUtils.deepCopy(
-              (target as { [key: string]: any })[key]
-            );
-          }
-        }
-        return resultObject as T;
-      }
-    }
-    // target is atomic
-    return target;
-  }
-
-  static getGroup(
-    groups: Configurator.Group[],
-    attributeUiKey: string
-  ): Configurator.Group | undefined {
-    return groups.find(
-      (group) =>
-        group?.id.indexOf(attributeUiKey) !== -1 ||
-        attributeUiKey.indexOf(group?.id) !== -1
-    );
-  }
-
-  static getAttribute(
-    attributes: Configurator.Attribute[] | undefined,
-    attributeName: string
-  ): Configurator.Attribute | undefined {
-    return attributes?.find((attribute) => attribute.name === attributeName);
-  }
-
-  static getValue(
-    values: Configurator.Value[] | undefined,
-    valueCode: string
-  ): Configurator.Value | undefined {
-    return values?.find((value) => value?.valueCode === valueCode);
   }
 }

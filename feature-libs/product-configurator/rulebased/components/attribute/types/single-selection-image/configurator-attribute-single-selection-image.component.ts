@@ -52,8 +52,14 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   ): ConfiguratorPriceComponentOptions | undefined {
     if (value) {
       if (value.valuePrice) {
-        console.log('value name: ' + JSON.stringify(value.valueDisplay));
-        console.log('value price: ' + JSON.stringify(value.valuePrice));
+        console.log(
+          'VPR component value code: ' + JSON.stringify(value.valueCode)
+        );
+        console.log(
+          'VPR component value price: ' + JSON.stringify(value.valuePrice)
+        );
+      } else {
+        console.log('VPR component no value price for: ' + value.valueCode);
       }
 
       return {
