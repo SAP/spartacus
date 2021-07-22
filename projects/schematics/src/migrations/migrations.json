@@ -18,7 +18,7 @@
     "migration-v3-methods-and-properties-deprecations-04": {
       "version": "3.2.0-next.2",
       "factory": "./3_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
-      "description": "Comment about usage of remove public methods or properties"
+      "description": "Comment about usage of removed public methods or properties"
     },
     "migration-v3-removed-public-api-deprecation-05": {
       "version": "3.2.0-next.2",
@@ -59,7 +59,7 @@
     "02-migration-v4-methods-and-properties-deprecations": {
       "version": "4.0.0-rc.0",
       "factory": "./4_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
-      "description": "Comment about usage of remove public methods or properties"
+      "description": "Comment about usage of removed public methods or properties"
     },
     "03-migration-v4-constructor-deprecations": {
       "version": "4.0.0-rc.0",

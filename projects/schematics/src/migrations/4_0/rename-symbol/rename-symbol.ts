@@ -9,6 +9,7 @@ import {
   ASM_CONNECTOR,
   ASM_FEATURE,
   ASM_MODULE,
+  ASM_OCC_MODULE,
   ASM_SELECTORS,
   ASM_SERVICE,
   ASM_STATE,
@@ -34,6 +35,7 @@ import {
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
+  OCC_ASM_ADAPTER,
   PERMISSION_ROUTING_CONFIG,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -165,6 +167,18 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: 'AsmComponentsModule',
     newImportPath: `${SPARTACUS_ASM}/components`,
+  },
+  // projects/core/src/occ/adapters/asm/asm-occ.module.ts
+  {
+    previousNode: ASM_OCC_MODULE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/occ`,
+  },
+  // projects/core/src/occ/adapters/asm/occ-asm.adapter.ts
+  {
+    previousNode: OCC_ASM_ADAPTER,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/occ`,
   },
   // projects/core/src/asm/config/asm-config.ts
   {
