@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { take, tap } from 'rxjs/operators';
+import { finalize, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
@@ -31,7 +31,6 @@ export class ImportEntriesDialogComponent implements OnInit {
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  // selectedFile: File;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo | {};
 
@@ -82,32 +81,31 @@ export class ImportEntriesDialogComponent implements OnInit {
   }
 
   selectFile(file: File, form: FormGroup) {
-    if (file) {
-      this.importService
-        .loadFile(file)
-        .pipe(
-          tap((data: string[][]) => {
-            if (!this.importToCartService.isDataParsable(data)) {
-              throw new Error();
-            }
-          })
-        )
-        .subscribe(
-          (data: string[][]) => {
-            this.fileError = {};
-            this.loadedFile = data;
-            form.get('file')?.updateValueAndValidity();
-          },
-          () => {
-            this.fileError = { notParsable: true };
-            this.loadedFile = null;
-            form.get('file')?.updateValueAndValidity();
+    this.importService
+      .loadFile(file)
+      .pipe(
+        tap((data: string[][]) => {
+          if (data.toString().length === 0) {
+            throw { empty: true };
           }
-        );
-    } else {
-      this.fileError = {};
-      form.get('file')?.updateValueAndValidity();
-    }
+          if (!this.importToCartService.isDataParsable(data)) {
+            throw { notParsable: true };
+          }
+        }),
+        finalize(() => {
+          form.get('file')?.updateValueAndValidity();
+        })
+      )
+      .subscribe(
+        (data: string[][]) => {
+          this.fileError = {};
+          this.loadedFile = data;
+        },
+        (error: InvalidFileInfo) => {
+          this.fileError = error;
+          this.loadedFile = null;
+        }
+      );
   }
 
   importProducts(): void {

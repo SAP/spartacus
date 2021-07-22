@@ -60,6 +60,16 @@ cx-form-errors {
   }
 }
 
+cx-file-upload {
+  input[type='file'] {
+    @extend .cx-visually-hidden;
+  }
+
+  div {
+    text-align: center;
+  }
+}
+
 input,
 input[type='checkbox'],
 input[type='radio'],

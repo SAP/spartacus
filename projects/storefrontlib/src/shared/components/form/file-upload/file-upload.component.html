@@ -1,12 +1,11 @@
 <input
-  class="cx-import-entries-select-file"
   type="file"
   [formControl]="control"
   [accept]="allowedExtensions"
   (change)="selectFile($event.target.files[0])"
   #uploadCSV
 />
-<div class="cx-import-entries-select-button">
+<div>
   <button
     [attr.aria-label]="buttonText"
     class="btn btn-action"
@@ -19,7 +18,4 @@
     {{ selectedFile.name }}
   </p>
 </div>
-<cx-form-errors
-  [control]="control"
-  prefix="formErrors.file"
-></cx-form-errors>
+<cx-form-errors [control]="control" prefix="formErrors.file"></cx-form-errors>
