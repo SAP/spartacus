@@ -18,4 +18,8 @@
     {{ selectedFile.name }}
   </p>
 </div>
-<cx-form-errors [control]="control" [translationParams]="{maxSize: maxSize}" prefix="formErrors.file"></cx-form-errors>
+<cx-form-errors
+  [control]="control"
+  [translationParams]="{ maxSize: maxSize }"
+  prefix="formErrors.file"
+></cx-form-errors>
