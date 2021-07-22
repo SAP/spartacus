@@ -282,4 +282,10 @@
       }
     }
   }
+
+  cx-store-finder-list-item {
+    .cx-button {
+      line-height: var(--cx-line-height, 2.2);
+    }
+  }
 }
