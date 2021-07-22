@@ -10,12 +10,12 @@ import { ImportEntriesComponent } from './import-entries/import-entries-componen
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  FileUploadModule,
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
-import { FileUploadModule } from '../../../../../projects/storefrontlib/src/shared';
 
 @NgModule({
   imports: [
