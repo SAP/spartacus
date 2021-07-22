@@ -45,6 +45,9 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
+          data: {
+            inventoryDisplay: false,
+          },
         },
       },
     }),

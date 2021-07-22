@@ -67,8 +67,10 @@ import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
-import { CpqFeatureModule } from './features/cpq-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
+import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
+import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
@@ -94,7 +96,9 @@ if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
 if (environment.cpq) {
-  featureModules.push(CpqFeatureModule);
+  featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
+} else {
+  featureModules.push(ProductConfiguratorRulebasedFeatureModule);
 }
 
 @NgModule({
@@ -189,6 +193,7 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],
 })
