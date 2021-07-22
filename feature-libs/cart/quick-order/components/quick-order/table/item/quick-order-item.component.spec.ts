@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
 
 const mockIndex: number = 1;
@@ -14,6 +15,9 @@ const mockEntry: OrderEntry = {
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   removeEntry(_index: number): void {}
   updateEntryQuantity(_index: number, _quantity: number): void {}
+  getProductAdded(): Subject<void> {
+    return new Subject<void>();
+  }
 }
 
 @Pipe({

@@ -20,8 +20,10 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
+const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
+const quickOrderFeatureModulePath =
+  'src/app/spartacus/features/cart/quick-order-cart-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
@@ -109,7 +111,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(savedCartFeatureModulePath)).toBeFalsy();
+      expect(appTree.exists(quickOrderFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -147,7 +150,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(savedCartFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -176,7 +179,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(savedCartFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -191,7 +194,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(quickOrderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -220,7 +223,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(quickOrderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
