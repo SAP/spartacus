@@ -11,6 +11,7 @@
   --cx-text-transform: uppercase;
   --cx-spinner-primary-color: #2480c5;
   --cx-text-decoration: underline;
+  --cx-box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 
   cx-page-layout.CompanyPageTemplate cx-banner cx-media {
     --cx-img-filter: invert(46%) sepia(9%) saturate(3655%) hue-rotate(163deg)
@@ -23,6 +24,12 @@
 
   .btn-link:hover {
     color: var(--cx-color-primary);
+  }
+
+  .btn {
+    &:focus {
+      box-shadow: var(--cx-box-shadow);
+    }
   }
 
   cx-site-context-selector {
@@ -214,6 +221,20 @@
     }
   }
 
+  cx-replenishment-order-history {
+    .cx-replenishment-order-history-code .cx-replenishment-order-history-value {
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+    }
+
+    .cx-replenishment-order-history-cancel {
+      .cx-order-cancel {
+        color: var(--cx-color-primary);
+        font-weight: var(--cx-font-weight-semi);
+      }
+    }
+  }
+
   %cx-pagination {
     a {
       @include type('4');
@@ -273,6 +294,12 @@
       .btn-link {
         color: var(--cx-color-primary);
       }
+    }
+  }
+
+  cx-store-finder-list-item {
+    .cx-button {
+      line-height: var(--cx-line-height, 2.2);
     }
   }
 }
