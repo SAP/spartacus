@@ -122,10 +122,12 @@ export class ImportEntriesDialogComponent implements OnInit {
       .pipe(
         tap((data: string[][]) => {
           if (data.toString().length === 0) {
-            throw { empty: true };
+            const error = { empty: true };
+            throw error;
           }
           if (!this.importToCartService.isDataParsable(data)) {
-            throw { notParsable: true };
+            const error = { notParsable: true };
+            throw error;
           }
         }),
         finalize(() => {
