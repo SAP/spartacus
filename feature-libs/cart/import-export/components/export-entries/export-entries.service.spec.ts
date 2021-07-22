@@ -9,6 +9,7 @@ import {
   RoutingService,
   RouterState,
   PriceType,
+  TranslationService,
 } from '@spartacus/core';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
@@ -93,20 +94,6 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
-const testData = [
-  { key: 'product.code', output: '3803058' },
-  { key: 'quantity', output: '2' },
-  { key: 'product.name', output: 'PC Service Set Professional' },
-  { key: 'totalPrice.formattedValue', output: '$47.00' },
-  { key: 'updateable', output: 'true' },
-  {
-    key: 'product.images.PRIMARY.zoom.altText',
-    output: 'PC Service Set Professional',
-  },
-  { key: 'returnableQuantity', output: '0' },
-  { key: 'notExistingKey', output: '' },
-];
-
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState(): Observable<RouterState> {
     return of();
@@ -127,6 +114,7 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
 
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
+  let translationService: TranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -143,13 +131,55 @@ describe('ExportEntriesService', () => {
       ],
     });
     service = TestBed.inject(ExportEntriesService);
+    translationService = TestBed.inject(TranslationService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should translate headings and export entries to specific format', () => {
+    spyOn(service, 'getEntries').and.returnValue(of([entry]));
+    spyOn(translationService, 'translate').and.callThrough();
+
+    const entries = service.exportEntries();
+
+    const headings = [
+      'exportEntries.columnNames.code',
+      'exportEntries.columnNames.quantity',
+      'exportEntries.columnNames.name',
+      'exportEntries.columnNames.price',
+    ];
+
+    const values = [
+      entry.product?.code,
+      entry.quantity?.toString(),
+      entry.product?.name,
+      entry.totalPrice?.formattedValue,
+    ];
+
+    expect(entries).toEqual([
+      Object.assign({}, headings),
+      Object.assign({}, values),
+    ]);
+    expect(translationService.translate).toHaveBeenCalledTimes(4);
+  });
+
   describe('resolveValue', () => {
+    const testData = [
+      { key: 'product.code', output: '3803058' },
+      { key: 'quantity', output: '2' },
+      { key: 'product.name', output: 'PC Service Set Professional' },
+      { key: 'totalPrice.formattedValue', output: '$47.00' },
+      { key: 'updateable', output: 'true' },
+      {
+        key: 'product.images.PRIMARY.zoom.altText',
+        output: 'PC Service Set Professional',
+      },
+      { key: 'returnableQuantity', output: '0' },
+      { key: 'notExistingKey', output: '' },
+    ];
+
     testData.forEach(({ key, output }) => {
       it(`should resolve value for ${key}`, () => {
         expect(service['resolveValue'](key, entry)).toBe(output);
