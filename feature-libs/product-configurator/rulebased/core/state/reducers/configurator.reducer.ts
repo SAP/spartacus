@@ -212,17 +212,23 @@ function takeOverPricingChanges(
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const priceSupplements = content.priceSupplements;
-  const groups = priceSupplements
-    ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
-        state.groups,
-        priceSupplements
-      )
-    : state.groups;
+  const groups =
+    priceSupplements && priceSupplements.length > 0
+      ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
+          state.groups,
+          priceSupplements
+        )
+      : state.groups;
 
   const result = {
     ...state,
     ...content,
     groups: groups,
+    interactionState: {
+      ...state.interactionState,
+      ...content.interactionState,
+      issueNavigationDone: true,
+    },
   };
   return result;
 }
