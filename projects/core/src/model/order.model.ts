@@ -11,6 +11,9 @@ import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface DeliveryMode {
   code?: string;
   deliveryCost?: Price;
@@ -18,6 +21,9 @@ export interface DeliveryMode {
   name?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface OrderEntry {
   orderCode?: string;
   basePrice?: Price;
@@ -35,26 +41,41 @@ export interface OrderEntry {
   promotions?: PromotionResult[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
   quantity?: number;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
   expectedQuantity?: number;
   refundAmount?: Price;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReturnRequest {
   cancellable?: boolean;
   code?: string;
@@ -70,16 +91,25 @@ export interface ReturnRequest {
   totalPrice?: Price;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReturnRequestModification {
   status?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;
@@ -88,6 +118,9 @@ export interface PickupOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
   code?: string;
@@ -95,12 +128,18 @@ export interface PromotionOrderEntryConsumed {
   quantity?: number;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
   quantity?: number;
   shippedQuantity?: number;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface Consignment {
   code?: string;
   deliveryPointOfService?: PointOfService;
@@ -111,6 +150,9 @@ export interface Consignment {
   trackingID?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface OrderHistory {
   code?: string;
   guid?: string;
@@ -120,12 +162,18 @@ export interface OrderHistory {
   total?: Price;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];

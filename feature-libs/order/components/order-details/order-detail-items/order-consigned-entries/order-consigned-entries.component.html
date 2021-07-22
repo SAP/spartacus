@@ -1,0 +1,26 @@
+<div *ngFor="let consignment of consignments" class="cx-list row">
+  <div class="cx-list-header col-12">
+    <div class="cx-list-status">
+      <span *ngIf="consignment">
+        {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}
+      </span>
+    </div>
+    <div *ngIf="consignment?.statusDate" class="cx-list-date">
+      <div>{{ consignment?.statusDate | cxDate }}</div>
+    </div>
+
+    <cx-consignment-tracking
+      [orderCode]="order.code"
+      [consignment]="consignment"
+      *cxFeature="'consignmentTracking'"
+    >
+    </cx-consignment-tracking>
+  </div>
+  <div class="cx-list-item col-12">
+    <cx-cart-item-list
+      [items]="consignment.entries"
+      [readonly]="true"
+      [promotionLocation]="promotionLocation"
+    ></cx-cart-item-list>
+  </div>
+</div>

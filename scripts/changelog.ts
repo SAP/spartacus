@@ -88,6 +88,7 @@ export default async function run(
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
     '@spartacus/cart': 'feature-libs/cart',
+    '@spartacus/order': 'feature-libs/order',
   };
 
   const duplexUtil = through(function (
@@ -352,6 +353,10 @@ if (typeof config.to === 'undefined') {
     case 'cart':
     case '@spartacus/cart':
       config.library = '@spartacus/cart';
+      break;
+    case 'order':
+    case '@spartacus/order':
+      config.library = '@spartacus/order';
       break;
     default:
       config.library = undefined;

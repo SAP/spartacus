@@ -10,6 +10,9 @@ import {
   ReturnRequestModification,
 } from '../../../model/order.model';
 
+/**
+ * @deprecated since 4.1 - use OrderAdapter in @spartacus/order/core
+ */
 export abstract class UserOrderAdapter {
   /**
    * Abstract method used to load order data.

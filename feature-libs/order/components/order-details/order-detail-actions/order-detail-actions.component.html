@@ -1,0 +1,40 @@
+<ng-container *ngIf="order$ | async as order">
+  <div class="cx-nav row">
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <button
+        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+        class="btn btn-block btn-action"
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <a
+        *ngIf="order.cancellable"
+        [routerLink]="
+          {
+            cxRoute: 'orderCancel',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-block btn-action"
+      >
+        {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
+      </a>
+
+      <a
+        *ngIf="order.returnable"
+        [routerLink]="
+          {
+            cxRoute: 'orderReturn',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-block btn-action"
+      >
+        {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
+      </a>
+    </div>
+  </div>
+</ng-container>

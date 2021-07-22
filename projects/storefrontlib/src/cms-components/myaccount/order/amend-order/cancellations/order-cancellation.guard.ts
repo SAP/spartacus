@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderCancellationService } from './order-cancellation.service';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -5,6 +5,9 @@ import { REPLENISHMENT_ORDER_NORMALIZER } from '../../../checkout/connectors/rep
 import { OccOrderNormalizer } from './converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './converters/occ-replenishment-order-normalizer';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 @NgModule({
   imports: [CommonModule],
   providers: [

@@ -12,6 +12,9 @@ import { DeliveryMode, OrderEntry, PickupOrderEntryGroup } from './order.model';
 import { CostCenter } from './org-unit.model';
 import { Price } from './product.model';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReplenishmentOrder {
   active?: boolean;
   appliedOrderPromotions?: PromotionResult[];
@@ -58,17 +61,26 @@ export interface ReplenishmentOrder {
   user?: Principal;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export interface ScheduleReplenishmentForm {
   daysOfWeek?: DaysOfWeek[];
   nthDayOfMonth?: string;
@@ -78,6 +90,9 @@ export interface ScheduleReplenishmentForm {
   replenishmentStartDate?: string;
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export enum DaysOfWeek {
   MONDAY = 'MONDAY',
   TUESDAY = 'TUESDAY',
@@ -88,12 +103,18 @@ export enum DaysOfWeek {
   SUNDAY = 'SUNDAY',
 }
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export const recurrencePeriod = {
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 };
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 export enum ORDER_TYPE {
   PLACE_ORDER = 'PLACE_ORDER',
   SCHEDULE_REPLENISHMENT_ORDER = 'SCHEDULE_REPLENISHMENT_ORDER',

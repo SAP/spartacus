@@ -1,0 +1,25 @@
+<form
+  *ngIf="form$ | async as form"
+  [formGroup]="form"
+  (ngSubmit)="submit(form)"
+>
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
+
+  <cx-amend-order-items
+    *ngIf="entries$ | async as entries"
+    [entries]="entries"
+    [isConfirmation]="true"
+  >
+  </cx-amend-order-items>
+
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
+
+  <ng-template #actions>
+    <cx-amend-order-actions
+      *ngIf="orderCode"
+      [orderCode]="orderCode"
+      [amendOrderForm]="form"
+      backRoute="orderCancel"
+    ></cx-amend-order-actions>
+  </ng-template>
+</form>

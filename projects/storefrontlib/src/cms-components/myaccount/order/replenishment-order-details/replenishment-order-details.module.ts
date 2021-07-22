@@ -30,6 +30,9 @@ import { ReplenishmentOrderDetailsService } from './replenishment-order-details.
 
 const moduleComponents = [ReplenishmentOrderCancellationComponent];
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 @NgModule({
   imports: [
     CartSharedModule,

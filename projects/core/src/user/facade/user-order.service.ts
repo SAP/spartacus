@@ -19,6 +19,9 @@ import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 
+/**
+ * @deprecated since 4.1 - use OrderFacade in @spartacus/order/root instead
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -6,7 +6,6 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -36,10 +35,6 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  OrderCancellationModule,
-  OrderDetailsModule,
-  OrderHistoryModule,
-  OrderReturnModule,
   PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
@@ -53,10 +48,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderDetailsModule,
-  ReplenishmentOrderHistoryModule,
-  ReturnRequestDetailModule,
-  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -71,6 +62,7 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { OrderFeatureModule } from './features/order-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
@@ -170,17 +162,6 @@ if (environment.cpq) {
     // Cost Center
     CostCenterOccModule,
 
-    // Order
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    OrderOccModule,
-
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
@@ -202,6 +183,7 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    OrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],
