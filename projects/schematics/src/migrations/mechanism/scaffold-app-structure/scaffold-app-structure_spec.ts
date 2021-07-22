@@ -46,10 +46,6 @@ describe('scaffold app structure', () => {
   };
 
   beforeEach(async () => {
-    schematicRunner = new SchematicTestRunner(
-      'test',
-      require.resolve('../../test/migrations-test.json')
-    );
     schematicRunner.registerCollection(SPARTACUS_SCHEMATICS, collectionPath);
 
     appTree = await schematicRunner
