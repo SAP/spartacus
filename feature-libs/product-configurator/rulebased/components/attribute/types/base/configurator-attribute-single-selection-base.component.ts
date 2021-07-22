@@ -149,11 +149,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
     if (value) {
-      if (value.valuePrice) {
-        console.log('value name: ' + JSON.stringify(value.valueDisplay));
-        console.log('value price: ' + JSON.stringify(value.valuePrice));
-      }
-
       return {
         price: value.valuePrice,
         isLightedUp: value.selected,

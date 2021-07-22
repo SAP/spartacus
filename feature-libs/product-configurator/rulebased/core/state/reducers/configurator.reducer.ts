@@ -225,11 +225,6 @@ function takeOverPriceSupplementsChanges(
     ...state,
     ...content,
     groups: groups,
-    interactionState: {
-      ...state.interactionState,
-      ...content.interactionState,
-      issueNavigationDone: true,
-    },
   };
   return result;
 }

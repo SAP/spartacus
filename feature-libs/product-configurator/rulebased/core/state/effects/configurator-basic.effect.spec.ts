@@ -361,7 +361,7 @@ describe('ConfiguratorEffect', () => {
     });
   });
 
-  xdescribe('Effect updateConfigurationSuccess', () => {
+  describe('Effect updateConfigurationSuccess', () => {
     it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup in case no changes are pending', () => {
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
@@ -370,9 +370,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: groupId,
@@ -404,9 +405,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

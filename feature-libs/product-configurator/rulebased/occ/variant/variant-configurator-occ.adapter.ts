@@ -221,7 +221,6 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
-  //TODO: pricing  => this method should be renamed =>  readPrice
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
