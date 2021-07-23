@@ -14,7 +14,7 @@ assignees: ''
 - [ ] Announce new maintenance branch (Set topic in tribe channel)
 - [ ] Create release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
-- [ ] Update the maintenance branch on the Hosting service deployment github action (workflows/deploy-hs.yml)
+- [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
