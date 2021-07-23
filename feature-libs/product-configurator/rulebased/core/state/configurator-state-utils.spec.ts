@@ -6,7 +6,7 @@ describe('ConfiguratorStateUtils', () => {
   describe('getAttributeName', () => {
     it('should return attribute name', () => {
       expect(
-        ConfiguratorStateUtils.getAttributeName(
+        ConfiguratorStateUtils['getAttributeName'](
           'groupId@subGroupId@attributeId'
         )
       ).toEqual('attributeId');
@@ -16,7 +16,7 @@ describe('ConfiguratorStateUtils', () => {
   describe('getKey', () => {
     it('should return a key', () => {
       expect(
-        ConfiguratorStateUtils.getKey(
+        ConfiguratorStateUtils['getKey'](
           'groupId@subGroupId@attributeId',
           'attributeId'
         )
@@ -38,7 +38,7 @@ describe('ConfiguratorStateUtils', () => {
     };
 
     it('should create new array in case predicate matches', () => {
-      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+      const mergedValues = ConfiguratorStateUtils['updateArrayElement'](
         values,
         (value) => value.valueCode === valueSupplement.attributeValueKey,
         (value) => {
@@ -51,7 +51,7 @@ describe('ConfiguratorStateUtils', () => {
     });
 
     it('should return same array if no match is found', () => {
-      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+      const mergedValues = ConfiguratorStateUtils['updateArrayElement'](
         values,
         (value) => value.valueCode === 'NOT EXISTING',
         (value) => {
@@ -64,7 +64,7 @@ describe('ConfiguratorStateUtils', () => {
     });
 
     it('should cope with undefined input', () => {
-      const mergedValues = ConfiguratorStateUtils.updateArrayElement(
+      const mergedValues = ConfiguratorStateUtils['updateArrayElement'](
         undefined,
         (value) => value === 'NOT EXISTING',
         (value) => {

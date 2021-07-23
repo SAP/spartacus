@@ -14,7 +14,7 @@ export class ConfiguratorStateUtils {
     return mergedGroups;
   }
 
-  static mergeGroupWithSupplements(
+  protected static mergeGroupWithSupplements(
     group: Configurator.Group,
     attributeSupplements: Configurator.AttributeSupplement[]
   ): Configurator.Group {
@@ -31,7 +31,7 @@ export class ConfiguratorStateUtils {
     }
   }
 
-  static mergeTargetGroupWithSupplements(
+  protected static mergeTargetGroupWithSupplements(
     group: Configurator.Group,
     attributeSupplements: Configurator.AttributeSupplement[]
   ): Configurator.Group {
@@ -62,7 +62,7 @@ export class ConfiguratorStateUtils {
     };
   }
 
-  static mergeValuesWithSupplement(
+  protected static mergeValuesWithSupplement(
     attributeValues: Configurator.Value[] | undefined,
     attributeSupplement: Configurator.AttributeSupplement
   ): Configurator.Value[] | undefined {
@@ -84,7 +84,7 @@ export class ConfiguratorStateUtils {
     return mergedValues;
   }
 
-  static isTargetGroup(
+  protected static isTargetGroup(
     group: Configurator.Group,
     attributeSupplements: Configurator.AttributeSupplement[]
   ): boolean {
@@ -105,7 +105,7 @@ export class ConfiguratorStateUtils {
    *
    * If no element of the `array` satisfied the `predicate`, it returns the original `array`.
    */
-  static updateArrayElement<T>(
+  protected static updateArrayElement<T>(
     array: T[] | undefined,
     predicate: (value: T, index: number, obj: T[]) => unknown,
     projection: (value: T, index: number) => T
@@ -123,12 +123,12 @@ export class ConfiguratorStateUtils {
     }
   }
 
-  static getAttributeName(attributeUiKey: string): string {
+  protected static getAttributeName(attributeUiKey: string): string {
     const lastIndexOf = attributeUiKey.lastIndexOf('@');
     return attributeUiKey.slice(lastIndexOf + 1);
   }
 
-  static getKey(key: string, name: string): string {
+  protected static getKey(key: string, name: string): string {
     return key.replace('@' + name, '');
   }
 }
