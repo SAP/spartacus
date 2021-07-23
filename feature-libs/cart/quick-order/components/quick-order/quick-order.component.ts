@@ -34,13 +34,11 @@ export class QuickOrderComponent implements OnInit {
   ngOnInit(): void {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
-
     this.quickOrderStatePersistenceService.initSync();
   }
 
   clear(): void {
     this.quickOrderService.clearList();
-
     this.globalMessageService.add(
       {
         key: 'quickOrderTable.listCleared',

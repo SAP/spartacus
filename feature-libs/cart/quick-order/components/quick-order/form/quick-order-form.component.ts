@@ -25,9 +25,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
 
-  // @Input()
-  // isDisabled: boolean = false;
-
   get isDisabled(): boolean {
     return this._disabled;
   }
@@ -35,7 +32,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   @Input('isDisabled') set isDisabled(value: boolean) {
     this._disabled = value;
     this.validateProductControl(value);
-    console.log('isDisabled', value);
   }
 
   protected subscription = new Subscription();
