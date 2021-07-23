@@ -3,14 +3,14 @@
   [formControl]="control"
   [accept]="allowedExtensions"
   (change)="selectFile($event.target.files[0])"
-  #uploadCSV
+  #fileInput
 />
 <div>
   <button
     [attr.aria-label]="buttonText"
     class="btn btn-action"
     type="button"
-    (click)="uploadCSV.click()"
+    (click)="fileInput.click()"
   >
     {{ buttonText }}
   </button>

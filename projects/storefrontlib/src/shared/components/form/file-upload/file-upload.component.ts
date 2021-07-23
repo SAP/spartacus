@@ -12,12 +12,25 @@ import { FormControl } from '@angular/forms';
 })
 export class FileUploadComponent {
   selectedFile: File;
-
+  /**
+   * Form control for the input.
+   */
   @Input() control: FormControl;
+  /**
+   * Display text for the button.
+   */
   @Input() buttonText: string;
+  /**
+   * Allowed extensions for the file. It's setting attribute used for OS window for choosing files.
+   */
   @Input() allowedExtensions?: string = '*';
+  /**
+   * Max size of file. This property is used only for translation params if 'tooLarge' error occur.
+   */
   @Input() maxSize?: number;
-
+  /**
+   * Emitter for event of changed file.
+   */
   @Output() update: EventEmitter<File> = new EventEmitter();
 
   selectFile(file: File) {
