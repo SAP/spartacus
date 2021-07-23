@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order-form',
@@ -23,6 +24,7 @@ import { Subscription } from 'rxjs';
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
+  isSearching: boolean = false;
 
   protected subscription = new Subscription();
 
@@ -42,20 +44,23 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     event?.preventDefault();
-
+    this.isSearching = true;
     const productCode = this.form.get('product')?.value;
 
-    this.quickOrderService.search(productCode).subscribe(
-      (product: Product) => {
-        this.quickOrderService.addProduct(product);
-      },
-      (error: HttpErrorResponse) => {
-        this.globalMessageService.add(
-          error.error.errors[0].message,
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
-    );
+    this.quickOrderService
+      .search(productCode)
+      .pipe(finalize(() => (this.isSearching = false)))
+      .subscribe(
+        (product: Product) => {
+          this.quickOrderService.addProduct(product);
+        },
+        (error: HttpErrorResponse) => {
+          this.globalMessageService.add(
+            error.error.errors[0].message,
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      );
   }
 
   clear(event?: Event): void {

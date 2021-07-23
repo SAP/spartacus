@@ -1,4 +1,8 @@
-<form [formGroup]="form" class="quick-order-form-container row">
+<form
+  (ngSubmit)="search($event)"
+  [formGroup]="form"
+  class="quick-order-form-container row"
+>
   <div class="col-xs-12 col-md-5 col-lg-4 quick-order-form-input">
     <input
       (keydown.enter)="search($event)"
@@ -21,4 +25,14 @@
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
   </div>
+
+  <button
+    [disabled]="
+      form.invalid || !form.get('product')?.value?.length || isSearching
+    "
+    class="btn btn-primary"
+    type="submit"
+  >
+    {{ 'common.search' | cxTranslate }}
+  </button>
 </form>
