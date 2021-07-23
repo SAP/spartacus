@@ -20,8 +20,11 @@ cx-quick-order-form {
     }
 
     .list-limit-reached-text {
-      bottom: 0;
-      left: 0;
+      bottom: -15px;
+      color: var(--cx-color-danger);
+      font-size: 12px;
+      font-weight: normal;
+      padding-inline-start: 2px;
       position: absolute;
     }
   }
