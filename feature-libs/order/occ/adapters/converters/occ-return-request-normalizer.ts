@@ -14,7 +14,7 @@ export class OccReturnRequestNormalizer
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as ReturnRequest;
     }
 
     if (source.returnEntries) {
@@ -27,10 +27,10 @@ export class OccReturnRequestNormalizer
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
+  private convertOrderEntry(source?: Occ.OrderEntry): OrderEntry {
     return {
       ...source,
-      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
     };
   }
 }

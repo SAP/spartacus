@@ -62,56 +62,56 @@ export function defaultCartOrderComponentsConfig(): CmsConfig {
         data: { cxRoute: 'orderDetails' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderCancel',
-        },
+        data: { cxRoute: 'orderCancel' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderCancelConfirmation',
-        },
+        data: { cxRoute: 'orderCancelConfirmation' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderReturn',
-        },
+        data: { cxRoute: 'orderReturn' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderReturnConfirmation',
-        },
+        data: { cxRoute: 'orderReturnConfirmation' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orders' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'replenishmentDetails' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'replenishmentOrders' },
       },
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

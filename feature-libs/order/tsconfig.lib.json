@@ -14,7 +14,7 @@
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
-    "strict": false,
+    "strict": true,
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

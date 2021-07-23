@@ -33,10 +33,14 @@ export class OrderReturnService extends OrderAmendService {
   getEntries(): Observable<OrderEntry[]> {
     return this.getOrder().pipe(
       filter((order) => !!order.entries),
-      map((order) =>
-        order.entries.filter(
-          (entry) => entry.entryNumber !== -1 && entry.returnableQuantity > 0
-        )
+      map(
+        (order) =>
+          order.entries?.filter(
+            (entry) =>
+              entry.entryNumber !== -1 &&
+              entry.returnableQuantity &&
+              entry.returnableQuantity > 0
+          ) ?? []
       )
     );
   }

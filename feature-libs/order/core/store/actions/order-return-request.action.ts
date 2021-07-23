@@ -11,38 +11,40 @@ import {
   RETURN_REQUEST_DETAILS,
 } from '../order-state';
 
-export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
+export const CREATE_ORDER_RETURN_REQUEST =
+  '[Order] Create Order Return Request';
 export const CREATE_ORDER_RETURN_REQUEST_FAIL =
-  '[User] Create Order Return Request Fail';
+  '[Order] Create Order Return Request Fail';
 export const CREATE_ORDER_RETURN_REQUEST_SUCCESS =
-  '[User] Create Order Return Request Success';
+  '[Order] Create Order Return Request Success';
 
 export const LOAD_ORDER_RETURN_REQUEST =
-  '[User] Load Order Return Request details';
+  '[Order] Load Order Return Request details';
 export const LOAD_ORDER_RETURN_REQUEST_FAIL =
-  '[User] Load Order Return Request details Fail';
+  '[Order] Load Order Return Request details Fail';
 export const LOAD_ORDER_RETURN_REQUEST_SUCCESS =
-  '[User] Load Order Return Request details Success';
+  '[Order] Load Order Return Request details Success';
 
-export const CANCEL_ORDER_RETURN_REQUEST = '[User] Cancel Order Return Request';
+export const CANCEL_ORDER_RETURN_REQUEST =
+  '[Order] Cancel Order Return Request';
 export const CANCEL_ORDER_RETURN_REQUEST_FAIL =
-  '[User] Cancel Order Return Request Fail';
+  '[Order] Cancel Order Return Request Fail';
 export const CANCEL_ORDER_RETURN_REQUEST_SUCCESS =
-  '[User] Cancel Order Return Request Success';
+  '[Order] Cancel Order Return Request Success';
 
 export const LOAD_ORDER_RETURN_REQUEST_LIST =
-  '[User] Load User Order Return Request List';
+  '[Order] Load User Order Return Request List';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_FAIL =
-  '[User] Load User Order Return Request List Fail';
+  '[Order] Load User Order Return Request List Fail';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS =
-  '[User] Load User Order Return Request List Success';
+  '[Order] Load User Order Return Request List Success';
 
 export const CLEAR_ORDER_RETURN_REQUEST =
-  '[User] Clear Order Return Request Details';
+  '[Order] Clear Order Return Request Details';
 export const CLEAR_ORDER_RETURN_REQUEST_LIST =
-  '[User] Clear Order Return Request List';
+  '[Order] Clear Order Return Request List';
 export const RESET_CANCEL_RETURN_PROCESS =
-  '[User] Reset Cancel Return Request Process';
+  '[Order] Reset Cancel Return Request Process';
 
 export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST;

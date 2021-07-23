@@ -55,7 +55,7 @@ export class ReplenishmentOrderDetailsEffect {
               )
           ),
           catchError((error) => {
-            error?.error?.errors.forEach((err) =>
+            error?.error?.errors.forEach((err: any) =>
               this.globalMessageService.add(
                 err.message,
                 GlobalMessageType.MSG_TYPE_ERROR

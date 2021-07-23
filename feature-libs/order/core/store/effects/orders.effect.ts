@@ -26,7 +26,7 @@ export class OrdersEffect {
       return (Boolean(payload.replenishmentOrderCode)
         ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
             payload.userId,
-            payload.replenishmentOrderCode,
+            payload.replenishmentOrderCode ?? '',
             payload.pageSize,
             payload.currentPage,
             payload.sort

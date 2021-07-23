@@ -56,7 +56,7 @@ export abstract class OrderReturnRequestFacade {
    */
   abstract getOrderReturnRequestList(
     pageSize: number
-  ): Observable<ReturnRequestList>;
+  ): Observable<ReturnRequestList | undefined>;
 
   /**
    * Loads order return request detail

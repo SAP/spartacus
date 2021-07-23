@@ -2,7 +2,7 @@ import { ConsignmentTracking } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ConsignmentTrackingState } from '../order-state';
 
-export const initialState: ConsignmentTrackingState = {};
+export const initialState: ConsignmentTrackingState = { tracking: {} };
 
 export function reducer(
   state = initialState,

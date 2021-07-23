@@ -37,5 +37,5 @@ export interface OrderState {
 }
 
 export interface ConsignmentTrackingState {
-  tracking?: ConsignmentTracking;
+  tracking: ConsignmentTracking;
 }

@@ -5,15 +5,15 @@ import {
 } from '@spartacus/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 
-export const LOAD_ORDER_DETAILS = '[User] Load Order Details';
-export const LOAD_ORDER_DETAILS_FAIL = '[User] Load Order Details Fail';
-export const LOAD_ORDER_DETAILS_SUCCESS = '[User] Load Order Details Success';
-export const CLEAR_ORDER_DETAILS = '[User] Clear Order Details';
+export const LOAD_ORDER_DETAILS = '[Order] Load Order Details';
+export const LOAD_ORDER_DETAILS_FAIL = '[Order] Load Order Details Fail';
+export const LOAD_ORDER_DETAILS_SUCCESS = '[Order] Load Order Details Success';
+export const CLEAR_ORDER_DETAILS = '[Order] Clear Order Details';
 
-export const CANCEL_ORDER = '[User] Cancel Order';
-export const CANCEL_ORDER_FAIL = '[User] Cancel Order Fail';
-export const CANCEL_ORDER_SUCCESS = '[User] Cancel Order Success';
-export const RESET_CANCEL_ORDER_PROCESS = '[User] Reset Cancel Order Process';
+export const CANCEL_ORDER = '[Order] Cancel Order';
+export const CANCEL_ORDER_FAIL = '[Order] Cancel Order Fail';
+export const CANCEL_ORDER_SUCCESS = '[Order] Cancel Order Success';
+export const RESET_CANCEL_ORDER_PROCESS = '[Order] Reset Cancel Order Process';
 
 export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ORDER_DETAILS;
