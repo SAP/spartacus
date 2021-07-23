@@ -49,6 +49,7 @@ export class ImportToCartService {
                   saveCartDescription: savedCartInfo.description,
                 });
                 this.savedCartService.loadSavedCarts();
+                if (cartId !== '') this.getSummary(cartId, products);
                 this.launchDialogService.closeDialog(
                   'Close Import Products Dialog'
                 );
@@ -70,5 +71,18 @@ export class ImportToCartService {
   isDataParsable(data: string[][]): Boolean {
     const patternRegex = new RegExp(/(?<=\s|^)\d+(?=\s|$)/);
     return data.every((row) => patternRegex.test(row[1]));
+  }
+
+  getSummary(cartId: string, _products: ProductsData) {
+    this.multiCartService
+      .getEntries(cartId)
+      .pipe(
+        filter((data) => data.length !== 0),
+        tap((_data) => {
+          // console.log(products);
+          // console.log(data);
+        })
+      )
+      .subscribe();
   }
 }
