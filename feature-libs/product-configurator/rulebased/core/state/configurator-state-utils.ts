@@ -75,23 +75,13 @@ export class ConfiguratorStateUtils {
         (value) => {
           return {
             ...value,
-            valuePrice: this.getValuePriceFromSupplement(valueSupplement),
+            valuePrice: valueSupplement.priceValue,
           };
         }
       );
     });
 
     return mergedValues;
-  }
-
-  static getValuePriceFromSupplement(
-    valueSupplement: Configurator.ValueSupplement
-  ): Configurator.PriceDetails {
-    return {
-      currencyIso: valueSupplement.priceValue.currencyIso,
-      value: valueSupplement.priceValue.value,
-      formattedValue: valueSupplement.priceValue.formattedValue,
-    };
   }
 
   static isTargetGroup(
