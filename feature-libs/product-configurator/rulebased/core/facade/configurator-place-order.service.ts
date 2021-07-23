@@ -11,7 +11,7 @@ export class ConfiguratorPlaceOrderService {
     protected store: Store<StateWithConfigurator>,
     protected eventService: EventService
   ) {}
-  //TODO CHHI remove subscription on destroy
+
   init(): void {
     this.eventService.get(OrderPlacedEvent).subscribe(() => {
       this.store.dispatch(

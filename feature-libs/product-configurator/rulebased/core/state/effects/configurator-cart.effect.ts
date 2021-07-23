@@ -178,8 +178,8 @@ export class ConfiguratorCartEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.getConfigurationsState),
         take(1),
-        map((configurations) => {
-          const entities: {} = configurations.configurations.entities;
+        map((configuratorState) => {
+          const entities = configuratorState.configurations.entities;
           const ownerKeysToRemove: string[] = [];
           for (const ownerKey in entities) {
             if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {

@@ -9,11 +9,7 @@ import {
   StateWithConfigurator,
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers';
-import { ConfiguratorCommonsService } from './configurator-commons.service';
-import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorPlaceOrderService } from './configurator-place-order.service';
-import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 let eventService: Partial<EventService>;
 let eventServiceEvents: Map<
   AbstractType<CxEvent>,
@@ -22,17 +18,20 @@ let eventServiceEvents: Map<
 
 eventService = {
   get<T>(eventType: Type<T>) {
-    return eventServiceEvents.get(eventType);
+    const event = eventServiceEvents.get(eventType);
+    if (event) {
+      return event;
+    } else {
+      throw new Error('Event not available');
+    }
   },
 };
 
 describe('ConfiguratorPlaceOrderService', () => {
   let classUnderTest: ConfiguratorPlaceOrderService;
   let store: Store<StateWithConfigurator>;
-  eventServiceEvents.set(
-    OrderPlacedEvent,
-    new ReplaySubject<OrderPlacedEvent>()
-  );
+  let orderPlacedEvent: ReplaySubject<any> | undefined;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -45,10 +44,6 @@ describe('ConfiguratorPlaceOrderService', () => {
             provide: EventService,
             useValue: eventService,
           },
-          ConfiguratorGroupsService,
-          ConfiguratorCommonsService,
-          ConfiguratorGroupStatusService,
-          ConfiguratorUtilsService,
         ],
       }).compileComponents();
     })
@@ -59,16 +54,23 @@ describe('ConfiguratorPlaceOrderService', () => {
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     spyOn(store, 'dispatch').and.callThrough();
+    eventServiceEvents.set(
+      OrderPlacedEvent,
+      new ReplaySubject<OrderPlacedEvent>()
+    );
+    orderPlacedEvent = eventServiceEvents.get(OrderPlacedEvent);
   });
 
   describe('init', () => {
-    const event = eventServiceEvents.get(OrderPlacedEvent);
-    event?.next({ entry: { product: { categories: [{}] } } });
-
-    it('should do something', () => {
+    it('should subscribe to orderPlacedEvent and trigger action if order has been placed', () => {
+      orderPlacedEvent?.next({ entry: { product: { categories: [{}] } } });
       classUnderTest.init();
-
       expect(store.dispatch).toHaveBeenCalled();
+    });
+
+    it('should trigger no action in case orderPlacedEvent did not happen', () => {
+      classUnderTest.init();
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });
 });

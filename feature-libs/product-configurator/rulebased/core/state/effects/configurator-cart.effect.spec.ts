@@ -45,6 +45,12 @@ const owner: CommonConfigurator.Owner = {
   key: 'product/CONF_LAPTOP',
   configuratorType: ConfiguratorType.VARIANT,
 };
+const ownerCartEntry: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.CART_ENTRY,
+  id: entryNumber.toString(),
+  key: 'cartEntry/1',
+  configuratorType: ConfiguratorType.VARIANT,
+};
 
 const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('a', owner),
@@ -185,6 +191,49 @@ describe('ConfiguratorCartEffect', () => {
       });
 
       expect(configCartEffects.addOwner$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect removeCartBoundConfigurations', () => {
+    it('should emit remove configuration action for configurations that belong to cart entries', () => {
+      //the following is a simplification of the store content,
+      //sufficient for that test as the action is interested only
+      //in the keys of the store
+      const entities: {
+        [id: string]: string;
+      } = {};
+
+      const configurationState = {
+        configurations: { entities: entities },
+      };
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(configurationState)
+      );
+
+      const configurationCartBound: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
+        '6514',
+        ownerCartEntry
+      );
+
+      entities[productConfiguration.owner.key] = productConfiguration.owner.key;
+      entities[configurationCartBound.owner.key] =
+        configurationCartBound.owner.key;
+
+      const removeCartBoundConfigurationsAction = new ConfiguratorActions.RemoveCartBoundConfigurations();
+      const removeConfigurationAction = new ConfiguratorActions.RemoveConfiguration(
+        {
+          ownerKey: [configurationCartBound.owner.key],
+        }
+      );
+
+      actions$ = cold('-a', { a: removeCartBoundConfigurationsAction });
+      const expected = cold('-(b)', {
+        b: removeConfigurationAction,
+      });
+
+      expect(configCartEffects.removeCartBoundConfigurations$).toBeObservable(
+        expected
+      );
     });
   });
 
