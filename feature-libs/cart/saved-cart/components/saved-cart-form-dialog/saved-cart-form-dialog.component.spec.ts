@@ -221,7 +221,10 @@ describe('SavedCartFormDialogComponent', () => {
     component.isCloneSavedCart = true;
 
     component.restoreSavedCart(mockCartId);
-    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(
+      mockCartId,
+      mockCart.name
+    );
     expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
   });
 
