@@ -5,19 +5,24 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartService } from '@spartacus/cart/main/core';
-import { isNotNullable, Product } from '@spartacus/core';
+import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
 import {
+  CmsComponentData,
   CurrentProductService,
   ModalRef,
   ModalService,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
@@ -36,7 +41,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   maxQuantity: number;
   modalRef: ModalRef;
 
-  hasStock = false;
+  hasStock: boolean = false;
+  inventoryThreshold: boolean = false;
+
+  showInventory$:
+    | Observable<boolean | undefined>
+    | undefined = this.component?.data$.pipe(
+    map((data) => data.inventoryDisplay)
+  );
+
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;
 
@@ -46,16 +59,37 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
+  // TODO(#13041): Remove deprecated constructors
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    component?: CmsComponentData<CmsAddToCartComponent>
+  );
+
+  /**
+   * @deprecated since 4.1
+   */
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService
+  );
+
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
   ) {}
 
   ngOnInit() {
     if (this.product) {
-      this.productCode = this.product.code;
+      this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
@@ -68,7 +102,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
-          this.productCode = product.code;
+          this.productCode = product.code ?? '';
           this.setStockInfo(product);
           this.cd.markForCheck();
         });
@@ -77,11 +111,29 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   protected setStockInfo(product: Product): void {
     this.quantity = 1;
-    this.hasStock = Boolean(
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
-    );
+    this.hasStock = Boolean(product.stock?.stockLevelStatus !== 'outOfStock');
+
+    this.inventoryThreshold = product.stock?.isValueRounded ?? false;
+
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
+    }
+  }
+
+  /**
+   * In specific scenarios, we need to omit displaying the stock level or append a plus to the value.
+   * When backoffice forces a product to be in stock, omit showing the stock level.
+   * When product stock level is limited by a threshold value, append '+' at the end.
+   * When out of stock, display no numerical value.
+   */
+  getInventory(): string {
+    if (this.hasStock) {
+      const quantityDisplay = this.maxQuantity
+        ? this.maxQuantity.toString()
+        : '';
+      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+    } else {
+      return '';
     }
   }
 
