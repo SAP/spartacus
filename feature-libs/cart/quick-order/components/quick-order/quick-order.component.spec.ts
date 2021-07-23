@@ -56,7 +56,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockData),
 };
 
-fdescribe('QuickOrderComponent', () => {
+describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
   let activeCartService: ActiveCartService;
