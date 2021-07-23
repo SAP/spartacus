@@ -1,4 +1,5 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { noop, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { checkAppStructure } from '../../../shared/utils/lib-utils';
 import {
   getDefaultProjectNameFromWorkspace,
   scaffoldStructure,
@@ -8,12 +9,15 @@ export function scaffoldAppStructure(
   tree: Tree,
   context: SchematicContext
 ): Rule {
-  context.logger.info(
-    'Scaffolding the new app structure if not already present...'
-  );
-  context.logger.info(
-    'For more about the new app structure please visit: https://sap.github.io/spartacus-docs/reference-app-structure/'
-  );
   const project = getDefaultProjectNameFromWorkspace(tree);
-  return scaffoldStructure({ project });
+
+  const spartacusFeatureModuleExists = checkAppStructure(tree, project);
+  if (!spartacusFeatureModuleExists) {
+    context.logger.info('Scaffolding the new app structure...');
+    context.logger.warn(
+      'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
+    );
+  }
+
+  return spartacusFeatureModuleExists ? noop() : scaffoldStructure({ project });
 }
