@@ -158,8 +158,6 @@ describe('dependency management migrations', () => {
             dependencies: {
               '@spartacus/core': '3.0.0',
               '@spartacus/storefront': '3.0.0',
-              // '@spartacus/cds': '3.0.0',
-              // '@spartacus/qualtrics': '3.0.0',
               '@spartacus/organization': '3.0.0',
               '@spartacus/setup': '3.0.0',
             },
