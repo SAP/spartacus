@@ -19,6 +19,8 @@ import { QuickOrderFormComponent } from './form/quick-order-form.component';
 import { QuickOrderItemComponent } from './table/item/quick-order-item.component';
 import { QuickOrderTableComponent } from './table/quick-order-table.component';
 
+export const defaultQuickOrderquickOrderListLimit = 10;
+
 @NgModule({
   imports: [
     CommonModule,
@@ -36,6 +38,9 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
       cmsComponents: {
         QuickOrderComponent: {
           component: QuickOrderComponent,
+          data: {
+            quickOrderListLimit: defaultQuickOrderquickOrderListLimit,
+          },
         },
       },
     }),

@@ -7,8 +7,9 @@ import {
   GlobalMessageType,
   OrderEntry,
 } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -18,9 +19,13 @@ import { first } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
+  quickOrderListLimit$: Observable<number> = this.componentData.data$.pipe(
+    map((data) => data.quickOrderListLimit)
+  );
 
   constructor(
     protected activeCartService: ActiveCartService,
+    protected componentData: CmsComponentData<any>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService

@@ -7,6 +7,7 @@ cx-quick-order-form {
   .quick-order-form-input {
     align-items: center;
     display: flex;
+    position: relative;
 
     .form-control {
       padding: 0 36px 0 12px;
@@ -16,6 +17,12 @@ cx-quick-order-form {
       cursor: pointer;
       position: absolute;
       right: 26px;
+    }
+
+    .list-limit-reached-text {
+      bottom: 0;
+      left: 0;
+      position: absolute;
     }
   }
 }
