@@ -32,16 +32,6 @@ describe('ImportService', () => {
    *
    * Also worth to re-think if protected methods should have unit tests.
    */
-  it('setValidityConfig', () => {
-    service['setValidityConfig'](undefined);
-    expect(service['setValidityConfig']).toBeDefined();
-  });
-
-  it('checkValidity', () => {
-    service['checkValidity'](new File([], ''));
-    expect(service['checkValidity']).toBeDefined();
-  });
-
   it('readCsvData', () => {
     service['readCsvData']('');
     expect(service['readCsvData']).toBeDefined();

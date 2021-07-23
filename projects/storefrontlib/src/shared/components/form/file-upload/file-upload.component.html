@@ -1,0 +1,25 @@
+<input
+  type="file"
+  [formControl]="control"
+  [accept]="allowedExtensions"
+  (change)="selectFile($event.target.files[0])"
+  #fileInput
+/>
+<div>
+  <button
+    [attr.aria-label]="buttonText"
+    class="btn btn-action"
+    type="button"
+    (click)="fileInput.click()"
+  >
+    {{ buttonText }}
+  </button>
+  <p *ngIf="selectedFile?.name">
+    {{ selectedFile.name }}
+  </p>
+</div>
+<cx-form-errors
+  [control]="control"
+  [translationParams]="{ maxSize: maxSize }"
+  prefix="formErrors.file"
+></cx-form-errors>

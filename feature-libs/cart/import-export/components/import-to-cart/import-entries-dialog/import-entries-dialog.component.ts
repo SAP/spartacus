@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
+import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
   ImportService,
+  FileValidity,
 } from '@spartacus/cart/import-export/core';
 import {
   FocusConfig,
@@ -17,7 +20,7 @@ import { ImportToCartService } from '../import-to-cart.service';
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent {
+export class ImportEntriesDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   form: FormGroup = this.build();
   focusConfig: FocusConfig = {
@@ -26,11 +29,11 @@ export class ImportEntriesDialogComponent {
     autofocus: 'button',
     focusOnEscape: true,
   };
+  fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  selectedFile: File;
   loadedFile: string[][] | null;
-  fileError: InvalidFileInfo | {};
+  fileError: InvalidFileInfo = {};
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -45,12 +48,52 @@ export class ImportEntriesDialogComponent {
     protected importToCartService: ImportToCartService,
     protected importService: ImportService
   ) {}
-  allowedExtensions =
-    this.importExportConfig.importExport?.fileValidity?.allowedExtensions ??
-    '*';
-  fileSize = this.importExportConfig.importExport?.fileValidity?.maxSize ?? 10;
+
+  ngOnInit() {
+    this.launchDialogService.data$
+      .pipe(take(1))
+      .subscribe((fileValidity: FileValidity) => {
+        this.fileValidity = fileValidity;
+      });
+  }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
+  }
+
+  loadFile(file: File, form: FormGroup) {
+    this.fileError = {};
+    of(file)
+      .pipe(
+        tap((fileData: File) => {
+          this.validateMaxSize(fileData);
+        }),
+        switchMap((fileData) => this.importService.loadFile(fileData)),
+        tap((data: string[][]) => {
+          this.validateEmpty(data);
+          this.validateParsable(data);
+        }),
+        finalize(() => {
+          form.get('file')?.updateValueAndValidity();
+        })
+      )
+      .subscribe(
+        (data: string[][]) => {
+          this.loadedFile = data;
+        },
+        () => {
+          this.loadedFile = null;
+        }
+      );
+  }
+
+  importProducts(): void {
+    if (this.loadedFile) {
+      this.importToCartService.loadProductsToCart(this.loadedFile, {
+        name: this.form.get('name')?.value,
+        description: this.form.get('description')?.value,
+      });
+    }
   }
 
   protected build(): FormGroup {
@@ -73,33 +116,27 @@ export class ImportEntriesDialogComponent {
     return form;
   }
 
-  selectFile(file: File, form: FormGroup) {
-    this.selectedFile = file;
-    this.importService.loadFile(file).subscribe(
-      (data) => {
-        if (this.importToCartService.isDataParsable(data)) {
-          this.fileError = {};
-          this.loadedFile = data as string[][];
-        } else {
-          this.fileError = { notParsable: true };
-          this.loadedFile = null;
-        }
-        form.get('file')?.updateValueAndValidity();
-      },
-      (error) => {
-        this.fileError = error;
-        this.loadedFile = null;
-        form.get('file')?.updateValueAndValidity();
-      }
-    );
+  protected validateMaxSize(file: File) {
+    if (
+      this.fileValidity?.maxSize &&
+      file.size / 1000000 > this.fileValidity?.maxSize
+    ) {
+      this.fileError.tooLarge = true;
+      throw Error();
+    }
   }
 
-  importProducts(): void {
-    if (this.loadedFile) {
-      this.importToCartService.loadProductsToCart(this.loadedFile, {
-        name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
-      });
+  protected validateEmpty(data: string[][]) {
+    if (data.toString().length === 0) {
+      this.fileError.empty = true;
+      throw Error();
+    }
+  }
+
+  protected validateParsable(data: string[][]) {
+    if (!this.importToCartService.isDataParsable(data)) {
+      this.fileError.notParsable = true;
+      throw Error();
     }
   }
 }

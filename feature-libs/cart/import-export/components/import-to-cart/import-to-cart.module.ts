@@ -10,6 +10,7 @@ import { ImportEntriesComponent } from './import-entries/import-entries-componen
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  FileUploadModule,
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
@@ -25,10 +26,22 @@ import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.confi
     FormErrorsModule,
     IconModule,
     KeyboardFocusModule,
+    FileUploadModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportProductsComponent: {
           component: ImportEntriesComponent,
+          data: {
+            fileValidity: {
+              maxSize: 1,
+              allowedExtensions: [
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel',
+                'text/csv',
+                '.csv',
+              ],
+            },
+          },
         },
       },
     }),
