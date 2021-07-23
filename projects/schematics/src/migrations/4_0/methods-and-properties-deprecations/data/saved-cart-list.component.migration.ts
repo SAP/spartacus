@@ -14,12 +14,12 @@ export const SAVED_CART_LIST_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = 
     class: SAVED_CART_LIST_COMPONENT,
     importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
     deprecatedNode: RESTORE_SAVED_CART,
-    comment: `// ${TODO_SPARTACUS} Method '${RESTORE_SAVED_CART}' was removed. ${SAVED_CART_FORM_DIALOG_COMPONENT} will handle the restore saved cart logic`,
+    comment: `// ${TODO_SPARTACUS} Method '${SAVED_CART_LIST_COMPONENT}.${RESTORE_SAVED_CART}' was removed. ${SAVED_CART_FORM_DIALOG_COMPONENT} will handle the restore saved cart logic`,
   },
   {
     class: SAVED_CART_LIST_COMPONENT,
     importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
     deprecatedNode: ON_RESTORE_COMPLETE,
-    comment: `// ${TODO_SPARTACUS} Method '${ON_RESTORE_COMPLETE}' was removed. ${SAVED_CART_FORM_DIALOG_COMPONENT} will handle the restore saved cart completion logic`,
+    comment: `// ${TODO_SPARTACUS} Method '${SAVED_CART_LIST_COMPONENT}.${ON_RESTORE_COMPLETE}' was removed. ${SAVED_CART_FORM_DIALOG_COMPONENT} will handle the restore saved cart completion logic`,
   },
 ];
