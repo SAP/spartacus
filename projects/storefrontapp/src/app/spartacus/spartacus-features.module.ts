@@ -204,6 +204,7 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],
