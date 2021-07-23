@@ -173,6 +173,7 @@ describe('dependency management migrations', () => {
         expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/user']).toBeTruthy();
       });
     });
 
