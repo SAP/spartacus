@@ -9,7 +9,6 @@ import {
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { ProductsData } from '@spartacus/cart/import-export/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { ProcessesLoaderState } from '../../../../../projects/core/src/state/utils/processes-loader';
 
 @Injectable()
 export class ImportToCartService {
@@ -77,7 +76,7 @@ export class ImportToCartService {
     this.multiCartService
       .getCartEntity(cartId)
       .pipe(
-        tap((cart: ProcessesLoaderState<Cart>) => {
+        tap((cart: StateUtils.ProcessesLoaderState<Cart>) => {
           console.log(
             'getSummary',
             products,
