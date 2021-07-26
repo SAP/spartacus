@@ -76,12 +76,7 @@ export class FacadeFactoryService {
     (callResult$ as ConnectableObservable<any>).connect();
 
     return callResult$.pipe(
-      switchMap((result) => {
-        if (isObservable(result)) {
-          return result;
-        }
-        return EMPTY;
-      })
+      switchMap((result) => (isObservable(result) ? result : EMPTY))
     );
   }
 
@@ -111,13 +106,14 @@ export class FacadeFactoryService {
     const resolver$ = this.getResolver(feature, facade, async);
 
     const result: any = new (class extends (facade as any) {})();
-    (methods ?? []).forEach((method) => {
-      result[method] = (...args) =>
-        this.call(resolver$, method as string, args);
-    });
-    (properties ?? []).forEach((property) => {
-      result[property] = this.get(resolver$, property as string);
-    });
+    (methods ?? []).forEach(
+      (method) =>
+        (result[method] = (...args: unknown[]) =>
+          this.call(resolver$, method as string, args))
+    );
+    (properties ?? []).forEach(
+      (property) => (result[property] = this.get(resolver$, property as string))
+    );
 
     return result;
   }
