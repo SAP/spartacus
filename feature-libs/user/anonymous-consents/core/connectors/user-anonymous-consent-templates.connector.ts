@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { UserAnonymousConsentTemplatesAdapter } from './user-anonymous-consent-templates.adapter';
 
 // TODO:#anon removed the provided in root
+// TODO:#anon rename to UserAnonymousConsentConnector
 @Injectable()
 export class UserAnonymousConsentTemplatesConnector {
   constructor(protected adapter: UserAnonymousConsentTemplatesAdapter) {}
