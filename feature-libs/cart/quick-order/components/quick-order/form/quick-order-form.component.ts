@@ -79,7 +79,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     form.setControl('product', new FormControl(null));
 
     this.form = form;
-    this.validateProductControl(this._disabled);
+    this.validateProductControl(this.isDisabled);
   }
 
   protected watchProductAdd(): Subscription {
