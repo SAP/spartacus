@@ -41,7 +41,7 @@ export class OccUserAnonymousConsentsAdapter
     // using the endpoint which doesn't set caching headers
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');
     return this.http
-      .head<Occ.ConsentTemplate[]>(url, { observe: 'response' })
+      .head<unknown>(url, { observe: 'response' })
       .pipe(
         catchError((error) => throwError(error)),
         map(
