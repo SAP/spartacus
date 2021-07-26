@@ -72,7 +72,7 @@ describe('scaffold app structure', () => {
   describe('When the new app structure does NOT exist', () => {
     it('should create it', async () => {
       const resultTree = await schematicRunner
-        .callRule(scaffoldAppStructure, appTree)
+        .callRule(scaffoldAppStructure(), appTree)
         .toPromise();
 
       expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('scaffold app structure', () => {
 
     it('should not touch it', async () => {
       const resultTree = await schematicRunner
-        .callRule(scaffoldAppStructure, appTree)
+        .callRule(scaffoldAppStructure(), appTree)
         .toPromise();
 
       expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
