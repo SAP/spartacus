@@ -63,7 +63,6 @@ import {
         fallbackLang: 'en',
       },
     }),
-    // TODO:#anon - enable LL
     provideConfig(<CmsConfig>{
       featureModules: {
         [USER_ANONYMOUS_CONSENTS_FEATURE]: {
