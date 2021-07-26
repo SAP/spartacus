@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import { UserAnonymousConsentsModule } from '@spartacus/user';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslations,
@@ -13,7 +12,10 @@ import {
   userAnonymousConsentsTranslationChunksConfig,
   userAnonymousConsentsTranslations,
 } from '@spartacus/user/anonymous-consents/assets';
-import { UserAnonymousConsentsRootModule } from '@spartacus/user/anonymous-consents/root';
+import {
+  UserAnonymousConsentsRootModule,
+  USER_ANONYMOUS_CONSENTS_FEATURE,
+} from '@spartacus/user/anonymous-consents/root';
 import {
   userProfileTranslationChunksConfig,
   userProfileTranslations,
@@ -29,8 +31,6 @@ import {
     UserAccountRootModule,
     UserProfileRootModule,
     UserAnonymousConsentsRootModule,
-    // TODO:#anon - remove when LL is enabled
-    UserAnonymousConsentsModule,
   ],
   providers: [
     provideConfig(<CmsConfig>{
@@ -64,16 +64,16 @@ import {
       },
     }),
     // TODO:#anon - enable LL
-    // provideConfig(<CmsConfig>{
-    //   featureModules: {
-    //     [USER_ANONYMOUS_CONSENTS_FEATURE]: {
-    //       module: () =>
-    //         import('@spartacus/user/anonymous-consents').then(
-    //           (m) => m.UserAnonymousConsentsModule
-    //         ),
-    //     },
-    //   },
-    // }),
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [USER_ANONYMOUS_CONSENTS_FEATURE]: {
+          module: () =>
+            import('@spartacus/user/anonymous-consents').then(
+              (m) => m.UserAnonymousConsentsModule
+            ),
+        },
+      },
+    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: userAnonymousConsentsTranslations,
