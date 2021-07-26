@@ -24,7 +24,6 @@ export function defaultUserAnonymousConsentsComponentsConfig(): CmsConfig {
   providers: [
     ...interceptors,
     provideDefaultConfigFactory(defaultUserAnonymousConsentsComponentsConfig),
-    // TODO:#anon - provide the facade
   ],
 })
 export class UserAnonymousConsentsRootModule {}
