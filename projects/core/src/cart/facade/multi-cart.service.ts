@@ -237,32 +237,8 @@ export class MultiCartService {
           quantity: product.quantity,
         })
       );
-      // this.getLastEntry(cartId, product.productCode)
-      //   .pipe(tap(console.log))
-      //   .subscribe();
     });
   }
-
-  addEntriesGetFeedback(
-    userId: string,
-    cartId: string,
-    products: Array<{ productCode: string; quantity: number }>
-  ): void {
-    products.forEach((product) => {
-      this.store.dispatch(
-        new CartActions.CartAddEntry({
-          userId,
-          cartId,
-          productCode: product.productCode,
-          quantity: product.quantity,
-        })
-      );
-    });
-  }
-
-  // protected getEntryLoaded() {
-  //   return this.store.pipe(select())
-  // }
 
   /**
    * Remove entry from cart

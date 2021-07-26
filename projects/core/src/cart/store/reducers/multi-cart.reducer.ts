@@ -52,8 +52,6 @@ export function cartEntitiesReducer(
     case CartActions.LOAD_WISH_LIST_SUCCESS:
     case CartActions.SET_TEMP_CART:
       return action.payload.cart;
-    // case CartActions.CART_ADD_ENTRY_FAIL:
-    //   return { ...state, ...action.payload };
   }
   return state;
 }
