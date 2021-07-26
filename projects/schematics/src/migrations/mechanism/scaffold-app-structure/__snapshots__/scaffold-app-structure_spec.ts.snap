@@ -48,137 +48,42 @@ export class SpartacusModule { }
 `;
 
 exports[`scaffold app structure When the new app structure is already in place should not touch it 1`] = `
-"import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CostCenterOccModule, ExternalRoutesModule, OrderOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
+"
+import { NgModule } from '@angular/core';
+import { AsmFeatureModule } from './features/asm/asm-feature.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    // Auth Core
-    AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    // Basic Cms Components
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    // User Core,
-    UserTransitionalModule,
-    UserOccTransitionalModule,
-    // User UI,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-    // Anonymous Consents Core,
-    AnonymousConsentsModule.forRoot(),
-    // Anonymous Consents UI,
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-    // Product Core,
-    ProductModule.forRoot(),
-    ProductOccModule,
-    // Product UI,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    // Cart Core,
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI,
-    CartComponentModule,
-    WishListModule,
-    CostCenterOccModule,
-    // Order,
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    OrderOccModule,
-    // Page Events,
-    NavigationEventModule,
-    HomePageEventModule,
-    CartPageEventModule,
-    ProductPageEventModule,
-    // External routes,
-    ExternalRoutesModule.forRoot(),
-  ]
+  imports: [AsmFeatureModule],
 })
-export class SpartacusFeaturesModule { }
+export class SpartacusFeaturesModule {}
 "
 `;
 
 exports[`scaffold app structure When the new app structure is already in place should not touch it 2`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { provideConfig } from '@spartacus/core';
+import { layoutConfig } from '@spartacus/storefront';
 
 @NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '3.2'
-    }
-  })]
+  providers: [provideConfig(layoutConfig)],
 })
-export class SpartacusConfigurationModule { }
+export class SpartacusConfigurationModule {}
 "
 `;
 
 exports[`scaffold app structure When the new app structure is already in place should not touch it 3`] = `
-"import { NgModule } from '@angular/core';
+"
+import { NgModule } from '@angular/core';
 import { BaseStorefrontModule } from \\"@spartacus/storefront\\";
+import {MyFeature} from './my-feature.module';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
 
 @NgModule({
   declarations: [],
   imports: [
-
+    MyFeature,
     SpartacusFeaturesModule,
     SpartacusConfigurationModule,
     BaseStorefrontModule

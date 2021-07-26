@@ -9,16 +9,52 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import * as path from 'path';
-import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
-import { SPARTACUS_SCHEMATICS } from '../../../shared/constants';
 import { scaffoldAppStructure } from './scaffold-app-structure';
 
-const collectionPath = path.join(__dirname, '../../../collection.json');
+const spartacusModulePath = 'src/app/spartacus/spartacus.module.ts';
+const exampleSpartacusModule = `
+import { NgModule } from '@angular/core';
+import { BaseStorefrontModule } from "@spartacus/storefront";
+import {MyFeature} from './my-feature.module';
+import { SpartacusConfigurationModule } from './spartacus-configuration.module';
+import { SpartacusFeaturesModule } from './spartacus-features.module';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    MyFeature,
+    SpartacusFeaturesModule,
+    SpartacusConfigurationModule,
+    BaseStorefrontModule
+  ],
+  exports: [BaseStorefrontModule]
+})
+export class SpartacusModule { }
+`;
+
 const featuresModulePath = 'src/app/spartacus/spartacus-features.module.ts';
+const exampleFeaturesModule = `
+import { NgModule } from '@angular/core';
+import { AsmFeatureModule } from './features/asm/asm-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [AsmFeatureModule],
+})
+export class SpartacusFeaturesModule {}
+`;
+
 const configurationModulePath =
   'src/app/spartacus/spartacus-configuration.module.ts';
-const spartacusModulePath = 'src/app/spartacus/spartacus.module.ts';
+const exampleConfigurationModule = `import { NgModule } from '@angular/core';
+import { provideConfig } from '@spartacus/core';
+import { layoutConfig } from '@spartacus/storefront';
+
+@NgModule({
+  providers: [provideConfig(layoutConfig)],
+})
+export class SpartacusConfigurationModule {}
+`;
 
 describe('scaffold app structure', () => {
   let appTree: UnitTestTree;
@@ -39,18 +75,11 @@ describe('scaffold app structure', () => {
     projectRoot: '',
   };
 
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   beforeEach(async () => {
     schematicRunner = new SchematicTestRunner(
       'test',
       require.resolve('../../test/migrations-test.json')
     );
-    schematicRunner.registerCollection(SPARTACUS_SCHEMATICS, collectionPath);
 
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -87,14 +116,9 @@ describe('scaffold app structure', () => {
 
   describe('When the new app structure is already in place', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          SPARTACUS_SCHEMATICS,
-          'ng-add',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
+      appTree.create(spartacusModulePath, exampleSpartacusModule);
+      appTree.create(featuresModulePath, exampleFeaturesModule);
+      appTree.create(configurationModulePath, exampleConfigurationModule);
     });
 
     it('should not touch it', async () => {
