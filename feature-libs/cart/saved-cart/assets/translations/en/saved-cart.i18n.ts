@@ -61,6 +61,7 @@ export const savedCartDialog = {
   quantity: 'QTY',
   total: 'Total',
   keepCopySavedCart: 'Keep a copy of this cart in the saved carts list',
+  defaultCloneCartName: 'Copy of {{name}}',
 };
 
 export const addToSavedCart = {

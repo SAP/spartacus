@@ -123,8 +123,12 @@
               <input
                 [maxLength]="nameMaxLength"
                 class="form-control"
-                formControlName="name"
+                formControlName="cloneName"
                 type="text"
+                placeholder="{{
+                  'savedCartDialog.defaultCloneCartName'
+                    | cxTranslate: { name: form.get('name')?.value }
+                }}"
               />
             </div>
           </ng-container>

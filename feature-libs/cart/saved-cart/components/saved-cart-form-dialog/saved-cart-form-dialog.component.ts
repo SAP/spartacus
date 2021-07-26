@@ -175,7 +175,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     if (this.isCloneSavedCart) {
       this.savedCartService.cloneSavedCart(
         cartId,
-        this.form.get('name')?.value
+        this.form.get('cloneName')?.value
       );
     } else {
       this.savedCartService.restoreSavedCart(cartId);
@@ -266,6 +266,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     form.setControl('isCloneSavedCart', new FormControl(''));
+    form.setControl('cloneName', new FormControl(''));
     this.form = form;
     this.patchData(cart);
   }
