@@ -622,6 +622,8 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 export const ASM_MODULE = 'AsmModule';
+export const ASM_OCC_MODULE = 'AsmOccModule';
+export const OCC_ASM_ADAPTER = 'OccAsmAdapter';
 export const ASM_CONFIG = 'AsmConfig';
 export const ASM_ADAPTER = 'AsmAdapter';
 export const ASM_CONNECTOR = 'AsmConnector';
