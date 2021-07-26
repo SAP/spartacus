@@ -2,12 +2,14 @@ import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-ut
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorStateUtils } from './configurator-state-utils';
 
+const SUB_GROUP_ID = 'groupId@subGroupId';
+
 describe('ConfiguratorStateUtils', () => {
   describe('getAttributeName', () => {
     it('should return attribute name', () => {
       expect(
         ConfiguratorStateUtils['getAttributeName'](
-          'groupId@subGroupId@attributeId'
+          SUB_GROUP_ID + '@attributeId'
         )
       ).toEqual('attributeId');
     });
@@ -21,6 +23,48 @@ describe('ConfiguratorStateUtils', () => {
           'attributeId'
         )
       ).toEqual('groupId@subGroupId');
+    });
+  });
+
+  describe('isTargeGroup', () => {
+    const groupId = 'group1';
+    const groupMatchingSupplement: Configurator.Group = {
+      id: groupId,
+      subGroups: [],
+    };
+    const groupNotMatchingSupplement: Configurator.Group = {
+      id: SUB_GROUP_ID,
+      subGroups: [],
+    };
+    const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
+      false,
+      1,
+      0,
+      2,
+      2
+    );
+    it('should tell that a group needs to be enriched with pricing data in case group ID matches supplement key', () => {
+      expect(
+        ConfiguratorStateUtils['isTargetGroup'](
+          groupMatchingSupplement,
+          attributeSupplements
+        )
+      ).toBe(true);
+    });
+
+    it('should tell that a group does not need to be enriched if group ID does not match', () => {
+      expect(
+        ConfiguratorStateUtils['isTargetGroup'](
+          groupNotMatchingSupplement,
+          attributeSupplements
+        )
+      ).toBe(false);
+    });
+
+    it('should throw an error if supplements array is empty', () => {
+      expect(() =>
+        ConfiguratorStateUtils['isTargetGroup'](groupNotMatchingSupplement, [])
+      ).toThrowError();
     });
   });
 

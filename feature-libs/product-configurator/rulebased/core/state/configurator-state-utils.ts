@@ -89,14 +89,20 @@ export class ConfiguratorStateUtils {
     attributeSupplements: Configurator.AttributeSupplement[]
   ): boolean {
     const firstSupplement = attributeSupplements[0];
-    const attributeName = ConfiguratorStateUtils.getAttributeName(
-      firstSupplement.attributeUiKey
-    );
-    const attributeUiKey = ConfiguratorStateUtils.getKey(
-      firstSupplement.attributeUiKey,
-      attributeName
-    );
-    return group.id.indexOf(attributeUiKey) >= 0;
+    if (firstSupplement) {
+      const attributeName = ConfiguratorStateUtils.getAttributeName(
+        firstSupplement.attributeUiKey
+      );
+      const attributeUiKey = ConfiguratorStateUtils.getKey(
+        firstSupplement.attributeUiKey,
+        attributeName
+      );
+      return group.id.indexOf(attributeUiKey) >= 0;
+    } else {
+      // that should never happen, as we merge existing groups
+      // with supplements only if supplements are available
+      throw new Error('We expect at least one attribute supplement');
+    }
   }
 
   /**
