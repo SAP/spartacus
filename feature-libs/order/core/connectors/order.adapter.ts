@@ -29,9 +29,9 @@ export abstract class OrderAdapter {
    */
   abstract loadHistory(
     userId: string,
-    pageSize: number,
-    currentPage: number,
-    sort: string
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
   ): Observable<OrderHistoryList>;
 
   /**
@@ -75,9 +75,9 @@ export abstract class OrderAdapter {
    */
   abstract loadReturnRequestList(
     userId: string,
-    pageSize: number,
-    currentPage: number,
-    sort: string
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
   ): Observable<ReturnRequestList>;
 
   /**

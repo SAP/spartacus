@@ -9,7 +9,7 @@ import { KeyboardFocusService } from './services/keyboard-focus.service';
 export class FocusDirective extends LockFocusDirective {
   protected defaultConfig: FocusConfig = {};
 
-  @Input('cxFocus') protected config: FocusConfig = {};
+  @Input('cxFocus') config: FocusConfig = {};
 
   constructor(
     protected elementRef: ElementRef,

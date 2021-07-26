@@ -86,7 +86,7 @@ export class OccReplenishmentOrderAdapter implements ReplenishmentOrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<ReplenishmentOrderList> {
-    const params = {};
+    const params: { [key: string]: string } = {};
     if (pageSize) {
       params['pageSize'] = pageSize.toString();
     }
