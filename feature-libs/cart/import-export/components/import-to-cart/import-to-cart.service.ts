@@ -78,7 +78,11 @@ export class ImportToCartService {
       .getCartEntity(cartId)
       .pipe(
         tap((cart: ProcessesLoaderState<Cart>) => {
-          console.log('getSummary', products, cart?.errorDetails);
+          console.log(
+            'getSummary',
+            products,
+            cart.errorDetails?.map((error) => error.message)
+          );
         })
       )
       .subscribe();
