@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { ApplicationRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -20,14 +20,23 @@ export class OnNavigateFocusService {
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
-    @Inject(DOCUMENT) protected document: any,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected applicationRef: ApplicationRef,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {}
+
+  protected get rootComponent(): HTMLElement | undefined {
+    return this.applicationRef?.components?.[0]?.location?.nativeElement;
+  }
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
+
     if (this.config?.keyboardFocus?.enableResetFocusOnNavigate) {
       this.setResetFocusOnNavigate(
         this.config.keyboardFocus.enableResetFocusOnNavigate
@@ -57,11 +66,11 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.getStorefrontElement().focus();
+                  this.rootComponent?.focus();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.getStorefrontElement().focus();
+            this.rootComponent?.focus();
           }
         });
     }
@@ -83,20 +92,13 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.getStorefrontElement().scrollIntoView();
+                  this.rootComponent?.scrollIntoView();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.getStorefrontElement().scrollIntoView();
+            this.rootComponent?.scrollIntoView();
           }
         });
     }
-  }
-
-  /**
-   * Gets the root element `<cx-storefront>`.
-   */
-  private getStorefrontElement(): HTMLElement {
-    return this.document.getElementsByTagName('cx-storefront')[0];
   }
 }
