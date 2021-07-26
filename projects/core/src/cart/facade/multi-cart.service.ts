@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { debounce, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -237,9 +237,9 @@ export class MultiCartService {
           quantity: product.quantity,
         })
       );
-      this.getLastEntry(cartId, product.productCode)
-        .pipe(tap(console.log))
-        .subscribe();
+      // this.getLastEntry(cartId, product.productCode)
+      //   .pipe(tap(console.log))
+      //   .subscribe();
     });
   }
 

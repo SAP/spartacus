@@ -6,6 +6,7 @@ import { ProcessesLoaderAction } from './processes-loader.action';
 
 export const initialProcessesState: ProcessesLoaderState<any> = {
   processesCount: 0,
+  errorDetails: [],
 };
 
 /**
@@ -43,6 +44,9 @@ export function processesLoaderReducer<T>(
           processesCount: state.processesCount
             ? state.processesCount + processesCountDiff
             : processesCountDiff,
+          errorDetails: action.payload?.error?.details
+            ? [...state.errorDetails, ...action.payload.error.details]
+            : state.errorDetails,
         };
       } else if (processesCountDiff === null) {
         // reset action

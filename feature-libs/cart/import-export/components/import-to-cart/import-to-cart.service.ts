@@ -9,6 +9,7 @@ import {
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { ProductsData } from '@spartacus/cart/import-export/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { ProcessesLoaderState } from '../../../../../projects/core/src/state/utils/processes-loader';
 
 @Injectable()
 export class ImportToCartService {
@@ -37,22 +38,21 @@ export class ImportToCartService {
             .pipe(
               filter(
                 (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-                  cartData.value !== undefined
+                  cartData.value?.code !== undefined
               ),
               tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
-                const cartId: string = cartData.value?.code ?? '';
-                if (cartId !== '')
-                  this.multiCartService.addEntries(userId, cartId, products);
+                const cartId: string = cartData.value.code;
+                this.multiCartService.addEntries(userId, cartId, products);
                 this.savedCartService.saveCart({
                   cartId,
                   saveCartName: savedCartInfo.name,
                   saveCartDescription: savedCartInfo.description,
                 });
                 this.savedCartService.loadSavedCarts();
-                if (cartId !== '') this.getSummary(cartId, products);
-                this.launchDialogService.closeDialog(
-                  'Close Import Products Dialog'
-                );
+                this.getSummary(cartId, products);
+                // this.launchDialogService.closeDialog(
+                //   'Close Import Products Dialog'
+                // );
               })
             )
         ),
@@ -73,14 +73,12 @@ export class ImportToCartService {
     return data.every((row) => patternRegex.test(row[1]));
   }
 
-  getSummary(cartId: string, _products: ProductsData) {
+  getSummary(cartId: string, products: ProductsData) {
     this.multiCartService
-      .getEntries(cartId)
+      .getCartEntity(cartId)
       .pipe(
-        filter((data) => data.length !== 0),
-        tap((_data) => {
-          // console.log(products);
-          // console.log(data);
+        tap((cart: ProcessesLoaderState<Cart>) => {
+          console.log('getSummary', products, cart?.errorDetails);
         })
       )
       .subscribe();
