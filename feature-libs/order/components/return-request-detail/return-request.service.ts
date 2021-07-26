@@ -47,7 +47,7 @@ export class ReturnRequestService {
         }
       }),
       map(([_, returnRequest]) => returnRequest),
-      filter(Boolean),
+      filter((returnRequest) => Boolean(returnRequest)),
       distinctUntilChanged()
     );
   }

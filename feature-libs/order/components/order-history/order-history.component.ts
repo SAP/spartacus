@@ -29,15 +29,15 @@ export class OrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  orders$: Observable<OrderHistoryList> = this.userOrderService
-    .getOrderHistoryList(this.PAGE_SIZE)
-    .pipe(
-      tap((orders: OrderHistoryList) => {
-        if (orders.pagination) {
-          this.sortType = orders.pagination.sort;
-        }
-      })
-    );
+  orders$: Observable<
+    OrderHistoryList | undefined
+  > = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
+    tap((orders: OrderHistoryList | undefined) => {
+      if (orders?.pagination?.sort) {
+        this.sortType = orders.pagination.sort;
+      }
+    })
+  );
 
   hasReplenishmentOrder$: Observable<boolean> = this.userReplenishmentOrderService
     .getReplenishmentOrderDetails()
@@ -50,7 +50,7 @@ export class OrderHistoryComponent implements OnDestroy {
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
   tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map((order) => order.pagination?.totalResults),
+    map((order) => order?.pagination?.totalResults),
     filter(isNotUndefined),
     take(1)
   );

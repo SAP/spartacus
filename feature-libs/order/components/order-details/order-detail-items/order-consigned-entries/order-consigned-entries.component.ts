@@ -13,8 +13,10 @@ export class OrderConsignedEntriesComponent {
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
-    consignment.entries.forEach((element) => {
-      products.push(element.orderEntry);
+    consignment.entries?.forEach((element) => {
+      if (element.orderEntry) {
+        products.push(element.orderEntry);
+      }
     });
 
     return products;

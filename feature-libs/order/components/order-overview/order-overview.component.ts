@@ -159,13 +159,13 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
         const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress
+          deliveryAddress.formattedAddress ?? ''
         );
 
         return {
           title: textTitle,
           textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [formattedAddress, deliveryAddress.country.name],
+          text: [formattedAddress, deliveryAddress.country?.name ?? ''],
         };
       })
     );
@@ -176,12 +176,10 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryMode)),
       map((textTitle) => ({
         title: textTitle,
-        textBold: deliveryMode.name,
+        textBold: deliveryMode.name ?? '',
         text: [
-          deliveryMode.description,
-          deliveryMode.deliveryCost?.formattedValue
-            ? deliveryMode.deliveryCost?.formattedValue
-            : '',
+          deliveryMode.description ?? '',
+          deliveryMode.deliveryCost?.formattedValue ?? '',
         ],
       }))
     );
@@ -198,8 +196,8 @@ export class OrderOverviewComponent {
       filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) => ({
         title: textTitle,
-        textBold: payment.accountHolderName,
-        text: [payment.cardNumber, textExpires],
+        textBold: payment.accountHolderName ?? '',
+        text: [payment.cardNumber ?? '', textExpires],
       }))
     );
   }
@@ -210,7 +208,10 @@ export class OrderOverviewComponent {
       map((textTitle) => ({
         title: textTitle,
         textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-        text: [billingAddress.formattedAddress, billingAddress.country.name],
+        text: [
+          billingAddress.formattedAddress ?? '',
+          billingAddress.country?.name ?? '',
+        ],
       }))
     );
   }

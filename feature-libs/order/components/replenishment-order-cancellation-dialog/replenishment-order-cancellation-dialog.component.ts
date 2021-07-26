@@ -52,7 +52,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         this.launchDialogService.data$,
       ]).subscribe(([replenishmentOrder, code]) => {
         this.replenishmentOrderCode =
-          code || replenishmentOrder.replenishmentOrderCode;
+          code || replenishmentOrder?.replenishmentOrderCode;
       })
     );
 
