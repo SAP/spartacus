@@ -218,6 +218,7 @@ describe('SavedCartFormDialogComponent', () => {
     spyOn(savedCartService, 'restoreSavedCart');
     spyOn(savedCartService, 'cloneSavedCart');
 
+    component?.form?.get('cloneName')?.setValue(mockCart.name);
     component.isCloneSavedCart = true;
 
     component.restoreSavedCart(mockCartId);
