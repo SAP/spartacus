@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { WindowRef } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class OnNavigateFocusService {
+export class OnNavigateFocusService implements OnDestroy {
   protected resetFocusOnNavigate: Subscription;
   protected resetViewOnNavigate: Subscription;
 
@@ -23,6 +23,11 @@ export class OnNavigateFocusService {
     protected breakpointService: BreakpointService,
     protected winRef: WindowRef
   ) {}
+
+  ngOnDestroy(): void {
+    this.resetFocusOnNavigate?.unsubscribe();
+    this.resetViewOnNavigate?.unsubscribe();
+  }
 
   /**
    * Reads configuration and enables features based on flags set.
