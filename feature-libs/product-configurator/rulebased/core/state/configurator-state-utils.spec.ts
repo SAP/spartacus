@@ -130,6 +130,22 @@ describe('ConfiguratorStateUtils', () => {
       expect(groups.length).toBe(0);
     });
 
+    it('should throw an error if groups are present but attribute supplements are empty', () => {
+      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
+        1,
+        0,
+        3,
+        3
+      );
+      const attributeSupplements: Configurator.AttributeSupplement[] = [];
+      expect(() =>
+        ConfiguratorStateUtils.mergeGroupsWithSupplements(
+          groups,
+          attributeSupplements
+        )
+      ).toThrowError();
+    });
+
     it('should update value prices for simple product', () => {
       const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
         1,
