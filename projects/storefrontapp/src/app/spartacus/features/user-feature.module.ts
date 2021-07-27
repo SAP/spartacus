@@ -1,5 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {
+  CmsConfig,
+  ConfigInitializerService,
+  I18nConfig,
+  provideConfig,
+} from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslations,
@@ -8,14 +13,13 @@ import {
   UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
 } from '@spartacus/user/account/root';
+import { UserAnonymousConsentsModule } from '@spartacus/user/anonymous-consents';
 import {
   userAnonymousConsentsTranslationChunksConfig,
   userAnonymousConsentsTranslations,
 } from '@spartacus/user/anonymous-consents/assets';
-import {
-  UserAnonymousConsentsRootModule,
-  USER_ANONYMOUS_CONSENTS_FEATURE,
-} from '@spartacus/user/anonymous-consents/root';
+import { UserAnonymousConsentsService } from '@spartacus/user/anonymous-consents/core';
+import { UserAnonymousConsentsRootModule } from '@spartacus/user/anonymous-consents/root';
 import {
   userProfileTranslationChunksConfig,
   userProfileTranslations,
@@ -24,6 +28,18 @@ import {
   UserProfileRootModule,
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
+import { switchMap, take } from 'rxjs/operators';
+
+export function loadAnonymousConsentsFactory(
+  userAnonymousConsentsService: UserAnonymousConsentsService,
+  configInitializerService: ConfigInitializerService
+) {
+  const consents = configInitializerService.getStable('context.baseSite').pipe(
+    switchMap((_) => userAnonymousConsentsService.get()),
+    take(1)
+  );
+  return () => consents;
+}
 
 @NgModule({
   declarations: [],
@@ -31,6 +47,8 @@ import {
     UserAccountRootModule,
     UserProfileRootModule,
     UserAnonymousConsentsRootModule,
+    // TODO:#anon ll
+    UserAnonymousConsentsModule,
   ],
   providers: [
     provideConfig(<CmsConfig>{
@@ -63,16 +81,17 @@ import {
         fallbackLang: 'en',
       },
     }),
-    provideConfig(<CmsConfig>{
-      featureModules: {
-        [USER_ANONYMOUS_CONSENTS_FEATURE]: {
-          module: () =>
-            import('@spartacus/user/anonymous-consents').then(
-              (m) => m.UserAnonymousConsentsModule
-            ),
-        },
-      },
-    }),
+    // TODO:#anon ll
+    // provideConfig(<CmsConfig>{
+    //   featureModules: {
+    //     [USER_ANONYMOUS_CONSENTS_FEATURE]: {
+    //       module: () =>
+    //         import('@spartacus/user/anonymous-consents').then(
+    //           (m) => m.UserAnonymousConsentsModule
+    //         ),
+    //     },
+    //   },
+    // }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: userAnonymousConsentsTranslations,
@@ -80,6 +99,12 @@ import {
         fallbackLang: 'en',
       },
     }),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadAnonymousConsentsFactory,
+      deps: [UserAnonymousConsentsService, ConfigInitializerService],
+      multi: true,
+    },
   ],
 })
 export class UserFeatureModule {}
