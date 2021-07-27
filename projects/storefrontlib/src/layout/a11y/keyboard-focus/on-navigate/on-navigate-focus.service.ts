@@ -1,5 +1,5 @@
-import { isPlatformServer } from '@angular/common';
-import { ApplicationRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -20,20 +20,16 @@ export class OnNavigateFocusService {
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
+    @Inject(DOCUMENT) protected document: any,
     protected breakpointService: BreakpointService,
-    protected applicationRef: ApplicationRef,
     @Inject(PLATFORM_ID) protected platformId: any
   ) {}
-
-  protected get rootComponent(): HTMLElement | undefined {
-    return this.applicationRef?.components?.[0]?.location?.nativeElement;
-  }
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
-    if (isPlatformServer(this.platformId)) {
+    if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
@@ -51,7 +47,7 @@ export class OnNavigateFocusService {
   }
 
   /**
-   * Resets focus back to root element `<cx-storefront>` in the DOM tree when a navigation is started.
+   * Resets focus back to body element in the DOM tree when a navigation is started.
    * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
   setResetFocusOnNavigate(enable: boolean | BREAKPOINT[]): void {
@@ -66,18 +62,18 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.rootComponent?.focus();
+                  this.getBodyElement().focus();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.rootComponent?.focus();
+            this.getBodyElement().focus();
           }
         });
     }
   }
 
   /**
-   * Resets view back to root element `<cx-storefront>` in the DOM tree when a navigation is started.
+   * Resets view back to body element in the DOM tree when a navigation is started.
    * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
   setResetViewOnNavigate(enable: boolean | BREAKPOINT[]): void {
@@ -92,13 +88,20 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.rootComponent?.scrollIntoView();
+                  this.getBodyElement().scrollIntoView();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.rootComponent?.scrollIntoView();
+            this.getBodyElement().scrollIntoView();
           }
         });
     }
+  }
+
+  /**
+   * Gets the element `<body>`.
+   */
+  private getBodyElement(): HTMLElement {
+    return this.document.getElementsByTagName('body')[0];
   }
 }
