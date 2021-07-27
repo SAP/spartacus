@@ -2,18 +2,15 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function clearCheckoutFacadeFactory() {
-  return facadeFactory({
-    facade: ClearCheckoutFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: ['resetCheckoutProcesses'],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: clearCheckoutFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: ClearCheckoutFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: ['resetCheckoutProcesses'],
+      async: true,
+    }),
 })
 export abstract class ClearCheckoutFacade {
   /**

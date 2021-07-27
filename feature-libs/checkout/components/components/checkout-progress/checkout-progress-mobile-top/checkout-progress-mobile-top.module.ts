@@ -7,7 +7,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CartNotEmptyGuard } from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '../../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../../guards/checkout-auth.guard';
 import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';

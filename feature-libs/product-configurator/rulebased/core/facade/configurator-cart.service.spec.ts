@@ -402,4 +402,15 @@ describe('ConfiguratorCartService', () => {
       );
     });
   });
+
+  describe('removeCartBoundConfigurations', () => {
+    it('should fire respective action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.removeCartBoundConfigurations();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.RemoveCartBoundConfigurations()
+      );
+    });
+  });
 });
