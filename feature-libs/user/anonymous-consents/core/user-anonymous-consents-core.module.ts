@@ -4,11 +4,11 @@ import { UserAnonymousConsentsFacade } from '@spartacus/user/anonymous-consents/
 import { defaultAnonymousConsentsConfig } from './config/default-anonymous-consents-config';
 import { UserAnonymousConsentTemplatesConnector } from './connectors/user-anonymous-consent-templates.connector';
 import { UserAnonymousConsentsService } from './facade/user-anonymous-consents.service';
-import { AnonymousConsentsStoreModule } from './store/anonymous-consents-store.module';
+// import { AnonymousConsentsStoreModule } from './store/anonymous-consents-store.module';
 
 // TODO:#anon - add facade providers
 @NgModule({
-  imports: [AnonymousConsentsStoreModule],
+  // imports: [AnonymousConsentsStoreModule],
 })
 export class UserAnonymousConsentsCoreModule {
   static forRoot(): ModuleWithProviders<UserAnonymousConsentsCoreModule> {
