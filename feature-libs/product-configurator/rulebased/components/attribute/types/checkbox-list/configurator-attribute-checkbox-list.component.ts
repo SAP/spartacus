@@ -11,6 +11,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -32,9 +33,10 @@ export class ConfiguratorAttributeCheckBoxListComponent
      * @deprecated since 4.1: remove ConfiguratorStorefrontUtilsService dependency
      */
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
   ) {
-    super(quantityService);
+    super(quantityService, uiKeyGeneratorService);
   }
 
   ngOnInit(): void {

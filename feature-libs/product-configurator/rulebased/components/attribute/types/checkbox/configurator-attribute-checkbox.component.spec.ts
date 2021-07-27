@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
@@ -23,6 +24,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
         ],
+        providers: [ConfiguratorUiKeyGeneratorService],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {

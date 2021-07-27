@@ -1,10 +1,14 @@
+import { Injectable } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
-export class ConfiguratorUiKeyGeneratorComponent {
-  private static SEPERATOR = '--';
+@Injectable({
+  providedIn: 'root',
+})
+export class ConfiguratorUiKeyGeneratorService {
+  private static SEPARATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
@@ -23,7 +27,7 @@ export class ConfiguratorUiKeyGeneratorComponent {
   ): string {
     return (
       this.createAttributeUiKey(prefix, attributeId) +
-      ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+      ConfiguratorUiKeyGeneratorService.SEPARATOR +
       valueId
     );
   }
@@ -57,10 +61,10 @@ export class ConfiguratorUiKeyGeneratorComponent {
    */
   createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
-      ConfiguratorUiKeyGeneratorComponent.PREFIX +
-      ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+      ConfiguratorUiKeyGeneratorService.PREFIX +
+      ConfiguratorUiKeyGeneratorService.SEPARATOR +
       prefix +
-      ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+      ConfiguratorUiKeyGeneratorService.SEPARATOR +
       attributeId
     );
   }
@@ -92,31 +96,31 @@ export class ConfiguratorUiKeyGeneratorComponent {
     hasQuantity?: boolean
   ): string {
     let attributeUiKey = this.createAttributeUiKey(
-      ConfiguratorUiKeyGeneratorComponent.PREFIX_LABEL,
+      ConfiguratorUiKeyGeneratorService.PREFIX_LABEL,
       attributeId
     );
     if (valueId) {
       attributeUiKey +=
         ' ' +
         this.createAttributeUiKey(prefix, attributeId) +
-        ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+        ConfiguratorUiKeyGeneratorService.SEPARATOR +
         valueId +
         ' ';
       if (typeof hasQuantity === 'boolean' && !hasQuantity) {
         attributeUiKey +=
           this.createAttributeUiKey(
-            ConfiguratorUiKeyGeneratorComponent.PREFIX_DDLB_OPTION_PRICE_VALUE,
+            ConfiguratorUiKeyGeneratorService.PREFIX_DDLB_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+          ConfiguratorUiKeyGeneratorService.SEPARATOR +
           valueId;
       } else {
         attributeUiKey +=
           this.createAttributeUiKey(
-            ConfiguratorUiKeyGeneratorComponent.PREFIX_OPTION_PRICE_VALUE,
+            ConfiguratorUiKeyGeneratorService.PREFIX_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfiguratorUiKeyGeneratorComponent.SEPERATOR +
+          ConfiguratorUiKeyGeneratorService.SEPARATOR +
           valueId;
       }
     }
@@ -143,7 +147,7 @@ export class ConfiguratorUiKeyGeneratorComponent {
    * @param {Configurator.Attribute} Attribute
    * @returns {number} Attribute code
    */
-  protected getAttributeCode(attribute: Configurator.Attribute): number {
+  getAttributeCode(attribute: Configurator.Attribute): number {
     const code = attribute.attrCode;
     if (code) {
       return code;

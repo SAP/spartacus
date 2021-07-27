@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
@@ -24,8 +25,11 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   attributeCheckBoxForm = new FormControl('');
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {
+    super(quantityService, uiKeyGeneratorService);
   }
 
   ngOnInit() {

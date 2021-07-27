@@ -5,6 +5,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
+import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -27,10 +28,14 @@ const createTestValue = (
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection',
+  template: 'test-configurator-attribute-multi-selection',
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {
+    super(quantityService, uiKeyGeneratorService);
   }
 }
 
@@ -42,7 +47,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-        providers: [ConfiguratorAttributeQuantityService],
+        providers: [
+          ConfiguratorAttributeQuantityService,
+          ConfiguratorUiKeyGeneratorService,
+        ],
       }).compileComponents();
     })
   );

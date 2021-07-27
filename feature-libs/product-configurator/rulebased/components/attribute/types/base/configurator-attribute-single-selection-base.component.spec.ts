@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
+import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -30,8 +31,11 @@ const createTestValue = (
   template: 'test-configurator-attribute-single-selection',
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {
+    super(quantityService, uiKeyGeneratorService);
   }
 }
 
@@ -50,7 +54,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
-        providers: [ConfiguratorAttributeQuantityService],
+        providers: [
+          ConfiguratorAttributeQuantityService,
+          ConfiguratorUiKeyGeneratorService,
+        ],
       }).compileComponents();
     })
   );

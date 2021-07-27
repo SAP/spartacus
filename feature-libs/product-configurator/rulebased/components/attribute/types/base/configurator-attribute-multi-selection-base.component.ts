@@ -12,7 +12,7 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   /**
    * Checks if we are supposed to render a quantity control on attribute level, which
-   * can be derived from the attribute meta data
+   * can be derived from the attribute meta data.
    *
    * @return {boolean} - Display quantity picker on attribute level?
    */
@@ -24,7 +24,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   }
 
   /**
-   * Checks if quantity control should be disabled
+   * Checks if quantity control should be disabled.
    *
    * @return {boolean} - Disable quantity picker?
    */
@@ -37,7 +37,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   }
 
   /**
-   *  Extract corresponding quantity parameters
+   *  Extract corresponding quantity parameters.
    *
    * @param {number} initialQuantity - Initial quantity
    * @param {boolean} allowZero - Allow zero

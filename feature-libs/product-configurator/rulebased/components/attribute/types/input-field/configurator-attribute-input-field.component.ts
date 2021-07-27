@@ -14,7 +14,7 @@ import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key-generator.component';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',
@@ -22,7 +22,7 @@ import { ConfiguratorUiKeyGeneratorComponent } from '../base/configurator-ui-key
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeInputFieldComponent
-  extends ConfiguratorUiKeyGeneratorComponent
+  extends ConfiguratorUiKeyGeneratorService
   implements OnInit, OnDestroy {
   attributeInputForm = new FormControl('');
   protected sub: Subscription;

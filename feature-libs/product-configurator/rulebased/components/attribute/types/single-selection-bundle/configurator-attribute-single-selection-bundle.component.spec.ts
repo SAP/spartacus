@@ -13,6 +13,7 @@ import {
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
 @Component({
@@ -99,6 +100,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           MockConfiguratorPriceComponent,
           MockConfiguratorAttributeQuantityComponent,
         ],
+        providers: [ConfiguratorUiKeyGeneratorService],
       })
         .overrideComponent(
           ConfiguratorAttributeSingleSelectionBundleComponent,

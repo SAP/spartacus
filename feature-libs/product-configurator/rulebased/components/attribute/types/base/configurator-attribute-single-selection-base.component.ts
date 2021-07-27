@@ -11,7 +11,7 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   /**
-   * Checks if quantity control should be disabled
+   * Checks if quantity control should be disabled.
    *
    * @return {boolean} - Disable quantity picker?
    */
@@ -68,7 +68,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   /**
-   *  Extract corresponding quantity parameters
+   *  Extract corresponding quantity parameters.
    *
    * @param {FormControl} form - Form control
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options

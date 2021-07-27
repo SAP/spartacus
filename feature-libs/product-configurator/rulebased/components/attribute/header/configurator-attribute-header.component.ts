@@ -10,16 +10,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorUiKeyGeneratorComponent } from '../types/base/configurator-ui-key-generator.component';
+import { ConfiguratorUiKeyGeneratorService } from '../types/base/configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeHeaderComponent
-  extends ConfiguratorUiKeyGeneratorComponent
-  implements OnInit {
+export class ConfiguratorAttributeHeaderComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
@@ -28,9 +26,10 @@ export class ConfiguratorAttributeHeaderComponent
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
-    super();
-  }
+  constructor(
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -128,6 +127,7 @@ export class ConfiguratorAttributeHeaderComponent
     const images = this.attribute.images;
     return images ? images.length > 0 : false;
   }
+
   /**
    * Returns image attached to the attribute (if available)
    * @returns Image
@@ -135,5 +135,16 @@ export class ConfiguratorAttributeHeaderComponent
   get image(): Configurator.Image | undefined {
     const images = this.attribute.images;
     return images && this.hasImage ? images[0] : undefined;
+  }
+
+  /**
+   * Creates unique key for config attribute on the UI.
+   *
+   * @param {string} prefix - Prefix for key depending on usage (e.g. uiType, label)
+   * @param {string} attributeId - Attribute ID
+   * @return {string} - Generated attribute UI key
+   */
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return this.uiKeyGeneratorService.createAttributeUiKey(prefix, attributeId);
   }
 }

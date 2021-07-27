@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 class MockGroupService {}
@@ -39,6 +40,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
           },
+          ConfiguratorUiKeyGeneratorService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {

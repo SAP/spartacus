@@ -3,14 +3,18 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-base',
   template: 'test-configurator-attribute-base',
 })
 class ExampleConfiguratorAttributeBaseComponent extends ConfiguratorAttributeBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {
+    super(quantityService, uiKeyGeneratorService);
   }
 }
 
@@ -18,6 +22,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   let component: ConfiguratorAttributeBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeBaseComponent>;
   let configuratorAttributeQuantityService: ConfiguratorAttributeQuantityService;
+  let configUiKeyGeneratorService: ConfiguratorUiKeyGeneratorService;
 
   const selectedValue = 'a';
   const ownerKey = 'theOwnerKey';
@@ -27,7 +32,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeBaseComponent],
-        providers: [ConfiguratorAttributeQuantityService],
+        providers: [
+          ConfiguratorAttributeQuantityService,
+          ConfiguratorUiKeyGeneratorService,
+        ],
       }).compileComponents();
     })
   );
@@ -43,6 +51,25 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       configuratorAttributeQuantityService,
       'withQuantity'
     ).and.callThrough();
+
+    configUiKeyGeneratorService = TestBed.inject(
+      ConfiguratorUiKeyGeneratorService
+    );
+    spyOn(configUiKeyGeneratorService, 'createValueUiKey').and.callThrough();
+    spyOn(
+      configUiKeyGeneratorService,
+      'createAttributeValueIdForConfigurator'
+    ).and.callThrough();
+    spyOn(
+      configUiKeyGeneratorService,
+      'createAttributeIdForConfigurator'
+    ).and.callThrough();
+    spyOn(
+      configUiKeyGeneratorService,
+      'createAriaLabelledBy'
+    ).and.callThrough();
+    spyOn(configUiKeyGeneratorService, 'createFocusId').and.callThrough();
+    spyOn(configUiKeyGeneratorService, 'getAttributeCode').and.callThrough();
 
     component = fixture.componentInstance;
 

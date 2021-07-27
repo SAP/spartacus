@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -17,9 +18,10 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
      * @deprecated since 4.1: remove ConfiguratorStorefrontUtilsService dependency
      */
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
   ) {
-    super(quantityService);
+    super(quantityService, uiKeyGeneratorService);
   }
 
   attributeCheckBoxForms = new Array<FormControl>();

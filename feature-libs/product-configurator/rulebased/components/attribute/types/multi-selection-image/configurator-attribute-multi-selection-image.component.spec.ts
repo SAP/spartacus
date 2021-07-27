@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 class MockGroupService {}
@@ -36,6 +37,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
           },
+          ConfiguratorUiKeyGeneratorService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {

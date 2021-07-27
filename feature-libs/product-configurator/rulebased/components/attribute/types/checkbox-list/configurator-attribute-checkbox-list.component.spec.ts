@@ -17,6 +17,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
@@ -67,6 +68,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
             useClass: MockGroupService,
           },
           ConfiguratorAttributeQuantityService,
+          ConfiguratorUiKeyGeneratorService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
