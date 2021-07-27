@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
@@ -20,7 +25,7 @@ import { ImportToCartService } from '../import-to-cart.service';
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent implements OnInit {
+export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   form: FormGroup = this.build();
   focusConfig: FocusConfig = {
@@ -34,6 +39,7 @@ export class ImportEntriesDialogComponent implements OnInit {
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo = {};
+  subscription = new Subscription();
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -55,6 +61,10 @@ export class ImportEntriesDialogComponent implements OnInit {
       .subscribe((fileValidity: FileValidity) => {
         this.fileValidity = fileValidity;
       });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   close(reason: string): void {
@@ -89,10 +99,14 @@ export class ImportEntriesDialogComponent implements OnInit {
 
   importProducts(): void {
     if (this.loadedFile) {
-      this.importToCartService.loadProductsToCart(this.loadedFile, {
-        name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
-      });
+      this.subscription.add(
+        this.importToCartService
+          .loadProductsToCart(this.loadedFile, {
+            name: this.form.get('name')?.value,
+            description: this.form.get('description')?.value,
+          })
+          .subscribe((data) => console.log(data))
+      );
     }
   }
 
