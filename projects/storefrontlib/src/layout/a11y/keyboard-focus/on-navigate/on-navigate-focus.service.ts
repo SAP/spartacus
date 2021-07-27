@@ -1,11 +1,11 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { BREAKPOINT } from '../../../config';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { KeyboardFocusConfig } from '../config';
+import { WindowRef } from '@spartacus/core';
 
 /**
  * Shared service for keyboard focus features called when the browser navigates.
@@ -20,7 +20,7 @@ export class OnNavigateFocusService {
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
-    @Inject(DOCUMENT) protected document: any,
+    protected winRef: WindowRef,
     protected breakpointService: BreakpointService
   ) {}
 
@@ -28,8 +28,7 @@ export class OnNavigateFocusService {
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
-    // Do not initialize on server-side
-    if (typeof window === 'undefined') {
+    if (!this.winRef.isBrowser()) {
       return;
     }
 
@@ -62,11 +61,11 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.getBodyElement().focus();
+                  this.winRef.document.body.focus();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.getBodyElement().focus();
+            this.winRef.document.body.focus();
           }
         });
     }
@@ -88,20 +87,13 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.getBodyElement().scrollIntoView();
+                  this.winRef.document.body.scrollIntoView();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.getBodyElement().scrollIntoView();
+            this.winRef.document.body.scrollIntoView();
           }
         });
     }
-  }
-
-  /**
-   * Gets the element `<body>`.
-   */
-  protected getBodyElement(): HTMLElement {
-    return this.document.getElementsByTagName('body')[0];
   }
 }
