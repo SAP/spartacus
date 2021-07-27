@@ -46,9 +46,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeProductCardComponent
-  extends ConfiguratorUiKeyGeneratorService
-  implements OnInit {
+export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   showDeselectionNotPossible = false;
@@ -62,10 +60,9 @@ export class ConfiguratorAttributeProductCardComponent
 
   constructor(
     protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService
-  ) {
-    super();
-  }
+    protected keyBoardFocus: KeyboardFocusService,
+    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+  ) {}
   iconType = ICON_TYPE;
 
   ngOnInit() {
@@ -101,7 +98,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   get focusConfig(): FocusConfig {
     const focusConfig = {
-      key: this.createFocusId(
+      key: this.uiKeyGeneratorService.createFocusId(
         this.productCardOptions.attributeId.toString(),
         this.productCardOptions.productBoundValue.valueCode
       ),
