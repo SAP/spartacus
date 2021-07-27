@@ -115,7 +115,6 @@ describe('OnNavigateFocusService', () => {
     it('should focus cx-storefront element on navigation', async () => {
       service.setResetFocusOnNavigate(true);
       await zone.run(() => router.navigateByUrl('/'));
-      console.log(element);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
