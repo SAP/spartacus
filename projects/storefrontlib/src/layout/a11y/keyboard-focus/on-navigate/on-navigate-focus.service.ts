@@ -20,8 +20,8 @@ export class OnNavigateFocusService {
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
-    protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected winRef: WindowRef
   ) {}
 
   /**

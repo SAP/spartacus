@@ -86,6 +86,7 @@ import {
   MODAL_SERVICE_MIGRATION_V2,
 } from './data/modal.service.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
+import { ON_NAVIGATE_FOCUS_SERVICE_MIGRATION } from './data/on-navigate-focus.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -265,6 +266,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
   PRODUCT_LOADING_SERVICE_MIGRATION,
   POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
+  ON_NAVIGATE_FOCUS_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
