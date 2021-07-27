@@ -8,27 +8,24 @@ import {
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function checkoutPaymentFacadeFactory() {
-  return facadeFactory({
-    facade: CheckoutPaymentFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: [
-      'getCardTypes',
-      'getPaymentDetails',
-      'getSetPaymentDetailsResultProcess',
-      'resetSetPaymentDetailsProcess',
-      'loadSupportedCardTypes',
-      'createPaymentDetails',
-      'setPaymentDetails',
-      'paymentProcessSuccess',
-    ],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: checkoutPaymentFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: CheckoutPaymentFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: [
+        'getCardTypes',
+        'getPaymentDetails',
+        'getSetPaymentDetailsResultProcess',
+        'resetSetPaymentDetailsProcess',
+        'loadSupportedCardTypes',
+        'createPaymentDetails',
+        'setPaymentDetails',
+        'paymentProcessSuccess',
+      ],
+      async: true,
+    }),
 })
 export abstract class CheckoutPaymentFacade {
   /**
