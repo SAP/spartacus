@@ -1077,6 +1077,7 @@ export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
+export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';

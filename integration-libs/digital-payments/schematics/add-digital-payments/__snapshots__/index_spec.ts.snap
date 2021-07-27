@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    DigitalPaymentsModule.forRoot(),
+    DigitalPaymentsModule
+  ]
+})
+export class DigitalPaymentsFeatureModule { }
+"
+`;
