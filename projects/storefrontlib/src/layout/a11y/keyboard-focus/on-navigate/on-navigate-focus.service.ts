@@ -1,5 +1,5 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -21,15 +21,15 @@ export class OnNavigateFocusService {
     protected config: KeyboardFocusConfig,
     protected router: Router,
     @Inject(DOCUMENT) protected document: any,
-    protected breakpointService: BreakpointService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    protected breakpointService: BreakpointService
   ) {}
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    // Do not initialize on server-side
+    if (typeof window === 'undefined') {
       return;
     }
 
@@ -101,7 +101,7 @@ export class OnNavigateFocusService {
   /**
    * Gets the element `<body>`.
    */
-  private getBodyElement(): HTMLElement {
+  protected getBodyElement(): HTMLElement {
     return this.document.getElementsByTagName('body')[0];
   }
 }
