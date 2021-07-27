@@ -8,7 +8,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
-import { StateWithSiteContext } from '../store/state';
+import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 @Injectable()
@@ -23,6 +23,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
    */
   getActive(): Observable<string> {
     return this.store.pipe(
+      filter((state) => !!state[SITE_CONTEXT_FEATURE]),
       select(SiteContextSelectors.getActiveBaseSite),
       filter((active) => Boolean(active))
     );
