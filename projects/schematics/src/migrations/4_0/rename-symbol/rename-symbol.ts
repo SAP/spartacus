@@ -16,6 +16,7 @@ import {
   ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
   BUDGET_ROUTING_CONFIG,
+  CART_NOT_EMPTY_GUARD,
   CLOSE_ACCOUNT_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
   COST_CENTER_ROUTING_CONFIG,
@@ -984,6 +985,12 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'CheckoutSelectors',
     previousImportPath: SPARTACUS_CORE,
     newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+  {
+    previousNode: CART_NOT_EMPTY_GUARD,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
   },
 ];
 
