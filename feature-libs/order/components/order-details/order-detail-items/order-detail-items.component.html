@@ -1,6 +1,10 @@
 <ng-container *ngIf="order$ | async as order">
   <ng-container
-    *ngIf="order.consignments?.length || order.unconsignedEntries?.length"
+    *ngIf="
+      order.consignments?.length ||
+      order.unconsignedEntries?.length ||
+      order.replenishmentOrderCode
+    "
   >
     <cx-promotions
       [promotions]="order.appliedOrderPromotions || []"
