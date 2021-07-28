@@ -22,6 +22,7 @@ import {
 
 /**
  * @deprecated since 4.1 - use ReplenishmentOrder in @spartacus/order/root instead
+ * TODO: processStateStore is added in ReplenishmentOrder's constructor, need to update it in 5.0 migration doc.
  */
 @Injectable({
   providedIn: 'root',
