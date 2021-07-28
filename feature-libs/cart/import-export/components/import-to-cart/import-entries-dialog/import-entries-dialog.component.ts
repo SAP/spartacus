@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
@@ -19,13 +14,18 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
+import {
+  EventService,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
+export class ImportEntriesDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   form: FormGroup = this.build();
   focusConfig: FocusConfig = {
@@ -39,7 +39,6 @@ export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo = {};
-  subscription = new Subscription();
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -52,7 +51,8 @@ export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected importExportConfig: ImportExportConfig,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportService
+    protected importService: ImportService,
+    protected eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -61,10 +61,7 @@ export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
       .subscribe((fileValidity: FileValidity) => {
         this.fileValidity = fileValidity;
       });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.getSummary();
   }
 
   close(reason: string): void {
@@ -78,7 +75,10 @@ export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
         tap((fileData: File) => {
           this.validateMaxSize(fileData);
         }),
-        switchMap((fileData) => this.importService.loadFile(fileData)),
+        switchMap(
+          (fileData: File) =>
+            <Observable<string[][]>>this.importService.loadFile(fileData)
+        ),
         tap((data: string[][]) => {
           this.validateEmpty(data);
           this.validateParsable(data);
@@ -99,15 +99,23 @@ export class ImportEntriesDialogComponent implements OnInit, OnDestroy {
 
   importProducts(): void {
     if (this.loadedFile) {
-      this.subscription.add(
-        this.importToCartService
-          .loadProductsToCart(this.loadedFile, {
-            name: this.form.get('name')?.value,
-            description: this.form.get('description')?.value,
-          })
-          .subscribe((data) => console.log(data))
-      );
+      this.importToCartService
+        .loadProductsToCart(this.loadedFile, {
+          name: this.form.get('name')?.value,
+          description: this.form.get('description')?.value,
+        })
+        .pipe(take(1))
+        .subscribe();
     }
+  }
+
+  getSummary() {
+    this.eventService
+      .get(CartAddEntrySuccessEvent)
+      .subscribe((data) => console.log('Success', data));
+    this.eventService
+      .get(CartAddEntryFailEvent)
+      .subscribe((data) => console.log('Fail', data));
   }
 
   protected build(): FormGroup {

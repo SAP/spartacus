@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import {
   Cart,
   MultiCartService,
@@ -35,7 +35,7 @@ export class ImportToCartService {
               (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
                 cartData.value?.code !== undefined
             ),
-            switchMap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
+            tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
               const cartId: string = cartData.value.code;
               this.multiCartService.addEntries(userId, cartId, products);
               this.savedCartService.saveCart({
@@ -44,7 +44,7 @@ export class ImportToCartService {
                 saveCartDescription: savedCartInfo.description,
               });
               this.savedCartService.loadSavedCarts();
-              return this.getSummary(cartId);
+              // return this.getSummary(cartId);
             })
           )
       )
@@ -63,12 +63,12 @@ export class ImportToCartService {
     return data.every((row) => patternRegex.test(row[1]));
   }
 
-  getSummary(cartId: string) {
-    return this.multiCartService.getCartEntity(cartId).pipe(
-      map((cart: StateUtils.ProcessesLoaderState<Cart>) =>
-        cart.errorDetails?.map((details) => details.message)
-      ),
-      distinctUntilChanged((prev, next) => prev.toString() === next.toString())
-    );
-  }
+  // getSummary(cartId: string) {
+  //   return this.multiCartService.getCartEntity(cartId).pipe(
+  //     map((cart: StateUtils.ProcessesLoaderState<Cart>) =>
+  //       cart.errorDetails?.map((details) => details.message)
+  //     ),
+  //     distinctUntilChanged((prev, next) => prev.toString() === next.toString())
+  //   );
+  // }
 }

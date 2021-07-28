@@ -14,7 +14,7 @@ export class ImportService {
    * @param file CSV file to extract the data
    * @returns processed data from CSV or error data in CSV extraction
    */
-  loadFile(file: File): Observable<string[][]> {
+  loadFile(file: File): Observable<string[][] | ProgressEvent<FileReader>> {
     return new Observable((observer: Observer<string[][]>) => {
       const fileReader: FileReader = new FileReader();
       fileReader.readAsText(file);
