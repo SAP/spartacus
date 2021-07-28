@@ -1,9 +1,9 @@
 <form
   (ngSubmit)="search($event)"
   [formGroup]="form"
-  class="quick-order-form-container row"
+  class="quick-order-form-container"
 >
-  <div class="col-xs-12 col-md-5 col-lg-4 quick-order-form-input">
+  <div class="quick-order-form-input">
     <input
       (keydown.enter)="search($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
@@ -37,6 +37,6 @@
     class="btn btn-primary"
     type="submit"
   >
-    {{ 'common.search' | cxTranslate }}
+    {{ 'common.add' | cxTranslate }}
   </button>
 </form>
