@@ -7,11 +7,9 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';

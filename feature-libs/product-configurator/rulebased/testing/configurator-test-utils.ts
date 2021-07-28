@@ -6,7 +6,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../core/model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 
 export class ConfiguratorTestUtils {
   /**
