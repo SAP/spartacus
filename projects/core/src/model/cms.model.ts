@@ -177,5 +177,5 @@ export interface CmsAddToCartComponent extends CmsComponent {
 }
 
 export interface CmsQuickOrderComponent extends CmsComponent {
-  quickOrderListLimit: number;
+  quickOrderListLimit?: number;
 }

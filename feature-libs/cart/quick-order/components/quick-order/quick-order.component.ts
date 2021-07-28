@@ -20,13 +20,13 @@ import { first, map } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
-  quickOrderListLimit$: Observable<number> = this.comopnent.data$.pipe(
-    map((data) => data.quickOrderListLimit)
-  );
+  quickOrderListLimit$: Observable<
+    number | undefined
+  > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected comopnent: CmsComponentData<CmsQuickOrderComponent>,
+    protected component: CmsComponentData<CmsQuickOrderComponent>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService

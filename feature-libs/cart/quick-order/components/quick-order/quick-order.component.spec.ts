@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CmsQuickOrderComponent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -48,7 +49,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-const mockData: any = {
+const mockData: CmsQuickOrderComponent = {
   quickOrderListLimit: 10,
 };
 
