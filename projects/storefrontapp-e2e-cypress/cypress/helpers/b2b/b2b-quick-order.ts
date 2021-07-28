@@ -81,6 +81,14 @@ export function addToCart() {
   cy.get(`.quick-order-footer .add-button`).click();
 }
 
+export function verifyQuickOrderFormIsDisabled() {
+  cy.get('.quick-order-form-input input').should('be.disabled');
+}
+
+export function verifyEmptyListButtonIsHidden() {
+  cy.get('.quick-order-footer clear-button').should('not.exist');
+}
+
 export function verifyMiniCartQuantity(quantity: number) {
   cy.get('cx-mini-cart .count').should('contain', quantity);
 }

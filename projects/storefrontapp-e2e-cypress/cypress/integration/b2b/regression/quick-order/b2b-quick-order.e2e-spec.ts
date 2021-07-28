@@ -62,6 +62,15 @@ context('B2B - Quick Order', () => {
             `Product with code '${invalidProductCode}' not found!`
           );
       });
+
+      it('should limit the list and block form for adding more products', () => {
+        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
+        quickOrder.verifyQuickOrderFormIsDisabled();
+      });
+
+      it('should hide "Empty List" button if list has no entries', () => {
+        quickOrder.verifyEmptyListButtonIsHidden();
+      });
     });
 
     describe('Cart Page', () => {
