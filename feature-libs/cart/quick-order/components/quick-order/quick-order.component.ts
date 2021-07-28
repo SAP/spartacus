@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { filter, first, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -20,6 +20,7 @@ import { first, map } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
+  isLoading$: Observable<boolean> = this.activeCartService.isStable();
   quickOrderListLimit$: Observable<
     number | undefined
   > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
@@ -49,15 +50,24 @@ export class QuickOrderComponent implements OnInit {
   }
 
   addToCart(): void {
-    this.entries$.pipe(first()).subscribe((entries) => {
-      this.activeCartService.addEntries(entries);
-      this.quickOrderService.clearList();
-      this.globalMessageService.add(
-        {
-          key: 'quickOrderTable.addedtoCart',
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
+    this.entries$
+      .pipe(
+        first(),
+        switchMap((entries) => {
+          this.activeCartService.addEntries(entries);
+
+          return this.isLoading$;
+        }),
+        filter(Boolean)
+      )
+      .subscribe(() => {
+        this.quickOrderService.clearList();
+        this.globalMessageService.add(
+          {
+            key: 'quickOrderTable.addedtoCart',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
   }
 }
