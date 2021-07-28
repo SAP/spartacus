@@ -120,16 +120,22 @@
             </div>
 
             <div *ngIf="isCloneSavedCart" class="cx-copy-saved-cart-row">
-              <input
-                [maxLength]="nameMaxLength"
-                class="form-control"
-                formControlName="cloneName"
-                type="text"
-                placeholder="{{
-                  'savedCartDialog.defaultCloneCartName'
-                    | cxTranslate: { name: form.get('name')?.value }
-                }}"
-              />
+              <label>
+                <span class="label-content">
+                  {{ 'savedCartDialog.nameOfCloneCart' | cxTranslate }}
+                </span>
+
+                <input
+                  [maxLength]="nameMaxLength"
+                  class="form-control"
+                  formControlName="cloneName"
+                  type="text"
+                  placeholder="{{
+                    'savedCartDialog.defaultCloneCartName'
+                      | cxTranslate: { name: form.get('name')?.value }
+                  }}"
+                />
+              </label>
             </div>
           </ng-container>
 
