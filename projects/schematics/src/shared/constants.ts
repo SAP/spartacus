@@ -514,6 +514,8 @@ export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
 
 export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
+export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
+export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
 /***** Classes end *****/
 
