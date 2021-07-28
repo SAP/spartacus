@@ -22,6 +22,7 @@ import { OrderSelectors } from '../store/selectors/index';
 export class OrderReturnRequestService implements OrderReturnRequestFacade {
   constructor(
     protected store: Store<StateWithOrder>,
+    // TODO: update the migration doc for 5.0
     protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
