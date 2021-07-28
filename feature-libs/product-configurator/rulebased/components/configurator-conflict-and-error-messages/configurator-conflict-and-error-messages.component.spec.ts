@@ -5,13 +5,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common/testing';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

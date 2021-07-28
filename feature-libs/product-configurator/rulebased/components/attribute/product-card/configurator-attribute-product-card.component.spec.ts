@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common/testing';
 import {
   ItemCounterComponent,
   KeyboardFocusService,

@@ -6,11 +6,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common/testing';
 import {
   DirectionMode,
   DirectionService,

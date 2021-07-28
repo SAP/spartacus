@@ -80,6 +80,9 @@
       "@spartacus/product-configurator/common/assets": [
         "../../feature-libs/product-configurator/common/assets/public_api"
       ],
+      "@spartacus/product-configurator/common/testing": [
+        "../../feature-libs/product-configurator/common/testing/public_api"
+      ],
       "@spartacus/product-configurator/common": [
         "../../feature-libs/product-configurator/common/public_api"
       ],

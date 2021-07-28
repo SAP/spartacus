@@ -56,6 +56,9 @@
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
       ],
+      "@spartacus/product-configurator/common/testing": [
+        "dist/product-configurator/common/testing"
+      ],
       "@spartacus/product-configurator/common": [
         "dist/product-configurator/common"
       ],

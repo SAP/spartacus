@@ -5,13 +5,13 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common/testing';
 import {
   IconLoaderService,
   IconModule,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
