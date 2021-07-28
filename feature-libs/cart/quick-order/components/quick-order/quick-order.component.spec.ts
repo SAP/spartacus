@@ -1,4 +1,6 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
@@ -22,9 +24,11 @@ const mockEntry: OrderEntry = {
   product: mockProduct,
 };
 
+const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
+
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
-    return new BehaviorSubject<OrderEntry[]>([mockEntry]);
+    return mockEntries$;
   }
   clearList(): void {}
 }
@@ -63,6 +67,7 @@ describe('QuickOrderComponent', () => {
   let activeCartService: ActiveCartService;
   let quickOrderService: QuickOrderFacade;
   let globalMessageService: GlobalMessageService;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -91,6 +96,7 @@ describe('QuickOrderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuickOrderComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -133,5 +139,12 @@ describe('QuickOrderComponent', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  });
+
+  it('should hide "empty list" button if there are no entries', () => {
+    mockEntries$.next([]);
+    fixture.detectChanges();
+
+    expect(el.query(By.css('.clear-button'))).toBeNull();
   });
 });
