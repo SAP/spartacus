@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -26,7 +27,17 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
 
+  get isDisabled(): boolean {
+    return this._disabled;
+  }
+
+  @Input('isDisabled') set isDisabled(value: boolean) {
+    this._disabled = value;
+    this.validateProductControl(value);
+  }
+
   protected subscription = new Subscription();
+  protected _disabled: boolean = false;
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -73,12 +84,21 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     form.setControl('product', new FormControl(null));
 
     this.form = form;
+    this.validateProductControl(this.isDisabled);
   }
 
   protected watchProductAdd(): Subscription {
     return this.quickOrderService
       .getProductAdded()
       .subscribe(() => this.clear());
+  }
+
+  protected validateProductControl(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form?.get('product')?.disable();
+    } else {
+      this.form?.get('product')?.enable();
+    }
   }
 
   ngOnDestroy(): void {

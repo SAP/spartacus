@@ -36,6 +36,9 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
       cmsComponents: {
         QuickOrderComponent: {
           component: QuickOrderComponent,
+          data: {
+            quickOrderListLimit: 10,
+          },
         },
       },
     }),

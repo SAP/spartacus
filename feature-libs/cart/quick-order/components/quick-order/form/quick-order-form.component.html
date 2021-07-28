@@ -24,6 +24,10 @@
     ></cx-icon>
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+
+    <span *ngIf="isDisabled" class="list-limit-reached-text">
+      {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
+    </span>
   </div>
 
   <button

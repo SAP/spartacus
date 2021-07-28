@@ -1,9 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
 import { QuickOrderTableComponent } from './quick-order-table.component';
 
 const mockEntries: OrderEntry[] = [
@@ -12,14 +10,6 @@ const mockEntries: OrderEntry[] = [
     product: { name: 'mockProduct', code: 'mockCode' },
   },
 ];
-
-const mockEntries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
-
-class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
-  getEntries(): BehaviorSubject<OrderEntry[]> {
-    return mockEntries$;
-  }
-}
 
 describe('QuickOrderTableComponent', () => {
   let component: QuickOrderTableComponent;
@@ -30,9 +20,6 @@ describe('QuickOrderTableComponent', () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [QuickOrderTableComponent],
-      providers: [
-        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
-      ],
     }).compileComponents();
   });
 
@@ -40,6 +27,7 @@ describe('QuickOrderTableComponent', () => {
     fixture = TestBed.createComponent(QuickOrderTableComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    component.entries = mockEntries;
     fixture.detectChanges();
   });
 
