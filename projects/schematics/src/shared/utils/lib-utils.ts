@@ -92,7 +92,7 @@ import {
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
-  lazy: boolean;
+  lazy?: boolean;
   features?: string[];
   // meta, when programmatically installing other Spartacus libraries as dependencies
   options?: LibraryOptions;

@@ -89,9 +89,7 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule,
-    QuickOrderFeatureModule,
-    SavedCartFeatureModule
+    OrderApprovalFeatureModule
   );
 }
 if (environment.cdc) {
@@ -204,6 +202,7 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],
