@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CmsQuickOrderComponent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -11,6 +12,7 @@ import {
   Product,
   Translatable,
 } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderComponent } from './quick-order.component';
@@ -51,6 +53,14 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+const mockData: CmsQuickOrderComponent = {
+  quickOrderListLimit: 10,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
@@ -70,6 +80,10 @@ describe('QuickOrderComponent', () => {
         {
           provide: QuickOrderStatePersistenceService,
           useClass: MockQuickOrderStatePersistenceService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
         },
       ],
     }).compileComponents();

@@ -12,12 +12,14 @@ export const quickOrderCartForm = {
 
 export const quickOrderForm = {
   placeholder: 'Enter Product SKU',
+  listLimitReached: 'The product limit has been reached',
 };
 
 export const quickOrderList = {
-  addProducts: 'Add Products/Skus',
-  emptyList: 'Empty list',
   addToCart: 'Add to cart',
+  emptyList: 'Empty list',
+  header: 'Add Products/Skus',
+  subHeader: `You can add up to {{ limit }} valid SKU's below and add to cart`,
 };
 
 export const quickOrderTable = {

@@ -3,12 +3,14 @@ import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/c
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CmsQuickOrderComponent,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
 } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -18,9 +20,13 @@ import { first } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
+  quickOrderListLimit$: Observable<
+    number | undefined
+  > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
 
   constructor(
     protected activeCartService: ActiveCartService,
+    protected component: CmsComponentData<CmsQuickOrderComponent>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
@@ -29,13 +35,11 @@ export class QuickOrderComponent implements OnInit {
   ngOnInit(): void {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
-
     this.quickOrderStatePersistenceService.initSync();
   }
 
   clear(): void {
     this.quickOrderService.clearList();
-
     this.globalMessageService.add(
       {
         key: 'quickOrderTable.listCleared',
