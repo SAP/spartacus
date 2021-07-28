@@ -4,7 +4,7 @@ import { ClientAuthModule } from './client-auth/client-auth.module';
 import { UserAuthModule } from './user-auth/user-auth.module';
 
 @NgModule({
-  imports: [CommonModule, ClientAuthModule.forRoot(), UserAuthModule.forRoot()],
+  imports: [CommonModule, UserAuthModule.forRoot(), ClientAuthModule.forRoot()],
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {
