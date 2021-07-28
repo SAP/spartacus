@@ -5,8 +5,8 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
-import { ConfiguratorTestUtils } from '@spartacus/product-configurator/rulebased/testing';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';

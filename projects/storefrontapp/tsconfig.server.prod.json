@@ -58,10 +58,7 @@
       ],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
-      ],
-      "@spartacus/product-configurator/common/testing": [
-        "../../dist/product-configurator/common/testing"
-      ],
+      ], 
       "@spartacus/product-configurator/common": [
         "../../dist/product-configurator/common"
       ],
@@ -74,10 +71,7 @@
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
-      ],
-      "@spartacus/product-configurator/rulebased/testing": [
-        "../../dist/product-configurator/rulebased/testing"
-      ],
+      ], 
       "@spartacus/product-configurator/textfield": [
         "../../dist/product-configurator/textfield"
       ],
