@@ -9,7 +9,10 @@ import {
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog.component.migration';
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION } from './data/address-book.component.service.migration';
-import { ADDRESS_FORM_COMPONENT_MIGRATION } from './data/address-form.component.migration';
+import {
+  ADDRESS_FORM_COMPONENT_MIGRATION_V1,
+  ADDRESS_FORM_COMPONENT_MIGRATION_V2,
+} from './data/address-form.component.migration';
 import {
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V1,
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V2,
@@ -83,6 +86,7 @@ import {
   MODAL_SERVICE_MIGRATION_V2,
 } from './data/modal.service.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
+import { ON_NAVIGATE_FOCUS_SERVICE_MIGRATION } from './data/on-navigate-focus.service.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -187,7 +191,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_CART_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_MIGRATION,
-  ADDRESS_FORM_COMPONENT_MIGRATION,
+  ADDRESS_FORM_COMPONENT_MIGRATION_V1,
+  ADDRESS_FORM_COMPONENT_MIGRATION_V2,
   USER_ADDRESS_SERVICE_MIGRATION,
   CHECKOUT_EVENT_MODULE_MIGRATION,
   SAVED_CART_LIST_COMPONENT_MIGRATION_V1,
@@ -261,6 +266,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   GUEST_REGISTER_FORM_COMPONENT_MIGRATION,
   PRODUCT_LOADING_SERVICE_MIGRATION,
   POPOVER_DIRECTIVE_CONSTRUCTOR_MIGRATION,
+  ON_NAVIGATE_FOCUS_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

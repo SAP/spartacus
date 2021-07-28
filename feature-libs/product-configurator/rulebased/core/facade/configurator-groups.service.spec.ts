@@ -11,8 +11,8 @@ import {
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+} from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
