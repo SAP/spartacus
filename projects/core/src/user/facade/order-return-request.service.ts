@@ -20,7 +20,8 @@ import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 /**
  * @deprecated since 4.1 - use OrderReturnFacade in @spartacus/order/root instead
- * TODO: processStateStore is added in OrderReturnFacade's constructor, need to update it in 5.0 migration doc.
+ * TODO: In order lib, processStateStore is added in OrderReturnService's constructor,
+ * need to update it in 5.0 migration doc.
  */
 @Injectable({
   providedIn: 'root',

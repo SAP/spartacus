@@ -21,8 +21,9 @@ import {
 } from '../store/user-state';
 
 /**
- * @deprecated since 4.1 - use ReplenishmentOrder in @spartacus/order/root instead
- * TODO: processStateStore is added in ReplenishmentOrder's constructor, need to update it in 5.0 migration doc.
+ * @deprecated since 4.1 - use ReplenishmentOrderFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in ReplenishmentOrderService's constructor,
+ * need to update it in 5.0 migration doc.
  */
 @Injectable({
   providedIn: 'root',
