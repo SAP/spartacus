@@ -51,7 +51,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-fdescribe('QuickOrderComponent', () => {
+describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
   let activeCartService: ActiveCartService;
