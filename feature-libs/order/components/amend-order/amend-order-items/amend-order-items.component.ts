@@ -20,7 +20,7 @@ export class CancelOrReturnItemsComponent {
 
   getControl(form: FormGroup, entry: OrderEntry): FormControl {
     const control = <FormControl>(
-      form.get('entries').get(entry.entryNumber.toString())
+      form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );
     return control;
   }

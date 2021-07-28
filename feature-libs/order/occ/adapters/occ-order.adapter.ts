@@ -60,7 +60,7 @@ export class OccOrderAdapter implements OrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    const params = {};
+    const params: { [key: string]: string } = {};
     if (pageSize) {
       params['pageSize'] = pageSize.toString();
     }
@@ -139,7 +139,7 @@ export class OccOrderAdapter implements OrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<ReturnRequestList> {
-    const params = {};
+    const params: { [key: string]: string } = {};
     if (pageSize) {
       params['pageSize'] = pageSize.toString();
     }

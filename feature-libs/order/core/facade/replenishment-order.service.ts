@@ -22,7 +22,8 @@ import { OrderSelectors } from '../store/selectors/index';
 @Injectable()
 export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
   constructor(
-    protected store: Store<StateWithOrder | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
 
@@ -115,7 +116,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    * Returns the cancel replenishment order loading flag
    */
   getCancelReplenishmentOrderLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
           CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
@@ -128,7 +129,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    * Returns the cancel replenishment order success flag
    */
   getCancelReplenishmentOrderSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
           CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
@@ -141,7 +142,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    * Returns the cancel replenishment order error flag
    */
   getCancelReplenishmentOrderError(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
           CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
@@ -162,7 +163,7 @@ export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
    */
   getReplenishmentOrderHistoryList(
     pageSize: number
-  ): Observable<ReplenishmentOrderList> {
+  ): Observable<ReplenishmentOrderList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getReplenishmentOrdersState),
       tap((replenishmentOrderListState) => {

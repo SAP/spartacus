@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -14,6 +15,7 @@ import { startWith } from 'rxjs/operators';
 @Component({
   selector: 'cx-replenishment-order-cancellation-dialog',
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy {
@@ -52,7 +54,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         this.launchDialogService.data$,
       ]).subscribe(([replenishmentOrder, code]) => {
         this.replenishmentOrderCode =
-          code || replenishmentOrder.replenishmentOrderCode;
+          code || replenishmentOrder?.replenishmentOrderCode;
       })
     );
 

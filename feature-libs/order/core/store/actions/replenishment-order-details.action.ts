@@ -6,21 +6,21 @@ import {
 } from '../order-state';
 
 export const LOAD_REPLENISHMENT_ORDER_DETAILS =
-  '[User] Load Replenishment Order Details';
+  '[Order] Load Replenishment Order Details';
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS =
-  '[User] Load Replenishment Order Details Success';
+  '[Order] Load Replenishment Order Details Success';
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL =
-  '[User] Load Replenishment Order Details Fail';
+  '[Order] Load Replenishment Order Details Fail';
 export const ClEAR_REPLENISHMENT_ORDER_DETAILS =
-  '[User] Clear Replenishment Order Details';
+  '[Order] Clear Replenishment Order Details';
 
-export const CANCEL_REPLENISHMENT_ORDER = '[User] Cancel Replenishment Order';
+export const CANCEL_REPLENISHMENT_ORDER = '[Order] Cancel Replenishment Order';
 export const CANCEL_REPLENISHMENT_ORDER_SUCCESS =
-  '[User] Cancel Replenishment Order Success';
+  '[Order] Cancel Replenishment Order Success';
 export const CANCEL_REPLENISHMENT_ORDER_FAIL =
-  '[User] Cancel Replenishment Order Fail';
+  '[Order] Cancel Replenishment Order Fail';
 export const CLEAR_CANCEL_REPLENISHMENT_ORDER =
-  '[User] Clear Cancel Replenishment Order';
+  '[Order] Clear Cancel Replenishment Order';
 
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS;

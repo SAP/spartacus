@@ -3,13 +3,13 @@ import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
 export const LOAD_USER_REPLENISHMENT_ORDERS =
-  '[User] Load User Replenishment Orders';
+  '[Order] Load User Replenishment Orders';
 export const LOAD_USER_REPLENISHMENT_ORDERS_FAIL =
-  '[User] Load User Replenishment Orders Fail';
+  '[Order] Load User Replenishment Orders Fail';
 export const LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS =
-  '[User] Load User Replenishment Orders Success';
+  '[Order] Load User Replenishment Orders Success';
 export const CLEAR_USER_REPLENISHMENT_ORDERS =
-  '[User] Clear User Replenishment Orders';
+  '[Order] Clear User Replenishment Orders';
 
 export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS;

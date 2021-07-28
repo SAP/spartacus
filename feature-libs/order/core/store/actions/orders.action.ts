@@ -2,10 +2,10 @@ import { StateUtils } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { ORDERS } from '../order-state';
 
-export const LOAD_USER_ORDERS = '[User] Load User Orders';
-export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
-export const LOAD_USER_ORDERS_SUCCESS = '[User] Load User Orders Success';
-export const CLEAR_USER_ORDERS = '[User] Clear User Orders';
+export const LOAD_USER_ORDERS = '[Order] Load User Orders';
+export const LOAD_USER_ORDERS_FAIL = '[Order] Load User Orders Fail';
+export const LOAD_USER_ORDERS_SUCCESS = '[Order] Load User Orders Success';
+export const CLEAR_USER_ORDERS = '[Order] Clear User Orders';
 
 export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_ORDERS;

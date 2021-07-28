@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 import { ConsignmentTracking } from '@spartacus/order/root';
 
-export const LOAD_CONSIGNMENT_TRACKING = '[User] Load Consignment Tracking';
+export const LOAD_CONSIGNMENT_TRACKING = '[Order] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =
-  '[User] Load Consignment Tracking Fail';
+  '[Order] Load Consignment Tracking Fail';
 export const LOAD_CONSIGNMENT_TRACKING_SUCCESS =
-  '[User] Load Consignment Tracking Success';
-export const CLEAR_CONSIGNMENT_TRACKING = '[User] Clear Consignment Tracking';
+  '[Order] Load Consignment Tracking Success';
+export const CLEAR_CONSIGNMENT_TRACKING = '[Order] Clear Consignment Tracking';
 
 export class LoadConsignmentTracking implements Action {
   readonly type = LOAD_CONSIGNMENT_TRACKING;

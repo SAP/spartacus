@@ -1,6 +1,11 @@
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Price } from '@spartacus/core';
 import { Order, OrderEntry } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -8,11 +13,11 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { AmendOrderType } from './amend-order.model';
 
-function ValidateQuantityToCancel(control: FormControl) {
+function ValidateQuantityToCancel(control: AbstractControl) {
   if (!control.value) {
     return null;
   }
-  const quantity = Object.values(control.value).reduce(
+  const quantity = Object.values(control.value as number).reduce(
     (acc: number, val: number) => acc + val,
     0
   );
@@ -63,7 +68,7 @@ export abstract class OrderAmendService {
   getForm(): Observable<FormGroup> {
     return this.getOrder().pipe(
       tap((order) => {
-        if (!this.form || this.form.get('orderCode').value !== order.code) {
+        if (!this.form || this.form.get('orderCode')?.value !== order.code) {
           this.buildForm(order);
         }
       }),
@@ -82,7 +87,7 @@ export abstract class OrderAmendService {
     this.form.addControl('entries', entryGroup);
 
     (order.entries || []).forEach((entry) => {
-      const key = entry.entryNumber.toString();
+      const key = entry?.entryNumber?.toString() ?? '';
       entryGroup.addControl(
         key,
         new FormControl(0, {
@@ -96,7 +101,9 @@ export abstract class OrderAmendService {
   }
 
   protected getFormControl(form: FormGroup, entry: OrderEntry): FormControl {
-    return <FormControl>form.get('entries').get(entry.entryNumber.toString());
+    return <FormControl>(
+      form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
+    );
   }
 
   /**
@@ -107,28 +114,30 @@ export abstract class OrderAmendService {
     const amendedQuantity = this.getFormControl(this.form, entry).value;
     const amendedPrice = Object.assign({}, entry.basePrice);
     amendedPrice.value =
-      Math.round(entry.basePrice.value * amendedQuantity * 100) / 100;
+      Math.round((entry.basePrice?.value ?? 0) * amendedQuantity * 100) / 100;
 
     amendedPrice.formattedValue = formatCurrency(
       amendedPrice.value,
       // TODO: user current language
       'en',
-      getCurrencySymbol(amendedPrice.currencyIso, 'narrow'),
+      getCurrencySymbol(amendedPrice.currencyIso ?? '', 'narrow'),
       amendedPrice.currencyIso
     );
 
     return amendedPrice;
   }
 
-  getMaxAmendQuantity(entry: OrderEntry) {
+  getMaxAmendQuantity(entry: OrderEntry): number {
     return (
       (this.isCancellation()
         ? entry.cancellableQuantity
-        : entry.returnableQuantity) || entry.quantity
+        : entry.returnableQuantity) ||
+      entry.quantity ||
+      0
     );
   }
 
-  isCancellation() {
+  isCancellation(): boolean {
     return this.amendType === AmendOrderType.CANCEL;
   }
 }

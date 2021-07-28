@@ -23,7 +23,7 @@ export function reducer(
 
     case OrderActions.CANCEL_REPLENISHMENT_ORDER_SUCCESS: {
       const cancelledReplenishmentOrder = action.payload;
-      const userReplenishmentOrders = [...state.replenishmentOrders];
+      const userReplenishmentOrders = [...(state.replenishmentOrders ?? [])];
 
       const index = userReplenishmentOrders.findIndex(
         (replenishmentOrder: ReplenishmentOrder) =>

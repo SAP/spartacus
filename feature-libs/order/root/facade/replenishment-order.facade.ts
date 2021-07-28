@@ -103,7 +103,7 @@ export abstract class ReplenishmentOrderFacade {
    */
   abstract getReplenishmentOrderHistoryList(
     pageSize: number
-  ): Observable<ReplenishmentOrderList>;
+  ): Observable<ReplenishmentOrderList | undefined>;
 
   /**
    * Returns a loading flag for replenishment order history list

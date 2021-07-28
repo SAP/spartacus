@@ -48,13 +48,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentStartOnCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.startOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
-          text: [isoDate],
+          text: [isoDate ?? ''],
         };
       })
     );
@@ -70,13 +70,15 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentNextDateCardContent(
+    isoDate: string | null
+  ): Observable<Card> {
     return this.translation.translate('orderDetails.nextOrderDate').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
-          text: [isoDate],
+          text: [isoDate ?? ''],
         };
       })
     );
@@ -92,13 +94,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
+  getOrderCurrentDateCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.placedOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
-          text: [isoDate],
+          text: [isoDate ?? ''],
         };
       })
     );
@@ -159,13 +161,13 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
         const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress
+          deliveryAddress.formattedAddress ?? ''
         );
 
         return {
           title: textTitle,
           textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [formattedAddress, deliveryAddress.country.name],
+          text: [formattedAddress, deliveryAddress.country?.name ?? ''],
         };
       })
     );
@@ -176,12 +178,10 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryMode)),
       map((textTitle) => ({
         title: textTitle,
-        textBold: deliveryMode.name,
+        textBold: deliveryMode.name ?? '',
         text: [
-          deliveryMode.description,
-          deliveryMode.deliveryCost?.formattedValue
-            ? deliveryMode.deliveryCost?.formattedValue
-            : '',
+          deliveryMode.description ?? '',
+          deliveryMode.deliveryCost?.formattedValue ?? '',
         ],
       }))
     );
@@ -198,8 +198,8 @@ export class OrderOverviewComponent {
       filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) => ({
         title: textTitle,
-        textBold: payment.accountHolderName,
-        text: [payment.cardNumber, textExpires],
+        textBold: payment.accountHolderName ?? '',
+        text: [payment.cardNumber ?? '', textExpires],
       }))
     );
   }
@@ -210,7 +210,10 @@ export class OrderOverviewComponent {
       map((textTitle) => ({
         title: textTitle,
         textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-        text: [billingAddress.formattedAddress, billingAddress.country.name],
+        text: [
+          billingAddress.formattedAddress ?? '',
+          billingAddress.country?.name ?? '',
+        ],
       }))
     );
   }

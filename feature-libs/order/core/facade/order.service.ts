@@ -22,7 +22,8 @@ import { OrderSelectors } from '../store/selectors/index';
 @Injectable()
 export class OrderService implements OrderFacade {
   constructor(
-    protected store: Store<StateWithOrder | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
@@ -60,7 +61,9 @@ export class OrderService implements OrderFacade {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
+  getOrderHistoryList(
+    pageSize: number
+  ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
       tap((orderListState) => {
@@ -92,7 +95,7 @@ export class OrderService implements OrderFacade {
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
-        let replenishmentOrderCode: string;
+        let replenishmentOrderCode: string | undefined;
 
         this.routingService
           .getRouterState()
@@ -179,7 +182,7 @@ export class OrderService implements OrderFacade {
    * Returns the cancel order loading flag
    */
   getCancelOrderLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(ProcessSelectors.getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
     );
   }
@@ -188,7 +191,7 @@ export class OrderService implements OrderFacade {
    * Returns the cancel order success flag
    */
   getCancelOrderSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(ProcessSelectors.getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
     );
   }

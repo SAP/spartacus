@@ -29,11 +29,13 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  replenishmentOrders$: Observable<ReplenishmentOrderList> = this.userReplenishmentOrderService
+  replenishmentOrders$: Observable<
+    ReplenishmentOrderList | undefined
+  > = this.userReplenishmentOrderService
     .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
     .pipe(
-      tap((replenishmentOrders: ReplenishmentOrderList) => {
-        if (replenishmentOrders.pagination) {
+      tap((replenishmentOrders: ReplenishmentOrderList | undefined) => {
+        if (replenishmentOrders?.pagination?.sort) {
           this.sortType = replenishmentOrders.pagination.sort;
         }
       })

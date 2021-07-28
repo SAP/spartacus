@@ -25,29 +25,29 @@ import * as fromUserOrdersReducer from './orders.reducer';
 import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
 import * as fromUserReplenishmentOrdersReducer from './replenishment-orders.reducer';
 
-export function getReducers(): ActionReducerMap<Partial<OrderState>> {
+export function getReducers(): ActionReducerMap<OrderState, any> {
   return {
-    orders: StateUtils.loaderReducer<OrderHistoryList>(
+    orders: StateUtils.loaderReducer<OrderHistoryList, any>(
       ORDERS,
       fromUserOrdersReducer.reducer
     ),
-    orderDetail: StateUtils.loaderReducer<Order>(
+    orderDetail: StateUtils.loaderReducer<Order, any>(
       ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
-    replenishmentOrders: StateUtils.loaderReducer<ReplenishmentOrderList>(
+    replenishmentOrders: StateUtils.loaderReducer<ReplenishmentOrderList, any>(
       REPLENISHMENT_ORDERS,
       fromUserReplenishmentOrdersReducer.reducer
     ),
     orderReturn: StateUtils.loaderReducer<ReturnRequest>(
       RETURN_REQUEST_DETAILS
     ),
-    orderReturnList: StateUtils.loaderReducer<ReturnRequestList>(
+    orderReturnList: StateUtils.loaderReducer<ReturnRequestList, any>(
       RETURN_REQUESTS,
       fromOrderReturnRequestReducer.reducer
     ),
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
-    replenishmentOrder: StateUtils.loaderReducer<ReplenishmentOrder>(
+    replenishmentOrder: StateUtils.loaderReducer<ReplenishmentOrder, any>(
       REPLENISHMENT_ORDER_DETAILS,
       fromReplenishmentOrderDetailsReducer.reducer
     ),

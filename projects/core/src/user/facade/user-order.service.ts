@@ -21,6 +21,8 @@ import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 /**
  * @deprecated since 4.1 - use OrderFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in OrderService's constructor,
+ * need to update it in 5.0 migration doc.
  */
 @Injectable({
   providedIn: 'root',

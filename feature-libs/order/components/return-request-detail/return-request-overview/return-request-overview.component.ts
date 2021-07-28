@@ -22,7 +22,7 @@ export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
 
   returnRequest$: Observable<ReturnRequest> = this.returnRequestService
     .getReturnRequest()
-    .pipe(tap((returnRequest) => (this.rma = returnRequest.rma)));
+    .pipe(tap((returnRequest) => (this.rma = returnRequest.rma ?? '')));
 
   isCancelling$ = this.returnRequestService.isCancelling$;
 

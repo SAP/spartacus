@@ -21,7 +21,8 @@ import { OrderSelectors } from '../store/selectors/index';
 @Injectable()
 export class OrderReturnRequestService implements OrderReturnRequestFacade {
   constructor(
-    protected store: Store<StateWithOrder | StateWithProcess<void>>,
+    protected store: Store<StateWithOrder>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
 
@@ -53,7 +54,9 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
   /**
    * Gets order return request list
    */
-  getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
+  getOrderReturnRequestList(
+    pageSize: number
+  ): Observable<ReturnRequestList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrderReturnRequestListState),
       tap((returnListState) => {
@@ -162,7 +165,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Returns the cancel return request loading flag
    */
   getCancelReturnRequestLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(CANCEL_RETURN_PROCESS_ID)
       )
@@ -173,7 +176,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Returns the cancel return request success flag
    */
   getCancelReturnRequestSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(CANCEL_RETURN_PROCESS_ID)
       )

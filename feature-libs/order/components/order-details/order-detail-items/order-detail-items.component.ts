@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PromotionLocation } from '@spartacus/core';
-import { Consignment } from '@spartacus/order/root';
+import { Consignment, Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -17,10 +17,10 @@ export class OrderDetailItemsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
-  others$: Observable<Consignment[]>;
-  completed$: Observable<Consignment[]>;
-  cancel$: Observable<Consignment[]>;
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  others$: Observable<Consignment[] | undefined>;
+  completed$: Observable<Consignment[] | undefined>;
+  cancel$: Observable<Consignment[] | undefined>;
 
   ngOnInit() {
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
@@ -30,12 +30,14 @@ export class OrderDetailItemsComponent implements OnInit {
 
   private getExactStatus(
     consignmentStatus: string[]
-  ): Observable<Consignment[]> {
+  ): Observable<Consignment[] | undefined> {
     return this.order$.pipe(
       map((order) => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter((consignment) =>
-            consignmentStatus.includes(consignment.status)
+          return order.consignments?.filter(
+            (consignment) =>
+              consignment.status &&
+              consignmentStatus.includes(consignment.status)
           );
         }
       })
@@ -44,12 +46,14 @@ export class OrderDetailItemsComponent implements OnInit {
 
   private getOtherStatus(
     ...consignmentStatus: string[]
-  ): Observable<Consignment[]> {
+  ): Observable<Consignment[] | undefined> {
     return this.order$.pipe(
       map((order) => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter(
-            (consignment) => !consignmentStatus.includes(consignment.status)
+          return order.consignments?.filter(
+            (consignment) =>
+              consignment.status &&
+              !consignmentStatus.includes(consignment.status)
           );
         }
       })

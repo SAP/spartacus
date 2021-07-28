@@ -38,10 +38,12 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   }
 
   openTrackingDialog(consignment: Consignment) {
-    this.userOrderService.loadConsignmentTracking(
-      this.orderCode,
-      consignment.code
-    );
+    if (consignment.code) {
+      this.userOrderService.loadConsignmentTracking(
+        this.orderCode,
+        consignment.code
+      );
+    }
     let modalInstance: any;
     this.modalRef = this.modalService.open(TrackingEventsComponent, {
       centered: true,
