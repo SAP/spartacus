@@ -5,7 +5,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
-import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
