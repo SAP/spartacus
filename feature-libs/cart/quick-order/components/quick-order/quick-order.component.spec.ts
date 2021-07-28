@@ -43,6 +43,9 @@ class MockActiveCartService implements Partial<ActiveCartService> {
     return of('123456789');
   }
   addEntries(_cartEntries: OrderEntry[]): void {}
+  isStable(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
