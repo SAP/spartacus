@@ -12,11 +12,11 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common/testing';
+import { ConfiguratorTestUtils } from '@spartacus/product-configurator/rulebased/testing';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

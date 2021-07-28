@@ -75,6 +75,9 @@
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
       ],
+      "@spartacus/product-configurator/rulebased/testing": [
+        "../../dist/product-configurator/rulebased/testing"
+      ],
       "@spartacus/product-configurator/textfield": [
         "../../dist/product-configurator/textfield"
       ],

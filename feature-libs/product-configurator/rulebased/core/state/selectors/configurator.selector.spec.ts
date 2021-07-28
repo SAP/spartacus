@@ -13,7 +13,7 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
-import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {

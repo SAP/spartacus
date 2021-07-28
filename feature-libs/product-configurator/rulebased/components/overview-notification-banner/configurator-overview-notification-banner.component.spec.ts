@@ -16,7 +16,7 @@ import {
   productConfiguration,
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
-} from '../../shared/testing/configurator-test-data';
+} from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @Pipe({

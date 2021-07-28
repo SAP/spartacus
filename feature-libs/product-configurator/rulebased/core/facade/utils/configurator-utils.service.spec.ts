@@ -8,8 +8,8 @@ import {
   GROUP_ID_2,
   productConfiguration,
   subGroupWith2Attributes,
-} from '../../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
+} from '../../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 

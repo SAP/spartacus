@@ -1,9 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '@spartacus/product-configurator/rulebased/testing';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorValueSerializer } from './cpq-configurator-value-serializer';
 
