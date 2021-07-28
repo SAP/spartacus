@@ -13,9 +13,9 @@
 <div *ngIf="entries$ | async as entries" class="quick-order-footer row">
   <div class="col-xs-12 col-md-5 col-lg-4">
     <button
+      *ngIf="entries.length"
       (click)="clear()"
       [attr.aria-label]="'quickOrderList.emptyList' | cxTranslate"
-      [disabled]="!entries.length"
       class="btn btn-block btn-action clear-button"
       type="button"
     >
