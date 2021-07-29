@@ -6,6 +6,7 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  HybridSotrefrontModule,
   OrderOccModule,
   ProductModule,
   ProductOccModule,
@@ -186,6 +187,8 @@ if (environment.cpq) {
     HomePageEventModule,
     CartPageEventModule,
     ProductPageEventModule,
+    // TODO: REMOVE AFTER TESTING
+    HybridSotrefrontModule.forRoot(),
 
     /************************* Opt-in features *************************/
 

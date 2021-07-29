@@ -1,0 +1,7 @@
+{
+  "/yacceleratorstorefront/*": {
+    "target": "https://electronics.local:9002/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

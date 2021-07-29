@@ -14,7 +14,7 @@ import {
     ...defaultCmsContentProviders,
     provideConfig(<SiteContextConfig>{
       context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
+        // urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
           'electronics-spa',
           'electronics',

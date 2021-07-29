@@ -24,6 +24,7 @@ export * from './src/util/index';
 export * from './src/window/index';
 export * from './src/lazy-loading/index';
 export * from './src/base-core.module';
+export * from './src/hybrid-storefront/index';
 
 /** AUGMENTABLE_TYPES_START */
 export { Product, Price, Stock } from './src/model/product.model';
