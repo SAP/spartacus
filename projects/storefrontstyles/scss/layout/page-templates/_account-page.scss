@@ -1,0 +1,26 @@
+%AccountPageTemplate {
+  --cx-max-width: 100%;
+  @extend %LoginPageTemplate !optional;
+
+  cx-order cx-order-details-totals {
+    margin-bottom: 32px;
+  }
+
+  cx-tab-paragraph-container {
+    .active {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  cx-paragraph h4 {
+    text-align: center;
+  }
+
+  cx-cart-item {
+    .cx-image-container {
+      a {
+        padding: 0 3vw;
+      }
+    }
+  }
+}

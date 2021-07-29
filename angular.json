@@ -68,6 +68,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-checkout.scss",
                 "bundleName": "checkout"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-order.scss",
+                "bundleName": "order"
               }
             ],
             "stylePreprocessorOptions": {

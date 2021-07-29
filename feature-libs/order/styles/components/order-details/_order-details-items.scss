@@ -1,0 +1,28 @@
+%cx-order-details-items {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  .cx-list-header {
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+    }
+  }
+
+  .cx-list {
+    @include media-breakpoint-down(sm) {
+      margin-inline-end: 0;
+      margin-inline-start: 0;
+    }
+  }
+
+  .cx-list-status {
+    margin: 0 0 0.5rem;
+    padding: 15px 30px;
+    background-color: var(--cx-color-background);
+    @include type('4');
+    font-weight: bold;
+  }
+
+  .cx-list-date {
+    margin: 0.5rem 0 0;
+  }
+}

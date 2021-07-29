@@ -1,0 +1,51 @@
+%cx-replenishment-order-cancellation,
+%cx-replenishment-order-cancellation-dialog {
+  .cx-cancel-replenishment-btns {
+    display: flex;
+
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}
+
+%cx-replenishment-order-cancellation {
+  .cx-cancel-replenishment-btns {
+    justify-content: flex-end;
+    margin: 2rem 0;
+  }
+}
+
+%cx-replenishment-order-cancellation-dialog {
+  color: var(--cx-color-text);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-cancel-replenishment-dialog-foreground {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-sm;
+
+    .cx-cancel-replenishment-dialog-content {
+      @extend .modal-content;
+
+      .cx-cancel-replenishment-dialog {
+        &-header {
+          @extend .modal-header;
+        }
+
+        &-description {
+          padding-top: 10px;
+          padding-inline-start: 25px;
+          padding-inline-end: 25px;
+          padding-bottom: 0;
+        }
+
+        &-body {
+          @extend .modal-body;
+        }
+      }
+    }
+  }
+}
