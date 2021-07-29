@@ -50,13 +50,10 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 }
 
 class MockImportService implements Partial<ImportService> {
-  //   loadFile() {
-  //     return of([]);
-  //   }
   loadFile = () => loadFileData$.asObservable();
 }
 
-fdescribe('ImportEntriesDialogComponent', () => {
+describe('ImportEntriesDialogComponent', () => {
   let component: ImportEntriesDialogComponent;
   let fixture: ComponentFixture<ImportEntriesDialogComponent>;
   let launchDialogService: LaunchDialogService;
