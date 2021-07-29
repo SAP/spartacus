@@ -9,7 +9,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
-import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
