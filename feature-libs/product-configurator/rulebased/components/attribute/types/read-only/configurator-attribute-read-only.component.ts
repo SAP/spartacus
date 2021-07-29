@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from '../base/configurator-attribute-type-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -15,7 +15,7 @@ export class ConfiguratorAttributeReadOnlyComponent {
   @Input() group: String;
 
   constructor(
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   /**
@@ -27,7 +27,7 @@ export class ConfiguratorAttributeReadOnlyComponent {
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
-    return this.uiKeyGeneratorService.createAttributeIdForConfigurator(
+    return this.configAttributeTypeUtilsService.createAttributeIdForConfigurator(
       currentAttribute
     );
   }
@@ -45,7 +45,7 @@ export class ConfiguratorAttributeReadOnlyComponent {
     attributeId: string,
     valueId: string
   ): string {
-    return this.uiKeyGeneratorService.createValueUiKey(
+    return this.configAttributeTypeUtilsService.createValueUiKey(
       prefix,
       attributeId,
       valueId

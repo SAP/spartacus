@@ -5,7 +5,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
-import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from './configurator-attribute-type-utils.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -33,9 +33,9 @@ const createTestValue = (
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {
-    super(quantityService, uiKeyGeneratorService);
+    super(quantityService, configAttributeTypeUtilsService);
   }
 }
 
@@ -49,7 +49,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
         providers: [
           ConfiguratorAttributeQuantityService,
-          ConfiguratorUiKeyGeneratorService,
+          ConfiguratorAttributeTypeUtilsService,
         ],
       }).compileComponents();
     })

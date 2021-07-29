@@ -3,11 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityService } from '../../quantity';
-import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from './configurator-attribute-type-utils.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export class ConfiguratorAttributeBaseComponent {
+export abstract class ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
   @Input() attribute: Configurator.Attribute;
@@ -16,7 +16,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   /**
@@ -75,7 +75,7 @@ export class ConfiguratorAttributeBaseComponent {
     attributeId: string,
     valueId: string
   ): string {
-    return this.uiKeyGeneratorService.createValueUiKey(
+    return this.configAttributeTypeUtilsService.createValueUiKey(
       prefix,
       attributeId,
       valueId
@@ -93,7 +93,7 @@ export class ConfiguratorAttributeBaseComponent {
     currentAttribute: Configurator.Attribute,
     value: string
   ): string {
-    return this.uiKeyGeneratorService.createAttributeValueIdForConfigurator(
+    return this.configAttributeTypeUtilsService.createAttributeValueIdForConfigurator(
       currentAttribute,
       value
     );
@@ -108,7 +108,7 @@ export class ConfiguratorAttributeBaseComponent {
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
-    return this.uiKeyGeneratorService.createAttributeIdForConfigurator(
+    return this.configAttributeTypeUtilsService.createAttributeIdForConfigurator(
       currentAttribute
     );
   }
@@ -128,7 +128,7 @@ export class ConfiguratorAttributeBaseComponent {
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    return this.uiKeyGeneratorService.createAriaLabelledBy(
+    return this.configAttributeTypeUtilsService.createAriaLabelledBy(
       prefix,
       attributeId,
       valueId,
@@ -144,7 +144,10 @@ export class ConfiguratorAttributeBaseComponent {
    * @return {string} - Generated focus key
    */
   createFocusId(attributeId: string, valueCode: string): string {
-    return this.uiKeyGeneratorService.createFocusId(attributeId, valueCode);
+    return this.configAttributeTypeUtilsService.createFocusId(
+      attributeId,
+      valueCode
+    );
   }
 
   /**
@@ -158,6 +161,6 @@ export class ConfiguratorAttributeBaseComponent {
    * @returns {number} Attribute code
    */
   getAttributeCode(attribute: Configurator.Attribute): number {
-    return this.uiKeyGeneratorService.getAttributeCode(attribute);
+    return this.configAttributeTypeUtilsService.getAttributeCode(attribute);
   }
 }

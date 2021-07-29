@@ -4,9 +4,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 
 interface SelectionValue {
   name?: string;
@@ -25,13 +23,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   implements OnInit {
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
-
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
-  ) {
-    super(quantityService, uiKeyGeneratorService);
-  }
 
   ngOnInit() {
     if (this.attribute.values && this.attribute.values.length > 0) {

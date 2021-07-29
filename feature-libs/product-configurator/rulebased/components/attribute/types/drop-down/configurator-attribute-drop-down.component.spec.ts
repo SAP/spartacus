@@ -13,7 +13,6 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -74,7 +73,6 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
         ],
-        providers: [ConfiguratorUiKeyGeneratorService],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {

@@ -19,7 +19,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorUiKeyGeneratorService } from '../types/base/configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from '../types/base/configurator-attribute-type-utils.service';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -61,7 +61,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(
     protected productService: ProductService,
     protected keyBoardFocus: KeyboardFocusService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {}
   iconType = ICON_TYPE;
 
@@ -98,7 +98,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   get focusConfig(): FocusConfig {
     const focusConfig = {
-      key: this.uiKeyGeneratorService.createFocusId(
+      key: this.configAttributeTypeUtilsService.createFocusId(
         this.productCardOptions.attributeId.toString(),
         this.productCardOptions.productBoundValue.valueCode
       ),

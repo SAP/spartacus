@@ -20,7 +20,6 @@ import {
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
 @Component({
@@ -105,7 +104,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           MockConfiguratorPriceComponent,
           MockFocusDirective,
         ],
-        providers: [ConfiguratorUiKeyGeneratorService],
         imports: [
           ReactiveFormsModule,
           NgSelectModule,

@@ -12,9 +12,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -78,12 +76,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ],
         imports: [I18nTestingModule, ReactiveFormsModule],
         providers: [
-          ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
           },
-          ConfiguratorUiKeyGeneratorService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {

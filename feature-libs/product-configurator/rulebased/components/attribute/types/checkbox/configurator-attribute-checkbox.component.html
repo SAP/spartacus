@@ -11,7 +11,7 @@
       class="form-check-input"
       [value]="attribute?.values[0].valueCode"
       [cxFocus]="{ key: attribute.name + '-' + attribute?.values[0].name }"
-      (change)="onSelect()"
+      (change)="onSelect(assembleSingleValue())"
       [formControl]="attributeCheckBoxForm"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
     />

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorUiKeyGeneratorService } from '../types/base/configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from '../types/base/configurator-attribute-type-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -28,7 +28,7 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
 
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -145,6 +145,9 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
    * @return {string} - Generated attribute UI key
    */
   createAttributeUiKey(prefix: string, attributeId: string): string {
-    return this.uiKeyGeneratorService.createAttributeUiKey(prefix, attributeId);
+    return this.configAttributeTypeUtilsService.createAttributeUiKey(
+      prefix,
+      attributeId
+    );
   }
 }

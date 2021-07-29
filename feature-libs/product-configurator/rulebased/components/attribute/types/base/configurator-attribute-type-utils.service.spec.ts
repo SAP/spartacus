@@ -1,5 +1,5 @@
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from './configurator-attribute-type-utils.service';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -10,11 +10,11 @@ const currentAttribute: Configurator.Attribute = {
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
 
-describe('ConfiguratorUiKeyGeneratorService', () => {
-  let classUnderTest: ConfiguratorUiKeyGeneratorService;
+describe('ConfiguratorAttributeTypeUtilsService', () => {
+  let classUnderTest: ConfiguratorAttributeTypeUtilsService;
 
   beforeEach(() => {
-    classUnderTest = new ConfiguratorUiKeyGeneratorService();
+    classUnderTest = new ConfiguratorAttributeTypeUtilsService();
   });
 
   it('should generate value key', () => {

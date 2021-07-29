@@ -14,7 +14,7 @@ import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from '../base/configurator-attribute-type-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',
@@ -22,7 +22,6 @@ import { ConfiguratorUiKeyGeneratorService } from '../base/configurator-ui-key-g
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeInputFieldComponent
-  extends ConfiguratorUiKeyGeneratorService
   implements OnInit, OnDestroy {
   attributeInputForm = new FormControl('');
   protected sub: Subscription;
@@ -40,9 +39,10 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
-  constructor(protected config: ConfiguratorUISettingsConfig) {
-    super();
-  }
+  constructor(
+    protected config: ConfiguratorUISettingsConfig,
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+  ) {}
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
@@ -84,5 +84,28 @@ export class ConfiguratorAttributeInputFieldComponent
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  /**
+   * Retrieves a unique key for config attribute to be sent to configurator.
+   *
+   * @return {string} - Generated attribute ID
+   */
+  get attributeId(): string {
+    return this.configAttributeTypeUtilsService.createAttributeIdForConfigurator(
+      this.attribute
+    );
+  }
+
+  /**
+   * Retrieves a unique key for aria-labelled-by.
+   *
+   * @return {string} - Generated aria-labelled-by attribute
+   */
+  get ariaLabelledBy(): string {
+    return this.configAttributeTypeUtilsService.createAriaLabelledBy(
+      'label',
+      this.attribute.name
+    );
   }
 }

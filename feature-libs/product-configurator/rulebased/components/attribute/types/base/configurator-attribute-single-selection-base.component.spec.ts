@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
-import { ConfiguratorUiKeyGeneratorService } from './configurator-ui-key-generator.service';
+import { ConfiguratorAttributeTypeUtilsService } from './configurator-attribute-type-utils.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -33,9 +33,9 @@ const createTestValue = (
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected uiKeyGeneratorService: ConfiguratorUiKeyGeneratorService
+    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
   ) {
-    super(quantityService, uiKeyGeneratorService);
+    super(quantityService, configAttributeTypeUtilsService);
   }
 }
 
@@ -56,7 +56,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
         providers: [
           ConfiguratorAttributeQuantityService,
-          ConfiguratorUiKeyGeneratorService,
+          ConfiguratorAttributeTypeUtilsService,
         ],
       }).compileComponents();
     })

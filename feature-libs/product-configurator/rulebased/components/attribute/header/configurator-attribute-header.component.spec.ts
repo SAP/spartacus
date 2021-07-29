@@ -14,7 +14,6 @@ import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorUiKeyGeneratorService } from '../types/base/configurator-ui-key-generator.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 export class MockIconFontLoaderService {
@@ -73,7 +72,6 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
-          ConfiguratorUiKeyGeneratorService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeHeaderComponent, {

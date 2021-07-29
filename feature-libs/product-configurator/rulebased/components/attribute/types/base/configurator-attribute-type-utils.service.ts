@@ -7,7 +7,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguratorUiKeyGeneratorService {
+export class ConfiguratorAttributeTypeUtilsService {
   private static SEPARATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
@@ -27,7 +27,7 @@ export class ConfiguratorUiKeyGeneratorService {
   ): string {
     return (
       this.createAttributeUiKey(prefix, attributeId) +
-      ConfiguratorUiKeyGeneratorService.SEPARATOR +
+      ConfiguratorAttributeTypeUtilsService.SEPARATOR +
       valueId
     );
   }
@@ -61,10 +61,10 @@ export class ConfiguratorUiKeyGeneratorService {
    */
   createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
-      ConfiguratorUiKeyGeneratorService.PREFIX +
-      ConfiguratorUiKeyGeneratorService.SEPARATOR +
+      ConfiguratorAttributeTypeUtilsService.PREFIX +
+      ConfiguratorAttributeTypeUtilsService.SEPARATOR +
       prefix +
-      ConfiguratorUiKeyGeneratorService.SEPARATOR +
+      ConfiguratorAttributeTypeUtilsService.SEPARATOR +
       attributeId
     );
   }
@@ -96,31 +96,31 @@ export class ConfiguratorUiKeyGeneratorService {
     hasQuantity?: boolean
   ): string {
     let attributeUiKey = this.createAttributeUiKey(
-      ConfiguratorUiKeyGeneratorService.PREFIX_LABEL,
+      ConfiguratorAttributeTypeUtilsService.PREFIX_LABEL,
       attributeId
     );
     if (valueId) {
       attributeUiKey +=
         ' ' +
         this.createAttributeUiKey(prefix, attributeId) +
-        ConfiguratorUiKeyGeneratorService.SEPARATOR +
+        ConfiguratorAttributeTypeUtilsService.SEPARATOR +
         valueId +
         ' ';
       if (typeof hasQuantity === 'boolean' && !hasQuantity) {
         attributeUiKey +=
           this.createAttributeUiKey(
-            ConfiguratorUiKeyGeneratorService.PREFIX_DDLB_OPTION_PRICE_VALUE,
+            ConfiguratorAttributeTypeUtilsService.PREFIX_DDLB_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfiguratorUiKeyGeneratorService.SEPARATOR +
+          ConfiguratorAttributeTypeUtilsService.SEPARATOR +
           valueId;
       } else {
         attributeUiKey +=
           this.createAttributeUiKey(
-            ConfiguratorUiKeyGeneratorService.PREFIX_OPTION_PRICE_VALUE,
+            ConfiguratorAttributeTypeUtilsService.PREFIX_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfiguratorUiKeyGeneratorService.SEPARATOR +
+          ConfiguratorAttributeTypeUtilsService.SEPARATOR +
           valueId;
       }
     }
