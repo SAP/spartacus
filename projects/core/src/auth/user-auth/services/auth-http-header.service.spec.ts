@@ -133,7 +133,7 @@ describe('AuthHttpHeaderService', () => {
         access_token: `old_token`,
         refresh_token: 'ref_token',
       } as AuthToken);
-      const handler = (a) => of(a);
+      const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
         token.next({
           access_token: `new_token`,
@@ -159,7 +159,7 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should invoke expired refresh token handler when there is no refresh token', () => {
-      const handler = (a) => of(a);
+      const handler = jasmine.createSpy('handler', (a: any) => of(a));
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
       spyOn(service, 'handleExpiredRefreshToken').and.stub();
       spyOn(authStorageService, 'getToken').and.returnValue(
@@ -172,8 +172,12 @@ describe('AuthHttpHeaderService', () => {
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler
         )
-        .subscribe()
-        .unsubscribe();
+        .subscribe({
+          complete: () => {
+            // check that we didn't created new requests
+            expect(handler).not.toHaveBeenCalled();
+          },
+        });
       expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
       expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
