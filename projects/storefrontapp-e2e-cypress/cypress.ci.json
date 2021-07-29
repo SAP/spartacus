@@ -11,7 +11,7 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://20.51.210.49:9002",
+    "API_URL": "https://23.100.27.243:9002",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",
