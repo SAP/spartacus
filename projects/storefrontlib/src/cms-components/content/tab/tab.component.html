@@ -1,6 +1,7 @@
 <ng-container *ngIf="config as config">
   <ng-container *ngIf="mode$ | async as mode">
     <ng-container *ngIf="tabs$ | async as tabs">
+      <!-- Tab List is the list of buttons to open tabs -->
       <div role="tablist" [attr.aria-label]="config.label" [class]="mode">
         <ng-container *ngFor="let tab of tabs; let i = index">
           <button
@@ -11,7 +12,7 @@
             [attr.aria-expanded]="isOpen(i)"
             [attr.aria-controls]="'section-' + i"
             [attr.tabindex]="
-              isOpen(i) || (i === 0 && this.openTabsLength() === 0) ? 0 : -1
+              isOpen(i) || (i === 0 && (this.openTabs | async) === 0) ? 0 : -1
             "
             [attr.id]="tab.id"
             [class.active]="isOpen(i)"
@@ -39,6 +40,7 @@
         </ng-container
       ></ng-container>
 
+      <!-- Tab Panel shows the content of the given tab -->
       <ng-template #tabPanel let-tabNum="tabNum">
         <div
           role="tabpanel"
@@ -47,6 +49,7 @@
           [attr.tabindex]="isOpen(tabNum) ? 0 : -1"
           [class.active]="isOpen(tabNum)"
           [style.display]="isOpen(tabNum) ? 'block' : 'none'"
+          [cxFocus]="{ focusOnEscape: true }"
         >
           <ng-container
             [ngTemplateOutlet]="tabs[tabNum]?.template"

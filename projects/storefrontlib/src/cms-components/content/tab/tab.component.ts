@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { BREAKPOINT } from 'projects/storefrontlib/src/layout';
 import { BreakpointService } from 'projects/storefrontlib/src/layout/breakpoint/breakpoint.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Tab, TabConfig } from './Tab';
 
@@ -21,11 +22,12 @@ export enum TAB_TYPE {
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabComponent {
+export class TabComponent implements OnInit {
   @Input() tabs$: Observable<Tab[]>;
-  @Input() openTabs: number[] = [0];
   @Input() classes: string = '';
   @Input() config: TabConfig;
+
+  openTabs$: BehaviorSubject<number[]>;
 
   mode$: Observable<TAB_TYPE> = this.breakpointService.isUp(BREAKPOINT.md).pipe(
     map((isUp: boolean) => {
@@ -42,6 +44,10 @@ export class TabComponent {
 
   constructor(protected breakpointService: BreakpointService) {}
 
+  ngOnInit(): void {
+    this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
+  }
+
   /**
    * Tab selection works differently depending on the given mode.
    *
@@ -54,7 +60,7 @@ export class TabComponent {
 
     switch (mode) {
       case TAB_TYPE.TAB:
-        this.openTabs = [tabNum];
+        this.openTabs$.next([tabNum]);
         return;
       case TAB_TYPE.ACCORDIAN:
         this.toggleTab(tabNum);
@@ -123,22 +129,27 @@ export class TabComponent {
    * Indicates whether a tab is open (in the open tabs array).
    */
   isOpen(tabNum: number): boolean {
-    return this.openTabs.find((open: number) => open === tabNum) !== undefined;
-  }
-
-  // temp method for testing tabindex
-  openTabsLength(): number {
-    return this.openTabs.length;
+    return (
+      this.getOpenTabs().find((open: number) => open === tabNum) !== undefined
+    );
   }
 
   /**
    * Inverts the state of the given tab between open and closed.
    */
   toggleTab(tabNum: number): void {
-    const openTabIndex = this.openTabs.indexOf(tabNum);
+    const openTabs = this.getOpenTabs();
+    const openTabIndex = openTabs.indexOf(tabNum);
+
     openTabIndex > -1
-      ? this.openTabs.splice(openTabIndex, 1)
-      : this.openTabs.push(tabNum);
+      ? openTabs.splice(openTabIndex, 1)
+      : openTabs.push(tabNum);
+
+    this.openTabs$.next(openTabs);
+  }
+
+  protected getOpenTabs(): number[] {
+    return this.openTabs$.value;
   }
 
   /**

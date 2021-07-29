@@ -11,8 +11,10 @@ export interface Tab {
 export interface TabConfig {
   label: string;
   mode?: TAB_TYPE;
+  openTabs?: number[];
 }
 
 export const defaultTabConfig: TabConfig = {
   label: 'Product Information',
+  openTabs: [0],
 };
