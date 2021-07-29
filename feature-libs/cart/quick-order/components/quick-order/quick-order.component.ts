@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
@@ -9,7 +14,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -17,13 +22,18 @@ import { filter, first, map, switchMap } from 'rxjs/operators';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit {
+export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
-  isCartLoading$: Observable<boolean> = this.activeCartService.isStable();
   quickOrderListLimit$: Observable<
     number | undefined
   > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
+  isCartStable$: Observable<any> = combineLatest([
+    this.activeCartService.getActiveCartId(),
+    this.activeCartService.isStable(),
+  ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
+
+  private subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -50,24 +60,30 @@ export class QuickOrderComponent implements OnInit {
   }
 
   addToCart(): void {
-    this.entries$
-      .pipe(
-        first(),
-        switchMap((entries) => {
-          this.activeCartService.addEntries(entries);
+    this.subscription.add(
+      this.entries$
+        .pipe(
+          first(),
+          switchMap((entries) => {
+            this.activeCartService.addEntries(entries);
 
-          return this.isCartLoading$;
-        }),
-        filter(Boolean)
-      )
-      .subscribe(() => {
-        this.quickOrderService.clearList();
-        this.globalMessageService.add(
-          {
-            key: 'quickOrderTable.addedtoCart',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      });
+            return this.activeCartService.isStable();
+          }),
+          filter(Boolean)
+        )
+        .subscribe(() => {
+          this.quickOrderService.clearList();
+          this.globalMessageService.add(
+            {
+              key: 'quickOrderTable.addedtoCart',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
