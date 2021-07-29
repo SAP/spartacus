@@ -55,10 +55,20 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     event?.preventDefault();
-    this.isSearching = true;
+
     const productCode = this.form.get('product')?.value;
 
-    this.quickOrderService
+    this.isSearching = true;
+    this.subscription.add(this.searchProduct(productCode));
+  }
+
+  clear(event?: Event): void {
+    event?.preventDefault();
+    this.form.reset();
+  }
+
+  protected searchProduct(productCode: string): Subscription {
+    return this.quickOrderService
       .search(productCode)
       .pipe(finalize(() => (this.isSearching = false)))
       .subscribe(
@@ -72,11 +82,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
           );
         }
       );
-  }
-
-  clear(event?: Event): void {
-    event?.preventDefault();
-    this.form.reset();
   }
 
   protected build() {
