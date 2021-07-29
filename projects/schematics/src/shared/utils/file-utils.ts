@@ -1066,27 +1066,28 @@ export function insertCommentAboveIdentifier(
   comment: string,
   identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
-  const classNode = getSourceNodes(source).find(
-    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
-  );
-  if (!classNode) {
-    return [new NoopChange()];
-  }
-
-  const identifierNodes = findNodes(classNode, identifierType).filter(
-    (node) => node.getText() === identifierName
-  );
-
   const changes: InsertChange[] = [];
-  identifierNodes.forEach((n) =>
-    changes.push(
-      new InsertChange(
-        sourcePath,
-        getLineStartFromTSFile(source, n.getStart()),
-        `${comment}`
+
+  getSourceNodes(source).forEach((node) => {
+    if (node.kind !== ts.SyntaxKind.ClassDeclaration) {
+      return;
+    }
+
+    const identifierNodes = findNodes(node, identifierType).filter(
+      (node) => node.getText() === identifierName
+    );
+
+    identifierNodes.forEach((n) =>
+      changes.push(
+        new InsertChange(
+          sourcePath,
+          getLineStartFromTSFile(source, n.getStart()),
+          `${comment}`
+        )
       )
-    )
-  );
+    );
+  });
+
   return changes;
 }
 

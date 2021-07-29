@@ -3,17 +3,15 @@ import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function checkoutCostCenterFacadeFactory() {
-  return facadeFactory({
-    facade: CheckoutCostCenterFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: ['setCostCenter', 'getCostCenter'],
-    async: true,
-  });
-}
 @Injectable({
   providedIn: 'root',
-  useFactory: checkoutCostCenterFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: CheckoutCostCenterFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: ['setCostCenter', 'getCostCenter'],
+      async: true,
+    }),
 })
 export abstract class CheckoutCostCenterFacade {
   /**
