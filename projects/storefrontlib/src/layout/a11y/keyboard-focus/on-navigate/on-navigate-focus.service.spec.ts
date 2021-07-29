@@ -2,7 +2,6 @@ import { NgZone } from '@angular/core';
 import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { WindowRef } from 'projects/core/src/window';
 import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../config';
@@ -41,7 +40,6 @@ describe('OnNavigateFocusService', () => {
             provide: BreakpointService,
             useClass: MockBreakpointService,
           },
-          WindowRef,
         ],
       }).compileComponents();
     })
