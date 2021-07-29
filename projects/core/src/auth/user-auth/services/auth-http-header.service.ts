@@ -19,6 +19,11 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
   providedIn: 'root',
 })
 export class AuthHttpHeaderService {
+  /**
+   * Indicates whether the access token is being refreshed
+   */
+  protected refreshInProgress = false;
+
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
@@ -131,8 +136,16 @@ export class AuthHttpHeaderService {
     let oldToken: AuthToken;
     return stream.pipe(
       tap((token) => {
-        if (token.access_token && token.refresh_token && !oldToken) {
-          this.oAuthLibWrapperService.refreshToken();
+        if (
+          token.access_token &&
+          token.refresh_token &&
+          !oldToken &&
+          !this.refreshInProgress
+        ) {
+          this.refreshInProgress = true;
+          this.oAuthLibWrapperService
+            .refreshToken()
+            .subscribe({ complete: () => (this.refreshInProgress = false) });
         } else if (!token.refresh_token) {
           this.handleExpiredRefreshToken();
         }
