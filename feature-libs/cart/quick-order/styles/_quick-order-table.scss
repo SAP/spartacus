@@ -57,6 +57,15 @@ cx-quick-order-table {
       padding: 0;
     }
 
+    .cx-code {
+      color: #747881;
+      color: var(--cx-color-secondary);
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-normal);
+      line-height: var(--cx-line-height, 1.2222222222);
+      padding: 0.625rem 0;
+    }
+
     .cx-link {
       color: var(--cx-color-text);
       text-decoration: none;

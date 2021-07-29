@@ -24,6 +24,7 @@ export const quickOrderList = {
 
 export const quickOrderTable = {
   product: 'Product',
+  id: 'ID',
   price: 'Price',
   quantity: 'QTY',
   itemPrice: 'Item price',
