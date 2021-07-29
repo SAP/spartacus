@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -26,9 +27,22 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
+  // TODO(#13286): make ConfiguratorAttributeTypeUtilsService a required dependency
+  constructor(
+    configUtils: ConfiguratorStorefrontUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+  );
+
+  /**
+   * @deprecated since 4.1
+   */
+  constructor(configUtils: ConfiguratorStorefrontUtilsService);
+
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+    @Optional()
+    protected configAttributeTypeUtilsService?: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -144,8 +158,11 @@ export class ConfiguratorAttributeHeaderComponent implements OnInit {
    * @param {string} attributeId - Attribute ID
    * @return {string} - Generated attribute UI key
    */
-  createAttributeUiKey(prefix: string, attributeId: string): string {
-    return this.configAttributeTypeUtilsService.createAttributeUiKey(
+  createAttributeUiKey(
+    prefix: string,
+    attributeId: string
+  ): string | undefined {
+    return this.configAttributeTypeUtilsService?.createAttributeUiKey(
       prefix,
       attributeId
     );

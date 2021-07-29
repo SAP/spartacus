@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Optional,
+} from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeTypeUtilsService } from '../base/configurator-attribute-type-utils.service';
 
@@ -14,8 +19,20 @@ export class ConfiguratorAttributeReadOnlyComponent {
    */
   @Input() group: String;
 
+  // TODO(#13286): make ConfiguratorAttributeTypeUtilsService a required dependency
   constructor(
-    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+  );
+
+  /**
+   * @deprecated since 4.1
+   */
+  constructor();
+
+  constructor(
+    @Optional()
+    protected configAttributeTypeUtilsService?: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   /**
@@ -26,8 +43,8 @@ export class ConfiguratorAttributeReadOnlyComponent {
    */
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
-  ): string {
-    return this.configAttributeTypeUtilsService.createAttributeIdForConfigurator(
+  ): string | undefined {
+    return this.configAttributeTypeUtilsService?.createAttributeIdForConfigurator(
       currentAttribute
     );
   }
@@ -44,8 +61,8 @@ export class ConfiguratorAttributeReadOnlyComponent {
     prefix: string,
     attributeId: string,
     valueId: string
-  ): string {
-    return this.configAttributeTypeUtilsService.createValueUiKey(
+  ): string | undefined {
+    return this.configAttributeTypeUtilsService?.createValueUiKey(
       prefix,
       attributeId,
       valueId

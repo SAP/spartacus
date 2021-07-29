@@ -1,4 +1,4 @@
-<div id="{{ attributeId }}" class="form-group">
+<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
     [required]="attribute.required"
@@ -6,9 +6,9 @@
     attr.role="{{ attribute.dataType }}"
     attr.aria-required="{{ attribute.required }}"
     maxlength="{{ attribute.maxlength }}"
-    attr.aria-labelledby="{{ ariaLabelledBy }}"
+    attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
     [cxFocus]="{
-      key: attributeId
+      key: createAttributeIdForConfigurator(attribute)
     }"
   />
 </div>

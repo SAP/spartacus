@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  Optional,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -39,9 +40,22 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
+  // TODO(#13286): make ConfiguratorAttributeTypeUtilsService a required dependency
+  constructor(
+    config: ConfiguratorUISettingsConfig,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+  );
+
+  /**
+   * @deprecated since 4.1
+   */
+  constructor(config: ConfiguratorUISettingsConfig);
+
   constructor(
     protected config: ConfiguratorUISettingsConfig,
-    protected configAttributeTypeUtilsService: ConfiguratorAttributeTypeUtilsService
+    @Optional()
+    protected configAttributeTypeUtilsService?: ConfiguratorAttributeTypeUtilsService
   ) {}
 
   ngOnInit() {
@@ -87,25 +101,39 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   /**
-   * Retrieves a unique key for config attribute to be sent to configurator.
+   * Creates unique key for config attribute to be sent to configurator.
    *
+   * @param {Configurator.Attribute} currentAttribute - Attribute
    * @return {string} - Generated attribute ID
    */
-  get attributeId(): string {
-    return this.configAttributeTypeUtilsService.createAttributeIdForConfigurator(
-      this.attribute
+  createAttributeIdForConfigurator(
+    currentAttribute: Configurator.Attribute
+  ): string | undefined {
+    return this.configAttributeTypeUtilsService?.createAttributeIdForConfigurator(
+      currentAttribute
     );
   }
 
   /**
-   * Retrieves a unique key for aria-labelled-by.
+   * Creates unique key for attribute 'aria-labelledby'.
    *
-   * @return {string} - Generated aria-labelled-by attribute
+   * @param {string} prefix - Prefix
+   * @param {string} attributeId - Attribute ID
+   * @param {string} valueId - Value ID
+   * @param {boolean} hasQuantity - Has quantity
+   * @return {string} - Generated UI key for 'aria-labelledby'
    */
-  get ariaLabelledBy(): string {
-    return this.configAttributeTypeUtilsService.createAriaLabelledBy(
-      'label',
-      this.attribute.name
+  createAriaLabelledBy(
+    prefix: string,
+    attributeId: string,
+    valueId?: string,
+    hasQuantity?: boolean
+  ): string | undefined {
+    return this.configAttributeTypeUtilsService?.createAriaLabelledBy(
+      prefix,
+      attributeId,
+      valueId,
+      hasQuantity
     );
   }
 }
