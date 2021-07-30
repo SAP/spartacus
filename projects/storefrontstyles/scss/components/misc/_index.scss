@@ -6,5 +6,5 @@
 @import './order-overview/index';
 @import './popover/index';
 
-$misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-card,
-  cx-pagination, cx-order-overview, cx-popover !default;
+$misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-spinner-button,
+  cx-card, cx-pagination, cx-order-overview, cx-popover !default;

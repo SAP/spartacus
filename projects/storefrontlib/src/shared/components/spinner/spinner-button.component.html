@@ -5,7 +5,7 @@
 >
   <div class="cx-spinner-button-container">
     <div *ngIf="disabled" class="loader-container">
-      <div class="loader"></div>
+      <div class="loader">{{ 'spinner.loading' | cxTranslate }}</div>
     </div>
 
     <span>{{ text }}</span>
