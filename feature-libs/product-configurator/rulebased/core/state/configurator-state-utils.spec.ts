@@ -69,17 +69,46 @@ describe('ConfiguratorStateUtils', () => {
   });
 
   describe('updateArrayElement', () => {
-    const code = 'VALUE_CODE';
+    const code0 = 'VALUE_CODE_0';
+    const code1 = 'VALUE_CODE_1';
+    const code2 = 'VALUE_CODE_2';
+
     const priceDetails: Configurator.PriceDetails = {
       currencyIso: 'EUR',
       value: 12,
     };
-    let values: Configurator.Value[] = [{ valueCode: code }];
+    let values: Configurator.Value[] = [
+      { valueCode: code0 },
+      { valueCode: code1 },
+      { valueCode: code2 },
+    ];
     const valueSupplement: Configurator.ValueSupplement = {
-      attributeValueKey: code,
+      attributeValueKey: code1,
       priceValue: priceDetails,
       obsoletePriceValue: priceDetails,
     };
+
+    it('should create shallow copies for untouched entries and a single new entry if the predicate matches', () => {
+      const mergedValues = ConfiguratorStateUtils['updateArrayElement'](
+        values,
+        (value) => value.valueCode === valueSupplement.attributeValueKey,
+        (value) => {
+          return {
+            ...value,
+          };
+        }
+      );
+      if (mergedValues) {
+        expect(mergedValues[0]).toBe(values[0]);
+        expect(mergedValues[1]).not.toBe(values[1]);
+        expect(mergedValues[2]).toBe(values[2]);
+
+        //no shallow copy, but the actual attributes should match according to the projection
+        expect(mergedValues[1].valueCode).toBe(values[1].valueCode);
+      } else {
+        fail();
+      }
+    });
 
     it('should create new array in case predicate matches', () => {
       const mergedValues = ConfiguratorStateUtils['updateArrayElement'](
@@ -128,6 +157,22 @@ describe('ConfiguratorStateUtils', () => {
         attributeSupplements
       );
       expect(groups.length).toBe(0);
+    });
+
+    it('should throw an error if groups are present but attribute supplements are empty', () => {
+      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
+        1,
+        0,
+        3,
+        3
+      );
+      const attributeSupplements: Configurator.AttributeSupplement[] = [];
+      expect(() =>
+        ConfiguratorStateUtils.mergeGroupsWithSupplements(
+          groups,
+          attributeSupplements
+        )
+      ).toThrowError();
     });
 
     it('should update value prices for simple product', () => {
