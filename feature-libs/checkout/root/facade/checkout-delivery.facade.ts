@@ -8,37 +8,34 @@ import {
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function checkoutDeliveryFacadeFactory() {
-  return facadeFactory({
-    facade: CheckoutDeliveryFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: [
-      'getSupportedDeliveryModes',
-      'getSelectedDeliveryMode',
-      'getSelectedDeliveryModeCode',
-      'getDeliveryAddress',
-      'getSetDeliveryAddressProcess',
-      'resetSetDeliveryAddressProcess',
-      'getSetDeliveryModeProcess',
-      'resetSetDeliveryModeProcess',
-      'resetLoadSupportedDeliveryModesProcess',
-      'getLoadSupportedDeliveryModeProcess',
-      'clearCheckoutDeliveryModes',
-      'createAndSetAddress',
-      'loadSupportedDeliveryModes',
-      'setDeliveryMode',
-      'setDeliveryAddress',
-      'clearCheckoutDeliveryAddress',
-      'clearCheckoutDeliveryMode',
-      'clearCheckoutDeliveryDetails',
-    ],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: checkoutDeliveryFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: CheckoutDeliveryFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: [
+        'getSupportedDeliveryModes',
+        'getSelectedDeliveryMode',
+        'getSelectedDeliveryModeCode',
+        'getDeliveryAddress',
+        'getSetDeliveryAddressProcess',
+        'resetSetDeliveryAddressProcess',
+        'getSetDeliveryModeProcess',
+        'resetSetDeliveryModeProcess',
+        'resetLoadSupportedDeliveryModesProcess',
+        'getLoadSupportedDeliveryModeProcess',
+        'clearCheckoutDeliveryModes',
+        'createAndSetAddress',
+        'loadSupportedDeliveryModes',
+        'setDeliveryMode',
+        'setDeliveryAddress',
+        'clearCheckoutDeliveryAddress',
+        'clearCheckoutDeliveryMode',
+        'clearCheckoutDeliveryDetails',
+      ],
+      async: true,
+    }),
 })
 export abstract class CheckoutDeliveryFacade {
   /**

@@ -3,7 +3,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../../rulebased/core/model/configurator.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';

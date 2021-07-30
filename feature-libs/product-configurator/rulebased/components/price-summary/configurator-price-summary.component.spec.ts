@@ -12,7 +12,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
