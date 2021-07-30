@@ -1,11 +1,11 @@
+import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { BREAKPOINT } from '../../../config';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../config';
 import { KeyboardFocusConfig } from '../config';
-import { DOCUMENT } from '@angular/common';
 
 /**
  * Shared service for keyboard focus features called when the browser navigates.
@@ -33,11 +33,6 @@ export class OnNavigateFocusService implements OnDestroy {
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
-    // Do not initialize on server-side
-    if (typeof window === 'undefined') {
-      return;
-    }
-
     if (this.config?.keyboardFocus?.enableResetFocusOnNavigate) {
       this.setResetFocusOnNavigate(
         this.config.keyboardFocus.enableResetFocusOnNavigate
@@ -67,11 +62,11 @@ export class OnNavigateFocusService implements OnDestroy {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.document.body.focus();
+                  this.document.body.focus?.();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.document.body.focus();
+            this.document.body.focus?.();
           }
         });
     }
@@ -93,11 +88,11 @@ export class OnNavigateFocusService implements OnDestroy {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) => {
                 if (enable.includes(breakpoint)) {
-                  this.document.body.scrollIntoView();
+                  this.document.body.scrollIntoView?.();
                 }
               });
           } else if (typeof enable === 'boolean') {
-            this.document.body.scrollIntoView();
+            this.document.body.scrollIntoView?.();
           }
         });
     }
