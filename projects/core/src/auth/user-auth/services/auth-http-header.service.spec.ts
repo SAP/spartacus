@@ -1,8 +1,7 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { TokenResponse } from 'angular-oauth2-oidc';
-import { BehaviorSubject, EMPTY, Observable, of, queueScheduler } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -28,9 +27,7 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
-  refreshToken(): Observable<TokenResponse> {
-    return EMPTY;
-  }
+  refreshToken(): void {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
