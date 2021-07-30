@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -61,13 +61,13 @@ export class AuthHttpHeaderService {
     return url.includes(this.occEndpoints.getBaseUrl());
   }
 
-  protected getAuthorizationHeader(request: HttpRequest<any>): string {
+  protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
     const rawValue = request.headers.get('Authorization');
     return rawValue;
   }
 
   protected createAuthorizationHeader(): { Authorization: string } | {} {
-    let token;
+    let token: AuthToken | undefined;
     this.authStorageService
       .getToken()
       .subscribe((tok) => (token = tok))
@@ -89,8 +89,10 @@ export class AuthHttpHeaderService {
     next: HttpHandler
   ): Observable<HttpEvent<AuthToken>> {
     return this.handleExpiredToken().pipe(
-      switchMap((token: AuthToken) => {
-        return next.handle(this.createNewRequestWithNewToken(request, token));
+      switchMap((token) => {
+        return token
+          ? next.handle(this.createNewRequestWithNewToken(request, token))
+          : EMPTY;
       })
     );
   }
@@ -129,11 +131,11 @@ export class AuthHttpHeaderService {
    *
    * @return observable which omits new access_token. (Warn: might never emit!).
    */
-  protected handleExpiredToken(): Observable<AuthToken> {
+  protected handleExpiredToken(): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
     let oldToken: AuthToken;
     return stream.pipe(
-      tap((token: AuthToken) => {
+      tap((token) => {
         if (
           token.access_token &&
           token.refresh_token &&
@@ -149,9 +151,8 @@ export class AuthHttpHeaderService {
         }
         oldToken = oldToken || token;
       }),
-      filter(
-        (token: AuthToken) => oldToken.access_token !== token.access_token
-      ),
+      filter((token) => oldToken.access_token !== token.access_token),
+      map((token) => (token?.access_token ? token : undefined)),
       take(1)
     );
   }
