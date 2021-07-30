@@ -20,7 +20,7 @@ import { filter, first, map, switchMap } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
-  isCartLoading$: Observable<boolean> = this.activeCartService.isStable();
+  isCartStable$: Observable<boolean> = this.activeCartService.isStable();
   quickOrderListLimit$: Observable<
     number | undefined
   > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
@@ -56,7 +56,7 @@ export class QuickOrderComponent implements OnInit {
         switchMap((entries) => {
           this.activeCartService.addEntries(entries);
 
-          return this.isCartLoading$;
+          return this.isCartStable$;
         }),
         filter(Boolean)
       )

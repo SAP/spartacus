@@ -1,4 +1,4 @@
-<ng-container *ngIf="isCartLoading$ | async; else loading">
+<ng-container *ngIf="isCartStable$ | async; else loading">
   <ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
     <ng-container *ngIf="entries$ | async as entries">
       <div class="quick-order-header">
