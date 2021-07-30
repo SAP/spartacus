@@ -17,19 +17,6 @@ export class OnNavigateFocusService implements OnDestroy {
   protected resetFocusOnNavigate: Subscription;
   protected resetViewOnNavigate: Subscription;
 
-  /**
-   * @deprecated in 4.0
-   * Constructor will be migrated to...
-   *
-   * ```
-   * constructor(
-   *  protected config: KeyboardFocusConfig,
-   *  protected router: Router,
-   *  protected breakpointService: BreakpointService,
-   *  protected winRef: WindowRef
-   * ) {}
-   * ```
-   */
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
