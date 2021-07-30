@@ -1,0 +1,13 @@
+<button
+  (click)="clikEvent.emit()"
+  [disabled]="disabled"
+  class="btn btn-primary"
+>
+  <div class="cx-spinner-button-container">
+    <div *ngIf="disabled" class="loader-container">
+      <div class="loader"></div>
+    </div>
+
+    <span>{{ text }}</span>
+  </div>
+</button>
