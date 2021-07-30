@@ -1,6 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { from, Observable } from 'rxjs';
 import { WindowRef } from '../../../window/window-ref';
 import { AuthConfigService } from './auth-config.service';
 
@@ -63,8 +62,8 @@ export class OAuthLibWrapperService {
   /**
    * Refresh access_token.
    */
-  refreshToken(): Observable<TokenResponse> {
-    return from(this.oAuthService.refreshToken());
+  refreshToken(): void {
+    this.oAuthService.refreshToken();
   }
 
   /**

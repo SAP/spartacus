@@ -143,15 +143,14 @@ export class AuthHttpHeaderService {
           !this.refreshInProgress
         ) {
           this.refreshInProgress = true;
-          this.oAuthLibWrapperService
-            .refreshToken()
-            .subscribe({ complete: () => (this.refreshInProgress = false) });
+          this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
           this.handleExpiredRefreshToken();
         }
         oldToken = oldToken || token;
       }),
       filter((token) => oldToken.access_token !== token.access_token),
+      tap(() => (this.refreshInProgress = false)),
       map((token) => (token?.access_token ? token : undefined)),
       take(1)
     );
