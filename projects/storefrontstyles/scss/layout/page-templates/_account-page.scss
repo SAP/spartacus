@@ -2,10 +2,6 @@
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 
-  cx-order cx-order-details-totals {
-    margin-bottom: 32px;
-  }
-
   cx-paragraph h4 {
     text-align: center;
   }
