@@ -45,11 +45,10 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
    * Fired when a value has been selected
    * @param index Index of selected value
    */
-  onSelect(): void {
-    /**
+  onClick(index: number): void {
     this.attributeCheckBoxForms[index].setValue(
       !this.attributeCheckBoxForms[index].value
-    );*/
+    );
 
     const selectedValues = this.assembleValuesForMultiSelectAttributes(
       this.attributeCheckBoxForms,
