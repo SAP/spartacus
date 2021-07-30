@@ -1,4 +1,4 @@
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorStateUtils } from './configurator-state-utils';
 

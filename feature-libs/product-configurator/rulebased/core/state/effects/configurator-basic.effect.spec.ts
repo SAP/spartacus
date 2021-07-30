@@ -20,8 +20,8 @@ import {
   GROUP_ID_5,
   GROUP_ID_6,
   GROUP_ID_7,
-} from '../../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
+} from '../../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';

@@ -43,7 +43,6 @@
         "ASM",
         "Checkout",
         "Saved-Cart",
-        "Bulk-Pricing",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -85,7 +84,7 @@
           },
           {
             "value": "Bulk-Pricing",
-            "label": "Product - Bulk Pricing"
+            "label": "Product - Bulk Pricing (b2b feature)"
           },
           {
             "value": "Product-Variants",

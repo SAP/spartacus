@@ -25,8 +25,8 @@ import {
   VariantConfiguratorOccAdapter,
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
-import { OccConfiguratorTestUtils } from '../../shared/testing/occ-configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { OccConfiguratorTestUtils } from '../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
 import {

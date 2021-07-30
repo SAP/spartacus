@@ -1,8 +1,7 @@
 /**
  * Occ Configurator component test utils service provides helper functions for the component tests.
  */
-
-import { OccConfigurator } from '../../occ/variant/variant-configurator-occ.models';
+import { OccConfigurator } from '../occ/variant/variant-configurator-occ.models';
 
 export class OccConfiguratorTestUtils {
   static createValueSupplements(
