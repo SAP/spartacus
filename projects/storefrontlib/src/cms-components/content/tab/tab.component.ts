@@ -39,8 +39,8 @@ export class TabComponent implements OnInit {
     })
   );
 
-  @ViewChildren('tabButton')
-  tabButtons: QueryList<any>;
+  @ViewChildren('tabHeader')
+  tabHeaders: QueryList<any>;
 
   constructor(protected breakpointService: BreakpointService) {}
 
@@ -72,7 +72,7 @@ export class TabComponent implements OnInit {
    * Focuses the given tab according to the number.
    */
   focus(tabNum: number): void {
-    this.tabButtons.toArray()[tabNum].nativeElement.focus();
+    this.tabHeaders.toArray()[tabNum].nativeElement.focus();
   }
 
   /**
@@ -121,7 +121,6 @@ export class TabComponent implements OnInit {
         return this.selectOrFocus(FIRST_TAB, mode, event);
       case 'End':
         return this.selectOrFocus(LAST_TAB, mode, event);
-      // TODO: Escape button for getting focus out of tab panel
     }
   }
 

@@ -67,8 +67,9 @@ export class FacetListComponent implements AfterViewInit {
   };
 
   tabConfig: TabConfig = {
-    label: 'Product Information',
+    label: 'Product Facets',
     mode: TAB_TYPE.ACCORDIAN,
+    openTabs: [0]
   };
   tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
@@ -90,7 +91,7 @@ export class FacetListComponent implements AfterViewInit {
         const tabs = [];
         for (let i = 0; i < facets?.length; i++) {
           tabs.push({
-            title: facets[i].name ?? 'unnamed',
+            header: facets[i].name ?? 'unnamed',
             template: templates?._results[i],
           });
         }

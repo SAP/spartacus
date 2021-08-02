@@ -12,13 +12,17 @@
             [attr.aria-expanded]="isOpen(i)"
             [attr.aria-controls]="'section-' + i"
             [attr.tabindex]="
-              isOpen(i) || (i === 0 && (this.openTabs | async) === 0) ? 0 : -1
+              isOpen(i) ||
+              (i === 0 && (this.openTabs | async) === 0) ||
+              mode === 'ACCORDIAN'
+                ? 0
+                : -1
             "
             [attr.id]="tab.id"
             [class.active]="isOpen(i)"
-            #tabButton
+            #tabHeader
           >
-            {{ tab.title | cxTranslate }}
+            {{ tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header }}
           </button>
 
           <!-- Show tab panels under selected button in Accordian mode -->

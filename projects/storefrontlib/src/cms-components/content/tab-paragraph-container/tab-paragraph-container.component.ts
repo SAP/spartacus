@@ -20,6 +20,11 @@ import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { defaultTabConfig, Tab } from '../tab/Tab';
 
+/**
+ * @deprecated in 4.1
+ * 
+ * This component will be replaced by `TabComponent`.
+ */
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
@@ -78,7 +83,7 @@ export class TabParagraphContainerComponent
   tabs$: Observable<Tab[]> = this.components$.pipe(
     map((components) =>
       components.map((component) => ({
-        title: component.title,
+        headerKey: component.title,
         cxComponent: component,
       }))
     )
