@@ -10,8 +10,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { productConfigurationWithConflicts } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {

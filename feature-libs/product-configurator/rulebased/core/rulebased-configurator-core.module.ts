@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
+import { RulebasedConfiguratorEventModule } from './events/rulebased-configurator-event.module';
 import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator-state.module';
 
 /**
@@ -7,7 +8,7 @@ import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator
  * Explicit providing of connector because otherwise lazy loading does not work
  */
 @NgModule({
-  imports: [RulebasedConfiguratorStateModule],
+  imports: [RulebasedConfiguratorStateModule, RulebasedConfiguratorEventModule],
   providers: [RulebasedConfiguratorConnector],
 })
 export class RulebasedConfiguratorCoreModule {}
