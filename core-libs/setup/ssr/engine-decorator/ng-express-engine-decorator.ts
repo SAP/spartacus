@@ -38,7 +38,7 @@ export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
   optimizationOptions: SsrOptimizationOptions | null = {
     concurrency: 20,
-    timeout: 5000,
+    timeout: 3000,
   }
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
