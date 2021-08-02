@@ -18,8 +18,6 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
 };
 
-console.log(`--> SSR options to use: ${JSON.stringify(ssrOptions)}`);
-
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.

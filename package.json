@@ -54,7 +54,7 @@
     "test": "ng test",
     "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test smartedit --code-coverage\" \"ng test asm --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test product-configurator --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\" \"ng test checkout --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
-    "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_TIMEOUT=5000 ng run storefrontapp:serve-ssr",
+    "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ng run storefrontapp:serve-ssr",
     "serve:ssr": "node dist/storefrontapp-server/main.js",
     "serve:ssr:ci": "NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_TIMEOUT=0 node dist/storefrontapp-server/main.js",
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp-server/main.js",
