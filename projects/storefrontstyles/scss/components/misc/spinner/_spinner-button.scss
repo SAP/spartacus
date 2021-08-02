@@ -25,7 +25,8 @@
       height: var(--cx-spinner-button-radius);
       font-size: 10px;
       overflow: hidden;
-      animation: load8 var(--cx-spinner-button-animation-time) infinite linear;
+      animation: circleRotation var(--cx-spinner-button-animation-time) infinite
+        linear;
 
       &::before,
       &:before {
@@ -45,7 +46,7 @@
       }
     }
 
-    @keyframes load8 {
+    @keyframes circleRotation {
       0% {
         transform: rotate(0deg);
       }
