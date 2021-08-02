@@ -1,7 +1,10 @@
+// TODO: rename this file from _order-detail-page.scss to
+// _account-page.scss after cleaning all order related codes
 %AccountPageTemplate {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 
+  // TODO: clean it in 5.0, since it was moved to order lib
   cx-order-details-items {
     margin-top: 30px;
     margin-bottom: 15px;
@@ -31,6 +34,7 @@
     }
   }
 
+  // TODO: clean it in 5.0, since it was moved to order lib
   cx-order-details-shipping {
     .cx-account-summary {
       background-color: var(--cx-color-background);
@@ -89,14 +93,9 @@
     }
   }
 
+  // TODO: clean it in 5.0, since it is not used
   cx-order cx-order-details-totals {
     margin-bottom: 32px;
-  }
-
-  cx-tab-paragraph-container {
-    .active {
-      background-color: var(--cx-color-inverse);
-    }
   }
 
   cx-paragraph h4 {
@@ -111,6 +110,7 @@
     }
   }
 
+  // TODO: clean it in 5.0, since it is not used
   cx-replenishment-order-cancellation,
   cx-replenishment-order-cancellation-dialog {
     .cx-cancel-replenishment-btns {
@@ -124,6 +124,7 @@
     }
   }
 
+  // TODO: clean it in 5.0, since it is not used
   cx-replenishment-order-cancellation {
     .cx-cancel-replenishment-btns {
       justify-content: flex-end;
@@ -131,6 +132,7 @@
     }
   }
 
+  // TODO: clean it in 5.0, since it is not used
   cx-replenishment-order-cancellation-dialog {
     color: var(--cx-color-text);
     background-color: rgba(0, 0, 0, 0.5);

@@ -1,7 +1,7 @@
-// TODO: clean it in 5.0, since it was moved to order lib
-%cx-amend-order-items {
+%cx-return-request-items {
   .cx-item-list-header {
     @include type('8');
+    margin: 0;
     padding: 1.125rem 0;
     text-transform: uppercase;
     color: var(--cx-color-secondary);
@@ -10,20 +10,19 @@
     border-color: var(--cx-color-light);
   }
 
+  .cx-item-list-desc {
+    text-align: start;
+    padding: 0;
+  }
+
+  .cx-item-list-price,
+  .cx-item-list-qty {
+    text-align: center;
+  }
+
   .cx-item-list-total {
     text-align: end;
-
-    @include media-breakpoint-only(xl) {
-      text-align: end;
-    }
-
-    @include media-breakpoint-down(lg) {
-      padding-inline-end: 70px;
-    }
-
-    @include media-breakpoint-down(md) {
-      padding-inline-end: 0;
-    }
+    padding: 0;
   }
 
   .cx-item-list-row {
@@ -37,10 +36,6 @@
     @include media-breakpoint-down(sm) {
       display: flex;
       flex-direction: column;
-
-      .cx-order-quantity-value {
-        text-align: start;
-      }
     }
   }
 
@@ -95,19 +90,10 @@
     justify-content: center;
     align-items: center;
     @include type('5');
-
-    @include media-breakpoint-down(lg) {
-      padding-inline-end: 0;
-      padding-inline-start: 45px;
-    }
-
-    @include media-breakpoint-down(md) {
-      padding-inline-end: 0;
-    }
+    font-weight: $font-weight-normal;
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
-      padding-inline-start: 15px;
     }
 
     .cx-old {
@@ -126,38 +112,6 @@
     justify-content: center;
     align-items: center;
 
-    > div {
-      width: 100%;
-
-      @include media-breakpoint-down(sm) {
-        width: auto;
-      }
-    }
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
-    cx-item-counter {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .cx-request-qty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include media-breakpoint-down(lg) {
-      padding-inline-end: 0;
-    }
-
-    @include media-breakpoint-down(md) {
-      padding-inline-end: 0;
-    }
-
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
@@ -167,10 +121,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
-    @include media-breakpoint-down(md) {
-      justify-content: flex-end;
-    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;

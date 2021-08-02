@@ -1,11 +1,11 @@
-// TODO: clean it in 5.0, since it was moved to order lib
-%cx-order-return-request-list {
+%cx-order-history {
   .cx-order-history {
     @include media-breakpoint-down(sm) {
       max-width: 100%;
       padding: 0;
     }
   }
+
   .cx-order-history-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
@@ -71,7 +71,10 @@
     color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
-      padding: 40px 20px 0 20px;
+      padding-top: 40px;
+      padding-inline-end: 20px;
+      padding-bottom: 0;
+      padding-inline-start: 20px;
     }
   }
 
@@ -82,26 +85,31 @@
   }
 
   .cx-order-history-code {
-    text-decoration: underline;
-
-    @include media-breakpoint-down(sm) {
-      text-decoration: none;
+    .cx-order-history-value {
+      text-decoration: underline;
     }
   }
 
-  .cx-order-history-placed,
+  .cx-order-history-placed {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
+  }
+
   .cx-order-history-status {
     text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
   }
 
   .cx-order-history-total {
     text-align: end;
-  }
 
-  @include media-breakpoint-down(sm) {
-    .cx-order-history-placed,
-    .cx-order-history-status,
-    .cx-order-history-total {
+    @include media-breakpoint-down(sm) {
       text-align: start;
     }
   }
@@ -121,7 +129,7 @@
 
     @include media-breakpoint-down(sm) {
       @include type('5');
-      text-decoration: underline;
+      font-weight: $font-weight-normal;
     }
   }
 
@@ -157,13 +165,12 @@
 
     &.bottom {
       display: flex;
-      justify-content: space-between;
-      padding: 2rem 0 1rem 0;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
       margin: 0;
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding-top: 0;
       }
     }
   }
@@ -176,6 +183,7 @@
 
   .cx-order-history-no-order {
     @include type('5');
+    font-weight: $font-weight-normal;
     min-height: 415px;
 
     @include media-breakpoint-down(sm) {
@@ -187,5 +195,25 @@
     .btn {
       margin: 1.25rem 0;
     }
+  }
+
+  .cx-replenishment-details-order-history-header {
+    margin-top: 30px;
+    padding: 20px;
+
+    background-color: var(--cx-color-background);
+
+    h4 {
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  }
+
+  .cx-replenishment-details-order-history-no-order {
+    display: flex;
+    justify-content: center;
+
+    padding: 40px 0 0 0;
+    min-height: 0;
   }
 }
