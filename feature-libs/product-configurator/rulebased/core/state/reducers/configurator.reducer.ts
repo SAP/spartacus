@@ -189,7 +189,7 @@ function takeOverChanges(
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const groups = content.groups.length > 0 ? content.groups : state.groups;
-  const result = {
+  const result: Configurator.Configuration = {
     ...state,
     ...content,
     groups: groups,
