@@ -25,7 +25,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
