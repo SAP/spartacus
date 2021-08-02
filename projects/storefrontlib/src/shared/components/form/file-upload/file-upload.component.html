@@ -12,7 +12,7 @@
     type="button"
     (click)="fileInput.click()"
   >
-    {{ buttonText }}
+    <ng-content></ng-content>
   </button>
   <p *ngIf="selectedFile?.name">
     {{ selectedFile.name }}

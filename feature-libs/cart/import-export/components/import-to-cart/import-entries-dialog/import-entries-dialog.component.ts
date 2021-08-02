@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
@@ -14,11 +14,6 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
-import {
-  EventService,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
-} from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -39,6 +34,15 @@ export class ImportEntriesDialogComponent implements OnInit {
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo = {};
+  // loading: Boolean = false;
+  formState: Boolean = true;
+  summary$ = new BehaviorSubject({
+    loaded: 0,
+    count: 0,
+    successesCount: 0,
+    problemsCount: 0,
+    messages: [],
+  });
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -51,8 +55,7 @@ export class ImportEntriesDialogComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected importExportConfig: ImportExportConfig,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportService,
-    protected eventService: EventService
+    protected importService: ImportService
   ) {}
 
   ngOnInit() {
@@ -61,7 +64,6 @@ export class ImportEntriesDialogComponent implements OnInit {
       .subscribe((fileValidity: FileValidity) => {
         this.fileValidity = fileValidity;
       });
-    this.getSummary();
   }
 
   close(reason: string): void {
@@ -99,23 +101,43 @@ export class ImportEntriesDialogComponent implements OnInit {
 
   importProducts(): void {
     if (this.loadedFile) {
+      this.formState = false;
+      const products = this.importToCartService.csvDataToProduct(
+        this.loadedFile
+      );
+      this.summary$.next({
+        ...this.summary$.value,
+        count: products.length,
+      });
       this.importToCartService
-        .loadProductsToCart(this.loadedFile, {
+        .loadProductsToCart(products, {
           name: this.form.get('name')?.value,
           description: this.form.get('description')?.value,
         })
-        .pipe(take(1))
+        .pipe(
+          tap((action) => {
+            this.populateSummary(action);
+          })
+        )
         .subscribe();
     }
   }
 
-  getSummary() {
-    this.eventService
-      .get(CartAddEntrySuccessEvent)
-      .subscribe((data) => console.log('Success', data));
-    this.eventService
-      .get(CartAddEntryFailEvent)
-      .subscribe((data) => console.log('Fail', data));
+  protected populateSummary(action: any) {
+    if (action.success) {
+      this.summary$.next({
+        ...this.summary$.value,
+        loaded: this.summary$.value.loaded + 1,
+        successesCount: this.summary$.value.successesCount + 1,
+      });
+    } else {
+      this.summary$.next({
+        ...this.summary$.value,
+        loaded: this.summary$.value.loaded + 1,
+        problemsCount: this.summary$.value.problemsCount + 1,
+        messages: [...this.summary$.value.messages, action],
+      });
+    }
   }
 
   protected build(): FormGroup {

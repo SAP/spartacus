@@ -26,6 +26,18 @@ export const importEntriesDialog = {
   cancel: 'Cancel',
   upload: 'Upload',
   close: 'Close',
+  summary: {
+    loaded: 'Products has been loaded.',
+    loading: 'Products are being processed... ({{ loaded }}/{{ count }})',
+    successes:
+      '{{ successesCount }} out of {{ count }} products have been imported successfully to new Saved Cart',
+    problems: '{{ problemsCount }} products were not imported.',
+    messages: {
+      unknownIdentifierError: 'Product SKU {{ productCode}} does not exist.',
+      lowStock:
+        'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
+    },
+  },
 };
 
 export const importExport = {

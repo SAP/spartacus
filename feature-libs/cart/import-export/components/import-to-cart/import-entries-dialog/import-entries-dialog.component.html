@@ -4,7 +4,7 @@
     (esc)="close('Escape clicked')"
     class="cx-import-entries-dialog"
   >
-    <form *ngIf="form" [formGroup]="form" class="cx-import-entries-container">
+    <div class="cx-import-entries-container">
       <!-- Modal Header -->
       <div class="modal-header cx-import-entries-header">
         <ng-container>
@@ -26,7 +26,11 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="cx-import-entries-body">
+      <form
+        *ngIf="form && formState; else importSummary"
+        [formGroup]="form"
+        class="cx-import-entries-body"
+      >
         <p class="cx-import-entries-subtitle">
           {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
         </p>
@@ -35,11 +39,12 @@
         </p>
         <cx-file-upload
           [control]="form.get('file')"
-          [buttonText]="'importEntriesDialog.selectFile' | cxTranslate"
           [allowedExtensions]="fileValidity?.allowedExtensions"
           [maxSize]="fileValidity?.maxSize"
           (update)="loadFile($event, form)"
-        ></cx-file-upload>
+        >
+          {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+        </cx-file-upload>
         <div class="cx-import-entries-row">
           <ng-container>
             <label>
@@ -103,7 +108,57 @@
             {{ 'importEntriesDialog.upload' | cxTranslate }}
           </button>
         </div>
-      </div>
-    </form>
+      </form>
+
+      <ng-template #importSummary>
+        <div *ngIf="summary$ | async as summary">
+          <p *ngIf="summary.loaded < summary.count; else loaded">
+            {{
+              'importEntriesDialog.summary.loading'
+                | cxTranslate: { loaded: summary.loaded, count: summary.count }
+            }}
+          </p>
+          <ng-template #loaded>
+            {{ 'importEntriesDialog.summary.loaded' | cxTranslate }}
+          </ng-template>
+          <p *ngIf="summary.successesCount > 0">
+            {{
+              'importEntriesDialog.summary.successes'
+                | cxTranslate
+                  : {
+                      successesCount: summary.successesCount,
+                      count: summary.count
+                    }
+            }}
+          </p>
+          <div *ngIf="summary.problemsCount > 0">
+            <p>
+              {{
+                'importEntriesDialog.summary.problems'
+                  | cxTranslate
+                    : {
+                        problemsCount: summary.problemsCount,
+                        count: summary.count
+                      }
+              }}
+            </p>
+            <ul>
+              <li *ngFor="let message of summary.messages">
+                {{
+                  'importEntriesDialog.summary.messages.' + message.statusCode
+                    | cxTranslate
+                      : {
+                          productCode: message.productCode,
+                          quantity: message.quantity,
+                          quantityAdded: message.quantityAdded,
+                          productName: message.productName
+                        }
+                }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </ng-container>
