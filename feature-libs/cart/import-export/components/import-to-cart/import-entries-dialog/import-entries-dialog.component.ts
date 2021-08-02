@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, switchMap, take, tap } from 'rxjs/operators';
+import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ImportExportConfig,
   InvalidFileInfo,
   ImportService,
   FileValidity,
+  ProductImportSummary,
+  ProductImportStatus,
+  ProductImportInfo,
 } from '@spartacus/cart/import-export/core';
 import {
   FocusConfig,
@@ -36,7 +39,8 @@ export class ImportEntriesDialogComponent implements OnInit {
   fileError: InvalidFileInfo = {};
   // loading: Boolean = false;
   formState: Boolean = true;
-  summary$ = new BehaviorSubject({
+  summary$ = new BehaviorSubject<ProductImportSummary>({
+    cartName: '',
     loaded: 0,
     count: 0,
     successesCount: 0,
@@ -79,8 +83,9 @@ export class ImportEntriesDialogComponent implements OnInit {
         }),
         switchMap(
           (fileData: File) =>
-            <Observable<string[][]>>this.importService.loadFile(fileData)
+            <Observable<string>>this.importService.loadFile(fileData)
         ),
+        map((result: string) => this.importService.readCsvData(result)),
         tap((data: string[][]) => {
           this.validateEmpty(data);
           this.validateParsable(data);
@@ -108,6 +113,7 @@ export class ImportEntriesDialogComponent implements OnInit {
       this.summary$.next({
         ...this.summary$.value,
         count: products.length,
+        cartName: this.form.get('name')?.value,
       });
       this.importToCartService
         .loadProductsToCart(products, {
@@ -115,7 +121,7 @@ export class ImportEntriesDialogComponent implements OnInit {
           description: this.form.get('description')?.value,
         })
         .pipe(
-          tap((action) => {
+          tap((action: ProductImportInfo) => {
             this.populateSummary(action);
           })
         )
@@ -123,8 +129,8 @@ export class ImportEntriesDialogComponent implements OnInit {
     }
   }
 
-  protected populateSummary(action: any) {
-    if (action.success) {
+  protected populateSummary(action: ProductImportInfo) {
+    if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
         loaded: this.summary$.value.loaded + 1,

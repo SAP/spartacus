@@ -5,13 +5,17 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
   Cart,
-  MultiCartService,
-  UserIdService,
-  StateUtils,
   CartActions,
+  MultiCartService,
+  StateUtils,
+  UserIdService,
 } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { ProductsData } from '@spartacus/cart/import-export/core';
+import {
+  ProductsData,
+  ProductImportStatus,
+  ProductImportInfo,
+} from '@spartacus/cart/import-export/core';
 
 @Injectable()
 export class ImportToCartService {
@@ -53,9 +57,12 @@ export class ImportToCartService {
             //     .isStable(cartId)
             //     .pipe(filter((stable: boolean) => stable))
             // ),
-            switchMap((cartId: string) =>
-              this.addEntries(userId, cartId, products)
+            tap((cartId: string) =>
+              this.multiCartService.addEntries(userId, cartId, products)
             ),
+            switchMap((cartId: string) => this.getResults(cartId)),
+            // wiemy ile jest entries -> N
+            // po N sukcesach/errorrach chcemy przestac emitować
             take(products.length) // TODO: risky, think about cases when it will be interupted
           )
       )
@@ -82,14 +89,7 @@ export class ImportToCartService {
    * HOW TO USE IT IN COMPONENT:
    * We need a logic for a summary (i.e. convert partial success to a failure)
    */
-  protected addEntries(
-    userId: string,
-    cartId: string,
-    products: ProductsData
-  ): Observable<any> {
-    // wiemy ile jest entries -> N
-    // po N sukcesach/errorrach chcemy przestac emitować
-    this.multiCartService.addEntries(userId, cartId, products);
+  protected getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -100,7 +100,7 @@ export class ImportToCartService {
           action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
         ) => action.payload.cartId === cartId
       ),
-      map((action) => this.mapMessages(action?.payload))
+      map((action) => this.mapMessages(action))
     );
     // TODO: don't retrurn RAW NGRX ACTIONS
     // ALTERNATIVE IDEA:
@@ -108,32 +108,37 @@ export class ImportToCartService {
     // and then add next entry
   }
 
-  protected mapMessages(payload) {
-    const {
-      productCode,
-      statusCode,
-      quantity,
-      quantityAdded,
-      error,
-      entry,
-    } = payload;
-    if (error?.details[0]?.type === 'UnknownIdentifierError') {
-      return {
+  protected mapMessages(
+    action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
+  ): ProductImportInfo {
+    if (action instanceof CartActions.CartAddEntryFail) {
+      const { productCode, error } = action.payload;
+      if (error?.details[0]?.type === 'UnknownIdentifierError') {
+        return {
+          productCode,
+          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+        };
+      }
+    } else if (action instanceof CartActions.CartAddEntrySuccess) {
+      const {
         productCode,
-        success: false,
-        statusCode: 'unknownIdentifierError',
-      };
-    } else if (statusCode === 'lowStock') {
-      return {
-        productCode,
-        productName: entry?.product.name,
-        success: false,
         statusCode,
         quantity,
         quantityAdded,
-      };
-    } else if (statusCode === 'success') {
-      return { productCode, success: true };
+        entry,
+      } = action.payload;
+      if (statusCode === ProductImportStatus.LOW_STOCK) {
+        return {
+          productCode,
+          statusCode,
+          productName: entry?.product.name,
+          quantity,
+          quantityAdded,
+        };
+      }
+      if (statusCode === ProductImportStatus.SUCCESS) {
+        return { productCode, statusCode };
+      }
     }
   }
 }

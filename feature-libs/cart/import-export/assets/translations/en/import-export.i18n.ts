@@ -27,13 +27,13 @@ export const importEntriesDialog = {
   upload: 'Upload',
   close: 'Close',
   summary: {
-    loaded: 'Products has been loaded.',
+    loaded: 'Products has been loaded to new cart "{{ cartName }}".',
     loading: 'Products are being processed... ({{ loaded }}/{{ count }})',
     successes:
-      '{{ successesCount }} out of {{ count }} products have been imported successfully to new Saved Cart',
+      '{{ successesCount }} out of {{ count }} products have been imported successfully.',
     problems: '{{ problemsCount }} products were not imported.',
     messages: {
-      unknownIdentifierError: 'Product SKU {{ productCode}} does not exist.',
+      unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
     },

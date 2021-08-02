@@ -17,6 +17,29 @@ export type FileValidity = {
   allowedExtensions?: string[];
 };
 
+export enum ProductImportStatus {
+  SUCCESS = 'success',
+  UNKNOWN_IDENTIFIER = 'unknownIdentifier',
+  LOW_STOCK = 'lowStock',
+}
+
+export type ProductImportInfo = {
+  productCode: string;
+  statusCode: ProductImportStatus;
+  productName?: string;
+  quantity?: number;
+  quantityAdded?: number;
+};
+
+export type ProductImportSummary = {
+  cartName: string;
+  loaded: number;
+  count: number;
+  successesCount: number;
+  problemsCount: number;
+  messages: ProductImportInfo[];
+};
+
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity: FileValidity;
 }
