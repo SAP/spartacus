@@ -11,7 +11,6 @@ export const VARIANT_CONFIGURATOR_SERIALIZER = new InjectionToken<
   Converter<Configurator.Configuration, OccConfigurator.Configuration>
 >('VariantConfiguratorSerializer');
 
-//TODO: pricing
 export const VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER = new InjectionToken<
   Converter<OccConfigurator.PriceSummary, Configurator.PriceSummary>
 >('VariantConfiguratorPriceSummaryNormalizer');
