@@ -16,6 +16,7 @@ assignees: ''
   - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
 - [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
+- [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
@@ -96,7 +97,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:cdc:with-changelog` (needed since `3.1.0-next.0`)
-      - [ ] For < 3.2.0 releases ONLY, set the spartacus peerDependencies manually, then)  
+      - [ ] For < 3.2.0 releases ONLY, set the spartacus peerDependencies manually, then run
       `npm run release:cdc:with-changelog`.
       - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
     - [ ] `npm run release:schematics:with-changelog`

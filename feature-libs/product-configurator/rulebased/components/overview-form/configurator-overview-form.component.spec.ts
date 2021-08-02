@@ -17,8 +17,8 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
