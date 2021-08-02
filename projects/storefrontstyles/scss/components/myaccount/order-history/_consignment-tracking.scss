@@ -1,0 +1,74 @@
+@import '../../../theme';
+
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-consignment-tracking {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 0.5rem;
+}
+
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-tracking-events {
+  $cx-consignment-tracking-dialog-border-color: 'light' !default;
+  $cx-consignment-tracking-dialog-header-padding-left: 2rem !default;
+  $cx-consignment-tracking-dialog-body-padding-sm: 0 !default;
+
+  .cx-consignment-tracking-dialog {
+    .header {
+      padding-inline-start: $cx-consignment-tracking-dialog-header-padding-left;
+    }
+
+    .title {
+      @include type('3');
+    }
+
+    .body {
+      @include media-breakpoint-down(sm) {
+        padding: $cx-consignment-tracking-dialog-body-padding-sm;
+      }
+    }
+
+    .shipment-heading {
+      position: relative;
+      padding-top: 1.5rem;
+      padding-inline-end: 0;
+      padding-bottom: 0.4rem;
+      padding-inline-start: 2rem;
+      background-color: var(--cx-color-background);
+    }
+
+    .no-tracking-heading {
+      position: relative;
+      padding: $cx-consignment-tracking-dialog-header-padding-left;
+    }
+
+    .shipment-content {
+      padding: 0.6rem 0 1.2rem 0;
+    }
+
+    .shipment-title {
+      @include type('4');
+    }
+
+    .events {
+      .event-body {
+        border-inline-start: 0.7rem solid var(--cx-color-secondary);
+        padding-inline-start: 1rem;
+        margin-bottom: 1rem;
+        div {
+          padding-bottom: 0.6rem;
+        }
+        .event-title {
+          @include type('5');
+        }
+        .event-city {
+          @include type('7');
+        }
+        .enent-content {
+          @include type('6');
+          padding-bottom: 20rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-return-request-totals {
+  padding-top: 2rem;
+  padding-inline-end: 2.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 2.5rem;
+
+  h4 {
+    text-transform: uppercase;
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .cx-summary-label {
+    text-align: start;
+    padding: 0;
+  }
+  .cx-summary-amount {
+    text-align: end;
+    padding: 0;
+  }
+  .cx-summary-row {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .cx-summary-savings {
+    color: var(--cx-color-success);
+  }
+  .cx-summary-total {
+    font-weight: var(--cx-font-weight-bold);
+  }
+  .cx-coupon-code-pill {
+    background: var(--cx-g-color-light);
+    padding-top: 7px;
+    padding-inline-end: 15px;
+    padding-bottom: 7px;
+    padding-inline-start: 13px;
+    margin-top: 10px;
+    margin-inline-end: 10px;
+    margin-bottom: 5px;
+    margin-inline-start: 0;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  .cx-coupon-code--pill-value {
+    line-height: 1.7;
+  }
+  .cx-footnote {
+    @include type('7');
+  }
+}

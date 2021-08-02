@@ -1,0 +1,199 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-return-request-items {
+  .cx-item-list-header {
+    @include type('8');
+    margin: 0;
+    padding: 1.125rem 0;
+    text-transform: uppercase;
+    color: var(--cx-color-secondary);
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+  }
+
+  .cx-item-list-desc {
+    text-align: start;
+    padding: 0;
+  }
+
+  .cx-item-list-price,
+  .cx-item-list-qty {
+    text-align: center;
+  }
+
+  .cx-item-list-total {
+    text-align: end;
+    padding: 0;
+  }
+
+  .cx-item-list-row {
+    padding: 1.25rem 0;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+  }
+
+  .cx-info-container {
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .cx-name {
+    @include type('5');
+    overflow-wrap: break-word;
+    padding: 0;
+    min-width: 17rem;
+
+    .cx-link {
+      color: var(--cx-color-text);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-code {
+    @include type('7');
+    color: var(--cx-color-secondary);
+    padding: 0.625rem 0;
+  }
+
+  .cx-property {
+    display: flex;
+  }
+
+  .cx-label {
+    @include type('8');
+    overflow-wrap: break-word;
+    padding-inline-end: 1rem;
+
+    @include media-breakpoint-down(sm) {
+      min-width: 5rem;
+    }
+  }
+
+  .cx-value {
+    @include type('5');
+    overflow-wrap: break-word;
+    font-weight: 400;
+
+    @include media-breakpoint-down(sm) {
+      @include type('7');
+    }
+  }
+
+  .cx-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include type('5');
+    font-weight: $font-weight-normal;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+
+    .cx-old {
+      text-decoration: line-through;
+      color: var(--cx-color-secondary);
+      padding-inline-end: 1rem;
+    }
+
+    .cx-new {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+  }
+
+  .cx-total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+  }
+
+  .cx-promo {
+    @include type('8');
+    color: var(--cx-color-success);
+    padding: 0.75rem 0;
+    margin: 0;
+  }
+
+  .cx-availability {
+    @include type('8');
+    color: var(--cx-color-danger);
+    padding: 0.75rem 0;
+    margin: 0;
+  }
+
+  .cx-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    button.link {
+      @include type('8');
+      color: var(--cx-color-text);
+      border-width: 0;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .cx-nav {
+    justify-content: center;
+    padding: 1rem 0;
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+
+  .btn.cx-action-link {
+    padding: 10px 0 10px;
+  }
+
+  // ------------------------------------ MEDIA QUERIES ------------------------------------
+
+  @include media-breakpoint-down(md) {
+    .cx-item-list-header {
+      padding: 1.125rem 2.5rem;
+    }
+
+    .cx-item-list-items {
+      padding: 0 2.5rem;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .cx-item-list-items {
+      padding-inline-start: 1rem;
+    }
+  }
+}

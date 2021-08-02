@@ -1,0 +1,167 @@
+// TODO: rename this file from _order-detail-page.scss to
+// _account-page.scss after cleaning all order related codes
+%AccountPageTemplate {
+  --cx-max-width: 100%;
+  @extend %LoginPageTemplate !optional;
+
+  // TODO: clean it in 5.0, since it was moved to order lib
+  cx-order-details-items {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    .cx-list-header {
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+
+    .cx-list {
+      @include media-breakpoint-down(sm) {
+        margin-inline-end: 0;
+        margin-inline-start: 0;
+      }
+    }
+
+    .cx-list-status {
+      margin: 0 0 0.5rem;
+      padding: 15px 30px;
+      background-color: var(--cx-color-background);
+      @include type('4');
+      font-weight: bold;
+    }
+
+    .cx-list-date {
+      margin: 0.5rem 0 0;
+    }
+  }
+
+  // TODO: clean it in 5.0, since it was moved to order lib
+  cx-order-details-shipping {
+    .cx-account-summary {
+      background-color: var(--cx-color-background);
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+
+      @include media-breakpoint-down(sm) {
+        background-color: var(--cx-color-inverse);
+      }
+
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px 0;
+
+        @include media-breakpoint-down(md) {
+          max-width: 100%;
+          min-width: 100%;
+          padding: 0 1.25rem;
+        }
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding: 1.25rem;
+        }
+
+        .cx-summary-card {
+          flex: 1;
+          padding: 0 15px;
+
+          &:not(:last-of-type) {
+            @include media-breakpoint-up(lg) {
+              border-inline-end: 1px solid var(--cx-color-text);
+            }
+          }
+
+          @include media-breakpoint-down(md) {
+            flex: 0 0 33%;
+          }
+
+          @include media-breakpoint-down(sm) {
+            flex: 1;
+            background-color: var(--cx-color-inverse);
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--cx-color-light);
+            margin: 0.625rem 0;
+          }
+
+          .cx-card-title {
+            @include type('4');
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+  // TODO: clean it in 5.0, since it is not used
+  cx-order cx-order-details-totals {
+    margin-bottom: 32px;
+  }
+
+  cx-paragraph h4 {
+    text-align: center;
+  }
+
+  cx-cart-item {
+    .cx-image-container {
+      a {
+        padding: 0 3vw;
+      }
+    }
+  }
+
+  // TODO: clean it in 5.0, since it is not used
+  cx-replenishment-order-cancellation,
+  cx-replenishment-order-cancellation-dialog {
+    .cx-cancel-replenishment-btns {
+      display: flex;
+
+      .btn-action {
+        @include media-breakpoint-down(sm) {
+          margin: 0 0 1rem;
+        }
+      }
+    }
+  }
+
+  // TODO: clean it in 5.0, since it is not used
+  cx-replenishment-order-cancellation {
+    .cx-cancel-replenishment-btns {
+      justify-content: flex-end;
+      margin: 2rem 0;
+    }
+  }
+
+  // TODO: clean it in 5.0, since it is not used
+  cx-replenishment-order-cancellation-dialog {
+    color: var(--cx-color-text);
+    background-color: rgba(0, 0, 0, 0.5);
+
+    .cx-cancel-replenishment-dialog-foreground {
+      @extend .modal-dialog;
+      @extend .modal-dialog-centered;
+      @extend .modal-sm;
+
+      .cx-cancel-replenishment-dialog-content {
+        @extend .modal-content;
+
+        .cx-cancel-replenishment-dialog {
+          &-header {
+            @extend .modal-header;
+          }
+
+          &-description {
+            padding-top: 10px;
+            padding-inline-start: 25px;
+            padding-inline-end: 25px;
+            padding-bottom: 0;
+          }
+
+          &-body {
+            @extend .modal-body;
+          }
+        }
+      }
+    }
+  }
+}

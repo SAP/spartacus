@@ -1,0 +1,230 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-replenishment-order-history {
+  $block: cx-replenishment-order-history;
+
+  .#{$block} {
+    @include media-breakpoint-down(sm) {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    &-table {
+      padding: 1.5rem 0 1.125rem 0;
+      margin-bottom: 0;
+      border-width: 1px 0 1px 0;
+      border-color: var(--cx-color-light);
+      border-style: solid;
+
+      tr {
+        width: 100%;
+
+        @include media-breakpoint-down(sm) {
+          border-width: 1px 0 0 0;
+          border-color: var(--cx-color-light);
+          border-style: solid;
+
+          &:first-child {
+            border-width: 0;
+            padding: 1.25rem 0 0 0;
+          }
+        }
+      }
+
+      th {
+        padding: 1.5rem 0 1.125rem 0;
+        padding-top: 1.5rem;
+        padding-inline-end: 0;
+        padding-bottom: 1.125rem;
+        padding-inline-start: 5px;
+        text-align: start;
+        vertical-align: top;
+
+        &:first-child {
+          padding-inline-start: 0;
+        }
+
+        &:last-child {
+          text-align: end;
+        }
+      }
+
+      td {
+        padding: 1.625rem 5px;
+
+        @include media-breakpoint-up(md) {
+          text-align: start;
+          &:first-child {
+            padding-inline-start: 0px;
+          }
+
+          &:last-child {
+            text-align: end;
+          }
+        }
+
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+          display: flex;
+          border-width: 0;
+          padding: 0 1.25rem;
+          margin-top: 0.5rem;
+
+          &:first-child {
+            padding-top: 1.25rem;
+          }
+
+          &:last-child {
+            padding-bottom: 1.25rem;
+            padding-top: 7px;
+          }
+        }
+      }
+
+      .#{$block}-code {
+        .#{$block}-value {
+          text-decoration: underline;
+        }
+      }
+
+      .#{$block}-frequency {
+        width: 25%;
+
+        @include media-breakpoint-down(sm) {
+          width: unset;
+        }
+      }
+
+      .#{$block}-total {
+        text-align: end;
+
+        @include media-breakpoint-down(sm) {
+          text-align: start;
+        }
+      }
+
+      .#{$block}-cancel {
+        width: 15%;
+
+        .cx-order-cancel {
+          text-decoration: underline;
+          text-transform: uppercase;
+        }
+
+        @include media-breakpoint-down(sm) {
+          width: unset;
+        }
+      }
+
+      .#{$block}-ellipses {
+        display: inline-block;
+        max-width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    &-header {
+      padding: 40px 0 0 0;
+      color: var(--cx-color-text);
+
+      @include media-breakpoint-down(sm) {
+        padding: 40px 20px 0 20px;
+      }
+    }
+
+    &-thead-mobile {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    &-label {
+      text-transform: uppercase;
+      color: var(--cx-color-secondary);
+
+      @include media-breakpoint-down(sm) {
+        @include type('8');
+        min-width: 150px;
+        margin-block-end: 10px;
+      }
+    }
+
+    &-value {
+      color: var(--cx-color-text);
+
+      @include media-breakpoint-down(sm) {
+        @include type('5');
+        font-weight: $font-weight-normal;
+      }
+    }
+
+    &-form-group {
+      padding: 0;
+      margin-bottom: 0;
+
+      @include media-breakpoint-down(sm) {
+        padding: 1.25rem;
+      }
+    }
+
+    &-sort {
+      &.top {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        margin: 0;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding-top: 0;
+        }
+
+        .cx-replenishment-order-history-form-group {
+          align-items: center;
+          display: flex;
+          span {
+            margin-inline-end: 0.5rem;
+            flex: none;
+          }
+          cx-sorting {
+            width: 100%;
+          }
+        }
+      }
+
+      &.bottom {
+        display: flex;
+        justify-content: flex-end;
+        padding: 2rem 0 1rem 0;
+        margin: 0;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding-top: 1.25rem;
+        }
+      }
+    }
+
+    &-pagination {
+      @include media-breakpoint-down(sm) {
+        margin: 0 auto;
+      }
+    }
+
+    &-no-order {
+      @include type('5');
+      font-weight: $font-weight-normal;
+      min-height: 415px;
+
+      @include media-breakpoint-down(sm) {
+        min-height: 474px;
+        padding-inline-start: 1.25rem;
+        padding-inline-end: 1.25rem;
+      }
+      .btn {
+        margin: 1.25rem 0;
+      }
+    }
+  }
+}

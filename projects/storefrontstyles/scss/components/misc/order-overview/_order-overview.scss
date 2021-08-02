@@ -1,0 +1,55 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-order-overview {
+  .cx-order-summary {
+    background-color: var(--cx-color-background);
+
+    @include media-breakpoint-down(sm) {
+      background-color: var(--cx-color-inverse);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 15px 0;
+
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0 1.25rem;
+      }
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        padding: 1.25rem;
+      }
+
+      .cx-summary-card {
+        flex: 1;
+        padding: 0 15px;
+
+        &:not(:last-of-type) {
+          @include media-breakpoint-up(lg) {
+            border-inline-end: 1px solid var(--cx-color-text);
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          flex: 0 0 33%;
+        }
+
+        @include media-breakpoint-down(sm) {
+          flex: 1;
+          background-color: var(--cx-color-inverse);
+          border-width: 1px;
+          border-style: solid;
+          border-color: var(--cx-color-light);
+          margin: 0.625rem 0;
+        }
+
+        .cx-card-title {
+          @include type('4');
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

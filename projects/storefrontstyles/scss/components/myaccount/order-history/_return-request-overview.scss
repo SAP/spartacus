@@ -1,0 +1,56 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-return-request-overview {
+  .cx-nav {
+    justify-content: center;
+    padding: 1rem 0 2rem;
+
+    div:empty {
+      display: none;
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+
+  .cx-header {
+    padding: 1.875rem 0;
+    margin: 0 0 1.875rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+
+    @include media-breakpoint-down(sm) {
+      border: 0 none;
+      margin: 0;
+    }
+  }
+
+  .cx-detail {
+    border-width: 0 1px 0 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    padding-inline-start: 1.875rem;
+
+    &:last-child {
+      border: 0 none;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 0.625rem;
+      padding-inline-start: 0.3125rem;
+      border-inline-end: 0 none;
+    }
+  }
+
+  .cx-detail-label {
+    @include type('4');
+  }
+
+  .cx-detail-value {
+    @include type('5');
+    font-weight: 400;
+  }
+}

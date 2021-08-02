@@ -1,0 +1,17 @@
+// TODO: clean it in 5.0, since it was moved to order lib
+%cx-order-details-actions {
+  .cx-nav {
+    justify-content: center;
+    padding: 1rem 0 2rem;
+
+    div:empty {
+      display: none;
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}
