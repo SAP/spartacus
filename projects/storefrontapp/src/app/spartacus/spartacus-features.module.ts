@@ -9,7 +9,7 @@ import {
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
-  UserTransitionalModule,
+  UserTransitional_4_1_Module,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -118,7 +118,7 @@ if (environment.cpq) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitionalModule,
+    UserTransitional_4_1_Module,
     UserOccTransitionalModule,
     // User UI
     AddressBookModule,
