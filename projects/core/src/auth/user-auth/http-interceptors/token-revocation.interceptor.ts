@@ -29,7 +29,6 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
       take(1),
       switchMap((token) => {
         if (isTokenRevocationRequest) {
-          console.log('we should revoke');
           request = request.clone({
             setHeaders: {
               Authorization: `${token.token_type || 'Bearer'} ${
