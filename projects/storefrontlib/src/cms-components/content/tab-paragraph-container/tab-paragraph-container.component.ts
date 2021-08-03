@@ -4,16 +4,25 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import {
   CmsService,
   CMSTabParagraphContainer,
+  EventService,
   WindowRef,
 } from '@spartacus/core';
+import { ComponentCreateEvent } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, take, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  last,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -35,11 +44,30 @@ export class TabParagraphContainerComponent
 
   subscription: Subscription;
 
+  /**
+   * @deprecated since version 4.1
+   * Use the following constructor instead:
+   * ```
+   * constructor(
+   * public componentData: CmsComponentData<CMSTabParagraphContainer>,
+   * protected cmsService: CmsService,
+   * protected winRef: WindowRef,
+   * protected breakpointService: BreakpointService,
+   * protected eventService: EventService) {}
+   * ```
+   */
+  constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService,
+    winRef: WindowRef,
+    breakpointService: BreakpointService
+  );
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    @Optional() protected eventService?: EventService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -98,14 +126,23 @@ export class TabParagraphContainerComponent
   ngAfterViewInit(): void {
     // If the sub cms components data exist, the components created before ngAfterViewInit are called.
     // In this case, the title parameters are directly pulled from them.
-    // If the sub cms components data does not exist, it should should be loaded first.
+    // If the sub cms components data does not exist, it should be loaded first.
     // In this case, listen to the changes to wait for them to be created.
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
       this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) =>
-          this.getTitleParams(tabComps)
+        (tabComps: QueryList<ComponentWrapperDirective>) => {
+          // make sure the tab components are created
+          if (this.eventService) {
+            this.eventService
+              .get(ComponentCreateEvent)
+              .pipe(take(tabComps.length), last())
+              .subscribe((_event) => this.getTitleParams(tabComps));
+          } else {
+            this.getTitleParams(tabComps);
+          }
+        }
       );
     }
   }
