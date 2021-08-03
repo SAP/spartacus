@@ -2,9 +2,9 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches:
+      - 'develop'
       - 'feature/GH-**'
       - 'epic/**'
-      - '!develop'
       - '!release/4.0.x'
   push:
     branches:
