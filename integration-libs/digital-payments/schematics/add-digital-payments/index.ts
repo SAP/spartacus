@@ -38,7 +38,7 @@ export function addDigitalPaymentsFeature(options: SpartacusDigitalPaymentsOptio
 }
 
 function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
-  return addLibraryFeature(options, {
+  return addLibraryFeature({ ...options, lazy: false }, {
     folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
     moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
     rootModule: {
