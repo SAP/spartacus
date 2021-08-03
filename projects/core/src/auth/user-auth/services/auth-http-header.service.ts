@@ -16,6 +16,7 @@ import {
   observeOn,
   pairwise,
   shareReplay,
+  skipWhile,
   switchMap,
   take,
   tap,
@@ -55,13 +56,21 @@ export class AuthHttpHeaderService {
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService
-  ) {}
+  ) {
+    // this.retryToken$.subscribe();
+  }
 
   /**
    * Checks if request should be handled by this service (if it's OCC call).
    */
   public shouldCatchError(request: HttpRequest<any>): boolean {
     return this.isOccUrl(request.url);
+  }
+
+  public shouldHandleRequest(request: HttpRequest<any>): boolean {
+    const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
+    const isOccUrl = this.isOccUrl(request.url);
+    return !hasAuthorizationHeader && isOccUrl;
   }
 
   /**
@@ -156,23 +165,21 @@ export class AuthHttpHeaderService {
     //
     // In the second case, we want to remember the anticipated url before we navigate to
     // the login page, so we can redirect back to that URL after user authenticates.
-    console.log('expired refresh, logout');
     this.logoutInProgress$.next(true);
     this.authRedirectService.saveCurrentNavigationUrl();
 
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
-    this.authService.coreLogout();
-    console.log('logout please');
+    this.authService.coreLogout().finally(() => {
+      this.routingService.go({ cxRoute: 'login' });
 
-    this.routingService.go({ cxRoute: 'login' });
-
-    this.globalMessageService.add(
-      {
-        key: 'httpHandlers.sessionExpired',
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.sessionExpired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
   }
 
   /**
@@ -183,18 +190,15 @@ export class AuthHttpHeaderService {
    */
   protected handleExpiredToken(): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
-    console.error('Errorrrrrrrrr');
     let oldToken: AuthToken;
     return stream.pipe(
       tap((token) => {
-        console.log('call', this.refreshInProgress);
         if (
           token.access_token &&
           token.refresh_token &&
           !oldToken &&
           !this.refreshInProgress
         ) {
-          console.log('started refresh');
           this.refreshInProgress = true;
           this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
@@ -205,7 +209,6 @@ export class AuthHttpHeaderService {
       filter((token) => oldToken.access_token !== token.access_token),
       tap(() => {
         this.refreshInProgress = false;
-        console.log('finished refresh');
       }),
       map((token) => (token?.access_token ? token : undefined)),
       take(1)
@@ -221,37 +224,27 @@ export class AuthHttpHeaderService {
 
   protected token$: Observable<
     AuthToken | undefined
-  > = this.authStorageService.getToken().pipe(
-    tap((token) => console.log(token)),
-    map((token) => (token?.access_token ? token : undefined))
-  );
+  > = this.authStorageService
+    .getToken()
+    .pipe(map((token) => (token?.access_token ? token : undefined)));
 
   getToken(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
-      this.refreshInProgress$,
-      this.logoutInProgress$,
+      this.refreshInProgress$.pipe(observeOn(queueScheduler)),
+      this.logoutInProgress$.pipe(observeOn(queueScheduler)),
     ]).pipe(
       filter(
         ([_, refreshInProgress, logoutInProgress]) =>
           !refreshInProgress && !logoutInProgress
       ),
-      map(([token]) => token),
-      take(1)
+      switchMap(() => this.token$)
     );
   }
 
-  protected tokenTaps$ = combineLatest([
-    this.token$,
-    this.refreshInProgress$,
-    this.logoutInProgress$,
-  ]).pipe(
-    observeOn(queueScheduler),
-    tap(([token]) => {
-      if (token?.refresh_token) {
-      }
-    })
-  );
+  getTokenTake1(): Observable<AuthToken | undefined> {
+    return this.getToken().pipe(take(1));
+  }
 
   protected refreshTokenTrigger$ = new Subject<AuthToken>();
 
@@ -263,8 +256,8 @@ export class AuthHttpHeaderService {
     ),
     tap(([token]) => {
       if (token?.refresh_token) {
-        this.refreshInProgress$.next(true);
         this.oAuthLibWrapperService.refreshToken();
+        this.refreshInProgress$.next(true);
       } else {
         this.handleExpiredRefreshToken();
         this.logoutInProgress$.next(true);
@@ -285,68 +278,20 @@ export class AuthHttpHeaderService {
   protected retryToken$ = using(
     () => merge(this.tokenFinished$, this.refreshToken$).subscribe(),
     () => this.getToken()
-  ).pipe(shareReplay(1));
+  ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   handleExpiredToken$(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
-    this.refreshTokenTrigger$.next(requestToken);
+    this.retryToken$.pipe(take(1)).subscribe((token) => {
+      this.refreshTokenTrigger$.next(token);
+    });
 
-    return this.retryToken$;
-
-    return combineLatest([
-      this.token$,
-      this.refreshInProgress$.pipe(observeOn(queueScheduler)),
-      this.logoutInProgress$.pipe(observeOn(queueScheduler)),
-    ]).pipe(
-      tap((str) => console.log(str)),
-      tap(([token]) => {
-        // we get new token, so we know that we either finished refresh or logout
-        if (token?.access_token !== requestToken.access_token) {
-          this.refreshInProgress$.next(false);
-          this.logoutInProgress$.next(false);
-        }
-      }),
-      tap(([token, refreshInProgress, logoutInProgress]) => {
-        if (
-          token?.access_token === requestToken.access_token &&
-          token?.access_token &&
-          token?.refresh_token &&
-          !refreshInProgress &&
-          !logoutInProgress
-        ) {
-          this.oAuthLibWrapperService.refreshToken();
-          this.refreshInProgress$.next(true);
-          console.log('start refresh');
-        } else if (
-          token?.access_token === requestToken.access_token &&
-          !token?.refresh_token &&
-          !logoutInProgress &&
-          !refreshInProgress
-        ) {
-          this.handleExpiredRefreshToken();
-        }
-      }),
-      filter(([token]) => token?.access_token !== requestToken.access_token),
-      filter(
-        ([_, refreshInProgress, logoutInProgress]) =>
-          !refreshInProgress && !logoutInProgress
-      ),
-      map(([token]) => token),
+    return this.retryToken$.pipe(
+      skipWhile((token) => token?.access_token === requestToken.access_token),
       take(1)
     );
   }
-
-  // - 1 call
-  // - 3 call
-  // - 1 fail
-  // - 1 attempt to refresh - true
-  // - 2 call
-  // - 1 refreshed token - false // process already completed
-  // - 2 fail -
-  // - 2 attempt to refresh
-
-  // - still do one call that will be 401
 
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,

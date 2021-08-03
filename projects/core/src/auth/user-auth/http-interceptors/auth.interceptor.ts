@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -32,12 +32,17 @@ export class AuthInterceptor implements HttpInterceptor {
     );
 
     // request = this.authHttpHeaderService.alterRequest(request);
+    const shouldHandle = this.authHttpHeaderService.shouldHandleRequest(
+      request
+    );
 
     // getToken will emit sync or async if there is refresh or logout in progress
-    return this.authHttpHeaderService.getToken().pipe(
-      tap((token) => {
-        console.log('interceptor', token);
-      }),
+    return of(shouldHandle).pipe(
+      switchMap((shouldHandle) =>
+        !shouldHandle
+          ? of(undefined)
+          : this.authHttpHeaderService.getTokenTake1()
+      ),
       map((token: AuthToken | undefined) => ({
         token,
         request: this.authHttpHeaderService.alterRequest(request, token),
