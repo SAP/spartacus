@@ -10,11 +10,13 @@ assignees: ''
 ## Steps before the release
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
-- [ ] Create new maintenance branch (`release/*.*.x`) if it doesn't exist yet
-- [ ] Announce new maintenance branch (Set topic in tribe channel)
-- [ ] Create release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
+- [ ] If there is no maintenance branch yet:
+  - [ ] Create new maintenance branch (`release/*.*.x`)
+  - [ ] Announce new maintenance branch (Set topic in tribe channel)
+  - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
+- [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
-- [ ] Update the maintenance branch on the Hosting service deployment github action (workflows/deploy-hs.yml)
+- [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
@@ -31,7 +33,9 @@ assignees: ''
 
   Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
 
-- [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression scripts in parallel to get all the results faster, after that retry failed tests in open mode)
+  This can be done on a separate machine to speed up the release process.
+
+- [ ] Trigger a Travis build to run all e2e tests on this latest branch. Make sure all the tests pass.
 
 ---
 
@@ -92,8 +96,10 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
-    - [ ] (for <3.2.0 releases set the spartacus peerDependencies manually, then)  
-      `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+    - [ ] `npm run release:cdc:with-changelog` (needed since `3.1.0-next.0`)
+      - [ ] For < 3.2.0 releases ONLY, set the spartacus peerDependencies manually, then run
+      `npm run release:cdc:with-changelog`.
+      - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release
     - [ ] `npm run release:schematics:with-changelog`
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)
