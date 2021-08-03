@@ -8,13 +8,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
+import { LaunchDialogService } from '@spartacus/storefront';
 import {
   InvalidFileInfo,
   ImportService,
   FileValidity,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
