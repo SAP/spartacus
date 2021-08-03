@@ -51,7 +51,7 @@ export class DpPaymentCallbackComponent implements OnInit {
           paymentRequest.signature
         )
         .subscribe((details: any) => {
-          if (details && details.id) {
+          if (details?.id) {
             this.paymentDetailsAdded.emit(details);
           } else if (details === null) {
             this.globalMsgService.add(
