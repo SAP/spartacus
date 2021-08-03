@@ -379,6 +379,7 @@ describe('ConfigurationOverviewFormComponent with forceReload', () => {
         declarations: [
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
