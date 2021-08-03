@@ -1,0 +1,59 @@
+<ng-container *ngIf="summary$ | async as summary">
+  <p class="cx-import-entries-summary-status">
+    {{
+      summary.loaded < summary.count
+        ? ('importEntriesDialog.summary.loading'
+          | cxTranslate: { loaded: summary.loaded, count: summary.count })
+        : ('importEntriesDialog.summary.loaded'
+          | cxTranslate: { cartName: summary.cartName })
+    }}
+  </p>
+  <p *ngIf="summary.successesCount > 0" class="cx-import-entries-summary-successes">
+    <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+    {{
+      'importEntriesDialog.summary.successes'
+        | cxTranslate
+          : {
+              successesCount: summary.successesCount,
+              count: summary.count
+            }
+    }}
+  </p>
+  <div *ngIf="summary.problemsCount > 0" class="cx-import-entries-summary-problems">
+    <p>
+      <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
+      {{
+        'importEntriesDialog.summary.problems'
+          | cxTranslate
+            : {
+                problemsCount: summary.problemsCount,
+                count: summary.count
+              }
+      }}
+    </p>
+    <ul>
+      <li *ngFor="let message of summary.messages">
+        {{
+          'importEntriesDialog.summary.messages.' + message.statusCode
+            | cxTranslate
+              : {
+                  productCode: message.productCode,
+                  quantity: message.quantity,
+                  quantityAdded: message.quantityAdded,
+                  productName: message.productName
+                }
+        }}
+      </li>
+    </ul>
+  </div>
+  <div class="cx-import-entries-summary-footer">
+    <button
+      *ngIf="summary.loaded === summary.count"
+      (click)="close('Close Import Products Dialog')"
+      class="btn btn-action"
+      type="button"
+    >
+      {{ 'importEntriesDialog.close' | cxTranslate }}
+    </button>
+  </div>
+</ng-container>

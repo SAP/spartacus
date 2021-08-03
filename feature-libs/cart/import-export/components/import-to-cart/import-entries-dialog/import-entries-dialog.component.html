@@ -26,153 +26,16 @@
       </div>
 
       <!-- Modal Body -->
-      <form
-        *ngIf="form && formState; else importSummary"
-        [formGroup]="form"
-        class="cx-import-entries-body"
-      >
-        <p class="cx-import-entries-subtitle">
-          {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
-        </p>
-        <p>
-          {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
-        </p>
-        <cx-file-upload
-          [control]="form.get('file')"
-          [allowedExtensions]="fileValidity?.allowedExtensions"
-          [maxSize]="fileValidity?.maxSize"
-          (update)="loadFile($event, form)"
-        >
-          {{ 'importEntriesDialog.selectFile' | cxTranslate }}
-        </cx-file-upload>
-        <div class="cx-import-entries-row">
-          <ng-container>
-            <label>
-              <span class="cx-import-entries-label label-content">
-                {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
-              </span>
-              <input
-                [maxLength]="nameMaxLength"
-                class="form-control"
-                formControlName="name"
-                required
-                type="text"
-              />
-              <cx-form-errors [control]="form.get('name')"></cx-form-errors>
-            </label>
-          </ng-container>
-        </div>
-
-        <div class="cx-import-entries-row">
-          <label>
-            <span class="cx-import-entries-label label-content">
-              {{ 'importEntriesDialog.savedCartDescription' | cxTranslate }}
-              <span class="cx-import-entries-label-optional">
-                ({{ 'importEntriesDialog.optional' | cxTranslate }})
-              </span></span
-            >
-            <textarea
-              [maxLength]="descriptionMaxLength"
-              class="form-control"
-              formControlName="description"
-              rows="5"
-            ></textarea>
-            <cx-form-errors
-              [control]="form.get('description')"
-            ></cx-form-errors>
-
-            <p class="cx-import-entries-input-hint">
-              {{
-                'importEntriesDialog.charactersLeft'
-                  | cxTranslate: { count: descriptionsCharacterLeft }
-              }}
-            </p>
-          </label>
-        </div>
-        <div class="cx-import-entries-footer">
-          <button
-            (click)="close('Close Import Products Dialog')"
-            class="btn btn-action"
-            type="button"
-          >
-            {{ 'importEntriesDialog.cancel' | cxTranslate }}
-          </button>
-          <button
-            [attr.aria-label]="'importEntriesDialog.upload' | cxTranslate"
-            class="btn btn-primary"
-            type="button"
-            [disabled]="form.invalid"
-            (click)="importProducts()"
-          >
-            {{ 'importEntriesDialog.upload' | cxTranslate }}
-          </button>
-        </div>
-      </form>
+      <cx-import-entries-form
+        *ngIf="formState; else importSummary"
+        (submitEvent)="importProducts($event)"
+      ></cx-import-entries-form>
 
       <ng-template #importSummary>
-        <div
-          *ngIf="summary$ | async as summary"
-          class="cx-import-entries-summary"
-        >
-          <p>
-            {{
-              summary.loaded < summary.count
-                ? ('importEntriesDialog.summary.loading'
-                  | cxTranslate
-                    : { loaded: summary.loaded, count: summary.count })
-                : ('importEntriesDialog.summary.loaded'
-                  | cxTranslate: { cartName: summary.cartName })
-            }}
-          </p>
-          <p *ngIf="summary.successesCount > 0">
-            <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
-            {{
-              'importEntriesDialog.summary.successes'
-                | cxTranslate
-                  : {
-                      successesCount: summary.successesCount,
-                      count: summary.count
-                    }
-            }}
-          </p>
-          <div *ngIf="summary.problemsCount > 0">
-            <p>
-              <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
-              {{
-                'importEntriesDialog.summary.problems'
-                  | cxTranslate
-                    : {
-                        problemsCount: summary.problemsCount,
-                        count: summary.count
-                      }
-              }}
-            </p>
-            <ul>
-              <li *ngFor="let message of summary.messages">
-                {{
-                  'importEntriesDialog.summary.messages.' + message.statusCode
-                    | cxTranslate
-                      : {
-                          productCode: message.productCode,
-                          quantity: message.quantity,
-                          quantityAdded: message.quantityAdded,
-                          productName: message.productName
-                        }
-                }}
-              </li>
-            </ul>
-          </div>
-          <div class="cx-import-entries-summary-footer">
-            <button
-              *ngIf="summary.loaded === summary.count"
-              (click)="close('Close Import Products Dialog')"
-              class="btn btn-action"
-              type="button"
-            >
-              {{ 'importEntriesDialog.close' | cxTranslate }}
-            </button>
-          </div>
-        </div>
+        <cx-import-entries-summary
+          [summary$]="summary$"
+          (closeEvent)="close('Close Import Products Dialog')"
+        ></cx-import-entries-summary>
       </ng-template>
     </div>
   </div>

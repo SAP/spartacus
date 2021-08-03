@@ -16,7 +16,7 @@ cx-import-entries-dialog {
         }
       }
 
-      .cx-import-entries-body {
+      cx-import-entries-form {
         @extend .modal-body;
         .cx-import-entries-subtitle {
           font-weight: bold;
@@ -78,7 +78,7 @@ cx-import-entries-dialog {
         }
       }
 
-      .cx-import-entries-summary {
+      cx-import-entries-summary {
         @extend .modal-body;
 
         cx-icon.success {
