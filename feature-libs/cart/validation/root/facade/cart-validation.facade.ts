@@ -17,7 +17,8 @@ export function cartValidationFacadeFactory() {
   useFactory: cartValidationFacadeFactory,
 })
 export abstract class CartValidationFacade {
-  abstract getCartModificationList(): Observable<
-    CartModificationList | undefined
-  >;
+  abstract getCartModificationList(
+    cartId: string,
+    userId: string
+  ): Observable<CartModificationList | undefined>;
 }
