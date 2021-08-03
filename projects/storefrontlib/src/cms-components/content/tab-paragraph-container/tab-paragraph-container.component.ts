@@ -133,14 +133,15 @@ export class TabParagraphContainerComponent
     } else {
       this.subscription = this.children.changes.subscribe(
         (tabComps: QueryList<ComponentWrapperDirective>) => {
-          // make sure the tab components are created
-          if (this.eventService) {
+          // check the last component in the list to make sure all tab components are created
+          if (tabComps.get(tabComps.length - 1)?.cmpRef) {
+            this.getTitleParams(tabComps);
+          } else {
+            // wait for tab componenets created
             this.eventService
-              .get(ComponentCreateEvent)
+              ?.get(ComponentCreateEvent)
               .pipe(take(tabComps.length), last())
               .subscribe((_event) => this.getTitleParams(tabComps));
-          } else {
-            this.getTitleParams(tabComps);
           }
         }
       );
