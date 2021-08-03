@@ -6,3 +6,5 @@ export * from './src/feature-name';
 export * from './src/utils/dp-constants';
 export * from './src/checkout/index';
 export * from './src/translations/translations';
+export * from './src/translations/translation-chunks-config';
+
