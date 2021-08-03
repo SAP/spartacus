@@ -40,7 +40,7 @@ export class ConfiguratorUtilsService {
    * resolved the conflict, or if a group vanished due to object dependencies.
    * @param {Configurator.Group[]} groups - List of groups
    * @param groupId Group id
-   * @returns Group identified by its id, if available. Otherwise first group
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise first group
    */
   getGroupById(
     groups: Configurator.Group[],
