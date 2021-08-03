@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/digital-payments"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build digital-payments --configuration production"
+    "after:version:bump": "cd ../.. && yarn build:digital-payments"
   },
   "github": {
     "release": true,
