@@ -13,12 +13,6 @@ export class StoreFinderSearchComponent {
 
   constructor(private routingService: RoutingService) {}
 
-  // TO REMOVE
-  test(): void {
-    console.log('click');
-    alert('click');
-  }
-
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {
       queryParams: {
