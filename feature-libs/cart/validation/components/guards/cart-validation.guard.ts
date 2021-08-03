@@ -41,7 +41,7 @@ export class CartValidationGuard implements CanActivate {
       map((data) => {
         const [cartId, userId, cartModificationList] = data;
 
-        if (cartModificationList?.cartModifications?.length != 0) {
+        if (cartModificationList?.cartModifications?.length !== 0) {
           this.globalMessageService.add(
             { key: 'cartValidationErrors.cartEntriesChangeDuringCheckout' },
             GlobalMessageType.MSG_TYPE_ERROR
