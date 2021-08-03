@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
-import { effectsTransitional } from './effects/transitional_4_1';
+import { effectsTransitional_4_1 } from './effects/transitional_4_1';
 import { metaReducers, reducerToken } from './reducers/index';
-import { reducerTransitionalProvider } from './reducers/transitional_4_1';
+import { reducerTransitional_4_1_Provider } from './reducers/transitional_4_1';
 import { USER_FEATURE } from './user-state';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { USER_FEATURE } from './user-state';
     CommonModule,
     StateModule,
     StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effectsTransitional),
+    EffectsModule.forFeature(effectsTransitional_4_1),
     RouterModule,
   ],
-  providers: [reducerTransitionalProvider],
+  providers: [reducerTransitional_4_1_Provider],
 })
 export class UserStoreTransitional_4_1_Module {}
