@@ -57,7 +57,7 @@ export class ConfiguratorUtilsService {
   /**
    * Finds group identified by its ID. If nothing is found, this
    * methods returns undefined
-   * @param groups List of groups
+   * @param {Configurator.Group[]} groups - List of groups
    * @param groupId Group id
    * @returns Group identified by its id, if available. Otherwise undefined
    */
