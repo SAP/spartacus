@@ -3,14 +3,14 @@
     <p *ngIf="!summary.loading; else loading">
       {{
         'importEntriesDialog.summary.loaded'
-          | cxTranslate: { cartName: summary.cartName }
+          | cxTranslate: summary
       }}
     </p>
     <ng-template #loading>
       <p>
         {{
           'importEntriesDialog.summary.loading'
-            | cxTranslate: { loaded: summary.count, count: summary.total }
+            | cxTranslate: summary
         }}
       </p>
       <p>{{ 'importEntriesDialog.summary.warning' | cxTranslate }}</p>
@@ -24,10 +24,7 @@
     {{
       'importEntriesDialog.summary.successes'
         | cxTranslate
-          : {
-              successesCount: summary.successesCount,
-              count: summary.total
-            }
+          : summary
     }}
   </p>
   <div
@@ -39,23 +36,14 @@
       {{
         'importEntriesDialog.summary.problems'
           | cxTranslate
-            : {
-                problemsCount: summary.problemsCount,
-                count: summary.total
-              }
+            : summary
       }}
     </p>
     <ul>
       <li *ngFor="let message of summary.messages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
-            | cxTranslate
-              : {
-                  productCode: message.productCode,
-                  quantity: message.quantity,
-                  quantityAdded: message.quantityAdded,
-                  productName: message.productName
-                }
+            | cxTranslate: message
         }}
       </li>
     </ul>

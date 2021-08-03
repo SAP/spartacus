@@ -30,9 +30,9 @@ export const importEntriesDialog = {
     warning:
       'Do not close or refresh this window while products are being imported.',
     loaded: 'Products has been loaded to new cart "{{ cartName }}".',
-    loading: 'Products are being processed... ({{ loaded }}/{{ count }})',
+    loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
-      '{{ successesCount }} out of {{ count }} products have been imported successfully.',
+      '{{ successesCount }} out of {{ total }} products have been imported successfully.',
     problems: '{{ problemsCount }} products were not imported.',
     messages: {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
