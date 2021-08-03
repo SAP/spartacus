@@ -11,7 +11,7 @@ import { addComment, getBundleId } from './functions';
 export async function deploy(github: any, octoKit: any, branch: string) {
   const context = github.context;
 
-  console.log(`--> Deploying branch ${branch}`);
+  console.log(`--> Deploying branch ${branch} in CSR mode`);
 
   const bundleId = getBundleId(branch);
   const command = `upp application deploy -b ${bundleId} -t spartacus --csr-dist ./dist/storefrontapp -e stage`;
