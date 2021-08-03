@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { I18nModule } from '@spartacus/core';
-import { SpinnerComponent } from './spinner.component';
+import { ProgressButtonComponent } from './progress-button.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
-  declarations: [SpinnerComponent],
-  exports: [SpinnerComponent],
+  declarations: [ProgressButtonComponent],
+  exports: [ProgressButtonComponent],
 })
-export class SpinnerModule {}
+export class ProgressButtonModule {}

@@ -2,24 +2,24 @@ import { DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from 'projects/core/src/i18n';
-import { SpinnerButtonComponent } from './spinner-button.component';
+import { ProgressButtonComponent } from './progress-button.component';
 
-describe('SpinnerButtonComponent', () => {
-  let component: SpinnerButtonComponent;
-  let fixture: ComponentFixture<SpinnerButtonComponent>;
+describe('ProgressButtonComponent', () => {
+  let component: ProgressButtonComponent;
+  let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [SpinnerButtonComponent],
+        declarations: [ProgressButtonComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpinnerButtonComponent);
+    fixture = TestBed.createComponent(ProgressButtonComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -31,16 +31,16 @@ describe('SpinnerButtonComponent', () => {
 
   it('should display empty button', () => {
     expect(
-      el.query(By.css('.cx-spinner-button-container .loader-container'))
+      el.query(By.css('.cx-progress-button-container .loader-container'))
     ).toBeNull();
   });
 
-  it('should display spinner inside the button', () => {
-    component.disabled = true;
+  it('should display Progress inside the button', () => {
+    component.loading = true;
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.cx-spinner-button-container .loader-container'))
+      el.query(By.css('.cx-progress-button-container .loader-container'))
     ).toBeTruthy();
   });
 
@@ -49,7 +49,7 @@ describe('SpinnerButtonComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.cx-spinner-button-container ng-content')).nativeElement
+      el.query(By.css('.cx-progress-button-container ng-content')).nativeElement
         .innerHTML
     ).toContain('Test');
   });

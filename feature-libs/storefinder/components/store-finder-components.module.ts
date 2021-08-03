@@ -8,6 +8,7 @@ import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
   IconModule,
   ListNavigationModule,
+  ProgressButtonModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ScheduleComponent } from './schedule-component/schedule.component';
@@ -32,6 +33,7 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     ListNavigationModule,
     NgbNavModule,
     SpinnerModule,
+    ProgressButtonModule,
     UrlModule,
     StoreFinderCoreModule,
     I18nModule,

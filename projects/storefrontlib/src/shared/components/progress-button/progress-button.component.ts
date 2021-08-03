@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
-  selector: 'cx-spinner-button',
-  templateUrl: './spinner-button.component.html',
+  selector: 'cx-progress-button',
+  templateUrl: './progress-button.component.html',
 })
-export class SpinnerButtonComponent {
+export class ProgressButtonComponent {
   @Input()
   loading = false;
 
