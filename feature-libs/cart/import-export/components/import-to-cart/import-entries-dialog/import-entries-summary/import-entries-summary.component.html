@@ -1,9 +1,9 @@
 <ng-container *ngIf="summary$ | async as summary">
   <p class="cx-import-entries-summary-status">
     {{
-      summary.loaded < summary.count
+      summary.count < summary.total
         ? ('importEntriesDialog.summary.loading'
-          | cxTranslate: { loaded: summary.loaded, count: summary.count })
+          | cxTranslate: { loaded: summary.count, count: summary.total })
         : ('importEntriesDialog.summary.loaded'
           | cxTranslate: { cartName: summary.cartName })
     }}
@@ -15,7 +15,7 @@
         | cxTranslate
           : {
               successesCount: summary.successesCount,
-              count: summary.count
+              count: summary.total
             }
     }}
   </p>
@@ -27,7 +27,7 @@
           | cxTranslate
             : {
                 problemsCount: summary.problemsCount,
-                count: summary.count
+                count: summary.total
               }
       }}
     </p>
@@ -48,7 +48,7 @@
   </div>
   <div class="cx-import-entries-summary-footer">
     <button
-      *ngIf="summary.loaded === summary.count"
+      *ngIf="summary.count === summary.total"
       (click)="close('Close Import Products Dialog')"
       class="btn btn-action"
       type="button"

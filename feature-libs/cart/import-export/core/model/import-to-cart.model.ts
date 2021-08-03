@@ -33,8 +33,8 @@ export type ProductImportInfo = {
 
 export type ProductImportSummary = {
   cartName: string;
-  loaded: number;
   count: number;
+  total: number;
   successesCount: number;
   problemsCount: number;
   messages: ProductImportInfo[];

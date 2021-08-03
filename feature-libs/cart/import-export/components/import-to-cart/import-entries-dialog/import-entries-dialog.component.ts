@@ -30,8 +30,8 @@ export class ImportEntriesDialogComponent {
   formState: Boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
     cartName: '',
-    loaded: 0,
     count: 0,
+    total: 0,
     successesCount: 0,
     problemsCount: 0,
     messages: [],
@@ -58,7 +58,7 @@ export class ImportEntriesDialogComponent {
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
-      count: products.length,
+      total: products.length,
       cartName: name,
     });
     this.importToCartService
@@ -75,13 +75,13 @@ export class ImportEntriesDialogComponent {
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
-        loaded: this.summary$.value.loaded + 1,
+        count: this.summary$.value.count + 1,
         successesCount: this.summary$.value.successesCount + 1,
       });
     } else {
       this.summary$.next({
         ...this.summary$.value,
-        loaded: this.summary$.value.loaded + 1,
+        count: this.summary$.value.count + 1,
         problemsCount: this.summary$.value.problemsCount + 1,
         messages: [...this.summary$.value.messages, action],
       });

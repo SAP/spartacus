@@ -6,8 +6,8 @@ import {
   Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries-summary',
