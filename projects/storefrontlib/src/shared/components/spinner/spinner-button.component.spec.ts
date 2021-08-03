@@ -49,7 +49,7 @@ describe('SpinnerButtonComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.cx-spinner-button-container span')).nativeElement
+      el.query(By.css('.cx-spinner-button-container ng-content')).nativeElement
         .innerHTML
     ).toContain('Test');
   });

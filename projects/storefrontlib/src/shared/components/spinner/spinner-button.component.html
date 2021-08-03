@@ -1,13 +1,9 @@
-<button
-  (click)="clikEvent.emit()"
-  [disabled]="disabled"
-  class="btn btn-primary"
->
+<button (click)="clikEvent.emit()" [disabled]="loading" class="btn btn-primary">
   <div class="cx-spinner-button-container">
-    <div *ngIf="disabled" class="loader-container">
+    <div *ngIf="loading" class="loader-container">
       <div class="loader">{{ 'spinner.loading' | cxTranslate }}</div>
     </div>
 
-    <span>{{ text }}</span>
+    <ng-content></ng-content>
   </div>
 </button>

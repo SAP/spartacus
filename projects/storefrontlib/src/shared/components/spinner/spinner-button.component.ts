@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SpinnerButtonComponent {
   @Input()
-  disabled = false;
+  loading = false;
 
   @Input()
   text: string;
