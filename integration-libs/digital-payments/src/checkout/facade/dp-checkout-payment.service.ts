@@ -40,10 +40,13 @@ export class DpCheckoutPaymentService {
     return req;
   }
 
-  protected createPaymentDetailsCommand: Command<{
-    sessionId: string;
-    signature: string;
-  }> = this.command.create(
+  protected createPaymentDetailsCommand: Command<
+    {
+      sessionId: string;
+      signature: string;
+    },
+    PaymentDetails
+  > = this.command.create(
     (payload) =>
       this.dpAdapter
         .createPaymentDetails(payload.sessionId, payload.signature)
@@ -61,7 +64,7 @@ export class DpCheckoutPaymentService {
   createPaymentDetails(
     sessionId: string,
     signature: string
-  ): Observable<PaymentDetails | unknown> {
+  ): Observable<PaymentDetails> {
     return this.createPaymentDetailsCommand.execute({ sessionId, signature });
   }
 }

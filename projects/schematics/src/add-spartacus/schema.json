@@ -20,8 +20,8 @@
           "Saved-Cart",
           "CDC",
           "CDS",
-          "Digital-Payments",          
           "Checkout",
+          "Digital-Payments",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -72,12 +72,12 @@
             "label": "Context-Driven Services Integration"
           },
           {
-            "value": "Digital-Payments",
-            "label": "Digital Payments Integration"
-          },          
-          {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
           },
           {
             "value": "Administration",
