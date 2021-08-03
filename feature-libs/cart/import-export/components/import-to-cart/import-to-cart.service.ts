@@ -40,9 +40,8 @@ export class ImportToCartService {
           .pipe(
             map(
               (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-                cartData.value?.code
+                cartData.value?.code as string
             ),
-            filter(Boolean),
             tap((cartId: string) => {
               // getCartByUserId
               this.savedCartService.saveCart({
@@ -111,27 +110,14 @@ export class ImportToCartService {
   protected mapMessages(
     action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
   ): ProductImportInfo {
-    if (action instanceof CartActions.CartAddEntryFail) {
-      const { productCode, error } = action.payload;
-      if (error?.details[0]?.type === 'UnknownIdentifierError') {
-        return {
-          productCode,
-          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
-        };
-      }
-    } else if (action instanceof CartActions.CartAddEntrySuccess) {
-      const {
-        productCode,
-        statusCode,
-        quantity,
-        quantityAdded,
-        entry,
-      } = action.payload;
+    const { productCode } = action.payload;
+    if (action instanceof CartActions.CartAddEntrySuccess) {
+      const { quantity, quantityAdded, entry, statusCode } = action.payload;
       if (statusCode === ProductImportStatus.LOW_STOCK) {
         return {
           productCode,
           statusCode,
-          productName: entry?.product.name,
+          productName: entry?.product?.name,
           quantity,
           quantityAdded,
         };
@@ -139,6 +125,16 @@ export class ImportToCartService {
       if (statusCode === ProductImportStatus.SUCCESS) {
         return { productCode, statusCode };
       }
+    } else if (action instanceof CartActions.CartAddEntryFail) {
+      const { error } = action.payload;
+      if (error?.details[0]?.type === 'UnknownIdentifierError') {
+        return {
+          productCode,
+          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+        };
+      }
     }
+    console.error('Unrecognized cart add entry action type', action);
+    return { productCode, statusCode: ProductImportStatus.ERROR };
   }
 }
