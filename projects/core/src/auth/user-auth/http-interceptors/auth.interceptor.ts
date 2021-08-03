@@ -6,8 +6,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isNotNull } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 
@@ -32,45 +34,59 @@ export class AuthInterceptor implements HttpInterceptor {
 
     request = this.authHttpHeaderService.alterRequest(request);
 
-    return next.handle(request).pipe(
-      catchError((errResponse: any) => {
-        if (errResponse instanceof HttpErrorResponse) {
-          switch (errResponse.status) {
-            case 401: // Unauthorized
-              if (this.isExpiredToken(errResponse) && shouldCatchError) {
-                return this.authHttpHeaderService.handleExpiredAccessToken(
-                  request,
-                  next
-                );
-              } else if (
-                // Refresh expired token
-                // Check that the OAUTH endpoint was called and the error is for refresh token is expired
-                errResponse.url.includes(
-                  this.authConfigService.getTokenEndpoint()
-                ) &&
-                errResponse.error.error === 'invalid_token'
-              ) {
-                this.authHttpHeaderService.handleExpiredRefreshToken();
-                return of<HttpEvent<any>>();
-              }
+    return this.authHttpHeaderService.getToken().pipe(
+      tap((token) => {
+        console.log('wat', token);
+      }),
+      filter(isNotNull),
+      take(1),
+      map((token: AuthToken | undefined) => ({
+        token,
+        request: this.authHttpHeaderService.alterRequest(request, token),
+      })),
+      switchMap(({ request, token }) =>
+        next.handle(request).pipe(
+          catchError((errResponse: any) => {
+            if (errResponse instanceof HttpErrorResponse) {
+              switch (errResponse.status) {
+                case 401: // Unauthorized
+                  if (this.isExpiredToken(errResponse) && shouldCatchError) {
+                    return this.authHttpHeaderService.handleExpiredAccessToken(
+                      request,
+                      next,
+                      token
+                    );
+                  } else if (
+                    // Refresh expired token
+                    // Check that the OAUTH endpoint was called and the error is for refresh token is expired
+                    errResponse.url.includes(
+                      this.authConfigService.getTokenEndpoint()
+                    ) &&
+                    errResponse.error.error === 'invalid_token'
+                  ) {
+                    this.authHttpHeaderService.handleExpiredRefreshToken();
+                    return of<HttpEvent<any>>();
+                  }
 
-              break;
-            case 400: // Bad Request
-              if (
-                errResponse.url.includes(
-                  this.authConfigService.getTokenEndpoint()
-                ) &&
-                errResponse.error.error === 'invalid_grant'
-              ) {
-                if (request.body.get('grant_type') === 'refresh_token') {
-                  this.authHttpHeaderService.handleExpiredRefreshToken();
-                }
+                  break;
+                case 400: // Bad Request
+                  if (
+                    errResponse.url.includes(
+                      this.authConfigService.getTokenEndpoint()
+                    ) &&
+                    errResponse.error.error === 'invalid_grant'
+                  ) {
+                    if (request.body.get('grant_type') === 'refresh_token') {
+                      this.authHttpHeaderService.handleExpiredRefreshToken();
+                    }
+                  }
+                  break;
               }
-              break;
-          }
-        }
-        return throwError(errResponse);
-      })
+            }
+            return throwError(errResponse);
+          })
+        )
+      )
     );
   }
 

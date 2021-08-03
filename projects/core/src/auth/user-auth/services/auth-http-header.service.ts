@@ -1,7 +1,16 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import {
+  debounceTime,
+  filter,
+  map,
+  scan,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -23,6 +32,10 @@ export class AuthHttpHeaderService {
    * Indicates whether the access token is being refreshed
    */
   protected refreshInProgress = false;
+  protected refreshInProgress$ = new BehaviorSubject<boolean>(false);
+
+  protected logoutInProgress = false;
+  protected logoutInProgress$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     protected authService: AuthService,
@@ -44,13 +57,16 @@ export class AuthHttpHeaderService {
   /**
    * Adds `Authorization` header for OCC calls.
    */
-  public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
+  public alterRequest(
+    request: HttpRequest<any>,
+    token?: AuthToken
+  ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
     if (!hasAuthorizationHeader && isOccUrl) {
       return request.clone({
         setHeaders: {
-          ...this.createAuthorizationHeader(),
+          ...this.createAuthorizationHeader(token),
         },
       });
     }
@@ -66,16 +82,25 @@ export class AuthHttpHeaderService {
     return rawValue;
   }
 
-  protected createAuthorizationHeader(): { Authorization: string } | {} {
-    let token: AuthToken | undefined;
-    this.authStorageService
-      .getToken()
-      .subscribe((tok) => (token = tok))
-      .unsubscribe();
-
+  protected createAuthorizationHeader(
+    token?: AuthToken
+  ): { Authorization: string } | {} {
     if (token?.access_token) {
       return {
         Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
+      };
+    }
+    let currentToken: AuthToken | undefined;
+    this.authStorageService
+      .getToken()
+      .subscribe((tok) => (currentToken = tok))
+      .unsubscribe();
+
+    if (currentToken?.access_token) {
+      return {
+        Authorization: `${currentToken.token_type || 'Bearer'} ${
+          currentToken.access_token
+        }`,
       };
     }
     return {};
@@ -86,8 +111,18 @@ export class AuthHttpHeaderService {
    */
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
+    token?: AuthToken
   ): Observable<HttpEvent<AuthToken>> {
+    if (token) {
+      return this.handleExpiredToken$(token).pipe(
+        switchMap((token) => {
+          return token
+            ? next.handle(this.createNewRequestWithNewToken(request, token))
+            : EMPTY;
+        })
+      );
+    }
     return this.handleExpiredToken().pipe(
       switchMap((token) => {
         return token
@@ -136,12 +171,14 @@ export class AuthHttpHeaderService {
     let oldToken: AuthToken;
     return stream.pipe(
       tap((token) => {
+        console.log('call', this.refreshInProgress);
         if (
           token.access_token &&
           token.refresh_token &&
           !oldToken &&
           !this.refreshInProgress
         ) {
+          console.log('started refresh');
           this.refreshInProgress = true;
           this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
@@ -150,11 +187,106 @@ export class AuthHttpHeaderService {
         oldToken = oldToken || token;
       }),
       filter((token) => oldToken.access_token !== token.access_token),
-      tap(() => (this.refreshInProgress = false)),
+      tap(() => {
+        this.refreshInProgress = false;
+        console.log('finished refresh');
+      }),
       map((token) => (token?.access_token ? token : undefined)),
       take(1)
     );
   }
+
+  protected token$: Observable<AuthToken | undefined | null> = combineLatest([
+    this.authStorageService.getToken().pipe(
+      tap((token) => {
+        console.log('before-debounce', token);
+      }),
+      debounceTime(100),
+      tap((token) => {
+        console.log('after', token);
+      }),
+      scan(
+        (
+          token: Array<AuthToken | undefined>,
+          newToken: AuthToken | undefined
+        ) => {
+          return [newToken, token?.[0]];
+        },
+        []
+      ),
+      tap(([newToken, token]) => {
+        if (
+          newToken?.access_token !== token?.access_token ||
+          token === undefined
+        ) {
+          this.refreshInProgress = false;
+          this.logoutInProgress = false;
+          this.refreshInProgress$.next(false);
+          this.logoutInProgress$.next(false);
+        }
+      }),
+      filter(
+        ([newToken, token]) =>
+          newToken?.access_token !== token?.access_token || token === undefined
+      ),
+      map(([newToken]) => newToken),
+      map((token) => (token?.access_token ? token : undefined))
+    ),
+    this.refreshInProgress$,
+    this.logoutInProgress$,
+  ]).pipe(
+    map(([token, refreshInProgress, logoutInProgress]) =>
+      refreshInProgress || logoutInProgress ? null : token
+    ),
+    tap((token) => {
+      console.log('token$', token);
+    }),
+    shareReplay({ bufferSize: 1, refCount: true })
+  ) as Observable<AuthToken | undefined | null>;
+
+  getToken(): Observable<AuthToken | undefined | null> {
+    return this.token$;
+  }
+
+  handleExpiredToken$(
+    requestToken: AuthToken
+  ): Observable<AuthToken | undefined> {
+    return this.getToken().pipe(
+      tap((token) => {
+        if (
+          token !== null &&
+          token?.access_token === requestToken.access_token &&
+          token?.access_token &&
+          token?.refresh_token
+        ) {
+          // this.refreshInProgress = true;
+          this.oAuthLibWrapperService.refreshToken();
+          this.refreshInProgress$.next(true);
+          console.log('start refresh');
+        } else if (!token?.refresh_token) {
+          // this.logoutInProgress = true;
+          this.logoutInProgress$.next(true);
+          this.handleExpiredRefreshToken();
+        }
+      }),
+      filter(
+        (token) =>
+          token !== null && token?.access_token !== requestToken.access_token
+      ),
+      map((token) => (token?.access_token ? token : undefined))
+    );
+  }
+
+  // - 1 call
+  // - 3 call
+  // - 1 fail
+  // - 1 attempt to refresh - true
+  // - 2 call
+  // - 1 refreshed token - false // process already completed
+  // - 2 fail -
+  // - 2 attempt to refresh
+
+  // - still do one call that will be 401
 
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
