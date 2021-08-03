@@ -5,6 +5,7 @@ import {
   AuthRedirectService,
   AuthService,
   AuthStorageService,
+  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
   InterceptorUtil,
@@ -62,16 +63,19 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * Adds `Authorization` header to occ and CS agent requests.
    * For CS agent requests also removes the `cx-use-csagent-token` header (to avoid problems with CORS).
    */
-  public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
+  public alterRequest(
+    request: HttpRequest<any>,
+    token?: AuthToken
+  ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isCSAgentRequest = this.isCSAgentTokenRequest(request);
 
-    let req = super.alterRequest(request);
+    let req = super.alterRequest(request, token);
 
     if (!hasAuthorizationHeader && isCSAgentRequest) {
       req = request.clone({
         setHeaders: {
-          ...this.createAuthorizationHeader(),
+          ...this.createAuthorizationHeader(token),
         },
       });
       return InterceptorUtil.removeHeader(
@@ -102,6 +106,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       .pipe(take(1))
       .subscribe((csAgentLoggedIn) => {
         if (csAgentLoggedIn) {
+          this.logoutInProgress$.next(true);
           this.csAgentAuthService.logoutCustomerSupportAgent();
           this.globalMessageService.add(
             {

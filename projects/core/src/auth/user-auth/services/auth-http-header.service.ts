@@ -1,15 +1,25 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import {
-  debounceTime,
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  merge,
+  Observable,
+  queueScheduler,
+  Subject,
+  using,
+} from 'rxjs';
+import {
   filter,
   map,
-  scan,
+  observeOn,
+  pairwise,
   shareReplay,
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -97,6 +107,7 @@ export class AuthHttpHeaderService {
       .unsubscribe();
 
     if (currentToken?.access_token) {
+      console.error('I dont want to be here ever');
       return {
         Authorization: `${currentToken.token_type || 'Bearer'} ${
           currentToken.access_token
@@ -112,10 +123,10 @@ export class AuthHttpHeaderService {
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler,
-    token?: AuthToken
+    initialRequestToken?: AuthToken
   ): Observable<HttpEvent<AuthToken>> {
-    if (token) {
-      return this.handleExpiredToken$(token).pipe(
+    if (initialRequestToken) {
+      return this.handleExpiredToken$(initialRequestToken).pipe(
         switchMap((token) => {
           return token
             ? next.handle(this.createNewRequestWithNewToken(request, token))
@@ -123,6 +134,7 @@ export class AuthHttpHeaderService {
         })
       );
     }
+    console.error('Bad place to be');
     return this.handleExpiredToken().pipe(
       switchMap((token) => {
         return token
@@ -144,11 +156,14 @@ export class AuthHttpHeaderService {
     //
     // In the second case, we want to remember the anticipated url before we navigate to
     // the login page, so we can redirect back to that URL after user authenticates.
+    console.log('expired refresh, logout');
+    this.logoutInProgress$.next(true);
     this.authRedirectService.saveCurrentNavigationUrl();
 
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout();
+    console.log('logout please');
 
     this.routingService.go({ cxRoute: 'login' });
 
@@ -168,6 +183,7 @@ export class AuthHttpHeaderService {
    */
   protected handleExpiredToken(): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
+    console.error('Errorrrrrrrrr');
     let oldToken: AuthToken;
     return stream.pipe(
       tap((token) => {
@@ -196,84 +212,128 @@ export class AuthHttpHeaderService {
     );
   }
 
-  protected token$: Observable<AuthToken | undefined | null> = combineLatest([
-    this.authStorageService.getToken().pipe(
-      tap((token) => {
-        console.log('before-debounce', token);
-      }),
-      debounceTime(100),
-      tap((token) => {
-        console.log('after', token);
-      }),
-      scan(
-        (
-          token: Array<AuthToken | undefined>,
-          newToken: AuthToken | undefined
-        ) => {
-          return [newToken, token?.[0]];
-        },
-        []
-      ),
-      tap(([newToken, token]) => {
-        if (
-          newToken?.access_token !== token?.access_token ||
-          token === undefined
-        ) {
-          this.refreshInProgress = false;
-          this.logoutInProgress = false;
-          this.refreshInProgress$.next(false);
-          this.logoutInProgress$.next(false);
-        }
-      }),
+  // requirements
+  // 1. as soon as we set refreshInProgress or logoutInProgress we should emit null or we should not emit anything
+  // 2. when we get new tokens we know that refreshInProgress finished
+  // 3. when we get empty token we know that logoutInProgress finished
+  // 4. tokens can emit multiple times (properties change one by one)
+  // 5. Do we need scan?
+
+  protected token$: Observable<
+    AuthToken | undefined
+  > = this.authStorageService.getToken().pipe(
+    tap((token) => console.log(token)),
+    map((token) => (token?.access_token ? token : undefined))
+  );
+
+  getToken(): Observable<AuthToken | undefined> {
+    return combineLatest([
+      this.token$,
+      this.refreshInProgress$,
+      this.logoutInProgress$,
+    ]).pipe(
       filter(
-        ([newToken, token]) =>
-          newToken?.access_token !== token?.access_token || token === undefined
+        ([_, refreshInProgress, logoutInProgress]) =>
+          !refreshInProgress && !logoutInProgress
       ),
-      map(([newToken]) => newToken),
-      map((token) => (token?.access_token ? token : undefined))
-    ),
+      map(([token]) => token),
+      take(1)
+    );
+  }
+
+  protected tokenTaps$ = combineLatest([
+    this.token$,
     this.refreshInProgress$,
     this.logoutInProgress$,
   ]).pipe(
-    map(([token, refreshInProgress, logoutInProgress]) =>
-      refreshInProgress || logoutInProgress ? null : token
-    ),
-    tap((token) => {
-      console.log('token$', token);
-    }),
-    shareReplay({ bufferSize: 1, refCount: true })
-  ) as Observable<AuthToken | undefined | null>;
+    observeOn(queueScheduler),
+    tap(([token]) => {
+      if (token?.refresh_token) {
+      }
+    })
+  );
 
-  getToken(): Observable<AuthToken | undefined | null> {
-    return this.token$;
-  }
+  protected refreshTokenTrigger$ = new Subject<AuthToken>();
+
+  protected refreshToken$ = this.refreshTokenTrigger$.pipe(
+    withLatestFrom(this.refreshInProgress$, this.logoutInProgress$),
+    filter(
+      ([, refreshInProgress, logoutInProgress]) =>
+        !refreshInProgress && !logoutInProgress
+    ),
+    tap(([token]) => {
+      if (token?.refresh_token) {
+        this.refreshInProgress$.next(true);
+        this.oAuthLibWrapperService.refreshToken();
+      } else {
+        this.handleExpiredRefreshToken();
+        this.logoutInProgress$.next(true);
+      }
+    })
+  );
+
+  protected tokenFinished$ = this.token$.pipe(
+    pairwise(),
+    tap(([oldToken, newToken]) => {
+      // we get new token, so we know that we either finished refresh or logout
+      if (oldToken?.access_token !== newToken?.access_token) {
+        this.refreshInProgress$.next(false);
+        this.logoutInProgress$.next(false);
+      }
+    })
+  );
+  protected retryToken$ = using(
+    () => merge(this.tokenFinished$, this.refreshToken$).subscribe(),
+    () => this.getToken()
+  ).pipe(shareReplay(1));
 
   handleExpiredToken$(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
-    return this.getToken().pipe(
-      tap((token) => {
+    this.refreshTokenTrigger$.next(requestToken);
+
+    return this.retryToken$;
+
+    return combineLatest([
+      this.token$,
+      this.refreshInProgress$.pipe(observeOn(queueScheduler)),
+      this.logoutInProgress$.pipe(observeOn(queueScheduler)),
+    ]).pipe(
+      tap((str) => console.log(str)),
+      tap(([token]) => {
+        // we get new token, so we know that we either finished refresh or logout
+        if (token?.access_token !== requestToken.access_token) {
+          this.refreshInProgress$.next(false);
+          this.logoutInProgress$.next(false);
+        }
+      }),
+      tap(([token, refreshInProgress, logoutInProgress]) => {
         if (
-          token !== null &&
           token?.access_token === requestToken.access_token &&
           token?.access_token &&
-          token?.refresh_token
+          token?.refresh_token &&
+          !refreshInProgress &&
+          !logoutInProgress
         ) {
-          // this.refreshInProgress = true;
           this.oAuthLibWrapperService.refreshToken();
           this.refreshInProgress$.next(true);
           console.log('start refresh');
-        } else if (!token?.refresh_token) {
-          // this.logoutInProgress = true;
-          this.logoutInProgress$.next(true);
+        } else if (
+          token?.access_token === requestToken.access_token &&
+          !token?.refresh_token &&
+          !logoutInProgress &&
+          !refreshInProgress
+        ) {
           this.handleExpiredRefreshToken();
         }
       }),
+      filter(([token]) => token?.access_token !== requestToken.access_token),
       filter(
-        (token) =>
-          token !== null && token?.access_token !== requestToken.access_token
+        ([_, refreshInProgress, logoutInProgress]) =>
+          !refreshInProgress && !logoutInProgress
       ),
-      map((token) => (token?.access_token ? token : undefined))
+      map(([token]) => token),
+      take(1)
     );
   }
 

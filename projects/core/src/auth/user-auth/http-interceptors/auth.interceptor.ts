@@ -6,9 +6,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isNotNull } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -32,14 +31,13 @@ export class AuthInterceptor implements HttpInterceptor {
       request
     );
 
-    request = this.authHttpHeaderService.alterRequest(request);
+    // request = this.authHttpHeaderService.alterRequest(request);
 
+    // getToken will emit sync or async if there is refresh or logout in progress
     return this.authHttpHeaderService.getToken().pipe(
       tap((token) => {
-        console.log('wat', token);
+        console.log('interceptor', token);
       }),
-      filter(isNotNull),
-      take(1),
       map((token: AuthToken | undefined) => ({
         token,
         request: this.authHttpHeaderService.alterRequest(request, token),
@@ -51,6 +49,8 @@ export class AuthInterceptor implements HttpInterceptor {
               switch (errResponse.status) {
                 case 401: // Unauthorized
                   if (this.isExpiredToken(errResponse) && shouldCatchError) {
+                    // request failed with expired access token
+                    // it should get new token (wait for it or trigger token refresh or logout) and retry request
                     return this.authHttpHeaderService.handleExpiredAccessToken(
                       request,
                       next,
