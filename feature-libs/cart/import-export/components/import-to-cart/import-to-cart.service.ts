@@ -38,6 +38,9 @@ export class ImportToCartService {
             extraData: { active: false },
           })
           .pipe(
+            filter((cartData: StateUtils.ProcessesLoaderState<Cart>) =>
+              Boolean(cartData.value?.code)
+            ),
             map(
               (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
                 cartData.value?.code as string
