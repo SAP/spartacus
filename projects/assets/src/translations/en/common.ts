@@ -19,7 +19,7 @@ export const common = {
     menu: 'Menu',
     reset: 'Reset',
     search: 'Search',
-    upload: 'Upload',
+    selectFile: 'Select file',
   },
   pageMetaResolver: {
     category: {
