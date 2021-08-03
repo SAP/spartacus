@@ -38,7 +38,7 @@ export class ConfiguratorUtilsService {
    *
    * The exceptional case can happen if e.g. an edit in a conflict was done that
    * resolved the conflict, or if a group vanished due to object dependencies.
-   * @param groups List of groups
+   * @param {Configurator.Group[]} groups - List of groups
    * @param groupId Group id
    * @returns Group identified by its id, if available. Otherwise first group
    */
