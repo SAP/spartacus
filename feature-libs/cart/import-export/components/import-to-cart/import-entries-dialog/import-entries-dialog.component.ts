@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
-  ImportExportConfig,
-  ImportService,
   ProductImportSummary,
   ProductImportStatus,
   ProductImportInfo,
@@ -41,9 +39,7 @@ export class ImportEntriesDialogComponent {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importExportConfig: ImportExportConfig,
-    protected importToCartService: ImportToCartService,
-    protected importService: ImportService
+    protected importToCartService: ImportToCartService
   ) {}
 
   close(reason: string): void {
