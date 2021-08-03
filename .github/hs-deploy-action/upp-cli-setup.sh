@@ -9,7 +9,7 @@ echo "Downloading upp cli zip"
 
 # TODO pull fron NPM once the CLI is published. For now, we can only get it from github releases
 curl -u ${GHT_USER}:${GHT_TOKEN} -L -H "Accept: application/octet-stream" \
-    "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/7203" -o ${APP}.zip
+    "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/10192" -o ${APP}.zip
 
 if [ ! -s ${APP}.zip ]; then
     echo "Error downloading upp CLI zip. Check url and configs"
