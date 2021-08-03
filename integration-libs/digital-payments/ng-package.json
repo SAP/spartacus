@@ -10,5 +10,6 @@
       "@ngrx/store": "store",
       "@ngrx/effects": "effects"
     }
-  }
+  },
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }
