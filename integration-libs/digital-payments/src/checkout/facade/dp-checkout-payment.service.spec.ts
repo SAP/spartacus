@@ -1,41 +1,26 @@
 import { PaymentDetails } from '@spartacus/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
-import {
-  DIGITAL_PAYMENTS_FEATURE,
-  StateWithDigitalPayments,
-} from './../store/digital-payments-state';
-import { Store, StoreModule } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import * as fromReducers from '../store/reducers/index';
-
+import { OccEndpointsService } from '@spartacus/core';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
-import { DigitalPaymentActions } from '../store';
 
-const initialPaymentRequestState: DpPaymentRequest = undefined;
-const initialPaymentDetailsState: PaymentDetails = undefined;
+const initialPaymentRequestState: DpPaymentRequest | undefined = undefined;
+const initialPaymentDetailsState: PaymentDetails | undefined = undefined;
 
 describe('DpCheckoutPaymentService', () => {
-  let store: Store<StateWithDigitalPayments>;
   let service: DpCheckoutPaymentService;
-
+  let occEnpointsService: OccEndpointsService;
   const signature = 'mockSignature';
   const sessionId = 'mockSessionId';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          DIGITAL_PAYMENTS_FEATURE,
-          fromReducers.getReducers()
-        ),
       ],
     });
-
     service = TestBed.inject(DpCheckoutPaymentService);
-    store = TestBed.inject(Store);
-
-    spyOn(store, 'dispatch').and.callThrough();
+    occEnpointsService = TestBed.inject(OccEndpointsService);
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   it('should be created', () => {
@@ -43,32 +28,18 @@ describe('DpCheckoutPaymentService', () => {
   });
 
   it('should load card registration details', () => {
-    service.loadCardRegistrationDetails();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new DigitalPaymentActions.LoadCheckoutPaymentRequest()
-    );
+    service.getCardRegistrationDetails();
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
+    expect(service.getCardRegistrationDetails).toHaveBeenCalled();
   });
 
-  it('should load checkout payment details', () => {
-    service.loadCheckoutPaymentDetails(sessionId, signature);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new DigitalPaymentActions.LoadCheckoutPaymentDetails({
-        sessionId,
-        signature,
-      })
-    );
-  });
-
-  it('should clear card registartion state', () => {
-    service.clearCardRegitrationState();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new DigitalPaymentActions.ResetCheckoutPaymentRequest()
-    );
+ it('should load checkout payment details', () => {
+    service.createPaymentDetails(sessionId, signature);
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
   });
 
   it('should get card registration details', () => {
-    let paymentRequest: DpPaymentRequest;
+    let paymentRequest: DpPaymentRequest | undefined;
     service
       .getCardRegistrationDetails()
       .subscribe((data) => {
@@ -77,26 +48,19 @@ describe('DpCheckoutPaymentService', () => {
       .unsubscribe();
 
     expect(paymentRequest).toEqual(initialPaymentRequestState);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new DigitalPaymentActions.LoadCheckoutPaymentRequest()
-    );
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
   });
 
   it('should create payment details', () => {
-    let paymentDetails: PaymentDetails;
+    let paymentDetails: PaymentDetails | undefined;
     service
       .createPaymentDetails(sessionId, signature)
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         paymentDetails = data;
       })
       .unsubscribe();
 
     expect(paymentDetails).toEqual(initialPaymentDetailsState);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new DigitalPaymentActions.LoadCheckoutPaymentDetails({
-        sessionId: sessionId,
-        signature: signature,
-      })
-    );
-  });
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();  });
 });
+

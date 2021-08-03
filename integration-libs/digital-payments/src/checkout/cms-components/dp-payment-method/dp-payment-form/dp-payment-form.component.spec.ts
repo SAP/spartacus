@@ -1,19 +1,12 @@
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import {
-  DIGITAL_PAYMENTS_FEATURE,
-  StateWithDigitalPayments,
-} from '../../../store/digital-payments-state';
-import {
   MockTranslatePipe,
   WindowRef,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DpPaymentFormComponent } from './dp-payment-form.component';
-import { Store, StoreModule } from '@ngrx/store';
-import * as fromReducers from '../../../store/reducers';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Observable, of } from 'rxjs';
 import { Component } from '@angular/core';
@@ -33,7 +26,7 @@ const mockWinRef: WindowRef = {
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService> {
-  getCardRegistrationDetails(): Observable<DpPaymentRequest> {
+  getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
     return of({});
   }
 }
@@ -47,7 +40,6 @@ class MockSpinnerComponent {}
 describe('DpPaymentFormComponent', () => {
   let component: DpPaymentFormComponent;
   let fixture: ComponentFixture<DpPaymentFormComponent>;
-  let store: Store<StateWithDigitalPayments>;
   let dpPaymentService: MockDpCheckoutPaymentService;
   let winRef: WindowRef;
   let msgService: GlobalMessageService;
@@ -59,13 +51,7 @@ describe('DpPaymentFormComponent', () => {
         MockTranslatePipe,
         MockSpinnerComponent,
       ],
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          DIGITAL_PAYMENTS_FEATURE,
-          fromReducers.getReducers()
-        ),
-      ],
+      imports: [],
       providers: [
         {
           provide: DpCheckoutPaymentService,
@@ -83,12 +69,9 @@ describe('DpPaymentFormComponent', () => {
       ],
     }).compileComponents();
 
-    store = TestBed.inject(Store);
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     winRef = TestBed.inject(WindowRef);
     msgService = TestBed.inject(GlobalMessageService);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   beforeEach(() => {
@@ -112,7 +95,7 @@ describe('DpPaymentFormComponent', () => {
       component.ngOnInit();
 
       expect(dpPaymentService.getCardRegistrationDetails).toHaveBeenCalled();
-      expect(winRef.nativeWindow.location.href).toEqual(postUrl);
+      expect(winRef.nativeWindow?.location.href).toEqual(postUrl);
     });
 
     it('should throw error on empty response', () => {
@@ -132,3 +115,4 @@ describe('DpPaymentFormComponent', () => {
     });
   });
 });
+

@@ -36,7 +36,7 @@ describe('OccDigitalPaymentsAdapter', () => {
     adapter = TestBed.inject(DigitalPaymentsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEnpointsService, 'getBaseEndpoint').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -52,7 +52,7 @@ describe('OccDigitalPaymentsAdapter', () => {
     httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'POST';
     }, `POST method and url`);
-    expect(occEnpointsService.getBaseEndpoint).toHaveBeenCalled();
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
   });
 
   it('should create payment request', () => {
@@ -60,6 +60,6 @@ describe('OccDigitalPaymentsAdapter', () => {
     httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'POST';
     }, `POST method and url`);
-    expect(occEnpointsService.getBaseEndpoint).toHaveBeenCalled();
+    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
   });
 });

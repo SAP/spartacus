@@ -1,7 +1,6 @@
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
-import { DIGITAL_PAYMENTS_FEATURE } from '../../../store/digital-payments-state';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,10 +12,9 @@ import {
   RouterModule,
   convertToParamMap,
 } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import * as fromReducers from '../../../store/reducers/index';
 
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { Observable, of } from 'rxjs';
@@ -74,11 +72,6 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          DIGITAL_PAYMENTS_FEATURE,
-          fromReducers.getReducers()
-        ),
       ],
       declarations: [
         DpPaymentCallbackComponent,
@@ -176,7 +169,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
 
     it('should show unknown error when empty payment request', () => {
       spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        undefined
+        {}
       );
 
       component.ngOnInit();
@@ -200,11 +193,6 @@ describe('DpPaymentCallbackComponent without query param', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          DIGITAL_PAYMENTS_FEATURE,
-          fromReducers.getReducers()
-        ),
       ],
       declarations: [
         DpPaymentCallbackComponent,
@@ -264,3 +252,4 @@ describe('DpPaymentCallbackComponent without query param', () => {
     });
   });
 });
+
