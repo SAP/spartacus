@@ -1,0 +1,17 @@
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+//import { Product } from '@spartacus/core';
+
+
+
+declare module '@spartacus/product-configurator/rulebased' {
+  namespace Configurator {
+    interface Configuration {
+      attributeFromStoreFinder?: boolean;
+    }
+  }
+}
+
+export function dummy(): Configurator.Attribute{
+    return {name:''};
+}
+

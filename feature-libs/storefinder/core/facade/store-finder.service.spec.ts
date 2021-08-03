@@ -8,6 +8,8 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { CommonConfigurator } from 'feature-libs/product-configurator/common';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderSelectors } from '../store';
@@ -237,6 +239,26 @@ describe('StoreFinderService', () => {
 
   it('should create', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should manage augmentation', () => {
+    const key = 'a';
+    const configuration: Configurator.Configuration = {
+      configId: key,
+      groups: [],
+      interactionState: {},
+      flatGroups: [],
+      owner: {
+        type: CommonConfigurator.OwnerType.CART_ENTRY,
+        key: key,
+        configuratorType: key,
+        id: key,
+      },
+    };
+    configuration.attributeFromStoreFinder = true;
+    //const product: Product = {attributeFromStoreFinder:true, configurable:true}
+    expect(configuration).toBeDefined();
+    expect(configuration.configId).toBe(key);
   });
 
   it('should return store latitude', () => {
