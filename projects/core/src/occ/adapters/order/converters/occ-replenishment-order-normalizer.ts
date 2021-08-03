@@ -8,9 +8,6 @@ import {
 import { Occ } from '../../../occ-models/occ.models';
 import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {
