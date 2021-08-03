@@ -1,8 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cart } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Cart, Order } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';

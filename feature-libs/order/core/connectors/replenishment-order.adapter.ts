@@ -1,6 +1,6 @@
+import { ReplenishmentOrder } from '@spartacus/core';
 import {
   OrderHistoryList,
-  ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';

@@ -11,9 +11,6 @@ import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface DeliveryMode {
   code?: string;
   deliveryCost?: Price;
@@ -21,9 +18,6 @@ export interface DeliveryMode {
   name?: string;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface OrderEntry {
   orderCode?: string;
   basePrice?: Price;
@@ -107,9 +101,6 @@ export interface ReturnRequestModification {
   status?: string;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;
@@ -118,9 +109,6 @@ export interface PickupOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
   code?: string;
@@ -128,18 +116,12 @@ export interface PromotionOrderEntryConsumed {
   quantity?: number;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
   quantity?: number;
   shippedQuantity?: number;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface Consignment {
   code?: string;
   deliveryPointOfService?: PointOfService;
@@ -171,9 +153,6 @@ export interface OrderHistoryList {
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];

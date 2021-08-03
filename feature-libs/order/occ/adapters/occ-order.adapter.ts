@@ -7,6 +7,7 @@ import {
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
+  Order,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import {
@@ -21,7 +22,6 @@ import {
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
-  Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,

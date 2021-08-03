@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { ReplenishmentOrder } from '@spartacus/core';
 import {
   OrderHistoryList,
-  ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';

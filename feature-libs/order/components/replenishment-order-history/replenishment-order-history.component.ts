@@ -6,9 +6,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
+import {
   ReplenishmentOrderFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';

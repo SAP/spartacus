@@ -1,7 +1,7 @@
+import { Order } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
-  Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,

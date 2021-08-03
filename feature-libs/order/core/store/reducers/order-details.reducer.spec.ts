@@ -1,4 +1,4 @@
-import { Order } from '@spartacus/order/root';
+import { Order } from '@spartacus/core';
 import { OrderActions } from '../actions/index';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 

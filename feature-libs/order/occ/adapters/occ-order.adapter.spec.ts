@@ -8,6 +8,7 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
+  Order,
 } from '@spartacus/core';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
@@ -20,7 +21,6 @@ import {
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
-  Order,
   ReturnRequest,
   ReturnRequestEntryInputList,
 } from '@spartacus/order/root';

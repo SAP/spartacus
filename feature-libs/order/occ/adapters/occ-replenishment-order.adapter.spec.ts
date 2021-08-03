@@ -8,6 +8,7 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
+  ReplenishmentOrder,
 } from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
@@ -16,7 +17,6 @@ import {
 } from '@spartacus/order/core';
 import {
   OrderHistoryList,
-  ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import {

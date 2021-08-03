@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   Address,
   CostCenter,
+  DeliveryMode,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { DeliveryMode } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
 import {
   CancelOrReturnRequestEntryInput,
-  OrderEntry,
   OrderFacade,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';

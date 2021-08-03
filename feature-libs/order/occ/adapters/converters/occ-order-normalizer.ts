@@ -3,11 +3,12 @@ import {
   Converter,
   ConverterService,
   Occ,
+  Order,
+  OrderEntry,
   OrderEntryPromotionsService,
   PRODUCT_NORMALIZER,
   PromotionResult,
 } from '@spartacus/core';
-import { Order, OrderEntry } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {

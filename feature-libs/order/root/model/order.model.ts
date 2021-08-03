@@ -1,42 +1,10 @@
 import {
-  Address,
-  B2BUser,
-  CostCenter,
-  DeliveryOrderEntryGroup,
+  Order,
+  OrderEntry,
   PaginationModel,
-  PaymentDetails,
-  PointOfService,
   Price,
-  Principal,
-  Product,
-  PromotionResult,
   SortModel,
-  Voucher,
 } from '@spartacus/core';
-
-export interface DeliveryMode {
-  code?: string;
-  deliveryCost?: Price;
-  description?: string;
-  name?: string;
-}
-
-export interface OrderEntry {
-  orderCode?: string;
-  basePrice?: Price;
-  deliveryMode?: DeliveryMode;
-  deliveryPointOfService?: PointOfService;
-  entryNumber?: number;
-  product?: Product;
-  quantity?: number;
-  totalPrice?: Price;
-  updateable?: boolean;
-  returnedItemsPrice?: Price;
-  returnableQuantity?: number;
-  cancelledItemsPrice?: Price;
-  cancellableQuantity?: number;
-  promotions?: PromotionResult[];
-}
 
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
@@ -83,37 +51,6 @@ export interface ReturnRequestModification {
   status?: string;
 }
 
-export interface PickupOrderEntryGroup {
-  deliveryPointOfService?: PointOfService;
-  distance?: number;
-  entries?: OrderEntry[];
-  quantity?: number;
-  totalPriceWithTax?: Price;
-}
-
-export interface PromotionOrderEntryConsumed {
-  adjustedUnitPrice?: number;
-  code?: string;
-  orderEntryNumber?: number;
-  quantity?: number;
-}
-
-export interface ConsignmentEntry {
-  orderEntry?: OrderEntry;
-  quantity?: number;
-  shippedQuantity?: number;
-}
-
-export interface Consignment {
-  code?: string;
-  deliveryPointOfService?: PointOfService;
-  entries?: ConsignmentEntry[];
-  shippingAddress?: Address;
-  status?: string;
-  statusDate?: Date;
-  trackingID?: string;
-}
-
 export interface OrderHistory {
   code?: string;
   guid?: string;
@@ -127,47 +64,4 @@ export interface OrderHistoryList {
   orders?: OrderHistory[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
-}
-
-export interface Order {
-  appliedOrderPromotions?: PromotionResult[];
-  appliedProductPromotions?: PromotionResult[];
-  appliedVouchers?: Voucher[];
-  calculated?: boolean;
-  code?: string;
-  consignments?: Consignment[];
-  costCenter?: CostCenter;
-  created?: Date;
-  deliveryAddress?: Address;
-  deliveryCost?: Price;
-  deliveryItemsQuantity?: number;
-  deliveryMode?: DeliveryMode;
-  deliveryOrderGroups?: DeliveryOrderEntryGroup[];
-  deliveryStatus?: string;
-  deliveryStatusDisplay?: string;
-  entries?: OrderEntry[];
-  guestCustomer?: boolean;
-  guid?: string;
-  net?: boolean;
-  orderDiscounts?: Price;
-  orgCustomer?: B2BUser;
-  paymentInfo?: PaymentDetails;
-  pickupItemsQuantity?: number;
-  pickupOrderGroups?: PickupOrderEntryGroup[];
-  productDiscounts?: Price;
-  purchaseOrderNumber?: string;
-  site?: string;
-  status?: string;
-  statusDisplay?: string;
-  store?: string;
-  subTotal?: Price;
-  totalDiscounts?: Price;
-  totalItems?: number;
-  totalPrice?: Price;
-  totalPriceWithTax?: Price;
-  totalTax?: Price;
-  unconsignedEntries?: OrderEntry[];
-  user?: Principal;
-  returnable?: boolean;
-  cancellable?: boolean;
 }
