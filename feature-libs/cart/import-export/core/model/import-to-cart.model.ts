@@ -33,6 +33,7 @@ export type ProductImportInfo = {
 };
 
 export type ProductImportSummary = {
+  loading: boolean;
   cartName: string;
   count: number;
   total: number;

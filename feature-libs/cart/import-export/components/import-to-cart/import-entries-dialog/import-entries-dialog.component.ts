@@ -12,6 +12,7 @@ import {
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -29,6 +30,7 @@ export class ImportEntriesDialogComponent {
 
   formState: Boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
+    loading: false,
     cartName: '',
     count: 0,
     total: 0,
@@ -58,6 +60,7 @@ export class ImportEntriesDialogComponent {
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
+      loading: true,
       total: products.length,
       cartName: name,
     });
@@ -66,6 +69,14 @@ export class ImportEntriesDialogComponent {
         name,
         description,
       })
+      .pipe(
+        finalize(() => {
+          this.summary$.next({
+            ...this.summary$.value,
+            loading: false,
+          });
+        })
+      )
       .subscribe((action: ProductImportInfo) => {
         this.populateSummary(action);
       });

@@ -27,6 +27,8 @@ export const importEntriesDialog = {
   upload: 'Upload',
   close: 'Close',
   summary: {
+    warning:
+      'Do not close or refresh this window while products are being imported.',
     loaded: 'Products has been loaded to new cart "{{ cartName }}".',
     loading: 'Products are being processed... ({{ loaded }}/{{ count }})',
     successes:
@@ -36,7 +38,7 @@ export const importEntriesDialog = {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
-      unknownProblem: 'Unrecognized problem with "{{ productCode}}"',
+      unknownProblem: 'Unrecognized problem with "{{ productCode}}".',
     },
   },
 };

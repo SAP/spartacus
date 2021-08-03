@@ -18,6 +18,7 @@
           [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
           class="cx-import-entries-close close"
           type="button"
+          [disabled]="(summary$ | async).loading"
         >
           <span aria-hidden="true">
             <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
