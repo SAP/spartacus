@@ -59,7 +59,7 @@ export class ConfiguratorUtilsService {
    * methods returns undefined
    * @param {Configurator.Group[]} groups - List of groups
    * @param groupId Group id
-   * @returns Group identified by its id, if available. Otherwise undefined
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise undefined
    */
   getOptionalGroupById(
     groups: Configurator.Group[],
