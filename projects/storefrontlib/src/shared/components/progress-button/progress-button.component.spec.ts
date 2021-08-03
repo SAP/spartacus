@@ -35,23 +35,13 @@ describe('ProgressButtonComponent', () => {
     ).toBeNull();
   });
 
-  it('should display Progress inside the button', () => {
+  it('should display spinner inside the button', () => {
     component.loading = true;
     fixture.detectChanges();
 
     expect(
       el.query(By.css('.cx-progress-button-container .loader-container'))
     ).toBeTruthy();
-  });
-
-  it('should display text inside the button', () => {
-    component.text = 'Test';
-    fixture.detectChanges();
-
-    expect(
-      el.query(By.css('.cx-progress-button-container ng-content')).nativeElement
-        .innerHTML
-    ).toContain('Test');
   });
 
   it('should trigger clickEvent on button click', () => {

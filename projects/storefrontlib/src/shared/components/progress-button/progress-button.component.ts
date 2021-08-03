@@ -7,9 +7,6 @@ export class ProgressButtonComponent {
   @Input()
   loading = false;
 
-  @Input()
-  text: string;
-
   @Output()
   clikEvent = new EventEmitter<void>();
 
