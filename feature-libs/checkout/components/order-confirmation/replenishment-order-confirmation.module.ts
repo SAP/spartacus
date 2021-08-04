@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -11,11 +12,12 @@ import {
   CardModule,
   CartSharedModule,
   FormErrorsModule,
+  OrderDetailShippingComponent,
+  OrderDetailsService,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
-import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
@@ -39,9 +41,14 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
           component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
-        ReplenishmentConfirmationOverviewComponent: {
-          component: OrderConfirmationOverviewComponent,
-          guards: [OrderConfirmationGuard],
+        OrderConfirmationOverviewComponent: {
+          component: OrderDetailShippingComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: CheckoutFacade,
+            },
+          ],
         },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,

@@ -11,5 +11,6 @@ import { Observable } from 'rxjs';
 export class OrderDetailPermissionResultsComponent {
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
+  // TODO: in 5.0, use OrderApprovalDetailService directly in constructor
   constructor(protected orderDetailsService: OrderDetailsService) {}
 }

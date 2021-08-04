@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { CardModule } from '../card/card.module';
+import { CardModule } from '@spartacus/storefront';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @NgModule({

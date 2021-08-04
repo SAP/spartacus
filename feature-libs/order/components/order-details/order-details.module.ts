@@ -12,7 +12,6 @@ import {
 import {
   CardModule,
   CartSharedModule,
-  OrderOverviewModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -23,6 +22,7 @@ import { OrderConsignedEntriesComponent } from './order-detail-items/order-consi
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
+import { OrderOverviewModule } from './order-overview/order-overview.module';
 
 const moduleComponents = [
   OrderDetailActionsComponent,

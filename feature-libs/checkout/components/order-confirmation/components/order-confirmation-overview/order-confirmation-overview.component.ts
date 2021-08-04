@@ -7,6 +7,9 @@ import {
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.1 - This component is not used any more, but use `OrderDetailShippingComponent` instead
+ */
 @Component({
   selector: 'cx-order-confirmation-overview',
   templateUrl: './order-confirmation-overview.component.html',

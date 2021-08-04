@@ -8,8 +8,11 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Card } from '../card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 
+/**
+ * @deprecated since 4.1 - use order lib instead
+ */
 @Component({
   selector: 'cx-order-overview',
   templateUrl: './order-overview.component.html',

@@ -10,7 +10,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Card } from '../card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({ selector: 'cx-card', template: '' })
