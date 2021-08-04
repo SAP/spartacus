@@ -26,7 +26,7 @@ export class DpPaymentCallbackComponent implements OnInit {
     const dpResponse = this.route.snapshot.queryParamMap.get(
       DP_CARD_REGISTRATION_STATUS
     );
-    if (dpResponse && dpResponse.toLowerCase() === 'successful') {
+    if (dpResponse?.toLowerCase() === 'successful') {
       this.fetchPaymentDetails();
     } else {
       this.globalMsgService.add(
