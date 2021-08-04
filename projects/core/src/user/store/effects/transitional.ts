@@ -19,7 +19,7 @@ import { UserReplenishmentOrdersEffect } from './user-replenishment-orders.effec
 /**
  * @deprecated since 4.1 - use effectsTransitional_4_1 with order lib instead
  */
- export const effectsTransitional: any[] = [
+export const effectsTransitional: any[] = [
   ClearMiscsDataEffect,
   DeliveryCountriesEffects,
   RegionsEffects,
