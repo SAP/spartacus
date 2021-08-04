@@ -1,5 +1,8 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  PROCESS_FEATURE,
+  ReplenishmentOrder,
+  StateUtils,
+} from '@spartacus/core';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
   REPLENISHMENT_ORDER_DETAILS,

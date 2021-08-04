@@ -1,13 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  CancellationRequestEntryInputList,
+  ConsignmentTracking,
   ConverterService,
   InterceptorUtil,
   Occ,
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
+  Order,
+  OrderHistoryList,
   ORDER_NORMALIZER,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+  ReturnRequestList,
+  ReturnRequestModification,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import {
@@ -18,16 +26,6 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
 } from '@spartacus/order/core';
-import {
-  CancellationRequestEntryInputList,
-  ConsignmentTracking,
-  Order,
-  OrderHistoryList,
-  ReturnRequest,
-  ReturnRequestEntryInputList,
-  ReturnRequestList,
-  ReturnRequestModification,
-} from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

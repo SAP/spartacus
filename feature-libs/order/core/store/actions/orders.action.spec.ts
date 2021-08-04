@@ -1,5 +1,4 @@
-import { StateUtils } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryList, StateUtils } from '@spartacus/core';
 import { ORDERS } from '../order-state';
 import { OrderActions } from './index';
 

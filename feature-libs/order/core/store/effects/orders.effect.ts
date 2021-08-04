@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import {
+  normalizeHttpError,
+  OrderHistoryList,
+  SiteContextActions,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {

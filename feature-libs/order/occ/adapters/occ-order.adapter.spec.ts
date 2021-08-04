@@ -5,10 +5,14 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  CancellationRequestEntryInputList,
   ConverterService,
   OccConfig,
   OccEndpointsService,
+  Order,
   ORDER_NORMALIZER,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
 } from '@spartacus/core';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
@@ -17,13 +21,7 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
 } from '@spartacus/order/core';
-import {
-  CancellationRequestEntryInputList,
-  ConsignmentTracking,
-  Order,
-  ReturnRequest,
-  ReturnRequestEntryInputList,
-} from '@spartacus/order/root';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

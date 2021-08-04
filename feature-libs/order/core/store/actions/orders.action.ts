@@ -1,5 +1,4 @@
-import { StateUtils } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryList, StateUtils } from '@spartacus/core';
 import { ORDERS } from '../order-state';
 
 export const LOAD_USER_ORDERS = '[Order] Load User Orders';

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  ReturnRequest,
   RoutingService,
 } from '@spartacus/core';
-import { OrderReturnRequestFacade, ReturnRequest } from '@spartacus/order/root';
+import { OrderReturnRequestFacade } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 

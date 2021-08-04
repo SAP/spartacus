@@ -6,7 +6,7 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '@spartacus/order/root';
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderAdapter } from '../../connectors/order.adapter';

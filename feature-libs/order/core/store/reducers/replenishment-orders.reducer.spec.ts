@@ -1,8 +1,9 @@
-import { PaginationModel, SortModel } from '@spartacus/core';
 import {
+  PaginationModel,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
+  SortModel,
+} from '@spartacus/core';
 import { OrderActions } from '../actions/index';
 import * as fromReducer from './replenishment-orders.reducer';
 

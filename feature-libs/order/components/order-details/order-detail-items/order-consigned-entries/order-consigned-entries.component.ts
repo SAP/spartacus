@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { PromotionLocation } from '@spartacus/core';
-import { Consignment, Order, OrderEntry } from '@spartacus/order/root';
+import {
+  Consignment,
+  Order,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-consigned-entries',

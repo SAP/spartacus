@@ -1,8 +1,9 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
   Order,
-} from '@spartacus/order/root';
+  PROCESS_FEATURE,
+  StateUtils,
+} from '@spartacus/core';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 
 export const LOAD_ORDER_DETAILS = '[Order] Load Order Details';

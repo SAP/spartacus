@@ -1,4 +1,4 @@
-import { OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryList } from '@spartacus/core';
 import { OrderActions } from '../actions/index';
 
 export const initialState: OrderHistoryList = {

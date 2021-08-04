@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  ReturnRequest,
   RoutingService,
 } from '@spartacus/core';
-import { OrderReturnRequestFacade, ReturnRequest } from '@spartacus/order/root';
+import { OrderReturnRequestFacade } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from './return-request.service';
 

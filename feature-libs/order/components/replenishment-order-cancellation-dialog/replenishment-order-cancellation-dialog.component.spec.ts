@@ -3,12 +3,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  ReplenishmentOrder,
   Translatable,
 } from '@spartacus/core';
-import {
-  ReplenishmentOrder,
-  ReplenishmentOrderFacade,
-} from '@spartacus/order/root';
+import { ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
