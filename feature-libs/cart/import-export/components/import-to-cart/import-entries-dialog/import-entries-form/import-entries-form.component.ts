@@ -123,11 +123,9 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   protected validateMaxSize(file: File) {
-    if (
-      this.fileValidity?.maxSize &&
-      file.size / 1000000 > this.fileValidity?.maxSize
-    ) {
-      this.fileError.tooLarge = true;
+    const maxSize = this.fileValidity?.maxSize;
+    if (maxSize && file.size / 1000000 > maxSize) {
+      this.fileError.tooLarge = { maxSize };
       throw Error();
     }
   }

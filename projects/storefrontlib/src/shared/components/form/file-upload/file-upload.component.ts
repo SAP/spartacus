@@ -21,10 +21,6 @@ export class FileUploadComponent {
    */
   @Input() allowedExtensions?: string = '*';
   /**
-   * Max size of file. This property is used only for translation params if 'tooLarge' error occur.
-   */
-  @Input() maxSize?: number;
-  /**
    * Emitter for event of changed file.
    */
   @Output() update: EventEmitter<File> = new EventEmitter();

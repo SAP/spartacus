@@ -9,7 +9,6 @@
     <cx-file-upload
       [control]="form.get('file')"
       [allowedExtensions]="fileValidity?.allowedExtensions"
-      [maxSize]="fileValidity?.maxSize"
       (update)="loadFile($event, form)"
     >
       {{ 'importEntriesDialog.selectFile' | cxTranslate }}

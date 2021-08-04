@@ -6,7 +6,7 @@ export type ProductsData = {
 }[];
 
 export type InvalidFileInfo = {
-  tooLarge?: boolean;
+  tooLarge?: { maxSize: number };
   empty?: boolean;
   notParsable?: boolean;
 };
