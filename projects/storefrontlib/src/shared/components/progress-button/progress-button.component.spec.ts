@@ -9,7 +9,7 @@ import { ProgressButtonComponent } from './progress-button.component';
 })
 class TestHostComponent {}
 
-fdescribe('ProgressButtonComponent', () => {
+describe('ProgressButtonComponent', () => {
   let component: ProgressButtonComponent;
   let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
