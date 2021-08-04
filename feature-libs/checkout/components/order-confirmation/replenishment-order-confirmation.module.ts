@@ -41,7 +41,7 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
           component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
-        OrderConfirmationOverviewComponent: {
+        ReplenishmentConfirmationOverviewComponent: {
           component: OrderDetailShippingComponent,
           providers: [
             {
@@ -49,6 +49,7 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
               useExisting: CheckoutFacade,
             },
           ],
+          guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
