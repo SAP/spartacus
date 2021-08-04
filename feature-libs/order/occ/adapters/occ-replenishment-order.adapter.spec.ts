@@ -9,11 +9,11 @@ import {
   OccConfig,
   OccEndpointsService,
   ReplenishmentOrder,
+  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/core';
 import {
   OrderHistoryList,
