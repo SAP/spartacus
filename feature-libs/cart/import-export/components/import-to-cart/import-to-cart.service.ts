@@ -84,19 +84,14 @@ export class ImportToCartService {
   }
 
   /**
-   * Returns observable which emits on every added product success or failure.
-   *
-   * It completes when all entries are added.
-   *
-   * HOW TO USE IT IN COMPONENT:
-   * We need a logic for a summary (i.e. convert partial success to a failure)
+   * Emits `ProductImportInfo` on every added product success or failure
    */
   protected getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,
         CartActions.CART_ADD_ENTRY_FAIL
-      ), // TODO: other product types (i.e. configurable product) might use different actions for addding to cart
+      ),
       filter(
         (
           action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
@@ -104,10 +99,6 @@ export class ImportToCartService {
       ),
       map((action) => this.mapMessages(action))
     );
-    // TODO: don't retrurn RAW NGRX ACTIONS
-    // ALTERNATIVE IDEA:
-    // add each entry one by one, then on success/failure emit a result
-    // and then add next entry
   }
 
   protected mapMessages(
