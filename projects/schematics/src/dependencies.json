@@ -169,6 +169,8 @@
     "@spartacus/core": "4.0.0",
     "@spartacus/schematics": "4.0.0",
     "@spartacus/storefront": "4.0.0",
+    "@spartacus/product-configurator": "4.0.0",
+    "@spartacus/checkout": "4.0.0",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },

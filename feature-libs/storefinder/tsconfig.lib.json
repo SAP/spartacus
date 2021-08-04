@@ -16,7 +16,11 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/product-configurator": ["dist/product-configurator"],
+      "@spartacus/product-configurator/rulebased": ["dist/product-configurator/rulebased"],
+      "@spartacus/product-configurator/common": ["dist/product-configurator/common"],
+      "@spartacus/checkout/root": ["dist/checkout/root"]
     }
   },
   "angularCompilerOptions": {

@@ -1,6 +1,9 @@
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 //import { Product } from '@spartacus/core';
 
+export function dummy(): Configurator.Attribute{
+  return {name:''};
+}
 
 
 declare module '@spartacus/product-configurator/rulebased' {
@@ -11,7 +14,5 @@ declare module '@spartacus/product-configurator/rulebased' {
   }
 }
 
-export function dummy(): Configurator.Attribute{
-    return {name:''};
-}
+
 

@@ -15,7 +15,7 @@
     "build:cdc": "yarn --cwd integration-libs/cdc run build:schematics && ng build cdc --configuration production",
     "build:cds": "yarn --cwd integration-libs/cds run build:schematics && ng build cds --configuration production",
     "build:checkout": "yarn --cwd feature-libs/checkout run build:schematics && ng build checkout --configuration production",
-    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && yarn build:schematics && yarn build:user && yarn build:cart && yarn build:checkout && yarn build:asm && yarn build:tracking  && concurrently --kill-others-on-fail -m 4 yarn:build:organization yarn:build:product yarn:build:product-configurator yarn:build:storefinder yarn:build:smartedit yarn:build:qualtrics yarn:build:assets yarn:build:incubator yarn:build:cdc yarn:build:cds yarn:build:setup",
+    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && yarn build:schematics && yarn build:user && yarn build:cart && yarn build:checkout && yarn build:asm && yarn build:tracking  && yarn build:product-configurator && concurrently --kill-others-on-fail -m 4 yarn:build:organization yarn:build:product yarn:build:storefinder yarn:build:smartedit yarn:build:qualtrics yarn:build:assets yarn:build:incubator yarn:build:cdc yarn:build:cds yarn:build:setup",
     "build:incubator": "ng build incubator --configuration production",
     "build:organization": "yarn --cwd feature-libs/organization run build:schematics && ng build organization --configuration production",
     "build:product": "yarn --cwd feature-libs/product run build:schematics && ng build product --configuration production",
