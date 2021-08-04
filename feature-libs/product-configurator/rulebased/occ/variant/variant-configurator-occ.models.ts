@@ -12,7 +12,12 @@ export namespace OccConfigurator {
      * @member {boolean} [complete]
      */
     complete?: boolean;
-
+    /**
+     * Configuration is consistent, meaning it does not contain conflicts
+     *
+     * @member {boolean}
+     */
+    consistent?: boolean;
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct?: string;
