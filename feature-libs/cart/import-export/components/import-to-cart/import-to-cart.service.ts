@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ofType } from '@ngrx/effects';
@@ -128,7 +128,12 @@ export class ImportToCartService {
         };
       }
     }
-    console.error('Unrecognized cart add entry action type', action);
+    if (isDevMode()) {
+      console.warn(
+        'Unrecognized cart add entry action type while mapping messages',
+        action
+      );
+    }
     return { productCode, statusCode: ProductImportStatus.UNKNOWN_ERROR };
   }
 }
