@@ -1,8 +1,8 @@
 import {
-  TODO_SPARTACUS,
-  SPARTACUS_CORE,
-  ROUTING_SERVICE,
   GO,
+  ROUTING_SERVICE,
+  SPARTACUS_CORE,
+  TODO_SPARTACUS,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -12,6 +12,6 @@ export const ROUTING_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: ROUTING_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: GO,
-    comment: `// ${TODO_SPARTACUS} The second argument of the method ${GO} has been removed. Use extras.queryParams instead.`,
+    comment: `// ${TODO_SPARTACUS} '${ROUTING_SERVICE}.${GO}' changed signature. Before 4.0, the object with query params could be passed in the 2nd argument. Now the 2nd argument is Angular NavigationExtras object (with 'queryParams' property).`,
   },
 ];

@@ -20,7 +20,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -399,6 +399,17 @@ describe('ConfiguratorCartService', () => {
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
+      );
+    });
+  });
+
+  describe('removeCartBoundConfigurations', () => {
+    it('should fire respective action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.removeCartBoundConfigurations();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.RemoveCartBoundConfigurations()
       );
     });
   });

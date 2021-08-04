@@ -53,6 +53,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'CMSTabParagraphContainer',
     'stockNotification',
     'TabPanelContainer',
+    'itemCounter',
+    'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin'],
 };
