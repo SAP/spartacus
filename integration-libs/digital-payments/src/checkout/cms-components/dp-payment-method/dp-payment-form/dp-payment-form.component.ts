@@ -40,7 +40,7 @@ export class DpPaymentFormComponent implements OnInit {
   redirect(url: string) {
     const window = this.winRef.nativeWindow;
 
-    if (window && window.location) {
+    if (window?.location) {
       window.location.href = url;
     }
   }
