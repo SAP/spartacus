@@ -12,6 +12,7 @@ import {
 import {
   CardModule,
   CartSharedModule,
+  OrderOverviewModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -41,6 +42,7 @@ const moduleComponents = [
     I18nModule,
     FeaturesConfigModule,
     PromotionsModule,
+    OrderOverviewModule,
     UrlModule,
     SpinnerModule,
     RouterModule,
