@@ -67,9 +67,6 @@ export interface ReplenishmentOrderList {
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;

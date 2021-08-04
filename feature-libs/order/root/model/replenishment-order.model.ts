@@ -9,8 +9,3 @@ export interface ReplenishmentOrderList {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
-
-export interface Trigger {
-  activationTime?: string;
-  displayTimeTable?: string;
-}
