@@ -16,6 +16,8 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
+import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
+import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
 
 @NgModule({
   imports: [
@@ -46,8 +48,18 @@ import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.confi
       },
     }),
   ],
-  declarations: [ImportEntriesComponent, ImportEntriesDialogComponent],
-  exports: [ImportEntriesComponent, ImportEntriesDialogComponent],
+  declarations: [
+    ImportEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+  ],
+  exports: [
+    ImportEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+  ],
   providers: [provideConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportToCartModule {}

@@ -17,17 +17,9 @@ export class FileUploadComponent {
    */
   @Input() control: FormControl;
   /**
-   * Display text for the button.
-   */
-  @Input() buttonText: string;
-  /**
    * Allowed extensions for the file. It's setting attribute used for OS window for choosing files.
    */
   @Input() allowedExtensions?: string = '*';
-  /**
-   * Max size of file. This property is used only for translation params if 'tooLarge' error occur.
-   */
-  @Input() maxSize?: number;
   /**
    * Emitter for event of changed file.
    */

@@ -16,7 +16,7 @@ cx-import-entries-dialog {
         }
       }
 
-      .cx-import-entries-body {
+      cx-import-entries-form {
         @extend .modal-body;
         .cx-import-entries-subtitle {
           font-weight: bold;
@@ -74,6 +74,31 @@ cx-import-entries-dialog {
 
           &:focus {
             @include visible-focus();
+          }
+        }
+      }
+
+      cx-import-entries-summary {
+        @extend .modal-body;
+
+        cx-icon.success {
+          color: var(--cx-color-success);
+          padding-inline-end: 5px;
+        }
+
+        cx-icon.error {
+          color: var(--cx-color-danger);
+          padding-inline-end: 5px;
+        }
+
+        .cx-import-entries-summary-footer {
+          display: flex;
+          justify-content: center;
+          button {
+            flex: 0 0 calc(50% - 0.5rem);
+            &:focus {
+              @include visible-focus();
+            }
           }
         }
       }

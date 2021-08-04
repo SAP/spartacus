@@ -1,0 +1,49 @@
+<ng-container>
+  <div class="cx-import-entries-summary-status">
+    <p *ngIf="!summary.loading; else loading">
+      {{ 'importEntriesDialog.summary.loaded' | cxTranslate: summary }}
+    </p>
+    <ng-template #loading>
+      <p>
+        {{ 'importEntriesDialog.summary.loading' | cxTranslate: summary }}
+      </p>
+    </ng-template>
+  </div>
+  <p
+    *ngIf="summary.successesCount > 0"
+    class="cx-import-entries-summary-successes"
+  >
+    <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+    {{ 'importEntriesDialog.summary.successes' | cxTranslate: summary }}
+  </p>
+  <div
+    *ngIf="summary.problemsCount > 0"
+    class="cx-import-entries-summary-problems"
+  >
+    <p>
+      <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
+      {{ 'importEntriesDialog.summary.problems' | cxTranslate: summary }}
+    </p>
+    <ul>
+      <li *ngFor="let message of summary.messages">
+        {{
+          'importEntriesDialog.summary.messages.' + message.statusCode
+            | cxTranslate: message
+        }}
+      </li>
+    </ul>
+  </div>
+  <div class="cx-import-entries-summary-footer">
+    <button
+      *ngIf="!summary.loading; else warning"
+      (click)="close('Close Import Products Dialog')"
+      class="btn btn-action"
+      type="button"
+    >
+      {{ 'importEntriesDialog.close' | cxTranslate }}
+    </button>
+    <ng-template #warning>
+      <p>{{ 'importEntriesDialog.summary.warning' | cxTranslate }}</p>
+    </ng-template>
+  </div>
+</ng-container>
