@@ -35,41 +35,26 @@ export interface OrderEntry {
   promotions?: PromotionResult[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
   quantity?: number;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
   expectedQuantity?: number;
   refundAmount?: Price;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReturnRequest {
   cancellable?: boolean;
   code?: string;
@@ -85,18 +70,12 @@ export interface ReturnRequest {
   totalPrice?: Price;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReturnRequestModification {
   status?: string;
 }
@@ -132,9 +111,6 @@ export interface Consignment {
   trackingID?: string;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface OrderHistory {
   code?: string;
   guid?: string;
@@ -144,9 +120,6 @@ export interface OrderHistory {
   total?: Price;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
   pagination?: PaginationModel;

@@ -1,13 +1,13 @@
-import { Order } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
-  ConsignmentTracking,
+  Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from '@spartacus/order/root';
+} from '@spartacus/core';
+import { ConsignmentTracking } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class OrderAdapter {

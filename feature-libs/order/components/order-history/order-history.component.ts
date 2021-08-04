@@ -2,14 +2,11 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   isNotUndefined,
   Order,
+  OrderHistoryList,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import {
-  OrderFacade,
-  OrderHistoryList,
-  ReplenishmentOrderFacade,
-} from '@spartacus/order/root';
+import { OrderFacade, ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 

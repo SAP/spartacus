@@ -58,9 +58,6 @@ export interface ReplenishmentOrder {
   user?: Principal;
 }
 
-/**
- * @deprecated since 4.1 - use order lib instead
- */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
   pagination?: PaginationModel;

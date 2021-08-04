@@ -4,10 +4,10 @@ import {
   OCC_USER_ID_CURRENT,
   PROCESS_FEATURE,
   ReplenishmentOrder,
+  ReplenishmentOrderList,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { ReplenishmentOrderList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

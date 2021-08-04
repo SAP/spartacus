@@ -3,13 +3,11 @@ import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
   ReplenishmentOrder,
+  ReplenishmentOrderList,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import {
-  ReplenishmentOrderFacade,
-  ReplenishmentOrderList,
-} from '@spartacus/order/root';
+import { ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
