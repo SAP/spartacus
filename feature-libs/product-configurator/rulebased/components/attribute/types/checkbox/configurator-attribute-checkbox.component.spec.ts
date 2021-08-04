@@ -1,10 +1,30 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
+
+@Directive({
+  selector: '[cxFeatureLevel]',
+})
+export class MockFeatureLevelDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeatureLevel(_feature: string | number) {
+    this.viewContainer.createEmbeddedView(this.templateRef);
+  }
+}
 
 @Directive({
   selector: '[cxFocus]',
@@ -22,6 +42,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         declarations: [
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
+          MockFeatureLevelDirective,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
