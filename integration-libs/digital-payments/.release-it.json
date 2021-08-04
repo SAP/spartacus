@@ -26,7 +26,6 @@
           "path": [
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/assets",
             "peerDependencies.@spartacus/checkout"            
           ]
         }

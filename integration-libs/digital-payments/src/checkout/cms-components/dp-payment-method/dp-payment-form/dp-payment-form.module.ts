@@ -17,7 +17,6 @@ import { I18nModule } from '@spartacus/core';
   ],
 
   declarations: [DpPaymentFormComponent],
-  entryComponents: [DpPaymentFormComponent],
   exports: [DpPaymentFormComponent],
   providers: [DpCheckoutPaymentService],
 })

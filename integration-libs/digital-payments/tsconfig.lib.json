@@ -13,7 +13,6 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/assets": ["dist/assets"],
       "@spartacus/checkout/assets": ["dist/checkout/assets"],
       "@spartacus/checkout/components": ["dist/checkout/components"],
       "@spartacus/checkout/core": ["dist/checkout/core"],

@@ -27,7 +27,6 @@ import { DpPaymentCallbackModule } from './dp-payment-callback/dp-payment-callba
     }),
   ],
   declarations: [DpPaymentMethodComponent],
-  entryComponents: [DpPaymentMethodComponent],
   exports: [DpPaymentMethodComponent],
 })
 export class DpPaymentMethodModule extends CorePaymentMethodModule {}

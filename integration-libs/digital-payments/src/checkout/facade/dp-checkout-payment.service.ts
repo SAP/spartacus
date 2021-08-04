@@ -51,8 +51,7 @@ export class DpCheckoutPaymentService {
       this.dpAdapter
         .createPaymentDetails(payload.sessionId, payload.signature)
         .pipe(
-          map((payload: any) => {
-            console.log(payload);
+          map((payload: PaymentDetails) => {
             return payload;
           }),
           catchError(() => of({}))

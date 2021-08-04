@@ -1,9 +1,9 @@
 import { OccEndpoint } from '@spartacus/core';
 
-export interface digitalPaymentsEndpoints {
+export interface DigitalPaymentsOccEndpoints {
   paymentRequest?: string | OccEndpoint;
   paymentDetails?: string | OccEndpoint;
 }
 declare module '@spartacus/core' {
-  interface OccEndpoints extends digitalPaymentsEndpoints {}
+  interface OccEndpoints extends DigitalPaymentsOccEndpoints {}
 }

@@ -1,12 +1,5 @@
 import { en } from './en/index';
-
-interface TranslationResources {
-  [lang: string]: {
-    [chunkName: string]: {
-      [key: string]: any;
-    };
-  };
-}
+import { TranslationResources } from '@spartacus/core';
 
 export const dpTranslations: TranslationResources = {
   en,

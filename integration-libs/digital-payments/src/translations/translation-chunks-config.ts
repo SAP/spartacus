@@ -1,4 +1,4 @@
-import { TranslationChunksConfig } from '@spartacus/assets';
+import { TranslationChunksConfig } from '@spartacus/core';
 
 export const dpTranslationChunksConfig: TranslationChunksConfig = {
   dpPaymentForm: ['dpPaymentForm'],
