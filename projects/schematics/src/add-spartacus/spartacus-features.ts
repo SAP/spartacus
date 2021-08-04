@@ -101,8 +101,8 @@ function configureSpartacusModules(
 
       [
         `// User Core,
-        UserTransitionalModule,`,
-        'UserOccTransitionalModule,',
+        UserTransitional_4_1_Module,`,
+        'UserOccTransitional_4_1_Module,',
         `// User UI,
         AddressBookModule,`,
         'PaymentMethodsModule,',
@@ -117,8 +117,8 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: [
-                'UserTransitionalModule',
-                'UserOccTransitionalModule',
+                'UserTransitional_4_1_Module',
+                'UserOccTransitional_4_1_Module',
               ],
             },
             {

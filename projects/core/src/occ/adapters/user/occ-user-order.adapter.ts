@@ -34,7 +34,7 @@ import {
 } from '../../utils/occ-constants';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.1 - use UserOccTransitional_4_1_Module with order lib instead
  */
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {

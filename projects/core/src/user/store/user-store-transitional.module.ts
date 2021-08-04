@@ -9,6 +9,9 @@ import { USER_FEATURE } from './user-state';
 import { effectsTransitional } from './effects/transitional';
 import { reducerTransitionalProvider } from './reducers/transitional';
 
+/**
+ * @deprecated since 4.1 - use UserStoreTransitional_4_1_Module with order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

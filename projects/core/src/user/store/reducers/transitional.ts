@@ -54,6 +54,9 @@ import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
+/**
+ * @deprecated since 4.1 - use getReducersTransitional_4_1 with order lib instead
+ */
 export function getReducersTransitional(): ActionReducerMap<
   Partial<UserState>
 > {
@@ -114,6 +117,9 @@ export function getReducersTransitional(): ActionReducerMap<
   };
 }
 
+/**
+ * @deprecated since 4.1 - use reducerTransitional_4_1_Provider with order lib instead
+ */
 export const reducerTransitionalProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducersTransitional,
