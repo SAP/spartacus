@@ -23,7 +23,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntriesFormComponent implements OnInit {
-  form: FormGroup = this.build();
+  form: FormGroup = this.buildForm();
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
@@ -102,7 +102,7 @@ export class ImportEntriesFormComponent implements OnInit {
     }
   }
 
-  protected build(): FormGroup {
+  protected buildForm(): FormGroup {
     const form = new FormGroup({});
     form.setControl(
       'file',

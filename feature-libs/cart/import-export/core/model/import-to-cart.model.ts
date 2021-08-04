@@ -21,7 +21,7 @@ export enum ProductImportStatus {
   SUCCESS = 'success',
   LOW_STOCK = 'lowStock',
   UNKNOWN_IDENTIFIER = 'unknownIdentifier',
-  ERROR = 'unknownProblem',
+  UNKNOWN_ERROR = 'unknownError',
 }
 
 export type ProductImportInfo = {

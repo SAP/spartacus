@@ -5,7 +5,6 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 
@@ -18,7 +17,7 @@ export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
 
   @Input()
-  summary$: BehaviorSubject<ProductImportSummary>;
+  summary: ProductImportSummary;
 
   @Output()
   closeEvent = new EventEmitter<string>();

@@ -38,7 +38,7 @@ export const importEntriesDialog = {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
-      unknownProblem: 'Unrecognized problem with "{{ productCode}}".',
+      unknownError: 'Unrecognized problem with "{{ productCode}}".',
     },
   },
 };

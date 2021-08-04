@@ -138,6 +138,6 @@ export class ImportToCartService {
       }
     }
     console.error('Unrecognized cart add entry action type', action);
-    return { productCode, statusCode: ProductImportStatus.ERROR };
+    return { productCode, statusCode: ProductImportStatus.UNKNOWN_ERROR };
   }
 }

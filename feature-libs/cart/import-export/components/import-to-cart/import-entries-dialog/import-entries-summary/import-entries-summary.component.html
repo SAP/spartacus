@@ -1,4 +1,4 @@
-<ng-container *ngIf="summary$ | async as summary">
+<ng-container>
   <div class="cx-import-entries-summary-status">
     <p *ngIf="!summary.loading; else loading">
       {{ 'importEntriesDialog.summary.loaded' | cxTranslate: summary }}
