@@ -46,7 +46,8 @@ export class ImportToCartService {
                 cartData.value?.code as string
             ),
             tap((cartId: string) => {
-              // getCartByUserId
+              // TODO: #13393
+              // for active cart use: getCartIdByUserId(cartData, userId)
               this.savedCartService.saveCart({
                 cartId,
                 saveCartName: savedCartInfo.name,
@@ -54,6 +55,7 @@ export class ImportToCartService {
               });
               this.savedCartService.loadSavedCarts();
             }),
+            // TODO: #13392
             // delayWhen((cartId: string) =>
             //   this.savedCartService
             //     .isStable(cartId)
@@ -63,9 +65,7 @@ export class ImportToCartService {
               this.multiCartService.addEntries(userId, cartId, products)
             ),
             switchMap((cartId: string) => this.getResults(cartId)),
-            // wiemy ile jest entries -> N
-            // po N sukcesach/errorrach chcemy przestac emitować
-            take(products.length) // TODO: risky, think about cases when it will be interupted
+            take(products.length)
           )
       )
     );
