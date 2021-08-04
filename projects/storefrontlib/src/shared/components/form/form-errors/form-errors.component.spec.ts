@@ -81,7 +81,6 @@ describe('FormErrors', () => {
     control.setErrors({});
     component.errors$.subscribe((errors) => {
       returnedErrors = errors;
-      console.log(errors);
     });
 
     expect(returnedErrors).toEqual([]);
@@ -89,7 +88,6 @@ describe('FormErrors', () => {
     control.setErrors(mockError);
     component.errors$.subscribe((errors) => {
       returnedErrors = errors;
-      console.log(errors);
     });
 
     expect(returnedErrors).toEqual([mockErrorName]);
