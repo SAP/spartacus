@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import {
+  ProductImportInfo,
+  ProductImportStatus,
+  ProductsData,
+} from '@spartacus/cart/import-export/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   CartActions,
@@ -10,12 +14,16 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { Observable, queueScheduler } from 'rxjs';
 import {
-  ProductsData,
-  ProductImportStatus,
-  ProductImportInfo,
-} from '@spartacus/cart/import-export/core';
+  delayWhen,
+  filter,
+  map,
+  observeOn,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable()
 export class ImportToCartService {
@@ -55,12 +63,12 @@ export class ImportToCartService {
               });
               this.savedCartService.loadSavedCarts();
             }),
-            // TODO: #13392
-            // delayWhen((cartId: string) =>
-            //   this.savedCartService
-            //     .isStable(cartId)
-            //     .pipe(filter((stable: boolean) => stable))
-            // ),
+            observeOn(queueScheduler), // without it, the following delayWhen() would use the old `loading` value (false)
+            delayWhen(() =>
+              this.savedCartService
+                .getSaveCartProcessLoading()
+                .pipe(filter((loading) => !loading))
+            ),
             tap((cartId: string) =>
               this.multiCartService.addEntries(userId, cartId, products)
             ),
