@@ -24,6 +24,7 @@ export class OccConfiguratorVariantNormalizer
       interactionState: target?.interactionState ?? {},
       configId: source.configId,
       complete: source.complete,
+      consistent: source.consistent,
       totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
       groups: [],
