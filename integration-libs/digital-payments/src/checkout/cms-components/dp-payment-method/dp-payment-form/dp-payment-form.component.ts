@@ -24,7 +24,7 @@ export class DpPaymentFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.dpPaymentService.getCardRegistrationDetails().subscribe((request) => {
-      if (request && request.url) {
+      if (request?.url) {
         this.dpStorageService.syncCardRegistrationState(request);
         this.redirect(request.url);
       } else if (request === null) {
