@@ -1,7 +1,10 @@
-<form [formGroup]="form" class="quick-order-form-container row">
-  <div class="col-xs-12 col-md-5 col-lg-4 quick-order-form-input">
+<form
+  (ngSubmit)="search($event)"
+  [formGroup]="form"
+  class="quick-order-form-container"
+>
+  <div class="quick-order-form-input">
     <input
-      (keydown.enter)="search($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
       class="form-control"
       formControlName="product"
@@ -25,4 +28,14 @@
       {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
     </span>
   </div>
+
+  <button
+    [disabled]="
+      form.invalid || !form.get('product')?.value?.length || isSearching
+    "
+    class="btn btn-primary"
+    type="submit"
+  >
+    {{ 'common.add' | cxTranslate }}
+  </button>
 </form>
