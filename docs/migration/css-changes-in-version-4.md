@@ -306,10 +306,16 @@ title: Changes to Styles in 4.0
 
 - `text-transform: var(--cx-button-text-transform)` is changed to `text-transform: var(--cx-text-transform)` to accomedate for theme changes. 
 
-## Changes in `_navigation-ui_.scss` Changes 
+## Changes in `_popover.scss`
+
+- `popover-body > .close` has been moved to `popover-body > .cx-close-row > .close`.
+
+## Changes in `_navigation-ui_.scss` Changes
+
+- `popover-body > .close` has been moved to `popover-body > .cx-close-row > .close`.
 
 - `padding-bottom: 25px` is changed to `padding-bottom: 22px` to accomedate for the header navigation links line-heights.
 
-## Changes in `_versioning.scss` Changes 
+## Changes in `_versioning.scss` Changes
 
--  Themes for minors versioning is changed from `$_fullVersion: 3.3;` and `$_majorVersion: 3;` to `$_fullVersion: 4;` and `$_majorVersion: 4;` for 4.0 release.
+- Themes for minors versioning is changed from `$_fullVersion: 3.3;` and `$_majorVersion: 3;` to `$_fullVersion: 4;` and `$_majorVersion: 4;` for 4.0 release.
