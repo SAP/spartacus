@@ -16,7 +16,7 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '1';

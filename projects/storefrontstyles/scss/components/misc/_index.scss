@@ -1,10 +1,11 @@
 @import './card/index';
-@import './pagination/index';
-@import './spinner/index';
 @import './icons';
-@import './table/table';
 @import './order-overview/index';
+@import './pagination/index';
 @import './popover/index';
+@import './progress-button/index';
+@import './spinner/index';
+@import './table/table';
 
-$misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-card,
-  cx-pagination, cx-order-overview, cx-popover !default;
+$misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-progress-button,
+  cx-card, cx-pagination, cx-order-overview, cx-popover !default;

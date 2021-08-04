@@ -178,6 +178,18 @@
           flex-direction: column;
           padding-top: 0;
         }
+
+        .cx-replenishment-order-history-form-group {
+          align-items: center;
+          display: flex;
+          span {
+            margin-inline-end: 0.5rem;
+            flex: none;
+          }
+          cx-sorting {
+            width: 100%;
+          }
+        }
       }
 
       &.bottom {

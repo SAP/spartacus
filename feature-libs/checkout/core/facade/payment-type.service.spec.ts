@@ -32,9 +32,8 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
 }
 
 class UserIdServiceStub implements Partial<UserIdService> {
-  userId;
   takeUserId() {
-    return of(this.userId);
+    return of(userId);
   }
 }
 describe('PaymentTypeService', () => {
