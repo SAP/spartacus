@@ -24,10 +24,23 @@ export namespace OccConfigurator {
   }
 
   export interface Prices {
-    configId?: string;
+    configId: string;
+    attributes?: Supplements[];
     pricingError?: boolean;
     showDeltaPrices?: boolean;
     priceSummary?: PriceSummary;
+  }
+
+  export interface Supplements {
+    csticUiKey: string;
+    selectedValues: string[];
+    priceSupplements: ValueSupplements[];
+  }
+
+  export interface ValueSupplements {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
   }
 
   export interface PriceSummary {
