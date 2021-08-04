@@ -104,10 +104,6 @@ export class ImportToCartService {
       ),
       map((action) => this.mapMessages(action))
     );
-    // TODO: don't retrurn RAW NGRX ACTIONS
-    // ALTERNATIVE IDEA:
-    // add each entry one by one, then on success/failure emit a result
-    // and then add next entry
   }
 
   protected mapMessages(
