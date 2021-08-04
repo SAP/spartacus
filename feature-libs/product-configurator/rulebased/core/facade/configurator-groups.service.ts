@@ -112,7 +112,7 @@ export class ConfiguratorGroupsService {
       map((configuration) => {
         const menuParentGroup = configuration.interactionState.menuParentGroup;
         return menuParentGroup
-          ? this.configuratorUtilsService.getGroupById(
+          ? this.configuratorUtilsService.getOptionalGroupById(
               configuration.groups,
               menuParentGroup
             )

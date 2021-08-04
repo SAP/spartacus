@@ -32,7 +32,16 @@ export class ConfiguratorUtilsService {
       .filter((foundGroup) => foundGroup)
       .pop();
   }
-
+  /**
+   * Finds group identified by its ID, and ensures that we always get a valid group.
+   * If nothing is found in the configuration group list, this methods returns the first group.
+   *
+   * The exceptional case can happen if e.g. an edit in a conflict was done that
+   * resolved the conflict, or if a group vanished due to object dependencies.
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param groupId Group id
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise first group
+   */
   getGroupById(
     groups: Configurator.Group[],
     groupId: string
@@ -42,14 +51,24 @@ export class ConfiguratorUtilsService {
       return currentGroup;
     }
     const groupFound = this.getGroupFromSubGroups(groups, groupId);
+    return groupFound ? groupFound : groups[0];
+  }
 
-    //we can safely assumed that a group exists, as we know the ID belongs to a
-    //group part of the configuration
-    if (groupFound) {
-      return groupFound;
-    } else {
-      throw new Error('Group could not be found ' + groupId);
-    }
+  /**
+   * Finds group identified by its ID. If nothing is found, this
+   * methods returns undefined
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param groupId Group id
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise undefined
+   */
+  getOptionalGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const currentGroup = groups.find((group) => group.id === groupId);
+    return currentGroup
+      ? currentGroup
+      : this.getGroupFromSubGroups(groups, groupId);
   }
 
   protected getGroupByIdIfPresent(
