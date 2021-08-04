@@ -1,4 +1,8 @@
-import { PaginationModel, SortModel } from '@spartacus/core';
+import {
+  PaginationModel,
+  ReplenishmentOrder,
+  SortModel,
+} from '@spartacus/core';
 
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
