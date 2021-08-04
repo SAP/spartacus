@@ -7,7 +7,6 @@
       <p>
         {{ 'importEntriesDialog.summary.loading' | cxTranslate: summary }}
       </p>
-      <p>{{ 'importEntriesDialog.summary.warning' | cxTranslate }}</p>
     </ng-template>
   </div>
   <p
@@ -36,12 +35,15 @@
   </div>
   <div class="cx-import-entries-summary-footer">
     <button
-      *ngIf="!summary.loading"
+      *ngIf="!summary.loading; else warning"
       (click)="close('Close Import Products Dialog')"
       class="btn btn-action"
       type="button"
     >
       {{ 'importEntriesDialog.close' | cxTranslate }}
     </button>
+    <ng-template #warning>
+      <p>{{ 'importEntriesDialog.summary.warning' | cxTranslate }}</p>
+    </ng-template>
   </div>
 </ng-container>
