@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  Component,
   Directive,
   Input,
   TemplateRef,
@@ -10,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
@@ -32,6 +34,14 @@ export class MockFeatureLevelDirective {
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
@@ -43,6 +53,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
           MockFeatureLevelDirective,
+          MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
