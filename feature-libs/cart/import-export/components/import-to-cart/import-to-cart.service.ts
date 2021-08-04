@@ -84,12 +84,7 @@ export class ImportToCartService {
   }
 
   /**
-   * Returns observable which emits on every added product success or failure.
-   *
-   * It completes when all entries are added.
-   *
-   * HOW TO USE IT IN COMPONENT:
-   * We need a logic for a summary (i.e. convert partial success to a failure)
+   * Emits `ProductImportInfo` on every added product success or failure
    */
   protected getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
