@@ -38,8 +38,14 @@ export class ConfiguratorBasicEffects {
         .createConfiguration(action.payload)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
+            const currentGroup = this.getGroupWithAttributesForConfiguration(
+              configuration
+            );
             this.store.dispatch(
-              new ConfiguratorActions.UpdatePriceSummary(configuration)
+              new ConfiguratorActions.UpdatePriceSummary({
+                ...configuration,
+                interactionState: { currentGroup: currentGroup },
+              })
             );
 
             return [
@@ -224,7 +230,12 @@ export class ConfiguratorBasicEffects {
                 payload
               );
               const updatePriceSummaryAction = new ConfiguratorActions.UpdatePriceSummary(
-                payload
+                {
+                  ...payload,
+                  interactionState: {
+                    currentGroup: container.groupIdFromPayload,
+                  },
+                }
               );
               return container.currentGroupId === container.groupIdFromPayload
                 ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
