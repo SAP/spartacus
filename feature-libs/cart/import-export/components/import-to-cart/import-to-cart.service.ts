@@ -96,7 +96,7 @@ export class ImportToCartService {
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,
         CartActions.CART_ADD_ENTRY_FAIL
-      ), // TODO: other product types (i.e. configurable product) might use different actions for addding to cart
+      ),
       filter(
         (
           action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
