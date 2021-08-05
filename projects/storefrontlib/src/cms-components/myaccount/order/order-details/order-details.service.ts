@@ -29,7 +29,7 @@ export class OrderDetailsService {
   constructor(
     private userOrderService: UserOrderService,
     private routingService: RoutingService,
-    protected unifiedInjector?: UnifiedInjector
+    private unifiedInjector?: UnifiedInjector
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params.orderCode),
@@ -56,7 +56,11 @@ export class OrderDetailsService {
       if (serivce) {
         return serivce.getOrderDetails();
       }
+      throw Error(
+        'Cannot get order details. Install `@spartacus/order` library which provides required services.'
+      );
     }
+
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetails())
     );
