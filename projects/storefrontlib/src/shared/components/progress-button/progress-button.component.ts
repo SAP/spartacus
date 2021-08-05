@@ -8,7 +8,7 @@ export class ProgressButtonComponent {
   ariaLabel: string = '';
 
   @Input()
-  classes: string = '';
+  class: string = '';
 
   @Input()
   disabled: boolean = false;

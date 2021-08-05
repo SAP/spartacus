@@ -13,11 +13,15 @@
     <div class="quick-order-form-body">
       <cx-quick-order-form
         [isDisabled]="entries.length >= quickOrderListLimit"
+        [loading]="!(isCartStable$ | async)"
       ></cx-quick-order-form>
     </div>
 
     <div class="quick-order-table-body">
-      <cx-quick-order-table [entries]="entries"></cx-quick-order-table>
+      <cx-quick-order-table
+        [entries]="entries"
+        [loading]="!(isCartStable$ | async)"
+      ></cx-quick-order-table>
     </div>
 
     <div class="quick-order-footer row">
@@ -26,6 +30,7 @@
           *ngIf="entries.length"
           (click)="clear()"
           [attr.aria-label]="'quickOrderList.emptyList' | cxTranslate"
+          [disabled]="!(isCartStable$ | async)"
           class="btn btn-block btn-action clear-button"
           type="button"
         >
@@ -37,7 +42,7 @@
         <cx-progress-button
           (clikEvent)="addToCart()"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
-          [classes]="'btn-block add-button'"
+          [class]="'btn-block add-button'"
           [disabled]="!entries.length"
           [loading]="!(isCartStable$ | async)"
         >

@@ -36,6 +36,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.validateProductControl(value);
   }
 
+  @Input()
+  loading: boolean = false;
+
   protected subscription = new Subscription();
   protected _disabled: boolean = false;
 

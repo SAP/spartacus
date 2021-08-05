@@ -44,6 +44,7 @@
       <cx-item-counter
         [control]="quantityControl"
         [max]="entry.product?.stock?.stockLevel"
+        [readonly]="loading"
       ></cx-item-counter>
     </div>
 
