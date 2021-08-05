@@ -42,6 +42,7 @@ export class AuthHttpHeaderService {
   /**
    * Indicates whether the access token is being refreshed
    */
+  // TODO:#13421 - legacy, remove this flag
   protected refreshInProgress = false;
 
   /**
