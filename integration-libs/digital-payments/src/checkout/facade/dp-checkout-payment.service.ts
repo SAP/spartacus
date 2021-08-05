@@ -1,6 +1,6 @@
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DpPaymentRequest } from '../models/dp-checkout.model';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PaymentDetails } from '@spartacus/core';
 import { Command, CommandService, CommandStrategy } from '@spartacus/core';
@@ -30,8 +30,7 @@ export class DpCheckoutPaymentService {
           ).value,
         };
         return payment_req;
-      }),
-      catchError(() => of({}))
+      })
     )
   );
 
@@ -53,8 +52,7 @@ export class DpCheckoutPaymentService {
         .pipe(
           map((payload: PaymentDetails) => {
             return payload;
-          }),
-          catchError(() => of({}))
+          })
         ),
     {
       strategy: CommandStrategy.Queue,

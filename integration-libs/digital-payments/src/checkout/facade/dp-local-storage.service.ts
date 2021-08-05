@@ -1,25 +1,26 @@
-import { of } from 'rxjs';
-import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
+import { of, Subscription } from 'rxjs';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { StatePersistenceService } from '@spartacus/core';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 const KEY = 'digital-payment.checkout.request';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DpLocalStorageService {
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected dpService: DpCheckoutPaymentService
-  ) {}
+export class DpLocalStorageService implements OnDestroy {
+  constructor(protected statePersistenceService: StatePersistenceService) {}
+  protected subscription = new Subscription();
 
   syncCardRegistrationState(request: DpPaymentRequest): void {
-    this.statePersistenceService.syncWithStorage<DpPaymentRequest | undefined>({
-      key: KEY,
-      state$: of(request),
-    });
+    this.subscription.add(
+      this.statePersistenceService.syncWithStorage<
+        DpPaymentRequest | undefined
+      >({
+        key: KEY,
+        state$: of(request),
+      })
+    );
   }
 
   readCardRegistrationState(): DpPaymentRequest {
@@ -36,5 +37,9 @@ export class DpLocalStorageService {
       key: KEY,
       state$: of({}),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

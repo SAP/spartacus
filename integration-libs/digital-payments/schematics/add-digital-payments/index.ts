@@ -41,11 +41,6 @@ function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
   return addLibraryFeature({ ...options, lazy: false }, {
     folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
     moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
-    rootModule: {
-      importPath: SPARTACUS_DIGITAL_PAYMENTS,
-      name: DIGITAL_PAYMENTS_MODULE,
-      content: `${DIGITAL_PAYMENTS_MODULE}.forRoot()`,
-    },
     featureModule: {
       importPath: SPARTACUS_DIGITAL_PAYMENTS,
       name: DIGITAL_PAYMENTS_MODULE,

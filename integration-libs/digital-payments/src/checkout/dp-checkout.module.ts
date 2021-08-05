@@ -2,6 +2,8 @@ import { OccDigitalPaymentsAdapter } from './adapters/occ-digital-payments.adapt
 import { DpPaymentMethodModule } from './cms-components/dp-payment-method/dp-payment-method.module';
 import { NgModule } from '@angular/core';
 import { DigitalPaymentsAdapter } from './adapters/digital-payments.adapter';
+import { provideDefaultConfig } from '@spartacus/core';
+import { occDigitalPaymentsConfig } from './adapters/config/occ-digital-payments-endpoint.config';
 
 @NgModule({
   imports: [DpPaymentMethodModule],
@@ -10,6 +12,7 @@ import { DigitalPaymentsAdapter } from './adapters/digital-payments.adapter';
       provide: DigitalPaymentsAdapter,
       useClass: OccDigitalPaymentsAdapter,
     },
+    provideDefaultConfig(occDigitalPaymentsConfig),
   ],
 })
 export class DpCheckoutModule {}
