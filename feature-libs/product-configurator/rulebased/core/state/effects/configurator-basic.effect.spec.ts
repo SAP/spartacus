@@ -89,6 +89,7 @@ const productConfiguration: Configurator.Configuration = {
   groups: [group, groupWithSubGroup],
   flatGroups: [group],
   priceSummary: {},
+  priceSupplements: [],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -369,9 +370,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: groupId,
@@ -403,9 +405,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -417,6 +420,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
   });
+
   describe('Effect updateConfigurationFail', () => {
     it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
       const payloadInput = productConfiguration;
