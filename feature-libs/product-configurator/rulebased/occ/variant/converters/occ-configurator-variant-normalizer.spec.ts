@@ -186,6 +186,7 @@ const attributeMSIWithValue: Configurator.Attribute = {
 const configuration: OccConfigurator.Configuration = {
   configId: configId,
   complete: true,
+  consistent: true,
   rootProduct: 'CONF_PRODUCT',
   groups: [
     {
@@ -286,9 +287,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(occConfiguratorVariantNormalizer).toBeTruthy();
   });
 
-  it('should convert a configuration', () => {
+  it('should convert a configuration and support "complete" and "consistent" attribute', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.complete).toBe(true);
+    expect(result.consistent).toBe(true);
   });
 
   it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { ORDER_CORE_FEATURE } from '../feature-name';
 import {
+  facadeFactory,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '../model/replenishment-order.model';
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ORDER_CORE_FEATURE } from '../feature-name';
 
 export function replenishmentOrderFacadeFactory() {
   return facadeFactory({

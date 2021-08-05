@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
-import { ReplenishmentOrderList } from '@spartacus/order/root';
+import { normalizeHttpError, ReplenishmentOrderList } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';

@@ -12,10 +12,10 @@ import {
 import {
   CardModule,
   CartSharedModule,
+  OrderOverviewModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { OrderOverviewModule } from '../order-overview/order-overview.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';

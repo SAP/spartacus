@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
-import {
-  ReplenishmentOrder,
-  ReplenishmentOrderFacade,
-} from '@spartacus/order/root';
+import { ReplenishmentOrder, RoutingService } from '@spartacus/core';
+import { ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 

@@ -1,8 +1,9 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
+  PROCESS_FEATURE,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '@spartacus/order/root';
+  StateUtils,
+} from '@spartacus/core';
 import {
   CANCEL_RETURN_PROCESS_ID,
   RETURN_REQUESTS,

@@ -1,6 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
-import { ReplenishmentOrderList } from '@spartacus/order/root';
+import { ReplenishmentOrderList, StateUtils } from '@spartacus/core';
 import { OrderState, StateWithOrder } from '../order-state';
 import { getOrderState } from './feature.selector';
 

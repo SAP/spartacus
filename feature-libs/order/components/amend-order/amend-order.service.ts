@@ -6,8 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Price } from '@spartacus/core';
-import { Order, OrderEntry } from '@spartacus/order/root';
+import { Order, OrderEntry, Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';

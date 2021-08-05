@@ -1,17 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  Occ,
+  OccEndpointsService,
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
   ReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/core';
-import {
-  OrderHistoryList,
-  ReplenishmentOrder,
-  ReplenishmentOrderList,
-} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

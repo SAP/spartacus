@@ -1,19 +1,13 @@
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
 import {
-  ConsignmentTracking,
-  Order,
+  Converter,
   OrderHistoryList,
-  ReplenishmentOrder,
   ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '@spartacus/order/root';
-
-export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
-  'OrderNormalizer'
-);
+} from '@spartacus/core';
+import { ConsignmentTracking } from '@spartacus/order/root';
 
 export const ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, OrderHistoryList>
@@ -34,10 +28,6 @@ export const ORDER_RETURN_REQUEST_INPUT_SERIALIZER = new InjectionToken<
 export const ORDER_RETURNS_NORMALIZER = new InjectionToken<
   Converter<any, ReturnRequestList>
 >('OrderReturnsNormalizer');
-
-export const REPLENISHMENT_ORDER_NORMALIZER = new InjectionToken<
-  Converter<any, ReplenishmentOrder>
->('ReplenishmentOrderNormalizer');
 
 export const REPLENISHMENT_ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, ReplenishmentOrderList>
