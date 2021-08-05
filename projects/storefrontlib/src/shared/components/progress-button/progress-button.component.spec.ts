@@ -77,8 +77,8 @@ describe('ProgressButtonComponent', () => {
     expect(element.textContent).toEqual('Test');
   });
 
-  it('should add additional classes', () => {
-    component.classes = 'testClass';
+  it('should add additional class', () => {
+    component.class = 'testClass';
     fixture.detectChanges();
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
