@@ -5,7 +5,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ProgressButtonComponent {
   @Input()
-  loading = false;
+  ariaLabel: string = '';
+
+  @Input()
+  class: string = '';
+
+  @Input()
+  disabled: boolean = false;
+
+  @Input()
+  loading: boolean = false;
 
   @Output()
   clikEvent = new EventEmitter<void>();
