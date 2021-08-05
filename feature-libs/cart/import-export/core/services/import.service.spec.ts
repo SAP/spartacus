@@ -1,5 +1,3 @@
-// TODO: Add unit tests...
-
 import { TestBed } from '@angular/core/testing';
 import { ImportExportConfig } from '../config/import-export-config';
 import { ImportService } from './import.service';
@@ -9,6 +7,18 @@ const mockImportExportConfig: ImportExportConfig = {
     file: { separator: ',' },
   },
 };
+
+const mockCsvString =
+  'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
+
+const mockLoadFileData = [
+  ['693923', '1', 'mockProduct1', '$4.00'],
+  ['232133', '2', 'mockProduct2', '$5.00'],
+];
+
+const mockFile: File = new File([mockCsvString], 'mockFile', {
+  type: 'text/csv',
+});
 
 describe('ImportService', () => {
   let service: ImportService;
@@ -35,5 +45,11 @@ describe('ImportService', () => {
   it('readCsvData', () => {
     service['readCsvData']('');
     expect(service['readCsvData']).toBeDefined();
+  });
+
+  it('should return extracted csv data', () => {
+    service.loadFile(mockFile).subscribe((result) => {
+      expect(result).toEqual(mockLoadFileData);
+    });
   });
 });
