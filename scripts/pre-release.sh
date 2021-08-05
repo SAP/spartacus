@@ -13,6 +13,8 @@ function cleanup {
     delete_file spartacussampledata.2005.tar.gz
     delete_file spartacussampledata.2011.zip
     delete_file spartacussampledata.2011.tar.gz
+    delete_file spartacussampledata.2105.zip
+    delete_file spartacussampledata.2105.tar.gz
 
     delete_dir coverage
     delete_dir dist
@@ -50,21 +52,27 @@ function zipSamplesAddOn {
     delete_dir spartacussampledata
     git clone https://github.tools.sap/cx-commerce/spartacussampledata.git
     cd spartacussampledata
-    git co release/1905/next
+    git checkout release/1905/next
     git archive -o spartacussampledataaddon.1905.tar.gz HEAD
     mv spartacussampledataaddon.1905.tar.gz ../
     git archive -o spartacussampledataaddon.1905.zip HEAD
     mv spartacussampledataaddon.1905.zip ../
-    git co release/2005/next
+    git checkout release/2005/next
     git archive -o spartacussampledata.2005.tar.gz HEAD
     mv spartacussampledata.2005.tar.gz ../
     git archive -o spartacussampledata.2005.zip HEAD
     mv spartacussampledata.2005.zip ../
-    git co release/2011/next
+    git checkout release/2011/next
     git archive -o spartacussampledata.2011.tar.gz HEAD
     mv spartacussampledata.2011.tar.gz ../
     git archive -o spartacussampledata.2011.zip HEAD
     mv spartacussampledata.2011.zip ../
+    git checkout release/2105/next
+    git archive -o spartacussampledata.2105.tar.gz HEAD
+    mv spartacussampledata.2105.tar.gz ../
+    git archive -o spartacussampledata.2105.zip HEAD
+    mv spartacussampledata.2105.zip ../
+
     cd ..
     delete_dir spartacussampledata
 }

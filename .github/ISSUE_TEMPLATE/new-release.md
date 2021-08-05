@@ -48,24 +48,25 @@ assignees: ''
 ### For Windows
 
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Get the spartacussampledata source code zips for all 1905, 2005 and 2011 CX versions (use `release/1905/next`, `release/2005/next` and `release/2011/next` branches)
+- [ ] Get the spartacussampledata source code zips for 1905, 2005, 2011 and 2105 CX versions (use `release/1905/next`, `release/2005/next`, `release/2011/next` and `release/2105/next` branches)
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
-
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
 
 ### For all operative systems
 
 Do the following steps to keep track of spartacussampledata releases:
 
-- [ ] Tag sample data branches for each version (1905, 2005, 2011):
+- [ ] Tag sample data branches for each version (1905, 2005, 2011, 2105):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
   - [ ] tag the final commit on [release/1905/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/1905/next) branch: `git tag 1905-*.*.* HEAD-COMMIT-HASH-FROM-release/1905/next`
   - [ ] tag the final commit on [release/2005/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2005/next) branch: `git tag 2005-*.*.* HEAD-COMMIT-HASH-FROM-release/2005/next`
   - [ ] tag the final commit on [release/2011/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2011/next) branch: `git tag 2011-*.*.* HEAD-COMMIT-HASH-FROM-release/2011/next`
+  - [ ] tag the final commit on [release/2105/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2105/next) branch: `git tag 2105-*.*.* HEAD-COMMIT-HASH-FROM-release/2011/next`
   - [ ] push created tags: `git push origin --tags`
 
 ---
