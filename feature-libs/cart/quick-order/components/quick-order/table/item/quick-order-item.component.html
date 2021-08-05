@@ -2,6 +2,7 @@
   <div class="col-2 col-md-1 quick-order-image-container">
     <div class="quick-order-table-item-product-image">
       <a
+        [ngClass]="{ disabled: loading }"
         [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
         tabindex="-1"
       >
@@ -19,8 +20,9 @@
     >
       <div class="cx-name">
         <a
-          class="cx-link"
+          [ngClass]="{ disabled: loading }"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+          class="cx-link"
           >{{ entry.product?.name || '-' }}
         </a>
       </div>
@@ -49,7 +51,11 @@
     </div>
 
     <div class="quick-order-table-item-action col-md-2 col-lg-2 col-xl-2">
-      <button (click)="removeEntry()" class="link cx-action-link">
+      <button
+        (click)="removeEntry()"
+        [disabled]="loading"
+        class="link cx-action-link"
+      >
         {{ 'common.remove' | cxTranslate }}
       </button>
     </div>
