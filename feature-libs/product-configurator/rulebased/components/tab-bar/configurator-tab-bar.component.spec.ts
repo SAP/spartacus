@@ -26,7 +26,7 @@ const mockRouterState: any = {
   },
 };
 
-let routerStateObservable :any = null;
+let routerStateObservable: any = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {

@@ -32,12 +32,13 @@ const mockProductImageUrl = 'testUrl';
 const mockImage = {
   product: {
     url: mockProductImageUrl,
-  }};
+  },
+};
 const mockProduct: Product = {
   code: 'testCode',
   name: 'testName',
   images: {
-    [ImageType.PRIMARY]:mockImage
+    [ImageType.PRIMARY]: mockImage,
   },
 };
 

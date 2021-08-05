@@ -57,14 +57,14 @@ const orderRouterData: ConfiguratorRouter.Data = {
   ),
 };
 
-let routerObs:any;
+let routerObs: any;
 class MockConfigRouterExtractorService {
   extractRouterData() {
     return routerObs;
   }
 }
 
-let configurationObs:Observable<Configurator.Configuration>;
+let configurationObs: Observable<Configurator.Configuration>;
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
@@ -91,14 +91,14 @@ function initialize(router: ConfiguratorRouter.Data) {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type:any;
+  @Input() type: any;
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports:[RouterModule, RouterTestingModule],
+        imports: [RouterModule, RouterTestingModule],
         declarations: [
           ConfiguratorOverviewNotificationBannerComponent,
           MockTranslatePipe,

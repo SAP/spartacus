@@ -150,7 +150,7 @@ describe('CpqAccessStorageService', () => {
     let hasCpqAccessDataEmitted = false;
     serviceUnderTest.getCpqAccessData().subscribe(() => {
       hasCpqAccessDataEmitted = true;
-    });     
+    });
     discardPeriodicTasks();
     expect(hasCpqAccessDataEmitted).toBe(false);
   }));

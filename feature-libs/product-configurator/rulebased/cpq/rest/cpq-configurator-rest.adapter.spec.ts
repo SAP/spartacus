@@ -167,7 +167,7 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
-  });  
+  });
 
   it('should delegate read configuration to rest service and map owner', () => {
     adapterUnderTest
