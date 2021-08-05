@@ -167,23 +167,7 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
-  });
-
-  it('should handle missing product code during create configuration', () => {
-    adapterUnderTest
-      .createConfiguration({
-        key: owner.key,
-        id: owner.id,
-        configuratorType: ConfiguratorType.CPQ,
-        type: CommonConfigurator.OwnerType.PRODUCT,
-      })
-      .subscribe(
-        () => {},
-        (error) => {
-          expect(error).toBeDefined();
-        }
-      );
-  });
+  });  
 
   it('should delegate read configuration to rest service and map owner', () => {
     adapterUnderTest

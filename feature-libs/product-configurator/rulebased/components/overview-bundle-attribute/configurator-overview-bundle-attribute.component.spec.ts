@@ -29,22 +29,21 @@ const mockAttributeOverviewInput: Configurator.AttributeOverview = {
 };
 
 const mockProductImageUrl = 'testUrl';
-
+const mockImage = {
+  product: {
+    url: mockProductImageUrl,
+  }};
 const mockProduct: Product = {
   code: 'testCode',
   name: 'testName',
   images: {
-    [ImageType.PRIMARY]: {
-      product: {
-        url: mockProductImageUrl,
-      },
-    },
+    [ImageType.PRIMARY]:mockImage
   },
 };
 
 const noCommerceProduct = { images: {} };
 
-const product$: BehaviorSubject<Product> = new BehaviorSubject(null);
+const product$: BehaviorSubject<Product> = new BehaviorSubject(mockProduct);
 
 class MockProductService {
   get = () => product$.asObservable();
@@ -95,7 +94,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   describe('product', () => {
     it('should use dummy product if no product code exists', (done: DoneFn) => {
-      product$.next(null);
+      product$.next(noCommerceProduct);
 
       fixture.detectChanges();
 
@@ -123,7 +122,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     it('should return primary image', () => {
       const image = component.getProductPrimaryImage(mockProduct);
 
-      expect(image).toEqual(mockProduct.images[ImageType.PRIMARY]);
+      expect(image).toEqual(mockImage);
     });
 
     it('should not return image if no primary image', () => {
@@ -151,7 +150,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       });
 
       it('should not be visible if not existing or not primary', () => {
-        product$.next(null);
+        product$.next(noCommerceProduct);
 
         fixture.detectChanges();
 
