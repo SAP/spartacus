@@ -21,7 +21,6 @@ import {
   USER_PAYMENT_METHODS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
-import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import { reducerToken } from './index';
@@ -52,7 +51,6 @@ export function getReducersTransitional_4_1(): ActionReducerMap<
     ),
     countries: fromDeliveryCountries.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
-    consignmentTracking: fromConsignmentTrackingReducer.reducer,
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
       CUSTOMER_COUPONS,
       fromCustomerCouponReducer.reducer
