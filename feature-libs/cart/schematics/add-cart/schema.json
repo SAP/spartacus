@@ -20,14 +20,17 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved-Cart"],
+        "enum": ["Import-Export", "Saved-Cart"],
         "type": "string"
       },
       "default": ["Saved-Cart"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
-        "items": [{ "value": "Saved-Cart", "label": "Saved Cart" }]
+        "items": [
+          { "value": "Import-Export", "label": "Import/Export" },
+          { "value": "Saved-Cart", "label": "Saved Cart" }
+        ]
       }
     }
   },

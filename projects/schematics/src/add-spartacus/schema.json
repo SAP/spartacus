@@ -59,6 +59,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          },
+          {
             "value": "Saved-Cart",
             "label": "Saved Cart"
           },

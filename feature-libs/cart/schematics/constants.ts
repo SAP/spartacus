@@ -13,3 +13,15 @@ export const SPARTACUS_SAVED_CART_ASSETS = `${SPARTACUS_SAVED_CART}/assets`;
 export const SAVED_CART_TRANSLATIONS = 'savedCartTranslations';
 export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
   'savedCartTranslationChunksConfig';
+
+export const CART_IMPORT_EXPORT_MODULE_NAME = 'CartImportExport';
+export const CART_IMPORT_EXPORT_FEATURE_NAME_CONSTANT =
+  'CART_IMPORT_EXPORT_FEATURE';
+export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
+export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
+export const SPARTACUS_CART_IMPORT_EXPORT = `${SPARTACUS_CART}/import-export`;
+export const SPARTACUS_CART_IMPORT_EXPORT_ROOT = `${SPARTACUS_CART_IMPORT_EXPORT}/root`;
+export const SPARTACUS_CART_IMPORT_EXPORT_ASSETS = `${SPARTACUS_CART_IMPORT_EXPORT}/assets`;
+export const CART_IMPORT_EXPORT_TRANSLATIONS = 'importExportTranslations';
+export const CART_IMPORT_EXPORT_TRANSLATION_CHUNKS_CONFIG =
+  'importExportTranslationChunksConfig';
