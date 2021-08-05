@@ -1,7 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
-import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { waitForPage } from '../../../helpers/checkout-flow';
+import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import {
   addProductToCart,
   ItemList,
@@ -46,7 +46,7 @@ context('Save for later', () => {
           cy.url().should('not.contain', 'login');
         });
         cy.visit(`/cart`);
-        cy.wait(`@${alias}`).its('status').should('eq', 200);
+        cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
         verifyMiniCartQty(0);
         validateProduct(products[2], 1, ItemList.SaveForLater);
