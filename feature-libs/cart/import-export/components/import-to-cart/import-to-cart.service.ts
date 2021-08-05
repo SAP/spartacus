@@ -63,7 +63,7 @@ export class ImportToCartService {
               });
               this.savedCartService.loadSavedCarts();
             }),
-            observeOn(queueScheduler), // without it, the following delayWhen() would use the old `loading` value (false)
+            observeOn(queueScheduler),
             delayWhen(() =>
               this.savedCartService
                 .getSaveCartProcessLoading()
