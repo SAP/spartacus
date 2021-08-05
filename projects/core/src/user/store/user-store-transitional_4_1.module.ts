@@ -4,22 +4,19 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
+import { effectsTransitional_4_1 } from './effects/transitional_4_1';
 import { metaReducers, reducerToken } from './reducers/index';
+import { reducerTransitional_4_1_Provider } from './reducers/transitional_4_1';
 import { USER_FEATURE } from './user-state';
-import { effectsTransitional } from './effects/transitional';
-import { reducerTransitionalProvider } from './reducers/transitional';
 
-/**
- * @deprecated since 4.1 - use UserStoreTransitional_4_1_Module with order lib instead
- */
 @NgModule({
   imports: [
     CommonModule,
     StateModule,
     StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effectsTransitional),
+    EffectsModule.forFeature(effectsTransitional_4_1),
     RouterModule,
   ],
-  providers: [reducerTransitionalProvider],
+  providers: [reducerTransitional_4_1_Provider],
 })
-export class UserStoreTransitionalModule {}
+export class UserStoreTransitional_4_1_Module {}
