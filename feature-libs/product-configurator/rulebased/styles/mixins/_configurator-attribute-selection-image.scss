@@ -9,6 +9,7 @@
     align-items: baseline;
 
     .cx-configurator-select {
+      width: 200px;
       padding-inline-start: 5px;
       padding-inline-end: 5px;
       padding-block-start: 5px;
@@ -34,19 +35,15 @@
       }
 
       .cx-label-container {
-        padding-inline-start: 25px;
-        padding-inline-end: 25px;
-        padding-block-start: 5px;
-        padding-block-end: 5px;
-
-        margin-inline-start: 10px;
-        margin-inline-end: 10px;
+        margin-inline-start: 5px;
+        margin-inline-end: 5px;
         margin-block-start: 5px;
         margin-block-end: 5px;
 
         label {
           cursor: pointer;
           text-align: center;
+          line-break: anywhere;
 
           .cx-img,
           .cx-img-dummy {
@@ -64,6 +61,10 @@
           .cx-img-dummy {
             block-size: 75%;
           }
+        }
+
+        cx-configurator-price {
+          align-items: center;
         }
       }
     }

@@ -14,12 +14,12 @@ export class ImportService {
    * @param file CSV file to extract the data
    * @returns processed data from CSV or error data in CSV extraction
    */
-  loadFile(file: File): Observable<string[][]> {
-    return new Observable((observer: Observer<string[][]>) => {
+  loadFile(file: File): Observable<string | ProgressEvent<FileReader>> {
+    return new Observable((observer: Observer<string>) => {
       const fileReader: FileReader = new FileReader();
       fileReader.readAsText(file);
       fileReader.onload = () => {
-        observer.next(this.readCsvData(fileReader.result as string));
+        observer.next(fileReader.result as string);
         observer.complete();
       };
       fileReader.onerror = (error) => {
@@ -36,7 +36,7 @@ export class ImportService {
    * @param ignoreHeader flag allows for ignore headers row while reading
    * @returns Processed data containing productCode and quantity
    */
-  protected readCsvData(csvString: string, ignoreHeader = true): string[][] {
+  readCsvData(csvString: string, ignoreHeader = true): string[][] {
     return csvString
       .split('\n')
       .map((row) =>

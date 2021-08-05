@@ -1,0 +1,71 @@
+<ng-container>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="submit()">
+    <p class="cx-import-entries-subtitle">
+      {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
+    </p>
+    <p>
+      {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
+    </p>
+    <cx-file-upload
+      [control]="form.get('file')"
+      [allowedExtensions]="fileValidity?.allowedExtensions"
+      (update)="loadFile($event, form)"
+    >
+      {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+    </cx-file-upload>
+    <div class="cx-import-entries-row">
+      <ng-container>
+        <label>
+          <span class="cx-import-entries-label label-content">
+            {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
+          </span>
+          <input
+            [maxLength]="nameMaxLength"
+            class="form-control"
+            formControlName="name"
+            required
+            type="text"
+          />
+          <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+        </label>
+      </ng-container>
+    </div>
+
+    <div class="cx-import-entries-row">
+      <label>
+        <span class="cx-import-entries-label label-content">
+          {{ 'importEntriesDialog.savedCartDescription' | cxTranslate }}
+          <span class="cx-import-entries-label-optional">
+            ({{ 'importEntriesDialog.optional' | cxTranslate }})
+          </span></span
+        >
+        <textarea
+          [maxLength]="descriptionMaxLength"
+          class="form-control"
+          formControlName="description"
+          rows="5"
+        ></textarea>
+        <cx-form-errors [control]="form.get('description')"></cx-form-errors>
+
+        <p class="cx-import-entries-input-hint">
+          {{
+            'importEntriesDialog.charactersLeft'
+              | cxTranslate: { count: descriptionsCharacterLeft }
+          }}
+        </p>
+      </label>
+    </div>
+    <div class="cx-import-entries-footer">
+      <button
+        (click)="close('Close Import Products Dialog')"
+        class="btn btn-action"
+        type="button"
+      >
+        {{ 'importEntriesDialog.cancel' | cxTranslate }}
+      </button>
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
+        {{ 'importEntriesDialog.upload' | cxTranslate }}
+      </button>
+    </div>
+  </form>
+</ng-container>

@@ -7,19 +7,15 @@
 />
 <div>
   <button
-    [attr.aria-label]="buttonText"
+    [attr.aria-label]="'common.selectFile' | cxTranslate"
     class="btn btn-action"
     type="button"
     (click)="fileInput.click()"
   >
-    {{ buttonText }}
+    <ng-content></ng-content>
   </button>
   <p *ngIf="selectedFile?.name">
     {{ selectedFile.name }}
   </p>
 </div>
-<cx-form-errors
-  [control]="control"
-  [translationParams]="{ maxSize: maxSize }"
-  prefix="formErrors.file"
-></cx-form-errors>
+<cx-form-errors [control]="control" prefix="formErrors.file"></cx-form-errors>

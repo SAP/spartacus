@@ -26,6 +26,21 @@ export const importEntriesDialog = {
   cancel: 'Cancel',
   upload: 'Upload',
   close: 'Close',
+  summary: {
+    warning:
+      'Do not close or refresh this window while products are being imported.',
+    loaded: 'Products has been loaded to new cart "{{ cartName }}".',
+    loading: 'Products are being processed... ({{ count }}/{{ total }})',
+    successes:
+      '{{ successesCount }} out of {{ total }} products have been imported successfully.',
+    problems: '{{ problemsCount }} products were not imported.',
+    messages: {
+      unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
+      lowStock:
+        'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
+      unknownError: 'Unrecognized problem with "{{ productCode}}".',
+    },
+  },
 };
 
 export const importExport = {
