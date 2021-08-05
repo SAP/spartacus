@@ -88,11 +88,12 @@ describe('Cart', () => {
           option: 'Sign Out',
         });
         cy.clearLocalStorage();
-        cy.intercept(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts?fields`
-        ).as('carts');
+          )}/users/current/carts`,
+        }).as('carts');
         cart.loginCartUser();
         cy.wait('@carts');
         cy.visit('/cart');
@@ -110,11 +111,12 @@ describe('Cart', () => {
         cart.checkAddedToCartDialog();
         cart.closeAddedToCartDialog();
         cy.reload();
-        cy.intercept(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts`
-        ).as('cart');
+          )}/users/current/carts`,
+        }).as('cart');
         cy.wait('@cart');
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
