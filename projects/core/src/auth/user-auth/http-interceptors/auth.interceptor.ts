@@ -54,16 +54,16 @@ export class AuthInterceptor implements HttpInterceptor {
               switch (errResponse.status) {
                 case 401: // Unauthorized
                   if (this.isExpiredToken(errResponse) && shouldCatchError) {
-                    // request failed with expired access token
-                    // it should get new token (wait for it or trigger token refresh or logout) and retry request
+                    // request failed because of the expired access token
+                    // we should get refresh the token and retry the request, or logout if the refresh is missing / expired
                     return this.authHttpHeaderService.handleExpiredAccessToken(
                       request,
                       next,
                       token
                     );
                   } else if (
-                    // Refresh expired token
-                    // Check that the OAUTH endpoint was called and the error is for refresh token is expired
+                    // Refresh the expired token
+                    // Check if the OAuth endpoint was called and the error is because the refresh token expired
                     errResponse.url.includes(
                       this.authConfigService.getTokenEndpoint()
                     ) &&

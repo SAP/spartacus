@@ -43,10 +43,79 @@ export class AuthHttpHeaderService {
    * Indicates whether the access token is being refreshed
    */
   protected refreshInProgress = false;
+
+  /**
+   * Starts the refresh of the access token
+   */
+  protected refreshTokenTrigger$ = new Subject<AuthToken>();
+  /**
+   * Indicates whether the access token is being refreshed
+   */
   protected refreshInProgress$ = new BehaviorSubject<boolean>(false);
 
-  protected logoutInProgress = false;
+  /**
+   * Indicates whether the logout is being performed
+   */
   protected logoutInProgress$ = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Internal token streams which reads the latest from the storage.
+   * Emits the token or `undefined`
+   */
+  protected token$: Observable<
+    AuthToken | undefined
+  > = this.authStorageService
+    .getToken()
+    .pipe(map((token) => (token?.access_token ? token : undefined)));
+
+  /**
+   * Keeps the previous and the new token
+   */
+  protected newToken$ = this.token$.pipe(pairwise());
+
+  /**
+   * Compares the previous and the new token in order to stop the refresh or logout processes
+   */
+  protected stopProgress$ = this.newToken$.pipe(
+    tap(([oldToken, newToken]) => {
+      // if we got the new token we know that either the refresh or logout finished
+      if (oldToken?.access_token !== newToken?.access_token) {
+        this.refreshInProgress$.next(false);
+        this.logoutInProgress$.next(false);
+      }
+    })
+  );
+
+  /**
+   * Refreshes the token only if currently there's no refresh nor logout in progress.
+   * If the refresh token is not present, it triggers the logout process
+   */
+  protected refreshToken$ = this.refreshTokenTrigger$.pipe(
+    withLatestFrom(this.refreshInProgress$, this.logoutInProgress$),
+    filter(
+      ([, refreshInProgress, logoutInProgress]) =>
+        !refreshInProgress && !logoutInProgress
+    ),
+    tap(([token]) => {
+      if (token?.refresh_token) {
+        this.oAuthLibWrapperService.refreshToken();
+        this.refreshInProgress$.next(true);
+      } else {
+        this.handleExpiredRefreshToken();
+        this.logoutInProgress$.next(true);
+      }
+    })
+  );
+
+  // TODO: name
+  /**
+   * Kicks of the process by listening for the new token and refresh token process.
+   * It returns the token to the subscribers.
+   */
+  protected retryToken$ = using(
+    () => merge(this.stopProgress$, this.refreshToken$).subscribe(),
+    () => this.getToken()
+  ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   constructor(
     protected authService: AuthService,
@@ -56,9 +125,7 @@ export class AuthHttpHeaderService {
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService
-  ) {
-    // this.retryToken$.subscribe();
-  }
+  ) {}
 
   /**
    * Checks if request should be handled by this service (if it's OCC call).
@@ -116,7 +183,6 @@ export class AuthHttpHeaderService {
       .unsubscribe();
 
     if (currentToken?.access_token) {
-      console.error('I dont want to be here ever');
       return {
         Authorization: `${currentToken.token_type || 'Bearer'} ${
           currentToken.access_token
@@ -132,18 +198,22 @@ export class AuthHttpHeaderService {
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler,
-    initialRequestToken?: AuthToken
+    // TODO:#13421 make required
+    initialToken?: AuthToken
   ): Observable<HttpEvent<AuthToken>> {
-    if (initialRequestToken) {
-      return this.handleExpiredToken$(initialRequestToken).pipe(
-        switchMap((token) => {
-          return token
+    // TODO:#13421 remove this if-statement
+    if (initialToken) {
+      return this.initAndHandleExpiredToken(initialToken).pipe(
+        switchMap((token) =>
+          // we break the stream with EMPTY when we don't have the token. This prevents sending the requests with `Authorization: bearer undefined` header
+          token
             ? next.handle(this.createNewRequestWithNewToken(request, token))
-            : EMPTY;
-        })
+            : EMPTY
+        )
       );
     }
-    console.error('Bad place to be');
+
+    // TODO:#13421 legacy - remove in 5.0
     return this.handleExpiredToken().pipe(
       switchMap((token) => {
         return token
@@ -182,6 +252,7 @@ export class AuthHttpHeaderService {
     });
   }
 
+  // TODO:#13421 - remove this method
   /**
    * Attempts to refresh token if possible.
    * If it is not possible calls `handleExpiredRefreshToken`.
@@ -215,19 +286,9 @@ export class AuthHttpHeaderService {
     );
   }
 
-  // requirements
-  // 1. as soon as we set refreshInProgress or logoutInProgress we should emit null or we should not emit anything
-  // 2. when we get new tokens we know that refreshInProgress finished
-  // 3. when we get empty token we know that logoutInProgress finished
-  // 4. tokens can emit multiple times (properties change one by one)
-  // 5. Do we need scan?
-
-  protected token$: Observable<
-    AuthToken | undefined
-  > = this.authStorageService
-    .getToken()
-    .pipe(map((token) => (token?.access_token ? token : undefined)));
-
+  /**
+   * Emits the token or `undefined` only when the refresh or the logout are done
+   */
   getToken(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
@@ -242,51 +303,22 @@ export class AuthHttpHeaderService {
     );
   }
 
+  // TODO:# naming
+  // TODO:# remove?
   getTokenTake1(): Observable<AuthToken | undefined> {
     return this.getToken().pipe(take(1));
   }
 
-  protected refreshTokenTrigger$ = new Subject<AuthToken>();
-
-  protected refreshToken$ = this.refreshTokenTrigger$.pipe(
-    withLatestFrom(this.refreshInProgress$, this.logoutInProgress$),
-    filter(
-      ([, refreshInProgress, logoutInProgress]) =>
-        !refreshInProgress && !logoutInProgress
-    ),
-    tap(([token]) => {
-      if (token?.refresh_token) {
-        this.oAuthLibWrapperService.refreshToken();
-        this.refreshInProgress$.next(true);
-      } else {
-        this.handleExpiredRefreshToken();
-        this.logoutInProgress$.next(true);
-      }
-    })
-  );
-
-  protected tokenFinished$ = this.token$.pipe(
-    pairwise(),
-    tap(([oldToken, newToken]) => {
-      // we get new token, so we know that we either finished refresh or logout
-      if (oldToken?.access_token !== newToken?.access_token) {
-        this.refreshInProgress$.next(false);
-        this.logoutInProgress$.next(false);
-      }
-    })
-  );
-  protected retryToken$ = using(
-    () => merge(this.tokenFinished$, this.refreshToken$).subscribe(),
-    () => this.getToken()
-  ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
-
-  handleExpiredToken$(
+  // TODO:# naming
+  initAndHandleExpiredToken(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
-    this.retryToken$.pipe(take(1)).subscribe((token) => {
-      this.refreshTokenTrigger$.next(token);
-    });
+    // in order to initialize the refresh token stream (TODO: any other particular streams?), we are subscribing to the token changes
+    this.retryToken$
+      .pipe(take(1))
+      .subscribe((token) => this.refreshTokenTrigger$.next(token));
 
+    // TODO: again, why do we have to subscribe for the second time?
     return this.retryToken$.pipe(
       skipWhile((token) => token?.access_token === requestToken.access_token),
       take(1)
