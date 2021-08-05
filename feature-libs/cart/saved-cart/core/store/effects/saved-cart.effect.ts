@@ -96,7 +96,7 @@ export class SavedCartEffects {
         if (activeCart.code) {
           /**
            * Instead of calling the SaveCartAction, we are calling the edit saved cart
-           * because we do not want to clear the state when we swap carts between active and saved cart
+           * because we do not want to clear the active cart id when we swap carts between active and saved cart
            */
           actions.push(
             new SavedCartActions.EditSavedCart({
@@ -155,43 +155,50 @@ export class SavedCartEffects {
     | SavedCartActions.SaveCartSuccess
     | SavedCartActions.SaveCart
     | CartActions.LoadCartSuccess
-    | CartActions.ClearCartState
+    | CartActions.SetActiveCartId
   > = this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
-    switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
-      return this.savedCartConnector
-        .saveCart(userId, cartId, saveCartName, saveCartDescription)
-        .pipe(
-          switchMap((savedCart: Cart) => {
-            return [
-              new CartActions.ClearCartState(),
-              new CartActions.LoadCartSuccess({
-                userId,
-                cartId,
-                cart: savedCart,
-              }),
-              new SavedCartActions.SaveCartSuccess({
-                userId,
-                cartId,
-                saveCartName,
-                saveCartDescription,
-              }),
-            ];
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new SavedCartActions.SaveCartFail({
-                userId,
-                cartId,
-                saveCartName,
-                saveCartDescription,
-                error: normalizeHttpError(error),
-              })
+    withLatestFrom(this.activeCartService.getActive()),
+    switchMap(
+      ([{ userId, cartId, saveCartName, saveCartDescription }, activeCart]) => {
+        return this.savedCartConnector
+          .saveCart(userId, cartId, saveCartName, saveCartDescription)
+          .pipe(
+            switchMap((savedCart: Cart) => {
+              const actions = [];
+              if (cartId === activeCart.code) {
+                actions.push(new CartActions.SetActiveCartId(''));
+              }
+              return [
+                ...actions,
+                new CartActions.LoadCartSuccess({
+                  userId,
+                  cartId,
+                  cart: savedCart,
+                }),
+                new SavedCartActions.SaveCartSuccess({
+                  userId,
+                  cartId,
+                  saveCartName,
+                  saveCartDescription,
+                }),
+              ];
+            }),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                new SavedCartActions.SaveCartFail({
+                  userId,
+                  cartId,
+                  saveCartName,
+                  saveCartDescription,
+                  error: normalizeHttpError(error),
+                })
+              )
             )
-          )
-        );
-    })
+          );
+      }
+    )
   );
 
   @Effect()
