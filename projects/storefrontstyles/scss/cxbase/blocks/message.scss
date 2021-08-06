@@ -1,0 +1,101 @@
+@import '../../theme';
+@import '../../mixins';
+@import '~bootstrap/scss/alert';
+
+//alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
+.message {
+  color: var(--cx-color, var(--cx-color-text));
+  margin-bottom: 30px;
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: var(--cx-page-width-max);
+    position: relative;
+  }
+
+  &-header {
+    @include type('6', 'semi');
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    line-height: var(--cx-line-height, 1.5);
+    min-height: 50px;
+    padding-bottom: 0;
+    padding-inline-end: 4rem;
+    padding-inline-start: 20px;
+    padding-top: 0;
+    text-align: var(--cx-text-align, center);
+  }
+
+  &-icon {
+    display: var(--cx-display, inline-block);
+    height: var(--cx-height, 25px);
+    margin-inline-end: var(--cx-margin-right, spacer(2));
+    position: var(--cx-position, relative);
+    vertical-align: var(--cx-vertical-align, middle);
+
+    &::before {
+      display: var(--cx-display, inline-block);
+      font-size: 18px;
+      font-weight: $font-weight-bold;
+      height: var(--cx-height, 26px);
+      position: var(--cx-position, relative);
+      text-align: var(--cx-text-align, center);
+      width: var(--cx-width, 26px);
+    }
+  }
+
+  &-success {
+    background-color: mix(#ffffff, theme-color('success'), 80%);
+    border: var(--cx-border, none);
+
+    .alert-icon {
+      cx-icon {
+        color: var(--cx-color, var(--cx-color-success));
+      }
+    }
+  }
+
+  &-danger {
+    background-color: mix(#ffffff, theme-color('danger'), 85%);
+    border: var(--cx-border, none);
+
+    .alert-icon {
+      cx-icon {
+        color: var(--cx-color, var(--cx-color-danger));
+      }
+    }
+  }
+
+  &-info {
+    background-color: mix(#ffffff, theme-color('info'), 80%);
+    border: var(--cx-border, none);
+
+    .alert-icon {
+      cx-icon {
+        color: var(--cx-color, var(--cx-color-info));
+      }
+    }
+  }
+
+  &-warning {
+    background-color: mix(#ffffff, theme-color('warning'), 78%);
+    border: var(--cx-border, none);
+
+    .alert-icon {
+      cx-icon {
+        color: var(--cx-color, var(--cx-color-warning));
+      }
+    }
+  }
+
+  .close {
+    font-weight: var(--cx-font-weight, var(--cx-font-weight-normal));
+    position: var(--cx-position, absolute);
+    right: 3rem;
+    top: 15px;
+  }
+}

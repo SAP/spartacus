@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { GlobalMessageType, RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -10,6 +10,9 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
   iconTypes = ICON_TYPE;
+
+  // TO REMOVE
+  globalMessageType = GlobalMessageType;
 
   constructor(private routingService: RoutingService) {}
 
