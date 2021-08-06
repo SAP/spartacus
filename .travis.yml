@@ -24,7 +24,8 @@ jobs:
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
   - script:
-    - yarn build:libs && yarn build && yarn build:ssr
+    name: "Lighthouse report"
+    - yarn build:libs && yarn build && yarn build:ssr:ci
     - lhci autorun
   - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
