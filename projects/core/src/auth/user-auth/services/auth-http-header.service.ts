@@ -180,7 +180,7 @@ export class AuthHttpHeaderService {
     let currentToken: AuthToken | undefined;
     this.authStorageService
       .getToken()
-      .subscribe((tok) => (currentToken = tok))
+      .subscribe((token) => (currentToken = token))
       .unsubscribe();
 
     if (currentToken?.access_token) {
@@ -302,12 +302,6 @@ export class AuthHttpHeaderService {
       ),
       switchMap(() => this.token$)
     );
-  }
-
-  // TODO:# naming
-  // TODO:# remove?
-  getTokenTake1(): Observable<AuthToken | undefined> {
-    return this.getToken().pipe(take(1));
   }
 
   // TODO:# naming

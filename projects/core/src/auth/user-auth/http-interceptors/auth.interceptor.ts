@@ -7,8 +7,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { AuthToken } from '../models/auth-token.model';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 
@@ -30,24 +29,23 @@ export class AuthInterceptor implements HttpInterceptor {
     const shouldCatchError = this.authHttpHeaderService.shouldCatchError(
       request
     );
-
-    // request = this.authHttpHeaderService.alterRequest(request);
     const shouldHandle = this.authHttpHeaderService.shouldHandleRequest(
       request
     );
 
-    // getToken will emit sync or async if there is refresh or logout in progress
-    return of(shouldHandle).pipe(
-      switchMap((shouldHandle) =>
-        !shouldHandle
-          ? of(undefined)
-          : this.authHttpHeaderService.getTokenTake1()
-      ),
-      map((token: AuthToken | undefined) => ({
+    // getToken() will emit sync or async if there is refresh or logout in progress
+    const token$ = shouldHandle
+      ? this.authHttpHeaderService.getToken().pipe(take(1))
+      : of(undefined);
+    const requestAndToken$ = token$.pipe(
+      map((token) => ({
         token,
         request: this.authHttpHeaderService.alterRequest(request, token),
-      })),
-      switchMap(({ request, token }) =>
+      }))
+    );
+
+    return requestAndToken$.pipe(
+      switchMap(({ token, request }) =>
         next.handle(request).pipe(
           catchError((errResponse: any) => {
             if (errResponse instanceof HttpErrorResponse) {
