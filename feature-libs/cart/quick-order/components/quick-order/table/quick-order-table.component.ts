@@ -9,4 +9,7 @@ import { OrderEntry } from '@spartacus/core';
 export class QuickOrderTableComponent {
   @Input()
   entries: OrderEntry[] = [];
+
+  @Input()
+  loading: boolean = false;
 }
