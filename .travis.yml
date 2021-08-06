@@ -2,6 +2,8 @@ dist: bionic
 language: node_js
 node_js:
   - 12.16.1
+before_install:
+  - npm install -g @lhci/cli@0.8.x
 cache: yarn
 git:
   depth: false
@@ -21,6 +23,9 @@ jobs:
     name: "SSR build / smoke test"
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
+  - script:
+    - yarn build:libs && yarn build && yarn build:ssr
+    - lhci autorun
   - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
   - script:
