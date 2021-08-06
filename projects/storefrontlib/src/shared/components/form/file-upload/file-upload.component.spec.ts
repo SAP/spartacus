@@ -30,7 +30,6 @@ describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
 
-  let control: FormControl;
   let inputEl: DebugElement;
 
   beforeEach(() => {
@@ -44,9 +43,6 @@ describe('FileUploadComponent', () => {
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
 
-    control = new FormControl('');
-
-    component.control = control;
     fixture.detectChanges();
 
     inputEl = fixture.debugElement.query(By.css('input'));
@@ -60,7 +56,9 @@ describe('FileUploadComponent', () => {
     it('should emit event', () => {
       spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
-      expect(component.update.emit).toHaveBeenCalledWith(mockFile);
+      expect(component.update.emit).toHaveBeenCalledWith(([
+        mockFile,
+      ] as unknown) as FileList);
     });
   });
 });

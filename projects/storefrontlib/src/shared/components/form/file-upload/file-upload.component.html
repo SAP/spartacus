@@ -1,8 +1,8 @@
 <input
   type="file"
-  [formControl]="control"
-  [accept]="allowedExtensions"
-  (change)="selectFile($event.target.files[0])"
+  [accept]="accept"
+  [multiple]="multiple"
+  (change)="selectFile($event)"
   #fileInput
 />
 <div>
@@ -14,8 +14,7 @@
   >
     <ng-content></ng-content>
   </button>
-  <p *ngIf="selectedFile?.name">
-    {{ selectedFile.name }}
+  <p *ngFor="let file of selectedFiles">
+    {{ file?.name }}
   </p>
 </div>
-<cx-form-errors [control]="control" prefix="formErrors.file"></cx-form-errors>
