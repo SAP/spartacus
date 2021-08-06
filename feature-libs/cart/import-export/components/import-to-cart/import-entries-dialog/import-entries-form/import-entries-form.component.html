@@ -6,18 +6,19 @@
     <p>
       {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
     </p>
-    <cx-file-upload
-      [formControl]="form.get('file')"
-      [accept]="fileValidity?.allowedExtensions"
-      (update)="loadFile()"
-    >
-      {{ 'importEntriesDialog.selectFile' | cxTranslate }}
-    </cx-file-upload>
-    <cx-form-errors
-      [control]="form.get('file')"
-      prefix="formErrors.file"
-    ></cx-form-errors>
-
+    <label>
+      <cx-file-upload
+        [formControl]="form.get('file')"
+        [accept]="fileValidity?.allowedExtensions"
+        (update)="loadFile()"
+      >
+        {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+      </cx-file-upload>
+      <cx-form-errors
+        [control]="form.get('file')"
+        prefix="formErrors.file"
+      ></cx-form-errors>
+    </label>
     <div class="cx-import-entries-row">
       <ng-container>
         <label>
