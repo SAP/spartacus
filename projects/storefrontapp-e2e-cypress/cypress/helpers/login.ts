@@ -57,7 +57,7 @@ export function loginUser() {
 export function loginWithBadCredentials() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`);
 
   login(user.email, 'Password321');
 
