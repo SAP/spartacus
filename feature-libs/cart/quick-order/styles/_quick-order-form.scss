@@ -11,11 +11,12 @@ cx-quick-order-form {
       padding: 0 36px 0 12px;
     }
 
-    .reset {
-      cursor: pointer;
+    .search {
+      color: var(--cx-color-light);
+      font-size: 24px;
       position: absolute;
-      right: 26px;
-      top: 16px;
+      right: 12px;
+      top: 12px;
     }
 
     .list-limit-reached-text {
