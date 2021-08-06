@@ -44,7 +44,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   selectFile($event: Event) {
     const files = ($event.target as HTMLInputElement)?.files;
     this.onChangeCallback(files);
-    this.update.emit(files); // TODO remove
+    this.update.emit(files);
   }
 
   get selectedFile(): File | undefined {
