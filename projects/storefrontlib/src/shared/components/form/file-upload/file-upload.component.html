@@ -1,8 +1,7 @@
-<input
+  <input
   type="file"
-  [formControl]="control"
   [accept]="allowedExtensions"
-  (change)="selectFile($event.target.files[0])"
+  (change)="selectFile($event)"
   #fileInput
 />
 <div>
@@ -18,4 +17,3 @@
     {{ selectedFile.name }}
   </p>
 </div>
-<cx-form-errors [control]="control" prefix="formErrors.file"></cx-form-errors>

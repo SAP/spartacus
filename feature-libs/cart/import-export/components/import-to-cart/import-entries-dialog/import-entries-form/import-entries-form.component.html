@@ -7,12 +7,14 @@
       {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
     </p>
     <cx-file-upload
-      [control]="form.get('file')"
+      [formControl]="form.get('file')"
       [allowedExtensions]="fileValidity?.allowedExtensions"
-      (update)="loadFile($event, form)"
+      (update)="loadFile()"
     >
       {{ 'importEntriesDialog.selectFile' | cxTranslate }}
     </cx-file-upload>
+    <cx-form-errors [control]="form.get('file')" prefix="formErrors.file"></cx-form-errors>
+    
     <div class="cx-import-entries-row">
       <ng-container>
         <label>

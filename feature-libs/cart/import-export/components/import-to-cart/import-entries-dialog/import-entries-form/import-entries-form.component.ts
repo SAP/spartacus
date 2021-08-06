@@ -6,15 +6,15 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
-import { LaunchDialogService } from '@spartacus/storefront';
 import {
-  InvalidFileInfo,
-  ImportService,
   FileValidity,
+  ImportService,
+  InvalidFileInfo,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -62,7 +62,13 @@ export class ImportEntriesFormComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  loadFile(file: File, form: FormGroup) {
+  loadFile() {
+    // We expect at most one file in the FileList:
+    const file: File = this.form.get('file')?.value?.[0];
+    if (!file) {
+      return;
+    }
+
     this.fileError = {};
     of(file)
       .pipe(
@@ -79,7 +85,7 @@ export class ImportEntriesFormComponent implements OnInit {
           this.validateParsable(data);
         }),
         finalize(() => {
-          form.get('file')?.updateValueAndValidity();
+          this.form.get('file')?.updateValueAndValidity();
         })
       )
       .subscribe(
