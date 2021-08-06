@@ -16,7 +16,7 @@ defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script:
-    - yarn build:libs && yarn build --prod && yarn build:ssr:ci
+    - yarn build:libs && yarn build && yarn build:ssr:ci
     - lhci autorun
 addons:
   chrome: stable
