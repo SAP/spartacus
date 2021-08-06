@@ -8,13 +8,16 @@
     </p>
     <cx-file-upload
       [formControl]="form.get('file')"
-      [allowedExtensions]="fileValidity?.allowedExtensions"
+      [accept]="fileValidity?.allowedExtensions"
       (update)="loadFile()"
     >
       {{ 'importEntriesDialog.selectFile' | cxTranslate }}
     </cx-file-upload>
-    <cx-form-errors [control]="form.get('file')" prefix="formErrors.file"></cx-form-errors>
-    
+    <cx-form-errors
+      [control]="form.get('file')"
+      prefix="formErrors.file"
+    ></cx-form-errors>
+
     <div class="cx-import-entries-row">
       <ng-container>
         <label>

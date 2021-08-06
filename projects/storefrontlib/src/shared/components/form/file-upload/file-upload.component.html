@@ -1,6 +1,7 @@
-  <input
+<input
   type="file"
-  [accept]="allowedExtensions"
+  [accept]="accept"
+  [multiple]="multiple"
   (change)="selectFile($event)"
   #fileInput
 />
@@ -13,7 +14,7 @@
   >
     <ng-content></ng-content>
   </button>
-  <p *ngIf="selectedFile?.name">
-    {{ selectedFile.name }}
+  <p *ngFor="let file of selectedFiles">
+    {{ file?.name }}
   </p>
 </div>

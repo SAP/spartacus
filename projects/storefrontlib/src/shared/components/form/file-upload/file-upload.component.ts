@@ -29,7 +29,11 @@ export class FileUploadComponent implements ControlValueAccessor {
   /**
    * Allowed extensions for the file. It's setting attribute used for OS window for choosing files.
    */
-  @Input() allowedExtensions?: string = '*';
+  @Input() accept?: string = '*';
+  /**
+   * Allows selecting multiple files.
+   */
+  @Input() multiple?: boolean = false;
 
   // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
   // Prerequisites (changes in the parent component):
@@ -47,8 +51,8 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.update.emit(files);
   }
 
-  get selectedFile(): File | undefined {
-    return this.fileInput.nativeElement.files?.[0];
+  get selectedFiles(): File[] | undefined {
+    return Array.from(this.fileInput.nativeElement.files);
   }
 
   // ControlValueAccessor START
