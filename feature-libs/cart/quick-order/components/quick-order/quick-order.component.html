@@ -13,7 +13,7 @@
     <div class="quick-order-form-body">
       <cx-quick-order-form
         [isDisabled]="entries.length >= quickOrderListLimit"
-        [loading]="!(isCartStable$ | async)"
+        [isLoading]="!(isCartStable$ | async)"
       ></cx-quick-order-form>
     </div>
 

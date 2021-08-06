@@ -38,13 +38,16 @@ class MockQuickOrderStatePersistenceService
   initSync(): void {}
 }
 
+const mockIsStable$ = new BehaviorSubject<boolean>(true);
+const mockCartId$ = new BehaviorSubject<string>('123456789');
+
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
-    return of('123456789');
+    return mockCartId$.asObservable();
   }
   addEntries(_cartEntries: OrderEntry[]): void {}
   isStable(): Observable<boolean> {
-    return of(true);
+    return mockIsStable$.asObservable();
   }
 }
 
@@ -101,6 +104,11 @@ describe('QuickOrderComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.ngOnInit();
+
+    mockEntries$.next([mockEntry]);
+    mockIsStable$.next(true);
+    mockCartId$.next('123456789');
+
     fixture.detectChanges();
   });
 
@@ -109,7 +117,7 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger clear the list method from the service', () => {
-    spyOn(quickOrderService, 'clearList');
+    spyOn(quickOrderService, 'clearList').and.callThrough();
     spyOn(globalMessageService, 'add').and.stub();
 
     component.clear();
@@ -123,8 +131,8 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'clearList');
-    spyOn(activeCartService, 'addEntries');
+    spyOn(quickOrderService, 'clearList').and.callThrough();
+    spyOn(activeCartService, 'addEntries').and.callThrough();
     spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart();
@@ -149,5 +157,14 @@ describe('QuickOrderComponent', () => {
     fixture.detectChanges();
 
     expect(el.query(By.css('.clear-button'))).toBeNull();
+  });
+
+  it('should disable clear list action when cart is not stable', () => {
+    mockIsStable$.next(false);
+    fixture.detectChanges();
+
+    expect(
+      el.query(By.css('.clear-button')).nativeElement.disabled
+    ).toBeTruthy();
   });
 });
