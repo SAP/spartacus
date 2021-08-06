@@ -16,7 +16,7 @@ defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script:
-    name: "Lighthouse report"
+    name: "Lighthouse CI"
     - yarn build:libs && yarn build && yarn build:ssr:ci
     - lhci autorun
 addons:
