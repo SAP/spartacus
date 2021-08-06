@@ -12,15 +12,7 @@
       type="text"
     />
 
-    <cx-icon
-      *ngIf="form.get('product')?.value"
-      (keydown.enter)="clear($event)"
-      (mousedown)="clear($event)"
-      [attr.aria-label]="'common.reset' | cxTranslate"
-      [type]="iconTypes.RESET"
-      class="reset"
-      tabindex="0"
-    ></cx-icon>
+    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
 
@@ -28,14 +20,4 @@
       {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
     </span>
   </div>
-
-  <button
-    [disabled]="
-      form.invalid || !form.get('product')?.value?.length || isSearching
-    "
-    class="btn btn-primary"
-    type="submit"
-  >
-    {{ 'common.add' | cxTranslate }}
-  </button>
 </form>
