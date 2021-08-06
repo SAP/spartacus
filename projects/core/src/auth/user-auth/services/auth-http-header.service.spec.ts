@@ -1,7 +1,7 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of, queueScheduler } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -26,7 +26,7 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
-  refreshToken() {}
+  refreshToken(): void {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -124,12 +124,13 @@ describe('AuthHttpHeaderService', () => {
         access_token: `old_token`,
         refresh_token: 'ref_token',
       } as AuthToken);
-      const handler = (a) => of(a);
+      const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
         token.next({
           access_token: `new_token`,
           refresh_token: 'ref_token',
         } as AuthToken);
+        return EMPTY;
       });
       spyOn(authStorageService, 'getToken').and.returnValue(
         token.asObservable().pipe(observeOn(queueScheduler))
@@ -150,7 +151,7 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should invoke expired refresh token handler when there is no refresh token', () => {
-      const handler = (a) => of(a);
+      const handler = jasmine.createSpy('handler', (a: any) => of(a));
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
       spyOn(service, 'handleExpiredRefreshToken').and.stub();
       spyOn(authStorageService, 'getToken').and.returnValue(
@@ -163,8 +164,12 @@ describe('AuthHttpHeaderService', () => {
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler
         )
-        .subscribe()
-        .unsubscribe();
+        .subscribe({
+          complete: () => {
+            // check that we didn't created new requests
+            expect(handler).not.toHaveBeenCalled();
+          },
+        });
       expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
       expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
