@@ -40,7 +40,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     return this._loading;
   }
 
-  @Input('isloading') set isLoading(value: boolean) {
+  @Input('isLoading') set isLoading(value: boolean) {
     this._loading = value;
     this.validateProductControl(value);
   }
