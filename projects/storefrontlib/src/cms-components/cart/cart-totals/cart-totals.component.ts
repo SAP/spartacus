@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { ActiveCartService, Cart, OrderEntry } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -14,7 +19,7 @@ import {
   templateUrl: './cart-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartTotalsComponent implements OnInit {
+export class CartTotalsComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   buttonEnabled = true;
