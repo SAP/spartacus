@@ -293,9 +293,10 @@ export class AuthHttpHeaderService {
   getToken(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
-      this.refreshInProgress$.pipe(observeOn(queueScheduler)),
-      this.logoutInProgress$.pipe(observeOn(queueScheduler)),
+      this.refreshInProgress$,
+      this.logoutInProgress$,
     ]).pipe(
+      observeOn(queueScheduler),
       filter(
         ([_, refreshInProgress, logoutInProgress]) =>
           !refreshInProgress && !logoutInProgress
