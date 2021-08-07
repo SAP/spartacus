@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ImportExportConfig } from '../config/import-export-config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportService {
+export class ImportCsvService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
   /**
@@ -45,6 +46,12 @@ export class ImportService {
       .filter(
         (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
       );
+  }
+
+  loadCsvData(file: File): Observable<string[][] | ProgressEvent<FileReader>> {
+    return this.loadFile(file).pipe(
+      map((res) => this.readCsvData(res as string))
+    );
   }
 
   private get separator() {

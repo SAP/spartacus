@@ -8,13 +8,15 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   FileValidity,
-  ImportService,
+  ImportCsvService,
   InvalidFileInfo,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { FilesFormValidators } from 'feature-libs/cart/import-export/utils/validators/files-form-validators';
+import { ProductFilesFormValidators } from 'feature-libs/cart/import-export/utils/validators/product-files-form-validators';
 import { Observable, of } from 'rxjs';
-import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -47,7 +49,9 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportService
+    protected importService: ImportCsvService,
+    protected filesFormValidators: FilesFormValidators,
+    protected productFilesFormValidators: ProductFilesFormValidators
   ) {}
 
   ngOnInit() {
@@ -72,21 +76,21 @@ export class ImportEntriesFormComponent implements OnInit {
     this.fileError = {};
     of(file)
       .pipe(
-        tap((fileData: File) => {
-          this.validateMaxSize(fileData);
-        }),
+        // tap((fileData: File) => {
+        //   this.validateMaxSize(fileData);
+        // }),
         switchMap(
           (fileData: File) =>
             <Observable<string>>this.importService.loadFile(fileData)
         ),
-        map((result: string) => this.importService.readCsvData(result)),
-        tap((data: string[][]) => {
-          this.validateEmpty(data);
-          this.validateParsable(data);
-        }),
-        finalize(() => {
-          this.form.get('file')?.updateValueAndValidity();
-        })
+        map((result: string) => this.importService.readCsvData(result))
+        // tap((data: string[][]) => {
+        //   this.validateEmpty(data);
+        //   this.validateParsable(data);
+        // }),
+        // finalize(() => {
+        //   this.form.get('file')?.updateValueAndValidity();
+        // })
       )
       .subscribe(
         (data: string[][]) => {
@@ -112,7 +116,17 @@ export class ImportEntriesFormComponent implements OnInit {
     const form = new FormGroup({});
     form.setControl(
       'file',
-      new FormControl('', [Validators.required, () => this.fileError])
+      new FormControl(
+        '',
+        [
+          Validators.required,
+          this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
+        ],
+        [
+          this.filesFormValidators.emptyFile,
+          this.productFilesFormValidators.parsableFile,
+        ]
+      )
     );
     form.setControl(
       'name',
@@ -128,25 +142,25 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
-  protected validateMaxSize(file: File) {
-    const maxSize = this.fileValidity?.maxSize;
-    if (maxSize && file.size / 1000000 > maxSize) {
-      this.fileError.tooLarge = { maxSize };
-      throw Error();
-    }
-  }
-
-  protected validateEmpty(data: string[][]) {
-    if (data.toString().length === 0) {
-      this.fileError.empty = true;
-      throw Error();
-    }
-  }
-
-  protected validateParsable(data: string[][]) {
-    if (!this.importToCartService.isDataParsable(data)) {
-      this.fileError.notParsable = true;
-      throw Error();
-    }
-  }
+  // protected validateMaxSize(file: File) {
+  //   const maxSize = this.fileValidity?.maxSize;
+  //   if (maxSize && file.size / 1000000 > maxSize) {
+  //     this.fileError.tooLarge = { maxSize };
+  //     throw Error();
+  //   }
+  // }
+  //
+  // protected validateEmpty(data: string[][]) {
+  //   if (data.toString().length === 0) {
+  //     this.fileError.empty = true;
+  //     throw Error();
+  //   }
+  // }
+  //
+  // protected validateParsable(data: string[][]) {
+  //   if (!this.importToCartService.isDataParsable(data)) {
+  //     this.fileError.notParsable = true;
+  //     throw Error();
+  //   }
+  // }
 }
