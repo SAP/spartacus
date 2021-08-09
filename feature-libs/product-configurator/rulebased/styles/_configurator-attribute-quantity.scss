@@ -1,0 +1,13 @@
+%cx-configurator-attribute-quantity {
+  display: flex;
+  flex-direction: column;
+
+  .cx-quantity {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-inline-end: 0.5rem;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renamed symbols Previous import should became new import 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponent1 } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponent1, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols Previous import should became new import and name with aliases 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest2 as Test } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [Test, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols Previous import should became new import and new name 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest3 } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponentTest3, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols Should only rename node 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest4, Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponentTest4, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols when both rename symbol and ctor migration are required should be done in the correct order 1`] = `
+"
+import { Injectable } from '@angular/core';
+import { AsmAuthHttpHeaderService, CsAgentAuthService } from \\"@spartacus/asm/root\\";
+import {
+  AuthService,
+  AuthStorageService,
+  GlobalMessageService,
+  OAuthLibWrapperService,
+  OccEndpointsService,
+  RoutingService, AuthRedirectService
+} from '@spartacus/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class X extends AsmAuthHttpHeaderService {
+  constructor(
+    protected authService: AuthService,
+    protected authStorageService: AuthStorageService,
+    protected csAgentAuthService: CsAgentAuthService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected occEndpointsService: OccEndpointsService, authRedirectService: AuthRedirectService
+  ) {
+    super(
+      authService,
+      authStorageService,
+      csAgentAuthService,
+      oAuthLibWrapperService,
+      routingService,
+      globalMessageService,
+      occEndpointsService, authRedirectService
+    );
+  }
+}
+"
+`;

@@ -144,43 +144,6 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  titles?: string | OccEndpoint;
-  /**
-   * Get user details
-   *
-   * @member {string}
-   */
-  user?: string | OccEndpoint;
-  /**
-   * Register a new user.
-   *
-   * @member {string}
-   */
-  userRegister?: string | OccEndpoint;
-  /**
-   * Request an email to reset the password
-   *
-   * @member {string}
-   */
-  userForgotPassword?: string | OccEndpoint;
-  /**
-   * Reset the password once the email is recieved.
-   *
-   * @member {string}
-   */
-  userResetPassword?: string | OccEndpoint;
-  /**
-   * Update the user id with which the user authenticates.
-   *
-   * @member {string}
-   */
-  userUpdateLoginId?: string | OccEndpoint;
-  /**
-   * Update the user's password
-   *
-   * @member {string}
-   */
-  userUpdatePassword?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
    *
@@ -322,12 +285,6 @@ export interface OccEndpoints {
    */
   consignmentTracking?: string | OccEndpoint;
   /**
-   * Endpoint for asm customer search
-   *
-   * @member {string}
-   */
-  asmCustomerSearch?: string | OccEndpoint;
-  /**
    * Endpoint for cart voucher
    *
    * @member {string}
@@ -389,14 +346,6 @@ export interface OccEndpoints {
    * Endpoint for cancelling return request
    */
   cancelReturn?: string | OccEndpoint;
-  /**
-   * Endpoint for set delivery address to cart
-   */
-  setDeliveryAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for place order
-   */
-  placeOrder?: string | OccEndpoint;
   /**
    * Endpoint to schedule a replenishment order
    *

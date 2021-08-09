@@ -35,6 +35,7 @@ cx-saved-cart-form-dialog {
 
             .cx-saved-cart-value {
               font-weight: bold;
+              word-break: break-word;
             }
           }
 
@@ -52,6 +53,16 @@ cx-saved-cart-form-dialog {
             text-align: end;
           }
         }
+
+        .cx-copy-saved-cart-row {
+          display: flex;
+          margin-bottom: 1.5rem;
+          align-items: center;
+
+          .cx-copy-saved-cart-label {
+            margin-bottom: 0;
+          }
+        }
       }
 
       .cx-saved-cart-form-footer {
@@ -66,6 +77,10 @@ cx-saved-cart-form-dialog {
 
           &:last-child {
             margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
           }
         }
       }

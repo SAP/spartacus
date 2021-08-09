@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -31,7 +31,7 @@ export class SavedCartDetailsService {
 
   constructor(
     protected routingService: RoutingService,
-    protected savedCartService: SavedCartService
+    protected savedCartService: SavedCartFacade
   ) {}
 
   getSavedCartId(): Observable<string> {

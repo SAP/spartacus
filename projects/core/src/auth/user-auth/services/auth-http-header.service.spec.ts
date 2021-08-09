@@ -1,7 +1,7 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of, queueScheduler } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -10,6 +10,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthHttpHeaderService } from './auth-http-header.service';
+import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -26,21 +27,25 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
-  refreshToken() {}
+  refreshToken(): void {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getBaseEndpoint() {
+  getBaseUrl() {
     return 'some-server/occ';
   }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
 describe('AuthHttpHeaderService', () => {
@@ -50,6 +55,8 @@ describe('AuthHttpHeaderService', () => {
   let authStorageService: AuthStorageService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
+  let authRedirectService: AuthRedirectService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -64,6 +71,7 @@ describe('AuthHttpHeaderService', () => {
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
@@ -73,6 +81,7 @@ describe('AuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authStorageService = TestBed.inject(AuthStorageService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -124,12 +133,13 @@ describe('AuthHttpHeaderService', () => {
         access_token: `old_token`,
         refresh_token: 'ref_token',
       } as AuthToken);
-      const handler = (a) => of(a);
+      const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
         token.next({
           access_token: `new_token`,
           refresh_token: 'ref_token',
         } as AuthToken);
+        return EMPTY;
       });
       spyOn(authStorageService, 'getToken').and.returnValue(
         token.asObservable().pipe(observeOn(queueScheduler))
@@ -150,7 +160,7 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should invoke expired refresh token handler when there is no refresh token', () => {
-      const handler = (a) => of(a);
+      const handler = jasmine.createSpy('handler', (a: any) => of(a));
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
       spyOn(service, 'handleExpiredRefreshToken').and.stub();
       spyOn(authStorageService, 'getToken').and.returnValue(
@@ -163,15 +173,19 @@ describe('AuthHttpHeaderService', () => {
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler
         )
-        .subscribe()
-        .unsubscribe();
+        .subscribe({
+          complete: () => {
+            // check that we didn't created new requests
+            expect(handler).not.toHaveBeenCalled();
+          },
+        });
       expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
       expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should logout user and redirect to login page', () => {
+    it('should logout user, save current navigation url, and redirect to login page', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
@@ -179,6 +193,9 @@ describe('AuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.coreLogout).toHaveBeenCalled();
+      expect(
+        authRedirectService.saveCurrentNavigationUrl
+      ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {

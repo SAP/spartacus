@@ -87,11 +87,6 @@ export interface HttpErrorModel {
   statusText?: string;
   url?: string | null;
   details?: ErrorModel[];
-
-  /**
-   * @deprecated since 2.1
-   */
-  error?: any | null;
 }
 
 export interface BaseStore {
@@ -114,12 +109,5 @@ export interface BaseSite {
   stores?: BaseStore[];
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
-}
-
-export interface UserSignUp {
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  titleCode?: string;
-  uid?: string;
+  baseStore?: BaseStore;
 }

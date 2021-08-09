@@ -10,6 +10,7 @@ class MockPageMetaService {
     return of(<PageMeta>{
       title: 'Test title',
       description: 'Test description',
+      image: 'http://assets.com/image.jpg',
       robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW],
       canonicalUrl: 'https://www.canonicalUrl.com',
     });
@@ -20,7 +21,7 @@ class MockPageMetaLinkService implements Partial<PageMetaLinkService> {
   setCanonicalLink(): void {}
 }
 
-describe('SeoTitleService', () => {
+describe('SeoMetaService', () => {
   let seoMetaService: SeoMetaService;
   let pageMetaService: PageMetaService;
 
@@ -28,6 +29,7 @@ describe('SeoTitleService', () => {
   let ngMetaService: Meta;
 
   let updateMetaTagSpy: jasmine.Spy;
+  let removeMetaTagSpy: jasmine.Spy;
   let addCanonicalLinkSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -48,6 +50,7 @@ describe('SeoTitleService', () => {
     ngMetaService = TestBed.inject(Meta);
 
     updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
+    removeMetaTagSpy = spyOn(ngMetaService, 'removeTag');
     addCanonicalLinkSpy = spyOn(
       TestBed.inject(PageMetaLinkService),
       'setCanonicalLink'
@@ -58,95 +61,51 @@ describe('SeoTitleService', () => {
     expect(seoMetaService).toBeTruthy();
   });
 
+  it('should not any default tags', () => {
+    spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+    seoMetaService.init();
+    expect(updateMetaTagSpy).not.toHaveBeenCalled();
+  });
+
   it('Should update title', () => {
     seoMetaService.init();
     expect(ngTitleService.getTitle()).toBe('Test title');
   });
 
-  it('Should add description meta tag', () => {
-    seoMetaService.init();
-    expect(updateMetaTagSpy).toHaveBeenCalledWith({
-      name: 'description',
-      content: 'Test description',
+  describe('description', () => {
+    it('Should add description meta tag', () => {
+      seoMetaService.init();
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
+        name: 'description',
+        content: 'Test description',
+      });
+    });
+
+    it('Should remove description meta tag', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      seoMetaService.init();
+      expect(removeMetaTagSpy).toHaveBeenCalledWith('name="description"');
+    });
+  });
+
+  describe('image', () => {
+    it('Should add og:image meta tag', () => {
+      seoMetaService.init();
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
+        name: 'og:image',
+        content: 'http://assets.com/image.jpg',
+      });
+    });
+
+    it('Should remove og:image meta tag', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      seoMetaService.init();
+      expect(removeMetaTagSpy).toHaveBeenCalledWith('name="og:image"');
     });
   });
 
   describe('robots', () => {
     it('Should add `INDEX FOLLOW` in robots meta tag', () => {
-      seoMetaService.init();
-      expect(updateMetaTagSpy).toHaveBeenCalledWith({
-        name: 'robots',
-        content: 'INDEX, FOLLOW',
-      });
-    });
-
-    it('Should add `NOINDEX FOLLOW` in robots meta tag', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(
-        of({
-          title: 'Test title',
-          description: 'Test description',
-          robots: [PageRobotsMeta.NOINDEX, PageRobotsMeta.FOLLOW],
-        })
-      );
-      seoMetaService.init();
-      expect(updateMetaTagSpy).toHaveBeenCalledWith({
-        name: 'robots',
-        content: 'NOINDEX, FOLLOW',
-      });
-    });
-
-    it('should not add robot meta tags if robots are empty ([])', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(
-        of({
-          title: 'Test title',
-          description: 'Test description',
-          robots: [],
-        })
-      );
-      seoMetaService.init();
-      expect(updateMetaTagSpy).not.toHaveBeenCalledWith({
-        name: 'robots',
-        content: 'INDEX, FOLLOW',
-      });
-    });
-
-    it('should add robot meta tags if robots are not provided', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(
-        of({
-          title: 'Test title',
-          description: 'Test description',
-        })
-      );
-      seoMetaService.init();
-      expect(updateMetaTagSpy).toHaveBeenCalledWith({
-        name: 'robots',
-        content: 'INDEX, FOLLOW',
-      });
-    });
-
-    it('should add robot meta tags if robots are null', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(
-        of({
-          title: 'Test title',
-          description: 'Test description',
-          robots: null,
-        })
-      );
-      seoMetaService.init();
-      expect(updateMetaTagSpy).toHaveBeenCalledWith({
-        name: 'robots',
-        content: 'INDEX, FOLLOW',
-      });
-    });
-
-    it('should add robot meta tags if robots are undefined', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(
-        of({
-          title: 'Test title',
-          description: 'Test description',
-          robots: undefined,
-        })
-      );
       seoMetaService.init();
       expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',

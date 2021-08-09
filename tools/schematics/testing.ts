@@ -5,18 +5,60 @@ import glob from 'glob';
 import path from 'path';
 import semver from 'semver';
 
-let currentVersion;
+const featureLibsFolders: string[] = [
+  'asm',
+  'cart',
+  'checkout',
+  'organization',
+  'product',
+  'product-configurator',
+  'qualtrics',
+  'smartedit',
+  'storefinder',
+  'tracking',
+  'user',
+];
+
+const integrationLibsFolders: string[] = ['cdc', 'cds'];
+
+const commands = [
+  'publish',
+  'publish (reload version)',
+  'build projects/schematics',
+  'build asm/schematics',
+  'build cart/schematics',
+  'build checkout/schematics',
+  'build cdc/schematics',
+  'build cds/schematics',
+  'build organization/schematics',
+  'build product/schematics',
+  'build product-configurator/schematics',
+  'build qualtrics/schematics',
+  'build smartedit/schematics',
+  'build storefinder/schematics',
+  'build tracking/schematics',
+  'build user/schematics',
+  'build all libs',
+  'test all schematics',
+  'exit',
+] as const;
+type Command = typeof commands[number];
+
+const buildLibRegEx = new RegExp('build (.*?)/schematics');
+
+let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
-  console.log('Starting verdaccio');
+  console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   console.log('Pointing npm to verdaccio');
   execSync(`npm config set @spartacus:registry http://localhost:4873/`);
+  execSync(`npx wait-on http://localhost:4873/`);
   return res;
 }
 
-function beforeExit() {
+function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
   execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
   if (verdaccioProcess) {
@@ -27,15 +69,16 @@ function beforeExit() {
   }
 }
 
-function publishLibs() {
-  if (!currentVersion) {
+function publishLibs(reload = false): void {
+  if (!currentVersion || reload) {
     currentVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
     );
   }
 
   // Bump version to publish
-  semver.inc(currentVersion, 'patch');
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  semver.inc(currentVersion!, 'patch');
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -46,75 +89,118 @@ function publishLibs() {
   [...files, ...distFiles].forEach((packagePath) => {
     // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    content.version = currentVersion.version;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    content.version = currentVersion!.version;
     fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${currentVersion.version} --registry=http://localhost:4873/ --no-git-tag-version`,
+      `yarn publish --cwd ${dir} --new-version ${
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        currentVersion!.version
+      } --registry=http://localhost:4873/ --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
 }
 
-function buildLibs() {
+function buildLibs(): void {
   execSync('yarn build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics() {
+function buildSchematics(
+  options: { publish: boolean } = { publish: false }
+): void {
   execSync('yarn build:schematics', { stdio: 'inherit' });
+  if (options.publish) {
+    publishLibs();
+  }
 }
 
-async function executeCommand(
-  command: 'publish' | 'build projects/schematics' | 'build all libs'
-): Promise<void> {
+function buildSchematicsAndPublish(buildCmd: string): void {
+  buildSchematics();
+  execSync(buildCmd, {
+    stdio: 'inherit',
+  });
+  publishLibs();
+}
+
+function testAllSchematics(): void {
+  execSync('yarn --cwd projects/schematics run test --coverage', {
+    stdio: 'inherit',
+  });
+
+  featureLibsFolders.forEach((lib) =>
+    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
+      stdio: 'inherit',
+    })
+  );
+  integrationLibsFolders.forEach((lib) =>
+    execSync(
+      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+      {
+        stdio: 'inherit',
+      }
+    )
+  );
+}
+
+async function executeCommand(command: Command): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
       break;
+    case 'publish (reload version)':
+      publishLibs(true);
+      break;
     case 'build projects/schematics':
-      buildSchematics();
+      buildSchematics({ publish: true });
+      break;
+    case 'build asm/schematics':
+    case 'build cart/schematics':
+    case 'build checkout/schematics':
+    case 'build cdc/schematics':
+    case 'build cds/schematics':
+    case 'build organization/schematics':
+    case 'build product/schematics':
+    case 'build product-configurator/schematics':
+    case 'build qualtrics/schematics':
+    case 'build smartedit/schematics':
+    case 'build storefinder/schematics':
+    case 'build tracking/schematics':
+    case 'build user/schematics':
+      const lib =
+        buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
+      buildSchematicsAndPublish(`yarn build:${lib}`);
       break;
     case 'build all libs':
       buildLibs();
       break;
-    default:
-      const cmd: never = command;
-      throw new Error(`Command ${cmd} not covered!`);
+    case 'test all schematics':
+      testAllSchematics();
+      break;
+    case 'exit':
+      beforeExit();
+      process.exit();
   }
 }
 
 let verdaccioProcess: ChildProcess | undefined;
 
-async function program() {
+async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
-    // Give time for verdaccio to boot up
-    console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 30`);
-
     while (true) {
-      const choices = <const>[
-        'publish',
-        'build projects/schematics',
-        'build all libs',
-        'exit',
-      ];
-      const response: { command: typeof choices[number] } = await prompt({
+      const response: { command: Command } = await prompt({
         name: 'command',
         type: 'select',
         message: 'What do you want to do next?',
-        choices: [...choices],
+        choices: [...commands],
       });
 
-      if (response.command === 'exit') {
-        beforeExit();
-        process.exit();
-      } else {
-        executeCommand(response.command);
-      }
+      executeCommand(response.command);
     }
   } catch (e) {
     console.log(e);

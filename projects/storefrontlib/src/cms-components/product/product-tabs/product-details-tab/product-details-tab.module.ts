@@ -16,7 +16,6 @@ import { ProductDetailsTabComponent } from './product-details-tab.component';
     }),
   ],
   declarations: [ProductDetailsTabComponent],
-  entryComponents: [ProductDetailsTabComponent],
   exports: [ProductDetailsTabComponent],
 })
 export class ProductDetailsTabModule {}

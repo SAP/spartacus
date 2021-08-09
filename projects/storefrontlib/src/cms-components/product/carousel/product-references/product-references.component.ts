@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CmsProductReferencesComponent,
+  isNotNullable,
   Product,
   ProductReference,
   ProductReferenceService,
@@ -31,8 +32,8 @@ export class ProductReferencesComponent {
    */
   protected get productCode$(): Observable<string> {
     return this.currentProductService.getProduct().pipe(
-      filter(Boolean),
-      map((product: Product) => product.code),
+      filter(isNotNullable),
+      map((product) => product.code),
       tap((_) => this.productReferenceService.cleanReferences())
     );
   }

@@ -1,5 +1,5 @@
-import { variants } from './variants.i18n';
+import { productVariants } from './variants.i18n';
 
 export const en = {
-  variants,
+  productVariants,
 };

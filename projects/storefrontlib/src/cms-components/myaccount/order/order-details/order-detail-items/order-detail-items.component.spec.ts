@@ -1,6 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Consignment,
   FeaturesConfig,
@@ -8,11 +9,11 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
+  ReplenishmentOrder,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
-import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
-import { PromotionsModule } from '../../../../checkout';
+import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
@@ -94,6 +95,24 @@ const mockOrder: Order = {
   ],
 };
 
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [],
+      description: 'test-promotion',
+      promotion: {
+        code: 'test_promotion',
+        description: 'A test promotion',
+        promotionType: 'Rule Based Promotion',
+      },
+    },
+  ],
+};
+
 @Component({
   selector: 'cx-cart-item-list',
   template: '',
@@ -122,14 +141,6 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
-}
-
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
@@ -150,6 +161,7 @@ describe('OrderDetailItemsComponent', () => {
           I18nTestingModule,
           PromotionsModule,
           FeaturesConfigModule,
+          RouterTestingModule,
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
@@ -158,10 +170,6 @@ describe('OrderDetailItemsComponent', () => {
             useValue: {
               features: { level: '1.4', consignmentTracking: true },
             },
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
         declarations: [
@@ -251,5 +259,19 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  it('should show promotions on replenishment details', () => {
+    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockReplenishmentOrder)
+    );
+    fixture.detectChanges();
+    let order: ReplenishmentOrder;
+    mockOrderDetailsService
+      .getOrderDetails()
+      .subscribe((value) => (order = value))
+      .unsubscribe();
+    expect(order).toEqual(mockReplenishmentOrder);
+    expect(el.query(By.css('.cx-promotions'))).toBeTruthy();
   });
 });

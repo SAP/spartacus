@@ -74,11 +74,13 @@ export default async function run(
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
+    '@spartacus/user': 'feature-libs/user',
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/checkout': 'feature-libs/checkout',
     '@spartacus/asm': 'feature-libs/asm',
     '@spartacus/smartedit': 'feature-libs/smartedit',
     '@spartacus/tracking': 'feature-libs/tracking',
@@ -293,6 +295,10 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
       break;
+    case 'user':
+    case '@spartacus/user':
+      config.library = '@spartacus/user';
+      break;
     case 'cds':
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
@@ -322,6 +328,10 @@ if (typeof config.to === 'undefined') {
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'checkout':
+    case '@spartacus/checkout':
+      config.library = '@spartacus/checkout';
       break;
     case 'tracking':
     case '@spartacus/tracking':

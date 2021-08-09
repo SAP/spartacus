@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "CDSSchematics",
+  "title": "CDS Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["CDS"]
+    },
+    "tenant": {
+      "type": "string",
+      "description": "The tenant name.",
+      "default": "my-tenant",
+      "x-prompt": "[CDS] What is your tenant name?"
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The base URL.",
+      "default": "https://my-tenant.api.us.context.cloud.sap",
+      "x-prompt": "[CDS] What is your base URL?"
+    },
+    "profileTagLoadUrl": {
+      "type": "string",
+      "description": "Where to load ProfileTag from. (e.g. https://tag.static.us.context.cloud.sap/js/profile-tag.js)",
+      "x-prompt": "[CDS] Where to load ProfileTag from? (optional)"
+    },
+    "profileTagConfigUrl": {
+      "type": "string",
+      "description": "Configuration URL for ProfileTag. (e.g. https://tag.static.stage.context.cloud.sap/config/my-config123)",
+      "x-prompt": "[CDS] What is the ProfileTag configuration URL? (optional)"
+    }
+  }
+}

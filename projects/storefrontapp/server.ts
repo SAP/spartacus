@@ -3,7 +3,7 @@ import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import { NgExpressEngineDecorator } from '@spartacus/setup/ssr';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import 'zone.js/dist/zone-node';
+import 'zone.js/node';
 import { AppServerModule } from './src/main.server';
 
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
@@ -19,6 +19,8 @@ export function app() {
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
+
+  server.set('trust proxy', 'loopback');
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(

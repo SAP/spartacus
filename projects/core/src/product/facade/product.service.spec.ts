@@ -1,19 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
-import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
 
-function mockProduct(code, scopes = [DEFAULT_SCOPE]) {
+function mockProduct(code: string, scopes = [DEFAULT_SCOPE]) {
   return { code, name: `product${scopes.join('')}` };
 }
 
 class MockProductLoadingService {
-  get(code, scopes) {
+  get(code: string, scopes: string[]) {
     return of(mockProduct(code, scopes));
   }
 }
@@ -83,7 +83,7 @@ describe('ProductService', () => {
           loading: true,
         })
       );
-      let isLoading: boolean;
+      let isLoading: boolean | undefined;
       service.isLoading('testId').subscribe((value) => {
         isLoading = value;
       });
@@ -98,7 +98,7 @@ describe('ProductService', () => {
           error: true,
         })
       );
-      let hasError: boolean;
+      let hasError: boolean | undefined;
       service.hasError('testId').subscribe((value) => {
         hasError = value;
       });
@@ -113,7 +113,7 @@ describe('ProductService', () => {
           success: true,
         })
       );
-      let isSuccess: boolean;
+      let isSuccess: boolean | undefined;
       service.isSuccess('testId').subscribe((value) => {
         isSuccess = value;
       });

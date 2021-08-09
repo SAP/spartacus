@@ -1,3 +1,3 @@
-<p *ngFor="let errorName of errors$ | async">
-  {{ prefix + '.' + errorName | cxTranslate: translationParams }}
+<p *ngFor="let error of errorsDetails$ | async">
+  {{ prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1]) }}
 </p>

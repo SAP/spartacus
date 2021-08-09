@@ -1,0 +1,131 @@
+<ng-container *ngIf="product$ | async as product">
+  <div
+    class="cx-product-card"
+    [ngClass]="{
+      'cx-product-card-selected': isProductCardSelected()
+    }"
+  >
+    <div class="cx-product-card-rows">
+      <div class="cx-product-card-imgs">
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
+      </div>
+
+      <div class="cx-product-card-info">
+        <div class="cx-product-card-name">
+          <p>
+            {{ product.name }}
+          </p>
+        </div>
+        <div class="cx-product-card-code" *ngIf="product.code">
+          {{ 'configurator.attribute.id' | cxTranslate }}:
+          {{ product.code }}
+        </div>
+        <cx-configurator-show-more
+          *ngIf="product?.description"
+          [text]="product?.description"
+          [textSize]="45"
+        ></cx-configurator-show-more>
+      </div>
+    </div>
+
+    <div
+      class="cx-product-card-rows column"
+      *ngIf="!productCardOptions.singleDropdown || hasPriceDisplay()"
+    >
+      <div class="cx-product-card-quantity-price">
+        <div class="cx-product-card-quantity">
+          <cx-configurator-attribute-quantity
+            *ngIf="showQuantity"
+            (changeQuantity)="onChangeQuantity($event)"
+            [quantityOptions]="extractQuantityParameters()"
+          ></cx-configurator-attribute-quantity>
+        </div>
+        <div class="cx-product-card-price">
+          <cx-configurator-price
+            [formula]="extractPriceFormulaParameters()"
+          ></cx-configurator-price>
+        </div>
+      </div>
+      <div class="cx-product-card-action">
+        <div
+          class="cx-product-card-action-btn"
+          *ngIf="!productCardOptions?.singleDropdown"
+        >
+          <ng-container *ngIf="productCardOptions?.multiSelect; else single">
+            <button
+              *ngIf="
+                productCardOptions?.productBoundValue?.selected;
+                else select
+              "
+              class="btn btn-action"
+              (click)="onHandleDeselect()"
+              [cxFocus]="focusConfig"
+            >
+              {{ 'configurator.button.remove' | cxTranslate }}
+            </button>
+
+            <ng-template #select>
+              <button
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="
+                  productCardOptions?.disableAllButtons || (loading$ | async)
+                "
+                [cxFocus]="focusConfig"
+              >
+                {{ 'configurator.button.add' | cxTranslate }}
+              </button>
+            </ng-template>
+          </ng-container>
+
+          <ng-template #single>
+            <button
+              class="btn btn-primary"
+              (click)="onHandleSelect()"
+              [disabled]="
+                productCardOptions?.disableAllButtons || (loading$ | async)
+              "
+              *ngIf="
+                !productCardOptions?.productBoundValue?.selected;
+                else deselect
+              "
+              [cxFocus]="focusConfig"
+            >
+              {{ 'configurator.button.select' | cxTranslate }}
+            </button>
+            <ng-template #deselect>
+              <ng-container
+                *ngIf="
+                  isValueCodeDefined(
+                    productCardOptions?.productBoundValue?.valueCode
+                  )
+                "
+              >
+                <button
+                  *ngIf="!productCardOptions?.hideRemoveButton"
+                  class="btn btn-action"
+                  (click)="onHandleDeselect()"
+                  [disabled]="
+                    productCardOptions?.hideRemoveButton || (loading$ | async)
+                  "
+                  [cxFocus]="focusConfig"
+                >
+                  {{ 'configurator.button.deselect' | cxTranslate }}
+                </button>
+              </ng-container>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="showDeselectionNotPossible">
+      <div class="cx-product-card-rows deselection-error-message">
+        <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
+        {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

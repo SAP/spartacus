@@ -1,0 +1,18 @@
+<ng-container>
+  <div class="variant-selector">
+    <div class="variant-name">{{ 'productVariants.color' | cxTranslate }}:</div>
+
+    <select
+      (change)="changeColor($event.target.value, product?.name)"
+      class="form-control variant-select"
+    >
+      <option
+        *ngFor="let v of variants?.options"
+        value="{{ v.code }}"
+        [selected]="v.code === product?.code"
+      >
+        {{ getVariantOptionValue(v.variantOptionQualifiers) }}
+      </option>
+    </select>
+  </div>
+</ng-container>

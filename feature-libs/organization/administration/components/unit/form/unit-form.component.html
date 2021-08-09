@@ -1,5 +1,5 @@
 <cx-org-form [i18nRoot]="i18nRoot">
-  <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
+  <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
         'orgUnit.name' | cxTranslate
@@ -44,6 +44,7 @@
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
+        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors

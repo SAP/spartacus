@@ -36,6 +36,14 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
-    webpack: { node: { fs: 'empty' } },
+    buildWebpack: {
+      webpackConfig: {
+        resolve: {
+          fallback: {
+            fs: false,
+          },
+        },
+      },
+    },
   });
 };

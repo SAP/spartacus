@@ -155,6 +155,21 @@ const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
     }
 `;
 
+const CMS_COMPONENT_ACTIONS_TEST_TWO_CLASSES = `
+    import { CmsActions } from '@spartacus/core';
+    export class Test1 {
+      loadCmsComponent(): void {
+        console.log(new CmsActions.LoadCmsComponent('xxx'));
+      }
+    }
+
+    export class Test2 {
+      loadCmsComponent(): void {
+        console.log(new CmsActions.LoadCmsComponent('yyy'));
+      }
+    }
+`;
+
 describe('updateCmsComponentState migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
@@ -165,7 +180,7 @@ describe('updateCmsComponentState migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../test/migrations-test.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -340,5 +355,18 @@ describe('updateCmsComponentState migration', () => {
       content.match(cmsGetComponentFromPageRegex) || []
     ).length;
     expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
+  });
+
+  it('should add comments to more than one class in the same file', async () => {
+    writeFile(host, '/src/index.ts', CMS_COMPONENT_ACTIONS_TEST_TWO_CLASSES);
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/index.ts');
+
+    const spartacusToDoRegex = new RegExp(`^// TODO:Spartacus`, 'gm');
+    const spartacusToDoOccurrences = (content.match(spartacusToDoRegex) || [])
+      .length;
+    expect(spartacusToDoOccurrences).toEqual(2);
   });
 });

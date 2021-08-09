@@ -26,6 +26,8 @@ export class ConfiguratorTextfieldFormComponent {
             return this.configuratorTextfieldService.readConfigurationForCartEntry(
               routerData.owner
             );
+          case CommonConfigurator.OwnerType.ORDER_ENTRY:
+            throw new Error('Order history integration not yet implemented');
         }
       })
     );

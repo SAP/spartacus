@@ -2,10 +2,14 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
-import { ANGULAR_CORE, UTF_8 } from '../constants';
 import {
-  getAngularVersion,
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import * as path from 'path';
+import { UTF_8 } from '../constants';
+import {
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
@@ -17,16 +21,16 @@ const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 describe('Package utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -62,21 +66,6 @@ describe('Package utils', () => {
       if (buffer) {
         const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
         expect(packageJsonObject).toEqual(readPackageJson(appTree));
-      }
-    });
-  });
-
-  describe('getAngularVersion', () => {
-    it('should return angular version', async () => {
-      const testVersion = '5.5.5';
-      const buffer = appTree.read('package.json');
-
-      if (buffer) {
-        const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
-        packageJsonObject.dependencies[ANGULAR_CORE] = testVersion;
-        appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
-        const version = getAngularVersion(appTree);
-        expect(version).toEqual(testVersion);
       }
     });
   });

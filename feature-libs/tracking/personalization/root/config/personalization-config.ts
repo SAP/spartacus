@@ -6,9 +6,9 @@ import { Config } from '@spartacus/core';
   useExisting: Config,
 })
 export abstract class PersonalizationConfig {
-  personalization: {
-    enabled: boolean;
-    httpHeaderName: {
+  personalization?: {
+    enabled?: boolean;
+    httpHeaderName?: {
       id: string;
       timestamp: string;
     };
@@ -17,4 +17,8 @@ export abstract class PersonalizationConfig {
       componentId: string;
     };
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends PersonalizationConfig {}
 }

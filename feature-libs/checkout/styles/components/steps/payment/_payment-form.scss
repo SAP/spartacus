@@ -1,0 +1,39 @@
+%cx-payment-form {
+  @include checkout-media-style();
+
+  .cx-payment-form-tooltip {
+    margin: 0 0 0 0.1875rem;
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+    color: var(--cx-color-secondary);
+  }
+  .cx-payment-form-billing {
+    margin: 0 0 1.25rem 0;
+  }
+
+  .cx-payment-form-billing-address {
+    @include type('4');
+    padding: 0.875rem 0 1.25rem 0;
+  }
+
+  .cx-payment-form-exp-date {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    legend {
+      font-size: 1rem;
+    }
+    &-wrapper {
+      flex: 1;
+
+      &:first-of-type {
+        padding-inline-end: 1rem;
+      }
+    }
+  }
+
+  .form-check {
+    margin: 0;
+  }
+}

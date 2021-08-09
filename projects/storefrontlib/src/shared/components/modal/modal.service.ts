@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOptions } from './modal-options';
 import { ModalRef } from './modal-ref';
@@ -11,10 +11,20 @@ import { ModalRef } from './modal-ref';
 })
 export class ModalService {
   private modals: ModalRef[] = [];
-  constructor(private ngbModalService: NgbModal) {}
+
+  constructor(
+    private ngbModalService: NgbModal,
+    protected applicationRef: ApplicationRef
+  ) {}
+
+  protected get rootComponent() {
+    return this.applicationRef?.components?.[0]?.location?.nativeElement;
+  }
 
   open(content: any, options?: ModalOptions): ModalRef {
     let activeModal: ModalRef;
+
+    options = { container: this.rootComponent, ...options };
 
     activeModal = this.ngbModalService.open(content, options);
     this.modals.push(activeModal);

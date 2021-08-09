@@ -57,6 +57,9 @@ export class OccCmsPageNormalizer
     if (source.title) {
       page.title = source.title;
     }
+    if (source.description) {
+      page.description = source.description;
+    }
     if (source.properties) {
       page.properties = source.properties;
     }

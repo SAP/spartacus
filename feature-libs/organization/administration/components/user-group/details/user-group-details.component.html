@@ -1,4 +1,8 @@
-<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgUserGroup.details">
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUserGroup.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
   <a
     actions
     class="link edit"

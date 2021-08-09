@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Translatable } from '../../i18n/translatable';
+import { isNotUndefined } from '../../util/type-guards';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
 import {
@@ -23,7 +24,7 @@ export class GlobalMessageService {
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter((data) => data !== undefined)
+      filter(isNotUndefined)
     );
   }
 

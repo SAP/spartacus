@@ -1,1 +1,1 @@
-export * from './variants-occ.module';
+export * from './product-variants-occ.module';

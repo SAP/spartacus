@@ -145,13 +145,11 @@ export function removeProductFromPdp() {
 }
 
 export function addProductToCart(product: TestProduct) {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/*/entries?code=*&qty=*&lang=en&curr=USD`
+    )}/users/*/carts/*/entries?lang=en&curr=USD`
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
@@ -176,6 +174,7 @@ export function checkWishListPersisted(product: TestProduct) {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.location('pathname').should('equal', '/electronics-spa/en/USD/');
 
   cy.findByText(/Sign in \/ Register/i).click();
 
@@ -216,9 +215,8 @@ export function checkoutFromCart(checkoutProducts: TestProduct[]) {
 }
 
 function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
-  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.get('cx-mini-cart').click();
-  cy.wait(`@${cartPage}`);
+  cy.location('pathname').should('match', /\/cart$/);
 
   for (const product of checkoutProducts) {
     cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);

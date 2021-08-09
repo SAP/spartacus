@@ -2,8 +2,8 @@ import { Image } from '@spartacus/core';
 
 export interface Media {
   /**
-   * Identify the “default” image URL which is used in case the srcset is not specificied.
-   * Browsers withotu srcset support will also fallback to this URl.
+   * Identify the “default” image URL which is used in case the srcset is not specified.
+   * Browsers without srcset support will also fallback to this URl.
    */
   src: string;
 
@@ -17,6 +17,12 @@ export interface Media {
    * also used by web crawlers and screen readers.
    */
   alt?: string;
+
+  /**
+   * Describes the role of an element in programs that can make use of it, such as screen
+   * readers or magnifiers
+   */
+  role?: string;
 }
 
 /**
