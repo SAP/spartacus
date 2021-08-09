@@ -20,7 +20,6 @@ import { ImportToCartService } from '../../import-to-cart.service';
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FilesFormValidators],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
@@ -91,11 +90,10 @@ export class ImportEntriesFormComponent implements OnInit {
           this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
         ],
         [
-          this.filesFormValidators.emptyFile(this.importService),
-          this.filesFormValidators.parsableFile(
-            this.importService,
-            this.importToCartService.isDataParsableToProducts
-          ),
+          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
+          this.filesFormValidators
+            .parsableFile(this.importToCartService.isDataParsableToProducts)
+            .bind(this.filesFormValidators),
         ]
       )
     );

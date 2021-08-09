@@ -6,72 +6,72 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ImportCsvService } from './import-csv.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class FilesFormValidators {
   constructor(protected importCsvService: ImportCsvService) {}
   /**
    * Checks max size of file
    *
-   * @static
    * @param {number} maxSize Max size [MB]
    * @returns Uses 'tooLarge' validator error with maxSize property
-   * @memberof CustomFormValidators
+   * @memberof FilesFormValidators
    */
-
   maxSize(maxSize?: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
-      const files: File[] = Array.from(control.value);
-      files.forEach((file: File) => {
-        if (maxSize && file.size / 1000000 > maxSize) {
-          errors.tooLarge = { maxSize };
-        }
-      });
+      if (maxSize) {
+        const files: File[] = Array.from(control.value);
+        files.forEach((file: File) => {
+          if (file.size / 1000000 > maxSize) {
+            errors.tooLarge = { maxSize };
+          }
+        });
+      }
       return Object.keys(errors).length === 0 ? null : errors;
     };
   }
 
-  // emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
-  //   const errors: ValidationErrors = {};
-  //   const file: File = control.value[0];
-  //   return this.importCsvService.loadCsvData(file).pipe(
-  //     map((data: string[][]) => {
-  //       if (data.toString().length === 0) {
-  //         errors.empty = true;
-  //       }
-  //     }),
-  //     map(() => (Object.keys(errors).length === 0 ? null : errors))
-  //   );
-  // }
-  //
-  // parsableFile(
-  //   isDataParsable: (data: string[][]) => Boolean
-  // ): AsyncValidatorFn {
-  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-  //     const errors: ValidationErrors = {};
-  //     const file: File = control.value[0];
-  //     return this.importCsvService.loadCsvData(file).pipe(
-  //       map((data: string[][]) => {
-  //         if (!isDataParsable(data)) {
-  //           errors.notParsable = true;
-  //         }
-  //       }),
-  //       map(() => (Object.keys(errors).length === 0 ? null : errors))
-  //     );
-  //   };
-  // }
+  /**
+   * Checks empty file
+   *
+   * @returns Uses 'empty' validator error
+   * @memberof FilesFormValidators
+   */
+  emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
+    const errors: ValidationErrors = {};
+    const file: File = control.value[0];
+    return this.importCsvService.loadCsvData(file).pipe(
+      tap((data: string[][]) => {
+        if (data.toString().length === 0) {
+          errors.empty = true;
+        }
+      }),
+      map(() => (Object.keys(errors).length === 0 ? null : errors))
+    );
+  }
 
-  emptyFile(importCsvService: ImportCsvService): AsyncValidatorFn {
+  /**
+   * Checks file is parsable
+   *
+   * @param {(data: string[][]) => Boolean} isDataParsable Callback which verify that file text is in expected structure
+   * @returns Uses 'notParsable' validator error
+   * @memberof FilesFormValidators
+   */
+  parsableFile(
+    isDataParsable: (data: string[][]) => Boolean
+  ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
-      return importCsvService.loadCsvData(file).pipe(
-        map((data: string[][]) => {
-          if (data.toString().length === 0) {
-            errors.empty = true;
+      return this.importCsvService.loadCsvData(file).pipe(
+        tap((data: string[][]) => {
+          if (!isDataParsable(data)) {
+            errors.notParsable = true;
           }
         }),
         map(() => (Object.keys(errors).length === 0 ? null : errors))
@@ -79,16 +79,24 @@ export class FilesFormValidators {
     };
   }
 
-  parsableFile(
-    importCsvService: ImportCsvService,
-    isDataParsable: (data: string[][]) => Boolean
+  /**
+   * Checks file is parsable
+   *
+   * @param {(data: string[][]) => Boolean} isDataParsable? Callback which verify that file text is in expected structure
+   * @returns Uses 'empty' and 'notParsable' validator error
+   * @memberof FilesFormValidators
+   */
+  parsableFile2(
+    isDataParsable?: (data: string[][]) => Boolean
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
-      return importCsvService.loadCsvData(file).pipe(
-        map((data: string[][]) => {
-          if (!isDataParsable(data)) {
+      return this.importCsvService.loadCsvData(file).pipe(
+        tap((data: string[][]) => {
+          if (data.toString().length === 0) {
+            errors.empty = true;
+          } else if (isDataParsable && !isDataParsable(data)) {
             errors.notParsable = true;
           }
         }),
