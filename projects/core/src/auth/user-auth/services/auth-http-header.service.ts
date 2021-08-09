@@ -70,14 +70,11 @@ export class AuthHttpHeaderService {
     .pipe(map((token) => (token?.access_token ? token : undefined)));
 
   /**
-   * Keeps the previous and the new token
-   */
-  protected newToken$ = this.token$.pipe(pairwise());
-
-  /**
    * Compares the previous and the new token in order to stop the refresh or logout processes
    */
-  protected stopProgress$ = this.newToken$.pipe(
+  protected stopProgress$ = this.token$.pipe(
+    // Keeps the previous and the new token
+    pairwise(),
     tap(([oldToken, newToken]) => {
       // if we got the new token we know that either the refresh or logout finished
       if (oldToken?.access_token !== newToken?.access_token) {
@@ -204,7 +201,7 @@ export class AuthHttpHeaderService {
   ): Observable<HttpEvent<AuthToken>> {
     // TODO:#13421 remove this if-statement
     if (initialToken) {
-      return this.initAndHandleExpiredToken(initialToken).pipe(
+      return this.getValidToken(initialToken).pipe(
         switchMap((token) =>
           // we break the stream with EMPTY when we don't have the token. This prevents sending the requests with `Authorization: bearer undefined` header
           token
@@ -306,15 +303,14 @@ export class AuthHttpHeaderService {
   }
 
   // TODO:# naming
-  initAndHandleExpiredToken(
+  protected getValidToken(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
-    // in order to initialize the refresh token stream (TODO: any other particular streams?), we are subscribing to the token changes
+    // initialize the refresh token stream
     this.retryToken$
       .pipe(take(1))
       .subscribe((token) => this.refreshTokenTrigger$.next(token));
 
-    // TODO: again, why do we have to subscribe for the second time?
     return this.retryToken$.pipe(
       skipWhile((token) => token?.access_token === requestToken.access_token),
       take(1)
