@@ -36,20 +36,21 @@ describe('ImportService', () => {
     expect(service).toBeTruthy();
   });
 
-  /**
-   * TODO: Please change following tests in #13037.
-   * Tests below are only temporary to cover code coverage on epic branch.
-   *
-   * Also worth to re-think if protected methods should have unit tests.
-   */
   it('readCsvData', () => {
     service['readCsvData']('');
     expect(service['readCsvData']).toBeDefined();
   });
 
-  it('should return extracted csv data', () => {
-    service.loadFile(mockFile).subscribe((result) => {
-      expect(result).toEqual(mockLoadFileData);
+  it('should return extracted CSV string', (done: DoneFn) => {
+    service.loadFile(mockFile).subscribe((data) => {
+      expect(data).toEqual(mockCsvString);
+
+      done();
     });
+  });
+
+  it('should convert csv to data', () => {
+    const result = service.readCsvData(mockCsvString);
+    expect(result).toEqual(mockLoadFileData);
   });
 });

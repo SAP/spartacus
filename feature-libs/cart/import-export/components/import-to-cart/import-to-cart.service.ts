@@ -37,7 +37,7 @@ export class ImportToCartService {
   loadProductsToCart(
     products: ProductsData,
     savedCartInfo: { name: string; description?: string }
-  ) {
+  ): Observable<ProductImportInfo> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
         this.multiCartService

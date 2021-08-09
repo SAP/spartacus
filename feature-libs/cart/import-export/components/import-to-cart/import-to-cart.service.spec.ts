@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Action, ActionsSubject } from '@ngrx/store';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
@@ -7,7 +8,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 
@@ -44,6 +45,9 @@ class MockMultiCartService implements Partial<MultiCartService> {
 class MockSavedCartService implements Partial<SavedCartService> {
   saveCart = createSpy();
   loadSavedCarts = createSpy();
+  getSaveCartProcessLoading(): Observable<boolean> {
+    return of();
+  }
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -54,6 +58,9 @@ describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartService;
+  let mockActionsSubject: ReplaySubject<Action>;
+
+  mockActionsSubject = new ReplaySubject<Action>();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,6 +70,7 @@ describe('ImportToCartService', () => {
         { provide: MultiCartService, useClass: MockMultiCartService },
         { provide: SavedCartService, useClass: MockSavedCartService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: ActionsSubject, useValue: mockActionsSubject },
       ],
     });
     service = TestBed.inject(ImportToCartService);
@@ -89,31 +97,24 @@ describe('ImportToCartService', () => {
   });
 
   describe('loadProductsToCart', () => {
-    it('should call csvDataToProduct', () => {
-      spyOn<any>(service, 'csvDataToProduct');
-      service.loadProductsToCart(mockFileData, mockSavedCart);
-
-      expect(service['csvDataToProduct']).toHaveBeenCalledWith(mockFileData);
-    });
-
     it('should create, save and load cart', () => {
-      service.loadProductsToCart(mockFileData, mockSavedCart);
+      service.loadProductsToCart(mockProductData, mockSavedCart).subscribe();
 
       expect(multiCartService.createCart).toHaveBeenCalledWith({
         userId: mockUserId,
         extraData: { active: false },
       });
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
       expect(savedCartService.saveCart).toHaveBeenCalledWith({
         cartId: mockCartId,
         saveCartName: mockSavedCart.name,
         saveCartDescription: mockSavedCart.description,
       });
       expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
+      expect(multiCartService.addEntries).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockProductData
+      );
     });
   });
 });
