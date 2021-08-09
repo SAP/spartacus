@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
@@ -64,7 +65,7 @@ function setupWithCurrentProductService(
 ) {
   if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
         {
