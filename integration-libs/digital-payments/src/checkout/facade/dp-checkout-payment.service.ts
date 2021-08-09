@@ -19,17 +19,8 @@ export class DpCheckoutPaymentService {
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() =>
     this.dpAdapter.createPaymentRequest().pipe(
-      map((payload: any) => {
-        var payment_req = {
-          url: payload.postUrl,
-          sessionId: payload.parameters.entry.find(
-            (it: any) => it.key === 'session_id'
-          ).value,
-          signature: payload.parameters.entry.find(
-            (it: any) => it.key === 'signature'
-          ).value,
-        };
-        return payment_req;
+      map((payload: DpPaymentRequest) => {
+        return payload;
       })
     )
   );
@@ -48,8 +39,7 @@ export class DpCheckoutPaymentService {
   > = this.command.create(
     (payload) =>
       this.dpAdapter
-        .createPaymentDetails(payload.sessionId, payload.signature)
-        .pipe(
+        .createPaymentDetails(payload.sessionId, payload.signature).pipe(
           map((payload: PaymentDetails) => {
             return payload;
           })
