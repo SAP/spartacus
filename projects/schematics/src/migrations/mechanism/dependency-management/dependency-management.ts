@@ -66,12 +66,9 @@ function collectSpartacusLibraryDependencies(
   const installedLibs = Object.keys(dependencies).filter((dep) =>
     dep.startsWith(SPARTACUS_SCOPE)
   );
-  const nonCoreLibs = installedLibs.filter(
-    (lib) => !CORE_SPARTACUS_SCOPES.includes(lib)
-  );
 
   let spartacusPeerDeps: string[] = [];
-  for (const spartacusLib of nonCoreLibs) {
+  for (const spartacusLib of installedLibs) {
     spartacusPeerDeps = collectSpartacusPeerDeps(
       spartacusPeerDeps,
       spartacusLib
