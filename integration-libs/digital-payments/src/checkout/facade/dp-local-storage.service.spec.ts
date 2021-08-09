@@ -2,7 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { DpLocalStorageService } from './dp-local-storage.service';
 import { StatePersistenceService } from '@spartacus/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
+
 const initialState: DpPaymentRequest = {};
+
 
 describe('DpLocalStorageService', () => {
   let service: DpLocalStorageService;
@@ -10,10 +12,10 @@ describe('DpLocalStorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+      providers: [
+        StatePersistenceService,
       ],
     });
-
     service = TestBed.inject(DpLocalStorageService);
     persistenceService = TestBed.inject(StatePersistenceService);
     spyOn(persistenceService, 'syncWithStorage').and.stub();
@@ -27,25 +29,32 @@ describe('DpLocalStorageService', () => {
   describe('syncCardRegistrationState()', () => {
     it('should sync state with storage', () => {
       service.syncCardRegistrationState(initialState);
-
-      expect(persistenceService.syncWithStorage).toHaveBeenCalled();
+      expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
+        jasmine.objectContaining(
+          {
+          key: 'digital-payment.checkout.request',
+          state$: jasmine.objectContaining(initialState),
+          }
+        )
+      );
     });
   });
 
   describe('readCardRegistrationState()', () => {
     it('should read state from storage', () => {
       service.readCardRegistrationState();
-
       expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
         key: 'digital-payment.checkout.request',
       });
     });
 
-    it('should read state from storage', () => {
+    it('should call clearDpStorage() to reset state to empty', () => {
+      spyOn(service as any, 'clearDpStorage');
       service.readCardRegistrationState();
-
-      expect(persistenceService.syncWithStorage).toHaveBeenCalled();
+      expect(service['clearDpStorage']).toHaveBeenCalled();
     });
   });
 });
+
+
 

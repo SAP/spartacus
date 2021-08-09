@@ -12,10 +12,8 @@ import {
   RouterModule,
   convertToParamMap,
 } from '@angular/router';
-
+import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { Observable, of } from 'rxjs';
 import { Component } from '@angular/core';
@@ -72,6 +70,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
       ],
       declarations: [
         DpPaymentCallbackComponent,
@@ -193,6 +192,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
       ],
       declarations: [
         DpPaymentCallbackComponent,
@@ -252,4 +252,5 @@ describe('DpPaymentCallbackComponent without query param', () => {
     });
   });
 });
+
 

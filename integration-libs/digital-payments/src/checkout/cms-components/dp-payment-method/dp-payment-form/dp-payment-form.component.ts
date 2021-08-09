@@ -27,7 +27,7 @@ export class DpPaymentFormComponent implements OnInit {
       if (request?.url) {
         this.dpStorageService.syncCardRegistrationState(request);
         this.redirect(request.url);
-      } else if (request === null) {
+      } else if (request) {
         this.globalMsgService.add(
           { key: 'dpPaymentForm.error.redirect' },
           GlobalMessageType.MSG_TYPE_ERROR

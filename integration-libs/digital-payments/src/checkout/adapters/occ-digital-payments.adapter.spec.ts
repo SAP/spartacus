@@ -1,23 +1,22 @@
 import { MockOccEndpointsService } from './../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { OccDigitalPaymentsAdapter } from './occ-digital-payments.adapter';
 import { TestBed } from '@angular/core/testing';
-
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService, ConverterService, } from '@spartacus/core';
 import { HttpRequest } from '@angular/common/http';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
+import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 
 const mockSessionId = 'mockSessionId';
 const mockSignature = 'mockSignature';
+const userId = 'current';
+const cartId = 'current';
 
 describe('OccDigitalPaymentsAdapter', () => {
   let adapter: DigitalPaymentsAdapter;
   let httpMock: HttpTestingController;
   let occEnpointsService: OccEndpointsService;
-
+  let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -37,6 +36,8 @@ describe('OccDigitalPaymentsAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    converterService = TestBed.inject(ConverterService);
+    spyOn(converterService, 'pipeable').and.callThrough();
   });
 
   afterEach(() => {
@@ -49,17 +50,24 @@ describe('OccDigitalPaymentsAdapter', () => {
 
   it('should create payment details', () => {
     adapter.createPaymentDetails(mockSessionId, mockSignature).subscribe();
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.method === 'POST';
-    }, `POST method and url`);
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
+    const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+      return ( req.method === 'POST'&&
+      req.urlWithParams === `/paymentDetails?sid=${mockSessionId}&sign=${mockSignature}` );
+    });
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('paymentDetails', {urlParams: { userId, cartId }});
+    expect(converterService.pipeable).toHaveBeenCalledWith( DP_DETAILS_NORMALIZER );
+    mockReq.flush('');
   });
 
   it('should create payment request', () => {
     adapter.createPaymentRequest().subscribe();
-    httpMock.expectOne((req: HttpRequest<any>) => {
+    const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'POST';
-    }, `POST method and url`);
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
+    });
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('paymentRequest', {urlParams: { userId, cartId }});
+    expect(converterService.pipeable).toHaveBeenCalledWith( DP_REQUEST_NORMALIZER );
+    mockReq.flush('');
   });
 });
+

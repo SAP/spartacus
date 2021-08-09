@@ -1,15 +1,21 @@
 import { PaymentDetails } from '@spartacus/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
+import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
-const initialPaymentRequestState: DpPaymentRequest | undefined = undefined;
-const initialPaymentDetailsState: PaymentDetails | undefined = undefined;
+const initialPaymentRequestState: DpPaymentRequest | undefined = {};
+const initialPaymentDetailsState: PaymentDetails | undefined = {};
 
+class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter{
+  createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(of({}));
+  createPaymentDetails = createSpy('createPaymentDetails').and.returnValue(of({}));
+}
 describe('DpCheckoutPaymentService', () => {
   let service: DpCheckoutPaymentService;
-  let occEnpointsService: OccEndpointsService;
+  let dpAdapter: DigitalPaymentsAdapter;
   const signature = 'mockSignature';
   const sessionId = 'mockSessionId';
 
@@ -17,10 +23,13 @@ describe('DpCheckoutPaymentService', () => {
     TestBed.configureTestingModule({
       imports: [
       ],
+      providers: [
+        DpCheckoutPaymentService,
+        { provide: DigitalPaymentsAdapter, useClass: MockDigitalPaymentsAdapter },
+      ],
     });
     service = TestBed.inject(DpCheckoutPaymentService);
-    occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    dpAdapter = TestBed.inject(DigitalPaymentsAdapter);
   });
 
   it('should be created', () => {
@@ -29,13 +38,12 @@ describe('DpCheckoutPaymentService', () => {
 
   it('should load card registration details', () => {
     service.getCardRegistrationDetails();
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
-    expect(service.getCardRegistrationDetails).toHaveBeenCalled();
+    expect(dpAdapter.createPaymentRequest).toHaveBeenCalled();
   });
 
  it('should load checkout payment details', () => {
     service.createPaymentDetails(sessionId, signature);
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
+    expect(dpAdapter.createPaymentDetails).toHaveBeenCalledWith(sessionId, signature);
   });
 
   it('should get card registration details', () => {
@@ -48,7 +56,6 @@ describe('DpCheckoutPaymentService', () => {
       .unsubscribe();
 
     expect(paymentRequest).toEqual(initialPaymentRequestState);
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();
   });
 
   it('should create payment details', () => {
@@ -61,6 +68,7 @@ describe('DpCheckoutPaymentService', () => {
       .unsubscribe();
 
     expect(paymentDetails).toEqual(initialPaymentDetailsState);
-    expect(occEnpointsService.buildUrl).toHaveBeenCalled();  });
+  });
 });
+
 

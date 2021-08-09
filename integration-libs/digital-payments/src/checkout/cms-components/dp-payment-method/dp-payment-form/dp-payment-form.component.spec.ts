@@ -10,6 +10,7 @@ import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Observable, of } from 'rxjs';
 import { Component } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 const postUrl = 'https://dummy.url';
 const mockDpPaymentRequest: DpPaymentRequest = {
@@ -44,14 +45,16 @@ describe('DpPaymentFormComponent', () => {
   let winRef: WindowRef;
   let msgService: GlobalMessageService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(
+    async () => {
+    await
+     TestBed.configureTestingModule({
       declarations: [
         DpPaymentFormComponent,
         MockTranslatePipe,
         MockSpinnerComponent,
       ],
-      imports: [],
+      imports: [StoreModule.forRoot({}),],
       providers: [
         {
           provide: DpCheckoutPaymentService,
@@ -115,4 +118,5 @@ describe('DpPaymentFormComponent', () => {
     });
   });
 });
+
 
