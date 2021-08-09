@@ -6,16 +6,10 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { BREAKPOINT } from 'projects/storefrontlib/src/layout';
 import { BreakpointService } from 'projects/storefrontlib/src/layout/breakpoint/breakpoint.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { Tab, TabConfig } from './Tab';
-
-export enum TAB_TYPE {
-  TAB = 'TAB',
-  ACCORDIAN = 'ACCORDIAN',
-}
+import { Tab, TabConfig, TAB_TYPE } from './Tab';
 
 @Component({
   selector: 'cx-tab',
@@ -24,20 +18,11 @@ export enum TAB_TYPE {
 })
 export class TabComponent implements OnInit {
   @Input() tabs$: Observable<Tab[]>;
-  @Input() classes: string = '';
   @Input() config: TabConfig;
 
   openTabs$: BehaviorSubject<number[]>;
 
-  mode$: Observable<TAB_TYPE> = this.breakpointService.isUp(BREAKPOINT.md).pipe(
-    map((isUp: boolean) => {
-      return this.config.mode
-        ? this.config.mode
-        : isUp
-        ? TAB_TYPE.TAB
-        : TAB_TYPE.ACCORDIAN;
-    })
-  );
+  mode$: Observable<TAB_TYPE>;
 
   @ViewChildren('tabHeader')
   tabHeaders: QueryList<any>;
@@ -46,6 +31,7 @@ export class TabComponent implements OnInit {
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
+    this.mode$ = this.getMode();
   }
 
   /**
@@ -170,5 +156,17 @@ export class TabComponent implements OnInit {
             : tabNum;
       });
     return tabNum;
+  }
+
+  protected getMode(): Observable<TAB_TYPE> {
+    return this.config.mode
+      ? of<TAB_TYPE>(this.config.mode)
+      : this.config.breakpoint
+      ? this.breakpointService
+          .isUp(this.config.breakpoint)
+          .pipe(
+            map((isUp: boolean) => (isUp ? TAB_TYPE.TAB : TAB_TYPE.ACCORDIAN))
+          )
+      : of<TAB_TYPE>(TAB_TYPE.TAB);
   }
 }

@@ -18,13 +18,8 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { defaultTabConfig, Tab } from '../tab/Tab';
+import { Tab } from '../tab/Tab';
 
-/**
- * @deprecated in 4.1
- * 
- * This component will be replaced by `TabComponent`.
- */
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
@@ -41,7 +36,11 @@ export class TabParagraphContainerComponent
 
   subscription: Subscription;
 
-  tabConfig = defaultTabConfig;
+  tabConfig = {
+    label: 'Product Information',
+    openTabs: [0],
+    breakpoint: BREAKPOINT.md,
+  };
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,

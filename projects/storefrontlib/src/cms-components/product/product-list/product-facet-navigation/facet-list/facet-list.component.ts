@@ -17,8 +17,8 @@ import { Facet } from '@spartacus/core';
 import {
   Tab,
   TabConfig,
+  TAB_TYPE,
 } from 'projects/storefrontlib/src/cms-components/content/tab/Tab';
-import { TAB_TYPE } from 'projects/storefrontlib/src/cms-components/content/tab/tab.component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';

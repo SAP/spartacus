@@ -1,5 +1,5 @@
 import { TemplateRef } from '@angular/core';
-import { TAB_TYPE } from './tab.component';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export interface Tab {
   headerKey?: string;
@@ -17,10 +17,11 @@ export interface Tab {
 
 export interface TabConfig {
   /**
-   * 
+   *
    */
   label?: string;
   mode?: TAB_TYPE;
+  breakpoint?: BREAKPOINT;
   /**
    * The indexes of tabs to have open initially.
    */
@@ -31,6 +32,7 @@ export interface TabConfig {
   maxOpenTabs?: number;
 }
 
-export const defaultTabConfig: TabConfig = {
-  openTabs: [0],
-};
+export enum TAB_TYPE {
+  TAB = 'TAB',
+  ACCORDIAN = 'ACCORDIAN',
+}

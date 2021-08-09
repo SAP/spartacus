@@ -190,7 +190,9 @@ $useTabsOnPDP: false !default;
 }
 
 %cx-tab-paragraph-container {
-  @if $useTabsOnPDP == true {
+  @if $useTabsComponent == true {
+    @extend %cx-tab !optional;
+  } @else if $useTabsOnPDP == true {
     @extend %pdpTabs !optional;
   } @else {
     @extend %pdpFlat !optional;
