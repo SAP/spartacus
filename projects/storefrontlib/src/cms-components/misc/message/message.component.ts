@@ -13,9 +13,6 @@ export class MessageComponent {
   @Input()
   type: GlobalMessageType;
 
-  @Input()
-  timeout: number | null = null;
-
   @Output()
   clear: EventEmitter<void> = new EventEmitter();
 

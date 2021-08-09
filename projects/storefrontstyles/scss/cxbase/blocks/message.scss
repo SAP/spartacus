@@ -2,7 +2,6 @@
 @import '../../mixins';
 @import '~bootstrap/scss/alert';
 
-//alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
 .message {
   color: var(--cx-color, var(--cx-color-text));
   margin-bottom: 30px;
@@ -45,7 +44,7 @@
 
     &::before {
       display: var(--cx-display, inline-block);
-      font-size: 20px;
+      font-size: var(--cx-font-size, 1.25rem);
       font-weight: $font-weight-bold;
       height: var(--cx-height, 26px);
       position: var(--cx-position, relative);
