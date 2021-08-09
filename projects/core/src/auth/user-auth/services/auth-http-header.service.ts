@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
+  defer,
   EMPTY,
   merge,
   Observable,
@@ -309,16 +310,24 @@ export class AuthHttpHeaderService {
   initAndHandleExpiredToken(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
-    // in order to initialize the refresh token stream (TODO: any other particular streams?), we are subscribing to the token changes
-    this.retryToken$
-      .pipe(take(1))
-      .subscribe((token) => this.refreshTokenTrigger$.next(token));
-
-    // TODO: again, why do we have to subscribe for the second time?
-    return this.retryToken$.pipe(
-      skipWhile((token) => token?.access_token === requestToken.access_token),
-      take(1)
-    );
+    return defer(() => {
+      // flag to only refresh token only on first emission
+      let refreshTriggered = false;
+      return this.retryToken$.pipe(
+        tap((token) => {
+          // we want to refresh token only when it's still old
+          if (
+            token?.access_token === requestToken?.access_token &&
+            !refreshTriggered
+          ) {
+            this.refreshTokenTrigger$.next(token);
+          }
+          refreshTriggered = true;
+        }),
+        skipWhile((token) => token?.access_token === requestToken.access_token),
+        take(1)
+      );
+    });
   }
 
   protected createNewRequestWithNewToken(
