@@ -135,7 +135,7 @@ export class AuthHttpHeaderService {
     return this.isOccUrl(request.url);
   }
 
-  public shouldHandleRequest(request: HttpRequest<any>): boolean {
+  public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
     return !hasAuthorizationHeader && isOccUrl;
