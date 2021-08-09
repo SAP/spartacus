@@ -10,26 +10,24 @@ import {
   FileValidity,
   ImportCsvService,
   FilesFormValidators,
-  InvalidFileInfo,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { FormUtils, LaunchDialogService } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FilesFormValidators],
 })
 export class ImportEntriesFormComponent implements OnInit {
-  form: FormGroup = this.buildForm();
+  form: FormGroup;
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
-  fileError: InvalidFileInfo = {};
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -57,6 +55,7 @@ export class ImportEntriesFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((fileValidity: FileValidity) => {
         this.fileValidity = fileValidity;
+        this.form = this.buildForm();
       });
   }
 
@@ -64,50 +63,21 @@ export class ImportEntriesFormComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  loadFile() {
-    // We expect at most one file in the FileList:
-    const file: File = this.form.get('file')?.value?.[0];
-    if (!file) {
+  save() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(this.form);
       return;
     }
 
-    this.fileError = {};
-    of(file)
-      .pipe(
-        // tap((fileData: File) => {
-        //   this.validateMaxSize(fileData);
-        // }),
-        switchMap(
-          (fileData: File) =>
-            <Observable<string>>this.importService.loadFile(fileData)
-        ),
-        map((result: string) => this.importService.readCsvData(result))
-        // tap((data: string[][]) => {
-        //   this.validateEmpty(data);
-        //   this.validateParsable(data);
-        // }),
-        // finalize(() => {
-        //   this.form.get('file')?.updateValueAndValidity();
-        // })
-      )
-      .subscribe(
-        (data: string[][]) => {
-          this.loadedFile = data;
-        },
-        () => {
-          this.loadedFile = null;
-        }
-      );
-  }
-
-  submit() {
-    if (this.loadedFile) {
+    const file: File = this.form.get('file')?.value?.[0];
+    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
       this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(this.loadedFile),
+        products: this.importToCartService.csvDataToProduct(loadedFile),
         name: this.form.get('name')?.value,
         description: this.form.get('description')?.value,
       });
-    }
+    });
   }
 
   protected buildForm(): FormGroup {
@@ -121,8 +91,9 @@ export class ImportEntriesFormComponent implements OnInit {
           this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
         ],
         [
-          this.filesFormValidators.emptyFile,
+          this.filesFormValidators.emptyFile(this.importService),
           this.filesFormValidators.parsableFile(
+            this.importService,
             this.importToCartService.isDataParsableToProducts
           ),
         ]
@@ -141,26 +112,4 @@ export class ImportEntriesFormComponent implements OnInit {
     );
     return form;
   }
-
-  // protected validateMaxSize(file: File) {
-  //   const maxSize = this.fileValidity?.maxSize;
-  //   if (maxSize && file.size / 1000000 > maxSize) {
-  //     this.fileError.tooLarge = { maxSize };
-  //     throw Error();
-  //   }
-  // }
-  //
-  // protected validateEmpty(data: string[][]) {
-  //   if (data.toString().length === 0) {
-  //     this.fileError.empty = true;
-  //     throw Error();
-  //   }
-  // }
-  //
-  // protected validateParsable(data: string[][]) {
-  //   if (!this.importToCartService.isDataParsable(data)) {
-  //     this.fileError.notParsable = true;
-  //     throw Error();
-  //   }
-  // }
 }

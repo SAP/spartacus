@@ -9,11 +9,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ImportCsvService } from './import-csv.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FilesFormValidators {
-  constructor(protected importService: ImportCsvService) {}
+  constructor(protected importCsvService: ImportCsvService) {}
   /**
    * Checks max size of file
    *
@@ -26,37 +24,69 @@ export class FilesFormValidators {
   maxSize(maxSize?: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
-      if (control.value && Array.isArray(control.value)) {
-        control.value.every((file: File) => {
-          if (maxSize && file.size / 1000000 > maxSize) {
-            errors.tooLarge = { maxSize };
-          }
-        });
-      }
+      const files: File[] = Array.from(control.value);
+      files.forEach((file: File) => {
+        if (maxSize && file.size / 1000000 > maxSize) {
+          errors.tooLarge = { maxSize };
+        }
+      });
       return Object.keys(errors).length === 0 ? null : errors;
     };
   }
 
-  emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
-    const errors: ValidationErrors = {};
-    const file: File = control.value[0];
-    return this.importService.loadCsvData(file).pipe(
-      map((data: string[][]) => {
-        if (data.toString().length === 0) {
-          errors.empty = true;
-        }
-      }),
-      map(() => (Object.keys(errors).length === 0 ? null : errors))
-    );
+  // emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
+  //   const errors: ValidationErrors = {};
+  //   const file: File = control.value[0];
+  //   return this.importCsvService.loadCsvData(file).pipe(
+  //     map((data: string[][]) => {
+  //       if (data.toString().length === 0) {
+  //         errors.empty = true;
+  //       }
+  //     }),
+  //     map(() => (Object.keys(errors).length === 0 ? null : errors))
+  //   );
+  // }
+  //
+  // parsableFile(
+  //   isDataParsable: (data: string[][]) => Boolean
+  // ): AsyncValidatorFn {
+  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
+  //     const errors: ValidationErrors = {};
+  //     const file: File = control.value[0];
+  //     return this.importCsvService.loadCsvData(file).pipe(
+  //       map((data: string[][]) => {
+  //         if (!isDataParsable(data)) {
+  //           errors.notParsable = true;
+  //         }
+  //       }),
+  //       map(() => (Object.keys(errors).length === 0 ? null : errors))
+  //     );
+  //   };
+  // }
+
+  emptyFile(importCsvService: ImportCsvService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const errors: ValidationErrors = {};
+      const file: File = control.value[0];
+      return importCsvService.loadCsvData(file).pipe(
+        map((data: string[][]) => {
+          if (data.toString().length === 0) {
+            errors.empty = true;
+          }
+        }),
+        map(() => (Object.keys(errors).length === 0 ? null : errors))
+      );
+    };
   }
 
   parsableFile(
+    importCsvService: ImportCsvService,
     isDataParsable: (data: string[][]) => Boolean
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
-      return this.importService.loadCsvData(file).pipe(
+      return importCsvService.loadCsvData(file).pipe(
         map((data: string[][]) => {
           if (!isDataParsable(data)) {
             errors.notParsable = true;
