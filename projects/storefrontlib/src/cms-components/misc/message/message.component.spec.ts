@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
@@ -17,9 +17,10 @@ const mockCssClassForMessage: Record<string, boolean> = {
   'message-danger': false,
 };
 
-fdescribe('MessageComponent', () => {
+describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -33,6 +34,8 @@ fdescribe('MessageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
+    fixture.detectChanges();
   });
 
   it('should create message component', () => {
@@ -41,12 +44,14 @@ fdescribe('MessageComponent', () => {
 
   it('should return proper css class base on type from input', () => {
     component.type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+    fixture.detectChanges();
 
     expect(component.getCssClassesForMessage).toEqual(mockCssClassForMessage);
   });
 
   it('should return proper icon type base on type from input', () => {
     component.type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+    fixture.detectChanges();
 
     expect(component.getIconType).toEqual(ICON_TYPE.SUCCESS);
   });
@@ -55,7 +60,27 @@ fdescribe('MessageComponent', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
     const element = testFixture.debugElement.query(By.css('cx-message'))
       .nativeElement;
-
+    console.log('****1 element', element);
     expect(element.textContent).toEqual('Test');
+  });
+
+  it('should show close button and trigger close action', () => {
+    spyOn(component.close, 'emit');
+
+    const button = el.query(By.css('.message .close')).nativeElement;
+    button.click();
+
+    expect(button).toBeTruthy();
+    expect(component.close.emit).toHaveBeenCalled();
+  });
+
+  it('should show message component with text in header', () => {
+    component.text = 'Test';
+    fixture.detectChanges();
+
+    const text = el.query(By.css('.message .message-header .message-text'))
+      .nativeElement;
+
+    expect(text.textContent).toEqual('Test');
   });
 });
