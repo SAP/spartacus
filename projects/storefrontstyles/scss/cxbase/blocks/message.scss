@@ -21,7 +21,7 @@
     flex-direction: row;
     justify-content: flex-start;
     line-height: var(--cx-line-height, 1.5);
-    min-height: 50px;
+    min-height: 45px;
     padding-bottom: 0;
     padding-inline-end: 4rem;
     padding-inline-start: 20px;
@@ -54,45 +54,45 @@
   }
 
   &-success {
-    background-color: mix(#ffffff, theme-color('success'), 80%);
-    border: var(--cx-border, none);
+    background-color: #f0fbe4;
+    border: 1px solid #5dac06;
 
-    .alert-icon {
+    .message-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-color-success));
+        color: #5dac06;
       }
     }
   }
 
   &-danger {
-    background-color: mix(#ffffff, theme-color('danger'), 85%);
-    border: var(--cx-border, none);
+    background-color: #fff1f1;
+    border: 1px solid #db0002;
 
     .message-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-color-danger));
+        color: #db0002;
       }
     }
   }
 
   &-info {
-    background-color: mix(#ffffff, theme-color('info'), 80%);
-    border: var(--cx-border, none);
+    background-color: #cbe6fe;
+    border: 1px solid #0084fe;
 
     .message-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-color-info));
+        color: #0084fe;
       }
     }
   }
 
   &-warning {
-    background-color: mix(#ffffff, theme-color('warning'), 78%);
-    border: var(--cx-border, none);
+    background-color: #fef0d2;
+    border: 1px solid #fbba22;
 
     .message-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-color-warning));
+        color: #fbba22;
       }
     }
   }

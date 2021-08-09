@@ -1,9 +1,24 @@
+import { Component } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { MessageComponent } from './message.component';
 
-describe('MessageComponent', () => {
-  let messageComponent: MessageComponent;
+@Component({
+  template: `<cx-message>Test</cx-message>`,
+})
+class TestHostComponent {}
+
+const mockCssClassForMessage: Record<string, boolean> = {
+  'message-success': true,
+  'message-info': false,
+  'message-warning': false,
+  'message-danger': false,
+};
+
+fdescribe('MessageComponent', () => {
+  let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
 
   beforeEach(
@@ -17,10 +32,30 @@ describe('MessageComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
-    messageComponent = fixture.componentInstance;
+    component = fixture.componentInstance;
   });
 
   it('should create message component', () => {
-    expect(messageComponent).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should return proper css class base on type from input', () => {
+    component.type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+
+    expect(component.getCssClassesForMessage).toEqual(mockCssClassForMessage);
+  });
+
+  it('should return proper icon type base on type from input', () => {
+    component.type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+
+    expect(component.getIconType).toEqual(ICON_TYPE.SUCCESS);
+  });
+
+  it('should show <ng-content> content', () => {
+    const testFixture = TestBed.createComponent(TestHostComponent);
+    const element = testFixture.debugElement.query(By.css('cx-message'))
+      .nativeElement;
+
+    expect(element.textContent).toEqual('Test');
   });
 });

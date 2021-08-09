@@ -14,13 +14,13 @@ export class MessageComponent {
   type: GlobalMessageType;
 
   @Output()
-  clear: EventEmitter<void> = new EventEmitter();
+  close: EventEmitter<void> = new EventEmitter();
 
   iconTypes = ICON_TYPE;
 
   constructor() {}
 
-  get getCssClassesForMessage(): any {
+  get getCssClassesForMessage(): Record<string, boolean> {
     return {
       'message-success': this.type === GlobalMessageType.MSG_TYPE_CONFIRMATION,
       'message-info': this.type === GlobalMessageType.MSG_TYPE_INFO,
@@ -29,7 +29,7 @@ export class MessageComponent {
     };
   }
 
-  get getIconType(): any {
+  get getIconType(): string {
     switch (this.type) {
       case GlobalMessageType.MSG_TYPE_CONFIRMATION:
         return ICON_TYPE.SUCCESS;
