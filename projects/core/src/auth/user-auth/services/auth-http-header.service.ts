@@ -75,7 +75,7 @@ export class AuthHttpHeaderService {
   protected newToken$ = this.token$.pipe(pairwise());
 
   /**
-   * Compares the previous and the new token in order to stop the refresh or logout processes
+   * Compares the previous and the new token in order to stop the refresh and logout processes
    */
   protected stopProgress$ = this.newToken$.pipe(
     tap(([oldToken, newToken]) => {
