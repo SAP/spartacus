@@ -28,9 +28,9 @@ export class CartAddEntrySuccessEvent extends CartEvent {
   static readonly type = 'CartAddEntrySuccessEvent';
   productCode: string;
   quantity: number;
-  entry: OrderEntry;
-  quantityAdded: number;
-  deliveryModeChanged: boolean;
+  entry?: OrderEntry;
+  quantityAdded?: number;
+  deliveryModeChanged?: boolean;
 }
 
 export class CartAddEntryFailEvent extends CartEvent {
@@ -40,6 +40,14 @@ export class CartAddEntryFailEvent extends CartEvent {
   static readonly type = 'CartAddEntryFailEvent';
   productCode: string;
   quantity: number;
+}
+
+export class CartRemoveEntryFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartRemoveEntryFailEvent';
+  entry: OrderEntry;
 }
 
 export class CartRemoveEntrySuccessEvent extends CartEvent {
@@ -55,6 +63,15 @@ export class CartUpdateEntrySuccessEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'CartUpdateEntrySuccessEvent';
+  quantity: number;
+  entry: OrderEntry;
+}
+
+export class CartUpdateEntryFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartUpdateEntryFailEvent';
   quantity: number;
   entry: OrderEntry;
 }

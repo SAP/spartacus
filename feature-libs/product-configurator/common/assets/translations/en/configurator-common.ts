@@ -11,6 +11,14 @@ export const configurator = {
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
+      items: '{{count}} item',
+      items_plural: '{{count}} items',
+      show: 'show',
+      hide: 'hide',
+      multipleWarnings: 'There are multiple warnings.',
+      reviewWarnings: 'Review these warnings',
+      multipleErrors: 'There are multiple errors.',
+      reviewErrors: 'Review these errors',
     },
     tabBar: {
       configuration: 'Configuration',
@@ -22,6 +30,8 @@ export const configurator = {
         '{{count}} issues must be resolved before checkout.',
     },
     attribute: {
+      id: 'ID',
+      quantity: 'Qty',
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',
       requiredAttribute: '{{param}} required',
@@ -30,11 +40,19 @@ export const configurator = {
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      deselectionNotPossible:
+        'Add a different product before removing this one',
     },
     button: {
       previous: 'Previous',
       next: 'Next',
       back: 'Back',
+      more: 'more',
+      less: 'less',
+      deselect: 'Deselect',
+      select: 'Select',
+      add: 'Add',
+      remove: 'Remove',
     },
     priceSummary: {
       basePrice: 'Base Price',
@@ -51,6 +69,7 @@ export const configurator = {
     overviewForm: {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
+      itemPrice: 'Item Price',
     },
     group: {
       general: 'General',

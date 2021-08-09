@@ -1,6 +1,6 @@
-import { PaginationOptions } from '../pagination.model';
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { PaginationOptions } from '../pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,4 +8,8 @@ import { Config } from '@spartacus/core';
 })
 export abstract class PaginationConfig {
   pagination?: PaginationOptions;
+}
+
+declare module '@spartacus/core' {
+  interface Config extends PaginationConfig {}
 }

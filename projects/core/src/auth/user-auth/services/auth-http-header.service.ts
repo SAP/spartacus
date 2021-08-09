@@ -1,13 +1,14 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -18,13 +19,19 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
   providedIn: 'root',
 })
 export class AuthHttpHeaderService {
+  /**
+   * Indicates whether the access token is being refreshed
+   */
+  protected refreshInProgress = false;
+
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected occEndpoints: OccEndpointsService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   /**
@@ -51,16 +58,16 @@ export class AuthHttpHeaderService {
   }
 
   protected isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseEndpoint());
+    return url.includes(this.occEndpoints.getBaseUrl());
   }
 
-  protected getAuthorizationHeader(request: HttpRequest<any>): string {
+  protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
     const rawValue = request.headers.get('Authorization');
     return rawValue;
   }
 
   protected createAuthorizationHeader(): { Authorization: string } | {} {
-    let token;
+    let token: AuthToken | undefined;
     this.authStorageService
       .getToken()
       .subscribe((tok) => (token = tok))
@@ -82,8 +89,10 @@ export class AuthHttpHeaderService {
     next: HttpHandler
   ): Observable<HttpEvent<AuthToken>> {
     return this.handleExpiredToken().pipe(
-      switchMap((token: AuthToken) => {
-        return next.handle(this.createNewRequestWithNewToken(request, token));
+      switchMap((token) => {
+        return token
+          ? next.handle(this.createNewRequestWithNewToken(request, token))
+          : EMPTY;
       })
     );
   }
@@ -92,10 +101,22 @@ export class AuthHttpHeaderService {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
+    // There might be 2 cases:
+    // 1. when user is already on some page (router is stable) and performs an UI action
+    // that triggers http call (i.e. button click to save data in backend)
+    // 2. when user is navigating to some page and a route guard triggers the http call
+    // (i.e. guard loading cms page data)
+    //
+    // In the second case, we want to remember the anticipated url before we navigate to
+    // the login page, so we can redirect back to that URL after user authenticates.
+    this.authRedirectService.saveCurrentNavigationUrl();
+
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout();
+
     this.routingService.go({ cxRoute: 'login' });
+
     this.globalMessageService.add(
       {
         key: 'httpHandlers.sessionExpired',
@@ -110,21 +131,27 @@ export class AuthHttpHeaderService {
    *
    * @return observable which omits new access_token. (Warn: might never emit!).
    */
-  protected handleExpiredToken(): Observable<AuthToken> {
+  protected handleExpiredToken(): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
     let oldToken: AuthToken;
     return stream.pipe(
-      tap((token: AuthToken) => {
-        if (token.access_token && token.refresh_token && !oldToken) {
+      tap((token) => {
+        if (
+          token.access_token &&
+          token.refresh_token &&
+          !oldToken &&
+          !this.refreshInProgress
+        ) {
+          this.refreshInProgress = true;
           this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
           this.handleExpiredRefreshToken();
         }
         oldToken = oldToken || token;
       }),
-      filter(
-        (token: AuthToken) => oldToken.access_token !== token.access_token
-      ),
+      filter((token) => oldToken.access_token !== token.access_token),
+      tap(() => (this.refreshInProgress = false)),
+      map((token) => (token?.access_token ? token : undefined)),
       take(1)
     );
   }

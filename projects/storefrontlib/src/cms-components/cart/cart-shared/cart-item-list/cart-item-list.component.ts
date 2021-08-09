@@ -9,7 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
-  FeatureConfigService,
   MultiCartService,
   OrderEntry,
   PromotionLocation,
@@ -17,7 +16,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 @Component({
@@ -26,8 +25,8 @@ import { CartItemComponentOptions } from '../cart-item/cart-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
-  private userId: string;
+  protected subscription = new Subscription();
+  protected userId: string;
 
   @Input() readonly: boolean = false;
 
@@ -40,10 +39,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() cartId: string;
 
-  private _items: OrderEntry[] = [];
-  form: FormGroup = this.featureConfigService?.isLevel('3.1')
-    ? new FormGroup({})
-    : undefined;
+  protected _items: OrderEntry[] = [];
+  form: FormGroup = new FormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
@@ -66,43 +63,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
-   */
-  // TODO(#11037): Remove deprecated constructors
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService
-  );
-
-  /**
-   * @deprecated since version 3.2
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
-   */
-  // TODO(#11037): Remove deprecated constructors
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService,
-    featureConfigService: FeatureConfigService,
-    userIdService: UserIdService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    multiCartService: MultiCartService
-  );
-
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    public featureConfigService?: FeatureConfigService,
-    protected userIdService?: UserIdService,
-    protected multiCartService?: MultiCartService
+    protected userIdService: UserIdService,
+    protected multiCartService: MultiCartService
   ) {}
 
   ngOnInit(): void {
@@ -114,15 +79,16 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The items we're getting form the input do not have a consistent model.
-   * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
+   * Resolves items passed to component input and updates 'items' field
    */
-  private resolveItems(items: OrderEntry[]): void {
+  protected resolveItems(items: OrderEntry[]): void {
     if (!items) {
       this._items = [];
       return;
     }
 
+    // The items we're getting from the input do not have a consistent model.
+    // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
@@ -136,40 +102,39 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
-      if (this.featureConfigService?.isLevel('3.1')) {
-        for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
-          if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-            if (this._items[i] && this.form) {
-              this.form.removeControl(this.getControlName(this._items[i]));
-            }
-            if (!items[i]) {
-              this._items.splice(i, 1);
-            } else {
-              this._items[i] = items[i];
-            }
+      for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
+        if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
+          if (this._items[i] && this.form) {
+            this.form.removeControl(this.getControlName(this._items[i]));
+          }
+          if (!items[i]) {
+            this._items.splice(i, 1);
+          } else {
+            this._items[i] = items[i];
           }
         }
-      } else {
-        this._items = items;
       }
     }
   }
 
-  private createForm(): void {
-    if (!this.featureConfigService?.isLevel('3.1')) {
-      this.form = new FormGroup({});
-    }
-
+  /**
+   * Creates form models for list items
+   */
+  protected createForm(): void {
     this._items.forEach((item) => {
       const controlName = this.getControlName(item);
       const group = new FormGroup({
         entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
-      if (!item.updateable || this.readonly) {
-        group.disable();
-      }
+
       this.form.addControl(controlName, group);
+
+      // If we disable form group before adding, disabled status will reset
+      // Which forces us to disable control after including to form object
+      if (!item.updateable || this.readonly) {
+        this.form.controls[controlName].disable();
+      }
     });
   }
 
@@ -196,21 +161,26 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
-      map((value) => {
-        if (value && this.selectiveCartService && this.options.isSaveForLater) {
-          this.selectiveCartService.updateEntry(
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value && this.cartId && this.userId) {
-          this.multiCartService?.updateEntry(
-            this.userId,
-            this.cartId,
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value) {
-          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
+      tap((value) => {
+        if (item.updateable && value) {
+          if (this.selectiveCartService && this.options.isSaveForLater) {
+            this.selectiveCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          } else if (this.cartId && this.userId) {
+            this.multiCartService?.updateEntry(
+              this.userId,
+              this.cartId,
+              value.entryNumber,
+              value.quantity
+            );
+          } else {
+            this.activeCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          }
         }
       }),
       map(() => <FormGroup>this.form.get(this.getControlName(item)))

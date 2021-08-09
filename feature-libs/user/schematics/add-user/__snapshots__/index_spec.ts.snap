@@ -1,0 +1,347 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus User schematics: ng-add Account feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { UserAccountModule } from \\"@spartacus/user/account\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule } from \\"@spartacus/user/account/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserAccountModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  })]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Account feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Account feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
+
+exports[`Spartacus User schematics: ng-add Account feature general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Spartacus User schematics: ng-add Profile feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { UserProfileModule } from \\"@spartacus/user/profile\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserProfileRootModule,
+    UserProfileModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Profile feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Profile feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
+
+exports[`Spartacus User schematics: ng-add Profile feature general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;

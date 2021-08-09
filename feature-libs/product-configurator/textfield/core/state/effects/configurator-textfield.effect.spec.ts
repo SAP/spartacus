@@ -9,7 +9,10 @@ import {
   CartModification,
   normalizeHttpError,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
@@ -27,6 +30,7 @@ const quantity = 1;
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -97,7 +101,10 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
@@ -113,7 +120,10 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case something goes wrong', () => {
     createMock.and.returnValue(throwError(errorResponse));
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
@@ -128,7 +138,9 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type readConfigurationFromCart if read from cart is successful', () => {
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );
@@ -146,7 +158,9 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case read from cart leads to an error', () => {
     readFromCartEntryMock.and.returnValue(throwError(errorResponse));
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );
@@ -165,6 +179,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   it('createConfiguration must not emit anything in case source action is not covered', () => {
     const action = new ConfiguratorTextfieldActions.CreateConfigurationSuccess({
       configurationInfos: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     });
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-');

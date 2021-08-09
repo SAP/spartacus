@@ -1,8 +1,10 @@
 export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
+    orderNumber: 'Order Number',
     replenishmentId: 'Replenishment #',
     purchaseOrderId: 'Purchase Order #',
+    purchaseOrderNumber: 'Purchase Order Number',
     emptyPurchaseOrderId: 'None',
     none: 'None {{value}}',
     placed: 'Placed',
@@ -11,10 +13,14 @@ export const myAccount = {
     costCenter: 'Cost Center',
     costCenterAndUnit: 'Cost Center / Unit',
     costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
+    methodOfPayment: 'Method of Payment',
     payByAccount: 'Pay by Account',
     paidByCreditCard: '(paid by credit card)',
     status: 'Status',
+    active: 'Active',
     shippedOn: 'Shipped on',
+    shippingMethod: 'Shipping Method',
+    placedOn: 'Placed on',
     startOn: 'Start On',
     nextOrderDate: 'Next Order Date',
     frequency: 'Frequency',
@@ -104,7 +110,7 @@ export const myAccount = {
     noReplenishmentOrders:
       'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
-    sortByMostRecent: 'Sort by Most recent',
+    sortBy: 'Sort by',
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
     purchaseOrderNumber: 'PO #',
@@ -124,24 +130,7 @@ export const myAccount = {
     accountClosedSuccessfully: 'Account closed with success',
     accountClosedFailure: 'Failed to close account',
   },
-  updateEmailForm: {
-    newEmailAddress: {
-      label: 'New email address',
-      placeholder: 'Enter email',
-    },
-    confirmNewEmailAddress: {
-      label: 'Confirm new email address',
-      placeholder: 'Enter email',
-    },
-    enterValidEmail: 'Please enter a valid email.',
-    bothEmailMustMatch: 'Both emails must match',
-    password: {
-      label: 'Password',
-      placeholder: 'Enter password',
-    },
-    pleaseInputPassword: 'Please input password',
-    emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
-  },
+
   updatePasswordForm: {
     oldPassword: {
       label: 'Old Password',
@@ -204,7 +193,7 @@ export const myAccount = {
     startDateDesc: 'Start Date (descending)',
     endDateAsc: 'End Date (ascending)',
     endDateDesc: 'End Date (descending)',
-    sortByMostRecent: 'Sort by Most recent',
+    sortBy: 'Sort by',
     notesPreffix:
       'You can set your preferred channels for receiving coupon notifications on the ',
     notesLink: 'Notification Channels',
@@ -229,7 +218,7 @@ export const myAccount = {
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
     BACK_IN_STOCK: 'Back In Stock',
-    sortByMostRecent: 'Sort by Most recent',
+    sortBy: 'Sort by',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
     remove: 'REMOVE',
@@ -249,7 +238,7 @@ export const myAccount = {
     orderId: 'Order #',
     date: 'Date Created',
     status: 'Status',
-    sortByMostRecent: 'Sort by Most recent',
+    sortBy: 'Sort by',
     statusDisplay_APPROVAL_PENDING: 'Approval Pending',
     statusDisplay_CANCELED: 'Cancelled',
     statusDisplay_CANCELLING: 'Cancelling',

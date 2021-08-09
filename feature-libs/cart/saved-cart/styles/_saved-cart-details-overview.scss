@@ -51,6 +51,7 @@ cx-saved-cart-details-overview {
         .cx-edit-container {
           display: flex;
           justify-content: space-between;
+          word-break: break-word;
 
           .cx-edit-cart {
             height: 100%;

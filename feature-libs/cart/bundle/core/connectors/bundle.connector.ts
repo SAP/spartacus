@@ -2,7 +2,11 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BundleStarter } from '../model/bundle.model';
 import { BundleAdapter } from './bundle.adapter';
-import { SearchConfig } from '@spartacus/core';
+import {
+  CartModification,
+  ProductSearchPage,
+  SearchConfig,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +30,7 @@ export class BundleConnector {
     userId: string,
     cartId: string,
     bundleStarter: BundleStarter
-  ): Observable<any> {
+  ): Observable<CartModification> {
     return this.adapter.bundleStart(userId, cartId, bundleStarter);
   }
 
@@ -50,7 +54,7 @@ export class BundleConnector {
     cartId: string,
     entryGroupNumber: number,
     searchConfig?: SearchConfig
-  ): Observable<any> {
+  ): Observable<ProductSearchPage> {
     return this.adapter.bundleAllowedProductsSearch(
       userId,
       cartId,

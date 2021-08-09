@@ -35,3 +35,7 @@ export abstract class MediaConfig {
    */
   imageLoadingStrategy?: ImageLoadingStrategy;
 }
+
+declare module '@spartacus/core' {
+  interface Config extends MediaConfig {}
+}

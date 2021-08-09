@@ -10,7 +10,7 @@ context('B2B - Saved Cart', () => {
       cy.clearLocalStorageMemory();
     });
 
-    describe.skip('Accessibility - keyboarding', () => {
+    describe('Accessibility - keyboarding', () => {
       describe('Cart page', () => {
         it('should conform to tabbing order', () => {
           savedCart.verifyCartPageTabbingOrder();
@@ -53,7 +53,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Restricted pages to anonymous user', () => {
+    describe('Restricted pages to anonymous user', () => {
       afterEach(() => {
         cy.location('pathname').should('contain', '/login');
       });
@@ -67,7 +67,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Cart page', () => {
+    describe('Cart page', () => {
       describe('Anonymous user', () => {
         beforeEach(() => {
           savedCart.addProductToCart(sampleData.products[0], 2);
@@ -104,7 +104,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Saved Cart Listing Page', () => {
+    describe('Saved Cart Listing Page', () => {
       beforeEach(() => {
         savedCart.loginB2bUser();
       });
@@ -113,6 +113,15 @@ context('B2B - Saved Cart', () => {
         savedCart.restoreCart(
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
+          true
+        );
+      });
+
+      it('should make cart active and not swap cart when active cart is empty, and clone saved cart', () => {
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          true,
           true
         );
       });
@@ -128,9 +137,23 @@ context('B2B - Saved Cart', () => {
           sampleData.savedActiveCartForm[2]
         );
       });
+
+      it('should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
+        savedCart.waitForCartPageData(sampleData.products[2]);
+        savedCart.visitCartPage();
+
+        savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
+
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          false,
+          true
+        );
+      });
     });
 
-    describe.skip('Saved Cart Details Page', () => {
+    describe('Saved Cart Details Page', () => {
       beforeEach(() => {
         savedCart.loginB2bUser();
       });

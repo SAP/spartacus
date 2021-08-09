@@ -26,7 +26,7 @@
                 { cxRoute: 'product', params: item.product } | cxUrl
               "
               cxModal="dismiss"
-              >{{ item.product.name }}</a
+              ><h2>{{ item.product.name }}</h2></a
             >
           </div>
           <div *ngIf="item.product.code" class="cx-code">
@@ -124,13 +124,13 @@
       >
         {{ 'addToCart.outOfStock' | cxTranslate }}
       </div>
+
+      <!-- Item Bundle Details Outlet -->
+      <ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
+
       <!-- Promotion -->
 
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
-      </ng-container>
+      <cx-promotions [promotions]="item.promotions"></cx-promotions>
 
       <!-- Actions -->
       <div
@@ -153,6 +153,7 @@
             class="link cx-action-link"
             [disabled]="quantityControl.disabled"
             (click)="removeItem()"
+            attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>

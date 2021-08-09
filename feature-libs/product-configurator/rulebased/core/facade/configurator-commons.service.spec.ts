@@ -6,10 +6,12 @@ import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
+import { productConfigurationWithConflicts } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -23,9 +25,9 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-let OWNER_PRODUCT: CommonConfigurator.Owner = {};
-let OWNER_CART_ENTRY: CommonConfigurator.Owner = {};
-let OWNER_ORDER_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -41,7 +43,7 @@ const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 
 const group1: Configurator.Group = {
-  id: GROUP_ID_1,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
   name: GROUP_NAME,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -53,38 +55,38 @@ const group1: Configurator.Group = {
     {
       name: ATTRIBUTE_NAME_2,
       uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
+      userInput: undefined,
     },
   ],
 };
 
 const group2: Configurator.Group = {
-  id: GROUP_ID_2,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_2),
   name: GROUP_NAME_2,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
 
 let productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
   nextOwner: OWNER_CART_ENTRY,
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
-let configCartObservable;
-let configOrderObservable;
-let isStableObservable;
-let cartObs;
+let configCartObservable: Observable<Configurator.Configuration>;
+let configOrderObservable: Observable<Configurator.Configuration>;
+let isStableObservable: Observable<boolean>;
+let cartObs: Observable<Cart>;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
@@ -102,6 +104,11 @@ class MockconfiguratorUtilsService {
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
+  }
+  getConfigurationFromState(
+    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+  ): Configurator.Configuration | undefined {
+    return configurationState.value;
   }
 }
 
@@ -184,26 +191,22 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
-
-    OWNER_PRODUCT = {
-      id: PRODUCT_CODE,
-      type: CommonConfigurator.OwnerType.PRODUCT,
-    };
-
-    OWNER_CART_ENTRY = {
-      id: '3',
-      type: CommonConfigurator.OwnerType.CART_ENTRY,
-    };
-
-    OWNER_ORDER_ENTRY = {
-      id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
-      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-    };
+    OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    );
+    OWNER_CART_ENTRY = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      '3'
+    );
+    OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)
+    );
 
     productConfiguration = {
-      configId: CONFIG_ID,
+      ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
       productCode: PRODUCT_CODE,
-      owner: OWNER_PRODUCT,
       groups: [group1, group2],
     };
 
@@ -274,7 +277,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
@@ -289,7 +300,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
+
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
@@ -308,11 +327,39 @@ describe('ConfiguratorCommonsService', () => {
       groupId: GROUP_ID_1,
     };
 
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
+  });
+
+  it('should update a configuration in case if no updateType parameter in the call', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
   describe('getConfigurationWithOverview', () => {
@@ -337,8 +384,11 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should not dispatch an action if overview is already present', (done) => {
       const configurationWithOverview: Configurator.Configuration = {
-        configId: CONFIG_ID,
-        overview: {},
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        overview: { configId: CONFIG_ID },
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)

@@ -1,6 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CART_MODIFICATION_NORMALIZER, ConverterService, OccEndpointsService, SearchConfig } from '@spartacus/core';
+import {
+  CART_MODIFICATION_NORMALIZER,
+  ConverterService,
+  OccEndpointsService,
+  PRODUCT_SEARCH_PAGE_NORMALIZER,
+  SearchConfig,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { BundleAdapter } from '../../core/connectors/bundle.adapter';
 import { BundleStarter } from '../../core/model/bundle.model';
@@ -11,7 +17,7 @@ export class OccBundleAdapter implements BundleAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) { }
+  ) {}
 
   /**
    * Starts a bundle once the productCode, its quantity, and a bundle templateId is provided. A successful result returns a CartModification response.
@@ -62,7 +68,7 @@ export class OccBundleAdapter implements BundleAdapter {
   public bundleAllowedProductsSearch(
     userId: string,
     cartId: string,
-    entryGroupId: number,
+    entryGroupNumber: number,
     searchConfig?: SearchConfig
   ): Observable<any> {
     const headers = new HttpHeaders({
@@ -72,7 +78,7 @@ export class OccBundleAdapter implements BundleAdapter {
     const url = this.occEndpointsService.getUrl('bundleAllowedProductsSearch', {
       userId,
       cartId,
-      entryGroupId,
+      entryGroupNumber,
     });
 
     return this.http
@@ -80,6 +86,6 @@ export class OccBundleAdapter implements BundleAdapter {
         headers,
         params: <HttpParams>searchConfig,
       })
-      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+      .pipe(this.converterService.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
   }
 }

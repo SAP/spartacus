@@ -1,5 +1,8 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
+// Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
+// of the rulebased entry point, and there is no index.ts file in this folder
+
 export namespace Configurator {
   export interface Attribute {
     attrCode?: number;
@@ -23,15 +26,18 @@ export namespace Configurator {
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
     retractTriggered?: boolean;
+    attributePriceTotal?: PriceDetails;
   }
 
   export interface Value {
-    valueCode?: string;
+    valueCode: string;
     name?: string;
     valueDisplay?: string;
     description?: string;
     selected?: boolean;
     quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];
@@ -39,14 +45,25 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    id?: string;
+    id: string;
     name?: string;
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
     consistent?: boolean;
-    subGroups?: Group[];
+    subGroups: Group[];
+  }
+
+  export interface ValueSupplement {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
+  }
+
+  export interface AttributeSupplement {
+    attributeUiKey: string;
+    valueSupplements: ValueSupplement[];
   }
 
   export interface Configuration {
@@ -55,14 +72,18 @@ export namespace Configurator {
     complete?: boolean;
     totalNumberOfIssues?: number;
     productCode?: string;
-    groups?: Group[];
-    flatGroups?: Group[];
+    groups: Group[];
+    flatGroups: Group[];
+    priceSupplements?: AttributeSupplement[];
     priceSummary?: PriceSummary;
     overview?: Overview;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    interactionState?: InteractionState;
+    interactionState: InteractionState;
+    updateType?: UpdateType;
+    errorMessages?: string[];
+    warningMessages?: string[];
   }
 
   export interface InteractionState {
@@ -75,7 +96,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
-    configId?: string;
+    configId: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
@@ -86,11 +107,17 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
     attribute: string;
     value: string;
+    productCode?: string;
+    type?: AttributeOverviewType;
+    quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -101,9 +128,9 @@ export namespace Configurator {
   }
 
   export interface PriceDetails {
-    currencyIso?: string;
+    currencyIso: string;
     formattedValue?: string;
-    value?: number;
+    value: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {
@@ -121,10 +148,10 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
-    cartId?: string;
-    cartEntryNumber?: string;
-    configuration?: Configurator.Configuration;
+    userId: string;
+    cartId: string;
+    cartEntryNumber: string;
+    configuration: Configurator.Configuration;
   }
 
   export interface Image {
@@ -156,6 +183,12 @@ export namespace Configurator {
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',
+
+    //introduced with CPQ
+
+    CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
+    DROPDOWN_PRODUCT = 'dropdownProduct',
+    RADIOBUTTON_PRODUCT = 'radioGroupProduct',
   }
 
   export enum ImageFormatType {
@@ -175,5 +208,15 @@ export namespace Configurator {
     USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
     USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
     NOT_IMPLEMENTED = 'not_implemented',
+  }
+  export enum UpdateType {
+    ATTRIBUTE = 'Attribute',
+    ATTRIBUTE_QUANTITY = 'AttributeQuantity',
+    VALUE_QUANTITY = 'ValueQuantity',
+  }
+
+  export enum AttributeOverviewType {
+    GENERAL = 'general',
+    BUNDLE = 'bundle',
   }
 }

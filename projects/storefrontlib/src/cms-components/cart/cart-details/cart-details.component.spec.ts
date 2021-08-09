@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -15,8 +15,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
@@ -37,13 +36,6 @@ class MockActiveCartService {
 interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
-}
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
 }
 
 @Component({
@@ -85,9 +77,9 @@ describe('CartDetailsComponent', () => {
     'SelectiveCartService',
     [
       'getCart',
-      'getLoaded',
       'removeEntry',
       'getEntries',
+      'isStable',
       'addEntry',
       'isEnabled',
     ]
@@ -121,14 +113,11 @@ describe('CartDetailsComponent', () => {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
           },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
-          },
         ],
       }).compileComponents();
 
       mockSelectiveCartService.isEnabled.and.returnValue(true);
+      mockSelectiveCartService.isStable.and.returnValue(of(true));
     })
   );
 
@@ -151,7 +140,6 @@ describe('CartDetailsComponent', () => {
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
     spyOn(activeCartService, 'isStable').and.returnValue(of(true));

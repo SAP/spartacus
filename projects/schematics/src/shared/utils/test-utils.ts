@@ -5,7 +5,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { findConstructor } from './file-utils';
 
 export function writeFile(
@@ -69,27 +69,4 @@ export function getParams(
     .filter((n) => n.kind === ts.SyntaxKind.Identifier)
     .map((n) => n.getText())
     .filter((text) => camelizedParamNames.includes(text));
-}
-
-export function updatePackageJson(
-  appTree: UnitTestTree,
-  filePath: string,
-  type: string,
-  pkg: string,
-  version: string
-): void {
-  const packageContent = appTree.read(normalize(filePath));
-  if (!packageContent) {
-    return;
-  }
-  const packageJson = JSON.parse(packageContent.toString());
-  if (!packageJson[type]) {
-    packageJson[type] = {};
-  }
-
-  if (!packageJson[type][pkg]) {
-    packageJson[type][pkg] = version;
-  }
-
-  appTree.overwrite(filePath, JSON.stringify(packageJson));
 }

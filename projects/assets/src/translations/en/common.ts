@@ -4,6 +4,7 @@ export const common = {
     delete: 'Delete',
     remove: 'Remove',
     edit: 'Edit',
+    restore: 'Restore',
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',
@@ -13,6 +14,11 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
+    close: 'Close',
+    loading: 'Loading',
+    menu: 'Menu',
+    reset: 'Reset',
+    search: 'Search',
   },
   pageMetaResolver: {
     category: {
@@ -20,14 +26,14 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
       findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      default_title: 'All products',
     },
     product: {
       description: '{{description}}',
@@ -43,6 +49,16 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
+    ariaLabelInput: 'Search here...',
+    ariaLabelSuggestions: 'typing suggestions',
+    ariaLabelProducts: 'product results',
+    initialDescription:
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    suggestionsResult: '{{ count }} suggestion and ',
+    suggestionsResult_plural: '{{ count }} suggestions and ',
+    productsResult: '{{ count }} product is available.',
+    productsResult_plural: '{{ count }} products are available.',
+    resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
@@ -93,11 +109,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -119,10 +135,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',

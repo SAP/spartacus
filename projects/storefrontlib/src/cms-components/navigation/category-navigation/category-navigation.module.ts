@@ -11,12 +11,14 @@ import { CategoryNavigationComponent } from './category-navigation.component';
       cmsComponents: {
         CategoryNavigationComponent: {
           component: CategoryNavigationComponent,
+          data: {
+            resetMenuOnClose: true,
+          },
         },
       },
     }),
   ],
   declarations: [CategoryNavigationComponent],
-  entryComponents: [CategoryNavigationComponent],
   exports: [CategoryNavigationComponent],
 })
 export class CategoryNavigationModule {}

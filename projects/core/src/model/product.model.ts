@@ -67,6 +67,7 @@ export interface Price {
 }
 
 export interface Stock {
+  isValueRounded?: boolean;
   stockLevel?: number;
   stockLevelStatus?: string;
 }
@@ -169,7 +170,14 @@ export interface Product {
   manufacturer?: string;
   multidimensional?: boolean;
   name?: string;
+  /**
+   * The product slug is used to create pretty URL for links to product detail pages.
+   *
+   * The slug typically avoid spaces (`%20`) or other characters that are encoded in the URL.
+   */
+  slug?: string;
   nameHtml?: string;
+
   numberOfReviews?: number;
   potentialPromotions?: Promotion[];
   price?: Price;

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
 import { LogoutGuard } from './logout.guard';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [CmsPageGuard, LogoutGuard],
+        canActivate: [LogoutGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },

@@ -33,28 +33,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { B2cStorefrontModule,  } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
-import { provideConfig } from '@spartacus/core';
-import { storeFinderTranslations } from '@spartacus/storefinder/assets';
-import { storeFinderTranslationChunksConfig } from '@spartacus/storefinder/assets';
-import { StoreFinderModule } from '@spartacus/storefinder';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     B2cStorefrontModule.withConfig({}),
-    StoreFinderRootModule,
-    StoreFinderModule,
     
   ],
-  providers: [
-    provideConfig({
-      i18n: {
-        resources: storeFinderTranslations,
-        chunks: storeFinderTranslationChunksConfig,
-      },
-    })],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
@@ -83,11 +70,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { B2cStorefrontModule, StorefrontModule } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
-import { provideConfig } from '@spartacus/core';
-import { storeFinderTranslations } from '@spartacus/storefinder/assets';
-import { storeFinderTranslationChunksConfig } from '@spartacus/storefinder/assets';
-import { StoreFinderModule } from '@spartacus/storefinder';
 
 @NgModule({
   declarations: [AppComponent],
@@ -95,16 +77,8 @@ import { StoreFinderModule } from '@spartacus/storefinder';
     BrowserModule,
     B2cStorefrontModule.withConfig({}),
     StorefrontModule,
-    StoreFinderRootModule,
-    StoreFinderModule,
   ],
-  providers: [
-    provideConfig({
-      i18n: {
-        resources: storeFinderTranslations,
-        chunks: storeFinderTranslationChunksConfig,
-      },
-    })],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

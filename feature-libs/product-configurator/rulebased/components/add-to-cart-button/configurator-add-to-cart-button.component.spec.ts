@@ -9,17 +9,18 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorRouter,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '1';
-const configuratorType = 'cpqconfigurator';
+const configuratorType = ConfiguratorType.VARIANT;
 
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
@@ -30,20 +31,20 @@ const navParamsOverview: any = {
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
 };
 
-const attributes = {};
+const mockOwner = mockProductConfiguration.owner;
 
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
-  owner: mockProductConfiguration.owner,
+  owner: mockOwner,
 };
 
 let component: ConfiguratorAddToCartButtonComponent;
 let fixture: ComponentFixture<ConfiguratorAddToCartButtonComponent>;
 let htmlElem: HTMLElement;
-let routerStateObservable = null;
-let productConfigurationObservable = null;
-let pendingChangesObservable = null;
+let routerStateObservable: Observable<any>;
+let productConfigurationObservable: Observable<any>;
+let pendingChangesObservable: Observable<any>;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
@@ -117,7 +118,7 @@ function performUpdateCart() {
 
 function ensureCartBound() {
   setRouterTestDataCartBoundAndConfigPage();
-  mockProductConfiguration.owner.id = CART_ENTRY_KEY;
+  mockOwner.id = CART_ENTRY_KEY;
   initialize();
 }
 
@@ -130,7 +131,9 @@ function ensureCartBoundAndOnOverview() {
 
 function ensureProductBound() {
   setRouterTestDataProductBoundAndConfigPage();
-  mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  if (mockProductConfiguration.nextOwner) {
+    mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  }
   initialize();
 }
 
@@ -197,8 +200,6 @@ describe('ConfigAddToCartButtonComponent', () => {
   );
 
   beforeEach(() => {
-    routerStateObservable = null;
-    productConfigurationObservable = null;
     pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
@@ -224,23 +225,30 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   it('should render button that is not disabled in case there are no pending changes', () => {
     initialize();
-    expect(htmlElem.querySelector('button').disabled).toBe(false);
+    const selector = htmlElem.querySelector('button');
+    if (selector) {
+      expect(selector.disabled).toBe(false);
+    } else {
+      fail();
+    }
   });
 
   it('should not disable button in case there are pending changes', () => {
     pendingChangesObservable = of(true);
     initialize();
-    expect(htmlElem.querySelector('button').disabled).toBe(false);
+    const selector = htmlElem.querySelector('button');
+    if (selector) {
+      expect(selector.disabled).toBe(false);
+    } else {
+      fail();
+    }
   });
 
   describe('onAddToCart', () => {
     it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        attributes
-      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
 
       expect(
         configuratorGroupsService.setGroupStatusVisited
@@ -286,10 +294,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        attributes
-      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
     });
 
     it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {
@@ -329,6 +334,7 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   describe('performNavigation', () => {
     it('should display message on addToCart ', () => {
+      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,
@@ -339,6 +345,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
     it('should display no message on addToCart in case this is not desired', () => {
+      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,

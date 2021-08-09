@@ -12,6 +12,7 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   title: 'Page title',
+  description: 'Page description',
   slots: {},
   robots: [PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX],
 };
@@ -94,6 +95,19 @@ describe('BasePageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual('Page title');
+  });
+
+  it(`should resolve 'Page description' for resolveDescription()`, () => {
+    let result: string | undefined;
+
+    service
+      .resolveDescription()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual('Page description');
   });
 
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {

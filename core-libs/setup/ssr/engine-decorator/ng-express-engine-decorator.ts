@@ -1,40 +1,19 @@
-import { NgModuleFactory, StaticProvider, Type } from '@angular/core';
+import { StaticProvider } from '@angular/core';
+import { NgSetupOptions } from '@nguniversal/express-engine';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
+import { Request } from 'express';
 import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
 import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { Request } from 'express';
-
-/**
- * These are the allowed options for the engine
- */
-export interface NgSetupOptions {
-  bootstrap: Type<{}> | NgModuleFactory<{}>;
-  providers?: StaticProvider[];
-}
-
-/**
- * These are the allowed options for the render
- */
-export interface RenderOptions extends NgSetupOptions {
-  req: {
-    protocol: string;
-    originalUrl: string;
-    get: (_: string) => string;
-  }; // Request;
-  res?: any; // Response;
-  url?: string;
-  document?: string;
-}
 
 export type NgExpressEngineInstance = (
   filePath: string,
-  options: RenderOptions,
-  callback: (err?: Error | null, html?: string) => void
+  options: object,
+  callback: (err?: Error | null | undefined, html?: string | undefined) => void
 ) => void;
 
 export type NgExpressEngine = (
-  setupOptions: NgSetupOptions
+  setupOptions: Readonly<NgSetupOptions>
 ) => NgExpressEngineInstance;
 
 /**
@@ -49,7 +28,7 @@ export class NgExpressEngineDecorator {
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions
+    optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
     const result = decorateExpressEngine(ngExpressEngine, optimizationOptions);
     return result;
@@ -58,11 +37,11 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions = {
+  optimizationOptions: SsrOptimizationOptions | null = {
     concurrency: 20,
     timeout: 3000,
   }
-) {
+): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
       ...setupOptions,
@@ -106,5 +85,20 @@ function getRequestUrl(req: Request): string {
 }
 
 function getRequestOrigin(req: Request): string {
-  return req.protocol + '://' + req.hostname;
+  // If express is resolving and trusting X-Forwarded-Host, we want to take it
+  // into an account to properly generate request origin.
+  const trustProxyFn = req.app.get('trust proxy fn');
+  let forwardedHost = req.get('X-Forwarded-Host');
+  if (forwardedHost && trustProxyFn(req.connection.remoteAddress, 0)) {
+    if (forwardedHost.indexOf(',') !== -1) {
+      // Note: X-Forwarded-Host is normally only ever a
+      //       single value, but this is to be safe.
+      forwardedHost = forwardedHost
+        .substring(0, forwardedHost.indexOf(','))
+        .trimRight();
+    }
+    return req.protocol + '://' + forwardedHost;
+  } else {
+    return req.protocol + '://' + req.get('host');
+  }
 }

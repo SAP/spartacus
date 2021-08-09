@@ -223,7 +223,6 @@ const librariesPaths = glob.sync(
   {
     ignore: [
       `projects/storefrontapp-e2e-cypress/${PACKAGE_JSON}`,
-      `projects/dev-schematics/${PACKAGE_JSON}`,
       `projects/storefrontapp/${PACKAGE_JSON}`,
     ],
   }
@@ -274,6 +273,9 @@ const repository = librariesPaths
 manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
+
+// collect and generate dependencies.json file.
+execSync(`yarn generate:deps --compare=true`);
 
 /**
  * Format all files.

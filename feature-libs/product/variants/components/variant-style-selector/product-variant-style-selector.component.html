@@ -1,0 +1,24 @@
+<ng-container>
+  <div class="variant-selector">
+    <div *ngIf="variants.selected" class="variant-name">
+      {{ 'productVariants.style' | cxTranslate }}:
+      <span class="style-name">{{
+        getVariantOptionValue(variants?.selected.variantOptionQualifiers)
+      }}</span>
+    </div>
+    <ul class="variant-list">
+      <li
+        *ngFor="let v of variants?.options"
+        [ngClass]="{ 'selected-variant': v.code === variants?.selected?.code }"
+      >
+        <button class="variant-button" (click)="changeStyle(v.code)">
+          <img
+            src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
+            title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+            alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+          />
+        </button>
+      </li>
+    </ul>
+  </div>
+</ng-container>

@@ -39,17 +39,20 @@ export class ConfiguratorAttributeFooterComponent implements OnInit {
   /**
    * Checks if attribute is a user input typed attribute with empty value.
    * Method will return false for domain based attributes
-   * @param input
+   * @param {string} input - user input
    */
-  isUserInputEmpty(input: string): boolean {
+  isUserInputEmpty(input?: string): boolean {
     return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
   protected needsUserInputMessage(): boolean {
-    return (
+    const uiType = this.attribute.uiType;
+    const needsMessage =
       this.attribute.required &&
       this.attribute.incomplete &&
-      this.isUserInputEmpty(this.attribute.userInput)
-    );
+      (uiType === Configurator.UiType.STRING ||
+        uiType === Configurator.UiType.NUMERIC) &&
+      this.isUserInputEmpty(this.attribute.userInput);
+    return needsMessage ?? false;
   }
 }

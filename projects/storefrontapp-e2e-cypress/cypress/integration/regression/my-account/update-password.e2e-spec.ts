@@ -43,7 +43,7 @@ describe('My Account - Update Password', () => {
       });
 
       it('should be able to cancel and go back to home', () => {
-        cy.get('cx-update-password button[type="button"]').click();
+        cy.get('cx-update-password a').click();
         cy.title().should('eq', PAGE_TITLE_HOME);
         alerts.getAlert().should('not.exist');
       });
@@ -53,7 +53,7 @@ describe('My Account - Update Password', () => {
         cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
         cy.get('[formcontrolname="newPassword"]').type(newPassword);
         cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-        cy.get('cx-update-password button[type="submit"]').click();
+        cy.get('cx-update-password button').click();
         cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
         alerts.getErrorAlert().should('exist');
       });
@@ -65,7 +65,7 @@ describe('My Account - Update Password', () => {
         );
         cy.get('[formcontrolname="newPassword"]').type(newPassword);
         cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-        cy.get('cx-update-password button[type="submit"]').click();
+        cy.get('cx-update-password button').click();
         cy.title().should('eq', PAGE_TITLE_HOME);
         alerts.getSuccessAlert().should('exist');
 

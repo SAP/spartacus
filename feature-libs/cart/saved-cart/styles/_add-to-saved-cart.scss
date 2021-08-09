@@ -24,4 +24,10 @@ cx-add-to-saved-cart {
       justify-content: flex-end;
     }
   }
+
+  button {
+    &:focus {
+      @include visible-focus();
+    }
+  }
 }

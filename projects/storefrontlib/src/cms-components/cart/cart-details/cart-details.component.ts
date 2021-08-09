@@ -7,13 +7,11 @@ import {
   EntryGroup,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -26,14 +24,11 @@ export class CartDetailsComponent implements OnInit {
   entryGroups$: Observable<EntryGroup[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-  promotions$: Observable<PromotionResult[]>;
   selectiveCartEnabled: boolean;
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService,
@@ -42,7 +37,6 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
-    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
 
     this.entries$ = this.activeCartService
       .getEntries()
@@ -54,11 +48,10 @@ export class CartDetailsComponent implements OnInit {
 
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
-    // TODO(#10547): Switch in 4.0 `selectiveCartService.getLoaded` to `selectiveCartService.isStable` method
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
       this.selectiveCartEnabled
-        ? this.selectiveCartService.getLoaded()
+        ? this.selectiveCartService.isStable()
         : of(false),
       this.authService.isUserLoggedIn(),
     ]).pipe(
@@ -68,10 +61,6 @@ export class CartDetailsComponent implements OnInit {
           ? cartLoaded && sflLoaded
           : cartLoaded
       )
-    );
-
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
     );
   }
 

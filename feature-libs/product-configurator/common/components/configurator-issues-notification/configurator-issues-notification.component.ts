@@ -14,8 +14,7 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContext: CartItemContext
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -26,6 +25,11 @@ export class ConfiguratorIssuesNotificationComponent {
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
+
+  // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
+  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
+    this.cartItemContext
+  );
 
   /**
    * Verifies whether the item has any issues.

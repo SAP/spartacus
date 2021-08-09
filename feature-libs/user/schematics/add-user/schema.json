@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "UserSchematics",
+  "title": "User Schematics",
+  "description": "Most of the Spartacus features require User Account feature to be properly configured.",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the user features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Account", "Profile"],
+        "type": "string"
+      },
+      "default": ["Account", "Profile"],
+      "x-prompt": "Which features would you like to set up from the User library? Please note that for most Spartacus features to be properly configured, the Account feature is required."
+    }
+  },
+  "required": []
+}

@@ -1,4 +1,8 @@
-import { CartModification, SearchConfig } from '@spartacus/core';
+import {
+  CartModification,
+  ProductSearchPage,
+  SearchConfig,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { BundleStarter } from '../model/bundle.model';
 
@@ -41,5 +45,5 @@ export abstract class BundleAdapter {
     cartId: string,
     entryGroupNumber: number,
     searchConfig?: SearchConfig
-  ): Observable<CartModification>;
+  ): Observable<ProductSearchPage>;
 }
