@@ -86,7 +86,7 @@ export class ImportToCartService {
     }));
   }
 
-  isDataParsable(data: string[][]): Boolean {
+  isDataParsableToProducts(data: string[][]): Boolean {
     const patternRegex = new RegExp(/(?<=\s|^)\d+(?=\s|$)/);
     return data.every((row) => patternRegex.test(row[1]));
   }

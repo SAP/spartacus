@@ -9,12 +9,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   FileValidity,
   ImportCsvService,
+  FilesFormValidators,
   InvalidFileInfo,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { FilesFormValidators } from 'feature-libs/cart/import-export/utils/validators/files-form-validators';
-import { ProductFilesFormValidators } from 'feature-libs/cart/import-export/utils/validators/product-files-form-validators';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -50,8 +49,7 @@ export class ImportEntriesFormComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
     protected importService: ImportCsvService,
-    protected filesFormValidators: FilesFormValidators,
-    protected productFilesFormValidators: ProductFilesFormValidators
+    protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit() {
@@ -124,7 +122,9 @@ export class ImportEntriesFormComponent implements OnInit {
         ],
         [
           this.filesFormValidators.emptyFile,
-          this.productFilesFormValidators.parsableFile,
+          this.filesFormValidators.parsableFile(
+            this.importToCartService.isDataParsableToProducts
+          ),
         ]
       )
     );

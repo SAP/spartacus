@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ImportCsvService } from 'feature-libs/cart/import-export/core/services';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ImportCsvService } from './import-csv.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +22,9 @@ export class FilesFormValidators {
    * @returns Uses 'tooLarge' validator error with maxSize property
    * @memberof CustomFormValidators
    */
-  maxSize(maxSize: number): ValidatorFn {
-    const validator = (control: AbstractControl): ValidationErrors | null => {
+
+  maxSize(maxSize?: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
       if (control.value && Array.isArray(control.value)) {
         control.value.every((file: File) => {
@@ -29,7 +35,6 @@ export class FilesFormValidators {
       }
       return Object.keys(errors).length === 0 ? null : errors;
     };
-    return validator;
   }
 
   emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -43,5 +48,22 @@ export class FilesFormValidators {
       }),
       map(() => (Object.keys(errors).length === 0 ? null : errors))
     );
+  }
+
+  parsableFile(
+    isDataParsable: (data: string[][]) => Boolean
+  ): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const errors: ValidationErrors = {};
+      const file: File = control.value[0];
+      return this.importService.loadCsvData(file).pipe(
+        map((data: string[][]) => {
+          if (!isDataParsable(data)) {
+            errors.notParsable = true;
+          }
+        }),
+        map(() => (Object.keys(errors).length === 0 ? null : errors))
+      );
+    };
   }
 }

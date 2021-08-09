@@ -48,7 +48,7 @@ export class ImportCsvService {
       );
   }
 
-  loadCsvData(file: File): Observable<string[][] | ProgressEvent<FileReader>> {
+  loadCsvData(file: File): Observable<string[][]> {
     return this.loadFile(file).pipe(
       map((res) => this.readCsvData(res as string))
     );
