@@ -29,12 +29,12 @@ export class AuthInterceptor implements HttpInterceptor {
     const shouldCatchError = this.authHttpHeaderService.shouldCatchError(
       request
     );
-    const shouldHandle = this.authHttpHeaderService.shouldHandleRequest(
+    const shouldAddAuthorizationHeader = this.authHttpHeaderService.shouldAddAuthorizationHeader(
       request
     );
 
     // getToken() will emit sync or async if there is refresh or logout in progress
-    const token$ = shouldHandle
+    const token$ = shouldAddAuthorizationHeader
       ? this.authHttpHeaderService.getToken().pipe(take(1))
       : of(undefined);
     const requestAndToken$ = token$.pipe(

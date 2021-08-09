@@ -1,7 +1,6 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  BehaviorSubject,
   combineLatest,
   defer,
   EMPTY,
@@ -50,15 +49,6 @@ export class AuthHttpHeaderService {
    * Starts the refresh of the access token
    */
   protected refreshTokenTrigger$ = new Subject<AuthToken>();
-  /**
-   * Indicates whether the access token is being refreshed
-   */
-  protected refreshInProgress$ = new BehaviorSubject<boolean>(false);
-
-  /**
-   * Indicates whether the logout is being performed
-   */
-  protected logoutInProgress$ = new BehaviorSubject<boolean>(false);
 
   /**
    * Internal token streams which reads the latest from the storage.
@@ -71,19 +61,16 @@ export class AuthHttpHeaderService {
     .pipe(map((token) => (token?.access_token ? token : undefined)));
 
   /**
-   * Keeps the previous and the new token
-   */
-  protected newToken$ = this.token$.pipe(pairwise());
-
-  /**
    * Compares the previous and the new token in order to stop the refresh or logout processes
    */
-  protected stopProgress$ = this.newToken$.pipe(
+  protected stopProgress$ = this.token$.pipe(
+    // Keeps the previous and the new token
+    pairwise(),
     tap(([oldToken, newToken]) => {
       // if we got the new token we know that either the refresh or logout finished
       if (oldToken?.access_token !== newToken?.access_token) {
-        this.refreshInProgress$.next(false);
-        this.logoutInProgress$.next(false);
+        this.authService.refreshInProgress$.next(false);
+        this.authService.logoutInProgress$.next(false);
       }
     })
   );
@@ -93,7 +80,10 @@ export class AuthHttpHeaderService {
    * If the refresh token is not present, it triggers the logout process
    */
   protected refreshToken$ = this.refreshTokenTrigger$.pipe(
-    withLatestFrom(this.refreshInProgress$, this.logoutInProgress$),
+    withLatestFrom(
+      this.authService.refreshInProgress$,
+      this.authService.logoutInProgress$
+    ),
     filter(
       ([, refreshInProgress, logoutInProgress]) =>
         !refreshInProgress && !logoutInProgress
@@ -101,10 +91,10 @@ export class AuthHttpHeaderService {
     tap(([token]) => {
       if (token?.refresh_token) {
         this.oAuthLibWrapperService.refreshToken();
-        this.refreshInProgress$.next(true);
+        this.authService.refreshInProgress$.next(true);
       } else {
         this.handleExpiredRefreshToken();
-        this.logoutInProgress$.next(true);
+        this.authService.logoutInProgress$.next(true);
       }
     })
   );
@@ -136,7 +126,7 @@ export class AuthHttpHeaderService {
     return this.isOccUrl(request.url);
   }
 
-  public shouldHandleRequest(request: HttpRequest<any>): boolean {
+  public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
     return !hasAuthorizationHeader && isOccUrl;
@@ -205,7 +195,7 @@ export class AuthHttpHeaderService {
   ): Observable<HttpEvent<AuthToken>> {
     // TODO:#13421 remove this if-statement
     if (initialToken) {
-      return this.initAndHandleExpiredToken(initialToken).pipe(
+      return this.getValidToken(initialToken).pipe(
         switchMap((token) =>
           // we break the stream with EMPTY when we don't have the token. This prevents sending the requests with `Authorization: bearer undefined` header
           token
@@ -237,7 +227,7 @@ export class AuthHttpHeaderService {
     //
     // In the second case, we want to remember the anticipated url before we navigate to
     // the login page, so we can redirect back to that URL after user authenticates.
-    this.logoutInProgress$.next(true);
+    this.authService.logoutInProgress$.next(true);
     this.authRedirectService.saveCurrentNavigationUrl();
 
     // Logout user
@@ -294,8 +284,8 @@ export class AuthHttpHeaderService {
   getToken(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
-      this.refreshInProgress$,
-      this.logoutInProgress$,
+      this.authService.refreshInProgress$,
+      this.authService.logoutInProgress$,
     ]).pipe(
       observeOn(queueScheduler),
       filter(
@@ -307,7 +297,7 @@ export class AuthHttpHeaderService {
   }
 
   // TODO:# naming
-  initAndHandleExpiredToken(
+  protected getValidToken(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
     return defer(() => {
