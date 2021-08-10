@@ -31,12 +31,13 @@ export class ProductImagesComponent {
   );
 
   expandImage = new BehaviorSubject(false);
-  selectedIndex: number;
+  selectedIndex: number | undefined;
 
   constructor(private currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
+    this.selectedIndex = this.mainMediaContainer.value?.zoom?.galleryIndex;
   }
 
   isActive(thumbnail: ImageGroup): Observable<boolean> {
