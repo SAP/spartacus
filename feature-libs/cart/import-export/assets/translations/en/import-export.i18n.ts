@@ -33,7 +33,10 @@ export const importEntriesDialog = {
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',
-    problems: '{{ problemsCount }} products were not imported.',
+    problems: '{{ count }} product was not imported totally.',
+    problems_plural: '{{ count }} products were not imported totally.',
+    errors: '{{ count }} product was not imported.',
+    errors_plural: '{{ count }} products were not imported.',
     messages: {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:

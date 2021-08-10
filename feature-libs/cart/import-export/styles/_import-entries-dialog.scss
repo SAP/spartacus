@@ -86,6 +86,11 @@ cx-import-entries-dialog {
           padding-inline-end: 5px;
         }
 
+        cx-icon.warning {
+          color: var(--cx-color-warning);
+          padding-inline-end: 5px;
+        }
+
         cx-icon.error {
           color: var(--cx-color-danger);
           padding-inline-end: 5px;

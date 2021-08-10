@@ -35,8 +35,8 @@ export class ImportEntriesDialogComponent {
     count: 0,
     total: 0,
     successesCount: 0,
-    problemsCount: 0,
-    messages: [],
+    problemsMessages: [],
+    errorsMessages: [],
   });
 
   constructor(
@@ -89,12 +89,17 @@ export class ImportEntriesDialogComponent {
         count: this.summary$.value.count + 1,
         successesCount: this.summary$.value.successesCount + 1,
       });
+    } else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
+      this.summary$.next({
+        ...this.summary$.value,
+        count: this.summary$.value.count + 1,
+        problemsMessages: [...this.summary$.value.problemsMessages, action],
+      });
     } else {
       this.summary$.next({
         ...this.summary$.value,
         count: this.summary$.value.count + 1,
-        problemsCount: this.summary$.value.problemsCount + 1,
-        messages: [...this.summary$.value.messages, action],
+        errorsMessages: [...this.summary$.value.errorsMessages, action],
       });
     }
   }

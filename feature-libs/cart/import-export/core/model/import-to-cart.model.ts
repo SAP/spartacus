@@ -38,8 +38,8 @@ export type ProductImportSummary = {
   count: number;
   total: number;
   successesCount: number;
-  problemsCount: number;
-  messages: ProductImportInfo[];
+  problemsMessages: ProductImportInfo[];
+  errorsMessages: ProductImportInfo[];
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {

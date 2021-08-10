@@ -17,15 +17,38 @@
     {{ 'importEntriesDialog.summary.successes' | cxTranslate: summary }}
   </p>
   <div
-    *ngIf="summary.problemsCount > 0"
+    *ngIf="summary.problemsMessages.length > 0"
     class="cx-import-entries-summary-problems"
   >
     <p>
-      <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
-      {{ 'importEntriesDialog.summary.problems' | cxTranslate: summary }}
+      <cx-icon class="warning" [type]="iconTypes.ERROR"></cx-icon>
+      {{
+        'importEntriesDialog.summary.problems'
+          | cxTranslate: { count: summary.problemsMessages.length }
+      }}
     </p>
     <ul>
-      <li *ngFor="let message of summary.messages">
+      <li *ngFor="let message of summary.problemsMessages">
+        {{
+          'importEntriesDialog.summary.messages.' + message.statusCode
+            | cxTranslate: message
+        }}
+      </li>
+    </ul>
+  </div>
+  <div
+    *ngIf="summary.errorsMessages.length > 0"
+    class="cx-import-entries-summary-errors"
+  >
+    <p>
+      <cx-icon class="error" [type]="iconTypes.RESET"></cx-icon>
+      {{
+        'importEntriesDialog.summary.errors'
+          | cxTranslate: { count: summary.errorsMessages.length }
+      }}
+    </p>
+    <ul>
+      <li *ngFor="let message of summary.errorsMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
             | cxTranslate: message
