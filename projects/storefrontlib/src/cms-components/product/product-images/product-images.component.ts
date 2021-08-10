@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { isNotNullable, Product } from '@spartacus/core';
+import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
@@ -10,7 +10,7 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  private mainMediaContainer = new BehaviorSubject(null);
+  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
 
   private product$: Observable<Product> = this.currentProductService
     .getProduct()
@@ -30,13 +30,16 @@ export class ProductImagesComponent {
     map(([, container]) => container)
   );
 
+  expandImage = new BehaviorSubject(false);
+  selectedIndex: number;
+
   constructor(private currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
   }
 
-  isActive(thumbnail): Observable<boolean> {
+  isActive(thumbnail: ImageGroup): Observable<boolean> {
     return this.mainMediaContainer.pipe(
       filter(Boolean),
       map((container: any) => {
@@ -83,5 +86,12 @@ export class ProductImagesComponent {
     }
 
     return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
+  }
+
+  /**
+   * Opens image zoom dialog.
+   */
+  triggerZoom(value: boolean): void {
+    this.expandImage.next(value);
   }
 }
