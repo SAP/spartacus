@@ -1,5 +1,5 @@
 import { OccConfig } from '@spartacus/core';
-import {DigitalPaymentsOccEndpoints } from './index';
+import { DigitalPaymentsOccEndpoints } from './index';
 
 const occDigitalPaymentsEndpoints: DigitalPaymentsOccEndpoints = {
   paymentRequest:

@@ -31,8 +31,9 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     const url = this.occEndpoints.buildUrl('paymentRequest', {
       urlParams: { userId, cartId },
     });
-    return this.http.post<OccDpPaymentRequest>(url, null)
-    .pipe(this.converter.pipeable(DP_REQUEST_NORMALIZER));
+    return this.http
+      .post<OccDpPaymentRequest>(url, null)
+      .pipe(this.converter.pipeable(DP_REQUEST_NORMALIZER));
   }
 
   createPaymentDetails(
@@ -47,7 +48,8 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     const url = this.occEndpoints.buildUrl('paymentDetails', {
       urlParams: { userId, cartId },
     });
-    return this.http.post<Occ.PaymentDetails>(url, null, { params: params })
-    .pipe(this.converter.pipeable(DP_DETAILS_NORMALIZER));
+    return this.http
+      .post<Occ.PaymentDetails>(url, null, { params: params })
+      .pipe(this.converter.pipeable(DP_DETAILS_NORMALIZER));
   }
 }

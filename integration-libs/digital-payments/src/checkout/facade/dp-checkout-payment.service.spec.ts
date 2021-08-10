@@ -9,9 +9,13 @@ import { of } from 'rxjs';
 const initialPaymentRequestState: DpPaymentRequest | undefined = {};
 const initialPaymentDetailsState: PaymentDetails | undefined = {};
 
-class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter{
-  createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(of({}));
-  createPaymentDetails = createSpy('createPaymentDetails').and.returnValue(of({}));
+class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
+  createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(
+    of({})
+  );
+  createPaymentDetails = createSpy('createPaymentDetails').and.returnValue(
+    of({})
+  );
 }
 describe('DpCheckoutPaymentService', () => {
   let service: DpCheckoutPaymentService;
@@ -21,11 +25,13 @@ describe('DpCheckoutPaymentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-      ],
+      imports: [],
       providers: [
         DpCheckoutPaymentService,
-        { provide: DigitalPaymentsAdapter, useClass: MockDigitalPaymentsAdapter },
+        {
+          provide: DigitalPaymentsAdapter,
+          useClass: MockDigitalPaymentsAdapter,
+        },
       ],
     });
     service = TestBed.inject(DpCheckoutPaymentService);
@@ -41,9 +47,12 @@ describe('DpCheckoutPaymentService', () => {
     expect(dpAdapter.createPaymentRequest).toHaveBeenCalled();
   });
 
- it('should load checkout payment details', () => {
+  it('should load checkout payment details', () => {
     service.createPaymentDetails(sessionId, signature);
-    expect(dpAdapter.createPaymentDetails).toHaveBeenCalledWith(sessionId, signature);
+    expect(dpAdapter.createPaymentDetails).toHaveBeenCalledWith(
+      sessionId,
+      signature
+    );
   });
 
   it('should get card registration details', () => {
@@ -70,5 +79,3 @@ describe('DpCheckoutPaymentService', () => {
     expect(paymentDetails).toEqual(initialPaymentDetailsState);
   });
 });
-
-

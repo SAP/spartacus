@@ -5,16 +5,13 @@ import { DpPaymentRequest } from './../models/dp-checkout.model';
 
 const initialState: DpPaymentRequest = {};
 
-
 describe('DpLocalStorageService', () => {
   let service: DpLocalStorageService;
   let persistenceService: StatePersistenceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        StatePersistenceService,
-      ],
+      providers: [StatePersistenceService],
     });
     service = TestBed.inject(DpLocalStorageService);
     persistenceService = TestBed.inject(StatePersistenceService);
@@ -30,12 +27,10 @@ describe('DpLocalStorageService', () => {
     it('should sync state with storage', () => {
       service.syncCardRegistrationState(initialState);
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        jasmine.objectContaining(
-          {
+        jasmine.objectContaining({
           key: 'digital-payment.checkout.request',
           state$: jasmine.objectContaining(initialState),
-          }
-        )
+        })
       );
     });
   });
@@ -55,6 +50,3 @@ describe('DpLocalStorageService', () => {
     });
   });
 });
-
-
-

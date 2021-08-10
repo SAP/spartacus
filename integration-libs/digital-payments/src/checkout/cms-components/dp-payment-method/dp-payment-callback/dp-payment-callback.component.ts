@@ -40,10 +40,7 @@ export class DpPaymentCallbackComponent implements OnInit {
   private fetchPaymentDetails() {
     const paymentRequest = this.dpStorageService.readCardRegistrationState();
 
-    if (
-      paymentRequest?.sessionId &&
-      paymentRequest?.signature
-    ) {
+    if (paymentRequest?.sessionId && paymentRequest?.signature) {
       this.dpPaymentService
         .createPaymentDetails(
           paymentRequest.sessionId,

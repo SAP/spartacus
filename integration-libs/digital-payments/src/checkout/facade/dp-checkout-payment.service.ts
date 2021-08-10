@@ -39,7 +39,8 @@ export class DpCheckoutPaymentService {
   > = this.command.create(
     (payload) =>
       this.dpAdapter
-        .createPaymentDetails(payload.sessionId, payload.signature).pipe(
+        .createPaymentDetails(payload.sessionId, payload.signature)
+        .pipe(
           map((payload: PaymentDetails) => {
             return payload;
           })

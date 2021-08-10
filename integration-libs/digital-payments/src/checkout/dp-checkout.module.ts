@@ -6,7 +6,10 @@ import { NgModule } from '@angular/core';
 import { DigitalPaymentsAdapter } from './adapters/digital-payments.adapter';
 import { provideDefaultConfig } from '@spartacus/core';
 import { occDigitalPaymentsConfig } from './adapters/config/occ-digital-payments-endpoint.config';
-import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './adapters/converters';
+import {
+  DP_DETAILS_NORMALIZER,
+  DP_REQUEST_NORMALIZER,
+} from './adapters/converters';
 
 @NgModule({
   imports: [DpPaymentMethodModule],

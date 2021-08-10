@@ -68,10 +68,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-        StoreModule.forRoot({}),
-      ],
+      imports: [RouterModule.forRoot([]), StoreModule.forRoot({})],
       declarations: [
         DpPaymentCallbackComponent,
         MockTranslatePipe,
@@ -167,9 +164,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     });
 
     it('should show unknown error when empty payment request', () => {
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        {}
-      );
+      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue({});
 
       component.ngOnInit();
 
@@ -190,10 +185,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-        StoreModule.forRoot({}),
-      ],
+      imports: [RouterModule.forRoot([]), StoreModule.forRoot({})],
       declarations: [
         DpPaymentCallbackComponent,
         MockTranslatePipe,
@@ -252,5 +244,3 @@ describe('DpPaymentCallbackComponent without query param', () => {
     });
   });
 });
-
-
