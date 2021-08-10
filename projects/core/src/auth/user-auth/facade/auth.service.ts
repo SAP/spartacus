@@ -87,6 +87,7 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
+    this.logoutInProgress$.next(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {

@@ -1,13 +1,13 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   combineLatest,
   defer,
   EMPTY,
-  merge,
   Observable,
   queueScheduler,
   Subject,
+  Subscription,
   using,
 } from 'rxjs';
 import {
@@ -38,7 +38,7 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthHttpHeaderService {
+export class AuthHttpHeaderService implements OnDestroy {
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -94,7 +94,6 @@ export class AuthHttpHeaderService {
         this.authService.refreshInProgress$.next(true);
       } else {
         this.handleExpiredRefreshToken();
-        this.authService.logoutInProgress$.next(true);
       }
     })
   );
@@ -105,9 +104,11 @@ export class AuthHttpHeaderService {
    * It returns the token to the subscribers.
    */
   protected retryToken$ = using(
-    () => merge(this.stopProgress$, this.refreshToken$).subscribe(),
+    () => this.refreshToken$.subscribe(),
     () => this.getToken()
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
+
+  protected stopProgressSubscription = new Subscription();
 
   constructor(
     protected authService: AuthService,
@@ -117,7 +118,16 @@ export class AuthHttpHeaderService {
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService
-  ) {}
+  ) {
+    // We need to have stopProgress$ stream active for the whole time,
+    // so when the logout finishes we finish it's process.
+    // It could happen when retryToken$ is not active.
+    this.stopProgressSubscription.add(this.stopProgress$.subscribe());
+  }
+
+  ngOnDestroy(): void {
+    this.stopProgressSubscription.unsubscribe();
+  }
 
   /**
    * Checks if request should be handled by this service (if it's OCC call).
@@ -227,7 +237,6 @@ export class AuthHttpHeaderService {
     //
     // In the second case, we want to remember the anticipated url before we navigate to
     // the login page, so we can redirect back to that URL after user authenticates.
-    this.authService.logoutInProgress$.next(true);
     this.authRedirectService.saveCurrentNavigationUrl();
 
     // Logout user
