@@ -4,14 +4,17 @@ import {
   importExportTranslationChunksConfig,
   importExportTranslations,
 } from '@spartacus/cart/import-export/assets';
-import { ImportExportRootModule } from '@spartacus/cart/import-export/root';
+import {
+  CART_IMPORT_EXPORT_FEATURE,
+  ImportExportRootModule,
+} from '@spartacus/cart/import-export/root';
 
 @NgModule({
   imports: [ImportExportRootModule],
   providers: [
     provideConfig({
       featureModules: {
-        cartImportExport: {
+        [CART_IMPORT_EXPORT_FEATURE]: {
           module: () =>
             import('@spartacus/cart/import-export').then(
               (m) => m.ImportExportModule
