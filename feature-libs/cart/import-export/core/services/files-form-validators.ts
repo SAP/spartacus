@@ -45,9 +45,9 @@ export class FilesFormValidators {
   emptyFile(control: AbstractControl): Observable<ValidationErrors | null> {
     const errors: ValidationErrors = {};
     const file: File = control.value[0];
-    return this.importCsvService.loadCsvData(file).pipe(
-      tap((data: string[][]) => {
-        if (data.toString().length === 0) {
+    return (this.importCsvService.loadFile(file) as Observable<string>).pipe(
+      tap((data: string) => {
+        if (data.length === 0) {
           errors.empty = true;
         }
       }),
@@ -92,11 +92,15 @@ export class FilesFormValidators {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
-      return this.importCsvService.loadCsvData(file).pipe(
-        tap((data: string[][]) => {
+      return (this.importCsvService.loadFile(file) as Observable<string>).pipe(
+        tap((data: string) => {
           if (data.toString().length === 0) {
             errors.empty = true;
-          } else if (isDataParsable && !isDataParsable(data)) {
+          }
+        }),
+        map((res) => this.importCsvService.readCsvData(res)),
+        tap((data: string[][]) => {
+          if (!errors.empty && isDataParsable && !isDataParsable(data)) {
             errors.notParsable = true;
           }
         }),
