@@ -60,7 +60,6 @@ describe('MessageComponent', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
     const element = testFixture.debugElement.query(By.css('cx-message'))
       .nativeElement;
-    console.log('****1 element', element);
     expect(element.textContent).toEqual('Test');
   });
 
