@@ -14,16 +14,16 @@ import {
   EventService,
   WindowRef,
 } from '@spartacus/core';
-import { ComponentCreateEvent } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
-  last,
+  filter,
   map,
   switchMap,
   take,
 } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
+import { ComponentCreateEvent } from '../../../cms-structure/page/component/events/component.event';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
@@ -132,23 +132,28 @@ export class TabParagraphContainerComponent
       this.getTitleParams(this.children);
     } else {
       this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) => {
-          // check the last component in the list to make sure all tab components are created
-          if (tabComps.get(tabComps.length - 1)?.cmpRef) {
-            this.getTitleParams(tabComps);
-          } else {
-            // wait for tab componenets created
-            this.eventService
-              ?.get(ComponentCreateEvent)
-              .pipe(take(tabComps.length), last())
-              .subscribe((_event) => this.getTitleParams(tabComps));
-          }
-        }
+        (tabComps: QueryList<ComponentWrapperDirective>) =>
+          tabComps.forEach((child) => {
+            if (child.cmpRef) {
+              this.getTitleParams([child]);
+            } else {
+              // if tab component is not initialized, then wait for it being created
+              this.eventService
+                ?.get(ComponentCreateEvent)
+                .pipe(
+                  filter((event) => event.id === child.cxComponentWrapper.uid),
+                  take(1)
+                )
+                .subscribe((_) => this.getTitleParams([child]));
+            }
+          })
       );
     }
   }
 
-  private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
+  private getTitleParams(
+    children: QueryList<ComponentWrapperDirective> | ComponentWrapperDirective[]
+  ) {
     children.forEach((comp) => {
       if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
