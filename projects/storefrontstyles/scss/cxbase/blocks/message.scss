@@ -26,7 +26,9 @@
     padding-inline-end: 4rem;
     padding-inline-start: 20px;
     padding-top: 0;
+    position: relative;
     text-align: var(--cx-text-align, center);
+    top: 8px;
   }
 
   &-body {
@@ -101,6 +103,6 @@
     font-weight: var(--cx-font-weight, var(--cx-font-weight-normal));
     position: var(--cx-position, absolute);
     right: 20px;
-    top: 22px;
+    top: 11px;
   }
 }
