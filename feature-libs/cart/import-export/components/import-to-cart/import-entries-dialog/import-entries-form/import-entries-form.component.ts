@@ -13,7 +13,8 @@ import {
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { FormUtils, LaunchDialogService } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class ImportEntriesFormComponent implements OnInit {
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
+  formSubmitSubject$ = new Subject();
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -56,6 +58,25 @@ export class ImportEntriesFormComponent implements OnInit {
         this.fileValidity = fileValidity;
         this.form = this.buildForm();
       });
+
+    this.formSubmitSubject$
+      .pipe(
+        tap(() => {
+          if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            FormUtils.deepUpdateValueAndValidity(this.form);
+          }
+        }),
+        switchMap(() =>
+          this.form.statusChanges.pipe(
+            startWith(this.form.get('file')?.status),
+            filter((status) => status !== 'PENDING'),
+            take(1)
+          )
+        ),
+        filter((status) => status === 'VALID')
+      )
+      .subscribe(() => this.save());
   }
 
   close(reason: string): void {
@@ -63,12 +84,6 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   save() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      FormUtils.deepUpdateValueAndValidity(this.form);
-      return;
-    }
-
     const file: File = this.form.get('file')?.value?.[0];
     this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
       this.submitEvent.emit({
