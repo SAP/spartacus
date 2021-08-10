@@ -45,8 +45,8 @@ import { defaultNameSource } from '../../core/model';
               ],
             },
             cartOptions: {
-              defaultName: true,
-              defaultNameType: defaultNameSource.FILE_NAME,
+              enableDefaultName: true,
+              defaultNameSource: defaultNameSource.FILE_NAME,
             },
           },
         },

@@ -8,12 +8,15 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  CmsImportEntriesComponent,
   FileValidity,
   ImportService,
   InvalidFileInfo,
   ProductsData,
+  defaultNameSource,
+  cartOptions,
 } from '@spartacus/cart/import-export/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { CmsComponentData, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -31,6 +34,9 @@ export class ImportEntriesFormComponent implements OnInit {
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo = {};
+  cartOptions: cartOptions;
+
+  componentData$ = this.componentData.data$;
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -50,15 +56,15 @@ export class ImportEntriesFormComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
     protected importService: ImportService,
-    protected datePipe: DatePipe
+    protected datePipe: DatePipe,
+    protected componentData: CmsComponentData<CmsImportEntriesComponent>
   ) {}
 
   ngOnInit() {
-    this.launchDialogService.data$
-      .pipe(take(1))
-      .subscribe((fileValidity: FileValidity) => {
-        this.fileValidity = fileValidity;
-      });
+    this.componentData$.pipe(take(1)).subscribe((data) => {
+      this.fileValidity = data.fileValidity;
+      this.cartOptions = data.cartOptions;
+    });
   }
 
   close(reason: string): void {
@@ -154,12 +160,20 @@ export class ImportEntriesFormComponent implements OnInit {
     }
   }
 
-  updateCartName() {
-    const date = new Date();
-    const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
-    // const fileName = this.form
-    //   .get('file')
-    //   ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
-    this.form.get('name')?.setValue(`cart_${dateString}`);
+  protected updateCartName(): void {
+    if (this.cartOptions.enableDefaultName) {
+      if (this.cartOptions.defaultNameSource === defaultNameSource.FILE_NAME) {
+        const cartName = this.form
+          .get('file')
+          ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
+        this.form.get('name')?.setValue(cartName);
+      } else if (
+        this.cartOptions.defaultNameSource === defaultNameSource.DATE
+      ) {
+        const date = new Date();
+        const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
+        this.form.get('name')?.setValue(`cart_${dateString}`);
+      }
+    }
   }
 }

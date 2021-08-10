@@ -48,7 +48,7 @@ export enum defaultNameSource {
 }
 
 export type cartOptions = {
-  defaultName: boolean;
+  enableDefaultName: boolean;
   defaultNameSource: defaultNameSource;
 };
 
