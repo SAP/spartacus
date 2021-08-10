@@ -88,8 +88,11 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
           filter(Boolean)
         )
         .subscribe(() => {
-          this.showErrors = true;
           this.quickOrderService.clearList();
+
+          if (this.errors.length) {
+            this.showErrors = true;
+          }
 
           const noAddedEntries = this.errors.filter(
             (error) => error.quantityAdded === 0
