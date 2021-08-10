@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { MessageComponent } from './message.component';
 
 @NgModule({
