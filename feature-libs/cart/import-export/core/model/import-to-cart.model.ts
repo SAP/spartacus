@@ -42,6 +42,17 @@ export type ProductImportSummary = {
   messages: ProductImportInfo[];
 };
 
+export enum defaultNameSource {
+  FILE_NAME = 'fileName',
+  DATE = 'date',
+}
+
+export type cartOptions = {
+  defaultName: boolean;
+  defaultNameSource: defaultNameSource;
+};
+
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity: FileValidity;
+  cartOptions: cartOptions;
 }

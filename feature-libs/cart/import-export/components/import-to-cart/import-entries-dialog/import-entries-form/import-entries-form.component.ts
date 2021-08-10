@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +22,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DatePipe],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup = this.buildForm();
@@ -47,7 +49,8 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportService
+    protected importService: ImportService,
+    protected datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -91,6 +94,7 @@ export class ImportEntriesFormComponent implements OnInit {
       .subscribe(
         (data: string[][]) => {
           this.loadedFile = data;
+          this.updateCartName();
         },
         () => {
           this.loadedFile = null;
@@ -148,5 +152,14 @@ export class ImportEntriesFormComponent implements OnInit {
       this.fileError.notParsable = true;
       throw Error();
     }
+  }
+
+  updateCartName() {
+    const date = new Date();
+    const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
+    // const fileName = this.form
+    //   .get('file')
+    //   ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
+    this.form.get('name')?.setValue(`cart_${dateString}`);
   }
 }
