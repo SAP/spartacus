@@ -316,7 +316,8 @@ export class AuthHttpHeaderService implements OnDestroy {
       let refreshTriggered = false;
       return this.tokenToRetryRequest$.pipe(
         tap((token) => {
-          // we want to refresh the access token only when it is still old
+          // we want to refresh the access token only when it is old.
+          // this is a guard for the case when there are multiple parallel http calls
           if (
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
