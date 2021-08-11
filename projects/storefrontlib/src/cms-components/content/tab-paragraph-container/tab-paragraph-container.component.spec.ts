@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import {
   CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
+  EventService,
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -69,11 +77,18 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
 
+class MockEventService implements Partial<EventService> {
+  get(): Observable<any> {
+    return of();
+  }
+}
+
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
   let cmsService: CmsService;
   let windowRef: WindowRef;
+  let eventService: EventService;
 
   beforeEach(
     waitForAsync(() => {
@@ -91,6 +106,7 @@ describe('TabParagraphContainerComponent', () => {
           { provide: CmsService, useValue: MockCmsService },
           { provide: CmsConfig, useValue: MockCmsModuleConfig },
           { provide: LayoutConfig, useValue: MockLayoutConfig },
+          { provide: EventService, useClass: MockEventService },
         ],
       }).compileComponents();
     })
@@ -101,6 +117,7 @@ describe('TabParagraphContainerComponent', () => {
     component = fixture.componentInstance;
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
+    eventService = TestBed.inject(EventService);
 
     spyOn(console, 'warn');
   });
@@ -155,7 +172,7 @@ describe('TabParagraphContainerComponent', () => {
     expect(component.activeTabNum).toEqual(-1);
   });
 
-  it('should be able to get tab title parameters from children', () => {
+  it('should be able to get tab title parameters from children when children are initialized', () => {
     spyOn(cmsService, 'getComponentData').and.returnValues(
       of(mockTabComponentData1),
       of(mockTabComponentData2),
@@ -178,4 +195,32 @@ describe('TabParagraphContainerComponent', () => {
 
     expect(param).toEqual('title param');
   });
+
+  it('should be able to get tab title parameters from children even children are not initialized', fakeAsync(() => {
+    spyOn(cmsService, 'getComponentData').and.returnValues(
+      of(mockTabComponentData1).pipe(delay(200)),
+      of(mockTabComponentData2).pipe(delay(200)),
+      of(mockTabComponentData3).pipe(delay(200))
+    );
+    spyOn(eventService, 'get').and.callFake((_) => {
+      if (component.children.length > 0) {
+        let childCompFixture: ComponentFixture<TestComponent>;
+        childCompFixture = TestBed.createComponent(TestComponent);
+        component.children.first.cmpRef = childCompFixture.componentRef;
+      }
+      return of({ id: mockTabComponentData1.uid }) as any;
+    });
+    fixture.detectChanges();
+
+    tick(200);
+    fixture.detectChanges();
+
+    let param = '';
+    component.tabTitleParams.forEach((param$) => {
+      if (param$ != null) {
+        param$.subscribe((value) => (param = value)).unsubscribe();
+      }
+    });
+    expect(param).toEqual('title param');
+  }));
 });
