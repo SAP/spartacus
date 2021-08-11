@@ -6,10 +6,10 @@ import { hybridInitializerProviders } from './providers/hybrid-initializer-provi
 @NgModule({
   providers: [...hybridInitializerProviders],
 })
-export class HybridSotrefrontModule {
-  static forRoot(): ModuleWithProviders<HybridSotrefrontModule> {
+export class HybridStorefrontModule {
+  static forRoot(): ModuleWithProviders<HybridStorefrontModule> {
     return {
-      ngModule: HybridSotrefrontModule,
+      ngModule: HybridStorefrontModule,
       providers: [provideDefaultConfig(defaultHybridStorefrontEndpointConfig)],
     };
   }
