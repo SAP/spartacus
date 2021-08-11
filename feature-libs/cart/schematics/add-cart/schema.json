@@ -23,7 +23,7 @@
         "enum": ["Import-Export", "Saved-Cart"],
         "type": "string"
       },
-      "default": ["Saved-Cart"],
+      "default": ["Import-Export", "Saved-Cart"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
