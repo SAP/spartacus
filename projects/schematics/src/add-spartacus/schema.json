@@ -17,6 +17,7 @@
       "items": {
         "enum": [
           "ASM",
+          "Import-Export",
           "Saved-Cart",
           "CDC",
           "CDS",
@@ -42,6 +43,7 @@
       "default": [
         "ASM",
         "Checkout",
+        "Import-Export",
         "Saved-Cart",
         "Product-Variants",
         "SmartEdit",
@@ -57,6 +59,10 @@
           {
             "value": "ASM",
             "label": "Assisted Services Module"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
           },
           {
             "value": "Saved-Cart",

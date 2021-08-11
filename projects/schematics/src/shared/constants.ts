@@ -1073,6 +1073,8 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 export const CLI_ASM_FEATURE = 'ASM';
 
+export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
+
 export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 
 export const CLI_CDC_FEATURE = 'CDC';
