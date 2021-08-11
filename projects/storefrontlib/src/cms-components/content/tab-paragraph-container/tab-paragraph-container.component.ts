@@ -42,7 +42,7 @@ export class TabParagraphContainerComponent
 
   tabTitleParams: Observable<any>[] = [];
 
-  subscription: Subscription;
+  subscription = new Subscription();
 
   /**
    * @deprecated since version 4.1
@@ -131,22 +131,28 @@ export class TabParagraphContainerComponent
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
-      this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) =>
-          tabComps.forEach((child) => {
-            if (child.cmpRef) {
-              this.getTitleParams([child]);
-            } else {
-              // if tab component is not initialized, then wait for it being created
-              this.eventService
-                ?.get(ComponentCreateEvent)
-                .pipe(
-                  filter((event) => event.id === child.cxComponentWrapper.uid),
-                  take(1)
-                )
-                .subscribe((_) => this.getTitleParams([child]));
-            }
-          })
+      this.subscription.add(
+        this.children.changes.subscribe(
+          (tabComps: QueryList<ComponentWrapperDirective>) =>
+            tabComps.forEach((child) => {
+              if (child.cmpRef) {
+                this.getTitleParams([child]);
+              } else {
+                // if tab component is not initialized, then wait for it being created
+                this.subscription.add(
+                  this.eventService
+                    ?.get(ComponentCreateEvent)
+                    .pipe(
+                      filter(
+                        (event) => event.id === child.cxComponentWrapper.uid
+                      ),
+                      take(1)
+                    )
+                    .subscribe((_) => this.getTitleParams([child]))
+                );
+              }
+            })
+        )
       );
     }
   }
@@ -163,9 +169,9 @@ export class TabParagraphContainerComponent
     });
   }
 
+  private;
+
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }
