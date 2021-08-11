@@ -1,3 +1,37 @@
+<cx-message
+  *ngIf="showErrors"
+  (closeMessage)="clearErrors()"
+  [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
+  [type]="globalMessageType.MSG_TYPE_ERROR"
+>
+  <ul class="quick-order-errors">
+    <li *ngFor="let error of errors" class="quick-order-error-item">
+      <span *ngIf="error.quantityAdded === 0; else otherError">
+        {{
+          'quickOrderList.errors.productIsOutOfStock'
+            | cxTranslate
+              : {
+                  name: error.entry.product.name,
+                  code: error.productCode
+                }
+        }}
+      </span>
+      <ng-template #otherError>
+        <span>
+          {{
+            'quickOrderList.errors.productWasReduced'
+              | cxTranslate
+                : {
+                    name: error.entry.product.name,
+                    quantityAdded: error.quantityAdded
+                  }
+          }}
+        </span>
+      </ng-template>
+    </li>
+  </ul>
+</cx-message>
+
 <ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
   <ng-container *ngIf="entries$ | async as entries">
     <div class="quick-order-header">

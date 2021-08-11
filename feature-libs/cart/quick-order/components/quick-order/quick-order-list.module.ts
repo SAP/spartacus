@@ -13,6 +13,7 @@ import {
   IconModule,
   ItemCounterModule,
   MediaModule,
+  MessageComponentModule,
   ProgressButtonModule,
 } from '@spartacus/storefront';
 import { QuickOrderComponent } from './quick-order.component';
@@ -32,6 +33,7 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
     MediaModule,
     UrlModule,
     ProgressButtonModule,
+    MessageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
