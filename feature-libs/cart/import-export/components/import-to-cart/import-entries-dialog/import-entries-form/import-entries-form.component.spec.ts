@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ImportService,
   ProductImportInfo,
@@ -6,7 +7,11 @@ import {
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FileUploadModule,
+  FormErrorsModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
@@ -81,7 +86,13 @@ describe('ImportEntriesFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        FormErrorsModule,
+        FileUploadModule,
+        FormsModule,
+        ReactiveFormsModule,
+      ],
       declarations: [ImportEntriesFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

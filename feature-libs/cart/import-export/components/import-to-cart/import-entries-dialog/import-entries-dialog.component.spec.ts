@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ProductImportInfo,
@@ -6,6 +7,8 @@ import {
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportToCartService } from '../import-to-cart.service';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
@@ -49,6 +52,12 @@ class MockImportToCartService implements Partial<ImportToCartService> {
   isDataParsable = () => true;
 }
 
+@Component({
+  selector: 'cx-import-entries-form',
+  template: '',
+})
+class MockImportEntriesFormComponent {}
+
 describe('ImportEntriesDialogComponent', () => {
   let component: ImportEntriesDialogComponent;
   let fixture: ComponentFixture<ImportEntriesDialogComponent>;
@@ -57,8 +66,15 @@ describe('ImportEntriesDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ImportEntriesDialogComponent],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
+      ],
+      declarations: [
+        ImportEntriesDialogComponent,
+        MockImportEntriesFormComponent,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
