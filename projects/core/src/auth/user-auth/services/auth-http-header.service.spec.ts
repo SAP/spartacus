@@ -1,6 +1,6 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
@@ -276,7 +276,6 @@ fdescribe('AuthHttpHeaderService', () => {
       })
         .pipe(take(1))
         .subscribe((result) => {
-          console.error('result: ', result);
           expect(result).toBeFalsy();
           done();
         });
@@ -297,8 +296,36 @@ fdescribe('AuthHttpHeaderService', () => {
         });
     });
 
-    it('should not emit when logout is in progress', () => {});
+    it('should not emit when logout is in progress', fakeAsync(() => {
+      logoutInProgressSubject.next(true);
 
-    it('should not emit when refresh is in progress', () => {});
+      let emitted = false;
+      service['getValidToken']({
+        access_token: 'xxx',
+        access_token_stored_at: '123',
+      })
+        .pipe(take(1))
+        .subscribe(() => {
+          emitted = true;
+        });
+
+      expect(emitted).toBeFalsy();
+    }));
+
+    it('should not emit when refresh is in progress', fakeAsync(() => {
+      refreshInProgressSubject.next(true);
+
+      let emitted = false;
+      service['getValidToken']({
+        access_token: 'xxx',
+        access_token_stored_at: '123',
+      })
+        .pipe(take(1))
+        .subscribe(() => {
+          emitted = true;
+        });
+
+      expect(emitted).toBeFalsy();
+    }));
   });
 });
