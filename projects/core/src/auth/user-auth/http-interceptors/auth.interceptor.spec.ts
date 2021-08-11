@@ -73,7 +73,7 @@ describe('AuthInterceptor', () => {
     spyOn(authHeaderService, 'alterRequest').and.returnValue(
       new HttpRequest('GET', '/test')
     );
-    spyOn(authHeaderService, 'getToken').and.returnValue(
+    spyOn(authHeaderService, 'getStableToken').and.returnValue(
       of({ access_token: 'test' } as AuthToken)
     );
 
@@ -99,7 +99,7 @@ describe('AuthInterceptor', () => {
       new HttpRequest('GET', '/test')
     );
     const token = { access_token: 'test' } as AuthToken;
-    spyOn(authHeaderService, 'getToken').and.returnValue(of(token));
+    spyOn(authHeaderService, 'getStableToken').and.returnValue(of(token));
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
