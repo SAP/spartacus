@@ -1,8 +1,4 @@
 context('Verify Read/Write on Cypress', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  });
-
   describe('Read/Write', () => {
     it('should not initially exist from some leftover test run', () => {
       cy.readFile('/tmp/test-file.txt').should('not.exist');
