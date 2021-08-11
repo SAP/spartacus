@@ -218,6 +218,15 @@ describe('AuthHttpHeaderService', () => {
       expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
       expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
+
+    it('should refresh token only once when method is invoked multiple times at the same time', () => {});
+
+    it('should return when there was logout before that', () => {
+      // logout should happen when no one was listening to retryToken$ (it should check the subscription for stopProcesses)
+      // only after that we should invoke the expired access token handler or getToken
+    });
+
+    it('should not refresh token when the token is already different than the token used for failing refresh', () => {});
   });
 
   describe('handleExpiredRefreshToken', () => {
@@ -232,6 +241,7 @@ describe('AuthHttpHeaderService', () => {
       expect(
         authRedirectService.saveCurrentNavigationUrl
       ).toHaveBeenCalledBefore(routingService.go);
+      // TODO: verify that this happens after coreLogout resolves
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -240,5 +250,15 @@ describe('AuthHttpHeaderService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
+  });
+
+  describe('getToken', () => {
+    it('should return undefined when token does not have access token', () => {});
+
+    it('should return token when we have access token', () => {});
+
+    it('should not emit when logout is in progress', () => {});
+
+    it('should not emit when refresh is in progress', () => {});
   });
 });
