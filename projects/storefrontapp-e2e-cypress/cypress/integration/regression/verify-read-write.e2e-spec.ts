@@ -2,7 +2,7 @@ import * as checkout from '../../helpers/checkout-flow';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_FILE = `${DOWNLOADS_FOLDER}/test-file.txt`;
-const TEST_FILE_CONTENT = 'This is a test file.'
+const TEST_FILE_CONTENT = 'This is a test file.';
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
 
 context('Verify Read/Write on Cypress', () => {
@@ -25,9 +25,7 @@ context('Verify Read/Write on Cypress', () => {
     });
 
     it('should read file', () => {
-      cy.readFile(TEST_FILE)
-        .should('exist')
-        .and('contain', TEST_FILE_CONTENT);
+      cy.readFile(TEST_FILE).should('exist').and('contain', TEST_FILE_CONTENT);
     });
   });
 
@@ -44,7 +42,9 @@ context('Verify Read/Write on Cypress', () => {
         .contains('view cart')
         .click({ force: true });
       cy.get('cx-export-entries button').contains('Export to CSV').click();
-      cy.readFile(TEST_DOWNLOAD_FILE).should('exist').and('contain', 'Code,Quantity,Name,Price');;
+      cy.readFile(TEST_DOWNLOAD_FILE)
+        .should('exist')
+        .and('contain', 'Code,Quantity,Name,Price');
     });
   });
 });
