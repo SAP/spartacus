@@ -68,7 +68,11 @@
       >
         {{ 'importEntriesDialog.cancel' | cxTranslate }}
       </button>
-      <button class="btn btn-primary" type="submit" [disabled]="form.get('file')?.status === 'PENDING'">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="form.get('file')?.status === 'PENDING'"
+      >
         {{ 'importEntriesDialog.upload' | cxTranslate }}
       </button>
     </div>
