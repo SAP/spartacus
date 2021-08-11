@@ -81,14 +81,18 @@ cx-import-entries-dialog {
       cx-import-entries-summary {
         @extend .modal-body;
 
-        cx-icon.success {
-          color: var(--cx-color-success);
+        cx-icon {
           padding-inline-end: 5px;
-        }
 
-        cx-icon.error {
-          color: var(--cx-color-danger);
-          padding-inline-end: 5px;
+          &.success {
+            color: var(--cx-color-success);
+          }
+          &.warning {
+            color: var(--cx-color-warning);
+          }
+          &.error {
+            color: var(--cx-color-danger);
+          }
         }
 
         .cx-import-entries-summary-footer {
