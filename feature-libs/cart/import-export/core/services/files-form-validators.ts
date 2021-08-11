@@ -80,13 +80,13 @@ export class FilesFormValidators {
   }
 
   /**
-   * Checks file is parsable
+   * Checks file is not empty and parsable
    *
    * @param {(data: string[][]) => Boolean} isDataParsable? Callback which verify that file text is in expected structure
    * @returns Uses 'empty' and 'notParsable' validator error
    * @memberof FilesFormValidators
    */
-  parsableFile2(
+  readableFile(
     isDataParsable?: (data: string[][]) => Boolean
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
