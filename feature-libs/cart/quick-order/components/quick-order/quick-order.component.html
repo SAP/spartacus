@@ -5,12 +5,8 @@
   [type]="globalMessageType.MSG_TYPE_ERROR"
 >
   <ul class="quick-order-errors">
-    <li
-      *ngFor="let error of errors"
-      [ngSwitch]="error.quantityAdded"
-      class="quick-order-error-item"
-    >
-      <span *ngSwitchCase="0">
+    <li *ngFor="let error of errors" class="quick-order-error-item">
+      <span *ngIf="error.quantityAdded === 0; else otherError">
         {{
           'quickOrderList.errors.productIsOutOfStock'
             | cxTranslate
@@ -20,16 +16,18 @@
                 }
         }}
       </span>
-      <span *ngSwitchDefault>
-        {{
-          'quickOrderList.errors.productWasReduced'
-            | cxTranslate
-              : {
-                  name: error.entry.product.name,
-                  quantityAdded: error.quantityAdded
-                }
-        }}
-      </span>
+      <ng-template #otherError>
+        <span>
+          {{
+            'quickOrderList.errors.productWasReduced'
+              | cxTranslate
+                : {
+                    name: error.entry.product.name,
+                    quantityAdded: error.quantityAdded
+                  }
+          }}
+        </span>
+      </ng-template>
     </li>
   </ul>
 </cx-message>

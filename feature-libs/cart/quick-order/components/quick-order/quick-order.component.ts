@@ -54,7 +54,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
     this.quickOrderStatePersistenceService.initSync();
-    this.watchCartAddEnrtyEvents();
+    this.watchCartAddEntryEvents();
   }
 
   get errors(): any[] {
@@ -115,12 +115,12 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.showErrors = false;
   }
 
-  protected watchCartAddEnrtyEvents(): void {
+  protected watchCartAddEntryEvents(): void {
     const watchCartAddEntrySuccessEvent = this.eventService
       .get(CartAddEntrySuccessEvent)
       .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
         if (
-          0 === cartEvent.quantityAdded ||
+          cartEvent.quantityAdded === 0 ||
           (!!cartEvent.quantityAdded &&
             cartEvent.quantityAdded < cartEvent.quantity)
         ) {
