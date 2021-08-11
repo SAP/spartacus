@@ -9,8 +9,8 @@ const mockSummary: ProductImportSummary = {
   count: 0,
   total: 2,
   successesCount: 2,
-  problemsCount: 0,
-  messages: [],
+  warningMessages: [],
+  errorMessages: [],
 };
 
 describe('ImportEntriesFormComponent', () => {

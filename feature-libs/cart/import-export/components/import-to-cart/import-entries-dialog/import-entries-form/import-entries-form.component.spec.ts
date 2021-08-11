@@ -128,24 +128,25 @@ describe('ImportEntriesFormComponent', () => {
   describe('loadFile', () => {
     beforeEach(() => {
       loadFileData$.next(mockCsvString);
+      component.form.get('file')?.setValue([mockFile]);
     });
     it('should validate maximum size', () => {
       spyOn<any>(component, 'validateMaxSize');
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(component['validateMaxSize']).toHaveBeenCalledWith(mockFile);
     });
 
     it('should validate if file is empty', () => {
       spyOn<any>(component, 'validateEmpty');
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(component['validateEmpty']).toHaveBeenCalledWith(mockLoadFileData);
     });
 
     it('should validate if file is parsable', () => {
       spyOn<any>(component, 'validateParsable');
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(component['validateParsable']).toHaveBeenCalledWith(
         mockLoadFileData
@@ -155,7 +156,7 @@ describe('ImportEntriesFormComponent', () => {
     it('should throw error if file is empty', () => {
       loadFileData$.next('');
       spyOn(importService, 'readCsvData').and.returnValue([]);
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(component.fileError.empty).toBeTruthy();
     });
@@ -163,39 +164,41 @@ describe('ImportEntriesFormComponent', () => {
     it('should throw error if file is too big', () => {
       const mockLargeFile = new File([], 'mockFile');
       Object.defineProperty(mockLargeFile, 'size', { value: 1000001 });
-      component.loadFile(mockLargeFile, component.form);
+      component.form.get('file')?.setValue([mockLargeFile]);
+      component.loadFile();
 
       expect(component.fileError.tooLarge).toBeTruthy();
     });
 
     it('should throw error if file is not parsable', () => {
       spyOn(importToCartService, 'isDataParsable').and.returnValue(false);
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(component.fileError.notParsable).toBeTruthy();
     });
 
     it('should call loadFile method from import service', () => {
       spyOn(importService, 'loadFile');
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
 
       expect(importService.loadFile).toHaveBeenCalledWith(mockFile);
     });
 
     it('should load the file into loadedFile', () => {
-      component.loadFile(mockFile, component.form);
+      component.loadFile();
       expect(component.loadedFile).toEqual(mockLoadFileData);
     });
   });
 
   it('should trigger submit event when submit method is called', () => {
+    component.form.get('file')?.setValue([mockFile]);
     const mockSubmitData = {
       products: mockProducts,
       name: '',
       description: '',
     };
     spyOn(component.submitEvent, 'emit');
-    component.loadFile(mockFile, component.form);
+    component.loadFile();
     component.submit();
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
