@@ -33,9 +33,9 @@ export class AuthInterceptor implements HttpInterceptor {
       request
     );
 
-    // getToken() will emit sync or async if there is refresh or logout in progress
     const token$ = shouldAddAuthorizationHeader
-      ? this.authHttpHeaderService.getToken().pipe(take(1))
+      ? // emits sync or async if there is refresh or logout in progress
+        this.authHttpHeaderService.getTokenStable().pipe(take(1))
       : of(undefined);
     const requestAndToken$ = token$.pipe(
       map((token) => ({

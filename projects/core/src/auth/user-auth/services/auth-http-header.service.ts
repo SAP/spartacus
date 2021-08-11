@@ -41,6 +41,8 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 export class AuthHttpHeaderService implements OnDestroy {
   /**
    * Indicates whether the access token is being refreshed
+   *
+   * @deprecated will be removed in the next major. Use `AuthService.refreshInProgress$` instead.
    */
   // TODO:#13421 - legacy, remove this flag
   protected refreshInProgress = false;
@@ -105,7 +107,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    */
   protected retryToken$ = using(
     () => this.refreshToken$.subscribe(),
-    () => this.getToken()
+    () => this.getTokenStable()
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
@@ -199,7 +201,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     // TODO:#13421 make required
     initialToken?: AuthToken
   ): Observable<HttpEvent<AuthToken>> {
-    // TODO:#13421 remove this if-statement
+    // TODO:#13421 remove this if-statement, and just return the stream.
     if (initialToken) {
       return this.getValidToken(initialToken).pipe(
         switchMap((token) =>
@@ -255,6 +257,8 @@ export class AuthHttpHeaderService implements OnDestroy {
    * If it is not possible calls `handleExpiredRefreshToken`.
    *
    * @return observable which omits new access_token. (Warn: might never emit!).
+   *
+   * @deprecated will be removed in the next major. Use `getValidToken()` instead
    */
   protected handleExpiredToken(): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
@@ -284,9 +288,9 @@ export class AuthHttpHeaderService implements OnDestroy {
   }
 
   /**
-   * Emits the token or `undefined` only when the refresh or the logout are done
+   * Emits the token or `undefined` only when the refresh or the logout processes are finished.
    */
-  getToken(): Observable<AuthToken | undefined> {
+  getTokenStable(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
       this.authService.refreshInProgress$,
@@ -301,7 +305,10 @@ export class AuthHttpHeaderService implements OnDestroy {
     );
   }
 
-  // TODO:# naming
+  /**
+   * Returns a valid access token.
+   * It will attempt to refresh it if the current one expired; emits after the new one is retrieved.
+   */
   protected getValidToken(
     requestToken: AuthToken
   ): Observable<AuthToken | undefined> {
@@ -310,7 +317,7 @@ export class AuthHttpHeaderService implements OnDestroy {
       let refreshTriggered = false;
       return this.retryToken$.pipe(
         tap((token) => {
-          // we want to refresh token only when it's still old
+          // we want to refresh the access token only when it is still old
           if (
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
