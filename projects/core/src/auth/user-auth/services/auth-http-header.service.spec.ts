@@ -88,6 +88,34 @@ describe('AuthHttpHeaderService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('shouldAddAuthorizationHeader', () => {
+    it('should return true for occ urls', () => {
+      expect(
+        service.shouldAddAuthorizationHeader(
+          new HttpRequest('GET', 'some-server/occ/cart')
+        )
+      ).toBeTrue();
+    });
+
+    it('should return false for non occ urls', () => {
+      expect(
+        service.shouldAddAuthorizationHeader(
+          new HttpRequest('GET', 'some-server/auth')
+        )
+      ).toBeFalse();
+    });
+
+    it('should return false if request already have Authorization header', () => {
+      expect(
+        service.shouldAddAuthorizationHeader(
+          new HttpRequest('GET', 'some-server/auth', {
+            headers: new HttpHeaders({ Authorization: 'Bearer acc_token' }),
+          })
+        )
+      ).toBeFalse();
+    });
+  });
+
   describe('shouldCatchError', () => {
     it('should return true for occ urls', () => {
       expect(
@@ -108,6 +136,14 @@ describe('AuthHttpHeaderService', () => {
         new HttpRequest('GET', 'some-server/occ/cart')
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
+    });
+
+    it('should use AuthToken that is passed to this method', () => {
+      const request = service.alterRequest(
+        new HttpRequest('GET', 'some-server/occ/cart'),
+        { access_token: 'new_token' } as AuthToken
+      );
+      expect(request.headers.get('Authorization')).toEqual('Bearer new_token');
     });
 
     it('should not change Authorization header for occ calls', () => {

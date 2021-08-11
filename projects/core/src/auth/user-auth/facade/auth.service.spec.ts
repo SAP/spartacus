@@ -149,6 +149,7 @@ describe('AuthService', () => {
 
       await service.coreLogout();
 
+      expect(service.logoutInProgress$.value).toBeTruthy();
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());

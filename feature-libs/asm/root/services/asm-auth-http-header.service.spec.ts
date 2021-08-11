@@ -179,6 +179,7 @@ describe('AsmAuthHttpHeaderService', () => {
 
       service.handleExpiredRefreshToken();
 
+      expect(authService.logoutInProgress$.value).toBe(true);
       expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
