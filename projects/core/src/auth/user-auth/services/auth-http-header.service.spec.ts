@@ -1,7 +1,7 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { fakeAsync, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, EMPTY, of, queueScheduler } from 'rxjs';
+import { BehaviorSubject, EMPTY, merge, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -61,7 +61,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
-fdescribe('AuthHttpHeaderService', () => {
+describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
@@ -178,16 +178,18 @@ fdescribe('AuthHttpHeaderService', () => {
 
   describe('handleExpiredAccessToken', () => {
     it('should refresh the token and retry the call with new token', (done) => {
-      const token = new BehaviorSubject({
+      const token = new BehaviorSubject<AuthToken>({
         access_token: `old_token`,
+        access_token_stored_at: '123',
         refresh_token: 'ref_token',
-      } as AuthToken);
+      });
       const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
         token.next({
           access_token: `new_token`,
+          access_token_stored_at: '456',
           refresh_token: 'ref_token',
-        } as AuthToken);
+        });
         return EMPTY;
       });
       spyOn(authStorageService, 'getToken').and.returnValue(
@@ -232,14 +234,72 @@ fdescribe('AuthHttpHeaderService', () => {
       expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
 
-    it('should refresh token only once when method is invoked multiple times at the same time', () => {});
+    it('should refresh token only once when method is invoked multiple times at the same time', (done) => {
+      const token = new BehaviorSubject<AuthToken>({
+        access_token: `old_token`,
+        access_token_stored_at: '123',
+        refresh_token: 'ref_token',
+      });
+      const handler = (a: any) => of(a);
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
+        token.next({
+          access_token: `new_token`,
+          access_token_stored_at: '456',
+          refresh_token: 'ref_token',
+        });
+        return EMPTY;
+      });
+      spyOn(authStorageService, 'getToken').and.returnValue(
+        token.asObservable().pipe(observeOn(queueScheduler))
+      );
+
+      merge(
+        service.handleExpiredAccessToken(
+          new HttpRequest('GET', 'some-server/1/'),
+          { handle: handler } as HttpHandler
+        ),
+        service.handleExpiredAccessToken(
+          new HttpRequest('GET', 'some-server/2/'),
+          { handle: handler } as HttpHandler
+        )
+      ).subscribe((res: any) => {
+        expect(res.headers.get('Authorization')).toEqual('Bearer new_token');
+        expect(res.url).toEqual('some-server/1/');
+        expect(res.method).toEqual('GET');
+        expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalledTimes(1);
+        done();
+      });
+    });
 
     it('should return when there was logout before that', () => {
       // logout should happen when no one was listening to retryToken$ (it should check the subscription for stopProcesses)
       // only after that we should invoke the expired access token handler or getToken
     });
 
-    it('should not refresh token when the token is already different than the token used for failing refresh', () => {});
+    it('should not refresh token when the given token is already different than the token used for failing refresh', (done) => {
+      const initialToken: AuthToken = {
+        access_token: `old_token`,
+        access_token_stored_at: '123',
+      };
+      const handler = (a: any) => of(a);
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.stub();
+
+      service
+        .handleExpiredAccessToken(
+          new HttpRequest('GET', 'some-server/1/'),
+          { handle: handler } as HttpHandler,
+          initialToken
+        )
+        .subscribe((res: any) => {
+          expect(res.headers.get('Authorization')).toEqual(
+            `Bearer ${testToken.access_token}`
+          );
+          expect(res.url).toEqual('some-server/1/');
+          expect(res.method).toEqual('GET');
+          expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+          done();
+        });
+    });
   });
 
   describe('handleExpiredRefreshToken', () => {
