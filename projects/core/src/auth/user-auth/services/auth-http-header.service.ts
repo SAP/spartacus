@@ -100,12 +100,11 @@ export class AuthHttpHeaderService implements OnDestroy {
     })
   );
 
-  // TODO: name
   /**
-   * Kicks of the process by listening for the new token and refresh token process.
-   * It returns the token to the subscribers.
+   * Kicks of the process by listening to the new token and refresh token processes.
+   * This token should be used when retrying the failed http request.
    */
-  protected retryToken$ = using(
+  protected tokenToRetryRequest$ = using(
     () => this.refreshToken$.subscribe(),
     () => this.getStableToken()
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
@@ -315,7 +314,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     return defer(() => {
       // flag to only refresh token only on first emission
       let refreshTriggered = false;
-      return this.retryToken$.pipe(
+      return this.tokenToRetryRequest$.pipe(
         tap((token) => {
           // we want to refresh the access token only when it is still old
           if (
