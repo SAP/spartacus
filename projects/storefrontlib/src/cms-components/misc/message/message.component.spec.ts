@@ -64,13 +64,13 @@ describe('MessageComponent', () => {
   });
 
   it('should show close button and trigger close action', () => {
-    spyOn(component.close, 'emit');
+    spyOn(component.closeMessage, 'emit');
 
-    const button = el.query(By.css('.message .close')).nativeElement;
+    const button = el.query(By.css('.message .closeMessage')).nativeElement;
     button.click();
 
     expect(button).toBeTruthy();
-    expect(component.close.emit).toHaveBeenCalled();
+    expect(component.closeMessage.emit).toHaveBeenCalled();
   });
 
   it('should show message component with text in header', () => {

@@ -13,7 +13,7 @@ export class MessageComponent {
   type: GlobalMessageType;
 
   @Output()
-  close: EventEmitter<void> = new EventEmitter();
+  closeMessage: EventEmitter<void> = new EventEmitter();
 
   iconTypes = ICON_TYPE;
 
