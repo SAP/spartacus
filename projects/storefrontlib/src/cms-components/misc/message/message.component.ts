@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
@@ -14,7 +13,7 @@ export class MessageComponent {
   type: GlobalMessageType;
 
   @Output()
-  close: EventEmitter<void> = new EventEmitter();
+  closeMessage: EventEmitter<void> = new EventEmitter();
 
   iconTypes = ICON_TYPE;
 

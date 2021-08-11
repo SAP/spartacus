@@ -60,18 +60,17 @@ describe('MessageComponent', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
     const element = testFixture.debugElement.query(By.css('cx-message'))
       .nativeElement;
-    console.log('****1 element', element);
     expect(element.textContent).toEqual('Test');
   });
 
   it('should show close button and trigger close action', () => {
-    spyOn(component.close, 'emit');
+    spyOn(component.closeMessage, 'emit');
 
     const button = el.query(By.css('.message .close')).nativeElement;
     button.click();
 
     expect(button).toBeTruthy();
-    expect(component.close.emit).toHaveBeenCalled();
+    expect(component.closeMessage.emit).toHaveBeenCalled();
   });
 
   it('should show message component with text in header', () => {
