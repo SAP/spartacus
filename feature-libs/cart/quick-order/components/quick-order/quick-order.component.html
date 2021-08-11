@@ -12,7 +12,7 @@
             | cxTranslate
               : {
                   name: error.entry.product.name,
-                  code: error.productCode
+                  code: error.entry.product.code
                 }
         }}
       </span>
@@ -23,6 +23,7 @@
               | cxTranslate
                 : {
                     name: error.entry.product.name,
+                    code: error.entry.product.code,
                     quantityAdded: error.quantityAdded
                   }
           }}
