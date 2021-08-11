@@ -27,16 +27,16 @@ export const importEntriesDialog = {
   upload: 'Upload',
   close: 'Close',
   summary: {
-    warning:
+    info:
       'Do not close or refresh this window while products are being imported.',
     loaded: 'Products has been loaded to new cart "{{ cartName }}".',
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',
-    problems: '{{ count }} product was not imported totally.',
-    problems_plural: '{{ count }} products were not imported totally.',
-    errors: '{{ count }} product was not imported.',
-    errors_plural: '{{ count }} products were not imported.',
+    warning: '{{ count }} product was not imported totally.',
+    warning_plural: '{{ count }} products were not imported totally.',
+    error: '{{ count }} product was not imported.',
+    error_plural: '{{ count }} products were not imported.',
     messages: {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:

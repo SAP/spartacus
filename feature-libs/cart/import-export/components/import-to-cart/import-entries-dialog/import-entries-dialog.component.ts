@@ -35,8 +35,8 @@ export class ImportEntriesDialogComponent {
     count: 0,
     total: 0,
     successesCount: 0,
-    problemsMessages: [],
-    errorsMessages: [],
+    warningMessages: [],
+    errorMessages: [],
   });
 
   constructor(
@@ -93,13 +93,13 @@ export class ImportEntriesDialogComponent {
       this.summary$.next({
         ...this.summary$.value,
         count: this.summary$.value.count + 1,
-        problemsMessages: [...this.summary$.value.problemsMessages, action],
+        warningMessages: [...this.summary$.value.warningMessages, action],
       });
     } else {
       this.summary$.next({
         ...this.summary$.value,
         count: this.summary$.value.count + 1,
-        errorsMessages: [...this.summary$.value.errorsMessages, action],
+        errorMessages: [...this.summary$.value.errorMessages, action],
       });
     }
   }

@@ -17,18 +17,18 @@
     {{ 'importEntriesDialog.summary.successes' | cxTranslate: summary }}
   </p>
   <div
-    *ngIf="summary.problemsMessages.length > 0"
+    *ngIf="summary.warningMessages.length > 0"
     class="cx-import-entries-summary-problems"
   >
     <p>
       <cx-icon class="warning" [type]="iconTypes.ERROR"></cx-icon>
       {{
-        'importEntriesDialog.summary.problems'
-          | cxTranslate: { count: summary.problemsMessages.length }
+        'importEntriesDialog.summary.warning'
+          | cxTranslate: { count: summary.warningMessages.length }
       }}
     </p>
     <ul>
-      <li *ngFor="let message of summary.problemsMessages">
+      <li *ngFor="let message of summary.warningMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
             | cxTranslate: message
@@ -37,18 +37,18 @@
     </ul>
   </div>
   <div
-    *ngIf="summary.errorsMessages.length > 0"
+    *ngIf="summary.errorMessages.length > 0"
     class="cx-import-entries-summary-errors"
   >
     <p>
       <cx-icon class="error" [type]="iconTypes.RESET"></cx-icon>
       {{
-        'importEntriesDialog.summary.errors'
-          | cxTranslate: { count: summary.errorsMessages.length }
+        'importEntriesDialog.summary.error'
+          | cxTranslate: { count: summary.errorMessages.length }
       }}
     </p>
     <ul>
-      <li *ngFor="let message of summary.errorsMessages">
+      <li *ngFor="let message of summary.errorMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
             | cxTranslate: message
@@ -58,15 +58,15 @@
   </div>
   <div class="cx-import-entries-summary-footer">
     <button
-      *ngIf="!summary.loading; else warning"
+      *ngIf="!summary.loading; else info"
       (click)="close('Close Import Products Dialog')"
       class="btn btn-action"
       type="button"
     >
       {{ 'importEntriesDialog.close' | cxTranslate }}
     </button>
-    <ng-template #warning>
-      <p>{{ 'importEntriesDialog.summary.warning' | cxTranslate }}</p>
+    <ng-template #info>
+      <p>{{ 'importEntriesDialog.summary.info' | cxTranslate }}</p>
     </ng-template>
   </div>
 </ng-container>
