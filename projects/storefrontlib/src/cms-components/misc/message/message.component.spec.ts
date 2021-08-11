@@ -66,7 +66,7 @@ describe('MessageComponent', () => {
   it('should show close button and trigger close action', () => {
     spyOn(component.closeMessage, 'emit');
 
-    const button = el.query(By.css('.message .closeMessage')).nativeElement;
+    const button = el.query(By.css('.message .close')).nativeElement;
     button.click();
 
     expect(button).toBeTruthy();
