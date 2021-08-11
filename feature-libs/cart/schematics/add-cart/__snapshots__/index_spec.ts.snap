@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { ImportExportModule } from \\"@spartacus/cart/import-export\\";
+import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
+import { ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    ImportExportRootModule,
+    ImportExportModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: importExportTranslations,
+      chunks: importExportTranslationChunksConfig,
+    },
+  })]
+})
+export class CartImportExportFeatureModule { }
+"
+`;
+
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
+import { CART_IMPORT_EXPORT_FEATURE, ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ImportExportRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_IMPORT_EXPORT_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/import-export').then((m) => m.ImportExportModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: importExportTranslations,
+      chunks: importExportTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartImportExportFeatureModule { }
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
