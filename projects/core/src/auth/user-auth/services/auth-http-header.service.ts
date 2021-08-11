@@ -108,7 +108,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     () => this.getToken()
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  protected stopProgressSubscription = new Subscription();
+  protected subscriptions = new Subscription();
 
   constructor(
     protected authService: AuthService,
@@ -122,11 +122,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     // We need to have stopProgress$ stream active for the whole time,
     // so when the logout finishes we finish it's process.
     // It could happen when retryToken$ is not active.
-    this.stopProgressSubscription.add(this.stopProgress$.subscribe());
-  }
-
-  ngOnDestroy(): void {
-    this.stopProgressSubscription.unsubscribe();
+    this.subscriptions.add(this.stopProgress$.subscribe());
   }
 
   /**
@@ -339,5 +335,9 @@ export class AuthHttpHeaderService implements OnDestroy {
       },
     });
     return request;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
