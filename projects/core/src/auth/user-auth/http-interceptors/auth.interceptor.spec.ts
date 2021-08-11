@@ -21,7 +21,7 @@ class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
   alterRequest(req) {
     return req;
   }
-  getTokenStable() {
+  getStableToken() {
     return of(undefined);
   }
   shouldCatchError() {

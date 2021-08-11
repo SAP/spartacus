@@ -107,7 +107,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    */
   protected retryToken$ = using(
     () => this.refreshToken$.subscribe(),
-    () => this.getTokenStable()
+    () => this.getStableToken()
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
@@ -290,7 +290,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   /**
    * Emits the token or `undefined` only when the refresh or the logout processes are finished.
    */
-  getTokenStable(): Observable<AuthToken | undefined> {
+  getStableToken(): Observable<AuthToken | undefined> {
     return combineLatest([
       this.token$,
       this.authService.refreshInProgress$,
