@@ -14,7 +14,20 @@ import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
+const testToken: AuthToken = {
+  access_token: 'acc_token',
+  access_token_stored_at: '123',
+};
+
+const logoutInProgressSubject = new BehaviorSubject<boolean>(false);
+const refreshInProgressSubject = new BehaviorSubject<boolean>(false);
+const getTokenFromStorage = new BehaviorSubject<AuthToken | undefined>(
+  testToken
+);
+
 class MockAuthService implements Partial<AuthService> {
+  logoutInProgress$ = logoutInProgressSubject;
+  refreshInProgress$ = refreshInProgressSubject;
   coreLogout() {
     return Promise.resolve();
   }
@@ -22,7 +35,7 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
+    return getTokenFromStorage.asObservable();
   }
 }
 
@@ -48,7 +61,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
-describe('AuthHttpHeaderService', () => {
+fdescribe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
@@ -254,9 +267,35 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('getValidToken', () => {
-    it('should return undefined when token does not have access token', () => {});
+    it('should return undefined when token does not have access token', (done) => {
+      getTokenFromStorage.next(undefined);
 
-    it('should return token when we have access token', () => {});
+      service['getValidToken']({
+        access_token: 'xxx',
+        access_token_stored_at: '123',
+      })
+        .pipe(take(1))
+        .subscribe((result) => {
+          console.error('result: ', result);
+          expect(result).toBeFalsy();
+          done();
+        });
+    });
+
+    it('should return token when we have access token', (done) => {
+      getTokenFromStorage.next(testToken);
+
+      service['getValidToken']({
+        access_token: 'xxx',
+        access_token_stored_at: '123',
+      })
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          expect(result).toEqual(testToken);
+          done();
+        });
+    });
 
     it('should not emit when logout is in progress', () => {});
 
