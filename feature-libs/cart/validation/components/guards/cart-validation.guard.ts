@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { CartValidationFacade } from '@spartacus/cart/validation/root';
 import {
   SemanticPathService,
@@ -10,8 +10,7 @@ import {
   GlobalMessageType,
   MultiCartService,
 } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import {CartModificationList} from "../../root";
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -28,17 +27,27 @@ export class CartValidationGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.cartValidationService.getCartValidationStatus().pipe(
-      map((cartModificationList: CartModificationList) => {
-        console.log(cartModificationList)
+    return combineLatest([
+      this.activeCartService.getActiveCartId(),
+      this.userIdService.takeUserId(),
+    ]).pipe(
+      switchMap(([cartId, userId]) =>
+        combineLatest([
+          of(cartId),
+          of(userId),
+          this.cartValidationService.getCartModificationList(cartId, userId),
+        ])
+      ),
+      map((data) => {
+        const [cartId, userId, cartModificationList] = data;
+
         if (cartModificationList?.cartModifications?.length !== 0) {
           this.globalMessageService.add(
             { key: 'cartValidationErrors.cartEntriesChangeDuringCheckout' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
 
-          // this.multiCartService.loadCart({ cartId, userId });
-          this.activeCartService.reloadActiveCart();
+          this.multiCartService.loadCart({ cartId, userId });
 
           return this.router.parseUrl(this.semanticPathService.get('cart'));
         }

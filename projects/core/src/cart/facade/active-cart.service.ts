@@ -1,5 +1,5 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import { Injectable, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import {
   combineLatest,
   EMPTY,
@@ -22,22 +22,22 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {UserIdService} from '../../auth/index';
-import {Cart} from '../../model/cart.model';
-import {User} from '../../model/misc.model';
-import {OrderEntry} from '../../model/order.model';
+import { UserIdService } from '../../auth/index';
+import { Cart } from '../../model/cart.model';
+import { User } from '../../model/misc.model';
+import { OrderEntry } from '../../model/order.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import {ProcessesLoaderState} from '../../state/utils/processes-loader/processes-loader-state';
-import {EMAIL_PATTERN} from '../../util/regex-pattern';
-import {StateWithMultiCart} from '../store/multi-cart-state';
-import {activeCartInitialState} from '../store/reducers/multi-cart.reducer';
-import {MultiCartSelectors} from '../store/selectors/index';
-import {getCartIdByUserId, isTempCartId} from '../utils/utils';
-import {MultiCartService} from './multi-cart.service';
+import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
+import { EMAIL_PATTERN } from '../../util/regex-pattern';
+import { StateWithMultiCart } from '../store/multi-cart-state';
+import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
+import { MultiCartSelectors } from '../store/selectors/index';
+import { getCartIdByUserId, isTempCartId } from '../utils/utils';
+import { MultiCartService } from './multi-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -123,13 +123,13 @@ export class ActiveCartService implements OnDestroy {
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
-      filter(({isStable, cart}) => isStable || this.isEmpty(cart))
+      filter(({ isStable, cart }) => isStable || this.isEmpty(cart))
     );
 
     // Responsible for loading cart when it's not (eg. app initialization when we have only cart id)
     const activeCartLoading$ = activeCartValue$.pipe(
       withLatestFrom(this.activeCartId$, this.userIdService.getUserId()),
-      tap(([{cart, loaded, isStable}, cartId, userId]) => {
+      tap(([{ cart, loaded, isStable }, cartId, userId]) => {
         if (
           isStable &&
           this.isEmpty(cart) &&
@@ -146,9 +146,9 @@ export class ActiveCartService implements OnDestroy {
       () => activeCartValue$
     ).pipe(
       // Normalization for empty cart value. It will always be returned as empty object.
-      map(({cart}) => (cart ? cart : {})),
+      map(({ cart }) => (cart ? cart : {})),
       distinctUntilChanged(),
-      shareReplay({bufferSize: 1, refCount: true})
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
@@ -542,16 +542,5 @@ export class ActiveCartService implements OnDestroy {
       userId !== OCC_USER_ID_ANONYMOUS && // not logged out
       previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
-  }
-
-  reloadActiveCart() {
-    combineLatest([
-      this.getActiveCartId(),
-      this.userIdService.takeUserId(),
-    ]).pipe(
-      map(([cartId, userId]) => {
-        this.multiCartService.loadCart({cartId, userId});
-      })
-    )
   }
 }

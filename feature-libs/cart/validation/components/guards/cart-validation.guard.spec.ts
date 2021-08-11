@@ -17,7 +17,7 @@ const mockUserId = 'userTest';
 const mockCartId = 'cartTest';
 
 class MockCartValidationFacade implements Partial<CartValidationFacade> {
-  getCartValidationStatus() {
+  getCartModificationList() {
     return cartModification.asObservable();
   }
 }

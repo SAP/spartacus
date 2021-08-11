@@ -8,7 +8,7 @@ export function cartValidationFacadeFactory() {
   return facadeFactory({
     facade: CartValidationFacade,
     feature: CART_VALIDATION_FEATURE,
-    methods: ['getCartValidationStatus'],
+    methods: ['getCartModificationList'],
   });
 }
 
@@ -17,5 +17,8 @@ export function cartValidationFacadeFactory() {
   useFactory: cartValidationFacadeFactory,
 })
 export abstract class CartValidationFacade {
-  abstract getCartValidationStatus(): Observable<CartModificationList | undefined>;
+  abstract getCartModificationList(
+    cartId: string,
+    userId: string
+  ): Observable<CartModificationList | undefined>;
 }
