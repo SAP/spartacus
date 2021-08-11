@@ -119,4 +119,9 @@ describe('QuickOrderFormComponent', () => {
     component.isDisabled = true;
     expect(component.form.get('product')?.disabled).toBeTruthy();
   });
+
+  it('should disable form control with isLoading flag', () => {
+    component.isLoading = true;
+    expect(component.form.get('product')?.disabled).toBeTruthy();
+  });
 });

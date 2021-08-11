@@ -19,11 +19,18 @@ export const quickOrderList = {
   addToCart: 'Add to cart',
   emptyList: 'Empty list',
   header: 'Add Products/Skus',
-  subHeader: `You can add up to {{ limit }} valid SKU's below and add to cart`,
+  subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
+  errorProceedingToCart: 'Error proceeding to Cart.',
+  errors: {
+    productIsOutOfStock: '{{ name }} (#{{code}}) is out of stock.',
+    productWasReduced:
+      'Quantity for {{ name }} (#{{code}}) was reduced to {{ quantityAdded}}.',
+  },
 };
 
 export const quickOrderTable = {
   product: 'Product',
+  id: 'ID',
   price: 'Price',
   quantity: 'QTY',
   itemPrice: 'Item price',

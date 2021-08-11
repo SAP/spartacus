@@ -1,7 +1,10 @@
-<form [formGroup]="form" class="quick-order-form-container row">
-  <div class="col-xs-12 col-md-5 col-lg-4 quick-order-form-input">
+<form
+  (ngSubmit)="search($event)"
+  [formGroup]="form"
+  class="quick-order-form-container"
+>
+  <div class="quick-order-form-input">
     <input
-      (keydown.enter)="search($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
       class="form-control"
       formControlName="product"
@@ -9,15 +12,7 @@
       type="text"
     />
 
-    <cx-icon
-      *ngIf="form.get('product')?.value"
-      (keydown.enter)="clear($event)"
-      (mousedown)="clear($event)"
-      [attr.aria-label]="'common.reset' | cxTranslate"
-      [type]="iconTypes.RESET"
-      class="reset"
-      tabindex="0"
-    ></cx-icon>
+    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
 

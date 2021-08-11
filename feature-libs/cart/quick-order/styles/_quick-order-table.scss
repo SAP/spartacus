@@ -39,7 +39,7 @@ cx-quick-order-table {
     }
   }
 
-  .quick-order-table-item-product {
+  .quick-order-table-item-product-image {
     padding: 0;
     text-align: start;
   }
@@ -55,6 +55,15 @@ cx-quick-order-table {
       line-height: var(--cx-line-height, 1.2222222222);
       overflow-wrap: break-word;
       padding: 0;
+    }
+
+    .cx-code {
+      color: #747881;
+      color: var(--cx-color-secondary);
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-normal);
+      line-height: var(--cx-line-height, 1.2222222222);
+      padding: 7px 0;
     }
 
     .cx-link {

@@ -25,7 +25,11 @@
     class="quick-order-table-row"
   >
     <div class="quick-order-table-items">
-      <cx-quick-order-item [entry]="entry" [index]="i"></cx-quick-order-item>
+      <cx-quick-order-item
+        [entry]="entry"
+        [index]="i"
+        [loading]="loading"
+      ></cx-quick-order-item>
     </div>
   </div>
 </div>

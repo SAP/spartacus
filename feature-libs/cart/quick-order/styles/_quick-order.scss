@@ -1,4 +1,12 @@
 cx-quick-order {
+  .quick-order-errors {
+    margin-top: 10px;
+
+    .quick-order-error-item {
+      padding-bottom: 3px;
+    }
+  }
+
   .quick-order-form-body {
     background-color: $background;
     margin-top: 20px;
