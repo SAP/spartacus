@@ -230,18 +230,19 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should logout user, save current navigation url, and redirect to login page', () => {
+    it('should logout user, save current navigation url, and redirect to login page', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
 
       service.handleExpiredRefreshToken();
+      // wait for the internal coreLogout() to resolve before assertions
+      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
       expect(
         authRedirectService.saveCurrentNavigationUrl
       ).toHaveBeenCalledBefore(routingService.go);
-      // TODO: verify that this happens after coreLogout resolves
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -252,7 +253,7 @@ describe('AuthHttpHeaderService', () => {
     });
   });
 
-  describe('getToken', () => {
+  describe('getValidToken', () => {
     it('should return undefined when token does not have access token', () => {});
 
     it('should return token when we have access token', () => {});
