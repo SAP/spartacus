@@ -63,7 +63,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
-describe('AuthHttpHeaderService', () => {
+fdescribe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
@@ -273,15 +273,39 @@ describe('AuthHttpHeaderService', () => {
       });
     });
 
-    it('should not attempt to refresh the token when there was a logout before the token expired', () => {
-      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(true);
-      // logout should happen when no one was listening to retryToken$ (it should check the subscription for stopProcesses)
-      // only after that we should invoke the expired access token handler or getToken
-    });
+    // it('should not attempt to refresh the token when there was a logout before the token expired', () => {
+    //   const token: AuthToken = {
+    //     access_token: `token`,
+    //     access_token_stored_at: '123',
+    //   };
+
+    //   logoutInProgressSubject.next(true);
+    //   const handler = jasmine.createSpy('handler', (a: any) => of(a));
+    //   spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
+    //   spyOn(service, 'handleExpiredRefreshToken').and.stub();
+    //   spyOn(authStorageService, 'getToken').and.returnValue(of(token));
+
+    //   service
+    //     .handleExpiredAccessToken(
+    //       new HttpRequest('GET', 'some-server/occ/cart'),
+    //       { handle: handler } as HttpHandler,
+    //       token
+    //     )
+    //     .subscribe({
+    //       complete: () => {
+    //         // check that we didn't created new requests
+    //         expect(handler).not.toHaveBeenCalled();
+    //       },
+    //     });
+    //   expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+
+    //   logoutInProgressSubject.next(false);
+    //   expect(handler).toHaveBeenCalled();
+    // });
 
     it('should not refresh token when the given token is already different than the token used for failing refresh', (done) => {
-      (authService.refreshInProgress$ as BehaviorSubject<boolean>).next(false);
-      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(false);
+      refreshInProgressSubject.next(false);
+      logoutInProgressSubject.next(false);
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
@@ -309,8 +333,8 @@ describe('AuthHttpHeaderService', () => {
 
   describe('handleExpiredRefreshToken', () => {
     it('should logout user, save current navigation url, and redirect to login page', async () => {
-      (authService.refreshInProgress$ as BehaviorSubject<boolean>).next(false);
-      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(false);
+      refreshInProgressSubject.next(false);
+      logoutInProgressSubject.next(false);
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
