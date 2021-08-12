@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
   OAuthLibWrapperService,
@@ -106,17 +107,27 @@ describe('AsmAuthHttpHeaderService', () => {
 
   describe('alterRequest', () => {
     it('should add header for occ calls', () => {
+      const token: AuthToken = {
+        access_token: 'acc_token',
+        access_token_stored_at: '123',
+      };
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/occ/cart')
+        new HttpRequest('GET', 'some-server/occ/cart'),
+        token
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
 
     it('should add header for cs agent calls', () => {
+      const token: AuthToken = {
+        access_token: 'acc_token',
+        access_token_stored_at: '123',
+      };
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
           headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
-        })
+        }),
+        token
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
