@@ -63,7 +63,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
-fdescribe('AuthHttpHeaderService', () => {
+describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
