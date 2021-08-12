@@ -37,6 +37,8 @@ export class ImportEntriesDialogComponent {
     successesCount: 0,
     warningMessages: [],
     errorMessages: [],
+    warningDetailsOpened: false,
+    errorDetailsOpened: false,
   });
 
   constructor(

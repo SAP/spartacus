@@ -43,6 +43,8 @@ export const importEntriesDialog = {
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
       unknownError: 'Unrecognized problem with "{{ productCode}}".',
     },
+    show_more: 'Show more',
+    show_less: 'Show less',
   },
 };
 

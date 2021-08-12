@@ -40,6 +40,8 @@ export type ProductImportSummary = {
   successesCount: number;
   warningMessages: ProductImportInfo[];
   errorMessages: ProductImportInfo[];
+  warningDetailsOpened: boolean;
+  errorDetailsOpened: boolean;
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {

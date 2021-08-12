@@ -26,8 +26,21 @@
         'importEntriesDialog.summary.warning'
           | cxTranslate: { count: summary.warningMessages.length }
       }}
+      <button
+        class="link cx-action-link"
+        (click)="
+          summary.warningDetailsOpened = !this.summary.warningDetailsOpened
+        "
+      >
+        {{
+          (summary.warningDetailsOpened
+            ? 'importEntriesDialog.summary.show_less'
+            : 'importEntriesDialog.summary.show_more'
+          ) | cxTranslate
+        }}
+      </button>
     </p>
-    <ul>
+    <ul *ngIf="summary.warningDetailsOpened">
       <li *ngFor="let message of summary.warningMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
@@ -46,8 +59,19 @@
         'importEntriesDialog.summary.error'
           | cxTranslate: { count: summary.errorMessages.length }
       }}
+      <button
+        class="link cx-action-link"
+        (click)="summary.errorDetailsOpened = !this.summary.errorDetailsOpened"
+      >
+        {{
+          (summary.errorDetailsOpened
+            ? 'importEntriesDialog.summary.show_less'
+            : 'importEntriesDialog.summary.show_more'
+          ) | cxTranslate
+        }}
+      </button>
     </p>
-    <ul>
+    <ul *ngIf="summary.errorDetailsOpened">
       <li *ngFor="let message of summary.errorMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
