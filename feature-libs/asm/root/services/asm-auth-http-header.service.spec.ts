@@ -139,7 +139,7 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    fit('should work the same as in AuthHeaderService when there is normally logged user', async () => {
+    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
