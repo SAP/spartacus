@@ -3,13 +3,14 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  CartActions,
   MultiCartService,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { ProductsData } from '../../core/model';
+import { ProductImportStatus, ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 
 import createSpy = jasmine.createSpy;
@@ -115,6 +116,32 @@ describe('ImportToCartService', () => {
         mockCartId,
         mockProductData
       );
+    });
+  });
+
+  describe('loadProductsToCart', () => {
+    it('should return success action', () => {
+      let action;
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe((data) => (action = data));
+
+      mockActionsSubject.next(
+        new CartActions.CartAddEntrySuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+          productCode: '693923',
+          quantity: 1,
+          entry: { product: { name: 'mockProduct1' } },
+          quantityAdded: 1,
+          statusCode: ProductImportStatus.SUCCESS,
+        })
+      );
+
+      expect(action).toEqual({
+        productCode: '693923',
+        statusCode: ProductImportStatus.SUCCESS,
+      });
     });
   });
 });
