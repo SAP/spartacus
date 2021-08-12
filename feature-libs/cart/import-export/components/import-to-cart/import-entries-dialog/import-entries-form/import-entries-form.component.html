@@ -1,5 +1,5 @@
 <ng-container>
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="submit()">
+  <form *ngIf="form" [formGroup]="form" (submit)="formSubmitSubject$.next()">
     <p class="cx-import-entries-subtitle">
       {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
     </p>
@@ -10,7 +10,6 @@
       <cx-file-upload
         [formControl]="form.get('file')"
         [accept]="fileValidity?.allowedExtensions"
-        (update)="loadFile()"
       >
         {{ 'importEntriesDialog.selectFile' | cxTranslate }}
       </cx-file-upload>
@@ -69,7 +68,11 @@
       >
         {{ 'importEntriesDialog.cancel' | cxTranslate }}
       </button>
-      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="form.get('file')?.status === 'PENDING'"
+      >
         {{ 'importEntriesDialog.upload' | cxTranslate }}
       </button>
     </div>

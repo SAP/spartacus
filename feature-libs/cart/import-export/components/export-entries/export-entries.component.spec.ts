@@ -7,7 +7,7 @@ import {
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportService } from '@spartacus/cart/import-export/core';
+import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 import { BehaviorSubject } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -104,7 +104,7 @@ class MockExportService {
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
-  let exportService: ExportService;
+  let exportService: ExportCsvService;
   let exportEntriesService: ExportEntriesService;
 
   beforeEach(
@@ -121,7 +121,7 @@ describe('ExportEntriesComponent', () => {
             useClass: MockExportEntriesService,
           },
           {
-            provide: ExportService,
+            provide: ExportCsvService,
             useClass: MockExportService,
           },
         ],
@@ -134,7 +134,7 @@ describe('ExportEntriesComponent', () => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
     component = fixture.componentInstance;
 
-    exportService = TestBed.inject(ExportService);
+    exportService = TestBed.inject(ExportCsvService);
     exportEntriesService = TestBed.inject(ExportEntriesService);
   });
 

@@ -29,7 +29,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   /**
    * Allowed extensions for the file. It's setting attribute used for OS window for choosing files.
    */
-  @Input() accept?: string = '*';
+  @Input() accept?: string | string[] = '*';
   /**
    * Allows selecting multiple files.
    */

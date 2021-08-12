@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartService } from '@spartacus/core';
-import { ExportService } from '@spartacus/cart/import-export/core';
+import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 @Component({
   selector: 'cx-export-entries',
@@ -10,7 +10,7 @@ import { ExportEntriesService } from './export-entries.service';
 export class ExportEntriesComponent {
   constructor(
     protected exportEntriesService: ExportEntriesService,
-    protected exportService: ExportService,
+    protected exportService: ExportCsvService,
     protected activeCartService: ActiveCartService
   ) {}
 
