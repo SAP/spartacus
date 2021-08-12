@@ -16,6 +16,9 @@ import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
 
+  warningDetailsOpened: Boolean = false;
+  errorDetailsOpened: Boolean = false;
+
   @Input()
   summary: ProductImportSummary;
 
