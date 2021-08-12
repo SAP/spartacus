@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ImportService,
-  ProductImportInfo,
-  ProductImportStatus,
+  FilesFormValidators,
+  ImportCsvService,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
@@ -12,7 +11,7 @@ import {
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -43,19 +42,6 @@ const mockProducts: ProductsData = [
   { productCode: '232133', quantity: 2 },
 ];
 
-const mockLoadProduct: ProductImportInfo = {
-  productCode: '123456',
-  statusCode: ProductImportStatus.SUCCESS,
-};
-
-const loadFileData$: BehaviorSubject<string> = new BehaviorSubject(
-  mockCsvString
-);
-
-const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
-  mockLoadProduct
-);
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of(mockFileValidity);
@@ -65,15 +51,16 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 class MockImportToCartService implements Partial<ImportToCartService> {
-  loadProductsToCart = () => loadProducts$.asObservable();
-  isDataParsable = () => true;
+  isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
 
-class MockImportService implements Partial<ImportService> {
-  loadFile = () => loadFileData$.asObservable();
-  readCsvData() {
-    return mockLoadFileData;
+class MockImportCsvService implements Partial<ImportCsvService> {
+  loadFile = () => {
+    return of(mockCsvString);
+  };
+  loadCsvData() {
+    return of(mockLoadFileData);
   }
 }
 
@@ -82,7 +69,7 @@ describe('ImportEntriesFormComponent', () => {
   let fixture: ComponentFixture<ImportEntriesFormComponent>;
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
-  let importService: ImportService;
+  let filesFormValidators: FilesFormValidators;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -97,7 +84,7 @@ describe('ImportEntriesFormComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
-        { provide: ImportService, useClass: MockImportService },
+        { provide: ImportCsvService, useClass: MockImportCsvService },
       ],
     }).compileComponents();
 
@@ -106,9 +93,11 @@ describe('ImportEntriesFormComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
-    importService = TestBed.inject(ImportService);
+    filesFormValidators = TestBed.inject(FilesFormValidators);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(filesFormValidators, 'maxSize').and.callThrough();
+    spyOn(filesFormValidators, 'parsableFile').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -136,72 +125,12 @@ describe('ImportEntriesFormComponent', () => {
     expect(component.form?.get('description')?.value).toBeDefined();
   });
 
-  describe('loadFile', () => {
-    beforeEach(() => {
-      loadFileData$.next(mockCsvString);
-      component.form.get('file')?.setValue([mockFile]);
-    });
-    it('should validate maximum size', () => {
-      spyOn<any>(component, 'validateMaxSize');
-      component.loadFile();
-
-      expect(component['validateMaxSize']).toHaveBeenCalledWith(mockFile);
-    });
-
-    it('should validate if file is empty', () => {
-      spyOn<any>(component, 'validateEmpty');
-      component.loadFile();
-
-      expect(component['validateEmpty']).toHaveBeenCalledWith(mockLoadFileData);
-    });
-
-    it('should validate if file is parsable', () => {
-      spyOn<any>(component, 'validateParsable');
-      component.loadFile();
-
-      expect(component['validateParsable']).toHaveBeenCalledWith(
-        mockLoadFileData
-      );
-    });
-
-    it('should throw error if file is empty', () => {
-      loadFileData$.next('');
-      spyOn(importService, 'readCsvData').and.returnValue([]);
-      component.loadFile();
-
-      expect(component.fileError.empty).toBeTruthy();
-    });
-
-    it('should throw error if file is too big', () => {
-      const mockLargeFile = new File([], 'mockFile');
-      Object.defineProperty(mockLargeFile, 'size', { value: 1000001 });
-      component.form.get('file')?.setValue([mockLargeFile]);
-      component.loadFile();
-
-      expect(component.fileError.tooLarge).toBeTruthy();
-    });
-
-    it('should throw error if file is not parsable', () => {
-      spyOn(importToCartService, 'isDataParsable').and.returnValue(false);
-      component.loadFile();
-
-      expect(component.fileError.notParsable).toBeTruthy();
-    });
-
-    it('should call loadFile method from import service', () => {
-      spyOn(importService, 'loadFile');
-      component.loadFile();
-
-      expect(importService.loadFile).toHaveBeenCalledWith(mockFile);
-    });
-
-    it('should load the file into loadedFile', () => {
-      component.loadFile();
-      expect(component.loadedFile).toEqual(mockLoadFileData);
-    });
+  it('should validate maximum size and parsable file while building form', () => {
+    expect(filesFormValidators.maxSize).toHaveBeenCalled();
+    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
   });
 
-  it('should trigger submit event when submit method is called', () => {
+  it('should trigger submit event when save method is called', () => {
     component.form.get('file')?.setValue([mockFile]);
     const mockSubmitData = {
       products: mockProducts,
@@ -209,16 +138,8 @@ describe('ImportEntriesFormComponent', () => {
       description: '',
     };
     spyOn(component.submitEvent, 'emit');
-    component.loadFile();
-    component.submit();
+    component.save();
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
-  });
-
-  it('should not trigger submit event when loadedFile data does not exist', () => {
-    spyOn(component.submitEvent, 'emit');
-    component.submit();
-
-    expect(component.submitEvent.emit).not.toHaveBeenCalled();
   });
 });

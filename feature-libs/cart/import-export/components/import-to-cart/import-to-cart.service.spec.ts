@@ -83,12 +83,12 @@ describe('ImportToCartService', () => {
   });
 
   it('should return true if data is parsable', () => {
-    const result = service.isDataParsable(mockFileData);
+    const result = service.isDataParsableToProducts(mockFileData);
     expect(result).toBe(true);
   });
 
   it('should return false if data is not parsable', () => {
-    const result = service.isDataParsable([['abc', '11.22']]);
+    const result = service.isDataParsableToProducts([['abc', '11.22']]);
     expect(result).toBe(false);
   });
 
