@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ImportExportConfig } from '../config/import-export-config';
-import { ImportService } from './import.service';
+import { ImportCsvService } from './import-csv.service';
 
 const mockImportExportConfig: ImportExportConfig = {
   importExport: {
@@ -20,8 +20,8 @@ const mockFile: File = new File([mockCsvString], 'mockFile', {
   type: 'text/csv',
 });
 
-describe('ImportService', () => {
-  let service: ImportService;
+describe('ImportCsvService', () => {
+  let service: ImportCsvService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('ImportService', () => {
         { provide: ImportExportConfig, useValue: mockImportExportConfig },
       ],
     });
-    service = TestBed.inject(ImportService);
+    service = TestBed.inject(ImportCsvService);
   });
 
   it('should be created', () => {

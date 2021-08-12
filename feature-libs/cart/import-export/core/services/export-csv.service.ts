@@ -4,7 +4,7 @@ import { ImportExportConfig } from '../config/import-export-config';
 @Injectable({
   providedIn: 'root',
 })
-export class ExportService {
+export class ExportCsvService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
   private get separator() {
