@@ -28,4 +28,12 @@ export class ImportEntriesSummaryComponent {
   close(reason: string): void {
     this.closeEvent.emit(reason);
   }
+
+  toggleWarningList() {
+    this.warningDetailsOpened = !this.warningDetailsOpened;
+  }
+
+  toggleErrorList() {
+    this.errorDetailsOpened = !this.errorDetailsOpened;
+  }
 }
