@@ -12,7 +12,7 @@ import {
   OccEndpointsService,
   RoutingService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
 import { CsAgentAuthService } from './csagent-auth.service';
 
@@ -26,6 +26,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
+  logoutInProgress$ = new BehaviorSubject<boolean>(false);
   coreLogout() {
     return Promise.resolve();
   }
@@ -155,11 +156,12 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should work the same as in AuthHeaderService when there is normally logged user', () => {
+    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.handleExpiredRefreshToken();
+      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
       expect(
