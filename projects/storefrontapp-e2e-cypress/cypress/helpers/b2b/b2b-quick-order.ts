@@ -53,6 +53,25 @@ export function addProductToTheList(productCode: string) {
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
+export function addProductToTheListAndModifyQuantity(
+  productCode: string,
+  quantity: number
+) {
+  const alias = this.interceptGetProductEndpoint(productCode);
+
+  cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+
+  this.modifyProductQuantityInQuickOrderList(quantity);
+}
+
+export function modifyProductQuantityInQuickOrderList(quantity: number) {
+  cy.get('.quick-order-table-item-quantity cx-item-counter input')
+    .type('{selectall}{backspace}')
+    .type(`${quantity}`)
+    .blur();
+}
+
 export function addWrongProductToTheList(productCode: string) {
   const alias = this.interceptGetProductEndpoint(productCode);
 
@@ -83,6 +102,13 @@ export function addToCart() {
 
 export function verifyQuickOrderFormIsDisabled() {
   cy.get('.quick-order-form-input input').should('be.disabled');
+}
+
+export function verifyQuickOrderPageShowErrorMessageOutOfStock() {
+  cy.get('cx-message').should('exist').should('contain', 'is out of stock');
+}
+export function verifyQuickOrderPageShowErrorMessageWasReduced() {
+  cy.get('cx-message').should('exist').should('contain', 'was reduced to');
 }
 
 export function verifyEmptyListButtonIsHidden() {

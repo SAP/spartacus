@@ -71,6 +71,32 @@ context('B2B - Quick Order', () => {
       it('should hide "Empty List" button if list has no entries', () => {
         quickOrder.verifyEmptyListButtonIsHidden();
       });
+
+      it('should show error message after adding to cart about out of stock information', () => {
+        quickOrder.addProductToTheListAndModifyQuantity(
+          sampleData.b2bProduct.code,
+          259
+        );
+        quickOrder.addToCart();
+        quickOrder.verifyMiniCartQuantity(259);
+        quickOrder.verifyQuickOrderListQuantity(0);
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.addToCart();
+        quickOrder.verifyQuickOrderPageShowErrorMessageOutOfStock();
+      });
+
+      it('should show error message after adding to cart about reduced quantity', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.addToCart();
+        quickOrder.verifyMiniCartQuantity(1);
+        quickOrder.verifyQuickOrderListQuantity(0);
+        quickOrder.addProductToTheListAndModifyQuantity(
+          sampleData.b2bProduct.code,
+          10000
+        );
+        quickOrder.addToCart();
+        quickOrder.verifyQuickOrderPageShowErrorMessageWasReduced();
+      });
     });
 
     describe('Cart Page', () => {
