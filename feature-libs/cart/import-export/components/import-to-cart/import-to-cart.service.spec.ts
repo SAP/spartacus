@@ -99,7 +99,10 @@ describe('ImportToCartService', () => {
 
   describe('loadProductsToCart', () => {
     it('should create, save and load cart', () => {
-      service.loadProductsToCart(mockProductData, mockSavedCart).subscribe();
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe()
+        .unsubscribe();
 
       expect(multiCartService.createCart).toHaveBeenCalledWith({
         userId: mockUserId,
@@ -117,9 +120,7 @@ describe('ImportToCartService', () => {
         mockProductData
       );
     });
-  });
 
-  describe('loadProductsToCart', () => {
     it('should return success action', () => {
       let action;
       service
@@ -141,6 +142,79 @@ describe('ImportToCartService', () => {
       expect(action).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.SUCCESS,
+      });
+    });
+
+    it('should return low stock action', () => {
+      let action;
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe((data) => (action = data));
+
+      mockActionsSubject.next(
+        new CartActions.CartAddEntrySuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+          productCode: '693923',
+          entry: { product: { name: 'mockProduct1' } },
+          quantity: 4,
+          quantityAdded: 1,
+          statusCode: ProductImportStatus.LOW_STOCK,
+        })
+      );
+
+      expect(action).toEqual({
+        productName: 'mockProduct1',
+        quantity: 4,
+        quantityAdded: 1,
+        productCode: '693923',
+        statusCode: ProductImportStatus.LOW_STOCK,
+      });
+    });
+
+    it('should return Unknown Identifier Error action', () => {
+      let action;
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe((data) => (action = data));
+
+      mockActionsSubject.next(
+        new CartActions.CartAddEntryFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          productCode: '693923',
+          quantity: 1,
+          error: { details: [{ type: 'UnknownIdentifierError' }] },
+        })
+      );
+
+      expect(action).toEqual({
+        productCode: '693923',
+        statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+      });
+    });
+
+    it('should return unknown error action', () => {
+      let action;
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe((data) => (action = data));
+
+      mockActionsSubject.next(
+        new CartActions.CartAddEntrySuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+          productCode: '693923',
+          entry: { product: { name: 'mockProduct1' } },
+          quantity: 4,
+          quantityAdded: 1,
+          statusCode: 'CODE_WHICH_WE_DIDNT_REGISTER',
+        })
+      );
+
+      expect(action).toEqual({
+        productCode: '693923',
+        statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
     });
   });
