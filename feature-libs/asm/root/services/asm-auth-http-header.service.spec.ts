@@ -3,8 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
-  AuthStorageService,
-  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
   OAuthLibWrapperService,
@@ -28,12 +26,6 @@ class MockAuthService implements Partial<AuthService> {
   setLogoutProgress(_progress: boolean): void {}
   coreLogout() {
     return Promise.resolve();
-  }
-}
-
-class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
   }
 }
 
@@ -74,7 +66,6 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: AuthStorageService, useClass: MockAuthStorageService },
       ],
     });
 
@@ -148,7 +139,7 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
+    fit('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
