@@ -124,8 +124,11 @@ export class ImportToCartService {
           quantityAdded,
         };
       }
-      if (statusCode === ProductImportStatus.SUCCESS) {
-        return { productCode, statusCode };
+      if (
+        statusCode === ProductImportStatus.SUCCESS ||
+        statusCode === ProductImportStatus.NO_STOCK
+      ) {
+        return { productCode, statusCode, productName: entry?.product?.name };
       }
     } else if (action instanceof CartActions.CartAddEntryFail) {
       const { error } = action.payload;
