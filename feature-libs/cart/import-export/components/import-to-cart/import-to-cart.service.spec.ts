@@ -46,7 +46,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
 class MockSavedCartService implements Partial<SavedCartService> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
-  getSaveCartProcessLoading = createSpy().and.returnValue(of());
+  getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
