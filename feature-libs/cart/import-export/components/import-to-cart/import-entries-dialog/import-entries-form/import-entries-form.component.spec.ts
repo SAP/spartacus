@@ -3,6 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FilesFormValidators,
   ImportCsvService,
+  ProductImportInfo,
+  ProductImportStatus,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
@@ -42,6 +44,11 @@ const mockProducts: ProductsData = [
   { productCode: '232133', quantity: 2 },
 ];
 
+const mockLoadProduct: ProductImportInfo = {
+  productCode: '123456',
+  statusCode: ProductImportStatus.SUCCESS,
+};
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of(mockFileValidity);
@@ -51,17 +58,14 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 class MockImportToCartService implements Partial<ImportToCartService> {
+  loadProductsToCart = () => of(mockLoadProduct);
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
 
 class MockImportCsvService implements Partial<ImportCsvService> {
-  loadFile = () => {
-    return of(mockCsvString);
-  };
-  loadCsvData() {
-    return of(mockLoadFileData);
-  }
+  loadFile = () => of(mockCsvString);
+  loadCsvData = () => of(mockLoadFileData);
 }
 
 describe('ImportEntriesFormComponent', () => {
