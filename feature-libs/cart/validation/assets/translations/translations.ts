@@ -7,5 +7,5 @@ export const cartValidationTranslations: TranslationResources = {
 
 // expose translation chunks mapping for cart validation feature
 export const cartValidationTranslationChunksConfig: TranslationChunksConfig = {
-  cartValidation: ['cartValidationErrors'],
+  cartValidation: ['cartValidationMessages'],
 };

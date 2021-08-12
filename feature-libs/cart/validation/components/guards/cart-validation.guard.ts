@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { CartValidationFacade } from '@spartacus/cart/validation/root';
+import { Observable } from 'rxjs';
+import {
+  CartValidationFacade,
+  CartModificationList,
+} from '@spartacus/cart/validation/root';
 import {
   SemanticPathService,
   GlobalMessageService,
-  UserIdService,
   ActiveCartService,
   GlobalMessageType,
-  MultiCartService,
 } from '@spartacus/core';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { CartValidationWarningsStateService } from '@spartacus/cart/validation/core';
 
 @Injectable({
   providedIn: 'root',
@@ -21,36 +23,29 @@ export class CartValidationGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected globalMessageService: GlobalMessageService,
-    protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected multiCartService: MultiCartService
+    protected cartValidationWarningsStateService: CartValidationWarningsStateService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return combineLatest([
-      this.activeCartService.getActiveCartId(),
-      this.userIdService.takeUserId(),
-    ]).pipe(
-      switchMap(([cartId, userId]) =>
-        combineLatest([
-          of(cartId),
-          of(userId),
-          this.cartValidationService.getCartModificationList(cartId, userId),
-        ])
-      ),
-      map((data) => {
-        const [cartId, userId, cartModificationList] = data;
+    this.cartValidationWarningsStateService.checkoutRouteActivated$.next(true);
+    this.cartValidationWarningsStateService.checkForValidationResultClear$.subscribe();
+
+    return this.cartValidationService.getCartValidationStatus().pipe(
+      map((cartModificationList: CartModificationList) => {
+        this.cartValidationWarningsStateService.cartValidationResult$.next(
+          cartModificationList.cartModifications
+        );
 
         if (cartModificationList?.cartModifications?.length !== 0) {
           this.globalMessageService.add(
-            { key: 'cartValidationErrors.cartEntriesChangeDuringCheckout' },
+            { key: 'cartValidationMessages.cartEntriesChangeDuringCheckout' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-
-          this.multiCartService.loadCart({ cartId, userId });
-
+          this.activeCartService.reloadActiveCart();
           return this.router.parseUrl(this.semanticPathService.get('cart'));
         }
+
         return true;
       })
     );

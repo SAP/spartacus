@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CartValidationFacade } from '@spartacus/cart/validation/root';
-import { Observable } from 'rxjs';
-import { Command, CommandService, CommandStrategy } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import {
+  CommandService,
+  UserIdService,
+  ActiveCartService,
+  Command,
+  CommandStrategy,
+} from '@spartacus/core';
 import { CartValidationConnector } from '../connectors/cart-validation.connector';
 import { CartModificationList } from '@spartacus/cart/validation/root';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class CartValidationService implements CartValidationFacade {
-  protected getCartModificationListCommand: Command<
-    { cartId: string; userId: string },
-    CartModificationList
-  > = this.command.create(
-    (payload) =>
-      this.cartValidationConnector.get(payload.cartId, payload.userId),
+  protected getCartModificationListCommand: Command = this.command.create(
+    () =>
+      combineLatest([
+        this.activeCartService.getActiveCartId(),
+        this.userIdService.takeUserId(),
+      ]).pipe(
+        switchMap(([cartId, userId]) =>
+          this.cartValidationConnector.get(cartId, userId)
+        )
+      ),
     {
       strategy: CommandStrategy.CancelPrevious,
     }
@@ -20,7 +31,9 @@ export class CartValidationService implements CartValidationFacade {
 
   constructor(
     protected cartValidationConnector: CartValidationConnector,
-    protected command: CommandService
+    protected command: CommandService,
+    protected userIdService: UserIdService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -29,10 +42,7 @@ export class CartValidationService implements CartValidationFacade {
    * @param cartId
    * @param userId
    */
-  getCartModificationList(
-    cartId: string,
-    userId: string
-  ): Observable<CartModificationList> {
-    return this.getCartModificationListCommand.execute({ cartId, userId });
+  getCartValidationStatus(): Observable<CartModificationList> {
+    return this.getCartModificationListCommand.execute(undefined);
   }
 }
