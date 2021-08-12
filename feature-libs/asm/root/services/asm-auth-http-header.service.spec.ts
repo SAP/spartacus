@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
-  AuthStorageService,
   AuthToken,
   GlobalMessageService,
   GlobalMessageType,
@@ -25,14 +24,9 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
+  setLogoutProgress(_progress: boolean): void {}
   coreLogout() {
     return Promise.resolve();
-  }
-}
-
-class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
   }
 }
 
@@ -73,7 +67,6 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: AuthStorageService, useClass: MockAuthStorageService },
       ],
     });
 
@@ -114,17 +107,27 @@ describe('AsmAuthHttpHeaderService', () => {
 
   describe('alterRequest', () => {
     it('should add header for occ calls', () => {
+      const token: AuthToken = {
+        access_token: 'acc_token',
+        access_token_stored_at: '123',
+      };
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/occ/cart')
+        new HttpRequest('GET', 'some-server/occ/cart'),
+        token
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
 
     it('should add header for cs agent calls', () => {
+      const token: AuthToken = {
+        access_token: 'acc_token',
+        access_token_stored_at: '123',
+      };
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
           headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
-        })
+        }),
+        token
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
@@ -147,11 +150,12 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should work the same as in AuthHeaderService when there is normally logged user', () => {
+    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.handleExpiredRefreshToken();
+      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
@@ -165,9 +169,11 @@ describe('AsmAuthHttpHeaderService', () => {
       ).and.returnValue(of(true));
       spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(authService, 'setLogoutProgress').and.stub();
 
       service.handleExpiredRefreshToken();
 
+      expect(authService.setLogoutProgress).toHaveBeenCalledWith(true);
       expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
