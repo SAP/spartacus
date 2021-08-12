@@ -71,8 +71,8 @@ export class AuthHttpHeaderService implements OnDestroy {
     tap(([oldToken, newToken]) => {
       // if we got the new token we know that either the refresh or logout finished
       if (oldToken?.access_token !== newToken?.access_token) {
-        this.authService.refreshInProgress$.next(false);
-        this.authService.logoutInProgress$.next(false);
+        this.authService.setLogoutProgress(false);
+        this.authService.setRefreshProgress(false);
       }
     })
   );
@@ -93,7 +93,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     tap(([token]) => {
       if (token?.refresh_token) {
         this.oAuthLibWrapperService.refreshToken();
-        this.authService.refreshInProgress$.next(true);
+        this.authService.setRefreshProgress(true);
       } else {
         this.handleExpiredRefreshToken();
       }

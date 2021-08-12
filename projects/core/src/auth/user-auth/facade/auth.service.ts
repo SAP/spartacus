@@ -22,12 +22,12 @@ export class AuthService {
   /**
    * Indicates whether the access token is being refreshed
    */
-  refreshInProgress$ = new BehaviorSubject<boolean>(false);
+  refreshInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * Indicates whether the logout is being performed
    */
-  logoutInProgress$ = new BehaviorSubject<boolean>(false);
+  logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -87,7 +87,7 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
-    this.logoutInProgress$.next(true);
+    this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
@@ -112,5 +112,19 @@ export class AuthService {
    */
   logout(): void {
     this.routingService.go({ cxRoute: 'logout' });
+  }
+
+  /**
+   * Start or stop the refresh process
+   */
+  setRefreshProgress(progress: boolean): void {
+    (this.refreshInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  /**
+   * Start or stop the logout process
+   */
+  setLogoutProgress(progress: boolean): void {
+    (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 }

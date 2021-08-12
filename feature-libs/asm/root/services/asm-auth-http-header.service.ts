@@ -106,7 +106,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       .pipe(take(1))
       .subscribe((csAgentLoggedIn) => {
         if (csAgentLoggedIn) {
-          this.authService.logoutInProgress$.next(true);
+          this.authService.setLogoutProgress(true);
           this.csAgentAuthService.logoutCustomerSupportAgent();
           this.globalMessageService.add(
             {

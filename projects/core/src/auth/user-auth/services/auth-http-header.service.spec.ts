@@ -31,6 +31,8 @@ class MockAuthService implements Partial<AuthService> {
   coreLogout() {
     return Promise.resolve();
   }
+  setLogoutProgress(_progress: boolean): void {}
+  setRefreshProgress(_progress: boolean): void {}
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -271,12 +273,15 @@ describe('AuthHttpHeaderService', () => {
       });
     });
 
-    it('should return when there was logout before that', () => {
+    it('should not attempt to refresh the token when there was a logout before the token expired', () => {
+      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(true);
       // logout should happen when no one was listening to retryToken$ (it should check the subscription for stopProcesses)
       // only after that we should invoke the expired access token handler or getToken
     });
 
     it('should not refresh token when the given token is already different than the token used for failing refresh', (done) => {
+      (authService.refreshInProgress$ as BehaviorSubject<boolean>).next(false);
+      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(false);
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
@@ -304,6 +309,8 @@ describe('AuthHttpHeaderService', () => {
 
   describe('handleExpiredRefreshToken', () => {
     it('should logout user, save current navigation url, and redirect to login page', async () => {
+      (authService.refreshInProgress$ as BehaviorSubject<boolean>).next(false);
+      (authService.logoutInProgress$ as BehaviorSubject<boolean>).next(false);
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
