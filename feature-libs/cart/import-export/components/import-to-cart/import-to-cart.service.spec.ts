@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { ProductImportStatus, ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 
@@ -40,28 +40,25 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockMultiCartService implements Partial<MultiCartService> {
   createCart = createSpy().and.returnValue(of(mockCartData));
-  addEntries = createSpy();
+  addEntries = createSpy().and.callThrough();
 }
 
 class MockSavedCartService implements Partial<SavedCartService> {
-  saveCart = createSpy();
-  loadSavedCarts = createSpy();
-  getSaveCartProcessLoading(): Observable<boolean> {
-    return of();
-  }
+  saveCart = createSpy().and.callThrough();
+  loadSavedCarts = createSpy().and.callThrough();
+  getSaveCartProcessLoading = createSpy().and.returnValue(of());
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
+const mockActionsSubject = new Subject<Action>();
+
 describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartService;
-  let mockActionsSubject: ReplaySubject<Action>;
-
-  mockActionsSubject = new ReplaySubject<Action>();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
