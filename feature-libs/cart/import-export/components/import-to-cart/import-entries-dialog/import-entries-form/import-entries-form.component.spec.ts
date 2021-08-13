@@ -173,12 +173,4 @@ describe('ImportEntriesFormComponent', () => {
 
     expect(component.form.get('name')?.value).toEqual('mockFile');
   });
-
-  it('should not update cart name if it is not enabled', () => {
-    component.cartOptions.enableDefaultName = false;
-    component.form.get('file')?.setValue([mockFile]);
-    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
-
-    expect(component.form.get('name')?.value).toEqual('');
-  });
 });
