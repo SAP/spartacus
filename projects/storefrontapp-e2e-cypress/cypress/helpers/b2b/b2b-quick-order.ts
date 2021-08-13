@@ -151,6 +151,7 @@ export function prepareCartWithProduct() {
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
+  this.verifyMiniCartQuantity(1);
   this.visitCartPage();
 }
 
