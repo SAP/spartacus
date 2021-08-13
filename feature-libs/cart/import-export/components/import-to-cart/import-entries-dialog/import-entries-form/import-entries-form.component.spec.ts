@@ -1,5 +1,7 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import {
   defaultNameSource,
   FilesFormValidators,
@@ -82,6 +84,7 @@ describe('ImportEntriesFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
+  let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -103,6 +106,7 @@ describe('ImportEntriesFormComponent', () => {
 
     fixture = TestBed.createComponent(ImportEntriesFormComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
@@ -154,5 +158,27 @@ describe('ImportEntriesFormComponent', () => {
     component.save();
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
+  });
+
+  it('should call updateCartName on event change', () => {
+    spyOn<any>(component, 'updateCartName').and.callThrough();
+    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+
+    expect(component['updateCartName']).toHaveBeenCalled();
+  });
+
+  it('should update cart name based on the file name', () => {
+    component.form.get('file')?.setValue([mockFile]);
+    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+
+    expect(component.form.get('name')?.value).toEqual('mockFile');
+  });
+
+  it('should not update cart name if it is not enabled', () => {
+    component.cartOptions.enableDefaultName = false;
+    component.form.get('file')?.setValue([mockFile]);
+    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+
+    expect(component.form.get('name')?.value).toEqual('');
   });
 });

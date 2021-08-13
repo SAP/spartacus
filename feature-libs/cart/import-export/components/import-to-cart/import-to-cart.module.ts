@@ -18,7 +18,7 @@ import {
 import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
-import { defaultNameSource } from '../../core/model';
+import { defaultNameSource } from '@spartacus/cart/import-export/core';
 
 @NgModule({
   imports: [
