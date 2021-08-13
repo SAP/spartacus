@@ -37,7 +37,7 @@ export class ImportToCartService {
   loadProductsToCart(
     products: ProductsData,
     savedCartInfo: { name: string; description?: string }
-  ) {
+  ): Observable<ProductImportInfo> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
         this.multiCartService
@@ -86,9 +86,9 @@ export class ImportToCartService {
     }));
   }
 
-  isDataParsable(data: string[][]): Boolean {
+  isDataParsableToProducts(data: string[][]): Boolean {
     const patternRegex = new RegExp(/(?:\s|^)\d+(?=\s|$)/);
-    return data.every((row) => patternRegex.test(row[1]));
+    return data.length > 0 && data.every((row) => patternRegex.test(row[1]));
   }
 
   /**

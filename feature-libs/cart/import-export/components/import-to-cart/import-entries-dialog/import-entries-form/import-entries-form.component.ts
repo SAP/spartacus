@@ -10,15 +10,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CmsImportEntriesComponent,
   FileValidity,
-  ImportService,
-  InvalidFileInfo,
+  ImportCsvService,
+  FilesFormValidators,
   ProductsData,
   defaultNameSource,
   cartOptions,
 } from '@spartacus/cart/import-export/core';
-import { CmsComponentData, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  CmsComponentData,
+  LaunchDialogService,
+  FormUtils,
+} from '@spartacus/storefront';
+import { Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -28,15 +32,15 @@ import { ImportToCartService } from '../../import-to-cart.service';
   providers: [DatePipe],
 })
 export class ImportEntriesFormComponent implements OnInit {
-  form: FormGroup = this.buildForm();
+  form: FormGroup;
   fileValidity: FileValidity;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
-  fileError: InvalidFileInfo = {};
   cartOptions: cartOptions;
 
   componentData$ = this.componentData.data$;
+  formSubmitSubject$ = new Subject();
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -55,74 +59,73 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportService,
     protected datePipe: DatePipe,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>
+    protected componentData: CmsComponentData<CmsImportEntriesComponent>,
+    protected importService: ImportCsvService,
+    protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit() {
     this.componentData$.pipe(take(1)).subscribe((data) => {
       this.fileValidity = data.fileValidity;
       this.cartOptions = data.cartOptions;
+      this.form = this.buildForm();
     });
+
+    this.formSubmitSubject$
+      .pipe(
+        tap(() => {
+          if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            FormUtils.deepUpdateValueAndValidity(this.form);
+          }
+        }),
+        switchMap(() =>
+          this.form.statusChanges.pipe(
+            startWith(this.form.get('file')?.status),
+            filter((status) => status !== 'PENDING'),
+            take(1)
+          )
+        ),
+        filter((status) => status === 'VALID')
+      )
+      .subscribe(() => {
+        this.save();
+      });
   }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
-  loadFile() {
-    // We expect at most one file in the FileList:
+  save() {
     const file: File = this.form.get('file')?.value?.[0];
-    if (!file) {
-      return;
-    }
-
-    this.fileError = {};
-    of(file)
-      .pipe(
-        tap((fileData: File) => {
-          this.validateMaxSize(fileData);
-        }),
-        switchMap(
-          (fileData: File) =>
-            <Observable<string>>this.importService.loadFile(fileData)
-        ),
-        map((result: string) => this.importService.readCsvData(result)),
-        tap((data: string[][]) => {
-          this.validateEmpty(data);
-          this.validateParsable(data);
-        }),
-        finalize(() => {
-          this.form.get('file')?.updateValueAndValidity();
-        })
-      )
-      .subscribe(
-        (data: string[][]) => {
-          this.loadedFile = data;
-          this.updateCartName();
-        },
-        () => {
-          this.loadedFile = null;
-        }
-      );
-  }
-
-  submit() {
-    if (this.loadedFile) {
+    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
       this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(this.loadedFile),
+        products: this.importToCartService.csvDataToProduct(loadedFile),
         name: this.form.get('name')?.value,
         description: this.form.get('description')?.value,
       });
-    }
+    });
   }
 
   protected buildForm(): FormGroup {
     const form = new FormGroup({});
     form.setControl(
       'file',
-      new FormControl('', [Validators.required, () => this.fileError])
+      new FormControl(
+        '',
+        [
+          Validators.required,
+          this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
+        ],
+        [
+          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
+          this.filesFormValidators
+            .parsableFile(this.importToCartService.isDataParsableToProducts)
+            .bind(this.filesFormValidators),
+        ]
+      )
     );
     form.setControl(
       'name',
@@ -136,28 +139,6 @@ export class ImportEntriesFormComponent implements OnInit {
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     return form;
-  }
-
-  protected validateMaxSize(file: File) {
-    const maxSize = this.fileValidity?.maxSize;
-    if (maxSize && file.size / 1000000 > maxSize) {
-      this.fileError.tooLarge = { maxSize };
-      throw Error();
-    }
-  }
-
-  protected validateEmpty(data: string[][]) {
-    if (data.toString().length === 0) {
-      this.fileError.empty = true;
-      throw Error();
-    }
-  }
-
-  protected validateParsable(data: string[][]) {
-    if (!this.importToCartService.isDataParsable(data)) {
-      this.fileError.notParsable = true;
-      throw Error();
-    }
   }
 
   protected updateCartName(): void {
