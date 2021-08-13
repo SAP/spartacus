@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  defaultNameSource,
   FilesFormValidators,
   ImportCsvService,
   ProductImportInfo,
@@ -9,11 +10,12 @@ import {
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  CmsComponentData,
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -22,14 +24,20 @@ const mockLoadFileData: string[][] = [
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
 
-const mockFileValidity = {
-  maxSize: 1,
-  allowedExtensions: [
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.ms-excel',
-    'text/csv',
-    '.csv',
-  ],
+const mockCmsComponentData = {
+  fileValidity: {
+    maxSize: 1,
+    allowedExtensions: [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+      'text/csv',
+      '.csv',
+    ],
+  },
+  cartOptions: {
+    enableDefaultName: true,
+    defaultNameSource: defaultNameSource.FILE_NAME,
+  },
 };
 
 const mockCsvString =
@@ -49,11 +57,11 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  get data$(): Observable<any> {
-    return of(mockFileValidity);
-  }
+const MockCmsImportEntriesComponent = <CmsComponentData<any>>{
+  data$: of(mockCmsComponentData),
+};
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
@@ -89,6 +97,7 @@ describe('ImportEntriesFormComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvService, useClass: MockImportCsvService },
+        { provide: CmsComponentData, useValue: MockCmsImportEntriesComponent },
       ],
     }).compileComponents();
 
@@ -110,7 +119,7 @@ describe('ImportEntriesFormComponent', () => {
   });
 
   it('should get the file Validity', () => {
-    expect(component.fileValidity).toEqual(mockFileValidity);
+    expect(component.fileValidity).toEqual(mockCmsComponentData.fileValidity);
   });
 
   it('should close dialog on close method', () => {
