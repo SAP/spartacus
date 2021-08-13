@@ -141,7 +141,7 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
-  protected updateCartName(): void {
+  updateCartName(): void {
     if (this.cartOptions.enableDefaultName) {
       if (this.cartOptions.defaultNameSource === defaultNameSource.FILE_NAME) {
         const cartName = this.form

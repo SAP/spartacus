@@ -165,10 +165,10 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should call updateCartName on event change', () => {
-      spyOn<any>(component, 'updateCartName').and.callThrough();
+      spyOn(component, 'updateCartName').and.callThrough();
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
-      expect(component['updateCartName']).toHaveBeenCalled();
+      expect(component.updateCartName).toHaveBeenCalled();
     });
 
     it('should update cart name based on the file name', () => {
