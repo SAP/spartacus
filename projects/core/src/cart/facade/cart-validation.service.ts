@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CartValidationFacade } from '@spartacus/cart/validation/root';
 import { combineLatest, Observable } from 'rxjs';
-import {
-  CommandService,
-  UserIdService,
-  ActiveCartService,
-  Command,
-  CommandStrategy,
-} from '@spartacus/core';
-import { CartValidationConnector } from '../connectors/cart-validation.connector';
-import { CartModificationList } from '@spartacus/cart/validation/root';
+import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
+import { CartModificationList } from '../../model/cart.model';
 import { switchMap } from 'rxjs/operators';
+import { Command, CommandService, CommandStrategy } from '../../util';
+import { UserIdService } from '../../auth';
+import { ActiveCartService } from './active-cart.service';
 
-@Injectable()
-export class CartValidationService implements CartValidationFacade {
+@Injectable({
+  providedIn: 'root',
+})
+export class CartValidationService {
   protected getCartModificationListCommand: Command = this.command.create(
     () =>
       combineLatest([

@@ -20,17 +20,14 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved-Cart", "Cart-Validation"],
+        "enum": ["Saved-Cart"],
         "type": "string"
       },
-      "default": ["Saved-Cart", "Cart-Validation"],
+      "default": ["Saved-Cart"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
-        "items": [
-          { "value": "Saved-Cart", "label": "Saved Cart" },
-          { "value": "Cart-Validation", "label": "Cart Validation" }
-        ]
+        "items": [{ "value": "Saved-Cart", "label": "Saved Cart" }]
       }
     }
   },

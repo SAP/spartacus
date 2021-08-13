@@ -1,5 +1,4 @@
 <ng-container *ngIf="checkoutRouteActivated$ | async">
-  <h3>cart validation result warnings</h3>
   <ng-container
     *ngFor="let cartModification of cartModifications$ | async; let i = index"
   >
@@ -7,9 +6,12 @@
       class="alert alert-danger"
       *ngIf="visibleWarnings[cartModification.entry.product.code]"
     >
+      <span class="alert-icon">
+        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+      </span>
       <span
         >{{
-          'cartValidationMessages.productOutOfStock'
+          'validation.productOutOfStock'
             | cxTranslate: { name: cartModification.entry.product.name }
         }}
       </span>
@@ -19,7 +21,7 @@
         type="button"
         (click)="removeMessage(cartModification)"
       >
-        X
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </button>
     </div>
   </ng-container>

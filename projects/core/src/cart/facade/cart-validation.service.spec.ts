@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartValidationService } from './cart-validation.service';
 import createSpy = jasmine.createSpy;
-import { CartValidationConnector } from '../connectors/cart-validation.connector';
+import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
 
 const cartValidationResult = { cartModificationList: [] };
 class MockCartValidationConnector implements Partial<CartValidationConnector> {

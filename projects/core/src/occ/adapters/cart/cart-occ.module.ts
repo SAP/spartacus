@@ -12,6 +12,8 @@ import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
+import { OccCartValidationAdapter } from './occ-cart-validation.adapter';
+import { CartValidationAdapter } from '../../../cart/connectors/validation/cart-validation.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -37,6 +39,10 @@ import { OccSaveCartAdapter } from './occ-save-cart.adapter';
     {
       provide: SaveCartAdapter,
       useClass: OccSaveCartAdapter,
+    },
+    {
+      provide: CartValidationAdapter,
+      useClass: OccCartValidationAdapter,
     },
   ],
 })

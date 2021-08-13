@@ -49,4 +49,10 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
+  validation: {
+    cartEntriesChangeDuringCheckout:
+      'During checkout availability of entries in your cart has changed. Please review your cart.',
+    productOutOfStock:
+      '{{name}} has been removed from the cart due to insufficient stock.',
+  },
 };

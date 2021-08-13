@@ -81,7 +81,6 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
-import { CartValidationFeatureModule } from './features/cart-validation-feature.module';
 
 const featureModules = [];
 
@@ -204,7 +203,6 @@ if (environment.cpq) {
     VariantsFeatureModule,
     SavedCartFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
-    CartValidationFeatureModule,
     ...featureModules,
   ],
 })

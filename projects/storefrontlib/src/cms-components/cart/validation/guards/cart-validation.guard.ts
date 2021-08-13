@@ -2,24 +2,22 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
-  CartValidationFacade,
+  CartValidationService,
   CartModificationList,
-} from '@spartacus/cart/validation/root';
-import {
   SemanticPathService,
   GlobalMessageService,
   ActiveCartService,
   GlobalMessageType,
 } from '@spartacus/core';
 import { map } from 'rxjs/operators';
-import { CartValidationWarningsStateService } from '@spartacus/cart/validation/core';
+import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartValidationGuard implements CanActivate {
   constructor(
-    protected cartValidationService: CartValidationFacade,
+    protected cartValidationService: CartValidationService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected globalMessageService: GlobalMessageService,
@@ -39,7 +37,7 @@ export class CartValidationGuard implements CanActivate {
 
         if (cartModificationList?.cartModifications?.length !== 0) {
           this.globalMessageService.add(
-            { key: 'cartValidationMessages.cartEntriesChangeDuringCheckout' },
+            { key: 'validation.cartEntriesChangeDuringCheckout' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
           this.activeCartService.reloadActiveCart();

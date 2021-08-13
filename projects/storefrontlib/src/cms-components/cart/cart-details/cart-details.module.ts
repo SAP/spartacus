@@ -12,7 +12,7 @@ import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
-import { CartValidationCartWarningsModule } from '@spartacus/cart/validation/components';
+import { CartValidationCartWarningsModule } from '../validation/cart-warnings/cart-validation-cart-warnings.module';
 
 @NgModule({
   imports: [
