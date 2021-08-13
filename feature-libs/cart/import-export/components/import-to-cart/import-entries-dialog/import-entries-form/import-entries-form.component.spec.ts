@@ -159,18 +159,40 @@ describe('ImportEntriesFormComponent', () => {
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
+  describe('updateCartName', () => {
+    beforeEach(() => {
+      component.cartOptions.enableDefaultName = true;
+    });
 
-  it('should call updateCartName on event change', () => {
-    spyOn<any>(component, 'updateCartName').and.callThrough();
-    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+    it('should call updateCartName on event change', () => {
+      spyOn<any>(component, 'updateCartName').and.callThrough();
+      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
-    expect(component['updateCartName']).toHaveBeenCalled();
-  });
+      expect(component['updateCartName']).toHaveBeenCalled();
+    });
 
-  it('should update cart name based on the file name', () => {
-    component.form.get('file')?.setValue([mockFile]);
-    el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+    it('should update cart name based on the file name', () => {
+      component.cartOptions.defaultNameSource = defaultNameSource.FILE_NAME;
+      component.form.get('file')?.setValue([mockFile]);
+      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
-    expect(component.form.get('name')?.value).toEqual('mockFile');
+      expect(component.form.get('name')?.value).toEqual('mockFile');
+    });
+
+    it('should update cart name based on date', () => {
+      component.cartOptions.defaultNameSource = defaultNameSource.DATE;
+      component.form.get('file')?.setValue([mockFile]);
+      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+
+      expect(component.form.get('name')?.value).toContain(`cart_`);
+    });
+
+    it('should not update cart name if it is not enabled', () => {
+      component.cartOptions.enableDefaultName = false;
+      component.form.get('file')?.setValue([mockFile]);
+      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+
+      expect(component.form.get('name')?.value).toEqual('');
+    });
   });
 });
