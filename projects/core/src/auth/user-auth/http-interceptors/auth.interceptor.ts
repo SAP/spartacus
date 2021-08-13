@@ -40,13 +40,13 @@ export class AuthInterceptor implements HttpInterceptor {
     const requestAndToken$ = token$.pipe(
       map((token) => ({
         token,
-        request: this.authHttpHeaderService.alterRequest(request, token),
+        alteredRequest: this.authHttpHeaderService.alterRequest(request, token),
       }))
     );
 
     return requestAndToken$.pipe(
-      switchMap(({ request, token }) =>
-        next.handle(request).pipe(
+      switchMap(({ alteredRequest, token }) =>
+        next.handle(alteredRequest).pipe(
           catchError((errResponse: any) => {
             if (errResponse instanceof HttpErrorResponse) {
               switch (errResponse.status) {
@@ -55,7 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     // request failed because of the expired access token
                     // we should get refresh the token and retry the request, or logout if the refresh is missing / expired
                     return this.authHttpHeaderService.handleExpiredAccessToken(
-                      request,
+                      alteredRequest,
                       next,
                       token
                     );
@@ -79,7 +79,9 @@ export class AuthInterceptor implements HttpInterceptor {
                     ) &&
                     errResponse.error.error === 'invalid_grant'
                   ) {
-                    if (request.body.get('grant_type') === 'refresh_token') {
+                    if (
+                      alteredRequest.body.get('grant_type') === 'refresh_token'
+                    ) {
                       this.authHttpHeaderService.handleExpiredRefreshToken();
                     }
                   }

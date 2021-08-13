@@ -176,7 +176,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     let currentToken: AuthToken | undefined;
     this.authStorageService
       .getToken()
-      .subscribe((token) => (currentToken = token))
+      .subscribe((t) => (currentToken = t))
       .unsubscribe();
 
     if (currentToken?.access_token) {
