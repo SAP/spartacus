@@ -111,6 +111,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     fixture.detectChanges();
 
     spyOn(component.closeCallback, 'emit').and.callThrough();
+    spyOn(component.paymentDetailsAdded, 'emit').and.callThrough();
   });
 
   it('should create', () => {
@@ -174,6 +175,25 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
+    });
+    it('should show payment fetch error when correct payment details', () => {
+      const mockDpPaymentRequest: DpPaymentRequest = {
+        sessionId: mockSessionId,
+        signature: mockSignature,
+      };
+      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
+        mockDpPaymentRequest
+      );
+      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(of(mockPaymentDetails));
+
+      component.ngOnInit();
+
+      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
+      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
+        mockSessionId,
+        mockSignature
+      );
+      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(mockPaymentDetails);
     });
   });
 });
@@ -244,3 +264,4 @@ describe('DpPaymentCallbackComponent without query param', () => {
     });
   });
 });
+

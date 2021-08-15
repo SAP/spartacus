@@ -1,4 +1,3 @@
-import { DpCheckoutPaymentService } from '../../../facade/dp-checkout-payment.service';
 import { SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { CommonModule } from '@angular/common';
@@ -18,6 +17,5 @@ import { I18nModule } from '@spartacus/core';
 
   declarations: [DpPaymentFormComponent],
   exports: [DpPaymentFormComponent],
-  providers: [DpCheckoutPaymentService],
 })
 export class DpPaymentFormModule {}

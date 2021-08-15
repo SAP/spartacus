@@ -29,8 +29,14 @@ export class DpPaymentMethodComponent
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    return DP_CARD_REGISTRATION_STATUS in queryParams;
+    const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
+      DP_CARD_REGISTRATION_STATUS
+    );
+    if (queryParams) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   hideCallbackScreen(): void {
