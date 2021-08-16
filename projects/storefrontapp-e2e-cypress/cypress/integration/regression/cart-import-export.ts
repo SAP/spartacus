@@ -1,4 +1,5 @@
 import * as cart from '../../helpers/cart';
+import { APPAREL_BASESITE } from '../../helpers/variants/apparel-checkout-flow';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
@@ -44,6 +45,32 @@ const nonDefaultImportExportConfig = {
             key: 'invalidKey',
           },
           value: 'invalidValue',
+        },
+      ],
+    },
+  },
+};
+const configurableProductConfig = {
+  importExport: {
+    export: {
+      additionalColumns: [
+        {
+          name: {
+            key: 'engravedTextHeading',
+          },
+          value: 'configurationInfos.0.configurationValue',
+        },
+        {
+          name: {
+            key: 'fontSize',
+          },
+          value: 'configurationInfos.1.configurationValue',
+        },
+        {
+          name: {
+            key: 'fontType',
+          },
+          value: 'configurationInfos.2.configurationValue',
         },
       ],
     },
@@ -142,9 +169,44 @@ context('Cart Import/Export', () => {
     xit('should import cart', () => {});
   });
 
-  xdescribe('Configurable products', () => {});
+  describe('Configurable products', () => {
+    before(() => {
+      cy.cxConfig(configurableProductConfig);
+    });
 
-  xdescribe('Variable products', () => {});
+    it('should export cart', () => {
+      const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
+
+      addProductToCart(cart.products[0].code);
+
+      exportCart(EXPECTED_CSV);
+    });
+
+    xit('should import cart', () => {});
+  });
+
+  describe('Variable products', () => {
+    const variableProductCode = '300785814';
+
+    before(() => {
+      cy.cxConfig({
+        context: {
+          baseSite: [APPAREL_BASESITE],
+          currency: ['GBP'],
+        },
+      });
+    });
+
+    it('should export cart', () => {
+      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
+
+      addProductToCart(variableProductCode);
+
+      exportCart(EXPECTED_CSV);
+    });
+
+    xit('should import cart', () => {});
+  });
 });
 
 /**
@@ -152,7 +214,7 @@ context('Cart Import/Export', () => {
  * @param productCode identifies the unique product to add.
  */
 function addProductToCart(productCode: string = cart.products[1].code) {
-  cart.registerCartRefreshRoute();
+  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
   cy.visit(`/product/${productCode}`);
   cart.clickAddToCart();
   cy.wait('@refresh_cart');
