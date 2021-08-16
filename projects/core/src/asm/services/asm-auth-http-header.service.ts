@@ -54,6 +54,13 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
     );
   }
 
+  public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
+    return (
+      super.shouldAddAuthorizationHeader(request) ||
+      this.isCSAgentTokenRequest(request)
+    );
+  }
+
   /**
    * @override
    *
