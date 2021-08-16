@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,6 +15,7 @@ import {
   NameSource,
   cartOptions,
 } from '@spartacus/cart/import-export/core';
+import { CxDatePipe } from '@spartacus/core';
 import {
   CmsComponentData,
   LaunchDialogService,
@@ -29,7 +29,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DatePipe],
+  providers: [CxDatePipe],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
@@ -59,7 +59,7 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected datePipe: DatePipe,
+    protected datePipe: CxDatePipe,
     protected componentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators
@@ -149,7 +149,7 @@ export class ImportEntriesFormComponent implements OnInit {
           .get('file')
           ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
         name?.setValue(fileName);
-      } else if (this.cartOptions.nameSource === NameSource.DATE) {
+      } else if (this.cartOptions.nameSource === NameSource.DATE_TIME) {
         const date = new Date();
         const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
         name?.setValue(`cart_${dateString}`);

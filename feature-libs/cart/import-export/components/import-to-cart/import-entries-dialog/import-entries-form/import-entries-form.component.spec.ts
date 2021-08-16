@@ -194,7 +194,7 @@ describe('ImportEntriesFormComponent', () => {
         ...cmsComponentDataSubject.value,
         cartOptions: {
           enableDefaultName: true,
-          nameSource: NameSource.DATE,
+          nameSource: NameSource.DATE_TIME,
         },
       });
       component.ngOnInit();

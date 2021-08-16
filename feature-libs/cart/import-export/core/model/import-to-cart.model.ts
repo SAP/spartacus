@@ -45,7 +45,7 @@ export type ProductImportSummary = {
 
 export enum NameSource {
   FILE_NAME = 'fileName',
-  DATE = 'date',
+  DATE_TIME = 'dateTime',
 }
 
 export type cartOptions = {
