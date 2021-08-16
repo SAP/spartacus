@@ -48,9 +48,9 @@ export enum NameSource {
   DATE_TIME = 'dateTime',
 }
 
-export type CartOptions = {
-  nameSource?: NameSource;
-  nameFromDate?: {
+export type AutofillCartName = {
+  source?: NameSource;
+  fromDateOptions?: {
     prefix: string;
     mask: string;
   };
@@ -58,5 +58,5 @@ export type CartOptions = {
 
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity?: FileValidity;
-  cartOptions?: CartOptions;
+  autofillCartName?: AutofillCartName;
 }
