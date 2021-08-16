@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
-  defaultNameSource,
+  NameSource,
   FilesFormValidators,
   ImportCsvService,
   ProductImportInfo,
@@ -38,7 +38,7 @@ const mockCmsComponentData = {
   },
   cartOptions: {
     enableDefaultName: true,
-    defaultNameSource: defaultNameSource.FILE_NAME,
+    nameSource: NameSource.FILE_NAME,
   },
 };
 
@@ -172,7 +172,7 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should update cart name based on the file name', () => {
-      component.cartOptions.defaultNameSource = defaultNameSource.FILE_NAME;
+      component.cartOptions.nameSource = NameSource.FILE_NAME;
       component.form.get('file')?.setValue([mockFile]);
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
@@ -180,7 +180,7 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should update cart name based on date', () => {
-      component.cartOptions.defaultNameSource = defaultNameSource.DATE;
+      component.cartOptions.nameSource = NameSource.DATE;
       component.form.get('file')?.setValue([mockFile]);
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 

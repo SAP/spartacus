@@ -43,14 +43,14 @@ export type ProductImportSummary = {
   errorMessages: ProductImportInfo[];
 };
 
-export enum defaultNameSource {
+export enum NameSource {
   FILE_NAME = 'fileName',
   DATE = 'date',
 }
 
 export type cartOptions = {
   enableDefaultName: boolean;
-  defaultNameSource: defaultNameSource;
+  nameSource?: NameSource;
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {

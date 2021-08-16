@@ -13,7 +13,7 @@ import {
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
-  defaultNameSource,
+  NameSource,
   cartOptions,
 } from '@spartacus/cart/import-export/core';
 import {
@@ -142,18 +142,17 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   updateCartName(): void {
-    if (this.cartOptions.enableDefaultName) {
-      if (this.cartOptions.defaultNameSource === defaultNameSource.FILE_NAME) {
-        const cartName = this.form
+    const name = this.form.get('name');
+    if (!name?.value && this.cartOptions.enableDefaultName) {
+      if (this.cartOptions.nameSource === NameSource.FILE_NAME) {
+        const fileName = this.form
           .get('file')
           ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
-        this.form.get('name')?.setValue(cartName);
-      } else if (
-        this.cartOptions.defaultNameSource === defaultNameSource.DATE
-      ) {
+        name?.setValue(fileName);
+      } else if (this.cartOptions.nameSource === NameSource.DATE) {
         const date = new Date();
         const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
-        this.form.get('name')?.setValue(`cart_${dateString}`);
+        name?.setValue(`cart_${dateString}`);
       }
     }
   }
