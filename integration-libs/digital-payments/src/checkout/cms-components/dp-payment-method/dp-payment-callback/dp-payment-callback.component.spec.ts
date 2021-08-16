@@ -184,7 +184,9 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
         mockDpPaymentRequest
       );
-      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(of(mockPaymentDetails));
+      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
+        of(mockPaymentDetails)
+      );
 
       component.ngOnInit();
 
@@ -193,7 +195,9 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         mockSessionId,
         mockSignature
       );
-      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(mockPaymentDetails);
+      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
+        mockPaymentDetails
+      );
     });
   });
 });
@@ -264,4 +268,3 @@ describe('DpPaymentCallbackComponent without query param', () => {
     });
   });
 });
-

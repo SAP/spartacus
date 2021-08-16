@@ -45,16 +45,14 @@ describe('DpPaymentFormComponent', () => {
   let winRef: WindowRef;
   let msgService: GlobalMessageService;
 
-  beforeEach(
-    async () => {
-    await
-     TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [
         DpPaymentFormComponent,
         MockTranslatePipe,
         MockSpinnerComponent,
       ],
-      imports: [StoreModule.forRoot({}),],
+      imports: [StoreModule.forRoot({})],
       providers: [
         {
           provide: DpCheckoutPaymentService,
@@ -118,5 +116,3 @@ describe('DpPaymentFormComponent', () => {
     });
   });
 });
-
-

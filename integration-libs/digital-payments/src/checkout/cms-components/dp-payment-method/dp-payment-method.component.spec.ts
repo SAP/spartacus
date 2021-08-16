@@ -81,9 +81,7 @@ describe('DpPaymentMethodComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DpPaymentMethodComponent],
-      imports: [
-        StoreModule.forRoot({}),
-        RouterModule.forRoot([])],
+      imports: [StoreModule.forRoot({}), RouterModule.forRoot([])],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
