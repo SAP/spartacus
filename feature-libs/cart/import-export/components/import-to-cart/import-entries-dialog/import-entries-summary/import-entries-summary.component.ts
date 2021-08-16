@@ -16,6 +16,9 @@ import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
 
+  warningDetailsOpened: Boolean = false;
+  errorDetailsOpened: Boolean = false;
+
   @Input()
   summary: ProductImportSummary;
 
@@ -24,5 +27,13 @@ export class ImportEntriesSummaryComponent {
 
   close(reason: string): void {
     this.closeEvent.emit(reason);
+  }
+
+  toggleWarningList() {
+    this.warningDetailsOpened = !this.warningDetailsOpened;
+  }
+
+  toggleErrorList() {
+    this.errorDetailsOpened = !this.errorDetailsOpened;
   }
 }
