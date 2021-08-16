@@ -20,6 +20,7 @@ export type FileValidity = {
 export enum ProductImportStatus {
   SUCCESS = 'success',
   LOW_STOCK = 'lowStock',
+  NO_STOCK = 'noStock',
   UNKNOWN_IDENTIFIER = 'unknownIdentifier',
   UNKNOWN_ERROR = 'unknownError',
 }

@@ -18,7 +18,7 @@
   </p>
   <div
     *ngIf="summary.warningMessages.length > 0"
-    class="cx-import-entries-summary-problems"
+    class="cx-import-entries-summary-warnings"
   >
     <p>
       <cx-icon class="warning" [type]="iconTypes.ERROR"></cx-icon>
@@ -26,8 +26,16 @@
         'importEntriesDialog.summary.warning'
           | cxTranslate: { count: summary.warningMessages.length }
       }}
+      <button class="link cx-action-link" (click)="toggleWarningList()">
+        {{
+          (warningDetailsOpened
+            ? 'importEntriesDialog.summary.hide'
+            : 'importEntriesDialog.summary.show'
+          ) | cxTranslate
+        }}
+      </button>
     </p>
-    <ul>
+    <ul *ngIf="warningDetailsOpened">
       <li *ngFor="let message of summary.warningMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
@@ -46,8 +54,16 @@
         'importEntriesDialog.summary.error'
           | cxTranslate: { count: summary.errorMessages.length }
       }}
+      <button class="link cx-action-link" (click)="toggleErrorList()">
+        {{
+          (errorDetailsOpened
+            ? 'importEntriesDialog.summary.hide'
+            : 'importEntriesDialog.summary.show'
+          ) | cxTranslate
+        }}
+      </button>
     </p>
-    <ul>
+    <ul *ngIf="errorDetailsOpened">
       <li *ngFor="let message of summary.errorMessages">
         {{
           'importEntriesDialog.summary.messages.' + message.statusCode
