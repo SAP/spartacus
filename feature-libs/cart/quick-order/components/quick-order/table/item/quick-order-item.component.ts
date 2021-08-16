@@ -31,6 +31,9 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   @Input()
   index: number;
 
+  @Input()
+  loading: boolean = false;
+
   protected _entry: OrderEntry;
   private subscription = new Subscription();
 

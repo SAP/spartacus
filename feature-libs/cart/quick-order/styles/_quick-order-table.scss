@@ -2,7 +2,7 @@ cx-quick-order-table {
   display: block;
   margin-top: 30px;
 
-  .cx-quick-order-table-header {
+  .quick-order-table-header {
     @include type('8');
     border-color: var(--cx-color-light);
     border-style: solid;
@@ -12,16 +12,16 @@ cx-quick-order-table {
     padding: 1.125rem 0;
     text-transform: uppercase;
 
-    .cx-quick-order-info-header {
+    .quick-order-info-header {
       margin: 0;
     }
   }
 
-  .cx-quick-order-image-container {
+  .quick-order-image-container {
     padding: 0;
   }
 
-  .cx-quick-order-info-container {
+  .quick-order-info-container {
     margin: 0;
 
     .cx-label {
@@ -39,12 +39,12 @@ cx-quick-order-table {
     }
   }
 
-  .cx-quick-order-table-item-product {
+  .quick-order-table-item-product-image {
     padding: 0;
     text-align: start;
   }
 
-  .cx-quick-order-table-item-product-information {
+  .quick-order-table-item-product-information {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -57,13 +57,22 @@ cx-quick-order-table {
       padding: 0;
     }
 
+    .cx-code {
+      color: #747881;
+      color: var(--cx-color-secondary);
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-normal);
+      line-height: var(--cx-line-height, 1.2222222222);
+      padding: 7px 0;
+    }
+
     .cx-link {
       color: var(--cx-color-text);
       text-decoration: none;
     }
   }
 
-  .cx-quick-order-table-item-price {
+  .quick-order-table-item-price {
     padding: 0;
     text-align: center;
 
@@ -72,7 +81,7 @@ cx-quick-order-table {
     }
   }
 
-  .cx-quick-order-table-item-quantity {
+  .quick-order-table-item-quantity {
     text-align: center;
     padding: 0;
 
@@ -91,7 +100,7 @@ cx-quick-order-table {
     }
   }
 
-  .cx-quick-order-table-item-total {
+  .quick-order-table-item-total {
     padding: 0;
     text-align: center;
 
@@ -100,19 +109,19 @@ cx-quick-order-table {
     }
   }
 
-  .cx-quick-order-table-item-action {
+  .quick-order-table-item-action {
     padding: 0;
     text-align: end;
   }
 
-  .cx-quick-order-table-row {
+  .quick-order-table-row {
     border-color: var(--cx-color-light);
     border-style: solid;
     border-width: 0 0 1px 0;
     padding: 1.25rem 0;
   }
 
-  .cx-quick-order-table-item {
+  .quick-order-table-item {
     margin: 0;
   }
 
@@ -125,7 +134,7 @@ cx-quick-order-table {
   }
 
   @include media-breakpoint-down(sm) {
-    .cx-quick-order-table-items {
+    .quick-order-table-items {
       padding-inline-start: 1rem;
     }
   }

@@ -12,17 +12,35 @@ export namespace OccConfigurator {
      * @member {boolean} [complete]
      */
     complete?: boolean;
-
+    /**
+     * Configuration is consistent, meaning it does not contain conflicts
+     *
+     * @member {boolean}
+     */
+    consistent?: boolean;
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct?: string;
   }
 
   export interface Prices {
-    configId?: string;
+    configId: string;
+    attributes?: Supplements[];
     pricingError?: boolean;
     showDeltaPrices?: boolean;
     priceSummary?: PriceSummary;
+  }
+
+  export interface Supplements {
+    csticUiKey: string;
+    selectedValues: string[];
+    priceSupplements: ValueSupplements[];
+  }
+
+  export interface ValueSupplements {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
   }
 
   export interface PriceSummary {

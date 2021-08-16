@@ -9,11 +9,11 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
-  CartNotEmptyGuard,
   CartSharedModule,
   IconModule,
   PromotionsModule,
 } from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { ReviewSubmitComponent } from './review-submit.component';
 

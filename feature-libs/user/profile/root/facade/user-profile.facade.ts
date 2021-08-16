@@ -5,17 +5,14 @@ import { Observable } from 'rxjs';
 import { Title } from '../model/user-profile.model';
 import { USER_PROFILE_CORE_FEATURE } from '../feature-name';
 
-export function UserProfileFacadeFactory() {
-  return facadeFactory({
-    facade: UserProfileFacade,
-    feature: USER_PROFILE_CORE_FEATURE,
-    methods: ['get', 'update', 'close', 'getTitles'],
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: UserProfileFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: UserProfileFacade,
+      feature: USER_PROFILE_CORE_FEATURE,
+      methods: ['get', 'update', 'close', 'getTitles'],
+    }),
 })
 export abstract class UserProfileFacade {
   abstract get(): Observable<User | undefined>;

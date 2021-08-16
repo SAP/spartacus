@@ -9,6 +9,7 @@ export * from './media/index';
 export * from './modal/index';
 export * from './order-overview/index';
 export * from './popover/index';
+export * from './progress-button/index';
 export * from './replenishment-order-cancellation-dialog/index';
 export * from './spinner/index';
 export * from './split-view/index';

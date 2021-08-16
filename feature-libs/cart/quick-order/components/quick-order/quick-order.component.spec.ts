@@ -1,7 +1,10 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CmsQuickOrderComponent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -9,6 +12,7 @@ import {
   Product,
   Translatable,
 } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderComponent } from './quick-order.component';
@@ -20,9 +24,11 @@ const mockEntry: OrderEntry = {
   product: mockProduct,
 };
 
+const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
+
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
-    return new BehaviorSubject<OrderEntry[]>([mockEntry]);
+    return mockEntries$;
   }
   clearList(): void {}
 }
@@ -32,11 +38,17 @@ class MockQuickOrderStatePersistenceService
   initSync(): void {}
 }
 
+const mockIsStable$ = new BehaviorSubject<boolean>(true);
+const mockCartId$ = new BehaviorSubject<string>('123456789');
+
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
-    return of('123456789');
+    return mockCartId$.asObservable();
   }
   addEntries(_cartEntries: OrderEntry[]): void {}
+  isStable(): Observable<boolean> {
+    return mockIsStable$.asObservable();
+  }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -47,12 +59,21 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+const mockData: CmsQuickOrderComponent = {
+  quickOrderListLimit: 10,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
   let activeCartService: ActiveCartService;
   let quickOrderService: QuickOrderFacade;
   let globalMessageService: GlobalMessageService;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -66,6 +87,10 @@ describe('QuickOrderComponent', () => {
           provide: QuickOrderStatePersistenceService,
           useClass: MockQuickOrderStatePersistenceService,
         },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
       ],
     }).compileComponents();
 
@@ -77,7 +102,13 @@ describe('QuickOrderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuickOrderComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     component.ngOnInit();
+
+    mockEntries$.next([mockEntry]);
+    mockIsStable$.next(true);
+    mockCartId$.next('123456789');
+
     fixture.detectChanges();
   });
 
@@ -86,7 +117,7 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger clear the list method from the service', () => {
-    spyOn(quickOrderService, 'clearList');
+    spyOn(quickOrderService, 'clearList').and.callThrough();
     spyOn(globalMessageService, 'add').and.stub();
 
     component.clear();
@@ -100,8 +131,8 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'clearList');
-    spyOn(activeCartService, 'addEntries');
+    spyOn(quickOrderService, 'clearList').and.callThrough();
+    spyOn(activeCartService, 'addEntries').and.callThrough();
     spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart();
@@ -119,5 +150,21 @@ describe('QuickOrderComponent', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  });
+
+  it('should hide "empty list" button if there are no entries', () => {
+    mockEntries$.next([]);
+    fixture.detectChanges();
+
+    expect(el.query(By.css('.clear-button'))).toBeNull();
+  });
+
+  it('should disable clear list action when cart is not stable', () => {
+    mockIsStable$.next(false);
+    fixture.detectChanges();
+
+    expect(
+      el.query(By.css('.clear-button')).nativeElement.disabled
+    ).toBeTruthy();
   });
 });

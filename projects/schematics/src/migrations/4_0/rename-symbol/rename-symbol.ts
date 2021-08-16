@@ -9,12 +9,14 @@ import {
   ASM_CONNECTOR,
   ASM_FEATURE,
   ASM_MODULE,
+  ASM_OCC_MODULE,
   ASM_SELECTORS,
   ASM_SERVICE,
   ASM_STATE,
   ASM_STATE_PERSISTENCE_SERVICE,
   ASM_UI,
   BUDGET_ROUTING_CONFIG,
+  CART_NOT_EMPTY_GUARD,
   CLOSE_ACCOUNT_COMPONENT,
   CLOSE_ACCOUNT_MODULE,
   COST_CENTER_ROUTING_CONFIG,
@@ -35,6 +37,7 @@ import {
   LOGIN_MODULE,
   LOGIN_REGISTER_COMPONENT,
   LOGIN_REGISTER_MODULE,
+  OCC_ASM_ADAPTER,
   ORDER_ENTRY,
   PERMISSION_ROUTING_CONFIG,
   PERSONALIZATION_ACTION,
@@ -167,6 +170,18 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: 'AsmComponentsModule',
     newImportPath: `${SPARTACUS_ASM}/components`,
+  },
+  // projects/core/src/occ/adapters/asm/asm-occ.module.ts
+  {
+    previousNode: ASM_OCC_MODULE,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/occ`,
+  },
+  // projects/core/src/occ/adapters/asm/occ-asm.adapter.ts
+  {
+    previousNode: OCC_ASM_ADAPTER,
+    previousImportPath: SPARTACUS_CORE,
+    newImportPath: `${SPARTACUS_ASM}/occ`,
   },
   // projects/core/src/asm/config/asm-config.ts
   {
@@ -970,6 +985,12 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousNode: 'CheckoutSelectors',
     previousImportPath: SPARTACUS_CORE,
     newImportPath: SPARTACUS_CHECKOUT_CORE,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+  {
+    previousNode: CART_NOT_EMPTY_GUARD,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
   },
 ];
 

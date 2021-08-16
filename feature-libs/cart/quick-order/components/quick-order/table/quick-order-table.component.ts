@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quick-order-table',
@@ -7,7 +7,9 @@ import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderTableComponent {
-  entries$ = this.quickOrderService.getEntries();
+  @Input()
+  entries: OrderEntry[] = [];
 
-  constructor(protected quickOrderService: QuickOrderFacade) {}
+  @Input()
+  loading: boolean = false;
 }

@@ -114,4 +114,14 @@ describe('QuickOrderFormComponent', () => {
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
+
+  it('should disable form control with isDisabled flag', () => {
+    component.isDisabled = true;
+    expect(component.form.get('product')?.disabled).toBeTruthy();
+  });
+
+  it('should disable form control with isLoading flag', () => {
+    component.isLoading = true;
+    expect(component.form.get('product')?.disabled).toBeTruthy();
+  });
 });

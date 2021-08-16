@@ -12,16 +12,25 @@ export const quickOrderCartForm = {
 
 export const quickOrderForm = {
   placeholder: 'Enter Product SKU',
+  listLimitReached: 'The product limit has been reached',
 };
 
 export const quickOrderList = {
-  addProducts: 'Add Products/Skus',
-  emptyList: 'Empty list',
   addToCart: 'Add to cart',
+  emptyList: 'Empty list',
+  header: 'Add Products/Skus',
+  subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
+  errorProceedingToCart: 'Error proceeding to Cart.',
+  errors: {
+    productIsOutOfStock: '{{ name }} (#{{code}}) is out of stock.',
+    productWasReduced:
+      'Quantity for {{ name }} (#{{code}}) was reduced to {{ quantityAdded}}.',
+  },
 };
 
 export const quickOrderTable = {
   product: 'Product',
+  id: 'ID',
   price: 'Price',
   quantity: 'QTY',
   itemPrice: 'Item price',

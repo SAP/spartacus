@@ -175,3 +175,7 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
 }
+
+export interface CmsQuickOrderComponent extends CmsComponent {
+  quickOrderListLimit?: number;
+}
