@@ -9,6 +9,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
+  CmsImportEntriesComponent,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -17,7 +18,7 @@ import {
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -26,7 +27,7 @@ const mockLoadFileData: string[][] = [
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
 
-const mockCmsComponentData = {
+const mockCmsComponentData: CmsImportEntriesComponent = {
   fileValidity: {
     maxSize: 1,
     allowedExtensions: [
@@ -45,7 +46,7 @@ const mockCmsComponentData = {
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
 
-const mockFile: File = new File([mockCsvString], 'mockFile', {
+const mockFile: File = new File([mockCsvString], 'mockFile.csv', {
   type: 'text/csv',
 });
 
@@ -59,8 +60,12 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-const MockCmsImportEntriesComponent = <CmsComponentData<any>>{
-  data$: of(mockCmsComponentData),
+const cmsComponentDataSubject = new BehaviorSubject<CmsImportEntriesComponent>(
+  mockCmsComponentData
+);
+
+const MockCmsComponentData = <CmsComponentData<CmsImportEntriesComponent>>{
+  data$: cmsComponentDataSubject.asObservable(),
 };
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -100,7 +105,7 @@ describe('ImportEntriesFormComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvService, useClass: MockImportCsvService },
-        { provide: CmsComponentData, useValue: MockCmsImportEntriesComponent },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
     }).compileComponents();
 
@@ -159,11 +164,8 @@ describe('ImportEntriesFormComponent', () => {
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
-  describe('updateCartName', () => {
-    beforeEach(() => {
-      component.cartOptions.enableDefaultName = true;
-    });
 
+  describe('updateCartName', () => {
     it('should call updateCartName on event change', () => {
       spyOn(component, 'updateCartName').and.callThrough();
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
@@ -172,7 +174,15 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should update cart name based on the file name', () => {
-      component.cartOptions.nameSource = NameSource.FILE_NAME;
+      cmsComponentDataSubject.next({
+        ...cmsComponentDataSubject.value,
+        cartOptions: {
+          enableDefaultName: true,
+          nameSource: NameSource.FILE_NAME,
+        },
+      });
+      component.ngOnInit();
+
       component.form.get('file')?.setValue([mockFile]);
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
@@ -180,7 +190,15 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should update cart name based on date', () => {
-      component.cartOptions.nameSource = NameSource.DATE;
+      cmsComponentDataSubject.next({
+        ...cmsComponentDataSubject.value,
+        cartOptions: {
+          enableDefaultName: true,
+          nameSource: NameSource.DATE,
+        },
+      });
+      component.ngOnInit();
+
       component.form.get('file')?.setValue([mockFile]);
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
@@ -188,7 +206,14 @@ describe('ImportEntriesFormComponent', () => {
     });
 
     it('should not update cart name if it is not enabled', () => {
-      component.cartOptions.enableDefaultName = false;
+      cmsComponentDataSubject.next({
+        ...cmsComponentDataSubject.value,
+        cartOptions: {
+          enableDefaultName: false,
+        },
+      });
+      component.ngOnInit();
+
       component.form.get('file')?.setValue([mockFile]);
       el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
 
