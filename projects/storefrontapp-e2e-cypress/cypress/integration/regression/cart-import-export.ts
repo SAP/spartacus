@@ -152,7 +152,7 @@ context('Cart Import/Export', () => {
     xit('should import cart', () => {});
   });
 
-  describe('Non-default expot configuration', () => {
+  describe('Non-default export configuration', () => {
     before(() => {
       cy.cxConfig(nonDefaultImportExportConfig);
     });
@@ -215,9 +215,10 @@ context('Cart Import/Export', () => {
  */
 function addProductToCart(productCode: string = cart.products[1].code) {
   cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
+  cy.intercept('POST', `**/users/*/carts/*/entries?**`).as('addToCart');
   cy.visit(`/product/${productCode}`);
   cart.clickAddToCart();
-  cy.wait('@refresh_cart');
+  cy.wait(['@refresh_cart', '@addToCart']);
 }
 
 /**
