@@ -11,14 +11,14 @@ import {
   ProductsData,
   CmsImportEntriesComponent,
 } from '@spartacus/cart/import-export/core';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   CmsComponentData,
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -38,7 +38,6 @@ const mockCmsComponentData: CmsImportEntriesComponent = {
     ],
   },
   cartOptions: {
-    enableDefaultName: true,
     nameSource: NameSource.FILE_NAME,
   },
 };
@@ -83,6 +82,12 @@ class MockImportCsvService implements Partial<ImportCsvService> {
   loadCsvData = () => of(mockLoadFileData);
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('ImportEntriesFormComponent', () => {
   let component: ImportEntriesFormComponent;
   let fixture: ComponentFixture<ImportEntriesFormComponent>;
@@ -94,11 +99,11 @@ describe('ImportEntriesFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         FormErrorsModule,
         FileUploadModule,
         FormsModule,
         ReactiveFormsModule,
+        I18nTestingModule,
       ],
       declarations: [ImportEntriesFormComponent],
       providers: [
@@ -106,6 +111,7 @@ describe('ImportEntriesFormComponent', () => {
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvService, useClass: MockImportCsvService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
 
@@ -177,7 +183,6 @@ describe('ImportEntriesFormComponent', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
         cartOptions: {
-          enableDefaultName: true,
           nameSource: NameSource.FILE_NAME,
         },
       });
@@ -193,8 +198,11 @@ describe('ImportEntriesFormComponent', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
         cartOptions: {
-          enableDefaultName: true,
           nameSource: NameSource.DATE_TIME,
+          nameFromDate: {
+            prefix: 'cart_',
+            mask: 'yyyy/MM/dd_hh:mm',
+          },
         },
       });
       component.ngOnInit();
@@ -208,9 +216,7 @@ describe('ImportEntriesFormComponent', () => {
     it('should not update cart name if it is not enabled', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
-        cartOptions: {
-          enableDefaultName: false,
-        },
+        cartOptions: {},
       });
       component.ngOnInit();
 

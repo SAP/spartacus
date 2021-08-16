@@ -23,13 +23,13 @@ import { NameSource } from '@spartacus/cart/import-export/core';
 @NgModule({
   imports: [
     CommonModule,
-    I18nModule,
     FormsModule,
     ReactiveFormsModule,
     FormErrorsModule,
     IconModule,
     KeyboardFocusModule,
     FileUploadModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportProductsComponent: {
@@ -45,12 +45,7 @@ import { NameSource } from '@spartacus/cart/import-export/core';
               ],
             },
             cartOptions: {
-              enableDefaultName: true,
               nameSource: NameSource.FILE_NAME,
-              nameFromDate: {
-                prefix: 'cart_',
-                mask: 'yyyy/MM/dd_hh:mm',
-              },
             },
           },
         },

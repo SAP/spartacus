@@ -150,7 +150,7 @@ export class ImportEntriesFormComponent implements OnInit {
 
   updateCartName(): void {
     const nameField = this.form.get('name');
-    if (nameField && !nameField?.value && this.cartOptions.enableDefaultName) {
+    if (nameField && !nameField?.value && this.cartOptions?.nameSource) {
       switch (this.cartOptions.nameSource) {
         case NameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);

@@ -49,7 +49,6 @@ export enum NameSource {
 }
 
 export type CartOptions = {
-  enableDefaultName: boolean;
   nameSource?: NameSource;
   nameFromDate?: {
     prefix: string;
@@ -58,6 +57,6 @@ export type CartOptions = {
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {
-  fileValidity: FileValidity;
-  cartOptions: CartOptions;
+  fileValidity?: FileValidity;
+  cartOptions?: CartOptions;
 }
