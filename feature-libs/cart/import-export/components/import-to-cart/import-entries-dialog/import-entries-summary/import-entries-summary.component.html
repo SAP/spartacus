@@ -29,8 +29,8 @@
       <button class="link cx-action-link" (click)="toggleWarningList()">
         {{
           (warningDetailsOpened
-            ? 'importEntriesDialog.summary.show_less'
-            : 'importEntriesDialog.summary.show_more'
+            ? 'importEntriesDialog.summary.hide'
+            : 'importEntriesDialog.summary.show'
           ) | cxTranslate
         }}
       </button>
@@ -57,8 +57,8 @@
       <button class="link cx-action-link" (click)="toggleErrorList()">
         {{
           (errorDetailsOpened
-            ? 'importEntriesDialog.summary.show_less'
-            : 'importEntriesDialog.summary.show_more'
+            ? 'importEntriesDialog.summary.hide'
+            : 'importEntriesDialog.summary.show'
           ) | cxTranslate
         }}
       </button>

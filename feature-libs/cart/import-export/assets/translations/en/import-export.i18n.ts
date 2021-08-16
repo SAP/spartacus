@@ -44,8 +44,8 @@ export const importEntriesDialog = {
       noStock: '{{ productName }} is currently out of stock.',
       unknownError: 'Unrecognized problem with "{{ productCode}}".',
     },
-    show_more: 'Show more',
-    show_less: 'Show less',
+    show: 'Show',
+    hide: 'Hide',
   },
 };
 
