@@ -38,8 +38,8 @@ import { ImportToCartService } from '../../import-to-cart.service';
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  fileValidity: FileValidity;
-  cartOptions: CartOptions;
+  fileValidity?: FileValidity;
+  cartOptions?: CartOptions;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
