@@ -5,7 +5,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   CmsImportEntriesComponent,
   FileValidity,
@@ -13,7 +18,7 @@ import {
   FilesFormValidators,
   ProductsData,
   NameSource,
-  cartOptions,
+  CartOptions,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import {
@@ -34,10 +39,10 @@ import { ImportToCartService } from '../../import-to-cart.service';
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
   fileValidity: FileValidity;
+  cartOptions: CartOptions;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
-  cartOptions: cartOptions;
 
   componentData$ = this.componentData.data$;
   formSubmitSubject$ = new Subject();
@@ -66,11 +71,13 @@ export class ImportEntriesFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.componentData$.pipe(take(1)).subscribe((data) => {
-      this.fileValidity = data.fileValidity;
-      this.cartOptions = data.cartOptions;
-      this.form = this.buildForm();
-    });
+    this.componentData$
+      .pipe(take(1))
+      .subscribe((data: CmsImportEntriesComponent) => {
+        this.fileValidity = data.fileValidity;
+        this.cartOptions = data.cartOptions;
+        this.form = this.buildForm();
+      });
 
     this.formSubmitSubject$
       .pipe(
@@ -142,18 +149,39 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   updateCartName(): void {
-    const name = this.form.get('name');
-    if (!name?.value && this.cartOptions.enableDefaultName) {
-      if (this.cartOptions.nameSource === NameSource.FILE_NAME) {
-        const fileName = this.form
-          .get('file')
-          ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
-        name?.setValue(fileName);
-      } else if (this.cartOptions.nameSource === NameSource.DATE_TIME) {
-        const date = new Date();
-        const dateString = this.datePipe.transform(date, 'yyyy/MM/dd_hh:mm');
-        name?.setValue(`cart_${dateString}`);
+    const nameField = this.form.get('name');
+    if (nameField && !nameField?.value && this.cartOptions.enableDefaultName) {
+      switch (this.cartOptions.nameSource) {
+        case NameSource.FILE_NAME: {
+          this.setFieldValueByFileName(nameField);
+          break;
+        }
+        case NameSource.DATE_TIME: {
+          this.setFieldValueByDatetime(nameField);
+          break;
+        }
+        default: {
+          break;
+        }
       }
     }
+  }
+
+  protected setFieldValueByFileName(nameField: AbstractControl) {
+    const fileName = this.form
+      .get('file')
+      ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
+    nameField.setValue(fileName);
+  }
+
+  protected setFieldValueByDatetime(nameField: AbstractControl) {
+    const date = new Date();
+    const mask = this.cartOptions.nameFromDate?.mask;
+    const dateString = mask
+      ? this.datePipe.transform(date, mask)
+      : this.datePipe.transform(date);
+    nameField.setValue(
+      `${this.cartOptions.nameFromDate?.prefix ?? ''}${dateString}`
+    );
   }
 }

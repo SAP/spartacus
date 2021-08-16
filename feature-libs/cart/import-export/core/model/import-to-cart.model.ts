@@ -48,12 +48,16 @@ export enum NameSource {
   DATE_TIME = 'dateTime',
 }
 
-export type cartOptions = {
+export type CartOptions = {
   enableDefaultName: boolean;
   nameSource?: NameSource;
+  nameFromDate?: {
+    prefix: string;
+    mask: string;
+  };
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity: FileValidity;
-  cartOptions: cartOptions;
+  cartOptions: CartOptions;
 }
