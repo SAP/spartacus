@@ -176,8 +176,8 @@ export class ImportEntriesFormComponent implements OnInit {
 
   protected setFieldValueByDatetime(nameField: AbstractControl) {
     const date = new Date();
-    const mask = this.autofillCartName.fromDateOptions?.mask;
-    const prefix = this.autofillCartName.fromDateOptions?.prefix;
+    const mask = this.autofillCartName?.fromDateOptions?.mask;
+    const prefix = this.autofillCartName?.fromDateOptions?.prefix;
     const dateString = mask
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);
