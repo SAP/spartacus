@@ -117,7 +117,12 @@ export class AuthHttpHeaderService implements OnDestroy {
     protected routingService: RoutingService,
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    // We need to have stopProgress$ stream active for the whole time,
+    // so when the logout finishes we finish it's process.
+    // It could happen when retryToken$ is not active.
+    this.subscriptions.add(this.stopProgress$.subscribe());
+  }
 
   /**
    * Checks if request should be handled by this service (if it's OCC call).
