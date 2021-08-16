@@ -18,10 +18,9 @@ export class CartValidationCartWarningsComponent {
 
   cartModifications$ = this.cartValidationWarningsStateService.cartValidationResult$.pipe(
     map((modificationList: CartModification[]) => {
-      console.log('outOfStock cartModifications$: ', modificationList);
       const result = modificationList.filter(
         (modification) =>
-          modification.statusCode === CartValidationStatusCode.LOW_STOCK
+          modification.statusCode === CartValidationStatusCode.NO_STOCK
       );
 
       result.forEach((modification) => {

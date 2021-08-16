@@ -9,11 +9,16 @@
       <span class="alert-icon">
         <cx-icon [type]="iconTypes.ERROR"></cx-icon>
       </span>
-      <span
-        >{{
-          'validation.productOutOfStock'
-            | cxTranslate: { name: cartModification.entry.product.name }
-        }}
+      <span>
+        <a
+          [routerLink]="
+            { cxRoute: 'product', params: cartModification.entry.product }
+              | cxUrl
+          "
+        >
+          {{ cartModification.entry.product.name }}
+        </a>
+        {{ 'validation.productOutOfStock' | cxTranslate }}
       </span>
 
       <button

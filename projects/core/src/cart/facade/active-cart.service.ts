@@ -545,13 +545,13 @@ export class ActiveCartService implements OnDestroy {
   }
 
   reloadActiveCart() {
-    combineLatest([
-      this.getActiveCartId(),
-      this.userIdService.takeUserId(),
-    ]).pipe(
-      map(([cartId, userId]) => {
-        this.multiCartService.loadCart({ cartId, userId });
-      })
-    );
+    combineLatest([this.getActiveCartId(), this.userIdService.takeUserId()])
+      .pipe(
+        take(1),
+        map(([cartId, userId]) => {
+          this.multiCartService.loadCart({ cartId, userId });
+        })
+      )
+      .subscribe();
   }
 }
