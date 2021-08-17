@@ -176,7 +176,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
     });
-    it('should show payment fetch error when correct payment details', () => {
+    it('should show no error when correct payment details', () => {
       const mockDpPaymentRequest: DpPaymentRequest = {
         sessionId: mockSessionId,
         signature: mockSignature,
