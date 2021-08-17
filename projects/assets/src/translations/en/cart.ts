@@ -54,5 +54,7 @@ export const cart = {
       'During checkout availability of entries in your cart has changed. Please review your cart.',
     productOutOfStock:
       '{{name}} has been removed from the cart due to insufficient stock.',
+    productQuantityLowStock:
+      '{{name}} quantity has reduced to {{quantity}} due to insufficient stock.',
   },
 };

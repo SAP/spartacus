@@ -14,6 +14,7 @@ import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CartValidationCartItemWarningModule } from '../validation/cart-item-warning/cart-validation-cart-item-warning.module';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     FeaturesConfigModule,
     ModalModule,
     OutletModule,
+    CartValidationCartItemWarningModule,
   ],
   declarations: [
     CartItemComponent,

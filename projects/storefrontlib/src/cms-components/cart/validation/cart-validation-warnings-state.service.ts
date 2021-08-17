@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { skip, take, tap } from 'rxjs/operators';
 import { RoutingService, CartModification } from '@spartacus/core';
 
@@ -18,7 +18,7 @@ export class CartValidationWarningsStateService {
   NAVIGATION_SKIPS = 2;
   navigationIdCount: number;
 
-  cartValidationResult$ = new Subject<CartModification[]>();
+  cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
   checkoutRouteActivated$ = new BehaviorSubject<boolean>(false);
 
   checkForValidationResultClear$ = this.routingService.getRouterState().pipe(
@@ -28,6 +28,7 @@ export class CartValidationWarningsStateService {
         this.navigationIdCount + this.NAVIGATION_SKIPS <=
         routerState.navigationId
       ) {
+        console.log('clearing results');
         this.cartValidationResult$.next([]);
         this.navigationIdCount = routerState.navigationId;
       }
