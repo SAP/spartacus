@@ -2,6 +2,7 @@ import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 import { AuthHttpHeaderService } from '../../auth/user-auth/services/auth-http-header.service';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
@@ -43,6 +44,18 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   }
 
   /**
+   * Checks if the authorization header should be added to the request
+   *
+   *  @override
+   */
+  public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
+    return (
+      super.shouldAddAuthorizationHeader(request) ||
+      this.isCSAgentTokenRequest(request)
+    );
+  }
+
+  /**
    * @override
    *
    * Checks if particular request should be handled by this service.
@@ -59,16 +72,19 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * Adds `Authorization` header to occ and CS agent requests.
    * For CS agent requests also removes the `cx-use-csagent-token` header (to avoid problems with CORS).
    */
-  public alterRequest(request: HttpRequest<any>): HttpRequest<any> {
+  public alterRequest(
+    request: HttpRequest<any>,
+    token?: AuthToken
+  ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isCSAgentRequest = this.isCSAgentTokenRequest(request);
 
-    let req = super.alterRequest(request);
+    let req = super.alterRequest(request, token);
 
     if (!hasAuthorizationHeader && isCSAgentRequest) {
       req = request.clone({
         setHeaders: {
-          ...this.createAuthorizationHeader(),
+          ...this.createAuthorizationHeader(token),
         },
       });
       return InterceptorUtil.removeHeader(
@@ -99,6 +115,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       .pipe(take(1))
       .subscribe((csAgentLoggedIn) => {
         if (csAgentLoggedIn) {
+          this.authService.setLogoutProgress(true);
           this.csAgentAuthService.logoutCustomerSupportAgent();
           this.globalMessageService.add(
             {
