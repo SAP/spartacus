@@ -37,7 +37,7 @@ const mockCmsComponentData: CmsImportEntriesComponent = {
       '.csv',
     ],
   },
-  autofillCartName: {
+  cartNameGeneration: {
     source: NameSource.FILE_NAME,
   },
 };
@@ -182,7 +182,7 @@ describe('ImportEntriesFormComponent', () => {
     it('should update cart name based on the file name', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
-        autofillCartName: {
+        cartNameGeneration: {
           source: NameSource.FILE_NAME,
         },
       });
@@ -197,7 +197,7 @@ describe('ImportEntriesFormComponent', () => {
     it('should update cart name based on date', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
-        autofillCartName: {
+        cartNameGeneration: {
           source: NameSource.DATE_TIME,
           fromDateOptions: {
             prefix: 'cart_',
@@ -216,7 +216,7 @@ describe('ImportEntriesFormComponent', () => {
     it('should not update cart name if it is not enabled', () => {
       cmsComponentDataSubject.next({
         ...cmsComponentDataSubject.value,
-        autofillCartName: {},
+        cartNameGeneration: {},
       });
       component.ngOnInit();
 
