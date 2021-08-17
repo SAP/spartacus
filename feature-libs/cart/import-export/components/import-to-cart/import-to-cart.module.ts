@@ -44,7 +44,7 @@ import { NameSource } from '@spartacus/cart/import-export/core';
                 '.csv',
               ],
             },
-            autofillCartName: {
+            cartNameGeneration: {
               source: NameSource.FILE_NAME,
             },
           },

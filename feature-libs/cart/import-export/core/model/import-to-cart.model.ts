@@ -48,15 +48,15 @@ export enum NameSource {
   DATE_TIME = 'dateTime',
 }
 
-export type AutofillCartName = {
+export type CartNameGeneration = {
   source?: NameSource;
   fromDateOptions?: {
-    prefix: string;
-    mask: string;
+    prefix?: string;
+    mask?: string;
   };
 };
 
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity?: FileValidity;
-  autofillCartName?: AutofillCartName;
+  cartNameGeneration?: CartNameGeneration;
 }

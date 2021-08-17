@@ -18,7 +18,7 @@ import {
   FilesFormValidators,
   ProductsData,
   NameSource,
-  AutofillCartName,
+  CartNameGeneration,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import {
@@ -39,7 +39,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
   fileValidity?: FileValidity;
-  autofillCartName?: AutofillCartName;
+  cartNameGeneration?: CartNameGeneration;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
@@ -75,7 +75,7 @@ export class ImportEntriesFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data: CmsImportEntriesComponent) => {
         this.fileValidity = data.fileValidity;
-        this.autofillCartName = data.autofillCartName;
+        this.cartNameGeneration = data.cartNameGeneration;
         this.form = this.buildForm();
       });
 
@@ -150,8 +150,8 @@ export class ImportEntriesFormComponent implements OnInit {
 
   updateCartName(): void {
     const nameField = this.form.get('name');
-    if (nameField && !nameField?.value && this.autofillCartName?.source) {
-      switch (this.autofillCartName.source) {
+    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
+      switch (this.cartNameGeneration.source) {
         case NameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);
           break;
@@ -176,8 +176,8 @@ export class ImportEntriesFormComponent implements OnInit {
 
   protected setFieldValueByDatetime(nameField: AbstractControl) {
     const date = new Date();
-    const mask = this.autofillCartName?.fromDateOptions?.mask;
-    const prefix = this.autofillCartName?.fromDateOptions?.prefix;
+    const mask = this.cartNameGeneration?.fromDateOptions?.mask;
+    const prefix = this.cartNameGeneration?.fromDateOptions?.prefix;
     const dateString = mask
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);
