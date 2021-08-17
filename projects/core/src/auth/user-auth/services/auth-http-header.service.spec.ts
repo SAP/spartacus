@@ -313,7 +313,6 @@ describe('AuthHttpHeaderService', () => {
             expect(handler).not.toHaveBeenCalled();
           },
         });
-      tick(1);
 
       setTimeout(() => {
         getTokenFromStorage.next({} as AuthToken);
