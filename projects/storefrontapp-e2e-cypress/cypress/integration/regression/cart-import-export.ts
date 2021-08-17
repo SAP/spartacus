@@ -1,5 +1,6 @@
 import * as cart from '../../helpers/cart';
 import { APPAREL_BASESITE } from '../../helpers/variants/apparel-checkout-flow';
+import { viewportContext } from '../../helpers/viewport-context';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
@@ -78,134 +79,136 @@ const configurableProductConfig = {
 };
 
 context('Cart Import/Export', () => {
-  describe('Single product', () => {
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
+  viewportContext(['mobile', 'desktop'], () => {
+    describe('Single product', () => {
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
-      addProductToCart();
+        addProductToCart();
 
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Single product with larger quantity', () => {
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-
-      addProductToCart();
-      addProductToCart();
-      addProductToCart();
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Multiple products', () => {
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
-
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[1].code);
-      addProductToCart(cart.products[2].code);
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Multiple products with varied quantities', () => {
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,2,Photosmart E317 Digital Camera,$228.24\r\n3470545,3,EASYSHARE M381,"$1,112.16"\r\n`;
-
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[1].code);
-      addProductToCart(cart.products[1].code);
-      addProductToCart(cart.products[2].code);
-      addProductToCart(cart.products[2].code);
-      addProductToCart(cart.products[2].code);
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Normal products with configurable products', () => {
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[1].code);
-      addProductToCart(cart.products[1].code);
-      addProductToCart(cart.products[1].code);
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Non-default export configuration', () => {
-    before(() => {
-      cy.cxConfig(nonDefaultImportExportConfig);
-    });
-
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code 8=D Quantity 8=D Name 8=D [importExport:exportEntries.columnNames.manufacturer] 8=D Price 8=D [importExport:exportEntries.columnNames.primaryImageFormat] 8=D [importExport:exportEntries.columnNames.invalidKey]\r\n1934793 8=D 1 8=D PowerShot A480 8=D Canon 8=D true 8=D thumbnail 8=D \r\n300938 8=D 1 8=D Photosmart E317 Digital Camera 8=D HP 8=D true 8=D thumbnail 8=D \r\n`;
-
-      addProductToCart(cart.products[0].code);
-      addProductToCart(cart.products[1].code);
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Configurable products', () => {
-    before(() => {
-      cy.cxConfig(configurableProductConfig);
-    });
-
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
-
-      addProductToCart(cart.products[0].code);
-
-      exportCart(EXPECTED_CSV);
-    });
-
-    xit('should import cart', () => {});
-  });
-
-  describe('Variable products', () => {
-    const variableProductCode = '300785814';
-
-    before(() => {
-      cy.cxConfig({
-        context: {
-          baseSite: [APPAREL_BASESITE],
-          currency: ['GBP'],
-        },
+        exportCart(EXPECTED_CSV);
       });
+
+      xit('should import cart', () => {});
     });
 
-    it('should export cart', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
+    describe('Single product with larger quantity', () => {
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
-      addProductToCart(variableProductCode);
+        addProductToCart();
+        addProductToCart();
+        addProductToCart();
 
-      exportCart(EXPECTED_CSV);
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
     });
 
-    xit('should import cart', () => {});
+    describe('Multiple products', () => {
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
+
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[1].code);
+        addProductToCart(cart.products[2].code);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
+
+    describe('Multiple products with varied quantities', () => {
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,2,Photosmart E317 Digital Camera,$228.24\r\n3470545,3,EASYSHARE M381,"$1,112.16"\r\n`;
+
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[1].code);
+        addProductToCart(cart.products[1].code);
+        addProductToCart(cart.products[2].code);
+        addProductToCart(cart.products[2].code);
+        addProductToCart(cart.products[2].code);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
+
+    describe('Normal products with configurable products', () => {
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
+
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[1].code);
+        addProductToCart(cart.products[1].code);
+        addProductToCart(cart.products[1].code);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
+
+    describe('Non-default export configuration', () => {
+      before(() => {
+        cy.cxConfig(nonDefaultImportExportConfig);
+      });
+
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code 8=D Quantity 8=D Name 8=D [importExport:exportEntries.columnNames.manufacturer] 8=D Price 8=D [importExport:exportEntries.columnNames.primaryImageFormat] 8=D [importExport:exportEntries.columnNames.invalidKey]\r\n1934793 8=D 1 8=D PowerShot A480 8=D Canon 8=D true 8=D thumbnail 8=D \r\n300938 8=D 1 8=D Photosmart E317 Digital Camera 8=D HP 8=D true 8=D thumbnail 8=D \r\n`;
+
+        addProductToCart(cart.products[0].code);
+        addProductToCart(cart.products[1].code);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
+
+    describe('Configurable products', () => {
+      before(() => {
+        cy.cxConfig(configurableProductConfig);
+      });
+
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
+
+        addProductToCart(cart.products[0].code);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
+
+    describe('Variable products', () => {
+      const variableProductCode = '300785814';
+
+      before(() => {
+        cy.cxConfig({
+          context: {
+            baseSite: [APPAREL_BASESITE],
+            currency: ['GBP'],
+          },
+        });
+      });
+
+      it('should export cart', () => {
+        const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
+
+        addProductToCart(variableProductCode);
+
+        exportCart(EXPECTED_CSV);
+      });
+
+      xit('should import cart', () => {});
+    });
   });
 });
 
