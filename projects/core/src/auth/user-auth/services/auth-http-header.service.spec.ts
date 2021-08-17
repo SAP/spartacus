@@ -1,6 +1,6 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, merge, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
@@ -28,15 +28,20 @@ class MockAuthService implements Partial<AuthService> {
   logoutInProgress$ = logoutInProgressSubject;
   refreshInProgress$ = refreshInProgressSubject;
   coreLogout() {
+    this.setLogoutProgress(true);
     return Promise.resolve();
   }
-  setLogoutProgress(_progress: boolean): void {}
-  setRefreshProgress(_progress: boolean): void {}
+  setLogoutProgress(progress: boolean): void {
+    logoutInProgressSubject.next(progress);
+  }
+  setRefreshProgress(progress: boolean): void {
+    refreshInProgressSubject.next(progress);
+  }
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
   getToken() {
-    return getTokenFromStorage.asObservable();
+    return getTokenFromStorage.asObservable().pipe(observeOn(queueScheduler));
   }
 }
 
@@ -62,7 +67,6 @@ describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
-  let authStorageService: AuthStorageService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   beforeEach(() => {
@@ -87,7 +91,10 @@ describe('AuthHttpHeaderService', () => {
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    authStorageService = TestBed.inject(AuthStorageService);
+
+    getTokenFromStorage.next(testToken);
+    logoutInProgressSubject.next(false);
+    refreshInProgressSubject.next(false);
   });
 
   it('should be created', () => {
@@ -171,27 +178,26 @@ describe('AuthHttpHeaderService', () => {
 
   describe('handleExpiredAccessToken', () => {
     it('should refresh the token and retry the call with new token', (done) => {
-      const token = new BehaviorSubject<AuthToken>({
+      const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
         refresh_token: 'ref_token',
-      });
+      };
+      getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
-        token.next({
+        getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
           refresh_token: 'ref_token',
         });
         return EMPTY;
       });
-      spyOn(authStorageService, 'getToken').and.returnValue(
-        token.asObservable().pipe(observeOn(queueScheduler))
-      );
       service
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
-          { handle: handler } as HttpHandler
+          { handle: handler } as HttpHandler,
+          initialToken
         )
         .pipe(take(1))
         .subscribe((res: any) => {
@@ -203,100 +209,109 @@ describe('AuthHttpHeaderService', () => {
         });
     });
 
-    it('should invoke expired refresh token handler when there is no refresh token', () => {
+    it('should invoke expired refresh token handler when there is no refresh token', (done) => {
+      const initialToken: AuthToken = {
+        access_token: `token`,
+        access_token_stored_at: `123`,
+      };
+      getTokenFromStorage.next(initialToken);
       const handler = jasmine.createSpy('handler', (a: any) => of(a));
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
-      spyOn(service, 'handleExpiredRefreshToken').and.stub();
-      spyOn(authStorageService, 'getToken').and.returnValue(
-        of({
-          access_token: `token`,
-        } as AuthToken)
-      );
+      spyOn(service, 'handleExpiredRefreshToken').and.callFake(() => {
+        getTokenFromStorage.next({} as AuthToken);
+      });
       service
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
-          { handle: handler } as HttpHandler
+          { handle: handler } as HttpHandler,
+          initialToken
         )
         .subscribe({
           complete: () => {
             // check that we didn't created new requests
             expect(handler).not.toHaveBeenCalled();
+            expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+            expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
+            done();
           },
         });
-      expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
-      expect(service.handleExpiredRefreshToken).toHaveBeenCalled();
     });
 
     it('should refresh token only once when method is invoked multiple times at the same time', (done) => {
-      const token = new BehaviorSubject<AuthToken>({
+      const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
         refresh_token: 'ref_token',
-      });
+      };
+      getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
-        token.next({
+        getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
           refresh_token: 'ref_token',
         });
-        return EMPTY;
       });
-      spyOn(authStorageService, 'getToken').and.returnValue(
-        token.asObservable().pipe(observeOn(queueScheduler))
-      );
+      const results: any[] = [];
 
       merge(
         service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/1/'),
-          { handle: handler } as HttpHandler
+          { handle: handler } as HttpHandler,
+          initialToken
         ),
         service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/2/'),
-          { handle: handler } as HttpHandler
+          { handle: handler } as HttpHandler,
+          initialToken
         )
-      ).subscribe((res: any) => {
-        expect(res.headers.get('Authorization')).toEqual('Bearer new_token');
-        expect(res.url).toEqual('some-server/1/');
-        expect(res.method).toEqual('GET');
-        expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalledTimes(1);
-        done();
+      ).subscribe((res) => {
+        results.push(res);
+        if (results.length === 2) {
+          results.forEach((r) =>
+            expect(r.headers.get('Authorization')).toEqual('Bearer new_token')
+          );
+          const url1 = results.find((r) => r.url === 'some-server/1/');
+          expect(url1).toBeTruthy();
+          const url2 = results.find((r) => r.url === 'some-server/2/');
+          expect(url2).toBeTruthy();
+          expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalledTimes(1);
+          done();
+        }
       });
     });
 
-    // it('should not attempt to refresh the token when there was a logout before the token expired', () => {
-    //   const token: AuthToken = {
-    //     access_token: `token`,
-    //     access_token_stored_at: '123',
-    //   };
+    it('should not attempt to refresh the token when there was a logout before the token expired', fakeAsync(() => {
+      const initialToken: AuthToken = {
+        access_token: `token`,
+        access_token_stored_at: '123',
+      };
+      getTokenFromStorage.next(initialToken);
+      const handler = jasmine.createSpy('handler', (a: any) => of(a));
+      logoutInProgressSubject.next(true);
 
-    //   logoutInProgressSubject.next(true);
-    //   const handler = jasmine.createSpy('handler', (a: any) => of(a));
-    //   spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
-    //   spyOn(service, 'handleExpiredRefreshToken').and.stub();
-    //   spyOn(authStorageService, 'getToken').and.returnValue(of(token));
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
 
-    //   service
-    //     .handleExpiredAccessToken(
-    //       new HttpRequest('GET', 'some-server/occ/cart'),
-    //       { handle: handler } as HttpHandler,
-    //       token
-    //     )
-    //     .subscribe({
-    //       complete: () => {
-    //         // check that we didn't created new requests
-    //         expect(handler).not.toHaveBeenCalled();
-    //       },
-    //     });
-    //   expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+      service
+        .handleExpiredAccessToken(
+          new HttpRequest('GET', 'some-server/occ/cart'),
+          { handle: handler } as HttpHandler,
+          initialToken
+        )
+        .subscribe({
+          complete: () => {
+            expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+            expect(handler).not.toHaveBeenCalled();
+          },
+        });
 
-    //   logoutInProgressSubject.next(false);
-    //   expect(handler).toHaveBeenCalled();
-    // });
+      setTimeout(() => {
+        getTokenFromStorage.next({} as AuthToken);
+      }, 100);
+      tick(101);
+    }));
 
     it('should not refresh token when the given token is already different than the token used for failing refresh', (done) => {
-      refreshInProgressSubject.next(false);
-      logoutInProgressSubject.next(false);
       const initialToken: AuthToken = {
         access_token: `old_token`,
         access_token_stored_at: '123',
@@ -323,18 +338,23 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
+    function wait(): Promise<void> {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 5);
+      });
+    }
+
     it('should logout user, save current navigation url, and redirect to login page', async () => {
-      refreshInProgressSubject.next(false);
-      logoutInProgressSubject.next(false);
-      spyOn(authService, 'coreLogout').and.callThrough();
+      spyOn(authService, 'coreLogout').and.callFake(wait);
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
 
       service.handleExpiredRefreshToken();
-      // wait for the internal coreLogout() to resolve before assertions
-      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
+      await wait();
+
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
