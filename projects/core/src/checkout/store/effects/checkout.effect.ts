@@ -173,10 +173,16 @@ export class CheckoutEffects {
 
   @Effect()
   clearCheckoutDataOnLogout$: Observable<
-    CheckoutActions.ClearCheckoutData
+    | CheckoutActions.ClearCheckoutData
+    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
+    | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
-    map(() => new CheckoutActions.ClearCheckoutData())
+    mergeMap(() => [
+      new CheckoutActions.ClearCheckoutData(),
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
+      new CheckoutActions.ResetLoadPaymentTypesProcess(),
+    ])
   );
 
   @Effect()
