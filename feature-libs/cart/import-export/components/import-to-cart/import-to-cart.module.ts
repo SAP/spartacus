@@ -18,17 +18,18 @@ import {
 import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
+import { NameSource } from '@spartacus/cart/import-export/core';
 
 @NgModule({
   imports: [
     CommonModule,
-    I18nModule,
     FormsModule,
     ReactiveFormsModule,
     FormErrorsModule,
     IconModule,
     KeyboardFocusModule,
     FileUploadModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportProductsComponent: {
@@ -42,6 +43,9 @@ import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-en
                 'text/csv',
                 '.csv',
               ],
+            },
+            cartNameGeneration: {
+              source: NameSource.FILE_NAME,
             },
           },
         },

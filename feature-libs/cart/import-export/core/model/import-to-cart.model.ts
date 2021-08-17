@@ -43,6 +43,20 @@ export type ProductImportSummary = {
   errorMessages: ProductImportInfo[];
 };
 
+export enum NameSource {
+  FILE_NAME = 'fileName',
+  DATE_TIME = 'dateTime',
+}
+
+export type CartNameGeneration = {
+  source?: NameSource;
+  fromDateOptions?: {
+    prefix?: string;
+    mask?: string;
+  };
+};
+
 export interface CmsImportEntriesComponent extends CmsComponent {
-  fileValidity: FileValidity;
+  fileValidity?: FileValidity;
+  cartNameGeneration?: CartNameGeneration;
 }

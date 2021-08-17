@@ -5,14 +5,27 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  CmsImportEntriesComponent,
   FileValidity,
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
+  NameSource,
+  CartNameGeneration,
 } from '@spartacus/cart/import-export/core';
-import { FormUtils, LaunchDialogService } from '@spartacus/storefront';
+import { CxDatePipe } from '@spartacus/core';
+import {
+  CmsComponentData,
+  LaunchDialogService,
+  FormUtils,
+} from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -21,13 +34,17 @@ import { ImportToCartService } from '../../import-to-cart.service';
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CxDatePipe],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  fileValidity: FileValidity;
+  fileValidity?: FileValidity;
+  cartNameGeneration?: CartNameGeneration;
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
   loadedFile: string[][] | null;
+
+  componentData$ = this.componentData.data$;
   formSubmitSubject$ = new Subject();
 
   @Output()
@@ -47,15 +64,18 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
+    protected datePipe: CxDatePipe,
+    protected componentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit() {
-    this.launchDialogService.data$
+    this.componentData$
       .pipe(take(1))
-      .subscribe((fileValidity: FileValidity) => {
-        this.fileValidity = fileValidity;
+      .subscribe((data: CmsImportEntriesComponent) => {
+        this.fileValidity = data.fileValidity;
+        this.cartNameGeneration = data.cartNameGeneration;
         this.form = this.buildForm();
       });
 
@@ -76,7 +96,9 @@ export class ImportEntriesFormComponent implements OnInit {
         ),
         filter((status) => status === 'VALID')
       )
-      .subscribe(() => this.save());
+      .subscribe(() => {
+        this.save();
+      });
   }
 
   close(reason: string): void {
@@ -124,5 +146,41 @@ export class ImportEntriesFormComponent implements OnInit {
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     return form;
+  }
+
+  updateCartName(): void {
+    const nameField = this.form.get('name');
+    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
+      switch (this.cartNameGeneration.source) {
+        case NameSource.FILE_NAME: {
+          this.setFieldValueByFileName(nameField);
+          break;
+        }
+        case NameSource.DATE_TIME: {
+          this.setFieldValueByDatetime(nameField);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+  }
+
+  protected setFieldValueByFileName(nameField: AbstractControl) {
+    const fileName = this.form
+      .get('file')
+      ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
+    nameField.setValue(fileName);
+  }
+
+  protected setFieldValueByDatetime(nameField: AbstractControl) {
+    const date = new Date();
+    const mask = this.cartNameGeneration?.fromDateOptions?.mask;
+    const prefix = this.cartNameGeneration?.fromDateOptions?.prefix;
+    const dateString = mask
+      ? this.datePipe.transform(date, mask)
+      : this.datePipe.transform(date);
+    nameField.setValue(`${prefix ?? ''}${dateString}`);
   }
 }
