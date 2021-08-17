@@ -241,10 +241,16 @@ describe('Checkout effect', () => {
   describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
       const action = new AuthActions.Logout();
-      const completion = new CheckoutActions.ClearCheckoutData();
+      const completion1 = new CheckoutActions.ClearCheckoutData();
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion3 = new CheckoutActions.ResetLoadPaymentTypesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
     });
