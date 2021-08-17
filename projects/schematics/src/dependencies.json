@@ -113,10 +113,10 @@
     "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.4.2",
-    "@spartacus/schematics": "3.4.2",
-    "@spartacus/storefront": "3.4.2",
-    "@spartacus/styles": "3.4.2",
+    "@spartacus/core": "3.4.3",
+    "@spartacus/schematics": "3.4.3",
+    "@spartacus/storefront": "3.4.3",
+    "@spartacus/styles": "3.4.3",
     "rxjs": "^6.6.0"
   },
   "@spartacus/qualtrics": {
@@ -179,11 +179,11 @@
     "@angular/router": "^10.1.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/asm": "3.4.2",
-    "@spartacus/core": "3.4.2",
-    "@spartacus/schematics": "3.4.2",
-    "@spartacus/storefront": "3.4.2",
-    "@spartacus/user": "3.4.2",
+    "@spartacus/asm": "3.4.3",
+    "@spartacus/core": "3.4.3",
+    "@spartacus/schematics": "3.4.3",
+    "@spartacus/storefront": "3.4.3",
+    "@spartacus/user": "3.4.3",
     "rxjs": "^6.6.0"
   },
   "@spartacus/cds": {
@@ -192,10 +192,10 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.4.2",
-    "@spartacus/schematics": "3.4.2",
-    "@spartacus/storefront": "3.4.2",
-    "@spartacus/tracking": "3.4.2",
+    "@spartacus/core": "3.4.3",
+    "@spartacus/schematics": "3.4.3",
+    "@spartacus/storefront": "3.4.3",
+    "@spartacus/tracking": "3.4.3",
     "rxjs": "^6.6.0"
   },
   "storefrontapp": {
