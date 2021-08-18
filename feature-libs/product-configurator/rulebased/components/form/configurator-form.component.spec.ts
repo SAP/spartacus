@@ -32,6 +32,7 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from '../attribute/
 import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/radio-button/configurator-attribute-radio-button.component';
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -70,6 +71,14 @@ const configRead2: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   groups: groups,
 };
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 @Component({
   selector: 'cx-icon',
@@ -191,6 +200,7 @@ describe('ConfigurationFormComponent', () => {
           ConfiguratorAttributeMultiSelectionImageComponent,
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockCxIconComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -397,17 +407,13 @@ describe('ConfigurationFormComponent', () => {
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
       ownerKey: owner.key,
-      changedAttribute: configRead.groups[0].attributes[0],
+      changedAttribute: ConfigurationTestData.attributeCheckbox,
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
   });
 
   describe('createGroupId', () => {
-    it('should return empty string because groupID is null', () => {
-      expect(createComponent().createGroupId(null)).toBeUndefined();
-    });
-
     it('should return empty string because groupID is undefined', () => {
       expect(createComponent().createGroupId(undefined)).toBeUndefined();
     });
