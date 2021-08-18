@@ -52,6 +52,7 @@ export type CartNameGeneration = {
   source?: NameSource;
   fromDateOptions?: {
     prefix?: string;
+    suffix?: string;
     mask?: string;
   };
 };

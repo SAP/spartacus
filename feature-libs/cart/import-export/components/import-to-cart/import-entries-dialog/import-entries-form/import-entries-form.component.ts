@@ -178,9 +178,10 @@ export class ImportEntriesFormComponent implements OnInit {
     const date = new Date();
     const mask = this.cartNameGeneration?.fromDateOptions?.mask;
     const prefix = this.cartNameGeneration?.fromDateOptions?.prefix;
+    const suffix = this.cartNameGeneration?.fromDateOptions?.suffix;
     const dateString = mask
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);
-    nameField.setValue(`${prefix ?? ''}${dateString}`);
+    nameField.setValue(`${prefix ?? ''}${dateString}${suffix ?? ''}`);
   }
 }
