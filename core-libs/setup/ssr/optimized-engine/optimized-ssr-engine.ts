@@ -143,7 +143,8 @@ export class OptimizedSsrEngine {
         // start rendering
         this.renderingCache.setAsRendering(renderingKey);
 
-        // setting the timeout for handing renders that might not ever finish due to various reason and won't decrease the `this.currentConcurrency--`.
+        // setting the timeout for hanging renders that might not ever finish due to various reasons
+        // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
         let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
           this.currentConcurrency--;
           this.renderingCache.clear(renderingKey);
