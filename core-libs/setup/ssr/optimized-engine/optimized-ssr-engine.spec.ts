@@ -1,5 +1,4 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
@@ -25,7 +24,7 @@ class TestEngineRunner {
 
   renderCount = 0;
   optimizedSsrEngine: OptimizedSsrEngine;
-  engineInstance: NgExpressEngineInstance;
+  engineInstance;
 
   constructor(options: SsrOptimizationOptions, renderTime?: number) {
     // mocked engine instance that will render test output in 100 milliseconds
