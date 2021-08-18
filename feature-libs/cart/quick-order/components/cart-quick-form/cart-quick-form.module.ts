@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { CartQuickFormComponent } from './cart-quick-form.component';
+import { CartQuickOrderFormComponent } from './cart-quick-form.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule, FormErrorsModule],
@@ -11,13 +11,12 @@ import { CartQuickFormComponent } from './cart-quick-form.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartQuickOrderFormComponent: {
-          component: CartQuickFormComponent,
+          component: CartQuickOrderFormComponent,
         },
       },
     }),
   ],
-  declarations: [CartQuickFormComponent, CartQuickFormComponent],
-  exports: [CartQuickFormComponent],
-  entryComponents: [CartQuickFormComponent],
+  declarations: [CartQuickOrderFormComponent],
+  exports: [CartQuickOrderFormComponent],
 })
-export class CartQuickFormModule {}
+export class CartQuickOrderFormModule {}

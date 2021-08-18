@@ -8,7 +8,6 @@ import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/c
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   CmsQuickOrderComponent,
   EventService,
@@ -57,7 +56,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.watchCartAddEntryEvents();
   }
 
-  get errors(): any[] {
+  get errors(): CartAddEntrySuccessEvent[] {
     return this.cartErrors;
   }
 
@@ -127,19 +126,11 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
           this.addError(cartEvent);
         }
       });
-    const watchCartAddEntryFailEvent = this.eventService
-      .get(CartAddEntryFailEvent)
-      .subscribe((cartEvent: CartAddEntryFailEvent) => {
-        this.addError(cartEvent);
-      });
 
     this.subscription.add(watchCartAddEntrySuccessEvent);
-    this.subscription.add(watchCartAddEntryFailEvent);
   }
 
-  protected addError(
-    error: CartAddEntrySuccessEvent | CartAddEntryFailEvent
-  ): void {
+  protected addError(error: CartAddEntrySuccessEvent): void {
     this.cartErrors.push(error);
   }
 

@@ -3,7 +3,10 @@ import {
   quickOrderTranslationChunksConfig,
   quickOrderTranslations,
 } from '@spartacus/cart/quick-order/assets';
-import { QuickOrderRootModule } from '@spartacus/cart/quick-order/root';
+import {
+  CART_QUICK_ORDER_FEATURE,
+  QuickOrderRootModule,
+} from '@spartacus/cart/quick-order/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -11,7 +14,7 @@ import { provideConfig } from '@spartacus/core';
   providers: [
     provideConfig({
       featureModules: {
-        cartQuickOrder: {
+        [CART_QUICK_ORDER_FEATURE]: {
           module: () =>
             import('@spartacus/cart/quick-order').then(
               (m) => m.QuickOrderModule

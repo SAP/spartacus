@@ -15,8 +15,8 @@ const mockEntry: OrderEntry = {
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   removeEntry(_index: number): void {}
   updateEntryQuantity(_index: number, _quantity: number): void {}
-  getProductAdded(): Subject<void> {
-    return new Subject<void>();
+  getProductAdded(): Subject<string> {
+    return new Subject<string>();
   }
 }
 

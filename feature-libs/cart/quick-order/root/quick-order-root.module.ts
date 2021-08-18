@@ -4,13 +4,19 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
+import {
+  CART_QUICK_ORDER_CORE_FEATURE,
+  CART_QUICK_ORDER_FEATURE,
+} from './feature-name';
 
 export function defaultQuickOrderComponentsConfig() {
   const config = {
     featureModules: {
-      cartQuickOrder: {
+      [CART_QUICK_ORDER_FEATURE]: {
         cmsComponents: ['QuickOrderComponent', 'CartQuickOrderFormComponent'],
       },
+      // by default core is bundled together with components
+      [CART_QUICK_ORDER_CORE_FEATURE]: CART_QUICK_ORDER_FEATURE,
     },
   };
   return config;

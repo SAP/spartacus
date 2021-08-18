@@ -15,18 +15,17 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-cart-quick-form',
+  selector: 'cx-cart-quick-order-form',
   templateUrl: './cart-quick-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartQuickFormComponent implements OnInit, OnDestroy {
-  orderForm: FormGroup;
+export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
+  quickOrderForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
-  cartId: string;
   min = 1;
 
   private subscription: Subscription = new Subscription();
@@ -39,10 +38,7 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActiveCartId().pipe(
-      tap((activeCardId: string) => (this.cartId = activeCardId)),
-      switchMap(() => this.activeCartService.getActive())
-    );
+    this.cart$ = this.activeCartService.getActive();
 
     this.cartIsLoading$ = this.activeCartService
       .isStable()
@@ -59,13 +55,13 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
   }
 
   applyQuickOrder(): void {
-    if (this.orderForm.invalid) {
-      this.orderForm.markAllAsTouched();
+    if (this.quickOrderForm.invalid) {
+      this.quickOrderForm.markAllAsTouched();
       return;
     }
 
-    const productCode = this.orderForm.get('productCode')?.value;
-    const quantity = this.orderForm.get('quantity')?.value;
+    const productCode = this.quickOrderForm.get('productCode')?.value;
+    const quantity = this.quickOrderForm.get('quantity')?.value;
 
     if (productCode && quantity) {
       this.activeCartService.addEntry(productCode, quantity);
@@ -73,7 +69,7 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
-    this.orderForm = this.formBuilder.group({
+    this.quickOrderForm = this.formBuilder.group({
       productCode: ['', [Validators.required]],
       quantity: [1, [Validators.required]],
     });
@@ -81,10 +77,10 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
 
   protected watchQuantityChange(): void {
     this.subscription.add(
-      this.orderForm
+      this.quickOrderForm
         .get('quantity')
         ?.valueChanges.subscribe((value) =>
-          this.orderForm
+          this.quickOrderForm
             .get('quantity')
             ?.setValue(this.getValidCount(value), { emitEvent: false })
         )
@@ -100,7 +96,7 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
           let productTranslation;
           let messageType = GlobalMessageType.MSG_TYPE_WARNING;
 
-          if (data.quantityAdded && 0 < data.quantityAdded) {
+          if (data.quantityAdded) {
             key =
               data.quantityAdded > 1
                 ? 'quickOrderCartForm.entriesWasAdded'
@@ -151,6 +147,6 @@ export class CartQuickFormComponent implements OnInit, OnDestroy {
   }
 
   protected resetForm(): void {
-    this.orderForm.reset();
+    this.quickOrderForm.reset();
   }
 }

@@ -60,9 +60,11 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   }
 
   protected watchProductAdd(): Subscription {
-    return this.quickOrderService.getProductAdded().subscribe(() => {
-      this.quantityControl = new FormControl(this.entry.quantity);
-      this.cd.detectChanges();
+    return this.quickOrderService.getProductAdded().subscribe((productCode) => {
+      if (productCode === this.entry.product?.code) {
+        this.quantityControl = new FormControl(this.entry.quantity);
+        this.cd.detectChanges();
+      }
     });
   }
 

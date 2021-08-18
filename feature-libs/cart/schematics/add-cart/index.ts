@@ -19,6 +19,7 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
+  CART_QUICK_ORDER_FEATURE_NAME_CONSTANT,
   CART_QUICK_ORDER_MODULE_NAME,
   CART_SAVED_CART_FEATURE_NAME_CONSTANT,
   CART_SAVED_CART_MODULE_NAME,
@@ -98,7 +99,10 @@ function addQuickOrderFeature(options: SpartacusCartOptions): Rule {
       name: QUICK_ORDER_ROOT_MODULE,
       importPath: SPARTACUS_QUICK_ORDER_ROOT,
     },
-
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_QUICK_ORDER_ROOT,
+      namedImports: [CART_QUICK_ORDER_FEATURE_NAME_CONSTANT],
+    },
     i18n: {
       resources: QUICK_ORDER_TRANSLATIONS,
       chunks: QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG,

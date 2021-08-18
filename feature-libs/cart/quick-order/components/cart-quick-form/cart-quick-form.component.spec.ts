@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CartQuickFormComponent } from './cart-quick-form.component';
+import { CartQuickOrderFormComponent } from './cart-quick-form.component';
 
 const mockCart: Cart = {
   code: '123456789',
@@ -76,9 +76,9 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntry(_productCode: string, _quantity: number): void {}
 }
 
-describe('CartQuickFormComponent', () => {
-  let component: CartQuickFormComponent;
-  let fixture: ComponentFixture<CartQuickFormComponent>;
+describe('CartQuickOrderFormComponent', () => {
+  let component: CartQuickOrderFormComponent;
+  let fixture: ComponentFixture<CartQuickOrderFormComponent>;
   let activeCartService: ActiveCartService;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
@@ -91,7 +91,7 @@ describe('CartQuickFormComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [CartQuickFormComponent],
+      declarations: [CartQuickOrderFormComponent],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
@@ -102,7 +102,7 @@ describe('CartQuickFormComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CartQuickFormComponent);
+    fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;
 
     activeCartService = TestBed.inject(ActiveCartService);
@@ -117,15 +117,15 @@ describe('CartQuickFormComponent', () => {
   });
 
   it('should create form on init', () => {
-    expect(component.orderForm.valid).toBeFalsy();
-    expect(component.orderForm.controls['productCode'].value).toBe('');
-    expect(component.orderForm.controls['quantity'].value).toBe(1);
+    expect(component.quickOrderForm.valid).toBeFalsy();
+    expect(component.quickOrderForm.controls['productCode'].value).toBe('');
+    expect(component.quickOrderForm.controls['quantity'].value).toBe(1);
   });
 
   it('should add entry on form submit', () => {
     spyOn(activeCartService, 'addEntry').and.callThrough();
 
-    component.orderForm.controls['productCode'].setValue('test');
+    component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
 
     expect(activeCartService.addEntry).toHaveBeenCalledWith('test', 1);
@@ -133,10 +133,10 @@ describe('CartQuickFormComponent', () => {
 
   it('should set quantity value to min when it is smaller than min value', () => {
     component.min = 3;
-    component.orderForm.controls['quantity'].setValue(2);
+    component.quickOrderForm.controls['quantity'].setValue(2);
     fixture.detectChanges();
 
-    expect(component.orderForm.controls['quantity'].value).toEqual(3);
+    expect(component.quickOrderForm.controls['quantity'].value).toEqual(3);
   });
 
   it('should show global confirmation message on add entry success event', () => {

@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class QuickOrderService {
-  protected productAdded$: Subject<void> = new Subject<void>();
+  protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
@@ -74,15 +74,15 @@ export class QuickOrderService {
   /**
    * Return product added subject
    */
-  getProductAdded(): Subject<void> {
+  getProductAdded(): Subject<string> {
     return this.productAdded$;
   }
 
   /**
    * Set product added subject
    */
-  setProductAdded(): void {
-    this.productAdded$.next();
+  setProductAdded(productCode: string): void {
+    this.productAdded$.next(productCode);
   }
 
   /**
@@ -118,7 +118,7 @@ export class QuickOrderService {
       this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.productAdded$.next();
+    this.productAdded$.next(entry.product?.code);
   }
 
   /**

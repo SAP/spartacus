@@ -131,13 +131,13 @@ export function addProductToCartWithQuickForm(
 ) {
   const alias = this.interceptAddToCartEndpoint();
 
-  cy.get('cx-cart-quick-form .input-product-code').type(`${productCode}`);
+  cy.get('cx-cart-quick-order-form .input-product-code').type(`${productCode}`);
 
   if (quantity) {
-    cy.get('cx-cart-quick-form .input-quantity').type(`${quantity}`);
+    cy.get('cx-cart-quick-order-form .input-quantity').type(`${quantity}`);
   }
 
-  cy.get('cx-cart-quick-form .apply-quick-order-button').click();
+  cy.get('cx-cart-quick-order-form .apply-quick-order-button').click();
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }

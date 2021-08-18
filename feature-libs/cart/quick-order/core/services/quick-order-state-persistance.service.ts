@@ -43,13 +43,6 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   }
 
   /**
-   * Initializes the synchronization between state and browser storage.
-   */
-  getProductsList(): any {
-    return this.readStateFromStorage();
-  }
-
-  /**
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    */
@@ -60,7 +53,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   /**
    * Reads synchronously state from storage and returns it.
    */
-  protected readStateFromStorage(): any {
+  protected readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<any>({
       key: this.key,
     });
