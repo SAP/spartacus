@@ -179,24 +179,26 @@ describe('ImportEntriesFormComponent', () => {
       expect(component.updateCartName).toHaveBeenCalled();
     });
 
-    it('should update cart name based on the file name', () => {
-      cmsComponentDataSubject.next({
-        ...cmsComponentDataSubject.value,
+    const testData = [
+      {
+        testName: 'should update cart name based on the file name',
         cartNameGeneration: {
           source: NameSource.FILE_NAME,
         },
-      });
-      component.ngOnInit();
-
-      component.form.get('file')?.setValue([mockFile]);
-      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
-
-      expect(component.form.get('name')?.value).toEqual('mockFile');
-    });
-
-    it('should update cart name based on date', () => {
-      cmsComponentDataSubject.next({
-        ...cmsComponentDataSubject.value,
+        resultMask: /^(mockFile)$/,
+      },
+      {
+        testName: 'should update cart name based on the date',
+        cartNameGeneration: {
+          source: NameSource.DATE_TIME,
+          fromDateOptions: {
+            mask: 'yyyy/MM/dd_hh:mm',
+          },
+        },
+        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+      },
+      {
+        testName: 'should update cart name based on the date with prefix',
         cartNameGeneration: {
           source: NameSource.DATE_TIME,
           fromDateOptions: {
@@ -204,26 +206,68 @@ describe('ImportEntriesFormComponent', () => {
             mask: 'yyyy/MM/dd_hh:mm',
           },
         },
-      });
-      component.ngOnInit();
-
-      component.form.get('file')?.setValue([mockFile]);
-      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
-
-      expect(component.form.get('name')?.value).toContain(`cart_`);
-    });
-
-    it('should not update cart name if it is not enabled', () => {
-      cmsComponentDataSubject.next({
-        ...cmsComponentDataSubject.value,
+        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+      },
+      {
+        testName: 'should update cart name based on the date with suffix',
+        cartNameGeneration: {
+          source: NameSource.DATE_TIME,
+          fromDateOptions: {
+            suffix: '_cart',
+            mask: 'yyyy/MM/dd_hh:mm',
+          },
+        },
+        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
+      },
+      {
+        testName:
+          'should update cart name based on the date with prefix and suffix',
+        cartNameGeneration: {
+          source: NameSource.DATE_TIME,
+          fromDateOptions: {
+            prefix: 'cart_',
+            suffix: '_cart',
+            mask: 'yyyy/MM/dd_hh:mm',
+          },
+        },
+        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
+      },
+      {
+        testName: 'should not update cart name if it was already filled',
+        cartNameGeneration: {
+          source: NameSource.FILE_NAME,
+        },
+        alreadyFilledName: 'alreadyFilledName',
+        resultMask: /^(alreadyFilledName)$/,
+      },
+      {
+        testName: 'should not update cart name if it is not enabled',
         cartNameGeneration: {},
-      });
-      component.ngOnInit();
+        resultMask: /^$/,
+      },
+    ];
 
-      component.form.get('file')?.setValue([mockFile]);
-      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
+    testData.forEach(
+      ({ testName, cartNameGeneration, resultMask, alreadyFilledName }) => {
+        it(testName, () => {
+          cmsComponentDataSubject.next({
+            ...cmsComponentDataSubject.value,
+            cartNameGeneration,
+          });
+          component.ngOnInit();
 
-      expect(component.form.get('name')?.value).toEqual('');
-    });
+          if (alreadyFilledName) {
+            component.form.get('name')?.setValue(alreadyFilledName);
+          }
+          component.form.get('file')?.setValue([mockFile]);
+          el.query(By.css('cx-file-upload')).triggerEventHandler(
+            'update',
+            null
+          );
+
+          expect(component.form.get('name')?.value).toMatch(resultMask);
+        });
+      }
+    );
   });
 });
