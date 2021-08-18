@@ -61,8 +61,9 @@ export interface SsrOptimizationOptions {
 
   /**
    * The time for how long the render is expected to finish in.
-   * Exceeding this timeout will decrease the concurrency limit,
-   * but may not release the rendering resources taken by the render,
+   * Exceeding this timeout will decrease the concurrency limit
+   * and allow for the new request to be server-side rendered.
+   * However, this may not release the rendering resources for the hanging render,
    * which may cause additional memory usage on the server.
    *
    * It will log which render is exceeding the render time,
