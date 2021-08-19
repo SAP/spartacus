@@ -7,6 +7,13 @@ cx-import-entries-dialog {
 
     .cx-import-entries-container {
       @extend .modal-content;
+      pointer-events: none;
+
+      button,
+      input,
+      textarea {
+        pointer-events: auto;
+      }
 
       .cx-import-entries-header {
         .cx-import-entries-title {
@@ -18,6 +25,7 @@ cx-import-entries-dialog {
 
       cx-import-entries-form {
         @extend .modal-body;
+        background-color: var(--cx-color-inverse);
         .cx-import-entries-subtitle {
           font-weight: bold;
           margin-bottom: 0.5rem;
