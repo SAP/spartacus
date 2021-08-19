@@ -31,6 +31,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
+  addToCart(): Observable<number> {
+    return mockEntriesLength$.asObservable();
+  }
 }
 
 class MockQuickOrderStatePersistenceService
@@ -40,6 +43,7 @@ class MockQuickOrderStatePersistenceService
 
 const mockIsStable$ = new BehaviorSubject<boolean>(true);
 const mockCartId$ = new BehaviorSubject<string>('123456789');
+const mockEntriesLength$ = new BehaviorSubject<number>(1);
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
@@ -70,7 +74,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
-  let activeCartService: ActiveCartService;
   let quickOrderService: QuickOrderFacade;
   let globalMessageService: GlobalMessageService;
   let el: DebugElement;
@@ -94,7 +97,6 @@ describe('QuickOrderComponent', () => {
       ],
     }).compileComponents();
 
-    activeCartService = TestBed.inject(ActiveCartService);
     quickOrderService = TestBed.inject(QuickOrderFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
@@ -131,19 +133,12 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'clearList').and.callThrough();
-    spyOn(activeCartService, 'addEntries').and.callThrough();
+    spyOn(quickOrderService, 'addToCart').and.returnValue(of(1));
     spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart();
 
-    let entryList: OrderEntry[];
-    component.entries$.subscribe((entries) => {
-      entryList = entries;
-    });
-
-    expect(activeCartService.addEntries).toHaveBeenCalledWith(entryList);
-    expect(quickOrderService.clearList).toHaveBeenCalled();
+    expect(quickOrderService.addToCart).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'quickOrderTable.addedtoCart',

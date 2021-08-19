@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, first, map, switchMap } from 'rxjs/operators';
+import { finalize, first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -40,6 +40,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   showErrors: boolean = false;
 
   private cartErrors: any[] = [];
+  private cartEventsSubscription: Subscription;
   private subscription = new Subscription();
 
   constructor(
@@ -55,7 +56,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
     this.quickOrderStatePersistenceService.initSync();
-    this.watchCartAddEntryEvents();
   }
 
   get errors(): CartAddEntrySuccessEvent[] {
@@ -73,48 +73,42 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   addToCart(): void {
-    /////////////////////////////
     this.clearErrors();
-    let entriesLength = 0;
+    this.watchCartAddEntryEvents();
 
-    this.subscription.add(
-      this.entries$
-        .pipe(
-          first(),
-          switchMap((entries) => {
-            entriesLength = entries.length;
-            this.activeCartService.addEntries(entries);
+    this.quickOrderService
+      .addToCart()
+      .pipe(
+        first(),
+        finalize(() => this.cartEventsSubscription?.unsubscribe())
+      )
+      .subscribe((entriesLength: number) => {
+        if (this.errors.length) {
+          this.showErrors = true;
+        }
 
-            return this.activeCartService.isStable();
-          }),
-          filter(Boolean)
-        )
-        .subscribe(() => {
-          this.quickOrderService.clearList();
+        const noAddedEntries = this.errors.filter(
+          (error) => error.quantityAdded === 0
+        );
 
-          if (this.errors.length) {
-            this.showErrors = true;
-          }
-
-          const noAddedEntries = this.errors.filter(
-            (error) => error.quantityAdded === 0
-          );
-
-          if (entriesLength !== noAddedEntries.length) {
-            this.globalMessageService.add(
-              {
-                key: 'quickOrderTable.addedtoCart',
-              },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          }
-        })
-    );
+        if (entriesLength !== noAddedEntries.length) {
+          this.showAddedToCartSuccessMessage();
+        }
+      });
   }
 
   clearErrors(): void {
     this.cartErrors = [];
     this.showErrors = false;
+  }
+
+  protected showAddedToCartSuccessMessage(): void {
+    this.globalMessageService.add(
+      {
+        key: 'quickOrderTable.addedtoCart',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   protected watchCartAddEntryEvents(): void {
@@ -130,7 +124,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subscription.add(watchCartAddEntrySuccessEvent);
+    this.cartEventsSubscription = new Subscription();
+    this.cartEventsSubscription.add(watchCartAddEntrySuccessEvent);
   }
 
   protected addError(error: CartAddEntrySuccessEvent): void {
@@ -139,5 +134,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.cartEventsSubscription?.unsubscribe();
   }
 }
