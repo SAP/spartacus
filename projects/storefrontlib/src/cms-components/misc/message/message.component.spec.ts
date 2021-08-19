@@ -11,10 +11,10 @@ import { MessageComponent } from './message.component';
 class TestHostComponent {}
 
 const mockCssClassForMessage: Record<string, boolean> = {
-  'message-success': true,
-  'message-info': false,
-  'message-warning': false,
-  'message-danger': false,
+  'cx-message-success': true,
+  'cx-message-info': false,
+  'cx-message-warning': false,
+  'cx-message-danger': false,
 };
 
 describe('MessageComponent', () => {
@@ -66,7 +66,7 @@ describe('MessageComponent', () => {
   it('should show close button and trigger close action', () => {
     spyOn(component.closeMessage, 'emit');
 
-    const button = el.query(By.css('.message .close')).nativeElement;
+    const button = el.query(By.css('.cx-message .close')).nativeElement;
     button.click();
 
     expect(button).toBeTruthy();
@@ -77,8 +77,9 @@ describe('MessageComponent', () => {
     component.text = 'Test';
     fixture.detectChanges();
 
-    const text = el.query(By.css('.message .message-header .message-text'))
-      .nativeElement;
+    const text = el.query(
+      By.css('.cx-message .cx-message-header .cx-message-text')
+    ).nativeElement;
 
     expect(text.textContent).toEqual('Test');
   });
