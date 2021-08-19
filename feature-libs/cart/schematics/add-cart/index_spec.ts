@@ -23,7 +23,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
 const quickOrderFeatureModulePath =
-  'src/app/spartacus/features/cart/quick-order-cart-feature.module.ts';
+  'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {

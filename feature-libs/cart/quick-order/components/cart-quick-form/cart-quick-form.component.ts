@@ -24,11 +24,14 @@ import { map } from 'rxjs/operators';
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   quickOrderForm: FormGroup;
-  cartIsLoading$: Observable<boolean>;
-  cart$: Observable<Cart>;
+  cartIsLoading$: Observable<boolean> = this.activeCartService
+    .isStable()
+    .pipe(map((loaded) => !loaded));
+  cart$: Observable<Cart> = this.activeCartService.getActive();
   min = 1;
 
   private subscription: Subscription = new Subscription();
+  private minQuantityValue: number = 1;
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -38,12 +41,6 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
-
-    this.cartIsLoading$ = this.activeCartService
-      .isStable()
-      .pipe(map((loaded) => !loaded));
-
     this.buildForm();
     this.watchQuantityChange();
     this.watchAddEntrySuccessEvent();
@@ -71,7 +68,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected buildForm(): void {
     this.quickOrderForm = this.formBuilder.group({
       productCode: ['', [Validators.required]],
-      quantity: [1, [Validators.required]],
+      quantity: [this.minQuantityValue, [Validators.required]],
     });
   }
 

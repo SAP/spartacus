@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CmsQuickOrderComponent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -14,6 +13,7 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderComponent } from './quick-order.component';
 

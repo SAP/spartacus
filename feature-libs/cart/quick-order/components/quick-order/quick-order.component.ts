@@ -4,12 +4,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/core';
+import {
+  CmsQuickOrderComponent,
+  QuickOrderStatePersistenceService,
+} from '@spartacus/cart/quick-order/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
-  CmsQuickOrderComponent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -71,6 +73,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   addToCart(): void {
+    /////////////////////////////
     this.clearErrors();
     let entriesLength = 0;
 
