@@ -1,14 +1,14 @@
-import { CartValidationGuard } from '@spartacus/cart/validation/components';
 import {
   ActiveCartService,
   GlobalMessageService,
   MultiCartService,
   SemanticPathService,
   UserIdService,
+  CartValidationService,
 } from '@spartacus/core';
+import { CartValidationGuard } from '@spartacus/storefront';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartValidationFacade } from '@spartacus/cart/validation/root';
 import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
@@ -16,7 +16,7 @@ const cartModification = new BehaviorSubject({});
 const mockUserId = 'userTest';
 const mockCartId = 'cartTest';
 
-class MockCartValidationFacade implements Partial<CartValidationFacade> {
+class MockCartValidationService implements Partial<CartValidationService> {
   getCartValidationStatus() {
     return cartModification.asObservable();
   }
@@ -48,7 +48,7 @@ describe(`CartValidationGuard`, () => {
     TestBed.configureTestingModule({
       providers: [
         CartValidationGuard,
-        { provide: CartValidationFacade, useClass: MockCartValidationFacade },
+        { provide: CartValidationService, useClass: MockCartValidationService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: UserIdService, useClass: MockUserIdService },

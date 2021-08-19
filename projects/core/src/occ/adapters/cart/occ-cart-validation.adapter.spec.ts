@@ -3,15 +3,15 @@ import {
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
+  OccCartValidationAdapter,
+  CartModificationList,
+  CART_VALIDATION_NORMALIZER,
 } from '@spartacus/core';
-import { OccCartValidationAdapter } from '@spartacus/cart/validation/occ';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CartModificationList } from '@spartacus/cart/validation/root';
-import { CART_VALIDATION_NORMALIZER } from '@spartacus/cart/validation/core';
 
 const mockUserId = 'userId';
 const mockCartId = 'cartId';

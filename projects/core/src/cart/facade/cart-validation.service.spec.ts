@@ -3,10 +3,23 @@ import { of } from 'rxjs';
 import { CartValidationService } from './cart-validation.service';
 import createSpy = jasmine.createSpy;
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 
 const cartValidationResult = { cartModificationList: [] };
 class MockCartValidationConnector implements Partial<CartValidationConnector> {
   get = createSpy().and.callFake(() => of(cartValidationResult));
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId() {
+    return of('userId');
+  }
+}
+
+class MockActiveCartService implements Partial<ActiveCartService> {
+  getActiveCartId() {
+    return of('current');
+  }
 }
 
 describe('CartValidationService', () => {
@@ -20,6 +33,14 @@ describe('CartValidationService', () => {
         {
           provide: CartValidationConnector,
           useClass: MockCartValidationConnector,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+        {
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     });
@@ -35,7 +56,7 @@ describe('CartValidationService', () => {
   it('should execute command for cart validation and return results', () => {
     let result;
     service
-      .getCartValidationStatus('cartId', 'current')
+      .getCartValidationStatus()
       .subscribe((data) => {
         result = data;
       })
@@ -45,10 +66,7 @@ describe('CartValidationService', () => {
   });
 
   it('should call connector with passed params to validate cart', () => {
-    service
-      .getCartValidationStatus('cartId', 'current')
-      .subscribe()
-      .unsubscribe();
-    expect(connector.get).toHaveBeenCalledWith('cartId', 'current');
+    service.getCartValidationStatus().subscribe().unsubscribe();
+    expect(connector.get).toHaveBeenCalled();
   });
 });
