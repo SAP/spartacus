@@ -13,9 +13,6 @@ export class CartValidationCartWarningsComponent {
   iconTypes = ICON_TYPE;
   visibleWarnings: { [key: string]: boolean } = {};
 
-  checkoutRouteActivated$ = this.cartValidationWarningsStateService
-    .checkoutRouteActivated$;
-
   cartModifications$ = this.cartValidationWarningsStateService.cartValidationResult$.pipe(
     map((modificationList: CartModification[]) => {
       const result = modificationList.filter(
