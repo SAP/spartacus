@@ -13,6 +13,7 @@ import {
   
   @Component({
     selector: 'cx-image-zoom-dialog',
+    styleUrls: ['image-zoom-dialog.component.scss'],
     templateUrl: 'image-zoom-dialog.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
   })

@@ -19,6 +19,7 @@ import { ImageZoomDialogComponent } from '../image-zoom-dialog/image-zoom-dialog
 @Component({
   selector: 'cx-image-zoom-trigger',
   templateUrl: 'image-zoom-trigger.component.html',
+  styleUrls: ['image-zoom-trigger.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomTriggerComponent {
