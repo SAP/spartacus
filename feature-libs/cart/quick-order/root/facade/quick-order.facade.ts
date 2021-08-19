@@ -17,6 +17,7 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'getProductAdded',
       'setProductAdded',
+      'addToCart',
     ],
   });
 }
@@ -70,4 +71,9 @@ export abstract class QuickOrderFacade {
    * Set product added subject
    */
   abstract setProductAdded(productCode: string): void;
+
+  /**
+   * Adding to cart all products from the list
+   */
+  abstract addToCart(): Observable<number>;
 }

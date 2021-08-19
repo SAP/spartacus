@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
+import {
+  ActiveCartService,
+  OrderEntry,
+  Product,
+  ProductAdapter,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +17,10 @@ export class QuickOrderService {
     OrderEntry[]
   >([]);
 
-  constructor(protected productAdapter: ProductAdapter) {}
+  constructor(
+    protected activeCartService: ActiveCartService,
+    protected productAdapter: ProductAdapter
+  ) {}
 
   /**
    * Get entries
@@ -83,6 +91,26 @@ export class QuickOrderService {
    */
   setProductAdded(productCode: string): void {
     this.productAdded$.next(productCode);
+  }
+
+  /**
+   * Adding to cart all products from the list
+   */
+  addToCart(): Observable<number> {
+    let entriesLength = 0;
+
+    return this.getEntries().pipe(
+      first(),
+      switchMap((entries) => {
+        entriesLength = entries.length;
+        this.activeCartService.addEntries(entries);
+        this.clearList();
+
+        return this.activeCartService.isStable();
+      }),
+      filter(Boolean),
+      map(() => entriesLength)
+    );
   }
 
   /**

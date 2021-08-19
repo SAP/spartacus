@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
+import {
+  ActiveCartService,
+  OrderEntry,
+  Product,
+  ProductAdapter,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { QuickOrderService } from './quick-order.service';
 
@@ -55,20 +60,33 @@ class MockProductAdapter implements Partial<ProductAdapter> {
   }
 }
 
+class MockActiveCartService implements Partial<ActiveCartService> {
+  isStable(): Observable<boolean> {
+    return of(true);
+  }
+  addEntries(_cartEntries: OrderEntry[]): void {}
+}
+
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productAdapter: ProductAdapter;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
+        {
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
+        },
         { provide: ProductAdapter, useClass: MockProductAdapter },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
     productAdapter = TestBed.inject(ProductAdapter);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   beforeEach(() => {
@@ -123,6 +141,19 @@ describe('QuickOrderService', () => {
     service.getEntries().subscribe((entries) => {
       expect(entries).toEqual([mockEntry2]);
     });
+  });
+
+  it('should add products to the cart', () => {
+    spyOn(activeCartService, 'addEntries');
+    spyOn(activeCartService, 'isStable');
+    spyOn(service, 'clearList');
+
+    service.loadEntries([mockEntry1]);
+    service.addToCart().subscribe();
+
+    expect(activeCartService.addEntries).toHaveBeenCalled();
+    expect(activeCartService.isStable).toHaveBeenCalled();
+    expect(service.clearList).toHaveBeenCalled();
   });
 
   it('should add product to the quick order list', () => {
