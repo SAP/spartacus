@@ -83,10 +83,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         finalize(() => this.cartEventsSubscription?.unsubscribe())
       )
       .subscribe((entriesLength: number) => {
-        if (this.errors.length) {
-          this.showErrors = true;
-        }
-
         const noAddedEntries = this.errors.filter(
           (error) => error.quantityAdded === 0
         );
@@ -130,6 +126,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   protected addError(error: CartAddEntrySuccessEvent): void {
     this.cartErrors.push(error);
+    this.showErrors = true;
   }
 
   ngOnDestroy(): void {
