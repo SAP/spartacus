@@ -407,11 +407,11 @@ export class SavedCartService implements SavedCartFacade {
    *
    * @param cartId
    */
-  cloneSavedCart(cartId: string): void {
+  cloneSavedCart(cartId: string, saveCartName?: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         return this.store.dispatch(
-          new SavedCartActions.CloneSavedCart({ userId, cartId })
+          new SavedCartActions.CloneSavedCart({ userId, cartId, saveCartName })
         );
       },
       () => {

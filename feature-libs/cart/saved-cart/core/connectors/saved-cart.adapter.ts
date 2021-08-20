@@ -32,5 +32,9 @@ export abstract class SavedCartAdapter {
    *
    * Abstract method used to clone a saved cart
    */
-  abstract cloneSavedCart(userId: string, cartId: string): Observable<Cart>;
+  abstract cloneSavedCart(
+    userId: string,
+    cartId: string,
+    saveCartName?: string
+  ): Observable<Cart>;
 }
