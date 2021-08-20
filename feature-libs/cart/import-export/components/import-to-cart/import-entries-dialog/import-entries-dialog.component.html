@@ -1,0 +1,43 @@
+<ng-container>
+  <div
+    [cxFocus]="focusConfig"
+    (esc)="close('Escape clicked')"
+    class="cx-import-entries-dialog"
+  >
+    <div class="cx-import-entries-container">
+      <!-- Modal Header -->
+      <div class="modal-header cx-import-entries-header">
+        <ng-container>
+          <div class="cx-import-entries-title modal-title">
+            {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+          </div>
+        </ng-container>
+
+        <button
+          (click)="close('Close Import Products Dialog')"
+          [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
+          class="cx-import-entries-close close"
+          type="button"
+          [disabled]="(summary$ | async)?.loading"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <cx-import-entries-form
+        *ngIf="formState; else importSummary"
+        (submitEvent)="importProducts($event)"
+      ></cx-import-entries-form>
+
+      <ng-template #importSummary>
+        <cx-import-entries-summary
+          [summary]="summary$ | async"
+          (closeEvent)="close('Close Import Products Dialog')"
+        ></cx-import-entries-summary>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
