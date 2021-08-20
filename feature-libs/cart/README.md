@@ -7,6 +7,5 @@ Cart can be added to the existing Spartacus application by running `ng add @spar
 The Spartacus Cart library contains the following packages:
 
 - `@spartacus/cart/saved-cart` is a package that adds the saved cart feature.
-- `@spartacus/cart/validation` is a package that adds cart validation feature.
 
 For more information about Spartacus, see [Spartacus](https://github.com/SAP/spartacus).

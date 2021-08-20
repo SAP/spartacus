@@ -14,7 +14,6 @@ import {
   shouldAddFeature,
   SPARTACUS_CART,
   validateSpartacusInstallation,
-  CLI_CART_VALIDATION_FEATURE,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
@@ -29,15 +28,6 @@ import {
   SPARTACUS_SAVED_CART,
   SPARTACUS_SAVED_CART_ASSETS,
   SPARTACUS_SAVED_CART_ROOT,
-  CART_VALIDATION_MODULE_NAME,
-  CART_VALIDATION_MODULE,
-  SPARTACUS_CART_VALIDATION,
-  CART_VALIDATION_ROOT_MODULE,
-  SPARTACUS_CART_VALIDATION_ROOT,
-  CART_VALIDATION_FEATURE_NAME_CONSTANT,
-  CART_VALIDATION_TRANSLATIONS,
-  CART_VALIDATION_TRANSLATION_CHUNKS_CONFIG,
-  SPARTACUS_CART_VALIDATION_ASSETS,
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
@@ -50,10 +40,6 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 
       shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)
-        : noop(),
-
-      shouldAddFeature(CLI_CART_VALIDATION_FEATURE, options.features)
-        ? addCartValidationFeature(options)
         : noop(),
     ]);
   };
@@ -79,34 +65,6 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
       resources: SAVED_CART_TRANSLATIONS,
       chunks: SAVED_CART_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_SAVED_CART_ASSETS,
-    },
-    styles: {
-      scssFileName: SCSS_FILE_NAME,
-      importStyle: SPARTACUS_CART,
-    },
-  });
-}
-
-function addCartValidationFeature(options: SpartacusCartOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: CART_FOLDER_NAME,
-    moduleName: CART_VALIDATION_MODULE_NAME,
-    featureModule: {
-      name: CART_VALIDATION_MODULE,
-      importPath: SPARTACUS_CART_VALIDATION,
-    },
-    rootModule: {
-      name: CART_VALIDATION_ROOT_MODULE,
-      importPath: SPARTACUS_CART_VALIDATION_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CART_VALIDATION_ROOT,
-      namedImports: [CART_VALIDATION_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: CART_VALIDATION_TRANSLATIONS,
-      chunks: CART_VALIDATION_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_CART_VALIDATION_ASSETS,
     },
     styles: {
       scssFileName: SCSS_FILE_NAME,
