@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
+import {
+  CartAddEntrySuccessEvent,
+  facadeFactory,
+  OrderEntry,
+  Product,
+} from '@spartacus/core';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 
 export function quickOrderFacadeFactory() {
@@ -9,6 +14,11 @@ export function quickOrderFacadeFactory() {
     feature: CART_QUICK_ORDER_CORE_FEATURE,
     methods: [
       'getEntries',
+      'getShowError',
+      'setShowError',
+      'getCartErrors',
+      'setCartError',
+      'clearCartErrors',
       'search',
       'clearList',
       'loadEntries',
@@ -31,6 +41,31 @@ export abstract class QuickOrderFacade {
    * Get entries
    */
   abstract getEntries(): BehaviorSubject<OrderEntry[]>;
+
+  /**
+   * Get show error flag
+   */
+  abstract getShowError(): boolean;
+
+  /**
+   * Set show error flag
+   */
+  abstract setShowError(value: boolean): void;
+
+  /**
+   * Get cart errors
+   */
+  abstract getCartErrors(): CartAddEntrySuccessEvent[];
+
+  /**
+   * Set cart errors
+   */
+  abstract setCartError(value: CartAddEntrySuccessEvent[]): void;
+
+  /**
+   * Clear cart errors
+   */
+  abstract clearCartErrors(): void;
 
   /**
    * Search product using sku

@@ -1,11 +1,14 @@
 <cx-message
-  *ngIf="showErrors"
-  (closeMessage)="clearErrors()"
+  *ngIf="quickOrderService.getShowError()"
+  (closeMessage)="quickOrderService.clearCartErrors()"
   [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
   [type]="globalMessageType.MSG_TYPE_ERROR"
 >
   <ul class="quick-order-errors">
-    <li *ngFor="let error of errors" class="quick-order-error-item">
+    <li
+      *ngFor="let error of quickOrderService.getCartErrors()"
+      class="quick-order-error-item"
+    >
       <span *ngIf="error.quantityAdded === 0; else otherError">
         {{
           'quickOrderList.errors.productIsOutOfStock'

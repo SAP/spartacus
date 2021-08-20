@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
+  CartAddEntrySuccessEvent,
+  EventService,
   OrderEntry,
   Product,
   ProductAdapter,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { filter, finalize, first, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +18,15 @@ export class QuickOrderService {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
+  protected showErrors = false;
+  protected cartErrors: CartAddEntrySuccessEvent[] = [];
+
+  private cartEventsSubscription: Subscription;
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter
+    protected productAdapter: ProductAdapter,
+    protected eventService: EventService
   ) {}
 
   /**
@@ -27,6 +34,42 @@ export class QuickOrderService {
    */
   getEntries(): BehaviorSubject<OrderEntry[]> {
     return this.entries$;
+  }
+
+  /**
+   * Get show error flag
+   */
+  getShowError(): boolean {
+    return this.showErrors;
+  }
+
+  /**
+   * Set show error flag
+   */
+  setShowError(value: boolean): void {
+    this.showErrors = value;
+  }
+
+  /**
+   * Get cart errors
+   */
+  getCartErrors(): CartAddEntrySuccessEvent[] {
+    return this.cartErrors;
+  }
+
+  /**
+   * Set cart errors
+   */
+  setCartError(value: CartAddEntrySuccessEvent): void {
+    this.cartErrors.push(value);
+  }
+
+  /**
+   * Clear cart errors
+   */
+  clearCartErrors(): void {
+    this.cartErrors = [];
+    this.setShowError(false);
   }
 
   /**
@@ -97,6 +140,7 @@ export class QuickOrderService {
    * Adding to cart all products from the list
    */
   addToCart(): Observable<number> {
+    this.watchCartAddEntryEvents();
     let entriesLength = 0;
 
     return this.getEntries().pipe(
@@ -109,8 +153,37 @@ export class QuickOrderService {
         return this.activeCartService.isStable();
       }),
       filter(Boolean),
-      map(() => entriesLength)
+      map(() => entriesLength),
+      finalize(() => this.cartEventsSubscription?.unsubscribe())
     );
+  }
+
+  /**
+   * Watch cart add entry events
+   */
+  protected watchCartAddEntryEvents(): void {
+    const watchCartAddEntrySuccessEvent = this.eventService
+      .get(CartAddEntrySuccessEvent)
+      .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
+        if (
+          cartEvent.quantityAdded === 0 ||
+          (!!cartEvent.quantityAdded &&
+            cartEvent.quantityAdded < cartEvent.quantity)
+        ) {
+          this.addCartError(cartEvent);
+        }
+      });
+
+    this.cartEventsSubscription = new Subscription();
+    this.cartEventsSubscription.add(watchCartAddEntrySuccessEvent);
+  }
+
+  /**
+   * Add cart error
+   */
+  protected addCartError(error: CartAddEntrySuccessEvent): void {
+    this.setCartError(error);
+    this.setShowError(true);
   }
 
   /**
