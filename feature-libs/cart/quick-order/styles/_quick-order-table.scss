@@ -2,6 +2,12 @@ cx-quick-order-table {
   display: block;
   margin-top: 30px;
 
+  .cx-quick-order-table {
+    @include media-breakpoint-down(md) {
+      padding: 1.125rem 2.5rem;
+    }
+  }
+
   .cx-table {
     thead th {
       border-bottom: 0;
@@ -28,13 +34,13 @@ cx-quick-order-table {
     padding: 1.125rem 0;
     text-transform: uppercase;
 
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
     .cx-quick-order-info-header {
       margin: 0;
     }
-  }
-
-  .cx-quick-order-image-container {
-    padding: 0;
   }
 
   .cx-quick-order-info-container {
@@ -43,7 +49,7 @@ cx-quick-order-table {
     .cx-label {
       display: none;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         display: inline-block;
         font-size: var(--cx-font-size, 0.875rem);
         font-weight: var(--cx-font-weight-bold);
@@ -55,17 +61,9 @@ cx-quick-order-table {
     }
   }
 
-  .cx-quick-order-table-item-product-image {
-    padding: 0;
-    text-align: start;
-    width: 75px;
-    height: 75px;
-  }
-
   .cx-quick-order-table-item-product-information {
     display: flex;
     flex-direction: column;
-    padding: 0;
 
     .cx-name {
       font-size: var(--cx-font-size, 1rem);
@@ -91,19 +89,25 @@ cx-quick-order-table {
   }
 
   .cx-quick-order-table-item-price {
-    padding: 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
       text-align: start;
+      font-size: var(--cx-font-size, 0.875rem);
+      justify-content: flex-start;
     }
   }
 
   .cx-quick-order-table-item-quantity {
     text-align: center;
-    padding: 0;
 
-    @include media-breakpoint-down(md) {
+    button[type='button'] {
+      margin-bottom: 0;
+    }
+
+    @include media-breakpoint-down(sm) {
       text-align: start;
     }
 
@@ -119,7 +123,6 @@ cx-quick-order-table {
   }
 
   .cx-quick-order-table-item-total {
-    padding: 0;
     text-align: center;
 
     @include media-breakpoint-down(md) {
@@ -128,7 +131,6 @@ cx-quick-order-table {
   }
 
   .cx-quick-order-table-item-action {
-    padding: 0;
     text-align: end;
   }
 
@@ -141,19 +143,5 @@ cx-quick-order-table {
 
   .cx-quick-order-table-item {
     margin: 0;
-  }
-
-  // ------------------------------------ MEDIA QUERIES ------------------------------------
-
-  @include media-breakpoint-down(md) {
-    .cx-quick-order-table {
-      padding: 1.125rem 2.5rem;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    .cx-quick-order-table-items {
-      padding-inline-start: 1rem;
-    }
   }
 }
