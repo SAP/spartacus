@@ -21,10 +21,11 @@ export class MessageComponent {
 
   get getCssClassesForMessage(): Record<string, boolean> {
     return {
-      'message-success': this.type === GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      'message-info': this.type === GlobalMessageType.MSG_TYPE_INFO,
-      'message-warning': this.type === GlobalMessageType.MSG_TYPE_WARNING,
-      'message-danger': this.type === GlobalMessageType.MSG_TYPE_ERROR,
+      'cx-message-success':
+        this.type === GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      'cx-message-info': this.type === GlobalMessageType.MSG_TYPE_INFO,
+      'cx-message-warning': this.type === GlobalMessageType.MSG_TYPE_WARNING,
+      'cx-message-danger': this.type === GlobalMessageType.MSG_TYPE_ERROR,
     };
   }
 
