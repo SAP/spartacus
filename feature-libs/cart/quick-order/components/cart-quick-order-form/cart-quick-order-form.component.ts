@@ -15,11 +15,11 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-quick-order-form',
-  templateUrl: './cart-quick-form.component.html',
+  templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
@@ -31,6 +31,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   min = 1;
 
   private subscription: Subscription = new Subscription();
+  private cartEventsSubscription: Subscription = new Subscription();
   private minQuantityValue: number = 1;
 
   constructor(
@@ -43,12 +44,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.buildForm();
     this.watchQuantityChange();
-    this.watchAddEntrySuccessEvent();
-    this.watchAddEntryFailEvent();
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
+    this.cartEventsSubscription?.unsubscribe();
   }
 
   applyQuickOrder(): void {
@@ -59,6 +59,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
 
     const productCode = this.quickOrderForm.get('productCode')?.value;
     const quantity = this.quickOrderForm.get('quantity')?.value;
+
+    this.watchAddEntrySuccessEvent();
+    this.watchAddEntryFailEvent();
 
     if (productCode && quantity) {
       this.activeCartService.addEntry(productCode, quantity);
@@ -85,9 +88,10 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected watchAddEntrySuccessEvent(): void {
-    this.subscription.add(
+    this.cartEventsSubscription.add(
       this.eventService
         .get(CartAddEntrySuccessEvent)
+        .pipe(first())
         .subscribe((data: CartAddEntrySuccessEvent) => {
           let key = 'quickOrderCartForm.stockLevelReached';
           let productTranslation;
@@ -123,15 +127,18 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected watchAddEntryFailEvent(): void {
-    this.subscription.add(
-      this.eventService.get(CartAddEntryFailEvent).subscribe(() => {
-        this.globalMessageService.add(
-          {
-            key: 'quickOrderCartForm.noResults',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      })
+    this.cartEventsSubscription.add(
+      this.eventService
+        .get(CartAddEntryFailEvent)
+        .pipe(first())
+        .subscribe(() => {
+          this.globalMessageService.add(
+            {
+              key: 'quickOrderCartForm.noResults',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        })
     );
   }
 

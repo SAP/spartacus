@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartQuickOrderFormModule } from './cart-quick-form/cart-quick-form.module';
+import { CartQuickOrderFormModule } from './cart-quick-order-form/cart-quick-order-form.module';
 import { QuickOrderListModule } from './quick-order/quick-order-list.module';
 
 @NgModule({

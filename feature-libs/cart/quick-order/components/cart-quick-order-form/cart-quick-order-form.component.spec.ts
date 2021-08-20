@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CartQuickOrderFormComponent } from './cart-quick-form.component';
+import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 const mockCart: Cart = {
   code: '123456789',

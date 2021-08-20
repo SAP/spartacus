@@ -12,6 +12,10 @@ cx-cart-quick-order-form {
     padding-top: 0;
   }
 
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+  }
+
   .cx-cart-quick-order-form-title {
     @include type('5');
     margin: 1.125rem 0;
