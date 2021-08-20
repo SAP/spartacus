@@ -10,6 +10,12 @@ export const defaultImportExportConfig: ImportExportConfig = {
       additionalColumns: [
         {
           name: {
+            key: 'configurationInfos',
+          },
+          value: 'configurationInfos',
+        },
+        {
+          name: {
             key: 'name',
           },
           value: 'product.name',

@@ -49,12 +49,13 @@ export class ExportEntriesService {
   ];
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
-    return (
-      combinedKeys
-        .split('.')
-        .reduce((obj, key) => (obj as any)[key], entry)
-        ?.toString() ?? ''
-    );
+    const values = combinedKeys.split('.').reduce((obj, key) => {
+      return (obj as any)[key];
+    }, entry);
+
+    return typeof values === 'object'
+      ? JSON.stringify(values).replace(/"/g, `'`)
+      : values?.toString() ?? '';
   }
 
   getEntries(): Observable<OrderEntry[]> {
