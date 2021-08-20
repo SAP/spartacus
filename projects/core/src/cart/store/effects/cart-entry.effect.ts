@@ -32,7 +32,8 @@ export class CartEntryEffects {
           payload.userId,
           payload.cartId,
           payload.productCode,
-          payload.quantity
+          payload.quantity,
+          payload.configurationInfos
         )
         .pipe(
           map(

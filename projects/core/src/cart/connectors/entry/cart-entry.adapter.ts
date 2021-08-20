@@ -14,7 +14,8 @@ export abstract class CartEntryAdapter {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity?: number
+    quantity?: number,
+    configurationInfos?: []
   ): Observable<CartModification>;
 
   /**

@@ -3,6 +3,7 @@ import { CmsComponent } from '@spartacus/core';
 export type ProductsData = {
   productCode: string;
   quantity: number;
+  configurationInfos?: [];
 }[];
 
 export type InvalidFileInfo = {

@@ -13,9 +13,16 @@ export class CartEntryConnector {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity?: number
+    quantity?: number,
+    configurationInfos?: []
   ): Observable<CartModification> {
-    return this.adapter.add(userId, cartId, productCode, quantity);
+    return this.adapter.add(
+      userId,
+      cartId,
+      productCode,
+      quantity,
+      configurationInfos
+    );
   }
 
   public update(

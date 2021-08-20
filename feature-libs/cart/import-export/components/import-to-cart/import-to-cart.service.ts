@@ -79,10 +79,46 @@ export class ImportToCartService {
     );
   }
 
-  csvDataToProduct(csvData: string[][]): ProductsData {
+  csvDataToProduct(_csvData: string[][]): ProductsData {
+    console.log(_csvData);
+    const csvData = [
+      [
+        '1934793',
+        '3',
+        "[{'configurationLabel':'Engraved Text','configurationValue':'PowerShot2','configuratorType':'TEXTFIELD','status':'SUCCESS'},{'configurationLabel':'Font Size','configurationValue':'15','configuratorType':'TEXTFIELD','status':'SUCCESS'},{'configurationLabel':'Font Type','configurationValue':'Comic Sans','configuratorType':'TEXTFIELD','status':'SUCCESS'}]".replace(
+          /'/g,
+          '"'
+        ),
+        'PowerShot A480',
+        '$299.55\r',
+      ],
+      [
+        '1934793',
+        '1',
+        "[{'configurationLabel':'Engraved Text','configurationValue':'PowerShot_xD','configuratorType':'TEXTFIELD','status':'SUCCESS'},{'configurationLabel':'Font Size','configurationValue':'16','configuratorType':'TEXTFIELD','status':'SUCCESS'},{'configurationLabel':'Font Type','configurationValue':'Comic Sans','configuratorType':'TEXTFIELD', 'status':'SUCCESS'}]".replace(
+          /'/g,
+          '"'
+        ),
+        'PowerShot A480',
+        '$99.85\r',
+      ],
+      [
+        '1934793',
+        '1',
+        "[{'configurationLabel':'Engraved Text', 'configurationValue':'PowerShot', 'configuratorType':'TEXTFIELD', 'status':'SUCCESS'}, {'configurationLabel':'Font Size', 'configurationValue':'18', 'configuratorType':'TEXTFIELD', 'status':'SUCCESS'}, {'configurationLabel':'Font Type', 'configurationValue':'Comic Sans', 'configuratorType':'TEXTFIELD', 'status':'SUCCESS'}]".replace(
+          /'/g,
+          '"'
+        ),
+        'PowerShot A480',
+        '$99.85\r',
+      ],
+      ['1776948', '1', '[]', 'Camileo S10 EU', '$146.88\r'],
+    ];
+    console.log(csvData);
     return csvData.map((row: string[]) => ({
       productCode: row[0],
       quantity: Number(row[1]),
+      configurationInfos: JSON.parse(row[2]),
     }));
   }
 

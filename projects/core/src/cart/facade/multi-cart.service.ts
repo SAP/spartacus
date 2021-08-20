@@ -226,7 +226,11 @@ export class MultiCartService {
   addEntries(
     userId: string,
     cartId: string,
-    products: Array<{ productCode: string; quantity: number }>
+    products: Array<{
+      productCode: string;
+      quantity: number;
+      configurationInfos?: [];
+    }>
   ): void {
     products.forEach((product) => {
       this.store.dispatch(
@@ -235,6 +239,7 @@ export class MultiCartService {
           cartId,
           productCode: product.productCode,
           quantity: product.quantity,
+          configurationInfos: product.configurationInfos,
         })
       );
     });

@@ -19,7 +19,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number = 1
+    quantity: number = 1,
+    configurationInfos: [] = []
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams: { userId, cartId, quantity },
@@ -35,7 +36,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .post<CartModification>(
           url,
           {},
-          { headers, params: { code: productCode } }
+          { headers, params: { code: productCode, configurationInfos } }
         )
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
@@ -43,6 +44,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     const toAdd = {
       quantity,
       product: { code: productCode },
+      configurationInfos,
     };
 
     const headers = new HttpHeaders({
