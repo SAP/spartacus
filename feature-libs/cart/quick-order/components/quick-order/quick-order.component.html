@@ -1,5 +1,5 @@
 <cx-message
-  *ngIf="showErrors"
+  *ngIf="errors.length > 0"
   (closeMessage)="clearErrors()"
   [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
   [type]="globalMessageType.MSG_TYPE_ERROR"
