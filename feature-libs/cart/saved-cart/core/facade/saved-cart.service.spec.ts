@@ -535,11 +535,12 @@ describe('SavedCartService', () => {
 
   describe('Clone saved cart', () => {
     it('should dispatch a clone of a single saved cart ', () => {
-      service.cloneSavedCart(mockCartId);
+      service.cloneSavedCart(mockCartId, mockCartName);
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.CloneSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
         })
       );
     });
@@ -557,6 +558,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.CloneSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
         })
       );
 
@@ -575,6 +577,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.CloneSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
         })
       );
 
@@ -593,6 +596,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.CloneSavedCartFail({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
           error: mockError,
         })
       );

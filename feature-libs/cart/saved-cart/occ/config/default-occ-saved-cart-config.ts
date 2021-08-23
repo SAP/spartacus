@@ -10,7 +10,8 @@ export const defaultOccSavedCartConfig: OccConfig = {
           '/users/${userId}/carts/${cartId}/save?saveCartName=${saveCartName}&saveCartDescription=${saveCartDescription}',
         savedCart: '/users/${userId}/carts/${cartId}/savedcart',
         restoreSavedCart: '/users/${userId}/carts/${cartId}/restoresavedcart',
-        cloneSavedCart: '/users/${userId}/carts/${cartId}/clonesavedcart',
+        cloneSavedCart:
+          '/users/${userId}/carts/${cartId}/clonesavedcart?name=${saveCartName}',
       },
     },
   },
