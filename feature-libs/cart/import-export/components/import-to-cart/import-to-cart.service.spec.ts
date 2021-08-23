@@ -2,14 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
+  ActiveCartService,
   Cart,
   CartActions,
   MultiCartService,
+  RoutingService,
   StateUtils,
   UserIdService,
+  RouterState,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ProductImportStatus, ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 
@@ -49,8 +51,23 @@ class MockSavedCartService implements Partial<SavedCartService> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(_reason: string): void {}
+const routerStateSubject = new BehaviorSubject<RouterState>({
+  state: {
+    semanticRoute: 'savedCarts',
+  },
+} as RouterState);
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState(): Observable<RouterState> {
+    return routerStateSubject.asObservable();
+  }
+}
+
+class MockActiveCartService implements Partial<ActiveCartService> {
+  addEntries() {}
+  getActiveCartId(): Observable<string> {
+    return of(mockCartId);
+  }
 }
 
 const mockActionsSubject = new Subject<Action>();
@@ -67,7 +84,8 @@ describe('ImportToCartService', () => {
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
         { provide: SavedCartService, useClass: MockSavedCartService },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: ActionsSubject, useValue: mockActionsSubject },
       ],
     });

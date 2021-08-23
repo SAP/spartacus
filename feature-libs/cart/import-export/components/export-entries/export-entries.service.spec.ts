@@ -122,7 +122,6 @@ describe('ExportEntriesService', () => {
       providers: [
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: SavedCartDetailsService,
