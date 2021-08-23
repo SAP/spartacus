@@ -12,14 +12,13 @@ import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
-  EventService,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { finalize, first, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -37,16 +36,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.activeCartService.isStable(),
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
-  showErrors: boolean = false;
 
-  private cartErrors: any[] = [];
-  private cartEventsSubscription: Subscription;
+  private cartErrors$ = new BehaviorSubject<CartAddEntrySuccessEvent[]>([]);
   private subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected component: CmsComponentData<CmsQuickOrderComponent>,
-    protected eventService: EventService,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
@@ -58,8 +54,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.quickOrderStatePersistenceService.initSync();
   }
 
-  get errors(): CartAddEntrySuccessEvent[] {
-    return this.cartErrors;
+  get errors$(): Observable<CartAddEntrySuccessEvent[]> {
+    return this.cartErrors$.asObservable();
   }
 
   clear(): void {
@@ -74,16 +70,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   addToCart(): void {
     this.clearErrors();
-    this.watchCartAddEntryEvents();
 
     this.quickOrderService
       .addToCart()
-      .pipe(
-        first(),
-        finalize(() => this.cartEventsSubscription?.unsubscribe())
-      )
-      .subscribe((entriesLength: number) => {
-        const noAddedEntries = this.errors.filter(
+      .pipe(first())
+      .subscribe(([entriesLength, errors]) => {
+        this.setErrors(errors);
+        const noAddedEntries = errors.filter(
           (error) => error.quantityAdded === 0
         );
 
@@ -94,8 +87,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   clearErrors(): void {
-    this.cartErrors = [];
-    this.showErrors = false;
+    this.cartErrors$.next([]);
   }
 
   protected showAddedToCartSuccessMessage(): void {
@@ -107,30 +99,11 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected watchCartAddEntryEvents(): void {
-    const watchCartAddEntrySuccessEvent = this.eventService
-      .get(CartAddEntrySuccessEvent)
-      .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
-        if (
-          cartEvent.quantityAdded === 0 ||
-          (!!cartEvent.quantityAdded &&
-            cartEvent.quantityAdded < cartEvent.quantity)
-        ) {
-          this.addError(cartEvent);
-        }
-      });
-
-    this.cartEventsSubscription = new Subscription();
-    this.cartEventsSubscription.add(watchCartAddEntrySuccessEvent);
-  }
-
-  protected addError(error: CartAddEntrySuccessEvent): void {
-    this.cartErrors.push(error);
-    this.showErrors = true;
+  protected setErrors(errors: CartAddEntrySuccessEvent[]): void {
+    this.cartErrors$.next(errors);
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    this.cartEventsSubscription?.unsubscribe();
   }
 }

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
+  CartAddEntrySuccessEvent,
+  EventService,
   OrderEntry,
   Product,
   ProductAdapter,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +21,8 @@ export class QuickOrderService {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter
+    protected productAdapter: ProductAdapter,
+    protected eventService: EventService
   ) {}
 
   /**
@@ -96,8 +99,20 @@ export class QuickOrderService {
   /**
    * Adding to cart all products from the list
    */
-  addToCart(): Observable<number> {
+  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
     let entriesLength = 0;
+    const events: CartAddEntrySuccessEvent[] = [];
+    const subscription = this.eventService
+      .get(CartAddEntrySuccessEvent)
+      .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
+        if (
+          cartEvent.quantityAdded === 0 ||
+          (!!cartEvent.quantityAdded &&
+            cartEvent.quantityAdded < cartEvent.quantity)
+        ) {
+          events.push(cartEvent);
+        }
+      });
 
     return this.getEntries().pipe(
       first(),
@@ -108,8 +123,11 @@ export class QuickOrderService {
 
         return this.activeCartService.isStable();
       }),
-      filter(Boolean),
-      map(() => entriesLength)
+      filter((isStable) => isStable),
+      map(
+        () => [entriesLength, events] as [number, CartAddEntrySuccessEvent[]]
+      ),
+      tap(() => subscription.unsubscribe())
     );
   }
 

@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CartAddEntrySuccessEvent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -12,7 +13,8 @@ import {
   Translatable,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderComponent } from './quick-order.component';
@@ -31,8 +33,10 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(): Observable<number> {
-    return mockEntriesLength$.asObservable();
+  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
+    return combineLatest([mockEntriesLength$.asObservable()]).pipe(
+      map(([length]) => [length, []])
+    );
   }
 }
 
@@ -133,7 +137,7 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'addToCart').and.returnValue(of(1));
+    spyOn(quickOrderService, 'addToCart').and.returnValue(of([1, []]));
     spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart();

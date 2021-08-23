@@ -143,13 +143,14 @@ describe('QuickOrderService', () => {
     });
   });
 
+  // TODO: Fully check this method behavior
   it('should add products to the cart', () => {
     spyOn(activeCartService, 'addEntries');
     spyOn(activeCartService, 'isStable');
     spyOn(service, 'clearList');
 
     service.loadEntries([mockEntry1]);
-    service.addToCart().subscribe();
+    service.addToCart().subscribe().unsubscribe();
 
     expect(activeCartService.addEntries).toHaveBeenCalled();
     expect(activeCartService.isStable).toHaveBeenCalled();
