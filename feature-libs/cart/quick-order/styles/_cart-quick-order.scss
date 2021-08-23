@@ -2,11 +2,9 @@ cx-cart-quick-form {
   padding-bottom: 2rem;
   padding-inline-end: 0;
   padding-inline-start: 3rem;
-  padding-top: 2rem;
 
   @include media-breakpoint-down(md) {
     padding-bottom: 2rem;
-    padding-inline-end: 3rem;
     padding-inline-start: 3rem;
     padding-top: 0;
   }
@@ -17,27 +15,34 @@ cx-cart-quick-form {
   }
 
   .cx-cart-quick-form-container {
-    display: grid;
-    grid-column-gap: 15px;
-    grid-row-gap: 10px;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
     .input-product-code {
-      grid-area: 1 / 1 / 2 / 4;
+      width: 65%;
+
+      @include media-breakpoint-down(md) {
+        width: 70%;
+      }
     }
 
     .input-quantity {
-      grid-area: 1 / 4 / 2 / 5;
       text-align: center;
+      width: 30%;
+
+      @include media-breakpoint-down(md) {
+        width: 25%;
+      }
     }
 
     cx-form-errors {
-      grid-area: 2 / 1 / 3 / 5;
     }
 
     button {
-      grid-area: 3 / 1 / 3 / 5;
+      width: 100%;
+      margin-top: 10px;
     }
 
     input {
