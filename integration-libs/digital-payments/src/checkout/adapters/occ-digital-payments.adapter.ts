@@ -1,4 +1,4 @@
-import { CURRENT_USER, CURRENT_CART } from '../../utils/dp-constants';
+import { CURRENT_CART } from '../../utils/dp-constants';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -25,7 +25,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   ) {}
 
   createPaymentRequest(
-    userId = CURRENT_USER,
+    userId: string,
     cartId = CURRENT_CART
   ): Observable<DpPaymentRequest> {
     const url = this.occEndpoints.buildUrl('paymentRequest', {
@@ -39,7 +39,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   createPaymentDetails(
     sessionId: string,
     signature: string,
-    userId = CURRENT_USER,
+    userId: string,
     cartId = CURRENT_CART
   ): Observable<PaymentDetails> {
     let params = new HttpParams({ encoder: this.paramEncoder });

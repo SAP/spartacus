@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { DpPaymentRequest } from '../models/dp-checkout.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -6,7 +5,8 @@ import { PaymentDetails } from '@spartacus/core';
 import { Command, CommandService, CommandStrategy } from '@spartacus/core';
 import { Query, QueryService } from '@spartacus/core';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
-
+import { switchMap } from 'rxjs/operators';
+import { UserIdService } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,20 +14,18 @@ export class DpCheckoutPaymentService {
   constructor(
     protected dpAdapter: DigitalPaymentsAdapter,
     protected command: CommandService,
-    protected query: QueryService
+    protected query: QueryService,
+    protected userIdService: UserIdService
   ) {}
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() =>
-    this.dpAdapter.createPaymentRequest().pipe(
-      map((payload: DpPaymentRequest) => {
-        return payload;
-      })
-    )
+    this.userIdService
+      .getUserId()
+      .pipe(switchMap((userId) => this.dpAdapter.createPaymentRequest(userId)))
   );
 
   getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
-    var req = this.RequestUrlQuery.get();
-    return req;
+    return this.RequestUrlQuery.get();
   }
 
   protected createPaymentDetailsCommand: Command<
@@ -38,17 +36,22 @@ export class DpCheckoutPaymentService {
     PaymentDetails
   > = this.command.create(
     (payload) =>
-      this.dpAdapter
-        .createPaymentDetails(payload.sessionId, payload.signature)
+      this.userIdService
+        .getUserId()
         .pipe(
-          map((payload: PaymentDetails) => {
-            return payload;
-          })
+          switchMap((userId) =>
+            this.dpAdapter.createPaymentDetails(
+              payload.sessionId,
+              payload.signature,
+              userId
+            )
+          )
         ),
     {
       strategy: CommandStrategy.Queue,
     }
   );
+
   createPaymentDetails(
     sessionId: string,
     signature: string
