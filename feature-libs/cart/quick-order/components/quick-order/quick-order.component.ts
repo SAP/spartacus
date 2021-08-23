@@ -17,7 +17,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 @Component({
@@ -37,7 +37,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
 
-  private cartErrors: CartAddEntrySuccessEvent[] = [];
+  private cartErrors$ = new BehaviorSubject<CartAddEntrySuccessEvent[]>([]);
   private subscription = new Subscription();
 
   constructor(
@@ -54,8 +54,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.quickOrderStatePersistenceService.initSync();
   }
 
-  get errors(): CartAddEntrySuccessEvent[] {
-    return this.cartErrors;
+  get errors$(): Observable<CartAddEntrySuccessEvent[]> {
+    return this.cartErrors$.asObservable();
   }
 
   clear(): void {
@@ -87,7 +87,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   clearErrors(): void {
-    this.cartErrors = [];
+    this.cartErrors$.next([]);
   }
 
   protected showAddedToCartSuccessMessage(): void {
@@ -100,7 +100,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   protected setErrors(errors: CartAddEntrySuccessEvent[]): void {
-    this.cartErrors = errors;
+    this.cartErrors$.next(errors);
   }
 
   ngOnDestroy(): void {

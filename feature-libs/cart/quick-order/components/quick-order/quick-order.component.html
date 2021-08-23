@@ -1,37 +1,39 @@
-<cx-message
-  *ngIf="errors.length > 0"
-  (closeMessage)="clearErrors()"
-  [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
-  [type]="globalMessageType.MSG_TYPE_ERROR"
->
-  <ul class="quick-order-errors">
-    <li *ngFor="let error of errors" class="quick-order-error-item">
-      <span *ngIf="error.quantityAdded === 0; else otherError">
-        {{
-          'quickOrderList.errors.productIsOutOfStock'
-            | cxTranslate
-              : {
-                  name: error.entry.product.name,
-                  code: error.entry.product.code
-                }
-        }}
-      </span>
-      <ng-template #otherError>
-        <span>
+<ng-container *ngIf="(errors$ | async) as errors">
+  <cx-message
+    *ngIf="errors.length > 0"
+    (closeMessage)="clearErrors()"
+    [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+  >
+    <ul class="quick-order-errors">
+      <li *ngFor="let error of errors" class="quick-order-error-item">
+        <span *ngIf="error.quantityAdded === 0; else otherError">
           {{
-            'quickOrderList.errors.productWasReduced'
+            'quickOrderList.errors.productIsOutOfStock'
               | cxTranslate
                 : {
                     name: error.entry.product.name,
-                    code: error.entry.product.code,
-                    quantityAdded: error.quantityAdded
+                    code: error.entry.product.code
                   }
           }}
         </span>
-      </ng-template>
-    </li>
-  </ul>
-</cx-message>
+        <ng-template #otherError>
+          <span>
+            {{
+              'quickOrderList.errors.productWasReduced'
+                | cxTranslate
+                  : {
+                      name: error.entry.product.name,
+                      code: error.entry.product.code,
+                      quantityAdded: error.quantityAdded
+                    }
+            }}
+          </span>
+        </ng-template>
+      </li>
+    </ul>
+  </cx-message>
+</ng-container>
 
 <ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
   <ng-container *ngIf="entries$ | async as entries">
