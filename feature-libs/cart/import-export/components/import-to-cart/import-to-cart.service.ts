@@ -55,7 +55,6 @@ export class ImportToCartService {
   ): Observable<string> {
     return this.routingService.getRouterState().pipe(
       switchMap((route) => {
-        console.log(route.state?.semanticRoute);
         switch (route.state?.semanticRoute) {
           case 'savedCarts':
             return this.userIdService.takeUserId().pipe(
