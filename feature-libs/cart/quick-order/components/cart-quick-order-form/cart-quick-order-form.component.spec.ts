@@ -146,6 +146,8 @@ describe('CartQuickOrderFormComponent', () => {
     );
 
     component.ngOnInit();
+    component.quickOrderForm.controls['productCode'].setValue('test');
+    component.applyQuickOrder();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -164,6 +166,8 @@ describe('CartQuickOrderFormComponent', () => {
     spyOn(eventService, 'get').and.returnValue(of(mockCartAddEntryFailEvent));
 
     component.ngOnInit();
+    component.quickOrderForm.controls['productCode'].setValue('test');
+    component.applyQuickOrder();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
