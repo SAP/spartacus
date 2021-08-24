@@ -5,7 +5,7 @@ export const quickOrderCartForm = {
   stockLevelReached: 'The maximum stock level has been reached',
   title: 'Quick Order',
   productCode: 'Product Code',
-  addToCart: 'Add To Cart',
+  addToCart: 'Add',
   product: 'Product',
   products: 'Products',
 };
