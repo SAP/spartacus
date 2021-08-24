@@ -6,8 +6,8 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { filter, map, switchMap, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   ImportExportConfig,
@@ -57,7 +57,7 @@ export class ExportEntriesService {
     );
   }
 
-  getEntries(): Observable<OrderEntry[]> {
+  protected getEntries(): Observable<OrderEntry[]> {
     return this.routingService.getRouterState().pipe(
       switchMap((route) => {
         switch (route.state?.semanticRoute) {
@@ -80,25 +80,38 @@ export class ExportEntriesService {
     );
   }
 
-  entriesToDataArray(entries: OrderEntry[]): string[][] {
-    const headers = this.getTranslatedColumnHeaders();
+  // protected getTranslatedColumnHeaders(): string[] {
+  //   const headers: string[] = [];
+  //
+  //   this.columns.forEach((column) => {
+  //     this.translationService
+  //       .translate(`exportEntries.columnNames.${column.name.key}`)
+  //       .pipe(take(1))
+  //       .subscribe((header) => headers.push(header));
+  //   });
+  //
+  //   return headers;
+  // }
 
-    const values = entries.map((entry) =>
-      this.columns.map((column) => this.resolveValue(column.value, entry))
-    );
-    return [[...headers], ...values];
+  protected getTranslatedColumnHeaders(): Observable<string[]> {
+    return combineLatest([
+      ...this.columns.map((column) =>
+        this.translationService.translate(
+          `exportEntries.columnNames.${column.name.key}`
+        )
+      ),
+    ]);
   }
 
-  protected getTranslatedColumnHeaders() {
-    const headers: string[] = [];
-
-    this.columns.forEach((column) => {
-      this.translationService
-        .translate(`exportEntries.columnNames.${column.name.key}`)
-        .pipe(take(1))
-        .subscribe((header) => headers.push(header));
-    });
-
-    return headers;
+  getResolvedEntries(): Observable<string[][]> {
+    return this.getEntries().pipe(
+      withLatestFrom(this.getTranslatedColumnHeaders()),
+      map(([entries, headers]) => {
+        const values = entries.map((entry) =>
+          this.columns.map((column) => this.resolveValue(column.value, entry))
+        );
+        return [headers, ...values];
+      })
+    );
   }
 }

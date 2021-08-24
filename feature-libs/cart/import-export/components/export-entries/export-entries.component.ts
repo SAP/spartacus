@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
 import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 @Component({
@@ -13,13 +12,9 @@ export class ExportEntriesComponent {
     protected exportService: ExportCsvService
   ) {}
 
-  entries$ = this.exportEntriesService.getEntries();
+  entries$ = this.exportEntriesService.getResolvedEntries();
 
-  exportToCsv(entries: OrderEntry[]) {
-    this.exportService.downloadCsv(
-      this.exportService.dataToCsv(
-        this.exportEntriesService.entriesToDataArray(entries)
-      )
-    );
+  exportToCsv(entries: string[][]) {
+    this.exportService.convertDataToCsvAndDownload(entries);
   }
 }

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   ActiveCartService,
   Cart,
@@ -17,6 +17,8 @@ import {
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
+
+import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
   basePrice: {
@@ -94,10 +96,16 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
+const routerStateSubject = new BehaviorSubject<RouterState>({
+  state: {
+    semanticRoute: 'savedCartsDetails',
+  },
+} as RouterState);
+
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState(): Observable<RouterState> {
-    return of();
-  }
+  getRouterState = createSpy().and.returnValue(
+    routerStateSubject.asObservable()
+  );
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {

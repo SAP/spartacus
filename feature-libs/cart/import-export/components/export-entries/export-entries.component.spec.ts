@@ -99,7 +99,9 @@ const entries$ = new BehaviorSubject([entry]);
 
 class MockExportEntriesService {
   getEntries = createSpy('getEntries').and.returnValue(entries$.asObservable());
-  exportEntries = createSpy('exportEntries').and.returnValue(transitionalArray);
+  entriesToDataArray = createSpy('entriesToDataArray').and.returnValue(
+    transitionalArray
+  );
 }
 class MockExportService {
   dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);

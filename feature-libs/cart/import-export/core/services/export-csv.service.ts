@@ -44,4 +44,8 @@ export class ExportCsvService {
     link.click();
     document.body.removeChild(link);
   }
+
+  convertDataToCsvAndDownload(objectsArray: string[][]) {
+    this.downloadCsv(this.dataToCsv(objectsArray));
+  }
 }
