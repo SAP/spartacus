@@ -2,6 +2,7 @@ import { PaymentDetails } from '@spartacus/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { TestBed } from '@angular/core/testing';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
+import { UserIdService } from '@spartacus/core';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
@@ -17,12 +18,17 @@ class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     of({})
   );
 }
+class MockUserIdService {
+  getUserId() {
+    return of('current');
+  }
+}
 describe('DpCheckoutPaymentService', () => {
   let service: DpCheckoutPaymentService;
   let dpAdapter: DigitalPaymentsAdapter;
   const signature = 'mockSignature';
   const sessionId = 'mockSessionId';
-
+  const userId = 'current';
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
@@ -31,6 +37,10 @@ describe('DpCheckoutPaymentService', () => {
         {
           provide: DigitalPaymentsAdapter,
           useClass: MockDigitalPaymentsAdapter,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
         },
       ],
     });
@@ -44,14 +54,15 @@ describe('DpCheckoutPaymentService', () => {
 
   it('should load card registration details', () => {
     service.getCardRegistrationDetails();
-    expect(dpAdapter.createPaymentRequest).toHaveBeenCalled();
+    expect(dpAdapter.createPaymentRequest).toHaveBeenCalledWith(userId);
   });
 
   it('should load checkout payment details', () => {
     service.createPaymentDetails(sessionId, signature);
     expect(dpAdapter.createPaymentDetails).toHaveBeenCalledWith(
       sessionId,
-      signature
+      signature,
+      userId
     );
   });
 
