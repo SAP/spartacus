@@ -56,12 +56,8 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   /**
    * Reads synchronously state from storage and returns it.
    */
-  protected readStateFromStorage(): {
-    key: string;
-    context?: string | Array<string>;
-    storageType?: StorageSyncType;
-  } {
-    return this.statePersistenceService.readStateFromStorage<any>({
+  protected readStateFromStorage() {
+    return this.statePersistenceService.readStateFromStorage<OrderEntry[]>({
       key: this.key,
     });
   }
