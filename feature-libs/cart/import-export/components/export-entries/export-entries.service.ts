@@ -80,32 +80,19 @@ export class ExportEntriesService {
     );
   }
 
-  exportEntries() {
+  exportEntries(entries: OrderEntry[]): string[][] {
     const names: string[] = [];
-    const values: any[] = [];
 
-    this.columns.map((column) => {
+    this.columns.forEach((column) => {
       this.translationService
         .translate(`exportEntries.columnNames.${column.name.key}`)
         .pipe(take(1))
         .subscribe((name) => names.push(name));
     });
 
-    this.getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        entries.map((entry) => {
-          values.push(
-            Object.assign(
-              {},
-              this.columns.map((column) =>
-                this.resolveValue(column.value, entry)
-              )
-            )
-          );
-        });
-      });
-
-    return [{ ...names }, ...values];
+    const values = entries.map((entry) =>
+      this.columns.map((column) => this.resolveValue(column.value, entry))
+    );
+    return [[...names], ...values];
   }
 }

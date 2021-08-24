@@ -141,7 +141,7 @@ describe('ExportEntriesService', () => {
     spyOn(service, 'getEntries').and.returnValue(of([entry]));
     spyOn(translationService, 'translate').and.callThrough();
 
-    const entries = service.exportEntries();
+    const entries = service.exportEntries([entry]);
 
     const headings = [
       'exportEntries.columnNames.code',
@@ -157,10 +157,7 @@ describe('ExportEntriesService', () => {
       entry.totalPrice?.formattedValue,
     ];
 
-    expect(entries).toEqual([
-      Object.assign({}, headings),
-      Object.assign({}, values),
-    ]);
+    expect(entries).toEqual([[...headings], values]);
     expect(translationService.translate).toHaveBeenCalledTimes(4);
   });
 
