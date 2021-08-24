@@ -34,8 +34,12 @@ export function persistToStorage(
   value: any,
   storage: Storage
 ): void {
-  if (!isSsr(storage) && value) {
-    storage.setItem(configKey, JSON.stringify(value));
+  if (!isSsr(storage)) {
+    if (value) {
+      storage.setItem(configKey, JSON.stringify(value));
+    } else {
+      storage.removeItem(configKey);
+    }
   }
 }
 

@@ -74,6 +74,12 @@ describe('Browser storage utilities', () => {
         persistToStorage('a', undefined, sessionStorageMock);
         expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       });
+      it('should try to remove the key', () => {
+        spyOn(sessionStorageMock, 'removeItem').and.stub();
+
+        persistToStorage('a', undefined, sessionStorageMock);
+        expect(sessionStorageMock.removeItem).toHaveBeenCalled();
+      });
     });
     describe('when the provided value exists', () => {
       it('should persist it', () => {
