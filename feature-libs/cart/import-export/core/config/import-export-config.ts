@@ -7,7 +7,7 @@ import { ExportColumn } from '../model/export-entries.model';
   useExisting: Config,
 })
 export abstract class ImportExportConfig {
-  importExport?: {
+  cartImportExport?: {
     file: { separator: string };
     export?: {
       additionalColumns?: ExportColumn[];

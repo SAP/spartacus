@@ -5,7 +5,7 @@ import { viewportContext } from '../../helpers/viewport-context';
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
 const nonDefaultImportExportConfig = {
-  importExport: {
+  cartImportExport: {
     file: {
       // Alternative separator
       separator: ' 8=D ',
@@ -52,7 +52,7 @@ const nonDefaultImportExportConfig = {
   },
 };
 const configurableProductConfig = {
-  importExport: {
+  cartImportExport: {
     export: {
       additionalColumns: [
         {

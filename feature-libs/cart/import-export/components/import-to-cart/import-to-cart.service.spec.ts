@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   ActiveCartService,
   Cart,
@@ -45,7 +45,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
   addEntries = createSpy().and.callThrough();
 }
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartService implements Partial<SavedCartFacade> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
@@ -75,7 +75,7 @@ const mockActionsSubject = new Subject<Action>();
 describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
-  let savedCartService: SavedCartService;
+  let savedCartService: SavedCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,7 +83,7 @@ describe('ImportToCartService', () => {
         ImportToCartService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
-        { provide: SavedCartService, useClass: MockSavedCartService },
+        { provide: SavedCartFacade, useClass: MockSavedCartService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: ActionsSubject, useValue: mockActionsSubject },
@@ -91,7 +91,7 @@ describe('ImportToCartService', () => {
     });
     service = TestBed.inject(ImportToCartService);
     multiCartService = TestBed.inject(MultiCartService);
-    savedCartService = TestBed.inject(SavedCartService);
+    savedCartService = TestBed.inject(SavedCartFacade);
   });
 
   it('should be created', () => {

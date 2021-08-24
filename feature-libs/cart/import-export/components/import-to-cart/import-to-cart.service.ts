@@ -6,7 +6,7 @@ import {
   ProductImportStatus,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   ActiveCartService,
   Cart,
@@ -33,7 +33,7 @@ export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService,
     protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject
