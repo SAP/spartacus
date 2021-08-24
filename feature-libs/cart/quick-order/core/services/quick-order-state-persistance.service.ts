@@ -53,15 +53,6 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
     }
   }
 
-  /**
-   * Reads synchronously state from storage and returns it.
-   */
-  protected readStateFromStorage() {
-    return this.statePersistenceService.readStateFromStorage<OrderEntry[]>({
-      key: this.key,
-    });
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
