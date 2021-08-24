@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   CartActions,
@@ -43,7 +43,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
   addEntries = createSpy().and.callThrough();
 }
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
@@ -58,7 +58,7 @@ const mockActionsSubject = new Subject<Action>();
 describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
-  let savedCartService: SavedCartService;
+  let savedCartFacade: SavedCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,14 +66,14 @@ describe('ImportToCartService', () => {
         ImportToCartService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
-        { provide: SavedCartService, useClass: MockSavedCartService },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ActionsSubject, useValue: mockActionsSubject },
       ],
     });
     service = TestBed.inject(ImportToCartService);
     multiCartService = TestBed.inject(MultiCartService);
-    savedCartService = TestBed.inject(SavedCartService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
   });
 
   it('should be created', () => {
@@ -105,12 +105,12 @@ describe('ImportToCartService', () => {
         userId: mockUserId,
         extraData: { active: false },
       });
-      expect(savedCartService.saveCart).toHaveBeenCalledWith({
+      expect(savedCartFacade.saveCart).toHaveBeenCalledWith({
         cartId: mockCartId,
         saveCartName: mockSavedCart.name,
         saveCartDescription: mockSavedCart.description,
       });
-      expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
+      expect(savedCartFacade.loadSavedCarts).toHaveBeenCalled();
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,

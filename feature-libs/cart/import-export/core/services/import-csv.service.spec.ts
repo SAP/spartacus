@@ -3,7 +3,7 @@ import { ImportExportConfig } from '../config/import-export-config';
 import { ImportCsvService } from './import-csv.service';
 
 const mockImportExportConfig: ImportExportConfig = {
-  importExport: {
+  cartImportExport: {
     file: { separator: ',' },
   },
 };

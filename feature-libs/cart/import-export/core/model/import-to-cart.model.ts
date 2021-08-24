@@ -5,17 +5,17 @@ export type ProductsData = {
   quantity: number;
 }[];
 
-export type InvalidFileInfo = {
+export interface InvalidFileInfo {
   tooLarge?: { maxSize: number };
   empty?: boolean;
   notParsable?: boolean;
-};
+}
 
-export type FileValidity = {
+export interface FileValidity {
   // size unit is MB
   maxSize?: number;
   allowedExtensions?: string[];
-};
+}
 
 export enum ProductImportStatus {
   SUCCESS = 'success',
@@ -25,15 +25,15 @@ export enum ProductImportStatus {
   UNKNOWN_ERROR = 'unknownError',
 }
 
-export type ProductImportInfo = {
+export interface ProductImportInfo {
   productCode: string;
   statusCode: ProductImportStatus;
   productName?: string;
   quantity?: number;
   quantityAdded?: number;
-};
+}
 
-export type ProductImportSummary = {
+export interface ProductImportSummary {
   loading: boolean;
   cartName: string;
   count: number;
@@ -41,21 +41,21 @@ export type ProductImportSummary = {
   successesCount: number;
   warningMessages: ProductImportInfo[];
   errorMessages: ProductImportInfo[];
-};
+}
 
 export enum NameSource {
   FILE_NAME = 'fileName',
   DATE_TIME = 'dateTime',
 }
 
-export type CartNameGeneration = {
+export interface CartNameGeneration {
   source?: NameSource;
   fromDateOptions?: {
     prefix?: string;
     suffix?: string;
     mask?: string;
   };
-};
+}
 
 export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity?: FileValidity;
