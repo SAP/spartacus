@@ -12,6 +12,7 @@ cx-cart-quick-order-form {
 
   @include media-breakpoint-down(sm) {
     max-width: 100%;
+    padding-inline-start: 0;
   }
 
   .cx-cart-quick-order-form-title {
@@ -25,7 +26,11 @@ cx-cart-quick-order-form {
     flex-wrap: wrap;
     justify-content: space-between;
 
-    .input-product-code {
+    .cx-cart-quick-order-form-label {
+      @include type('8');
+    }
+
+    .cx-cart-quick-order-form-productID {
       width: 65%;
 
       @include media-breakpoint-down(md) {
@@ -33,16 +38,17 @@ cx-cart-quick-order-form {
       }
     }
 
-    .input-quantity {
+    .cx-cart-quick-order-form-qty {
       text-align: center;
       width: 30%;
+
+      .input-quantity {
+        text-align: center;
+      }
 
       @include media-breakpoint-down(md) {
         width: 25%;
       }
-    }
-
-    cx-form-errors {
     }
 
     button {
