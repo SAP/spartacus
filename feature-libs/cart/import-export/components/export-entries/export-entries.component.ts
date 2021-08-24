@@ -17,6 +17,8 @@ export class ExportEntriesComponent {
   entries$ = this.exportEntriesService.getEntries();
 
   exportToCsv() {
+    console.log(this.exportEntriesService.exportEntries());
+
     this.downloadCsv(
       this.exportService.dataToCsv(this.exportEntriesService.exportEntries())
     );

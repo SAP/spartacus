@@ -6,7 +6,7 @@ import {
   ProductImportStatus,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   CartActions,
@@ -30,7 +30,7 @@ export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService,
+    protected savedCartFacade: SavedCartFacade,
     protected actionsSubject: ActionsSubject
   ) {}
 
@@ -56,16 +56,16 @@ export class ImportToCartService {
             tap((cartId: string) => {
               // TODO: #13393
               // for active cart use: getCartIdByUserId(cartData, userId)
-              this.savedCartService.saveCart({
+              this.savedCartFacade.saveCart({
                 cartId,
                 saveCartName: savedCartInfo.name,
                 saveCartDescription: savedCartInfo.description,
               });
-              this.savedCartService.loadSavedCarts();
+              this.savedCartFacade.loadSavedCarts();
             }),
             observeOn(queueScheduler),
             delayWhen(() =>
-              this.savedCartService
+              this.savedCartFacade
                 .getSaveCartProcessLoading()
                 .pipe(filter((loading) => !loading))
             ),

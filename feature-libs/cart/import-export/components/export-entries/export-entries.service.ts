@@ -28,7 +28,7 @@ export class ExportEntriesService {
 
   private get additionalColumns(): ExportColumn[] {
     return (
-      this.importExportConfig.importExport?.export?.additionalColumns ?? []
+      this.importExportConfig.cartImportExport?.export?.additionalColumns ?? []
     );
   }
 
