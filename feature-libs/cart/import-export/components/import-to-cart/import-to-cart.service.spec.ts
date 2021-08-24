@@ -2,14 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  ActiveCartService,
   Cart,
   CartActions,
   MultiCartService,
+  RoutingService,
   StateUtils,
   UserIdService,
+  RouterState,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ProductImportStatus, ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 
@@ -43,14 +45,27 @@ class MockMultiCartService implements Partial<MultiCartService> {
   addEntries = createSpy().and.callThrough();
 }
 
-class MockSavedCartFacade implements Partial<SavedCartFacade> {
+class MockSavedCartService implements Partial<SavedCartFacade> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(_reason: string): void {}
+const routerStateSubject = new BehaviorSubject<RouterState>({
+  state: {
+    semanticRoute: 'savedCarts',
+  },
+} as RouterState);
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = createSpy().and.returnValue(
+    routerStateSubject.asObservable()
+  );
+}
+
+class MockActiveCartService implements Partial<ActiveCartService> {
+  addEntries = createSpy().and.callThrough();
+  getActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
 
 const mockActionsSubject = new Subject<Action>();
@@ -58,7 +73,10 @@ const mockActionsSubject = new Subject<Action>();
 describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
-  let savedCartFacade: SavedCartFacade;
+  let savedCartService: SavedCartFacade;
+  let userIdService: UserIdService;
+  let routingService: RoutingService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,14 +84,18 @@ describe('ImportToCartService', () => {
         ImportToCartService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
-        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: SavedCartFacade, useClass: MockSavedCartService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: ActionsSubject, useValue: mockActionsSubject },
       ],
     });
     service = TestBed.inject(ImportToCartService);
     multiCartService = TestBed.inject(MultiCartService);
-    savedCartFacade = TestBed.inject(SavedCartFacade);
+    savedCartService = TestBed.inject(SavedCartFacade);
+    userIdService = TestBed.inject(UserIdService);
+    routingService = TestBed.inject(RoutingService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
@@ -94,23 +116,33 @@ describe('ImportToCartService', () => {
     expect(service['csvDataToProduct'](mockFileData)).toEqual(mockProductData);
   });
 
-  describe('loadProductsToCart', () => {
+  describe('loadProductsToCart for saved cart', () => {
+    beforeEach(() => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCarts',
+        },
+      } as RouterState);
+    });
+
     it('should create, save and load cart', () => {
       service
         .loadProductsToCart(mockProductData, mockSavedCart)
         .subscribe()
         .unsubscribe();
 
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
+      expect(userIdService.takeUserId).toHaveBeenCalledWith();
       expect(multiCartService.createCart).toHaveBeenCalledWith({
         userId: mockUserId,
         extraData: { active: false },
       });
-      expect(savedCartFacade.saveCart).toHaveBeenCalledWith({
+      expect(savedCartService.saveCart).toHaveBeenCalledWith({
         cartId: mockCartId,
         saveCartName: mockSavedCart.name,
         saveCartDescription: mockSavedCart.description,
       });
-      expect(savedCartFacade.loadSavedCarts).toHaveBeenCalled();
+      expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
@@ -239,6 +271,50 @@ describe('ImportToCartService', () => {
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
+    });
+  });
+
+  describe('loadProductsToCart for active cart', () => {
+    it('should create, save and load cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'cart',
+        },
+      } as RouterState);
+
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe()
+        .unsubscribe();
+
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
+      expect(activeCartService.addEntries).toHaveBeenCalledWith([
+        { product: { code: '693923' }, quantity: 1 },
+        { product: { code: '232133' }, quantity: 2 },
+      ]);
+      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('loadProductsToCart for other page', () => {
+    it('should create, save and load cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'otherPage',
+        },
+      } as RouterState);
+
+      service
+        .loadProductsToCart(mockProductData, mockSavedCart)
+        .subscribe()
+        .unsubscribe();
+
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
+      expect(activeCartService.addEntries).toHaveBeenCalledWith([
+        { product: { code: '693923' }, quantity: 1 },
+        { product: { code: '232133' }, quantity: 2 },
+      ]);
+      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
     });
   });
 });
