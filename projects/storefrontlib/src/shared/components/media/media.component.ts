@@ -36,6 +36,11 @@ export class MediaComponent implements OnChanges {
   @Input() alt: string;
 
   /**
+   * set role of the image if different than what is intended (eg, role="presentation")
+   */
+  @Input() role: string;
+
+  /**
    * Once the media is loaded, we emit an event.
    */
   @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>();
@@ -79,7 +84,8 @@ export class MediaComponent implements OnChanges {
     this.media = this.mediaService.getMedia(
       this.container,
       this.format,
-      this.alt
+      this.alt,
+      this.role
     );
     if (!this.media?.src) {
       this.handleMissing();

@@ -5,6 +5,7 @@ export async function build() {
   await exec.exec('yarn', ['install']);
   await exec.exec('yarn', ['build:libs']);
   await exec.exec('yarn', ['build']);
+  await exec.exec('yarn', ['build:ssr']);
 }
 
 /**

@@ -514,6 +514,8 @@ export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
 
 export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
+export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
+export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
 /***** Classes end *****/
 
@@ -621,6 +623,8 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 export const ASM_MODULE = 'AsmModule';
+export const ASM_OCC_MODULE = 'AsmOccModule';
+export const OCC_ASM_ADAPTER = 'OccAsmAdapter';
 export const ASM_CONFIG = 'AsmConfig';
 export const ASM_ADAPTER = 'AsmAdapter';
 export const ASM_CONNECTOR = 'AsmConnector';

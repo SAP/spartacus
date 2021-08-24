@@ -313,11 +313,13 @@ describe('SavedCart Effects', () => {
       const action = new SavedCartActions.CloneSavedCart({
         userId: mockUserId,
         cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
       });
 
       const completion1 = new SavedCartActions.CloneSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
       });
       const completion2 = new SavedCartActions.RestoreSavedCart({
         userId: mockUserId,
@@ -337,7 +339,8 @@ describe('SavedCart Effects', () => {
       expect(effects.cloneSavedCart$).toBeObservable(expected);
       expect(connector.cloneSavedCart).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
+        mockSavedCarts[0].name
       );
     });
   });
