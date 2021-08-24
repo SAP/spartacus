@@ -15,7 +15,7 @@ import {
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
-import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
+import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
 import { NameSource } from '@spartacus/cart/import-export/core';
