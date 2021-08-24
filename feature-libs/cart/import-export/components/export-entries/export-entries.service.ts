@@ -91,13 +91,13 @@ export class ExportEntriesService {
   }
 
   protected getTranslatedColumnHeaders(): Observable<string[]> {
-    return combineLatest([
-      ...this.columns.map((column) =>
+    return combineLatest(
+      this.columns.map((column) =>
         this.translationService.translate(
           `exportEntries.columnNames.${column.name.key}`
         )
-      ),
-    ]);
+      )
+    );
   }
 
   getResolvedEntries(): Observable<string[][]> {
