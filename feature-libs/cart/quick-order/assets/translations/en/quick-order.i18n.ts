@@ -16,7 +16,7 @@ export const quickOrderForm = {
 };
 
 export const quickOrderList = {
-  addToCart: 'Add to cart',
+  addToCart: 'Add',
   emptyList: 'Empty list',
   header: 'Add Products/Skus',
   subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
