@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
@@ -14,15 +13,13 @@ import { CartModification, CartValidationStatusCode } from '@spartacus/core';
   templateUrl: './cart-validation-cart-item-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartValidationCartItemWarningComponent implements OnInit {
+export class CartValidationCartItemWarningComponent {
   @Input()
   code: string;
 
   iconTypes = ICON_TYPE;
   isVisible = true;
 
-  checkoutRouteActivated$ = this.cartValidationWarningsStateService
-    .checkoutRouteActivated$;
   cartModification$ = this.cartValidationWarningsStateService.cartValidationResult$.pipe(
     map((modificationList: CartModification[]) =>
       modificationList.find(
@@ -36,6 +33,4 @@ export class CartValidationCartItemWarningComponent implements OnInit {
   constructor(
     protected cartValidationWarningsStateService: CartValidationWarningsStateService
   ) {}
-
-  ngOnInit(): void {}
 }

@@ -1,22 +1,22 @@
-import { CartValidationGuard } from '@spartacus/cart/validation/components';
 import {
   ActiveCartService,
   GlobalMessageService,
-  MultiCartService,
   SemanticPathService,
-  UserIdService,
+  CartValidationService,
+  RoutingService,
+  CartModification,
 } from '@spartacus/core';
+import { CartValidationGuard } from '@spartacus/storefront';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartValidationFacade } from '@spartacus/cart/validation/root';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
+import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
 
 const cartModification = new BehaviorSubject({});
-const mockUserId = 'userTest';
 const mockCartId = 'cartTest';
 
-class MockCartValidationFacade implements Partial<CartValidationFacade> {
+class MockCartValidationService implements Partial<CartValidationService> {
   getCartValidationStatus() {
     return cartModification.asObservable();
   }
@@ -29,38 +29,46 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
 }
-class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = () => of(mockUserId);
-}
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId = () => of(mockCartId);
+  reloadActiveCart = createSpy().and.stub();
 }
-class MockMultiCartService implements Partial<MultiCartService> {
-  loadCart = createSpy().and.stub();
+class MockCartValidationWarningsStateService {
+  cartValidationResult$ = new Subject<CartModification[]>();
+  checkForValidationResultClear$ = of();
+}
+
+class MockRoutingService {
+  getRouterState() {
+    return of();
+  }
 }
 
 describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
-  let multiCartService: MultiCartService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CartValidationGuard,
-        { provide: CartValidationFacade, useClass: MockCartValidationFacade },
+        { provide: CartValidationService, useClass: MockCartValidationService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: UserIdService, useClass: MockUserIdService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        {
+          provide: CartValidationWarningsStateService,
+          useClass: MockCartValidationWarningsStateService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(CartValidationGuard);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    multiCartService = TestBed.inject(MultiCartService);
+    activeCartService = TestBed.inject(ActiveCartService);
 
     cartModification.next({ cartModifications: [] });
   });
@@ -85,10 +93,7 @@ describe(`CartValidationGuard`, () => {
       .unsubscribe();
 
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(multiCartService.loadCart).toHaveBeenCalledWith({
-      cartId: mockCartId,
-      userId: mockUserId,
-    });
+    expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');
   });
 });

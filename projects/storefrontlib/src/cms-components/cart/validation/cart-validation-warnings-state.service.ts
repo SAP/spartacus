@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { skip, take, tap } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { take, tap, withLatestFrom } from 'rxjs/operators';
 import { RoutingService, CartModification } from '@spartacus/core';
 
 @Injectable({
@@ -19,14 +19,15 @@ export class CartValidationWarningsStateService {
   navigationIdCount: number;
 
   cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
-  checkoutRouteActivated$ = new BehaviorSubject<boolean>(false);
 
   checkForValidationResultClear$ = this.routingService.getRouterState().pipe(
-    skip(this.NAVIGATION_SKIPS),
-    tap((routerState) => {
+    withLatestFrom(this.cartValidationResult$),
+    take(this.NAVIGATION_SKIPS),
+    tap(([routerState, cartModifications]) => {
       if (
         this.navigationIdCount + this.NAVIGATION_SKIPS <=
-        routerState.navigationId
+          routerState.navigationId &&
+        cartModifications.length
       ) {
         console.log('clearing results');
         this.cartValidationResult$.next([]);
