@@ -66,7 +66,7 @@ export function addProductToTheListAndModifyQuantity(
 }
 
 export function modifyProductQuantityInQuickOrderList(quantity: number) {
-  cy.get('.quick-order-table-item-quantity cx-item-counter input')
+  cy.get('.cx-quick-order-table-item-quantity cx-item-counter input')
     .type('{selectall}{backspace}')
     .type(`${quantity}`)
     .blur();
@@ -90,9 +90,9 @@ export function clearList() {
 }
 
 export function removeFirstRow() {
-  cy.get(`cx-quick-order .quick-order-table-row`)
+  cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('.quick-order-table-item-action .cx-action-link')
+    .find('.cx-quick-order-table-item-action .cx-action-link')
     .click();
 }
 
@@ -121,7 +121,7 @@ export function verifyMiniCartQuantity(quantity: number) {
 
 export function verifyQuickOrderListQuantity(quantity: number) {
   cy.get('cx-quick-order')
-    .find('.quick-order-table-row')
+    .find('.cx-quick-order-table-row')
     .should('have.length', quantity);
 }
 
