@@ -320,7 +320,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/order-confirmation/order-confirmation.module.ts</code>
+            <code>feature-libs/checkout/components/order-confirmation/order-confirmation.module.ts</code>
         </p>
 
 
@@ -347,15 +347,6 @@
                         </li>
                         <li class="list-group-item">
                             <a href="../components/OrderConfirmationTotalsComponent.html">OrderConfirmationTotalsComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/orderConfirmationComponents.html">orderConfirmationComponents</a>
                         </li>
                     </ul>
                 </div>
@@ -429,12 +420,12 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import {
   CardModule,
+  CartSharedModule,
   FormErrorsModule,
   OrderOverviewModule,
-} from &#x27;../../shared/index&#x27;;
-import { CartSharedModule } from &#x27;../cart/cart-shared/cart-shared.module&#x27;;
-import { PromotionsModule } from &#x27;../checkout/components/promotions/promotions.module&#x27;;
-import { PwaModule } from &#x27;./../../cms-structure/pwa/pwa.module&#x27;;
+  PromotionsModule,
+  PwaModule,
+} from &#x27;@spartacus/storefront&#x27;;
 import { GuestRegisterFormComponent } from &#x27;./components/guest-register-form/guest-register-form.component&#x27;;
 import { OrderConfirmationItemsComponent } from &#x27;./components/order-confirmation-items/order-confirmation-items.component&#x27;;
 import { OrderConfirmationOverviewComponent } from &#x27;./components/order-confirmation-overview/order-confirmation-overview.component&#x27;;
@@ -488,7 +479,6 @@ const orderConfirmationComponents &#x3D; [
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
-  entryComponents: [...orderConfirmationComponents],
 })
 export class OrderConfirmationModule {}
 </code></pre>

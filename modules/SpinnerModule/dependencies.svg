@@ -18,13 +18,13 @@
 <title>cluster_SpinnerModule_declarations</title>
 <polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 266,-92.8 266,-40.8 126,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_SpinnerModule_exports</title>
-<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 213,-222.8 213,-170.8 69,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_SpinnerModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 118,-92.8 118,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_SpinnerModule_exports</title>
+<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 213,-222.8 213,-170.8 69,-170.8"/>
 </g>
 <!-- SpinnerComponent -->
 <g id="node1" class="node">

@@ -456,8 +456,8 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:205</a></div>
                 </td>
             </tr>
 
@@ -738,8 +738,8 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:198</a></div>
                 </td>
             </tr>
 
@@ -1156,14 +1156,14 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as fs from &#x27;fs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Request, Response } from &#x27;express&#x27;;
+import * as fs from &#x27;fs&#x27;;
+import { NgExpressEngineInstance } from &#x27;../engine-decorator/ng-express-engine-decorator&#x27;;
+import { RenderingCache } from &#x27;./rendering-cache&#x27;;
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from &#x27;./ssr-optimization-options&#x27;;
-import { RenderingCache } from &#x27;./rendering-cache&#x27;;
-import { NgExpressEngineInstance } from &#x27;../engine-decorator/ng-express-engine-decorator&#x27;;
-import { Request, Response } from &#x27;express&#x27;;
 
 /**
  * The rendered pages are kept in memory to be served on next request. If the &#x60;cache&#x60; is set to &#x60;false&#x60;, the
@@ -1219,7 +1219,7 @@ export class OptimizedSsrEngine {
     );
 
     if (isRendering) {
-      this.log(&#x60;CSR fallback: rendering in progress (${request.url})&#x60;);
+      this.log(&#x60;CSR fallback: rendering in progress (${request?.originalUrl})&#x60;);
     } else if (concurrencyLimitExceed) {
       this.log(
         &#x60;CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})&#x60;
@@ -1289,7 +1289,7 @@ export class OptimizedSsrEngine {
             waitingForRender &#x3D; undefined;
             this.fallbackToCsr(response, filePath, callback);
             this.log(
-              &#x60;SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}&#x60;,
+              &#x60;SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}&#x60;,
               false
             );
           }, timeout);
@@ -1299,11 +1299,33 @@ export class OptimizedSsrEngine {
 
         // start rendering
         this.renderingCache.setAsRendering(renderingKey);
-        this.log(&#x60;Rendering started (${request?.url})&#x60;);
+
+        // setting the timeout for hanging renders that might not ever finish due to various reasons
+        // releasing concurrency slots by decreasing the &#x60;this.currentConcurrency--&#x60;.
+        let maxRenderTimeout: NodeJS.Timeout | undefined &#x3D; setTimeout(() &#x3D;&gt; {
+          this.currentConcurrency--;
+          this.renderingCache.clear(renderingKey);
+          maxRenderTimeout &#x3D; undefined;
+
+          this.log(
+            &#x60;Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!&#x60;,
+            false
+          );
+        }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms &#x3D;&#x3D; 5 minutes
+
+        this.log(&#x60;Rendering started (${request?.originalUrl})&#x60;);
         this.expressEngine(filePath, options, (err, html) &#x3D;&gt; {
+          if (!maxRenderTimeout) {
+            // ignore this render&#x27;s result because it exceeded maxRenderTimeout
+            this.log(
+              &#x60;Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.&#x60;
+            );
+            return;
+          }
+          clearTimeout(maxRenderTimeout);
           this.currentConcurrency--;
 
-          this.log(&#x60;Rendering completed (${request?.url})&#x60;);
+          this.log(&#x60;Rendering completed (${request?.originalUrl})&#x60;);
 
           if (waitingForRender) {
             // if request is still waiting for render, return it
@@ -1326,7 +1348,7 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
       }
     } else {
-      this.log(&#x60;Render from cache (${request?.url})&#x60;);
+      this.log(&#x60;Render from cache (${request?.originalUrl})&#x60;);
     }
   }
 

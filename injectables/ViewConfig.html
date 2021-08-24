@@ -145,12 +145,17 @@ export abstract class ViewConfig {
     /**
      * Configurations related to the view of the application
      */
+    defaultPageSize?: number;
     infiniteScroll?: {
       active?: boolean;
       productLimit?: number;
       showMoreButton?: boolean;
     };
   };
+}
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends ViewConfig {}
 }
 </code></pre>
     </div>

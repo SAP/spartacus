@@ -397,16 +397,16 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   ) {
     if (this.winRef.isBrowser()) {
       this.enabled &#x3D;
-        (this.winRef.localStorage &amp;&amp; this.config.personalization.enabled) ||
+        (this.winRef.localStorage &amp;&amp; this.config.personalization?.enabled) ||
         false;
 
       if (this.enabled) {
-        if (!this.config.personalization.httpHeaderName &amp;&amp; isDevMode()) {
+        if (!this.config.personalization?.httpHeaderName &amp;&amp; isDevMode()) {
           console.warn(
             &#x60;There is no httpHeaderName configured in Personalization&#x60;
           );
         }
-        this.requestHeader &#x3D; this.config.personalization.httpHeaderName?.id.toLowerCase();
+        this.requestHeader &#x3D; this.config.personalization?.httpHeaderName?.id.toLowerCase();
         this.personalizationId &#x3D; this.winRef.localStorage?.getItem(
           PERSONALIZATION_ID_KEY
         );
@@ -427,7 +427,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     if (
       this.requestHeader &amp;&amp;
       this.personalizationId &amp;&amp;
-      request.url.includes(this.occEndpoints.getBaseEndpoint())
+      request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
       request &#x3D; request.clone({
         setHeaders: {

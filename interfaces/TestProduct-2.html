@@ -448,6 +448,7 @@ export function checkWishListPersisted(product: TestProduct) {
   cy.selectUserMenuOption({
     option: &#x27;Sign Out&#x27;,
   });
+  cy.location(&#x27;pathname&#x27;).should(&#x27;equal&#x27;, &#x27;/electronics-spa/en/USD/&#x27;);
 
   cy.findByText(/Sign in \/ Register/i).click();
 
@@ -488,9 +489,8 @@ export function checkoutFromCart(checkoutProducts: TestProduct[]) {
 }
 
 function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
-  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.get(&#x27;cx-mini-cart&#x27;).click();
-  cy.wait(&#x60;@${cartPage}&#x60;);
+  cy.location(&#x27;pathname&#x27;).should(&#x27;match&#x27;, /\/cart$/);
 
   for (const product of checkoutProducts) {
     cy.get(&#x27;cx-cart-item-list&#x27;).contains(&#x27;cx-cart-item&#x27;, product.code);

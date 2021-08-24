@@ -550,8 +550,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:158</a></div>
                 </td>
             </tr>
 
@@ -876,19 +876,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private decorate(elementRef: ElementRef): void {
-    if (this.dynamicAttributeService.addAttributesToComponent) {
-      this.dynamicAttributeService.addAttributesToComponent(
-        elementRef.nativeElement,
-        this.renderer,
-        this.cxComponentWrapper
-      );
-    } else {
-      this.dynamicAttributeService.addDynamicAttributes(
-        elementRef.nativeElement,
-        this.renderer,
-        { componentData: this.cxComponentWrapper }
-      );
-    }
+    this.dynamicAttributeService.addAttributesToComponent(
+      elementRef.nativeElement,
+      this.renderer,
+      this.cxComponentWrapper
+    );
   }
 
   ngOnDestroy() {

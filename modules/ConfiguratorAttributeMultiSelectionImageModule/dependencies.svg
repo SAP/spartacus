@@ -14,13 +14,13 @@
 <title>cluster_ConfiguratorAttributeMultiSelectionImageModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 638,-230.8 638,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAttributeMultiSelectionImageModule_exports</title>
-<polygon fill="none" stroke="black" points="273,-170.8 273,-222.8 615,-222.8 615,-170.8 273,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeMultiSelectionImageModule_imports</title>
 <polygon fill="none" stroke="black" points="362,-40.8 362,-92.8 630,-92.8 630,-40.8 362,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAttributeMultiSelectionImageModule_exports</title>
+<polygon fill="none" stroke="black" points="273,-170.8 273,-222.8 615,-222.8 615,-170.8 273,-170.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorAttributeMultiSelectionImageModule_declarations</title>

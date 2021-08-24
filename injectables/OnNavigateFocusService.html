@@ -104,11 +104,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getStorefrontElement" >getStorefrontElement</a>
+                                <a href="#initializeWithConfig" >initializeWithConfig</a>
                             </li>
                             <li>
-                                <a href="#initializeWithConfig" >initializeWithConfig</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#setResetFocusOnNavigate" >setResetFocusOnNavigate</a>
@@ -134,7 +133,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/KeyboardFocusConfig.html" target="_self">KeyboardFocusConfig</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, breakpointService: <a href="../injectables/BreakpointService.html" target="_self">BreakpointService</a>)</code>
+<code>constructor(config: <a href="../injectables/KeyboardFocusConfig.html" target="_self">KeyboardFocusConfig</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, breakpointService: <a href="../injectables/BreakpointService.html" target="_self">BreakpointService</a>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -181,10 +180,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>document</td>
+                                                        <td>breakpointService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                                        <code><a href="../injectables/BreakpointService.html" target="_self" >BreakpointService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -193,10 +192,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>breakpointService</td>
+                                                        <td>winRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/BreakpointService.html" target="_self" >BreakpointService</a></code>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -222,47 +221,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getStorefrontElement"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>getStorefrontElement</b></span>
-                        <a href="#getStorefrontElement"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getStorefrontElement()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:99</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Gets the root element <code>&lt;cx-storefront&gt;</code>.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>HTMLElement</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="initializeWithConfig"></a>
                     <span class="name">
                         <span ><b>initializeWithConfig</b></span>
@@ -279,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:35</a></div>
                 </td>
             </tr>
 
@@ -289,6 +247,43 @@
                 <td class="col-md-4">
                     <div class="io-description"><p>Reads configuration and enables features based on flags set.</p>
 </div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -318,15 +313,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:57</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Resets focus back to root element <code>&lt;cx-storefront&gt;</code> in the DOM tree when a navigation is started.</p>
+                    <div class="io-description"><p>Resets focus back to body element in the DOM tree when a navigation is started.</p>
 </div>
 
                     <div class="io-description">
@@ -393,15 +388,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:83</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Resets view back to root element <code>&lt;cx-storefront&gt;</code> in the DOM tree when a navigation is started.</p>
+                    <div class="io-description"><p>Resets view back to body element in the DOM tree when a navigation is started.</p>
 </div>
 
                     <div class="io-description">
@@ -514,14 +509,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT } from &#x27;@angular/common&#x27;;
-import { Inject, Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { NavigationStart, Router } from &#x27;@angular/router&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { filter, take } from &#x27;rxjs/operators&#x27;;
 import { BREAKPOINT } from &#x27;../../../config&#x27;;
 import { BreakpointService } from &#x27;../../../../layout/breakpoint/breakpoint.service&#x27;;
 import { KeyboardFocusConfig } from &#x27;../config&#x27;;
+import { WindowRef } from &#x27;@spartacus/core&#x27;;
 
 /**
  * Shared service for keyboard focus features called when the browser navigates.
@@ -529,21 +524,30 @@ import { KeyboardFocusConfig } from &#x27;../config&#x27;;
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class OnNavigateFocusService {
+export class OnNavigateFocusService implements OnDestroy {
   protected resetFocusOnNavigate: Subscription;
   protected resetViewOnNavigate: Subscription;
 
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
-    @Inject(DOCUMENT) protected document: any,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected winRef: WindowRef
   ) {}
+
+  ngOnDestroy(): void {
+    this.resetFocusOnNavigate?.unsubscribe();
+    this.resetViewOnNavigate?.unsubscribe();
+  }
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
+    if (!this.winRef.isBrowser()) {
+      return;
+    }
+
     if (this.config?.keyboardFocus?.enableResetFocusOnNavigate) {
       this.setResetFocusOnNavigate(
         this.config.keyboardFocus.enableResetFocusOnNavigate
@@ -558,7 +562,7 @@ export class OnNavigateFocusService {
   }
 
   /**
-   * Resets focus back to root element &#x60;&lt;cx-storefront&gt;&#x60; in the DOM tree when a navigation is started.
+   * Resets focus back to body element in the DOM tree when a navigation is started.
    * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
   setResetFocusOnNavigate(enable: boolean | BREAKPOINT[]): void {
@@ -573,18 +577,18 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) &#x3D;&gt; {
                 if (enable.includes(breakpoint)) {
-                  this.getStorefrontElement().focus();
+                  this.winRef.document.body.focus();
                 }
               });
           } else if (typeof enable &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
-            this.getStorefrontElement().focus();
+            this.winRef.document.body.focus();
           }
         });
     }
   }
 
   /**
-   * Resets view back to root element &#x60;&lt;cx-storefront&gt;&#x60; in the DOM tree when a navigation is started.
+   * Resets view back to body element in the DOM tree when a navigation is started.
    * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
   setResetViewOnNavigate(enable: boolean | BREAKPOINT[]): void {
@@ -599,21 +603,14 @@ export class OnNavigateFocusService {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) &#x3D;&gt; {
                 if (enable.includes(breakpoint)) {
-                  this.getStorefrontElement().scrollIntoView();
+                  this.winRef.document.body.scrollIntoView();
                 }
               });
           } else if (typeof enable &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
-            this.getStorefrontElement().scrollIntoView();
+            this.winRef.document.body.scrollIntoView();
           }
         });
     }
-  }
-
-  /**
-   * Gets the root element &#x60;&lt;cx-storefront&gt;&#x60;.
-   */
-  private getStorefrontElement(): HTMLElement {
-    return this.document.getElementsByTagName(&#x27;cx-storefront&#x27;)[0];
   }
 }
 </code></pre>

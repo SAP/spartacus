@@ -196,7 +196,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getSearchEndpoint(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
+                    <code>getSearchEndpoint(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
@@ -238,7 +238,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -285,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-search.adapter.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-search.adapter.ts:60</a></div>
                 </td>
             </tr>
 
@@ -444,7 +444,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
+<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
@@ -489,7 +489,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -577,18 +577,15 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     query: string,
     searchConfig: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(
-      &#x27;productSearch&#x27;,
-      {},
-      {
-        query,
-        ...searchConfig,
-      }
-    );
+    return this.occEndpoints.buildUrl(&#x27;productSearch&#x27;, {
+      queryParams: { query, ...searchConfig },
+    });
   }
 
   protected getSuggestionEndpoint(term: string, max: string): string {
-    return this.occEndpoints.getUrl(&#x27;productSuggestions&#x27;, {}, { term, max });
+    return this.occEndpoints.buildUrl(&#x27;productSuggestions&#x27;, {
+      queryParams: { term, max },
+    });
   }
 }
 </code></pre>

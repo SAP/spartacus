@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -149,7 +149,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -168,45 +168,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
-import { UserSignUp } from &#x27;../../../model/misc.model&#x27;;
-import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
 import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import {
-  REGISTER_USER_PROCESS_ID,
-  REMOVE_USER_PROCESS_ID,
-} from &#x27;../user-state&#x27;;
+import { REGISTER_USER_PROCESS_ID } from &#x27;../user-state&#x27;;
 
-export const REGISTER_USER &#x3D; &#x27;[User] Register User&#x27;;
-export const REGISTER_USER_FAIL &#x3D; &#x27;[User] Register User Fail&#x27;;
 export const REGISTER_USER_SUCCESS &#x3D; &#x27;[User] Register User Success&#x27;;
-export const RESET_REGISTER_USER_PROCESS &#x3D; &#x27;[User] Reset Register User Process&#x27;;
-
-export const REGISTER_GUEST &#x3D; &#x27;[User] Register Guest&#x27;;
-export const REGISTER_GUEST_FAIL &#x3D; &#x27;[User] Register Guest Fail&#x27;;
-export const REGISTER_GUEST_SUCCESS &#x3D; &#x27;[User] Register Guest Success&#x27;;
-
-export const REMOVE_USER &#x3D; &#x27;[User] Remove User&#x27;;
-export const REMOVE_USER_FAIL &#x3D; &#x27;[User] Remove User Fail&#x27;;
-export const REMOVE_USER_SUCCESS &#x3D; &#x27;[User] Remove User Success&#x27;;
-export const REMOVE_USER_RESET &#x3D; &#x27;[User] Reset Remove User Process State&#x27;;
-
-export class RegisterUser extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; REGISTER_USER;
-  constructor(public payload: UserSignUp) {
-    super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
-  }
-}
-
-/**
- * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
- */
-export class RegisterUserFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; REGISTER_USER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID, payload);
-  }
-}
 
 /**
  * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
@@ -218,80 +184,8 @@ export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-/**
- * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
- */
-export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type &#x3D; RESET_REGISTER_USER_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
-  }
-}
-
-export class RegisterGuest implements Action {
-  readonly type &#x3D; REGISTER_GUEST;
-  constructor(public payload: { guid: string; password: string }) {}
-}
-
-/**
- * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
- */
-export class RegisterGuestFail implements Action {
-  readonly type &#x3D; REGISTER_GUEST_FAIL;
-  constructor(public payload: any) {}
-}
-
-/**
- * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
- */
-export class RegisterGuestSuccess implements Action {
-  readonly type &#x3D; REGISTER_GUEST_SUCCESS;
-}
-
-/**
- * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
- */
-export class RemoveUser extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; REMOVE_USER;
-  constructor(public payload: string) {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
-  }
-}
-
-export class RemoveUserFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; REMOVE_USER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, payload);
-  }
-}
-
-export class RemoveUserSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; REMOVE_USER_SUCCESS;
-  constructor() {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
-  }
-}
-
-export class RemoveUserReset extends StateUtils.EntityLoaderResetAction {
-  readonly type &#x3D; REMOVE_USER_RESET;
-  constructor() {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
-  }
-}
-
 // action types
-export type UserRegisterOrRemoveAction &#x3D;
-  | RegisterUser
-  | RegisterUserFail
-  | RegisterUserSuccess
-  | ResetRegisterUserProcess
-  | RegisterGuest
-  | RegisterGuestFail
-  | RegisterGuestSuccess
-  | RemoveUser
-  | RemoveUserFail
-  | RemoveUserSuccess
-  | RemoveUserReset;
+export type UserRegisterOrRemoveAction &#x3D; RegisterUserSuccess;
 </code></pre>
     </div>
 </div>

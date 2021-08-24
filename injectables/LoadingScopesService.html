@@ -83,6 +83,9 @@
                             <li>
                                 <a href="#getMaxAge" >getMaxAge</a>
                             </li>
+                            <li>
+                                <a href="#getReloadTriggers" >getReloadTriggers</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -106,7 +109,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -169,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -255,8 +258,8 @@ It should apply also to implicit scopes (that are included by configuration).</p
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -317,13 +320,106 @@ It should apply also to implicit scopes (that are included by configuration).</p
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getReloadTriggers"></a>
+                    <span class="name">
+                        <span ><b>getReloadTriggers</b></span>
+                        <a href="#getReloadTriggers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getReloadTriggers(model: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/occ/services/loading-scopes.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the configured triggers for which to reload the product.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>model</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>for which to look up the scopes (usually a &#39;product&#39;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>for which to look up the config</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>the configured triggers, or an empty array if not configured</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Type } from &#x27;@angular/core&#x27;;
+import { CxEvent } from &#x27;../../event/cx-event&#x27;;
 import { OccConfig } from &#x27;../config/occ-config&#x27;;
 
 @Injectable({
@@ -345,11 +441,7 @@ export class LoadingScopesService {
    * @param scopes
    */
   expand(model: string, scopes: string[]): string[] {
-    const scopesConfig &#x3D;
-      this.config &amp;&amp;
-      this.config.backend &amp;&amp;
-      this.config.backend.loadingScopes &amp;&amp;
-      this.config.backend.loadingScopes[model];
+    const scopesConfig &#x3D; this.config?.backend?.loadingScopes?.[model];
 
     if (scopesConfig) {
       const expandedScopes &#x3D; [...scopes];
@@ -357,9 +449,7 @@ export class LoadingScopesService {
 
       while (i &gt; 0) {
         i--;
-        const includedScopes &#x3D;
-          scopesConfig[expandedScopes[i]] &amp;&amp;
-          scopesConfig[expandedScopes[i]].include;
+        const includedScopes &#x3D; scopesConfig[expandedScopes[i]]?.include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
             if (!expandedScopes.includes(includedScope)) {
@@ -383,12 +473,21 @@ export class LoadingScopesService {
    * @param scope
    */
   getMaxAge(model: string, scope: string): number {
-    const scopesConfig &#x3D;
-      this.config &amp;&amp;
-      this.config.backend &amp;&amp;
-      this.config.backend.loadingScopes &amp;&amp;
-      this.config.backend.loadingScopes[model];
-    return (scopesConfig[scope] &amp;&amp; scopesConfig[scope].maxAge) * 1000 || 0;
+    const configuredMaxAge &#x3D;
+      this.config.backend?.loadingScopes?.[model]?.[scope]?.maxAge ?? 0;
+    return configuredMaxAge * 1000;
+  }
+
+  /**
+   *
+   * Returns the configured triggers for which to reload the product.
+   *
+   * @param model for which to look up the scopes (usually a &#x27;product&#x27;)
+   * @param scope for which to look up the config
+   * @returns the configured triggers, or an empty array if not configured
+   */
+  getReloadTriggers(model: string, scope: string): Type&lt;CxEvent&gt;[] {
+    return this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
   }
 }
 </code></pre>

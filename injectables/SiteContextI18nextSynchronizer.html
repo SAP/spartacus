@@ -135,8 +135,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:78</a></div>
                 </td>
             </tr>
 
@@ -215,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:85</a></div>
                 </td>
             </tr>
 
@@ -257,7 +257,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/core/src/i18n/i18next/i18next-init.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -273,8 +273,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { i18n, InitOptions } from &#x27;i18next&#x27;;
-import i18nextXhrBackend from &#x27;i18next-xhr-backend&#x27;;
+import i18nextHttpBackend from &#x27;i18next-http-backend&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
+import { tap } from &#x27;rxjs/operators&#x27;;
 import { ConfigInitializerService } from &#x27;../../config/config-initializer/config-initializer.service&#x27;;
 import { LanguageService } from &#x27;../../site-context/facade/language.service&#x27;;
 import { TranslationResources } from &#x27;../translation-resources&#x27;;
@@ -288,35 +289,41 @@ export function i18nextInit(
   siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
 ): () &#x3D;&gt; Promise&lt;any&gt; {
   return () &#x3D;&gt;
-    configInit.getStableConfig(&#x27;i18n&#x27;).then((config) &#x3D;&gt; {
-      let i18nextConfig: InitOptions &#x3D; {
-        ns: [], // don&#x27;t preload any namespaces
-        fallbackLng: config.i18n.fallbackLang,
-        debug: config.i18n.debug,
-        interpolation: {
-          escapeValue: false,
-        },
-      };
-      if (config.i18n.backend) {
-        i18next.use(i18nextXhrBackend);
-        const loadPath &#x3D; getLoadPath(
-          config.i18n.backend.loadPath,
-          serverRequestOrigin
-        );
-        const backend &#x3D; {
-          loadPath,
-          ajax: i18nextGetHttpClient(httpClient),
-        };
-        i18nextConfig &#x3D; { ...i18nextConfig, backend };
-      }
+    configInit
+      .getStable(&#x27;i18n&#x27;)
+      .pipe(
+        tap((config) &#x3D;&gt; {
+          let i18nextConfig: InitOptions &#x3D; {
+            ns: [], // don&#x27;t preload any namespaces
+            fallbackLng: config.i18n.fallbackLang,
+            debug: config.i18n.debug,
+            interpolation: {
+              escapeValue: false,
+            },
+          };
 
-      return i18next.init(i18nextConfig, () &#x3D;&gt; {
-        // Don&#x27;t use i18next&#x27;s &#x27;resources&#x27; config key for adding static translations,
-        // because it will disable loading chunks from backend. We add resources here, in the init&#x27;s callback.
-        i18nextAddTranslations(i18next, config.i18n.resources);
-        siteContextI18nextSynchronizer.init(i18next, languageService);
-      });
-    });
+          if (config.i18n.backend) {
+            i18next.use(i18nextHttpBackend);
+            const loadPath &#x3D; getLoadPath(
+              config.i18n.backend.loadPath,
+              serverRequestOrigin
+            );
+            const backend &#x3D; {
+              loadPath,
+              ajax: i18nextGetHttpClient(httpClient),
+            };
+            i18nextConfig &#x3D; { ...i18nextConfig, backend };
+          }
+
+          return i18next.init(i18nextConfig, () &#x3D;&gt; {
+            // Don&#x27;t use i18next&#x27;s &#x27;resources&#x27; config key for adding static translations,
+            // because it will disable loading chunks from backend. We add resources here, in the init&#x27;s callback.
+            i18nextAddTranslations(i18next, config.i18n.resources);
+            siteContextI18nextSynchronizer.init(i18next, languageService);
+          });
+        })
+      )
+      .toPromise();
 }
 
 export function i18nextAddTranslations(
@@ -354,7 +361,7 @@ export class SiteContextI18nextSynchronizer implements OnDestroy {
 
 /**
  * Returns a function appropriate for i18next to make http calls for JSON files.
- * See docs for &#x60;i18next-xhr-backend&#x60;: https://github.com/i18next/i18next-xhr-backend#backend-options
+ * See docs for &#x60;i18next-http-backend&#x60;: https://github.com/i18next/i18next-http-backend#backend-options
  *
  * It uses Angular HttpClient under the hood, so it works in SSR.
  * @param httpClient Angular http client

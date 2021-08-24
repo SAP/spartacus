@@ -152,33 +152,6 @@ export enum StateTransferType {
 })
 export abstract class StateConfig {
   state?: {
-    /**
-     * @deprecated Since 3.0, to synchronize state from the browser storage, use StatePersistentService
-     */
-    storageSync?: {
-      /**
-       * A key name for the data stored in &#x60;localStorage&#x60;.
-       * Default is &#x60;DEFAULT_LOCAL_STORAGE_KEY&#x60;.
-       */
-      localStorageKeyName?: string;
-      /**
-       * A key name for the data stored in &#x60;sessionStorage&#x60;.
-       * Default is &#x60;DEFAULT_SESSION_STORAGE_KEY&#x60;.
-       */
-      sessionStorageKeyName?: string;
-      /**
-       * A set of state keys that should be synced with the specified browser&#x27;s storage.
-       */
-      keys?: {
-        [key: string]: StorageSyncType;
-      };
-      /**
-       * A set of keys not to sync with the specified browser&#x27;s storage.
-       */
-      excludeKeys?: {
-        [key: string]: StorageSyncType;
-      };
-    };
     ssrTransfer?: {
       keys?: {
         /**
@@ -188,6 +161,10 @@ export abstract class StateConfig {
       };
     };
   };
+}
+
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends StateConfig {}
 }
 </code></pre>
     </div>

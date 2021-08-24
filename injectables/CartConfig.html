@@ -147,6 +147,10 @@ export abstract class CartConfig {
     };
   };
 }
+
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends CartConfig {}
+}
 </code></pre>
     </div>
 

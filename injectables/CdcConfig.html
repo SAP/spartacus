@@ -147,6 +147,10 @@ export abstract class CdcConfig {
     sessionExpiration: number;
   }[];
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends CdcConfig {}
+}
 </code></pre>
     </div>
 

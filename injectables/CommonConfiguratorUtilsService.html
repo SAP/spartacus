@@ -268,7 +268,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getCartId(cart: <a href="../interfaces/Cart.html" target="_self">Cart</a>)</code>
+<code>getCartId(cart?: <a href="../interfaces/Cart.html" target="_self">Cart</a>)</code>
                 </td>
             </tr>
 
@@ -305,7 +305,7 @@
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -682,7 +682,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isAttributeBasedConfigurator(configuratorType: string | undefined)</code>
+<code>isAttributeBasedConfigurator(configuratorType: <a href="../s/undefined.html" target="_self">string | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -715,7 +715,7 @@
                                 <tr>
                                     <td>configuratorType</td>
                                     <td>
-                                            <code>string | undefined</code>
+                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -762,7 +762,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isBundleBasedConfigurator(configuratorType: string | undefined)</code>
+<code>isBundleBasedConfigurator(configuratorType: <a href="../s/undefined.html" target="_self">string | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -795,7 +795,7 @@
                                 <tr>
                                     <td>configuratorType</td>
                                     <td>
-                                            <code>string | undefined</code>
+                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -842,7 +842,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setOwnerKey(owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
+<code>setOwnerKey(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
@@ -876,7 +876,7 @@ attribute</p>
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -974,9 +974,9 @@ export class CommonConfiguratorUtilsService {
    * @param {Cart} cart - Cart
    * @returns {string} - Cart identifier
    */
-  getCartId(cart: Cart): string {
+  getCartId(cart?: Cart): string {
     const cartId &#x3D;
-      cart.user?.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+      cart?.user?.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart?.code;
     if (!cartId) {
       throw new Error(&#x27;Cart ID is not defined&#x27;);
     }

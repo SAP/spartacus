@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/facade/checkout-delivery.service.ts</code>
+            <code>feature-libs/checkout/core/facade/checkout-delivery.service.ts</code>
         </p>
 
 
@@ -82,9 +82,6 @@
                                 <a href="#actionAllowed" >actionAllowed</a>
                             </li>
                             <li>
-                                <a href="#clearAddressVerificationResults" >clearAddressVerificationResults</a>
-                            </li>
-                            <li>
                                 <a href="#clearCheckoutDeliveryAddress" >clearCheckoutDeliveryAddress</a>
                             </li>
                             <li>
@@ -98,9 +95,6 @@
                             </li>
                             <li>
                                 <a href="#createAndSetAddress" >createAndSetAddress</a>
-                            </li>
-                            <li>
-                                <a href="#getAddressVerificationResults" >getAddressVerificationResults</a>
                             </li>
                             <li>
                                 <a href="#getDeliveryAddress" >getDeliveryAddress</a>
@@ -141,9 +135,6 @@
                             <li>
                                 <a href="#setDeliveryMode" >setDeliveryMode</a>
                             </li>
-                            <li>
-                                <a href="#verifyAddress" >verifyAddress</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -162,12 +153,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
+<code>constructor(checkoutStore: Store<StateWithCheckout>, processStateStore: Store<StateWithProcess<void>>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +179,19 @@
                                                         <td>checkoutStore</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithCheckout | StateWithProcess&gt;</code>
+                                                                    <code>Store&lt;StateWithCheckout&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>processStateStore</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store&lt;StateWithProcess&lt;void&gt;&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -256,8 +259,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="365"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:365</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:334</a></div>
                 </td>
             </tr>
 
@@ -267,45 +270,6 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="clearAddressVerificationResults"></a>
-                    <span class="name">
-                        <span ><b>clearAddressVerificationResults</b></span>
-                        <a href="#clearAddressVerificationResults"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>clearAddressVerificationResults()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="300"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:300</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Clear address verification results</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -332,8 +296,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="309"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:309</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:278</a></div>
                 </td>
             </tr>
 
@@ -371,8 +335,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="359"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:359</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:328</a></div>
                 </td>
             </tr>
 
@@ -410,8 +374,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="334"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:334</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:303</a></div>
                 </td>
             </tr>
 
@@ -449,8 +413,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -489,7 +453,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:165</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -547,45 +511,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getAddressVerificationResults"></a>
-                    <span class="name">
-                        <span ><b>getAddressVerificationResults</b></span>
-                        <a href="#getAddressVerificationResults"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getAddressVerificationResults()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:154</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Get address verification results</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;AddressValidation | string&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getDeliveryAddress"></a>
                     <span class="name">
                         <span ><b>getDeliveryAddress</b></span>
@@ -603,7 +528,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:82</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -641,8 +566,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:140</a></div>
                 </td>
             </tr>
 
@@ -653,7 +578,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;LoaderState&lt;void&gt;&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;StateUtils.LoaderState&lt;void&gt;&gt;</code>
 
                     </div>
                 </td>
@@ -681,7 +606,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:64</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -692,7 +617,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;DeliveryMode&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;DeliveryMode | undefined | null&gt;</a></code>
 
                     </div>
                 </td>
@@ -720,7 +645,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:73</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -759,7 +684,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:91</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:91</a></div>
                 </td>
             </tr>
 
@@ -770,7 +695,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;LoaderState&lt;void&gt;&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;StateUtils.LoaderState&lt;void&gt;&gt;</code>
 
                     </div>
                 </td>
@@ -797,8 +722,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:111</a></div>
                 </td>
             </tr>
 
@@ -809,7 +734,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;LoaderState&lt;void&gt;&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;StateUtils.LoaderState&lt;void&gt;&gt;</code>
 
                     </div>
                 </td>
@@ -836,8 +761,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -876,7 +801,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:193</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:193</a></div>
                 </td>
             </tr>
 
@@ -914,8 +839,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -953,8 +878,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:102</a></div>
                 </td>
             </tr>
 
@@ -992,8 +917,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -1031,8 +956,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="272"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:272</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:250</a></div>
                 </td>
             </tr>
 
@@ -1107,7 +1032,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="221"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:221</a></div>
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-delivery.service.ts:221</a></div>
                 </td>
             </tr>
 
@@ -1161,81 +1086,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="verifyAddress"></a>
-                    <span class="name">
-                        <span ><b>verifyAddress</b></span>
-                        <a href="#verifyAddress"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>verifyAddress(address: <a href="../interfaces/Address.html" target="_self">Address</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="250"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-delivery.service.ts:250</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Verifies the address</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>address</td>
-                                    <td>
-                                                <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>: the address to be verified</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -1244,22 +1094,19 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { CheckoutDeliveryFacade } from &#x27;@spartacus/checkout/root&#x27;;
 import {
-  filter,
-  pluck,
-  shareReplay,
-  tap,
-  withLatestFrom,
-} from &#x27;rxjs/operators&#x27;;
-import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
-import { ActiveCartService } from &#x27;../../cart/facade/active-cart.service&#x27;;
-import { Address, AddressValidation } from &#x27;../../model/address.model&#x27;;
-import { DeliveryMode } from &#x27;../../model/order.model&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
-import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
-import { getProcessStateFactory } from &#x27;../../process/store/selectors/process-group.selectors&#x27;;
-import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
+  ActiveCartService,
+  Address,
+  DeliveryMode,
+  OCC_USER_ID_ANONYMOUS,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
+} from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { pluck, shareReplay, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -1269,12 +1116,11 @@ import {
 } from &#x27;../store/checkout-state&#x27;;
 import { CheckoutSelectors } from &#x27;../store/selectors/index&#x27;;
 
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
-export class CheckoutDeliveryService {
+@Injectable()
+export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   constructor(
-    protected checkoutStore: Store&lt;StateWithCheckout | StateWithProcess&lt;void&gt;&gt;,
+    protected checkoutStore: Store&lt;StateWithCheckout&gt;,
+    protected processStateStore: Store&lt;StateWithProcess&lt;void&gt;&gt;,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -1286,8 +1132,12 @@ export class CheckoutDeliveryService {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSupportedDeliveryModes),
       withLatestFrom(
-        this.checkoutStore.pipe(
-          select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
+        this.processStateStore.pipe(
+          select(
+            ProcessSelectors.getProcessStateFactory(
+              SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+            )
+          )
         )
       ),
       tap(([, loadingState]) &#x3D;&gt; {
@@ -1305,7 +1155,7 @@ export class CheckoutDeliveryService {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable&lt;DeliveryMode&gt; {
+  getSelectedDeliveryMode(): Observable&lt;DeliveryMode | undefined | null&gt; {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedDeliveryMode)
     );
@@ -1332,9 +1182,11 @@ export class CheckoutDeliveryService {
   /**
    * Get status about successfully set Delivery Address
    */
-  getSetDeliveryAddressProcess(): Observable&lt;LoaderState&lt;void&gt;&gt; {
-    return this.checkoutStore.pipe(
-      select(getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+  getSetDeliveryAddressProcess(): Observable&lt;StateUtils.LoaderState&lt;void&gt;&gt; {
+    return this.processStateStore.pipe(
+      select(
+        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID)
+      )
     );
   }
 
@@ -1350,9 +1202,11 @@ export class CheckoutDeliveryService {
   /**
    * Get status about of set Delivery Mode process
    */
-  getSetDeliveryModeProcess(): Observable&lt;LoaderState&lt;void&gt;&gt; {
-    return this.checkoutStore.pipe(
-      select(getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
+  getSetDeliveryModeProcess(): Observable&lt;StateUtils.LoaderState&lt;void&gt;&gt; {
+    return this.processStateStore.pipe(
+      select(
+        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID)
+      )
     );
   }
 
@@ -1377,9 +1231,15 @@ export class CheckoutDeliveryService {
   /**
    * Get status about of set supported Delivery Modes process
    */
-  getLoadSupportedDeliveryModeProcess(): Observable&lt;LoaderState&lt;void&gt;&gt; {
-    return this.checkoutStore.pipe(
-      select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
+  getLoadSupportedDeliveryModeProcess(): Observable&lt;
+    StateUtils.LoaderState&lt;void&gt;
+  &gt; {
+    return this.processStateStore.pipe(
+      select(
+        ProcessSelectors.getProcessStateFactory(
+          SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+        )
+      )
     );
   }
 
@@ -1389,16 +1249,6 @@ export class CheckoutDeliveryService {
   clearCheckoutDeliveryModes(): void {
     this.checkoutStore.dispatch(
       new CheckoutActions.ClearSupportedDeliveryModes()
-    );
-  }
-
-  /**
-   * Get address verification results
-   */
-  getAddressVerificationResults(): Observable&lt;AddressValidation | string&gt; {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getAddressVerificationResults),
-      filter((results) &#x3D;&gt; Object.keys(results).length !&#x3D;&#x3D; 0)
     );
   }
 
@@ -1488,28 +1338,6 @@ export class CheckoutDeliveryService {
   }
 
   /**
-   * Verifies the address
-   * @param address : the address to be verified
-   */
-  verifyAddress(address: Address): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
-        .unsubscribe();
-      if (userId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.VerifyAddress({
-            userId,
-            address,
-          })
-        );
-      }
-    }
-  }
-
-  /**
    * Set delivery address
    * @param address : The address to be set
    */
@@ -1536,15 +1364,6 @@ export class CheckoutDeliveryService {
         );
       }
     }
-  }
-
-  /**
-   * Clear address verification results
-   */
-  clearAddressVerificationResults(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearAddressVerificationResults()
-    );
   }
 
   /**

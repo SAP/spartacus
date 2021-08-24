@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/checkout/occ-checkout-payment-type.adapter.ts</code>
+            <code>feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts</code>
         </p>
 
 
@@ -79,7 +79,11 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#getCartEndpoint" >getCartEndpoint</a>
+                                <a href="#getPaymentTypesEndpoint" >getPaymentTypesEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getSetCartPaymentTypeEndpoint" >getSetCartPaymentTypeEndpoint</a>
                             </li>
                             <li>
                                 <a href="#loadPaymentTypes" >loadPaymentTypes</a>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-payment-type.adapter.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -181,26 +185,65 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCartEndpoint"></a>
+                    <a name="getPaymentTypesEndpoint"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>getCartEndpoint</b></span>
-                        <a href="#getCartEndpoint"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getPaymentTypesEndpoint</b></span>
+                        <a href="#getPaymentTypesEndpoint"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCartEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getPaymentTypesEndpoint()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-payment-type.adapter.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSetCartPaymentTypeEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getSetCartPaymentTypeEndpoint</b></span>
+                        <a href="#getSetCartPaymentTypeEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSetCartPaymentTypeEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, paymentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, purchaseOrderNumber?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts:58</a></div>
                 </td>
             </tr>
 
@@ -227,6 +270,42 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>paymentType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>purchaseOrderNumber</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -267,8 +346,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-payment-type.adapter.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -304,8 +383,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-payment-type.adapter.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts:35</a></div>
                 </td>
             </tr>
 
@@ -394,19 +473,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpParams } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
+import {
+  PaymentTypeAdapter,
+  PAYMENT_TYPE_NORMALIZER,
+} from &#x27;@spartacus/checkout/core&#x27;;
+import {
+  Cart,
+  CART_NORMALIZER,
+  ConverterService,
+  Occ,
+  OccEndpointsService,
+  PaymentType,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
-import { CART_NORMALIZER } from &#x27;../../../cart/connectors/cart/converters&#x27;;
-import { PAYMENT_TYPE_NORMALIZER } from &#x27;../../../checkout/connectors/payment-type/converters&#x27;;
-import { PaymentTypeAdapter } from &#x27;../../../checkout/connectors/payment-type/payment-type.adapter&#x27;;
-import { Cart, PaymentType } from &#x27;../../../model/cart.model&#x27;;
-import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
-import { Occ } from &#x27;../../occ-models&#x27;;
-import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
-
-const ENDPOINT_PAYMENT_TYPES &#x3D; &#x27;paymenttypes&#x27;;
 
 @Injectable()
 export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
@@ -418,11 +500,9 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
 
   loadPaymentTypes(): Observable&lt;PaymentType[]&gt; {
     return this.http
-      .get&lt;Occ.PaymentTypeList&gt;(
-        this.occEndpoints.getEndpoint(ENDPOINT_PAYMENT_TYPES)
-      )
+      .get&lt;Occ.PaymentTypeList&gt;(this.getPaymentTypesEndpoint())
       .pipe(
-        map((paymentTypeList) &#x3D;&gt; paymentTypeList.paymentTypes),
+        map((paymentTypeList) &#x3D;&gt; paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
   }
@@ -433,31 +513,36 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     paymentType: string,
     purchaseOrderNumber?: string
   ): Observable&lt;Cart&gt; {
-    let httpParams &#x3D; new HttpParams().set(&#x27;paymentType&#x27;, paymentType);
-    if (purchaseOrderNumber !&#x3D;&#x3D; undefined) {
-      httpParams &#x3D; httpParams.set(&#x27;purchaseOrderNumber&#x27;, purchaseOrderNumber);
-    }
-    /* eslint-disable max-len */
-    httpParams &#x3D; httpParams.set(
-      &#x27;fields&#x27;,
-      &#x27;DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user&#x27;
-    );
-    // TODO(#8877): Should we improve configurable endpoints for this use case?
-
     return this.http
       .put(
-        this.getCartEndpoint(userId) + cartId + &#x27;/paymenttype&#x27;,
-        {},
-        {
-          params: httpParams,
-        }
+        this.getSetCartPaymentTypeEndpoint(
+          userId,
+          cartId,
+          paymentType,
+          purchaseOrderNumber
+        ),
+        {}
       )
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint &#x3D; &#x27;users/&#x27; + userId + &#x27;/carts/&#x27;;
-    return this.occEndpoints.getEndpoint(cartEndpoint);
+  protected getPaymentTypesEndpoint(): string {
+    return this.occEndpoints.buildUrl(&#x27;paymentTypes&#x27;);
+  }
+
+  protected getSetCartPaymentTypeEndpoint(
+    userId: string,
+    cartId: string,
+    paymentType: string,
+    purchaseOrderNumber?: string
+  ): string {
+    const queryParams &#x3D; purchaseOrderNumber
+      ? { paymentType, purchaseOrderNumber }
+      : { paymentType };
+    return this.occEndpoints.buildUrl(&#x27;setCartPaymentType&#x27;, {
+      urlParams: { userId, cartId },
+      queryParams,
+    });
   }
 }
 </code></pre>

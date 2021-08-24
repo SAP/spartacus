@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts</code>
+            <code>feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts</code>
         </p>
 
 
@@ -85,6 +85,10 @@
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#createConfiguration" >createConfiguration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#createGroup" >createGroup</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -153,15 +157,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createConfiguration(configId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
+                    <code>createConfiguration(configId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:58</a></div>
                 </td>
             </tr>
 
@@ -198,7 +202,7 @@
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -216,7 +220,77 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createGroup"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>createGroup</b></span>
+                        <a href="#createGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createGroup(groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:72</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groupId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
 
                     </div>
                     <div class="io-description">
@@ -242,15 +316,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeAttribute(attribute: <a href="../s/Config.html" target="_self">Configurator.Attribute</a>)</code>
+                    <code>freezeAttribute(attribute: <a href="../injectables/Config.html" target="_self">Configurator.Attribute</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:39</a></div>
                 </td>
             </tr>
 
@@ -272,7 +346,7 @@
                                 <tr>
                                     <td>attribute</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
                                     </td>
 
                                     <td>
@@ -313,15 +387,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeGroup(group: <a href="../s/Config.html" target="_self">Configurator.Group</a>)</code>
+                    <code>freezeGroup(group: <a href="../injectables/Config.html" target="_self">Configurator.Group</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:33</a></div>
                 </td>
             </tr>
 
@@ -343,7 +417,7 @@
                                 <tr>
                                     <td>group</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
                                     </td>
 
                                     <td>
@@ -383,15 +457,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeOverview(overview: <a href="../s/Config.html" target="_self">Configurator.Overview</a>)</code>
+                    <code>freezeOverview(overview?: <a href="../injectables/Config.html" target="_self">Configurator.Overview</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:50</a></div>
                 </td>
             </tr>
 
@@ -413,11 +487,11 @@
                                 <tr>
                                     <td>overview</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Overview</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Overview</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -454,15 +528,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeOvGroup(overviewGroup: <a href="../s/Config.html" target="_self">Configurator.GroupOverview</a>)</code>
+                    <code>freezeOvGroup(overviewGroup: <a href="../injectables/Config.html" target="_self">Configurator.GroupOverview</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:81</a></div>
                 </td>
             </tr>
 
@@ -484,7 +558,7 @@
                                 <tr>
                                     <td>overviewGroup</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.GroupOverview</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.GroupOverview</a></code>
                                     </td>
 
                                     <td>
@@ -525,15 +599,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezePriceSummary(priceSummary: <a href="../s/Config.html" target="_self">Configurator.PriceSummary</a>)</code>
+                    <code>freezePriceSummary(priceSummary?: <a href="../injectables/Config.html" target="_self">Configurator.PriceSummary</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:88</a></div>
                 </td>
             </tr>
 
@@ -555,11 +629,11 @@
                                 <tr>
                                     <td>priceSummary</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceSummary</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceSummary</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -595,7 +669,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeProductConfiguration(productConfiguration: <a href="../s/Config.html" target="_self">Configurator.Configuration</a>)</code>
+                    <code>freezeProductConfiguration(productConfiguration: <a href="../injectables/Config.html" target="_self">Configurator.Configuration</a>)</code>
                 </td>
             </tr>
 
@@ -603,7 +677,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:17</a></div>
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:17</a></div>
                 </td>
             </tr>
 
@@ -628,7 +702,7 @@ data behaves read-only</p>
                                 <tr>
                                     <td>productConfiguration</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
                                     </td>
 
                                     <td>
@@ -669,15 +743,15 @@ data behaves read-only</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>freezeValue(value: <a href="../s/Config.html" target="_self">Configurator.Value</a>)</code>
+                    <code>freezeValue(value: <a href="../injectables/Config.html" target="_self">Configurator.Value</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts:45</a></div>
                 </td>
             </tr>
 
@@ -699,7 +773,7 @@ data behaves read-only</p>
                                 <tr>
                                     <td>value</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Value</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Value</a></code>
                                     </td>
 
                                     <td>
@@ -738,7 +812,7 @@ data behaves read-only</p>
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from &#x27;@spartacus/product-configurator/common&#x27;;
-import { Configurator } from &#x27;../../core/model&#x27;;
+import { Configurator } from &#x27;@spartacus/product-configurator/rulebased&#x27;;
 
 export class ConfiguratorTestUtils {
   /**
@@ -753,6 +827,7 @@ export class ConfiguratorTestUtils {
     Object.freeze(productConfiguration.interactionState);
     Object.freeze(productConfiguration.owner);
     Object.freeze(productConfiguration.nextOwner);
+
     this.freezeOverview(productConfiguration.overview);
     this.freezePriceSummary(productConfiguration.priceSummary);
     productConfiguration.flatGroups?.forEach((group) &#x3D;&gt;
@@ -778,7 +853,7 @@ export class ConfiguratorTestUtils {
     value.images?.forEach((image) &#x3D;&gt; Object.freeze(image));
   }
 
-  static freezeOverview(overview: Configurator.Overview) {
+  static freezeOverview(overview?: Configurator.Overview) {
     if (overview) {
       Object.freeze(overview);
       this.freezePriceSummary(overview.priceSummary);
@@ -794,9 +869,19 @@ export class ConfiguratorTestUtils {
       configId: configId,
       owner: owner,
       groups: [],
+      flatGroups: [],
       interactionState: {},
     };
     return configuration;
+  }
+
+  static createGroup(groupId: string): Configurator.Group {
+    const group: Configurator.Group &#x3D; {
+      id: groupId,
+      subGroups: [],
+      attributes: [],
+    };
+    return group;
   }
 
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {
@@ -806,7 +891,9 @@ export class ConfiguratorTestUtils {
     );
   }
 
-  protected static freezePriceSummary(priceSummary: Configurator.PriceSummary) {
+  protected static freezePriceSummary(
+    priceSummary?: Configurator.PriceSummary
+  ) {
     if (priceSummary) {
       Object.freeze(priceSummary);
       Object.freeze(priceSummary.basePrice);

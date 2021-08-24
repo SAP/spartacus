@@ -473,14 +473,10 @@ export class OccProductAdapter implements ProductAdapter {
   }
 
   protected getEndpoint(code: string, scope?: string): string {
-    return this.occEndpoints.getUrl(
-      &#x27;product&#x27;,
-      {
-        productCode: code,
-      },
-      undefined,
-      scope
-    );
+    return this.occEndpoints.buildUrl(&#x27;product&#x27;, {
+      urlParams: { productCode: code },
+      scope,
+    });
   }
 }
 </code></pre>

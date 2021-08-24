@@ -649,7 +649,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             if (
               event instanceof HttpResponse &amp;&amp;
               (event.url ?? &#x27;&#x27;).startsWith(
-                this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;)
+                this.occEndpoints.buildUrl(&#x27;anonymousConsentTemplates&#x27;)
               )
             ) {
               this.handleResponse(
@@ -706,7 +706,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   }
 
   private isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseEndpoint());
+    return url.includes(this.occEndpoints.getBaseUrl());
   }
 
   private giveRequiredConsents(

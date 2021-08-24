@@ -119,6 +119,13 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#maxRenderTime" 
+>
+                                            maxRenderTime
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#renderingStrategyResolver" 
 >
                                             renderingStrategyResolver
@@ -389,6 +396,58 @@ Default value is 60 seconds.</p>
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="maxRenderTime"></a>
+                                        <span class="name "><b>maxRenderTime</b>
+                                            <a href="#maxRenderTime">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>maxRenderTime:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The time for how long the render is expected to finish in.
+Exceeding this timeout will decrease the concurrency limit
+and allow for the new request to be server-side rendered.
+However, this may not release the rendering resources for the hanging render,
+which may cause additional memory usage on the server.</p>
+<p>It will log which render is exceeding the render time,
+which is useful for debugging issues.</p>
+<p>The value should always be higher than <code>timeout</code> and <code>forcedSsrTimeout</code>.</p>
+<p>Default value is 300 seconds (5 minutes).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="renderingStrategyResolver"></a>
                                         <span class="name "><b>renderingStrategyResolver</b>
                                             <a href="#renderingStrategyResolver">
@@ -628,6 +687,22 @@ export interface SsrOptimizationOptions {
    * Default value is 60 seconds.
    */
   forcedSsrTimeout?: number;
+
+  /**
+   * The time for how long the render is expected to finish in.
+   * Exceeding this timeout will decrease the concurrency limit
+   * and allow for the new request to be server-side rendered.
+   * However, this may not release the rendering resources for the hanging render,
+   * which may cause additional memory usage on the server.
+   *
+   * It will log which render is exceeding the render time,
+   * which is useful for debugging issues.
+   *
+   * The value should always be higher than &#x60;timeout&#x60; and &#x60;forcedSsrTimeout&#x60;.
+   *
+   * Default value is 300 seconds (5 minutes).
+   */
+  maxRenderTime?: number;
 
   /**
    * Enable detailed logs for troubleshooting problems

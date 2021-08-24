@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress.module.ts</code>
+            <code>feature-libs/checkout/components/components/checkout-progress/checkout-progress.module.ts</code>
         </p>
 
 
@@ -182,15 +182,6 @@
                         </li>
                         <li class="list-group-item">
                             <a href="../pipes/MultiLinePipe.html">MultiLinePipe</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/CheckoutProgressComponent.html">CheckoutProgressComponent</a>
                         </li>
                     </ul>
                 </div>
@@ -232,20 +223,17 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { defaultCheckoutConfig } from &#x27;../../config/default-checkout-config&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { CheckoutStepsSetGuard } from &#x27;../../guards/checkout-steps-set.guard&#x27;;
-import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { CheckoutProgressComponent } from &#x27;./checkout-progress.component&#x27;;
 import { MultiLinePipe } from &#x27;./multiline-titles.pipe&#x27;;
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   declarations: [CheckoutProgressComponent, MultiLinePipe],
-  entryComponents: [CheckoutProgressComponent],
   exports: [CheckoutProgressComponent],
   providers: [
-    provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         CheckoutProgress: {

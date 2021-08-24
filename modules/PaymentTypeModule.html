@@ -56,13 +56,13 @@
 <title>cluster_PaymentTypeModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 547,-230.8 547,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_PaymentTypeModule_exports</title>
-<polygon fill="none" stroke="black" points="154,-170.8 154,-222.8 332,-222.8 332,-170.8 154,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_PaymentTypeModule_declarations</title>
 <polygon fill="none" stroke="black" points="363,-40.8 363,-92.8 539,-92.8 539,-40.8 363,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_PaymentTypeModule_exports</title>
+<polygon fill="none" stroke="black" points="154,-170.8 154,-222.8 332,-222.8 332,-170.8 154,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_PaymentTypeModule_imports</title>
@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/payment-type/payment-type.module.ts</code>
+            <code>feature-libs/checkout/components/components/payment-type/payment-type.module.ts</code>
         </p>
 
 
@@ -176,15 +176,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/PaymentTypeComponent.html">PaymentTypeComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/PaymentTypeComponent.html">PaymentTypeComponent</a>
@@ -226,9 +217,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsConfig, ConfigModule, I18nModule } from &#x27;@spartacus/core&#x27;;
-import { SpinnerModule } from &#x27;../../../../shared/components/spinner/spinner.module&#x27;;
+import { SpinnerModule } from &#x27;@spartacus/storefront&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
-import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
 
 @NgModule({
@@ -246,7 +237,6 @@ import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
     }),
   ],
   declarations: [PaymentTypeComponent],
-  entryComponents: [PaymentTypeComponent],
   exports: [PaymentTypeComponent],
 })
 export class PaymentTypeModule {}

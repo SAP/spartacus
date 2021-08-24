@@ -104,7 +104,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ModuleWithProviders&lt;ConfigInitializerModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ModuleWithProviders&lt;ConfigInitializerModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -141,7 +141,7 @@ export function configInitializerFactory(
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
 ) {
-  return configInitializer.getStableConfig();
+  return configInitializer.getStable().toPromise();
 }
 
 @NgModule({})

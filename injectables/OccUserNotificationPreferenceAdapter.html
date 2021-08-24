@@ -261,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-notification-preference.adapter.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-notification-preference.adapter.ts:47</a></div>
                 </td>
             </tr>
 
@@ -359,7 +359,9 @@ export class OccUserNotificationPreferenceAdapter
   loadAll(userId: string): Observable&lt;NotificationPreference[]&gt; {
     return this.http
       .get&lt;NotificationPreferenceList&gt;(
-        this.occEndpoints.getUrl(&#x27;notificationPreference&#x27;, { userId }),
+        this.occEndpoints.buildUrl(&#x27;notificationPreference&#x27;, {
+          urlParams: { userId },
+        }),
         {
           headers,
         }
@@ -381,7 +383,9 @@ export class OccUserNotificationPreferenceAdapter
     );
     return this.http
       .patch(
-        this.occEndpoints.getUrl(&#x27;notificationPreference&#x27;, { userId }),
+        this.occEndpoints.buildUrl(&#x27;notificationPreference&#x27;, {
+          urlParams: { userId },
+        }),
         { preferences: preferences },
         { headers }
       )

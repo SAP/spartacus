@@ -137,7 +137,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;User | undefined&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;User | undefined&gt;</a></code>
 
                     </div>
                 </td>
@@ -155,22 +155,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
-import { Title, User, UserSignUp } from &#x27;../model/misc.model&#x27;;
+import { Title, User } from &#x27;../model/misc.model&#x27;;
 
 export abstract class UserAccountFacadeTransitionalToken {
   abstract get(): Observable&lt;User | undefined&gt;;
 }
 
 export abstract class UserProfileFacadeTransitionalToken {
-  abstract get(): Observable&lt;User | undefined&gt;;
-  abstract update(details: User): Observable&lt;unknown&gt;;
-  abstract close(): Observable&lt;unknown&gt;;
-  abstract getTitles(): Observable&lt;Title[]&gt;;
-}
-
-export abstract class UserRegisterFacadeTransitionalToken {
-  abstract register(user: UserSignUp): Observable&lt;User&gt;;
-  abstract registerGuest(guid: string, password: string): Observable&lt;User&gt;;
   abstract getTitles(): Observable&lt;Title[]&gt;;
 }
 </code></pre>

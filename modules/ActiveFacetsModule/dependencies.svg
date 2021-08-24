@@ -14,6 +14,10 @@
 <title>cluster_ActiveFacetsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 572,-230.8 572,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_ActiveFacetsModule_exports</title>
+<polygon fill="none" stroke="black" points="256,-170.8 256,-222.8 430,-222.8 430,-170.8 256,-170.8"/>
+</g>
 <g id="clust4" class="cluster">
 <title>cluster_ActiveFacetsModule_imports</title>
 <polygon fill="none" stroke="black" points="194,-40.8 194,-92.8 564,-92.8 564,-40.8 194,-40.8"/>
@@ -21,10 +25,6 @@
 <g id="clust2" class="cluster">
 <title>cluster_ActiveFacetsModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 186,-92.8 186,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_ActiveFacetsModule_exports</title>
-<polygon fill="none" stroke="black" points="256,-170.8 256,-222.8 430,-222.8 430,-170.8 256,-170.8"/>
 </g>
 <!-- ActiveFacetsComponent -->
 <g id="node1" class="node">

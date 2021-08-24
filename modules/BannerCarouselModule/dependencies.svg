@@ -14,71 +14,71 @@
 <title>cluster_BannerCarouselModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 459,-230.8 459,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_BannerCarouselModule_imports</title>
-<polygon fill="none" stroke="black" points="212,-40.8 212,-92.8 451,-92.8 451,-40.8 212,-40.8"/>
+<g id="clust2" class="cluster">
+<title>cluster_BannerCarouselModule_declarations</title>
+<polygon fill="none" stroke="black" points="263,-40.8 263,-92.8 451,-92.8 451,-40.8 263,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_BannerCarouselModule_exports</title>
-<polygon fill="none" stroke="black" points="172,-170.8 172,-222.8 364,-222.8 364,-170.8 172,-170.8"/>
+<polygon fill="none" stroke="black" points="96,-170.8 96,-222.8 288,-222.8 288,-170.8 96,-170.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_BannerCarouselModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 204,-92.8 204,-40.8 16,-40.8"/>
+<g id="clust4" class="cluster">
+<title>cluster_BannerCarouselModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 255,-92.8 255,-40.8 16,-40.8"/>
 </g>
 <!-- BannerCarouselComponent -->
 <g id="node1" class="node">
 <title>BannerCarouselComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="195.52,-84.8 24.48,-84.8 24.48,-48.8 195.52,-48.8 195.52,-84.8"/>
-<text text-anchor="middle" x="110" y="-62.6" font-family="Times,serif" font-size="14.00">BannerCarouselComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="442.52,-84.8 271.48,-84.8 271.48,-48.8 442.52,-48.8 442.52,-84.8"/>
+<text text-anchor="middle" x="357" y="-62.6" font-family="Times,serif" font-size="14.00">BannerCarouselComponent</text>
 </g>
 <!-- BannerCarouselModule -->
 <g id="node2" class="node">
 <title>BannerCarouselModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="342.74,-149.8 339.74,-153.8 318.74,-153.8 315.74,-149.8 193.26,-149.8 193.26,-113.8 342.74,-113.8 342.74,-149.8"/>
-<text text-anchor="middle" x="268" y="-127.6" font-family="Times,serif" font-size="14.00">BannerCarouselModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="266.74,-149.8 263.74,-153.8 242.74,-153.8 239.74,-149.8 117.26,-149.8 117.26,-113.8 266.74,-113.8 266.74,-149.8"/>
+<text text-anchor="middle" x="192" y="-127.6" font-family="Times,serif" font-size="14.00">BannerCarouselModule</text>
 </g>
 <!-- BannerCarouselComponent&#45;&gt;BannerCarouselModule -->
 <g id="edge1" class="edge">
 <title>BannerCarouselComponent&#45;&gt;BannerCarouselModule</title>
-<path fill="none" stroke="black" d="M186.81,-84.91C186.81,-104.14 186.81,-131.8 186.81,-131.8 186.81,-131.8 187.45,-131.8 187.45,-131.8"/>
-<polygon fill="black" stroke="black" points="183.18,-135.3 193.18,-131.8 183.18,-128.3 183.18,-135.3"/>
+<path fill="none" stroke="black" d="M275.38,-84.91C275.38,-104.14 275.38,-131.8 275.38,-131.8 275.38,-131.8 274.51,-131.8 274.51,-131.8"/>
+<polygon fill="black" stroke="black" points="276.77,-128.3 266.77,-131.8 276.77,-135.3 276.77,-128.3"/>
 </g>
 <!-- BannerCarouselComponent  -->
 <g id="node5" class="node">
 <title>BannerCarouselComponent </title>
-<polygon fill="#fb8072" stroke="black" points="355.52,-214.8 180.48,-214.8 180.48,-178.8 355.52,-178.8 355.52,-214.8"/>
-<text text-anchor="middle" x="268" y="-192.6" font-family="Times,serif" font-size="14.00">BannerCarouselComponent </text>
+<polygon fill="#fb8072" stroke="black" points="279.52,-214.8 104.48,-214.8 104.48,-178.8 279.52,-178.8 279.52,-214.8"/>
+<text text-anchor="middle" x="192" y="-192.6" font-family="Times,serif" font-size="14.00">BannerCarouselComponent </text>
 </g>
 <!-- BannerCarouselModule&#45;&gt;BannerCarouselComponent  -->
 <g id="edge4" class="edge">
 <title>BannerCarouselModule&#45;&gt;BannerCarouselComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M268,-149.91C268,-149.91 268,-168.79 268,-168.79"/>
-<polygon fill="black" stroke="black" points="264.5,-168.79 268,-178.79 271.5,-168.79 264.5,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M192,-149.91C192,-149.91 192,-168.79 192,-168.79"/>
+<polygon fill="black" stroke="black" points="188.5,-168.79 192,-178.79 195.5,-168.79 188.5,-168.79"/>
 </g>
 <!-- CarouselModule -->
 <g id="node3" class="node">
 <title>CarouselModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="442.81,-84.8 439.81,-88.8 418.81,-88.8 415.81,-84.8 333.19,-84.8 333.19,-48.8 442.81,-48.8 442.81,-84.8"/>
-<text text-anchor="middle" x="388" y="-62.6" font-family="Times,serif" font-size="14.00">CarouselModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="246.81,-84.8 243.81,-88.8 222.81,-88.8 219.81,-84.8 137.19,-84.8 137.19,-48.8 246.81,-48.8 246.81,-84.8"/>
+<text text-anchor="middle" x="192" y="-62.6" font-family="Times,serif" font-size="14.00">CarouselModule</text>
 </g>
 <!-- CarouselModule&#45;&gt;BannerCarouselModule -->
 <g id="edge2" class="edge">
 <title>CarouselModule&#45;&gt;BannerCarouselModule</title>
-<path fill="none" stroke="black" d="M338.11,-84.91C338.11,-84.91 338.11,-103.79 338.11,-103.79"/>
-<polygon fill="black" stroke="black" points="334.61,-103.79 338.11,-113.79 341.61,-103.79 334.61,-103.79"/>
+<path fill="none" stroke="black" d="M192,-84.91C192,-84.91 192,-103.79 192,-103.79"/>
+<polygon fill="black" stroke="black" points="188.5,-103.79 192,-113.79 195.5,-103.79 188.5,-103.79"/>
 </g>
 <!-- MediaModule -->
 <g id="node4" class="node">
 <title>MediaModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="315.81,-84.8 312.81,-88.8 291.81,-88.8 288.81,-84.8 220.19,-84.8 220.19,-48.8 315.81,-48.8 315.81,-84.8"/>
-<text text-anchor="middle" x="268" y="-62.6" font-family="Times,serif" font-size="14.00">MediaModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="119.81,-84.8 116.81,-88.8 95.81,-88.8 92.81,-84.8 24.19,-84.8 24.19,-48.8 119.81,-48.8 119.81,-84.8"/>
+<text text-anchor="middle" x="72" y="-62.6" font-family="Times,serif" font-size="14.00">MediaModule</text>
 </g>
 <!-- MediaModule&#45;&gt;BannerCarouselModule -->
 <g id="edge3" class="edge">
 <title>MediaModule&#45;&gt;BannerCarouselModule</title>
-<path fill="none" stroke="black" d="M268,-84.91C268,-84.91 268,-103.79 268,-103.79"/>
-<polygon fill="black" stroke="black" points="264.5,-103.79 268,-113.79 271.5,-103.79 264.5,-103.79"/>
+<path fill="none" stroke="black" d="M110.81,-84.91C110.81,-104.14 110.81,-131.8 110.81,-131.8 110.81,-131.8 111.45,-131.8 111.45,-131.8"/>
+<polygon fill="black" stroke="black" points="107.18,-135.3 117.18,-131.8 107.18,-128.3 107.18,-135.3"/>
 </g>
 </g>
 </svg>

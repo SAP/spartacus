@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:104</a></div>
                 </td>
             </tr>
 
@@ -296,8 +296,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:64</a></div>
                 </td>
             </tr>
 
@@ -388,8 +388,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:91</a></div>
                 </td>
             </tr>
 
@@ -470,8 +470,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:39</a></div>
                 </td>
             </tr>
 
@@ -635,7 +635,9 @@ export class OccCartAdapter implements CartAdapter {
 
   public loadAll(userId: string): Observable&lt;Cart[]&gt; {
     return this.http
-      .get&lt;Occ.CartList&gt;(this.occEndpointsService.getUrl(&#x27;carts&#x27;, { userId }))
+      .get&lt;Occ.CartList&gt;(
+        this.occEndpointsService.buildUrl(&#x27;carts&#x27;, { urlParams: { userId } })
+      )
       .pipe(
         pluck(&#x27;carts&#x27;),
         this.converterService.pipeableMany(CART_NORMALIZER)
@@ -659,7 +661,9 @@ export class OccCartAdapter implements CartAdapter {
     } else {
       return this.http
         .get&lt;Occ.Cart&gt;(
-          this.occEndpointsService.getUrl(&#x27;cart&#x27;, { userId, cartId })
+          this.occEndpointsService.buildUrl(&#x27;cart&#x27;, {
+            urlParams: { userId, cartId },
+          })
         )
         .pipe(this.converterService.pipeable(CART_NORMALIZER));
     }
@@ -683,7 +687,10 @@ export class OccCartAdapter implements CartAdapter {
 
     return this.http
       .post&lt;Occ.Cart&gt;(
-        this.occEndpointsService.getUrl(&#x27;createCart&#x27;, { userId }, params),
+        this.occEndpointsService.buildUrl(&#x27;createCart&#x27;, {
+          urlParams: { userId },
+          queryParams: params,
+        }),
         toAdd
       )
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
@@ -695,7 +702,9 @@ export class OccCartAdapter implements CartAdapter {
       headers &#x3D; InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
     return this.http.delete&lt;{}&gt;(
-      this.occEndpointsService.getUrl(&#x27;deleteCart&#x27;, { userId, cartId }),
+      this.occEndpointsService.buildUrl(&#x27;deleteCart&#x27;, {
+        urlParams: { userId, cartId },
+      }),
       { headers }
     );
   }
@@ -708,9 +717,11 @@ export class OccCartAdapter implements CartAdapter {
 
     const httpParams: HttpParams &#x3D; new HttpParams().set(&#x27;email&#x27;, email);
 
-    const url &#x3D; this.occEndpointsService.getUrl(&#x27;addEmail&#x27;, {
-      userId,
-      cartId,
+    const url &#x3D; this.occEndpointsService.buildUrl(&#x27;addEmail&#x27;, {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
 
     return this.http.put(url, httpParams, { headers });

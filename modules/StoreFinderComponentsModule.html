@@ -543,27 +543,6 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/StoreFinderComponent.html">StoreFinderComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/StoreFinderGridComponent.html">StoreFinderGridComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/StoreFinderSearchResultComponent.html">StoreFinderSearchResultComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/StoreFinderStoreComponent.html">StoreFinderStoreComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/StoreFinderStoresCountComponent.html">StoreFinderStoresCountComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -644,33 +623,27 @@
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
-import { NgbTabsetModule } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from &#x27;@spartacus/core&#x27;;
+import { NgbNavModule } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
+import { I18nModule, provideDefaultConfig, UrlModule } from &#x27;@spartacus/core&#x27;;
+import { StoreFinderCoreModule } from &#x27;@spartacus/storefinder/core&#x27;;
 import {
   IconModule,
-  LayoutConfig,
   ListNavigationModule,
   SpinnerModule,
 } from &#x27;@spartacus/storefront&#x27;;
-import { StoreFinderComponent } from &#x27;./store-finder/store-finder.component&#x27;;
+import { ScheduleComponent } from &#x27;./schedule-component/schedule.component&#x27;;
+import { StoreFinderGridComponent } from &#x27;./store-finder-grid/store-finder-grid.component&#x27;;
+import { StoreFinderHeaderComponent } from &#x27;./store-finder-header/store-finder-header.component&#x27;;
+import { StoreFinderListItemComponent } from &#x27;./store-finder-list-item/store-finder-list-item.component&#x27;;
+import { StoreFinderMapComponent } from &#x27;./store-finder-map/store-finder-map.component&#x27;;
+import { StoreFinderPaginationDetailsComponent } from &#x27;./store-finder-pagination-details/store-finder-pagination-details.component&#x27;;
+import { StoreFinderListComponent } from &#x27;./store-finder-search-result/store-finder-list/store-finder-list.component&#x27;;
 import { StoreFinderSearchResultComponent } from &#x27;./store-finder-search-result/store-finder-search-result.component&#x27;;
 import { StoreFinderSearchComponent } from &#x27;./store-finder-search/store-finder-search.component&#x27;;
-import { StoreFinderHeaderComponent } from &#x27;./store-finder-header/store-finder-header.component&#x27;;
-import { StoreFinderMapComponent } from &#x27;./store-finder-map/store-finder-map.component&#x27;;
-import { StoreFinderGridComponent } from &#x27;./store-finder-grid/store-finder-grid.component&#x27;;
 import { StoreFinderStoreDescriptionComponent } from &#x27;./store-finder-store-description/store-finder-store-description.component&#x27;;
-import { StoreFinderCoreModule } from &#x27;@spartacus/storefinder/core&#x27;;
-import { StoreFinderListItemComponent } from &#x27;./store-finder-list-item/store-finder-list-item.component&#x27;;
-import { StoreFinderPaginationDetailsComponent } from &#x27;./store-finder-pagination-details/store-finder-pagination-details.component&#x27;;
-import { ScheduleComponent } from &#x27;./schedule-component/schedule.component&#x27;;
-import { StoreFinderListComponent } from &#x27;./store-finder-search-result/store-finder-list/store-finder-list.component&#x27;;
 import { StoreFinderStoreComponent } from &#x27;./store-finder-store/store-finder-store.component&#x27;;
 import { StoreFinderStoresCountComponent } from &#x27;./store-finder-stores-count/store-finder-stores-count.component&#x27;;
+import { StoreFinderComponent } from &#x27;./store-finder/store-finder.component&#x27;;
 
 @NgModule({
   imports: [
@@ -678,7 +651,7 @@ import { StoreFinderStoresCountComponent } from &#x27;./store-finder-stores-coun
     ReactiveFormsModule,
     RouterModule,
     ListNavigationModule,
-    NgbTabsetModule,
+    NgbNavModule,
     SpinnerModule,
     UrlModule,
     StoreFinderCoreModule,
@@ -686,7 +659,7 @@ import { StoreFinderStoresCountComponent } from &#x27;./store-finder-stores-coun
     IconModule,
   ],
   providers: [
-    provideDefaultConfig(&lt;CmsConfig | LayoutConfig&gt;{
+    provideDefaultConfig({
       cmsComponents: {
         StoreFinderComponent: {
           component: StoreFinderComponent,
@@ -748,13 +721,6 @@ import { StoreFinderStoresCountComponent } from &#x27;./store-finder-stores-coun
     StoreFinderListComponent,
     StoreFinderStoreDescriptionComponent,
     StoreFinderStoresCountComponent,
-    StoreFinderStoreComponent,
-  ],
-  entryComponents: [
-    StoreFinderComponent,
-    StoreFinderSearchResultComponent,
-    StoreFinderStoresCountComponent,
-    StoreFinderGridComponent,
     StoreFinderStoreComponent,
   ],
 })

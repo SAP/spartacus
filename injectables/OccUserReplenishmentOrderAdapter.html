@@ -205,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:64</a></div>
                 </td>
             </tr>
 
@@ -369,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:81</a></div>
                 </td>
             </tr>
 
@@ -475,8 +475,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:35</a></div>
                 </td>
             </tr>
 
@@ -604,9 +604,8 @@ export class OccUserReplenishmentOrderAdapter
   ): Observable&lt;ReplenishmentOrder&gt; {
     return this.http
       .get&lt;Occ.ReplenishmentOrder&gt;(
-        this.occEndpoints.getUrl(&#x27;replenishmentOrderDetails&#x27;, {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl(&#x27;replenishmentOrderDetails&#x27;, {
+          urlParams: { userId, replenishmentOrderCode },
         })
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
@@ -633,14 +632,10 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .get&lt;Occ.OrderHistoryList&gt;(
-        this.occEndpoints.getUrl(
-          &#x27;replenishmentOrderDetailsHistory&#x27;,
-          {
-            userId,
-            replenishmentOrderCode,
-          },
-          params
-        )
+        this.occEndpoints.buildUrl(&#x27;replenishmentOrderDetailsHistory&#x27;, {
+          urlParams: { userId, replenishmentOrderCode },
+          queryParams: params,
+        })
       )
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
@@ -653,9 +648,8 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .patch&lt;Occ.ReplenishmentOrder&gt;(
-        this.occEndpoints.getUrl(&#x27;cancelReplenishmentOrder&#x27;, {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl(&#x27;cancelReplenishmentOrder&#x27;, {
+          urlParams: { userId, replenishmentOrderCode },
         }),
         {},
         { headers }
@@ -680,11 +674,10 @@ export class OccUserReplenishmentOrderAdapter
       params[&#x27;sort&#x27;] &#x3D; sort.toString();
     }
 
-    const url &#x3D; this.occEndpoints.getUrl(
-      &#x27;replenishmentOrderHistory&#x27;,
-      { userId },
-      params
-    );
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;replenishmentOrderHistory&#x27;, {
+      urlParams: { userId },
+      queryParams: params,
+    });
 
     return this.http
       .get&lt;Occ.ReplenishmentOrderList&gt;(url)

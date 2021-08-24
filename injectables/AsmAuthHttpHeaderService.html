@@ -82,6 +82,45 @@ in cases of normal user session and on customer emulation.</p>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#refreshInProgress" class="deprecated-name">refreshInProgress</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#refreshToken$" >refreshToken$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#refreshTokenTrigger$" >refreshTokenTrigger$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#stopProgress$" >stopProgress$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscriptions" >subscriptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#token$" >token$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#tokenToRetryRequest$" >tokenToRetryRequest$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -105,6 +144,10 @@ in cases of normal user session and on customer emulation.</p>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#shouldAddAuthorizationHeader" >shouldAddAuthorizationHeader</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#shouldCatchError" >shouldCatchError</a>
                             </li>
                             <li>
@@ -120,16 +163,26 @@ in cases of normal user session and on customer emulation.</p>
                                 <a href="#getAuthorizationHeader" >getAuthorizationHeader</a>
                             </li>
                             <li>
+                                <a href="#getStableToken" >getStableToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getValidToken" >getValidToken</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#handleExpiredAccessToken" >handleExpiredAccessToken</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#handleExpiredToken" >handleExpiredToken</a>
+                                <a href="#handleExpiredToken" class="deprecated-name">handleExpiredToken</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#isOccUrl" >isOccUrl</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                         </ul>
                     </td>
@@ -149,12 +202,12 @@ in cases of normal user session and on customer emulation.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, authStorageService: <a href="../injectables/AuthStorageService.html" target="_self">AuthStorageService</a>, csAgentAuthService: <a href="../injectables/CsAgentAuthService.html" target="_self">CsAgentAuthService</a>, oAuthLibWrapperService: <a href="../injectables/OAuthLibWrapperService.html" target="_self">OAuthLibWrapperService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html" target="_self">OccEndpointsService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, authStorageService: <a href="../injectables/AuthStorageService.html" target="_self">AuthStorageService</a>, csAgentAuthService: <a href="../injectables/CsAgentAuthService.html" target="_self">CsAgentAuthService</a>, oAuthLibWrapperService: <a href="../injectables/OAuthLibWrapperService.html" target="_self">OAuthLibWrapperService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html" target="_self">OccEndpointsService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -255,6 +308,18 @@ in cases of normal user session and on customer emulation.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authRedirectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthRedirectService.html" target="_self" >AuthRedirectService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -284,7 +349,7 @@ in cases of normal user session and on customer emulation.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>alterRequest(request: HttpRequest<any>)</code>
+                    <code>alterRequest(request: HttpRequest<any>, token?: <a href="../interfaces/AuthToken.html" target="_self">AuthToken</a>)</code>
                 </td>
             </tr>
 
@@ -297,7 +362,7 @@ in cases of normal user session and on customer emulation.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:62</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:78</a></code>
 </div>
                 </td>
             </tr>
@@ -328,6 +393,18 @@ For CS agent requests also removes the <code>cx-use-csagent-token</code> header 
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>token</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuthToken.html" target="_self" >AuthToken</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -376,7 +453,7 @@ For CS agent requests also removes the <code>cx-use-csagent-token</code> header 
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:96</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:115</a></code>
 </div>
                 </td>
             </tr>
@@ -418,14 +495,93 @@ currently logged in user and CS agent.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:101</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldAddAuthorizationHeader"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>shouldAddAuthorizationHeader</b></span>
+                        <a href="#shouldAddAuthorizationHeader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>shouldAddAuthorizationHeader(request: HttpRequest<any>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:54</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if the authorization header should be added to the request</p>
+<p> @override</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -494,7 +650,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:50</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:66</a></code>
 </div>
                 </td>
             </tr>
@@ -559,7 +715,7 @@ currently logged in user and CS agent.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createAuthorizationHeader()</code>
+                    <code>createAuthorizationHeader(token?: <a href="../interfaces/AuthToken.html" target="_self">AuthToken</a>)</code>
                 </td>
             </tr>
 
@@ -572,7 +728,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:62</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:170</a></code>
 </div>
                 </td>
             </tr>
@@ -582,8 +738,39 @@ currently logged in user and CS agent.</p>
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>token</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuthToken.html" target="_self" >AuthToken</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>    <code>literal type | literal type</code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -617,7 +804,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:132</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:335</a></code>
 </div>
                 </td>
             </tr>
@@ -705,7 +892,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:57</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:165</a></code>
 </div>
                 </td>
             </tr>
@@ -743,7 +930,131 @@ currently logged in user and CS agent.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <b>Returns : </b>    <code>string | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStableToken"></a>
+                    <span class="name">
+                        <span ><b>getStableToken</b></span>
+                        <a href="#getStableToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStableToken()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:292</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emits the token or <code>undefined</code> only when the refresh or the logout processes are finished.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/AuthToken.html" target="_self" >Observable&lt;AuthToken | undefined&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getValidToken"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getValidToken</b></span>
+                        <a href="#getValidToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getValidToken(requestToken: <a href="../interfaces/AuthToken.html" target="_self">AuthToken</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:311</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns a valid access token.
+It will attempt to refresh it if the current one expired; emits after the new one is retrieved.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>requestToken</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuthToken.html" target="_self" >AuthToken</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/AuthToken.html" target="_self" >Observable&lt;AuthToken | undefined&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -768,7 +1079,7 @@ currently logged in user and CS agent.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleExpiredAccessToken(request: HttpRequest<any>, next: <a href="https://angular.io/api/common/http/HttpHandler" target="_blank">HttpHandler</a>)</code>
+                    <code>handleExpiredAccessToken(request: HttpRequest<any>, next: <a href="https://angular.io/api/common/http/HttpHandler" target="_blank">HttpHandler</a>, initialToken?: <a href="../interfaces/AuthToken.html" target="_self">AuthToken</a>)</code>
                 </td>
             </tr>
 
@@ -781,7 +1092,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:80</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:197</a></code>
 </div>
                 </td>
             </tr>
@@ -827,6 +1138,18 @@ currently logged in user and CS agent.</p>
 
 
                                 </tr>
+                                <tr>
+                                    <td>initialToken</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuthToken.html" target="_self" >AuthToken</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -850,9 +1173,14 @@ currently logged in user and CS agent.</p>
                     <a name="handleExpiredToken"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>handleExpiredToken</b></span>
+                        <span class="deprecated-name"><b>handleExpiredToken</b></span>
                         <a href="#handleExpiredToken"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    will be removed in the next major. Use `getValidToken()` instead
                 </td>
             </tr>
             <tr>
@@ -871,7 +1199,7 @@ currently logged in user and CS agent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:113</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:262</a></code>
 </div>
                 </td>
             </tr>
@@ -886,7 +1214,7 @@ If it is not possible calls <code>handleExpiredRefreshToken</code>.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/AuthToken.html" target="_self" >Observable&lt;AuthToken&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/AuthToken.html" target="_self" >Observable&lt;AuthToken | undefined&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -925,7 +1253,7 @@ If it is not possible calls <code>handleExpiredRefreshToken</code>.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:53</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:161</a></code>
 </div>
                 </td>
             </tr>
@@ -973,6 +1301,368 @@ If it is not possible calls <code>handleExpiredRefreshToken</code>.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:347</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshInProgress"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span class="deprecated-name"><b>refreshInProgress</b></span>
+                        <a href="#refreshInProgress"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    will be removed in the next major. Use `AuthService.refreshInProgress$` instead.
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:48</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the access token is being refreshed</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshToken$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>refreshToken$</b></span>
+                        <a href="#refreshToken$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.refreshTokenTrigger$.pipe(
+    withLatestFrom(
+      this.authService.refreshInProgress$,
+      this.authService.logoutInProgress$
+    ),
+    filter(
+      ([, refreshInProgress, logoutInProgress]) &#x3D;&gt;
+        !refreshInProgress &amp;&amp; !logoutInProgress
+    ),
+    tap(([token]) &#x3D;&gt; {
+      if (token?.refresh_token) {
+        this.oAuthLibWrapperService.refreshToken();
+        this.authService.setRefreshProgress(true);
+      } else {
+        this.handleExpiredRefreshToken();
+      }
+    })
+  )</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:84</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Refreshes the token only if currently there&#39;s no refresh nor logout in progress.
+If the refresh token is not present, it triggers the logout process</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshTokenTrigger$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>refreshTokenTrigger$</b></span>
+                        <a href="#refreshTokenTrigger$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;AuthToken&gt;()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:53</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Starts the refresh of the access token</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stopProgress$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>stopProgress$</b></span>
+                        <a href="#stopProgress$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.token$.pipe(
+    // Keeps the previous and the new token
+    pairwise(),
+    tap(([oldToken, newToken]) &#x3D;&gt; {
+      // if we got the new token we know that either the refresh or logout finished
+      if (oldToken?.access_token !&#x3D;&#x3D; newToken?.access_token) {
+        this.authService.setLogoutProgress(false);
+        this.authService.setRefreshProgress(false);
+      }
+    })
+  )</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:68</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Compares the previous and the new token in order to stop the refresh or logout processes</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscriptions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>subscriptions</b></span>
+                        <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:112</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="token$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>token$</b></span>
+                        <a href="#token$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/AuthToken.html" target="_self" >Observable&lt;AuthToken | undefined&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.authStorageService
+    .getToken()
+    .pipe(map((token) &#x3D;&gt; (token?.access_token ? token : undefined)))</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:59</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Internal token streams which reads the latest from the storage.
+Emits the token or <code>undefined</code></p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tokenToRetryRequest$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>tokenToRetryRequest$</b></span>
+                        <a href="#tokenToRetryRequest$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>using(
+    () &#x3D;&gt; this.refreshToken$.subscribe(),
+    () &#x3D;&gt; this.getStableToken()
+  ).pipe(shareReplay({ refCount: true, bufferSize: 1 }))</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../injectables/AuthHttpHeaderService.html" target="_self" >AuthHttpHeaderService</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/AuthHttpHeaderService.html#source" target="_self" >AuthHttpHeaderService:107</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Kicks of the process by listening to the new token and refresh token processes.
+This token should be used when retrying the failed http request.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -983,8 +1673,10 @@ If it is not possible calls <code>handleExpiredRefreshToken</code>.</p>
 import { Injectable } from &#x27;@angular/core&#x27;;
 import {
   AuthHttpHeaderService,
+  AuthRedirectService,
   AuthService,
   AuthStorageService,
+  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
   InterceptorUtil,
@@ -1011,7 +1703,8 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
+    protected authRedirectService: AuthRedirectService
   ) {
     super(
       authService,
@@ -1019,7 +1712,20 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       oAuthLibWrapperService,
       routingService,
       occEndpointsService,
-      globalMessageService
+      globalMessageService,
+      authRedirectService
+    );
+  }
+
+  /**
+   * Checks if the authorization header should be added to the request
+   *
+   *  @override
+   */
+  public shouldAddAuthorizationHeader(request: HttpRequest&lt;any&gt;): boolean {
+    return (
+      super.shouldAddAuthorizationHeader(request) ||
+      this.isCSAgentTokenRequest(request)
     );
   }
 
@@ -1040,16 +1746,19 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * Adds &#x60;Authorization&#x60; header to occ and CS agent requests.
    * For CS agent requests also removes the &#x60;cx-use-csagent-token&#x60; header (to avoid problems with CORS).
    */
-  public alterRequest(request: HttpRequest&lt;any&gt;): HttpRequest&lt;any&gt; {
+  public alterRequest(
+    request: HttpRequest&lt;any&gt;,
+    token?: AuthToken
+  ): HttpRequest&lt;any&gt; {
     const hasAuthorizationHeader &#x3D; !!this.getAuthorizationHeader(request);
     const isCSAgentRequest &#x3D; this.isCSAgentTokenRequest(request);
 
-    let req &#x3D; super.alterRequest(request);
+    let req &#x3D; super.alterRequest(request, token);
 
     if (!hasAuthorizationHeader &amp;&amp; isCSAgentRequest) {
       req &#x3D; request.clone({
         setHeaders: {
-          ...this.createAuthorizationHeader(),
+          ...this.createAuthorizationHeader(token),
         },
       });
       return InterceptorUtil.removeHeader(
@@ -1080,6 +1789,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       .pipe(take(1))
       .subscribe((csAgentLoggedIn) &#x3D;&gt; {
         if (csAgentLoggedIn) {
+          this.authService.setLogoutProgress(true);
           this.csAgentAuthService.logoutCustomerSupportAgent();
           this.globalMessageService.add(
             {

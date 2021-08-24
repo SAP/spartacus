@@ -302,7 +302,7 @@ function incrementQuantity() {
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
   cy.get(&#x27;cx-storefront.stop-navigating&#x27;);
   if (mobile) {
-    cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;search&quot;]&#x27;).click();
+    cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;Search&quot;]&#x27;).click();
 
     createProductQuery(
       QUERY_ALIAS.PRODUCE_CODE,

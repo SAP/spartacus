@@ -399,6 +399,7 @@ export default async function run(
     &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
     &#x27;@spartacus/product-configurator&#x27;: &#x27;feature-libs/product-configurator&#x27;,
     &#x27;@spartacus/storefinder&#x27;: &#x27;feature-libs/storefinder&#x27;,
+    &#x27;@spartacus/checkout&#x27;: &#x27;feature-libs/checkout&#x27;,
     &#x27;@spartacus/asm&#x27;: &#x27;feature-libs/asm&#x27;,
     &#x27;@spartacus/smartedit&#x27;: &#x27;feature-libs/smartedit&#x27;,
     &#x27;@spartacus/tracking&#x27;: &#x27;feature-libs/tracking&#x27;,
@@ -646,6 +647,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;storefinder&#x27;:
     case &#x27;@spartacus/storefinder&#x27;:
       config.library &#x3D; &#x27;@spartacus/storefinder&#x27;;
+      break;
+    case &#x27;checkout&#x27;:
+    case &#x27;@spartacus/checkout&#x27;:
+      config.library &#x3D; &#x27;@spartacus/checkout&#x27;;
       break;
     case &#x27;tracking&#x27;:
     case &#x27;@spartacus/tracking&#x27;:

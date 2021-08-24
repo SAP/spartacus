@@ -180,7 +180,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/order-confirmation/replenishment-order-confirmation.module.ts</code>
+            <code>feature-libs/checkout/components/order-confirmation/replenishment-order-confirmation.module.ts</code>
         </p>
 
 
@@ -233,11 +233,13 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from &#x27;@spartacus/core&#x27;;
-import { CardModule } from &#x27;../../shared/components/card/card.module&#x27;;
-import { FormErrorsModule } from &#x27;../../shared/index&#x27;;
-import { CartSharedModule } from &#x27;../cart/cart-shared/cart-shared.module&#x27;;
-import { PromotionsModule } from &#x27;../checkout/components/promotions/promotions.module&#x27;;
-import { PwaModule } from &#x27;./../../cms-structure/pwa/pwa.module&#x27;;
+import {
+  CardModule,
+  CartSharedModule,
+  FormErrorsModule,
+  PromotionsModule,
+  PwaModule,
+} from &#x27;@spartacus/storefront&#x27;;
 import { OrderConfirmationItemsComponent } from &#x27;./components/order-confirmation-items/order-confirmation-items.component&#x27;;
 import { OrderConfirmationOverviewComponent } from &#x27;./components/order-confirmation-overview/order-confirmation-overview.component&#x27;;
 import { OrderConfirmationThankYouMessageComponent } from &#x27;./components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component&#x27;;

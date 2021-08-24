@@ -371,15 +371,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getPermissionsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
+                    <code>getPermissionsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:85</a></div>
                 </td>
             </tr>
 
@@ -413,7 +413,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -460,8 +460,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:95</a></div>
                 </td>
             </tr>
 
@@ -570,7 +570,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
+<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
@@ -612,7 +612,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -848,9 +848,11 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl(&#x27;permission&#x27;, {
-      userId,
-      orderApprovalPermissionCode,
+    return this.occEndpoints.buildUrl(&#x27;permission&#x27;, {
+      urlParams: {
+        userId,
+        orderApprovalPermissionCode,
+      },
     });
   }
 
@@ -858,11 +860,14 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(&#x27;permissions&#x27;, { userId }, params);
+    return this.occEndpoints.buildUrl(&#x27;permissions&#x27;, {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getPermissionTypesEndpoint(): string {
-    return this.occEndpoints.getUrl(&#x27;orderApprovalPermissionTypes&#x27;);
+    return this.occEndpoints.buildUrl(&#x27;orderApprovalPermissionTypes&#x27;);
   }
 }
 </code></pre>

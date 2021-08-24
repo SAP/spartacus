@@ -202,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:46</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:94</a></div>
                 </td>
             </tr>
 
@@ -430,8 +430,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:60</a></div>
                 </td>
             </tr>
 
@@ -522,8 +522,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:74</a></div>
                 </td>
             </tr>
 
@@ -617,7 +617,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   ) {}
 
   loadAll(userId: string): Observable&lt;Address[]&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;addresses&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;addresses&#x27;, {
+      urlParams: { userId },
+    });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
@@ -632,7 +634,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   add(userId: string, address: Address): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;addresses&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;addresses&#x27;, {
+      urlParams: { userId },
+    });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
@@ -644,9 +648,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   update(userId: string, addressId: string, address: Address): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;addressDetail&#x27;, {
-      userId,
-      addressId,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;addressDetail&#x27;, {
+      urlParams: { userId, addressId },
     });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
@@ -659,7 +662,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   verify(userId: string, address: Address): Observable&lt;AddressValidation&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;addressVerification&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;addressVerification&#x27;, {
+      urlParams: { userId },
+    });
     let headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
@@ -677,9 +682,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   delete(userId: string, addressId: string): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;addressDetail&#x27;, {
-      userId,
-      addressId,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;addressDetail&#x27;, {
+      urlParams: { userId, addressId },
     });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,

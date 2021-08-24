@@ -154,6 +154,10 @@ export abstract class KeyboardFocusConfig {
     enableResetViewOnNavigate?: boolean | BREAKPOINT[];
   };
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends KeyboardFocusConfig {}
+}
 </code></pre>
     </div>
 

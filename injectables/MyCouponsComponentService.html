@@ -211,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/my-coupons/my-coupons.component.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/my-coupons/my-coupons.component.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -279,8 +279,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/my-coupons/my-coupons.component.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/my-coupons/my-coupons.component.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -502,7 +502,11 @@ export class MyCouponsComponentService {
         cxRoute: &#x27;search&#x27;,
         params: { query: this.buildSearchParam(coupon) },
       },
-      { couponcode: coupon.couponId }
+      {
+        queryParams: {
+          couponcode: coupon.couponId,
+        },
+      }
     );
   }
 

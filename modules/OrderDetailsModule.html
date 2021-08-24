@@ -421,15 +421,6 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/moduleComponents.html">moduleComponents</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
                     <h3>Providers<a href="https://angular.io/api/core/NgModule#providers" target="_blank"
                             title="Official documentation about module providers"><span class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -524,7 +515,7 @@ import {
   SpinnerModule,
 } from &#x27;../../../../shared/index&#x27;;
 import { CartSharedModule } from &#x27;../../../cart/cart-shared/cart-shared.module&#x27;;
-import { PromotionsModule } from &#x27;../../../checkout/components/promotions/promotions.module&#x27;;
+import { PromotionsModule } from &#x27;../../../misc/promotions/promotions.module&#x27;;
 import { OrderDetailActionsComponent } from &#x27;./order-detail-actions/order-detail-actions.component&#x27;;
 import { TrackingEventsComponent } from &#x27;./order-detail-items/consignment-tracking/tracking-events/tracking-events.component&#x27;;
 import { OrderConsignedEntriesComponent } from &#x27;./order-detail-items/order-consigned-entries/order-consigned-entries.component&#x27;;
@@ -593,7 +584,6 @@ const moduleComponents &#x3D; [
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
 })
 export class OrderDetailsModule {}
 </code></pre>

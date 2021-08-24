@@ -90,12 +90,6 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#account" 
->
-                                            account
-                                        </a>
-                                </li>
-                                <li>
                                         <a href="#addresses" 
 >
                                             addresses
@@ -197,18 +191,6 @@
                                             replenishmentOrders
                                         </a>
                                 </li>
-                                <li>
-                                        <a href="#resetPassword" 
->
-                                            resetPassword
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="#titles" 
->
-                                            titles
-                                        </a>
-                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -220,39 +202,6 @@
 
             <section>
                 <h3 id="inputs">Properties</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="account"></a>
-                                        <span class="name "><b>account</b>
-                                            <a href="#account">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>account:         <code><a href="../interfaces/UserDetailsState.html" target="_self" >UserDetailsState</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/UserDetailsState.html" target="_self" >UserDetailsState</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -814,72 +763,6 @@
 
                         </tbody>
                     </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="resetPassword"></a>
-                                        <span class="name "><b>resetPassword</b>
-                                            <a href="#resetPassword">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>resetPassword:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="titles"></a>
-                                        <span class="name "><b>titles</b>
-                                            <a href="#titles">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>titles:         <code><a href="../interfaces/TitlesState.html" target="_self" >TitlesState</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/TitlesState.html" target="_self" >TitlesState</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
             </section>
     </div>
 
@@ -890,7 +773,6 @@ import { PaymentDetails } from &#x27;../../model/cart.model&#x27;;
 import { ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
 import { ConsignmentTracking } from &#x27;../../model/consignment-tracking.model&#x27;;
 import { CustomerCouponSearchResult } from &#x27;../../model/customer-coupon.model&#x27;;
-import { Title, User } from &#x27;../../model/misc.model&#x27;;
 import { NotificationPreference } from &#x27;../../model/notification-preference.model&#x27;;
 import {
   Order,
@@ -907,11 +789,7 @@ import {
 import { StateUtils } from &#x27;../../state/utils/index&#x27;;
 
 export const USER_FEATURE &#x3D; &#x27;user&#x27;;
-export const UPDATE_EMAIL_PROCESS_ID &#x3D; &#x27;updateEmail&#x27;;
-export const UPDATE_PASSWORD_PROCESS_ID &#x3D; &#x27;updatePassword&#x27;;
-export const UPDATE_USER_DETAILS_PROCESS_ID &#x3D; &#x27;updateUserDetails&#x27;;
 export const REGISTER_USER_PROCESS_ID &#x3D; &#x27;registerUser&#x27;;
-export const REMOVE_USER_PROCESS_ID &#x3D; &#x27;removeUser&#x27;;
 export const GIVE_CONSENT_PROCESS_ID &#x3D; &#x27;giveConsent&#x27;;
 export const WITHDRAW_CONSENT_PROCESS_ID &#x3D; &#x27;withdrawConsent&#x27;;
 export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID &#x3D;
@@ -951,7 +829,6 @@ export interface StateWithUser {
  * @deprecated since 3.2, moved to the &#x60;@spartacus/user&#x60; package.
  */
 export interface UserState {
-  account: UserDetailsState;
   addresses: StateUtils.LoaderState&lt;Address[]&gt;;
   consents: StateUtils.LoaderState&lt;ConsentTemplate[]&gt;;
   billingCountries: BillingCountriesState;
@@ -962,9 +839,7 @@ export interface UserState {
   replenishmentOrders: StateUtils.LoaderState&lt;ReplenishmentOrderList&gt;;
   orderReturn: StateUtils.LoaderState&lt;ReturnRequest&gt;;
   orderReturnList: StateUtils.LoaderState&lt;ReturnRequestList&gt;;
-  titles: TitlesState;
   regions: StateUtils.LoaderState&lt;RegionsState&gt;;
-  resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState&lt;CustomerCouponSearchResult&gt;;
   notificationPreferences: StateUtils.LoaderState&lt;NotificationPreference[]&gt;;
@@ -992,18 +867,6 @@ export interface DeliveryCountryEntities {
 
 export interface DeliveryCountriesState {
   entities: DeliveryCountryEntities;
-}
-
-export interface TitleEntities {
-  [key: string]: Title;
-}
-
-export interface TitlesState {
-  entities: TitleEntities;
-}
-
-export interface UserDetailsState {
-  details: User;
 }
 
 export interface ConsignmentTrackingState {

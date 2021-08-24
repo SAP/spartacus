@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorOverviewNotificationBannerModule_imports</title>
 <polygon fill="none" stroke="black" points="356,-40.8 356,-92.8 656,-92.8 656,-40.8 356,-40.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorOverviewNotificationBannerModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 348,-92.8 348,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorOverviewNotificationBannerModule_exports</title>
 <polygon fill="none" stroke="black" points="277,-170.8 277,-222.8 613,-222.8 613,-170.8 277,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorOverviewNotificationBannerModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 348,-92.8 348,-40.8 16,-40.8"/>
 </g>
 <!-- ConfiguratorOverviewNotificationBannerComponent -->
 <g id="node1" class="node">

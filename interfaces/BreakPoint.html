@@ -319,6 +319,10 @@ export abstract class LayoutConfig {
 
   launch?: LaunchConfig;
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends LayoutConfig {}
+}
 </code></pre>
     </div>
 </div>

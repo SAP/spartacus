@@ -153,6 +153,10 @@ export const defaultPWAModuleConfig: PWAModuleConfig &#x3D; {
     addToHomeScreen: false,
   },
 };
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends PWAModuleConfig {}
+}
 </code></pre>
     </div>
 

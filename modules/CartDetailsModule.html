@@ -56,13 +56,13 @@
 <title>cluster_CartDetailsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 984,-230.8 984,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_CartDetailsModule_declarations</title>
-<polygon fill="none" stroke="black" points="814,-40.8 814,-92.8 976,-92.8 976,-40.8 814,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_CartDetailsModule_exports</title>
 <polygon fill="none" stroke="black" points="357,-170.8 357,-222.8 521,-222.8 521,-170.8 357,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CartDetailsModule_declarations</title>
+<polygon fill="none" stroke="black" points="814,-40.8 814,-92.8 976,-92.8 976,-40.8 814,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CartDetailsModule_imports</title>
@@ -219,15 +219,6 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/CartDetailsComponent.html">CartDetailsComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -278,9 +269,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { PromotionsModule } from &#x27;../../checkout/components/promotions/promotions.module&#x27;;
-import { CartSharedModule } from &#x27;../cart-shared/cart-shared.module&#x27;;
+import { PromotionsModule } from &#x27;../../misc/promotions/promotions.module&#x27;;
 import { CartCouponModule } from &#x27;../cart-coupon/cart-coupon.module&#x27;;
+import { CartSharedModule } from &#x27;../cart-shared/cart-shared.module&#x27;;
 import { CartDetailsComponent } from &#x27;./cart-details.component&#x27;;
 
 @NgModule({
@@ -305,7 +296,6 @@ import { CartDetailsComponent } from &#x27;./cart-details.component&#x27;;
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent],
 })
 export class CartDetailsModule {}
 </code></pre>

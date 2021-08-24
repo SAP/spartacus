@@ -89,13 +89,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#getBaseEndpoint" >getBaseEndpoint</a>
+                                <a href="#buildUrl" >buildUrl</a>
                             </li>
                             <li>
-                                <a href="#getEndpoint" >getEndpoint</a>
-                            </li>
-                            <li>
-                                <a href="#getUrl" >getUrl</a>
+                                <a href="#getBaseUrl" >getBaseUrl</a>
                             </li>
                             <li>
                                 <a href="#isConfigured" >isConfigured</a>
@@ -123,121 +120,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getBaseEndpoint"></a>
+                    <a name="buildUrl"></a>
                     <span class="name">
-                        <span ><b>getBaseEndpoint</b></span>
-                        <a href="#getBaseEndpoint"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>buildUrl</b></span>
+                        <a href="#buildUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getBaseEndpoint()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/unit-test.helper.ts:27</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getEndpoint"></a>
-                    <span class="name">
-                        <span ><b>getEndpoint</b></span>
-                        <a href="#getEndpoint"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getEndpoint(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/unit-test.helper.ts:21</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>endpoint</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getUrl"></a>
-                    <span class="name">
-                        <span ><b>getUrl</b></span>
-                        <a href="#getUrl"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getUrl(endpointKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, _urlParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, _queryParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+<code>buildUrl(endpointKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, _urlParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, _queryParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
                 </td>
             </tr>
 
@@ -320,6 +212,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getBaseUrl"></a>
+                    <span class="name">
+                        <span ><b>getBaseUrl</b></span>
+                        <a href="#getBaseUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBaseUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/unit-test.helper.ts:24</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isConfigured"></a>
                     <span class="name">
                         <span ><b>isConfigured</b></span>
@@ -336,8 +265,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/unit-test.helper.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/unit-test.helper.ts:27</a></div>
                 </td>
             </tr>
 
@@ -380,16 +309,13 @@ export const mockOccModuleConfig: OccConfig &#x3D; {
 };
 
 export class MockOccEndpointsService implements Partial&lt;OccEndpointsService&gt; {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith(&#x27;/&#x27;)) {
-      endpoint &#x3D; &#x27;/&#x27; + endpoint;
+  buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+    if (!endpointKey.startsWith(&#x27;/&#x27;)) {
+      endpointKey &#x3D; &#x27;/&#x27; + endpointKey;
     }
-    return endpoint;
+    return endpointKey;
   }
-  getBaseEndpoint() {
+  getBaseUrl() {
     return &#x27;&#x27;;
   }
   isConfigured() {

@@ -171,6 +171,10 @@ import { Direction } from &#x27;./direction.model&#x27;;
 export abstract class DirectionConfig {
   direction?: Direction;
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends DirectionConfig {}
+}
 </code></pre>
     </div>
 

@@ -279,7 +279,7 @@ export class OccAnonymousConsentTemplatesAdapter
   ) {}
 
   loadAnonymousConsentTemplates(): Observable&lt;ConsentTemplate[]&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;anonymousConsentTemplates&#x27;);
     return this.http.get&lt;Occ.ConsentTemplateList&gt;(url).pipe(
       catchError((error) &#x3D;&gt; throwError(error)),
       map((consentList) &#x3D;&gt; consentList.consentTemplates),
@@ -289,7 +289,7 @@ export class OccAnonymousConsentTemplatesAdapter
 
   loadAnonymousConsents(): Observable&lt;AnonymousConsent[]&gt; {
     // using the endpoint that doesn&#x27;t set caching headers
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;anonymousConsentTemplates&#x27;);
     return this.http
       .head&lt;Occ.ConsentTemplateList&gt;(url, { observe: &#x27;response&#x27; })
       .pipe(

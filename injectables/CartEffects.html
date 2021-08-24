@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="326" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:326</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="323" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:323</a></div>
                             </td>
                         </tr>
 
@@ -262,7 +262,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:259</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="256" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:256</a></div>
                         </td>
                     </tr>
 
@@ -293,7 +293,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -377,7 +377,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:127</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:126</a></div>
                         </td>
                     </tr>
 
@@ -440,7 +440,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:299</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="296" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:296</a></div>
                         </td>
                     </tr>
 
@@ -563,7 +563,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -622,7 +622,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:179</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -674,7 +674,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:202</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:201</a></div>
                         </td>
                     </tr>
 
@@ -705,8 +705,7 @@
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -715,7 +714,6 @@
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) &#x3D;&gt; action.payload
     ),
     map(
@@ -739,7 +737,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="220" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:220</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:219</a></div>
                         </td>
                     </tr>
 
@@ -787,7 +785,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="248" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:248</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="245" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:245</a></div>
                         </td>
                     </tr>
 
@@ -814,7 +812,6 @@ import {
   switchMap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-import { CheckoutActions } from &#x27;../../../checkout/store/actions&#x27;;
 import { Cart } from &#x27;../../../model/cart.model&#x27;;
 import { OCC_CART_ID_CURRENT } from &#x27;../../../occ/utils/occ-constants&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
@@ -1024,8 +1021,7 @@ export class CartEffects {
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -1034,7 +1030,6 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) &#x3D;&gt; action.payload
     ),
     map(
