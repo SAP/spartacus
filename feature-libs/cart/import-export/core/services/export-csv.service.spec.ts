@@ -37,4 +37,12 @@ describe('ExportCsvService', () => {
   it('should convert array to csv string', () => {
     expect(service.dataToCsv(mockEntries)).toBe(mockCsvString);
   });
+
+  it('should convert data and download', () => {
+    spyOn(service, 'dataToCsv').and.callThrough();
+    spyOn(service, 'downloadCsv').and.callThrough();
+    service.convertDataToCsvAndDownload(mockEntries);
+    expect(service.dataToCsv).toHaveBeenCalledWith(mockEntries);
+    expect(service.downloadCsv).toHaveBeenCalledWith(mockCsvString);
+  });
 });
