@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartQuickFormModule } from './cart-quick-form/cart-quick-form.module';
+import { CartQuickOrderFormModule } from './cart-quick-order-form/cart-quick-order-form.module';
 import { QuickOrderListModule } from './quick-order/quick-order-list.module';
 
 @NgModule({
-  imports: [RouterModule, QuickOrderListModule, CartQuickFormModule],
+  imports: [RouterModule, QuickOrderListModule, CartQuickOrderFormModule],
 })
 export class QuickOrderComponentsModule {}

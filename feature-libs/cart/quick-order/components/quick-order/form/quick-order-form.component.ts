@@ -55,7 +55,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.build();
+    this.buildForm();
     this.subscription.add(this.watchProductAdd());
   }
 
@@ -94,7 +94,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       );
   }
 
-  protected build() {
+  protected buildForm() {
     const form = new FormGroup({});
     form.setControl('product', new FormControl(null));
 

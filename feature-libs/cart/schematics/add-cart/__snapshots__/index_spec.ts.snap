@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Cart schematics: ng-add Quick Order feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { QuickOrderModule } from \\"@spartacus/cart/quick-order\\";
+import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
+import { QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    QuickOrderRootModule,
+    QuickOrderModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: quickOrderTranslations,
+      chunks: quickOrderTranslationChunksConfig,
+    },
+  })]
+})
+export class CartQuickOrderFeatureModule { }
+"
+`;
+
+exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
+import { CART_QUICK_ORDER_FEATURE, QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    QuickOrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_QUICK_ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/quick-order').then((m) => m.QuickOrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: quickOrderTranslations,
+      chunks: quickOrderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartQuickOrderFeatureModule { }
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 

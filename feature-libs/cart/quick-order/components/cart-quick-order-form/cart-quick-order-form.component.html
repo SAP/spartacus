@@ -1,10 +1,10 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <div class="cx-cart-quick-form-title">
+  <div class="cx-cart-quick-order-form-title">
     {{ 'quickOrderCartForm.title' | cxTranslate }}
   </div>
   <div class="form-group">
-    <form (ngSubmit)="applyQuickOrder()" [formGroup]="orderForm">
-      <div class="cx-cart-quick-form-container">
+    <form (ngSubmit)="applyQuickOrder()" [formGroup]="quickOrderForm">
+      <div class="cx-cart-quick-order-form-container">
         <input
           class="form-control input-product-code"
           formControlName="productCode"
@@ -26,9 +26,11 @@
           {{ 'quickOrderCartForm.addToCart' | cxTranslate }}
         </button>
         <cx-form-errors
-          [control]="orderForm.get('productCode')"
+          [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
-        <cx-form-errors [control]="orderForm.get('quantity')"></cx-form-errors>
+        <cx-form-errors
+          [control]="quickOrderForm.get('quantity')"
+        ></cx-form-errors>
       </div>
     </form></div
 ></ng-container>

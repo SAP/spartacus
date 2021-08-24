@@ -30,9 +30,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   search(_code: any): Observable<Product> {
     return of(mockProduct);
   }
-  setProductAdded(): void {}
-  getProductAdded(): Subject<void> {
-    return new Subject<void>();
+  setProductAdded(_productCode: string): void {}
+  getProductAdded(): Subject<string> {
+    return new Subject<string>();
   }
   addProduct(_product: Product): void {}
 }
@@ -96,7 +96,7 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('on product added', () => {
-      quickOrderService.setProductAdded();
+      quickOrderService.setProductAdded(mockProductCode);
 
       expect(component.form.get('product')?.value).toBeNull();
     });

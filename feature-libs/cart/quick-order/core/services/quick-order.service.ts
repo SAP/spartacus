@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
+import {
+  ActiveCartService,
+  CartAddEntrySuccessEvent,
+  EventService,
+  OrderEntry,
+  Product,
+  ProductAdapter,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuickOrderService {
-  protected productAdded$: Subject<void> = new Subject<void>();
+  protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
 
-  constructor(protected productAdapter: ProductAdapter) {}
+  constructor(
+    protected activeCartService: ActiveCartService,
+    protected productAdapter: ProductAdapter,
+    protected eventService: EventService
+  ) {}
 
   /**
    * Get entries
@@ -74,15 +85,50 @@ export class QuickOrderService {
   /**
    * Return product added subject
    */
-  getProductAdded(): Subject<void> {
+  getProductAdded(): Subject<string> {
     return this.productAdded$;
   }
 
   /**
    * Set product added subject
    */
-  setProductAdded(): void {
-    this.productAdded$.next();
+  setProductAdded(productCode: string): void {
+    this.productAdded$.next(productCode);
+  }
+
+  /**
+   * Adding to cart all products from the list
+   */
+  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
+    let entriesLength = 0;
+    const events: CartAddEntrySuccessEvent[] = [];
+    const subscription = this.eventService
+      .get(CartAddEntrySuccessEvent)
+      .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
+        if (
+          cartEvent.quantityAdded === 0 ||
+          (!!cartEvent.quantityAdded &&
+            cartEvent.quantityAdded < cartEvent.quantity)
+        ) {
+          events.push(cartEvent);
+        }
+      });
+
+    return this.getEntries().pipe(
+      first(),
+      switchMap((entries) => {
+        entriesLength = entries.length;
+        this.activeCartService.addEntries(entries);
+        this.clearList();
+
+        return this.activeCartService.isStable();
+      }),
+      filter((isStable) => isStable),
+      map(
+        () => [entriesLength, events] as [number, CartAddEntrySuccessEvent[]]
+      ),
+      tap(() => subscription.unsubscribe())
+    );
   }
 
   /**
@@ -118,7 +164,7 @@ export class QuickOrderService {
       this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.productAdded$.next();
+    this.productAdded$.next(entry.product?.code);
   }
 
   /**

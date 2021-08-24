@@ -1,15 +1,20 @@
-cx-cart-quick-form {
+cx-cart-quick-order-form {
   padding-bottom: 2rem;
   padding-inline-end: 0;
   padding-inline-start: 3rem;
 
   @include media-breakpoint-down(md) {
+    max-width: 50%;
     padding-bottom: 2rem;
     padding-inline-start: 3rem;
     padding-top: 0;
   }
 
-  .cx-cart-quick-form-title {
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+  }
+
+  .cx-cart-quick-order-form-title {
     @include type('5');
     margin: 1.125rem 0 0.5rem;
   }

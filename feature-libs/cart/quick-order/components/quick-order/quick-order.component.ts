@@ -4,21 +4,21 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { QuickOrderStatePersistenceService } from '@spartacus/cart/quick-order/core';
+import {
+  CmsQuickOrderComponent,
+  QuickOrderStatePersistenceService,
+} from '@spartacus/cart/quick-order/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
-  CmsQuickOrderComponent,
-  EventService,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, first, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
@@ -36,15 +36,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.activeCartService.isStable(),
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
-  showErrors: boolean = false;
 
-  private cartErrors: any[] = [];
+  private cartErrors$ = new BehaviorSubject<CartAddEntrySuccessEvent[]>([]);
   private subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected component: CmsComponentData<CmsQuickOrderComponent>,
-    protected eventService: EventService,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
@@ -54,11 +52,10 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
     this.quickOrderStatePersistenceService.initSync();
-    this.watchCartAddEntryEvents();
   }
 
-  get errors(): any[] {
-    return this.cartErrors;
+  get errors$(): Observable<CartAddEntrySuccessEvent[]> {
+    return this.cartErrors$.asObservable();
   }
 
   clear(): void {
@@ -73,74 +70,37 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   addToCart(): void {
     this.clearErrors();
-    let entriesLength = 0;
 
-    this.subscription.add(
-      this.entries$
-        .pipe(
-          first(),
-          switchMap((entries) => {
-            entriesLength = entries.length;
-            this.activeCartService.addEntries(entries);
+    this.quickOrderService
+      .addToCart()
+      .pipe(first())
+      .subscribe(([entriesLength, errors]) => {
+        this.setErrors(errors);
+        const noAddedEntries = errors.filter(
+          (error) => error.quantityAdded === 0
+        );
 
-            return this.activeCartService.isStable();
-          }),
-          filter(Boolean)
-        )
-        .subscribe(() => {
-          this.quickOrderService.clearList();
-
-          if (this.errors.length) {
-            this.showErrors = true;
-          }
-
-          const noAddedEntries = this.errors.filter(
-            (error) => error.quantityAdded === 0
-          );
-
-          if (entriesLength !== noAddedEntries.length) {
-            this.globalMessageService.add(
-              {
-                key: 'quickOrderTable.addedtoCart',
-              },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          }
-        })
-    );
+        if (entriesLength !== noAddedEntries.length) {
+          this.showAddedToCartSuccessMessage();
+        }
+      });
   }
 
   clearErrors(): void {
-    this.cartErrors = [];
-    this.showErrors = false;
+    this.cartErrors$.next([]);
   }
 
-  protected watchCartAddEntryEvents(): void {
-    const watchCartAddEntrySuccessEvent = this.eventService
-      .get(CartAddEntrySuccessEvent)
-      .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
-        if (
-          cartEvent.quantityAdded === 0 ||
-          (!!cartEvent.quantityAdded &&
-            cartEvent.quantityAdded < cartEvent.quantity)
-        ) {
-          this.addError(cartEvent);
-        }
-      });
-    const watchCartAddEntryFailEvent = this.eventService
-      .get(CartAddEntryFailEvent)
-      .subscribe((cartEvent: CartAddEntryFailEvent) => {
-        this.addError(cartEvent);
-      });
-
-    this.subscription.add(watchCartAddEntrySuccessEvent);
-    this.subscription.add(watchCartAddEntryFailEvent);
+  protected showAddedToCartSuccessMessage(): void {
+    this.globalMessageService.add(
+      {
+        key: 'quickOrderTable.addedtoCart',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
-  protected addError(
-    error: CartAddEntrySuccessEvent | CartAddEntryFailEvent
-  ): void {
-    this.cartErrors.push(error);
+  protected setErrors(errors: CartAddEntrySuccessEvent[]): void {
+    this.cartErrors$.next(errors);
   }
 
   ngOnDestroy(): void {

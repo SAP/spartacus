@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
-import { QUICK_ORDER_CORE_FEATURE } from '../feature-name';
+import {
+  CartAddEntrySuccessEvent,
+  facadeFactory,
+  OrderEntry,
+  Product,
+} from '@spartacus/core';
+import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 
 export function quickOrderFacadeFactory() {
   return facadeFactory({
     facade: QuickOrderFacade,
-    feature: QUICK_ORDER_CORE_FEATURE,
+    feature: CART_QUICK_ORDER_CORE_FEATURE,
     methods: [
       'getEntries',
       'search',
@@ -17,6 +22,7 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'getProductAdded',
       'setProductAdded',
+      'addToCart',
     ],
   });
 }
@@ -64,10 +70,15 @@ export abstract class QuickOrderFacade {
   /**
    * Return product added subject
    */
-  abstract getProductAdded(): Subject<void>;
+  abstract getProductAdded(): Subject<string>;
 
   /**
    * Set product added subject
    */
-  abstract setProductAdded(): void;
+  abstract setProductAdded(productCode: string): void;
+
+  /**
+   * Adding to cart all products from the list
+   */
+  abstract addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]>;
 }
