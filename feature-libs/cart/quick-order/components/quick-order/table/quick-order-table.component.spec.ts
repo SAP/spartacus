@@ -37,11 +37,11 @@ describe('QuickOrderTableComponent', () => {
 
   describe('if there are entries', () => {
     it('should show the table header', () => {
-      expect(el.query(By.css('.quick-order-table-header'))).toBeTruthy();
+      expect(el.query(By.css('.cx-quick-order-table-header'))).toBeTruthy();
     });
 
     it('should show the table row', () => {
-      expect(el.query(By.css('.quick-order-table-row'))).toBeTruthy();
+      expect(el.query(By.css('.cx-quick-order-table-row'))).toBeTruthy();
     });
   });
 });
