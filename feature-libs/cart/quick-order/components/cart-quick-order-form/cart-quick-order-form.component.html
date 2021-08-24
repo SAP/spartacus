@@ -5,12 +5,15 @@
   <div class="form-group">
     <form (ngSubmit)="applyQuickOrder()" [formGroup]="quickOrderForm">
       <div class="cx-cart-quick-order-form-container">
+        <label> {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }} </label>
         <input
           class="form-control input-product-code"
           formControlName="productCode"
-          placeholder="{{ 'quickOrderCartForm.productCode' | cxTranslate }}"
+          placeholder="{{ 'quickOrderCartForm.productCodePlaceholder' | cxTranslate }}"
           type="text"
         />
+
+        <label> {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }} </label>
         <input
           [min]="min"
           class="form-control input-quantity"
