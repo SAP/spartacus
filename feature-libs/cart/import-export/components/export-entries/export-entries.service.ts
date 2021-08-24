@@ -80,18 +80,15 @@ export class ExportEntriesService {
     );
   }
 
-  // protected getTranslatedColumnHeaders(): string[] {
-  //   const headers: string[] = [];
-  //
-  //   this.columns.forEach((column) => {
-  //     this.translationService
-  //       .translate(`exportEntries.columnNames.${column.name.key}`)
-  //       .pipe(take(1))
-  //       .subscribe((header) => headers.push(header));
-  //   });
-  //
-  //   return headers;
-  // }
+  protected getResolvedValues(): Observable<string[][]> {
+    return this.getEntries().pipe(
+      map((entries) =>
+        entries.map((entry) =>
+          this.columns.map((column) => this.resolveValue(column.value, entry))
+        )
+      )
+    );
+  }
 
   protected getTranslatedColumnHeaders(): Observable<string[]> {
     return combineLatest([
@@ -104,12 +101,9 @@ export class ExportEntriesService {
   }
 
   getResolvedEntries(): Observable<string[][]> {
-    return this.getEntries().pipe(
+    return this.getResolvedValues().pipe(
       withLatestFrom(this.getTranslatedColumnHeaders()),
-      map(([entries, headers]) => {
-        const values = entries.map((entry) =>
-          this.columns.map((column) => this.resolveValue(column.value, entry))
-        );
+      map(([values, headers]) => {
         return [headers, ...values];
       })
     );

@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   ActiveCartService,
-  Cart,
   I18nTestingModule,
   ImageType,
   OrderEntry,
@@ -103,26 +102,26 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
+  getRouterState = createSpy('getRouterState').and.returnValue(
     routerStateSubject.asObservable()
   );
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getEntries(): Observable<OrderEntry[]> {
-    return of([]);
-  }
+  getEntries = createSpy('getEntries').and.returnValue(of([entry]));
 }
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
-  getCartDetails(): Observable<Cart> {
-    return of({});
-  }
+  getCartDetails = createSpy('getCartDetails').and.returnValue(
+    of({ entries: [entry] })
+  );
 }
 
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
   let translationService: TranslationService;
+  // let savedCartDetailsService: SavedCartDetailsService;
+  // let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -139,6 +138,8 @@ describe('ExportEntriesService', () => {
     });
     service = TestBed.inject(ExportEntriesService);
     translationService = TestBed.inject(TranslationService);
+    // savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
+    // activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
@@ -146,10 +147,10 @@ describe('ExportEntriesService', () => {
   });
 
   it('should translate headings and export entries to specific format', () => {
-    spyOn(service, 'getEntries').and.returnValue(of([entry]));
     spyOn(translationService, 'translate').and.callThrough();
 
-    const entries = service.entriesToDataArray([entry]);
+    let result;
+    service.getResolvedEntries().subscribe((data) => (result = data));
 
     const headings = [
       'exportEntries.columnNames.code',
@@ -165,7 +166,7 @@ describe('ExportEntriesService', () => {
       entry.totalPrice?.formattedValue,
     ];
 
-    expect(entries).toEqual([[...headings], values]);
+    expect(result).toEqual([[...headings], values]);
     expect(translationService.translate).toHaveBeenCalledTimes(4);
   });
 

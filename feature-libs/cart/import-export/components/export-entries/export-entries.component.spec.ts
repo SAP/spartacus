@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
@@ -93,19 +93,18 @@ const transitionalArray = [
   ['SKU', 'quantity'],
   ['3803058', '2'],
 ];
-const csvOutput = '"SKU", "quantity"\n"3803058","2"';
 
 const entries$ = new BehaviorSubject([entry]);
 
 class MockExportEntriesService {
-  getEntries = createSpy('getEntries').and.returnValue(entries$.asObservable());
-  entriesToDataArray = createSpy('entriesToDataArray').and.returnValue(
-    transitionalArray
+  getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
+    of(transitionalArray)
   );
 }
 class MockExportService {
-  dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);
-  downloadCsv = createSpy('downloadCsv').and.callThrough();
+  convertDataToCsvAndDownload = createSpy(
+    'convertDataToCsvAndDownload'
+  ).and.callThrough();
 }
 
 describe('ExportEntriesComponent', () => {
@@ -160,12 +159,11 @@ describe('ExportEntriesComponent', () => {
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportToCsvSpy).toHaveBeenCalledWith([entry]);
-      expect(exportEntriesService.entriesToDataArray).toHaveBeenCalledWith([
-        entry,
-      ]);
-      expect(exportService.dataToCsv).toHaveBeenCalledWith(transitionalArray);
-      expect(exportService.downloadCsv).toHaveBeenCalledWith(csvOutput);
+      expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
+      expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
+      expect(exportService.convertDataToCsvAndDownload).toHaveBeenCalledWith(
+        transitionalArray
+      );
     });
   });
 
