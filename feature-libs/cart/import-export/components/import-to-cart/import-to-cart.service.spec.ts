@@ -58,7 +58,7 @@ const mockActionsSubject = new Subject<Action>();
 describe('ImportToCartService', () => {
   let service: ImportToCartService;
   let multiCartService: MultiCartService;
-  let savedCartFacade: MockSavedCartFacade;
+  let savedCartFacade: SavedCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
