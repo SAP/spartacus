@@ -2,6 +2,7 @@
 /// <reference types="Cypress" />
 
 import '@testing-library/cypress/add-commands';
+import 'cypress-file-upload';
 import './a11y-tab.commands';
 import './cart.commands';
 import './cx-config.commands';
