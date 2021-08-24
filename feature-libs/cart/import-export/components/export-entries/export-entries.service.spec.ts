@@ -120,8 +120,8 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
   let translationService: TranslationService;
-  // let savedCartDetailsService: SavedCartDetailsService;
-  // let activeCartService: ActiveCartService;
+  let savedCartDetailsService: SavedCartDetailsService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -138,36 +138,73 @@ describe('ExportEntriesService', () => {
     });
     service = TestBed.inject(ExportEntriesService);
     translationService = TestBed.inject(TranslationService);
-    // savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
-    // activeCartService = TestBed.inject(ActiveCartService);
+    savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should translate headings and export entries to specific format', () => {
-    spyOn(translationService, 'translate').and.callThrough();
+  describe('getResolvedEntries', () => {
+    it('should translate headings and export entries to specific format', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      spyOn(translationService, 'translate').and.callThrough();
 
-    let result;
-    service.getResolvedEntries().subscribe((data) => (result = data));
+      let result;
+      service.getResolvedEntries().subscribe((data) => (result = data));
 
-    const headings = [
-      'exportEntries.columnNames.code',
-      'exportEntries.columnNames.quantity',
-      'exportEntries.columnNames.name',
-      'exportEntries.columnNames.price',
-    ];
+      const headings = [
+        'exportEntries.columnNames.code',
+        'exportEntries.columnNames.quantity',
+        'exportEntries.columnNames.name',
+        'exportEntries.columnNames.price',
+      ];
 
-    const values = [
-      entry.product?.code,
-      entry.quantity?.toString(),
-      entry.product?.name,
-      entry.totalPrice?.formattedValue,
-    ];
+      const values = [
+        entry.product?.code,
+        entry.quantity?.toString(),
+        entry.product?.name,
+        entry.totalPrice?.formattedValue,
+      ];
 
-    expect(result).toEqual([[...headings], values]);
-    expect(translationService.translate).toHaveBeenCalledTimes(4);
+      expect(result).toEqual([[...headings], values]);
+      expect(translationService.translate).toHaveBeenCalledTimes(4);
+    });
+
+    it('should resolve data from saved cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(savedCartDetailsService.getCartDetails).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from active cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'cart',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from other page', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'otherPage',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
   });
 
   describe('resolveValue', () => {
