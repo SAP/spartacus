@@ -141,7 +141,7 @@ describe('ExportEntriesService', () => {
     spyOn(service, 'getEntries').and.returnValue(of([entry]));
     spyOn(translationService, 'translate').and.callThrough();
 
-    const entries = service.exportEntries([entry]);
+    const entries = service.entriesToDataArray([entry]);
 
     const headings = [
       'exportEntries.columnNames.code',

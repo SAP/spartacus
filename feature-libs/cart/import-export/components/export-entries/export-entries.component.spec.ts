@@ -159,7 +159,9 @@ describe('ExportEntriesComponent', () => {
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
       expect(exportToCsvSpy).toHaveBeenCalledWith([entry]);
-      expect(exportEntriesService.exportEntries).toHaveBeenCalledWith([entry]);
+      expect(exportEntriesService.entriesToDataArray).toHaveBeenCalledWith([
+        entry,
+      ]);
       expect(exportService.dataToCsv).toHaveBeenCalledWith(transitionalArray);
       expect(exportService.downloadCsv).toHaveBeenCalledWith(csvOutput);
     });

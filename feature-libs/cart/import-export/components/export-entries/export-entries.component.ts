@@ -18,7 +18,7 @@ export class ExportEntriesComponent {
   exportToCsv(entries: OrderEntry[]) {
     this.exportService.downloadCsv(
       this.exportService.dataToCsv(
-        this.exportEntriesService.exportEntries(entries)
+        this.exportEntriesService.entriesToDataArray(entries)
       )
     );
   }

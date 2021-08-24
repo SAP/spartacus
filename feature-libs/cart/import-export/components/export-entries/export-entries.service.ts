@@ -80,19 +80,25 @@ export class ExportEntriesService {
     );
   }
 
-  exportEntries(entries: OrderEntry[]): string[][] {
-    const names: string[] = [];
+  entriesToDataArray(entries: OrderEntry[]): string[][] {
+    const headers = this.getTranslatedColumnHeaders();
+
+    const values = entries.map((entry) =>
+      this.columns.map((column) => this.resolveValue(column.value, entry))
+    );
+    return [[...headers], ...values];
+  }
+
+  protected getTranslatedColumnHeaders() {
+    const headers: string[] = [];
 
     this.columns.forEach((column) => {
       this.translationService
         .translate(`exportEntries.columnNames.${column.name.key}`)
         .pipe(take(1))
-        .subscribe((name) => names.push(name));
+        .subscribe((header) => headers.push(header));
     });
 
-    const values = entries.map((entry) =>
-      this.columns.map((column) => this.resolveValue(column.value, entry))
-    );
-    return [[...names], ...values];
+    return headers;
   }
 }
