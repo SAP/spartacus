@@ -21,6 +21,7 @@ export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
+export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
@@ -1080,6 +1081,7 @@ export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
 export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
+export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
