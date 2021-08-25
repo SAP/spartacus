@@ -21,6 +21,7 @@ export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
+export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
@@ -514,6 +515,8 @@ export const ON_RESTORE_COMPLETE = 'onRestoreComplete';
 
 export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
+export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
+export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
 /***** Classes end *****/
 
@@ -621,6 +624,8 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 export const ASM_MODULE = 'AsmModule';
+export const ASM_OCC_MODULE = 'AsmOccModule';
+export const OCC_ASM_ADAPTER = 'OccAsmAdapter';
 export const ASM_CONFIG = 'AsmConfig';
 export const ASM_ADAPTER = 'AsmAdapter';
 export const ASM_CONNECTOR = 'AsmConnector';
@@ -1074,6 +1079,7 @@ export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
+export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';

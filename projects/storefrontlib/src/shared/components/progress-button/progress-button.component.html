@@ -1,0 +1,15 @@
+<button
+  (click)="clikEvent.emit()"
+  [attr.aria-label]="ariaLabel"
+  [disabled]="disabled || loading"
+  [ngClass]="class"
+  class="btn btn-primary"
+>
+  <div class="cx-progress-button-container">
+    <div *ngIf="loading" class="loader-container">
+      <div class="loader">{{ 'spinner.loading' | cxTranslate }}</div>
+    </div>
+
+    <ng-content></ng-content>
+  </div>
+</button>

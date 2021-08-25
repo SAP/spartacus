@@ -27,6 +27,7 @@ import {
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
+  CLI_DIGITAL_PAYMENTS_FEATURE,
   CLI_CHECKOUT_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
@@ -50,6 +51,7 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -91,7 +93,7 @@ import {
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
-  lazy: boolean;
+  lazy?: boolean;
   features?: string[];
   // meta, when programmatically installing other Spartacus libraries as dependencies
   options?: LibraryOptions;
@@ -193,6 +195,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
   ],
   [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
   [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
+  [SPARTACUS_DIGITAL_PAYMENTS]: [CLI_DIGITAL_PAYMENTS_FEATURE],
   [SPARTACUS_PRODUCT]: [
     CLI_PRODUCT_BULK_PRICING_FEATURE,
     CLI_PRODUCT_VARIANTS_FEATURE,

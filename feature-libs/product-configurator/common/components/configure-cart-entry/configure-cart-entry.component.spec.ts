@@ -1,10 +1,11 @@
 import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { ModalDirective } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @Pipe({
@@ -31,7 +32,7 @@ describe('ConfigureCartEntryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
+        imports: [I18nTestingModule, RouterTestingModule, RouterModule],
         declarations: [
           ConfigureCartEntryComponent,
           MockUrlPipe,
