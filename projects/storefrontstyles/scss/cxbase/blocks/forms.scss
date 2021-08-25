@@ -62,7 +62,7 @@ cx-form-errors {
 
 cx-file-upload {
   input[type='file'] {
-    @extend .cx-visually-hidden;
+    display: none;
   }
 
   div {
