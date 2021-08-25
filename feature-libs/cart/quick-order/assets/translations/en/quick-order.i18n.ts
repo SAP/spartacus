@@ -4,10 +4,12 @@ export const quickOrderCartForm = {
   noResults: 'We could not find any products',
   stockLevelReached: 'The maximum stock level has been reached',
   title: 'Quick Order',
-  productCode: 'Product Code',
-  addToCart: 'Add To Cart',
+  productCodePlaceholder: 'Enter ID',
+  addToCart: 'Add',
   product: 'Product',
   products: 'Products',
+  productCodeLabel: 'Product ID',
+  quantityLabel: 'Qty',
 };
 
 export const quickOrderForm = {
@@ -16,7 +18,7 @@ export const quickOrderForm = {
 };
 
 export const quickOrderList = {
-  addToCart: 'Add to cart',
+  addToCart: 'Add',
   emptyList: 'Empty list',
   header: 'Add Products/Skus',
   subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
