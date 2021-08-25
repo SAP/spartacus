@@ -55,17 +55,20 @@ assignees: ''
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
 
 
 ### For all operative systems
 
 Do the following steps to keep track of spartacussampledata releases:
 
-- [ ] Tag sample data branches for each version (1905, 2005, 2011):
+- [ ] Tag sample data branches for each version (1905, 2005, 2011, 2105):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
   - [ ] tag the final commit on [release/1905/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/1905/next) branch: `git tag 1905-*.*.* HEAD-COMMIT-HASH-FROM-release/1905/next`
   - [ ] tag the final commit on [release/2005/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2005/next) branch: `git tag 2005-*.*.* HEAD-COMMIT-HASH-FROM-release/2005/next`
   - [ ] tag the final commit on [release/2011/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2011/next) branch: `git tag 2011-*.*.* HEAD-COMMIT-HASH-FROM-release/2011/next`
+  - [ ] tag the final commit on [release/2105/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2105/next) branch: `git tag 2105-*.*.* HEAD-COMMIT-HASH-FROM-release/2105/next`
   - [ ] push created tags: `git push origin --tags`
 
 ---
