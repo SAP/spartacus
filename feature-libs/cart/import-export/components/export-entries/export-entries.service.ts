@@ -45,6 +45,12 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
+    {
+      name: {
+        key: 'info',
+      },
+      value: 'configurationInfos',
+    },
     ...this.additionalColumns,
   ];
 
@@ -54,7 +60,7 @@ export class ExportEntriesService {
       .reduce((obj, key) => (obj ? (obj as any)[key] : ''), entry);
 
     return typeof values === 'object'
-      ? JSON.stringify(values).replace(/"/g, `'`)
+      ? JSON.stringify(values)
       : values?.toString() ?? '';
   }
 

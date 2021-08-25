@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ImportExportConfig } from '../config/import-export-config';
 
 @Injectable({
@@ -40,8 +40,20 @@ export class ImportCsvService {
   readCsvData(csvString: string, ignoreHeader = true): string[][] {
     return csvString
       .split('\n')
-      .map((row) =>
-        row.split(this.separator).map((cell) => cell.replace(/"/g, ''))
+      .map(
+        (row) =>
+          row
+            .split(/"(.*)"/)
+            .map((cell) =>
+              !cell.includes('"') ? cell.split(this.separator) : cell
+            )
+            .reduce<string[]>(
+              (acc, curr) =>
+                Array.isArray(curr) ? [...acc, ...curr] : [...acc, curr],
+              []
+            )
+            .filter((cell) => cell !== '')
+        // .map((cell) => cell.replace(/\"/g, '"'))
       )
       .filter(
         (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
@@ -50,6 +62,9 @@ export class ImportCsvService {
 
   loadCsvData(file: File): Observable<string[][]> {
     return this.loadFile(file).pipe(
+      tap((_res) => {
+        console.log('res', _res, this.readCsvData(_res as string));
+      }),
       map((res) => this.readCsvData(res as string))
     );
   }
