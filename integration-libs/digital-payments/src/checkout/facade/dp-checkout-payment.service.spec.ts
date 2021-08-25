@@ -53,7 +53,7 @@ describe('DpCheckoutPaymentService', () => {
   });
 
   it('should load card registration details', () => {
-    service.getCardRegistrationDetails();
+    service.getCardRegistrationDetails().subscribe().unsubscribe();
     expect(dpAdapter.createPaymentRequest).toHaveBeenCalledWith(userId);
   });
 
