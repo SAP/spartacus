@@ -20,7 +20,7 @@ export class DpCheckoutPaymentService {
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() =>
     this.userIdService
-      .getUserId()
+      .takeUserId()
       .pipe(switchMap((userId) => this.dpAdapter.createPaymentRequest(userId)))
   );
 
@@ -37,7 +37,7 @@ export class DpCheckoutPaymentService {
   > = this.command.create(
     (payload) =>
       this.userIdService
-        .getUserId()
+        .takeUserId()
         .pipe(
           switchMap((userId) =>
             this.dpAdapter.createPaymentDetails(
