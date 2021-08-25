@@ -21,6 +21,7 @@
           "CDC",
           "CDS",
           "Checkout",
+          "Digital-Payments",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -73,6 +74,10 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
           },
           {
             "value": "Administration",
