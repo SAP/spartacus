@@ -52,7 +52,9 @@ describe('OccDigitalPaymentsAdapter', () => {
   });
 
   it('should create payment details', () => {
-    adapter.createPaymentDetails(mockSessionId, mockSignature, userId).subscribe();
+    adapter
+      .createPaymentDetails(mockSessionId, mockSignature, userId)
+      .subscribe();
     const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
       return (
         req.method === 'POST' &&
