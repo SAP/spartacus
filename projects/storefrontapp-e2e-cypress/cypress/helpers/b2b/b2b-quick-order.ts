@@ -160,7 +160,7 @@ export function verifyCartPageTabbingOrder() {
     'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
   );
 
-  tabbingOrder('cx-page-layout.CartPageTemplate', config.cart);
+  tabbingOrder('cx-page-layout.CartPageTemplate', config.quickOrderCart);
 }
 
 export function verifyQuickOrderPageTabbingOrder() {
