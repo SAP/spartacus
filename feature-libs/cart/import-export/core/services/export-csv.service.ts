@@ -17,22 +17,35 @@ export class ExportCsvService {
    * @param objectsArray Array of objects which should be converted to CSV.
    * @returns Processed string ready to be saved into file
    */
-  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
+  dataToCsv(objectsArray: string[][]): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-
-    return array.reduce((csvString: string, row: T) => {
-      const line = Object.keys(row).reduce((currentLine, column) => {
+    return array.reduce((csvString: string, row: string[]) => {
+      const line = row.reduce((currentLine, column) => {
         currentLine += currentLine !== '' ? this.separator : '';
-        const cell =
-          typeof row[column] === 'string' &&
-          (row[column] as string).includes(this.separator)
-            ? `"${row[column]}"`
-            : row[column];
-
+        const cell = column.includes(this.separator) ? `"${column}"` : column;
         return `${currentLine}${cell}`;
       }, '');
       return `${csvString}${line}\r\n`;
     }, '');
+  }
+
+  downloadCsv(csvData: string, filename = 'data', extension = 'csv') {
+    let blob = new Blob(['\ufeff' + csvData], {
+      type: 'text/csv;charset=utf-8;',
+    });
+    let link = document.createElement('a');
+    let url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}.${extension}`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  convertDataToCsvAndDownload(objectsArray: string[][]) {
+    this.downloadCsv(this.dataToCsv(objectsArray));
   }
 }
