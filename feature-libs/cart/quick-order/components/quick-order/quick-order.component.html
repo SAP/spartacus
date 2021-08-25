@@ -1,4 +1,4 @@
-<ng-container *ngIf="(errors$ | async) as errors">
+<ng-container *ngIf="errors$ | async as errors">
   <cx-message
     *ngIf="errors.length > 0"
     (closeMessage)="clearErrors()"
