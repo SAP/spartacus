@@ -1,11 +1,15 @@
+import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartService,
+  CartAddEntrySuccessEvent,
+  EventService,
   OrderEntry,
   Product,
   ProductAdapter,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -67,6 +71,15 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
+class MockEventService implements Partial<EventService> {
+  get<T>(_type: AbstractType<T>): Observable<T> {
+    const event = new CartAddEntrySuccessEvent();
+    event.productCode = mockProduct1Code;
+    event.quantity = 4;
+    return of(event) as any;
+  }
+}
+
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productAdapter: ProductAdapter;
@@ -79,6 +92,10 @@ describe('QuickOrderService', () => {
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
         },
         { provide: ProductAdapter, useClass: MockProductAdapter },
       ],
@@ -97,25 +114,37 @@ describe('QuickOrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return an empty list of entries', () => {
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual([]);
-    });
+  it('should return an empty list of entries', (done) => {
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([]);
+        done();
+      });
   });
 
-  it('should load and return list of entries', () => {
+  it('should load and return list of entries', (done) => {
     service.loadEntries(mockEntries);
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual(mockEntries);
-    });
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual(mockEntries);
+        done();
+      });
   });
 
-  it('should clear list of entries', () => {
+  it('should clear list of entries', (done) => {
     service.loadEntries(mockEntries);
     service.clearList();
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual([]);
-    });
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([]);
+        done();
+      });
   });
 
   it('should trigger search', () => {
@@ -125,54 +154,70 @@ describe('QuickOrderService', () => {
     expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
   });
 
-  it('should update entry quantity', () => {
+  it('should update entry quantity', (done) => {
     service.loadEntries([mockEntry1]);
     service.updateEntryQuantity(0, 4);
 
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual([mockEntry1AfterUpdate]);
-    });
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([mockEntry1AfterUpdate]);
+        done();
+      });
   });
 
-  it('should remove entry', () => {
+  it('should remove entry', (done) => {
     service.loadEntries(mockEntries);
     service.removeEntry(0);
 
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual([mockEntry2]);
-    });
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([mockEntry2]);
+        done();
+      });
   });
 
   // TODO: Fully check this method behavior
-  it('should add products to the cart', () => {
-    spyOn(activeCartService, 'addEntries');
-    spyOn(activeCartService, 'isStable');
-    spyOn(service, 'clearList');
+  it('should add products to the cart', (done) => {
+    spyOn(activeCartService, 'addEntries').and.callThrough();
+    spyOn(activeCartService, 'isStable').and.callThrough();
+    spyOn(service, 'clearList').and.callThrough();
 
     service.loadEntries([mockEntry1]);
-    service.addToCart().subscribe().unsubscribe();
-
-    expect(activeCartService.addEntries).toHaveBeenCalled();
-    expect(activeCartService.isStable).toHaveBeenCalled();
-    expect(service.clearList).toHaveBeenCalled();
+    service
+      .addToCart()
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(activeCartService.addEntries).toHaveBeenCalled();
+        expect(activeCartService.isStable).toHaveBeenCalled();
+        expect(service.clearList).toHaveBeenCalled();
+        done();
+      });
   });
 
-  it('should add product to the quick order list', () => {
+  it('should add product to the quick order list', (done) => {
     service.addProduct(mockProduct1);
 
-    service.getEntries().subscribe((entries) => {
-      expect(entries).toEqual([
-        {
-          product: mockProduct1,
-          quantity: 1,
-          basePrice: {
-            value: 1,
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([
+          {
+            product: mockProduct1,
+            quantity: 1,
+            basePrice: {
+              value: 1,
+            },
+            totalPrice: {
+              value: 1,
+            },
           },
-          totalPrice: {
-            value: 1,
-          },
-        },
-      ]);
-    });
+        ]);
+        done();
+      });
   });
 });
