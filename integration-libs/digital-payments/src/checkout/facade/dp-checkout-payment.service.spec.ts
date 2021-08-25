@@ -19,7 +19,7 @@ class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   );
 }
 class MockUserIdService {
-  getUserId() {
+  takeUserId() {
     return of('current');
   }
 }
