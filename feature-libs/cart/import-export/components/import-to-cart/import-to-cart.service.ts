@@ -118,6 +118,16 @@ export class ImportToCartService {
     );
   }
 
+  protected tryParseJson(jsonString: string) {
+    try {
+      return JSON.parse(jsonString);
+    } catch (e) {
+      if (isDevMode()) {
+        console.warn('Text is not parsable to JSON format', e);
+      }
+    }
+  }
+
   csvDataToProduct(csvData: string[][]): ProductsData {
     return csvData.map((row: string[]) => ({
       productCode: row[0],
@@ -127,8 +137,13 @@ export class ImportToCartService {
   }
 
   isDataParsableToProducts(data: string[][]): Boolean {
-    const patternRegex = new RegExp(/(?:\s|^)\d+(?=\s|$)/);
-    return data.length > 0 && data.every((row) => patternRegex.test(row[1]));
+    const digitPatternRegex = new RegExp(/(?:\s|^)\d+(?=\s|$)/);
+    return (
+      data.length > 0 &&
+      data.every(
+        (row) => digitPatternRegex.test(row[1]) && this.tryParseJson(row[2])
+      )
+    );
   }
 
   /**
