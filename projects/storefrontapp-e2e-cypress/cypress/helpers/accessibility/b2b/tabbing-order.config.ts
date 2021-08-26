@@ -332,7 +332,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
-      value: 'Add To Cart',
+      value: 'Add',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
