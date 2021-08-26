@@ -38,22 +38,16 @@ export class ImportCsvService {
    * @returns Processed data containing productCode and quantity
    */
   readCsvData(csvString: string, ignoreHeader = true): string[][] {
+    const splitter = new RegExp(`(?:"(.*)"|${this.separator})`, 'g');
     return csvString
       .split('\n')
       .map((row) =>
-        row
-          .split(/"(.*)"/)
-          .map((cell) =>
-            !cell.includes('"') ? cell.split(this.separator) : cell
-          )
-          .reduce<string[]>(
-            (acc, curr) =>
-              Array.isArray(curr) ? [...acc, ...curr] : [...acc, curr],
-            []
-          )
-          .filter((cell) => cell !== '')
+        row.split(splitter).filter((cell) => ![undefined, ''].includes(cell))
       )
-      .filter((row, index) => !(ignoreHeader && index === 0) && row.length > 0);
+      .filter(
+        (row, index) =>
+          !(ignoreHeader && index === 0) && row.length > 0 && row[0] !== '\r'
+      );
   }
 
   loadCsvData(file: File): Observable<string[][]> {
