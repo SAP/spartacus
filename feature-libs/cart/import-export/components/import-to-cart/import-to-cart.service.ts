@@ -122,7 +122,7 @@ export class ImportToCartService {
     return csvData.map((row: string[]) => ({
       productCode: row[0],
       quantity: Number(row[1]),
-      info: JSON.parse(row[2]),
+      configurationInfos: JSON.parse(row[2]),
     }));
   }
 

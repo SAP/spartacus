@@ -47,7 +47,7 @@ export class ExportEntriesService {
     },
     {
       name: {
-        key: 'info',
+        key: 'configurationInfos',
       },
       value: 'configurationInfos',
     },
