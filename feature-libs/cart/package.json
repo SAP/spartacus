@@ -9,7 +9,8 @@
     "cart",
     "shopping",
     "shop",
-    "saved cart"
+    "saved cart",
+    "quick order"
   ],
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/cart",

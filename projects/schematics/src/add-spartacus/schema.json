@@ -18,6 +18,7 @@
         "enum": [
           "ASM",
           "Saved-Cart",
+          "Quick-Order",
           "CDC",
           "CDS",
           "Checkout",
@@ -44,6 +45,7 @@
         "ASM",
         "Checkout",
         "Saved-Cart",
+        "Quick-Order",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -62,6 +64,10 @@
           {
             "value": "Saved-Cart",
             "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
           },
           {
             "value": "CDC",
