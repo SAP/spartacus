@@ -24,7 +24,7 @@ export class ExportCsvService {
       const line = row.reduce((currentLine, column) => {
         currentLine += currentLine !== '' ? this.separator : '';
         const cell = column.includes(this.separator) ? `"${column}"` : column;
-        return `${currentLine}${cell}`;
+        return `${currentLine}${cell.replace(/,/g, '\\,')}`;
       }, '');
       return `${csvString}${line}\r\n`;
     }, '');

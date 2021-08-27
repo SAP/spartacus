@@ -38,15 +38,25 @@ export class ImportCsvService {
    * @returns Processed data containing productCode and quantity
    */
   readCsvData(csvString: string, ignoreHeader = true): string[][] {
-    const splitter = new RegExp(`(?:"(.*)"|${this.separator})`, 'g');
+    const tempSplitter = new RegExp(`\\\\${this.separator}`, 'g');
+    const splitter = new RegExp(`\\.*(?<!\\\\)${this.separator}`, 'g');
     return csvString
       .split('\n')
       .map((row) =>
-        row.split(splitter).filter((cell) => ![undefined, ''].includes(cell))
+        row
+          .split(splitter)
+          .map((cell) =>
+            cell.replace(tempSplitter, this.separator).replace('\r', '')
+          )
+          .map((cell) =>
+            cell.startsWith('"') && cell.endsWith('"')
+              ? cell.substring(1, cell.length - 1)
+              : cell
+          )
       )
       .filter(
         (row, index) =>
-          !(ignoreHeader && index === 0) && row.length > 0 && row[0] !== '\r'
+          !(ignoreHeader && index === 0) && row.length > 0 && row[0] !== ''
       );
   }
 
