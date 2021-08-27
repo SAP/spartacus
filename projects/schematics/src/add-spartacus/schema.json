@@ -18,9 +18,11 @@
         "enum": [
           "ASM",
           "Saved-Cart",
+          "Quick-Order",
           "CDC",
           "CDS",
           "Checkout",
+          "Digital-Payments",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -43,6 +45,7 @@
         "ASM",
         "Checkout",
         "Saved-Cart",
+        "Quick-Order",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -63,6 +66,10 @@
             "label": "Saved Cart"
           },
           {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          },
+          {
             "value": "CDC",
             "label": "Customer Data Cloud Integration"
           },
@@ -73,6 +80,10 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
           },
           {
             "value": "Administration",

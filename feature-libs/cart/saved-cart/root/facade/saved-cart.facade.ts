@@ -210,7 +210,7 @@ export abstract class SavedCartFacade {
    *
    * @param cartId
    */
-  abstract cloneSavedCart(cartId: string): void;
+  abstract cloneSavedCart(cartId: string, saveCartName?: string): void;
 
   /**
    * Gets the loading state of cloning a saved cart

@@ -1,0 +1,31 @@
+cx-quick-order-form {
+  .quick-order-form-container {
+    display: flex;
+  }
+
+  .quick-order-form-input {
+    margin-inline-end: 15px;
+    position: relative;
+
+    .form-control {
+      padding: 0 36px 0 12px;
+    }
+
+    .search {
+      color: var(--cx-color-light);
+      font-size: 24px;
+      position: absolute;
+      right: 12px;
+      top: 12px;
+    }
+
+    .list-limit-reached-text {
+      bottom: -15px;
+      color: var(--cx-color-danger);
+      font-size: 12px;
+      font-weight: normal;
+      padding-inline-start: 2px;
+      position: absolute;
+    }
+  }
+}
