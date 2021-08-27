@@ -30,22 +30,25 @@ export class ExportCsvService {
     }, '');
   }
 
-  downloadCsv(csvData: string, filename = 'data', extension = 'csv') {
-    let blob = new Blob(['\ufeff' + csvData], {
-      type: 'text/csv;charset=utf-8;',
-    });
-    let link = document.createElement('a');
-    let url = URL.createObjectURL(blob);
+  downloadCsv(
+    csvData: string,
+    filename = 'data',
+    extension = 'csv',
+    delay = 0
+  ) {
+    setTimeout(() => {
+      let blob = new Blob(['\ufeff' + csvData], {
+        type: 'text/csv;charset=utf-8;',
+      });
+      let link = document.createElement('a');
+      let url = URL.createObjectURL(blob);
 
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${filename}.${extension}`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  convertDataToCsvAndDownload(objectsArray: string[][]) {
-    this.downloadCsv(this.dataToCsv(objectsArray));
+      link.setAttribute('href', url);
+      link.setAttribute('download', `${filename}.${extension}`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, delay);
   }
 }

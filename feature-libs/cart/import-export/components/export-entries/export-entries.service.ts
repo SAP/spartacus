@@ -5,13 +5,17 @@ import {
   OrderEntry,
   RoutingService,
   TranslationService,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, first, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   ImportExportConfig,
   ExportColumn,
+  ExportCsvService,
+  ExportConfig,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -23,14 +27,27 @@ export class ExportEntriesService {
     protected activeCartService: ActiveCartService,
     protected savedCartDetailsService: SavedCartDetailsService,
     protected importExportConfig: ImportExportConfig,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected globalMessageService: GlobalMessageService,
+    protected exportCsvService: ExportCsvService
   ) {}
 
-  private get additionalColumns(): ExportColumn[] {
-    return (
-      this.importExportConfig.cartImportExport?.export?.additionalColumns ?? []
-    );
-  }
+  // private get exportConfig(): ExportConfig {
+  //   return {
+  //     additionalColumns:
+  //       this.importExportConfig.cartImportExport?.export?.additionalColumns ??
+  //       [],
+  //     messageEnabled:
+  //       this.importExportConfig.cartImportExport?.export?.messageEnabled ??
+  //       true,
+  //     messageTimeout:
+  //       this.importExportConfig.cartImportExport?.export?.messageTimeout ??
+  //       6000,
+  //     downloadDelay:
+  //       this.importExportConfig.cartImportExport?.export?.downloadDelay ?? 1000,
+  //     fileName: 'cart',
+  //   };
+  // }
 
   private columns: ExportColumn[] = [
     {
@@ -45,7 +62,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...this.additionalColumns,
+    ...this.exportConfig.additionalColumns,
   ];
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
@@ -100,12 +117,36 @@ export class ExportEntriesService {
     );
   }
 
+  protected displayExportMessage() {
+    this.translationService
+      .translate('exportEntries.exportMessage')
+      .pipe(first())
+      .subscribe((message) =>
+        this.globalMessageService.add(
+          message,
+          GlobalMessageType.MSG_TYPE_INFO,
+          this.messageTimeout
+        )
+      );
+  }
+
   getResolvedEntries(): Observable<string[][]> {
     return this.getResolvedValues().pipe(
       withLatestFrom(this.getTranslatedColumnHeaders()),
       map(([values, headers]) => {
         return [headers, ...values];
       })
+    );
+  }
+
+  downloadCsv(entries: string[][]) {
+    if (this.messageEnabled) this.displayExportMessage();
+
+    this.exportCsvService.downloadCsv(
+      this.exportCsvService.dataToCsv(entries),
+      this.fileName,
+      undefined,
+      this.downloadDelay
     );
   }
 }

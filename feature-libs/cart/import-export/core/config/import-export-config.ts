@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { ExportColumn } from '../model/export-entries.model';
+import { ExportConfig } from '../model/export-entries.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,7 @@ import { ExportColumn } from '../model/export-entries.model';
 export abstract class ImportExportConfig {
   cartImportExport?: {
     file: { separator: string };
-    export?: {
-      additionalColumns?: ExportColumn[];
-    };
+    export?: ExportConfig;
   };
 }
 
