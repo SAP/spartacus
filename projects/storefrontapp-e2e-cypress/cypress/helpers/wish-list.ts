@@ -55,14 +55,16 @@ function loginWishListUser() {
 }
 
 export function waitForGetWishList() {
-  cy.server();
-
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
-  ).as('get_wish_list');
+    )}/users/*/carts/*`,
+    query: {
+      lang: 'en',
+      curr: 'USD',
+    },
+  }).as('get_wish_list');
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
