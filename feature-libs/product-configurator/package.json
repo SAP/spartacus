@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/product-configurator",
-  "version": "3.2.0-next.2",
+  "version": "4.1.0-next.0",
   "description": "Product configurator feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,11 +28,11 @@
     "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
-    "@spartacus/checkout": "3.2.0-next.2",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/checkout": "4.1.0-next.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

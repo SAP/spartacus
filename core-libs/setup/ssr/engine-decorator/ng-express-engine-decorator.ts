@@ -30,8 +30,7 @@ export class NgExpressEngineDecorator {
     ngExpressEngine: NgExpressEngine,
     optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
-    const result = decorateExpressEngine(ngExpressEngine, optimizationOptions);
-    return result;
+    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
 }
 

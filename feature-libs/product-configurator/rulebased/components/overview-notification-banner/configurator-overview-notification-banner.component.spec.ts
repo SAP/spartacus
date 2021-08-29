@@ -1,5 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -55,14 +57,14 @@ const orderRouterData: ConfiguratorRouter.Data = {
   ),
 };
 
-let routerObs;
+let routerObs: any;
 class MockConfigRouterExtractorService {
   extractRouterData() {
     return routerObs;
   }
 }
 
-let configurationObs;
+let configurationObs: Observable<Configurator.Configuration>;
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
@@ -89,13 +91,14 @@ function initialize(router: ConfiguratorRouter.Data) {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [RouterModule, RouterTestingModule],
         declarations: [
           ConfiguratorOverviewNotificationBannerComponent,
           MockTranslatePipe,

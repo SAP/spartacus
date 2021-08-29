@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cart",
-  "version": "3.2.0-next.2",
+  "version": "4.1.0-next.0",
   "description": "",
   "keywords": [
     "spartacus",
@@ -9,7 +9,8 @@
     "cart",
     "shopping",
     "shop",
-    "saved cart"
+    "saved cart",
+    "quick order"
   ],
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/cart",
@@ -30,10 +31,10 @@
     "@angular/router": "^12.0.5",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
