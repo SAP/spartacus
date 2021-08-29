@@ -32,12 +32,12 @@ describe('Language switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change language throughout checkout process', () => {
       // page being already tested in language-address-book
-      cy.route(
-        'PUT',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PUT',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/current/carts/*/addresses/delivery?*`
-      ).as('setAddress');
+        )}/users/current/carts/*/addresses/delivery`,
+      }).as('setAddress');
       cy.visit(checkoutShippingPath);
       cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(

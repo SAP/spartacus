@@ -31,12 +31,12 @@ describe('Currency switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
-      cy.route(
-        'PUT',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PUT',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/current/carts/*/addresses/delivery?*`
-      ).as('setAddress');
+        )}/users/current/carts/*/addresses/delivery`,
+      }).as('setAddress');
       cy.visit(checkoutShippingPath);
       cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
