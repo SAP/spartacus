@@ -9,7 +9,7 @@ export function loginUsingUserWithOrder() {
 
   cy.visit('/');
 
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }

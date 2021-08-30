@@ -21,9 +21,9 @@ export function addVariantOfSameProductToCart() {
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/products/${
       products[1].code
     }/reviews*`
-  ).as('getProductPage');
+  ).as('getProductPageReviews');
   cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();
-  cy.wait('@getProductPage').its('status').should('eq', 200);
+  cy.wait('@getProductPageReviews').its('status').should('eq', 200);
 
   addCheapProductToCart(products[1]);
 }

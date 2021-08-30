@@ -44,7 +44,7 @@ export function waitForPage(page: string, alias: string): string {
           method: 'GET',
           path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages?lang=en&curr=USD`,
+          )}/cms/pages?lang=en&curr=*`,
         }
       : {
           method: 'GET',

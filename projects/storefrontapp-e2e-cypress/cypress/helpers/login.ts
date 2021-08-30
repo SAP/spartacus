@@ -22,7 +22,7 @@ export function registerUserFromLoginPage() {
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
-  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
   register(user);
   return user;

@@ -176,9 +176,14 @@ export function siteContextChange(
   }
   cy.wait(`@${alias}`);
 
-  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
+  cy.intercept({
+    method: 'GET',
+    query: {
+      [contextParam]: selectedOption,
+    },
+  }).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext').its('status').should('eq', 200);
+  cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(
