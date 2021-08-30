@@ -16,7 +16,7 @@ export function visitOrderDetailPage() {
   );
 
   cy.visit(`/my-account/order/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitCancelOrderPage() {
@@ -26,7 +26,7 @@ export function visitCancelOrderPage() {
   );
 
   cy.visit(`/my-account/order/cancel/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitReturnOrderPage() {
@@ -36,7 +36,7 @@ export function visitReturnOrderPage() {
   );
 
   cy.visit(`/my-account/order/return/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function getStubbedCancellableOrderDetails() {
@@ -98,7 +98,7 @@ export function visitReturnRequestListPage() {
   const alias = waitForPage('/my-account/orders', 'returnRequestListPage');
 
   cy.visit(`/my-account/orders`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function getStubbedReturnRequestDetails() {
@@ -119,7 +119,7 @@ export function visitReturnRequestDetailsPage() {
   );
 
   cy.visit(`/my-account/return-request/${RMA}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function cancelReturnRequest() {
