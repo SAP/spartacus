@@ -38,14 +38,31 @@ export function clickHamburger() {
 export function waitForPage(page: string, alias: string): string {
   // TODO cy.intercept() doesn't work here (* is greedy, so all other expressions match it first.)
   // homepage is not explicitly being asked as it's driven by the backend.
-  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages${endpoint}`
-  ).as(alias);
+  const route =
+    page === 'homepage'
+      ? {
+          method: 'GET',
+          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/cms/pages?lang=en&curr=USD`,
+        }
+      : {
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/cms/pages`,
+          query: {
+            pageLabelOrId: page,
+          },
+        };
+  cy.intercept(route).as(alias);
+  // cy.server();
+  // cy.route(
+  //   'GET',
+  //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  //     'BASE_SITE'
+  //   )}/cms/pages${endpoint}`
+  // ).as(alias);
   return alias;
 }
 
