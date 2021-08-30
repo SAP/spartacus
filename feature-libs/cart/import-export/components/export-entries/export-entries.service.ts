@@ -16,6 +16,7 @@ import {
   ExportColumn,
   ExportCsvService,
   ExportConfig,
+  defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -32,22 +33,12 @@ export class ExportEntriesService {
     protected exportCsvService: ExportCsvService
   ) {}
 
-  // private get exportConfig(): ExportConfig {
-  //   return {
-  //     additionalColumns:
-  //       this.importExportConfig.cartImportExport?.export?.additionalColumns ??
-  //       [],
-  //     messageEnabled:
-  //       this.importExportConfig.cartImportExport?.export?.messageEnabled ??
-  //       true,
-  //     messageTimeout:
-  //       this.importExportConfig.cartImportExport?.export?.messageTimeout ??
-  //       6000,
-  //     downloadDelay:
-  //       this.importExportConfig.cartImportExport?.export?.downloadDelay ?? 1000,
-  //     fileName: 'cart',
-  //   };
-  // }
+  private get exportConfig(): ExportConfig {
+    return {
+      ...this.importExportConfig.cartImportExport?.export,
+      ...defaultImportExportConfig.cartImportExport?.export,
+    };
+  }
 
   private columns: ExportColumn[] = [
     {
@@ -62,7 +53,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...this.exportConfig.additionalColumns,
+    ...(this.exportConfig.additionalColumns ?? []),
   ];
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
@@ -125,7 +116,7 @@ export class ExportEntriesService {
         this.globalMessageService.add(
           message,
           GlobalMessageType.MSG_TYPE_INFO,
-          this.messageTimeout
+          this.exportConfig.messageTimeout
         )
       );
   }
@@ -140,13 +131,13 @@ export class ExportEntriesService {
   }
 
   downloadCsv(entries: string[][]) {
-    if (this.messageEnabled) this.displayExportMessage();
+    if (this.exportConfig.messageEnabled) this.displayExportMessage();
 
     this.exportCsvService.downloadCsv(
       this.exportCsvService.dataToCsv(entries),
-      this.fileName,
+      this.exportConfig.fileName,
       undefined,
-      this.downloadDelay
+      this.exportConfig.downloadDelay
     );
   }
 }
