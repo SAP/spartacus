@@ -4,12 +4,12 @@ import * as checkout from './checkout-flow';
 export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
     '/checkout-login',
-    'getguestLoginPage'
+    'getGuestLoginPage'
   );
   cy.get('.register')
     .findByText(/Guest Checkout/i)
     .click();
-  cy.wait(`@${guestLoginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${guestLoginPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-checkout-login').within(() => {
     cy.get('[formcontrolname="email"]').clear().type(sampleUser.email);
     cy.get('[formcontrolname="emailConfirmation"]')
@@ -21,7 +21,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
     '/checkout/shipping-address',
     'getShippingPage'
   );
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function createAccountFromGuest(password: string) {

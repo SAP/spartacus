@@ -82,7 +82,7 @@ export function navigateToConsentPage() {
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.wait(`@${consentsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${consentsPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function seeBannerAsAnonymous() {
