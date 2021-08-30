@@ -15,7 +15,7 @@ export function visitOrderApprovalListPage() {
   );
 
   cy.visit(`/my-account/approval-dashboard`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitOrderApprovalDetailPage() {
@@ -25,7 +25,7 @@ export function visitOrderApprovalDetailPage() {
   );
 
   cy.visit(`/my-account/approval/${sampleData.approvalOrderDetail.code}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function loginB2bUser() {
