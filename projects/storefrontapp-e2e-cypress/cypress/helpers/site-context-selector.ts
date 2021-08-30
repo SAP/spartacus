@@ -95,7 +95,7 @@ export function addressBookNextStep() {
 
   cy.get('cx-shipping-address .btn-primary').click();
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
@@ -110,7 +110,7 @@ export function deliveryModeNextStep() {
 
   cy.get('cx-delivery-mode .btn-primary').click();
 
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
@@ -122,7 +122,7 @@ export function paymentDetailsNextStep() {
 
   cy.get('cx-payment-method .btn-primary').click();
 
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function stub(request: string, alias: string): void {
@@ -156,7 +156,7 @@ export function siteContextChange(
       page = waitForPage('', 'pageForSitContextChange');
     }
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
-    cy.wait(`@${page}`).its('status').should('eq', 200);
+    cy.wait(`@${page}`).its('response.statusCode').should('eq', 200);
   }
 
   let contextParam: string;
