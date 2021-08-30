@@ -3,5 +3,4 @@ export interface ContentSlotComponentData {
   typeCode?: string;
   flexType?: string;
   properties?: any;
-  componentInstanceData?: any;
 }

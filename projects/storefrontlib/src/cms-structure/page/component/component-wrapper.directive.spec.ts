@@ -77,8 +77,12 @@ class MockDynamicAttributeService {
 }
 
 @Component({
-  template:
-    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>',
+  template: `<ng-container
+    [cxComponentWrapper]="component"
+    (cxComponentRef)="testComponentRef($event)"
+  >
+    +
+  </ng-container>`,
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
@@ -91,6 +95,8 @@ class TestWrapperComponent {
       },
     },
   };
+
+  testComponentRef(_componentRef: any): void {}
 }
 
 class MockConfigInitializerService
@@ -98,7 +104,8 @@ class MockConfigInitializerService
   getStable = () => of(MockCmsModuleConfig);
 }
 
-describe('ComponentWrapperDirective', () => {
+fdescribe('ComponentWrapperDirective', () => {
+  let component: TestWrapperComponent;
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
@@ -186,6 +193,7 @@ describe('ComponentWrapperDirective', () => {
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
+        component = fixture.componentInstance;
       });
 
       it('should instantiate the found component correctly', () => {
@@ -273,18 +281,12 @@ describe('ComponentWrapperDirective', () => {
         );
       });
 
-      it('should inject component instance data', () => {
-        const cmsMapping = TestBed.inject(CmsConfig);
-        cmsMapping.cmsComponents.CMSTestComponent.component.componentInstanceData = {
-          testKey: 'testvalue',
-        };
-        fixture = TestBed.createComponent(TestWrapperComponent);
+      it('should emit component ref', () => {
+        spyOn(component, 'testComponentRef').and.callThrough();
 
         fixture.detectChanges();
-        const testComponentInstance = <TestComponent>(
-          fixture.debugElement.children[0].componentInstance
-        );
-        expect(testComponentInstance.testService).toEqual('testValue');
+
+        expect(component.testComponentRef).toHaveBeenCalled();
       });
     });
 
