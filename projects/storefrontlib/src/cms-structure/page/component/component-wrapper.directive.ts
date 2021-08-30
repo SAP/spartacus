@@ -119,6 +119,13 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       .pipe(
         tap(({ elementRef, componentRef }) => {
           this.cmpRef = componentRef;
+
+          if (this.cxComponentWrapper.componentInstanceData !== undefined) {
+            Object.entries(
+              this.cxComponentWrapper.componentInstanceData
+            ).forEach(([key, value]) => (this.cmpRef.instance[key] = value));
+          }
+
           this.dispatchEvent(ComponentCreateEvent, elementRef);
           this.decorate(elementRef);
           this.injector.get(ChangeDetectorRef).markForCheck();

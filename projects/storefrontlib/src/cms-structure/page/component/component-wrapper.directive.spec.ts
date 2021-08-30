@@ -253,18 +253,38 @@ describe('ComponentWrapperDirective', () => {
 
       it('should inject cms component data', () => {
         fixture.detectChanges();
-        const testCromponemtInstance = <TestComponent>(
+        const testComponentInstance = <TestComponent>(
           fixture.debugElement.children[0].componentInstance
         );
-        expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+        expect(testComponentInstance.cmsData.uid).toContain('test_uid');
+        expect((testComponentInstance as any).testKey).not.toContain(
+          'testValue'
+        );
       });
 
       it('should provide configurable cms component providers', () => {
         fixture.detectChanges();
-        const testCromponemtInstance = <TestComponent>(
+        const testComponentInstance = <TestComponent>(
           fixture.debugElement.children[0].componentInstance
         );
-        expect(testCromponemtInstance.testService).toEqual('testValue');
+        expect(testComponentInstance.testService).toEqual('testValue');
+        expect((testComponentInstance as any).testKey).not.toContain(
+          'testValue'
+        );
+      });
+
+      it('should inject component instance data', () => {
+        const cmsMapping = TestBed.inject(CmsConfig);
+        cmsMapping.cmsComponents.CMSTestComponent.component.componentInstanceData = {
+          testKey: 'testvalue',
+        };
+        fixture = TestBed.createComponent(TestWrapperComponent);
+
+        fixture.detectChanges();
+        const testComponentInstance = <TestComponent>(
+          fixture.debugElement.children[0].componentInstance
+        );
+        expect(testComponentInstance.testService).toEqual('testValue');
       });
     });
 
