@@ -25,6 +25,7 @@ import {
   addCheapProductToCart,
   visitHomePage,
   waitForPage,
+  waitForProductPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
@@ -38,10 +39,10 @@ export function loginB2bUser() {
 export function addB2bProductToCartAndCheckout() {
   const code = products[0].code;
   const productCode = `ProductPage&code=${code}`;
-  const productPage = waitForPage(productCode, 'getProductPage');
+  const productPage = waitForProductPage(productCode, 'getProductPage');
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
-  cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);

@@ -2,7 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage } from '../../checkout-flow';
+import { waitForPage, waitForProductPage } from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -322,9 +322,9 @@ export function clickOnCarouselItem(
     .parent()
     .within(() => {
       cy.root().should('be.visible');
-      const productPage = waitForPage('ProductPage', 'getProductPage');
+      const productPage = waitForProductPage(productId, 'getProductPage');
       cy.get('a').click();
-      cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
     });
 
   if (checkForCarouselEvent) {

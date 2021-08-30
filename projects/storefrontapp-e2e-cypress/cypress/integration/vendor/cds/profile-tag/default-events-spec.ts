@@ -407,7 +407,7 @@ describe('Consent Changed', () => {
 
 function goToProductPage(): Cypress.Chainable<number> {
   const productPagePath = 'ProductPage';
-  const productPage = checkoutFlow.waitForPage(
+  const productPage = checkoutFlow.waitForProductPage(
     productPagePath,
     'getProductPage'
   );
