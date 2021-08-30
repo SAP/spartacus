@@ -357,7 +357,7 @@ export function verifyMergedCartWhenLoggedIn() {
   clickHamburger();
 
   cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   login(
     standardUser.registrationData.email,
@@ -463,7 +463,7 @@ export function registerCartUser() {
 export function loginCartUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }

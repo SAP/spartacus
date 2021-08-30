@@ -37,7 +37,7 @@ export function registerUserFromLoginPage() {
 export function registerUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   return registerUserFromLoginPage();
 }
@@ -57,7 +57,7 @@ export function loginUser() {
 export function loginWithBadCredentials() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   login(user.email, 'Password321');
 
@@ -71,7 +71,7 @@ export function loginWithBadCredentials() {
 export function loginAsDefaultUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   login(defaultUser.name, defaultUser.password);
 }

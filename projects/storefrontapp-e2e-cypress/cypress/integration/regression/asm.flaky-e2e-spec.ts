@@ -164,7 +164,7 @@ context('ASM e2e Test', () => {
       it('Customer should not be able to login when there is an active CS agent session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
         agentLogin();
         login(customer.email, customer.password);

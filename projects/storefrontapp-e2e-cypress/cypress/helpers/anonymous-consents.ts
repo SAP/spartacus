@@ -244,7 +244,7 @@ export function movingFromAnonymousToRegisteredUser() {
       clickHamburger();
     });
     cy.get('cx-login [role="link"]').click();
-    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);
 
