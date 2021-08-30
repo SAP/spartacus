@@ -2,7 +2,7 @@ import { cheapProduct, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
-import { waitForPage } from './checkout-flow';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 import {
   AddressData,
   fillPaymentDetails,
@@ -68,7 +68,7 @@ export function waitForGetWishList() {
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
-  const productPage = waitForPage(product.code, 'productPage');
+  const productPage = waitForProductPage(product.code, 'productPage');
 
   cy.visit(`/product/${product.code}`);
 
@@ -96,7 +96,7 @@ export function addToWishListFromPage() {
 }
 
 export function addToWishList(product: TestProduct) {
-  const productPage = waitForPage(product.code, 'productPage');
+  const productPage = waitForProductPage(product.code, 'productPage');
 
   cy.visit(`/product/${product.code}`);
 
@@ -190,7 +190,7 @@ export function checkWishListPersisted(product: TestProduct) {
 }
 
 export function goToProductPage(product: TestProduct) {
-  const productPage = waitForPage(product.code, 'productPage');
+  const productPage = waitForProductPage(product.code, 'productPage');
   getWishListItem(product.name).within(() => {
     cy.get('.cx-name>.cx-link').click({ force: true });
   });
@@ -231,7 +231,9 @@ function proceedToCheckout() {
     'getShippingAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
@@ -241,7 +243,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 function fillPaymentForm(
@@ -251,7 +253,7 @@ function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -274,7 +276,9 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {
