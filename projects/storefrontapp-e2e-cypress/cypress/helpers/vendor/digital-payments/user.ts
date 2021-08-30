@@ -50,7 +50,9 @@ export function checkoutDeliveryMode() {
     cy.wait(3000);
     cy.findByText('Continue').click();
   });
-  cy.wait(`@${PaymentDetailsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${PaymentDetailsPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function checkoutPaymentDetails() {
