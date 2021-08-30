@@ -104,7 +104,7 @@ class MockConfigInitializerService
   getStable = () => of(MockCmsModuleConfig);
 }
 
-fdescribe('ComponentWrapperDirective', () => {
+describe('ComponentWrapperDirective', () => {
   let component: TestWrapperComponent;
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
