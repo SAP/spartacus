@@ -551,7 +551,15 @@ function importData(config: ImportConfig, expectedData) {
                   return cy.get('div.cx-name').contains(cell);
                 case 'Price':
                   return cy.get('div.cx-price').contains(cell);
-                // TODO: Configurable Products
+                case '[importExport:exportEntries.columnNames.engravedTextHeading]':
+                  cy.get('div.cx-configuration-info .cx-label').contains('Engraved Text');
+                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
+                case '[importExport:exportEntries.columnNames.fontSize]':
+                  cy.get('div.cx-configuration-info .cx-label').contains('Font Size');
+                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
+                case '[importExport:exportEntries.columnNames.fontType]':
+                  cy.get('div.cx-configuration-info .cx-label').contains('Font Type');
+                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
               }
             }
           });
