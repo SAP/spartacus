@@ -1,11 +1,11 @@
-import { waitForPage } from '../checkout-flow';
+import { waitForProductPage } from '../checkout-flow';
 
 export function visitProduct(productCode) {
   const page = `/product/${productCode}`;
   const bulkPricingAlias = 'bulkPrices';
   const productPageAlias = 'productPage';
 
-  waitForPage(productCode, productPageAlias);
+  waitForProductPage(productCode, productPageAlias);
 
   cy.intercept(
     'GET',
