@@ -124,7 +124,7 @@ export function visitCartPage() {
   const alias = waitForPage('/cart', 'cartPage');
 
   cy.visit(`/cart`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitSavedCartListingPage() {
@@ -135,7 +135,9 @@ export function visitSavedCartListingPage() {
   );
 
   cy.visit(`/my-account/saved-carts`);
-  cy.wait(`@${savedCartListingPageAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${savedCartListingPageAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${getAllSavedCartAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -150,7 +152,9 @@ export function visitSavedCartDetailsPage(cartCode: string) {
   );
 
   cy.visit(`/my-account/saved-cart/${cartCode}`);
-  cy.wait(`@${savedCartDetailsPageAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${savedCartDetailsPageAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${getSavedCartAlias}`).its('response.statusCode').should('eq', 200);
 }
 
