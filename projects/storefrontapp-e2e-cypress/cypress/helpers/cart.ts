@@ -313,7 +313,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -372,7 +372,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get('cx-mini-cart > a').click({ force: true });
 
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
