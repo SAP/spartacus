@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnInit,
   Output,
 } from '@angular/core';
 import {
@@ -17,12 +16,10 @@ import {
   FilesFormValidators,
   ProductsData,
   NameSource,
-  CartNameGeneration,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import { CmsComponentData, LaunchDialogService } from '@spartacus/storefront';
 import { ImportEntriesFormComponent } from 'feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-form/import-entries-form.component';
-import { take } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -31,10 +28,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
 })
-export class ImportToSavedCartFormComponent
-  extends ImportEntriesFormComponent
-  implements OnInit {
-  cartNameGeneration?: CartNameGeneration;
+export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
@@ -43,7 +37,7 @@ export class ImportToSavedCartFormComponent
     products: ProductsData;
     savedCartInfo?: {
       name: string;
-      description?: string;
+      description: string;
     };
   }>();
 
@@ -57,7 +51,7 @@ export class ImportToSavedCartFormComponent
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>,
+    protected cmsComponentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators,
     protected datePipe: CxDatePipe
@@ -65,19 +59,10 @@ export class ImportToSavedCartFormComponent
     super(
       launchDialogService,
       importToCartService,
-      componentData,
+      cmsComponentData,
       importService,
       filesFormValidators
     );
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    this.componentData$
-      .pipe(take(1))
-      .subscribe((data: CmsImportEntriesComponent) => {
-        this.cartNameGeneration = data.cartNameGeneration;
-      });
   }
 
   save() {
@@ -101,7 +86,9 @@ export class ImportToSavedCartFormComponent
         '',
         [
           Validators.required,
-          this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
+          this.filesFormValidators.maxSize(
+            this.componentData?.fileValidity?.maxSize
+          ),
         ],
         [
           this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
@@ -127,8 +114,12 @@ export class ImportToSavedCartFormComponent
 
   updateCartName(): void {
     const nameField = this.form.get('name');
-    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
-      switch (this.cartNameGeneration.source) {
+    if (
+      nameField &&
+      !nameField?.value &&
+      this.componentData?.cartNameGeneration?.source
+    ) {
+      switch (this.componentData.cartNameGeneration.source) {
         case NameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);
           break;
@@ -153,9 +144,11 @@ export class ImportToSavedCartFormComponent
 
   protected setFieldValueByDatetime(nameField: AbstractControl) {
     const date = new Date();
-    const mask = this.cartNameGeneration?.fromDateOptions?.mask;
-    const prefix = this.cartNameGeneration?.fromDateOptions?.prefix ?? '';
-    const suffix = this.cartNameGeneration?.fromDateOptions?.suffix ?? '';
+    const fromDateOptions = this.componentData.cartNameGeneration
+      ?.fromDateOptions;
+    const mask = fromDateOptions?.mask;
+    const prefix = fromDateOptions?.prefix ?? '';
+    const suffix = fromDateOptions?.suffix ?? '';
     const dateString = mask
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);

@@ -8,7 +8,6 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CmsImportEntriesComponent,
-  FileValidity,
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
@@ -31,9 +30,8 @@ import { ImportToCartService } from '../../import-to-cart.service';
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  fileValidity?: FileValidity;
+  componentData?: CmsImportEntriesComponent;
   loadedFile: string[][] | null;
-  componentData$ = this.componentData.data$;
   formSubmitSubject$ = new Subject();
 
   @Output()
@@ -44,16 +42,16 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>,
+    protected cmsComponentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit() {
-    this.componentData$
+    this.cmsComponentData.data$
       .pipe(take(1))
       .subscribe((data: CmsImportEntriesComponent) => {
-        this.fileValidity = data.fileValidity;
+        this.componentData = data;
         this.form = this.buildForm();
       });
 
@@ -100,7 +98,9 @@ export class ImportEntriesFormComponent implements OnInit {
         '',
         [
           Validators.required,
-          this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
+          this.filesFormValidators.maxSize(
+            this.componentData?.fileValidity?.maxSize
+          ),
         ],
         [
           this.filesFormValidators.emptyFile.bind(this.filesFormValidators),

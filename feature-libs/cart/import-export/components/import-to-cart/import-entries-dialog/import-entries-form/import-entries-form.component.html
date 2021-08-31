@@ -9,7 +9,7 @@
     <label>
       <cx-file-upload
         [formControl]="form.get('file')"
-        [accept]="fileValidity?.allowedExtensions"
+        [accept]="componentData?.fileValidity?.allowedExtensions"
       >
         {{ 'importEntriesDialog.selectFile' | cxTranslate }}
       </cx-file-upload>
