@@ -107,24 +107,32 @@ describe('My Account - Address Book', () => {
         cy.get('.cx-card-delete-msg').should('not.exist');
 
         // click delete
-        cy.server();
-        cy.route(
-          'DELETE',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        cy.intercept({
+          method: 'DELETE',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/*/addresses/*?lang=en&curr=USD`
-        ).as('deleteAddress');
-        cy.route(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          )}/users/*/addresses/*`,
+          query: {
+            lang: 'en',
+            curr: 'USD',
+          },
+        }).as('deleteAddress');
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/*/addresses?lang=en&curr=USD`
-        ).as('fetchAddresses');
+          )}/users/*/addresses`,
+          query: {
+            lang: 'en',
+            curr: 'USD',
+          },
+        }).as('fetchAddresses');
 
         const card = cy.get('cx-card').first();
         card.contains('Delete').click();
         cy.get('.cx-card-delete button.btn-primary').click();
-        cy.wait('@deleteAddress').its('status').should('eq', 200);
-        cy.wait('@fetchAddresses').its('status').should('eq', 200);
+        cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
+        cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
         alerts.getSuccessAlert().contains('Address deleted successfully!');
 
         cy.get('cx-card').should('have.length', 1);
