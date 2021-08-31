@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartRoutes } from 'feature-libs/cart/import-export/core/model/car-import-export.model';
 import { BehaviorSubject } from 'rxjs';
 import {
   FocusConfig,
@@ -39,6 +40,9 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
+  placement$ = this.importToCartService.placement$;
+  PlacementType = CartRoutes;
+
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService
@@ -49,26 +53,24 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts({
-    name,
-    description,
     products,
+    savedCartInfo,
   }: {
-    name: string;
-    description: string;
     products: ProductsData;
+    savedCartInfo?: {
+      name: string;
+      description: string;
+    };
   }): void {
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
       loading: true,
       total: products.length,
-      cartName: name,
+      cartName: savedCartInfo?.name,
     });
     this.importToCartService
-      .loadProductsToCart(products, {
-        name,
-        description,
-      })
+      .loadProductsToCart(products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({

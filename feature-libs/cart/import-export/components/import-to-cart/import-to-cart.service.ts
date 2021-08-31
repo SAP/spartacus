@@ -17,6 +17,7 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
+import { CartRoutes } from 'feature-libs/cart/import-export/core/model/car-import-export.model';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -41,7 +42,7 @@ export class ImportToCartService {
 
   loadProductsToCart(
     products: ProductsData,
-    savedCartInfo?: { name: string; description?: string }
+    savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
     return this.setEntries(products, savedCartInfo).pipe(
       switchMap((cartId: string) => this.getResults(cartId)),
@@ -49,14 +50,20 @@ export class ImportToCartService {
     );
   }
 
+  get placement$(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((route) => route.state?.semanticRoute));
+  }
+
   protected setEntries(
     products: ProductsData,
-    savedCartInfo?: { name: string; description?: string }
+    savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
-    return this.routingService.getRouterState().pipe(
-      switchMap((route) => {
-        switch (route.state?.semanticRoute) {
-          case 'savedCarts':
+    return this.placement$.pipe(
+      switchMap((placement) => {
+        switch (placement) {
+          case CartRoutes.SAVED_CARTS:
             return this.userIdService.takeUserId().pipe(
               switchMap((userId: string) =>
                 this.multiCartService
@@ -92,7 +99,7 @@ export class ImportToCartService {
                   )
               )
             );
-          case 'cart': {
+          case CartRoutes.CART: {
             this.activeCartService.addEntries(
               this.mapProductsToOrderEntries(products)
             );

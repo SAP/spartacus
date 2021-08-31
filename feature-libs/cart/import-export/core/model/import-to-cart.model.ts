@@ -35,7 +35,7 @@ export interface ProductImportInfo {
 
 export interface ProductImportSummary {
   loading: boolean;
-  cartName: string;
+  cartName: string | undefined;
   count: number;
   total: number;
   successesCount: number;
