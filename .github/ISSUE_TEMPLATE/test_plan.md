@@ -106,7 +106,7 @@ Create bug tickets if necessary.
   - Windows
     - B2C Checkout happy path
     - B2B Checkout happy path
-  - Mac @mszczepaniak
+  - Mac
     - B2C Checkout happy path
     - B2B Checkout happy path
 - Firefox
@@ -130,7 +130,7 @@ Create bug tickets if necessary.
   - B2C Checkout happy path (iPhone 12)
   - B2B Checkout happy path (iPhone 12)
 - iOS (Tablet - iPad Air, Pro, etc)
-  - Safari @bgambocjaviniar (iPad Pro)
+  - Safari (iPad Pro)
     - B2C Checkout happy path
     - B2B Checkout happy path
 - Chrome (iPad Air)
