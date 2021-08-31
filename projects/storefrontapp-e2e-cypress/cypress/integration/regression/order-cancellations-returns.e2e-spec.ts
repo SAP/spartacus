@@ -129,7 +129,9 @@ describe('Order Cancellations and Returns', () => {
     it('should display return request list', () => {
       orderCancellationReturn.getStubbedReturnRequestList();
       orderCancellationReturn.visitReturnRequestListPage();
-      cy.wait('@return_request_list').its('status').should('eq', 200);
+      cy.wait('@return_request_list')
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.get('cx-tab-paragraph-container button').eq(1).click();
 
@@ -151,8 +153,12 @@ describe('Order Cancellations and Returns', () => {
 
       // test the sort dropdown
       cy.get('.top cx-sorting .ng-select').ngSelect('Return Number');
-      cy.wait('@return_request_list').its('status').should('eq', 200);
-      cy.get('@return_request_list').its('url').should('contain', 'sort=byRMA');
+      cy.wait('@return_request_list')
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.get('@return_request_list')
+        .its('request.url')
+        .should('contain', 'sort=byRMA');
 
       // accessibility
       verifyTabbingOrder(
@@ -213,7 +219,7 @@ describe('Order Cancellations and Returns', () => {
       // after cancelling one return request, go to list page to check the request status
       orderCancellationReturn.getStubbedReturnRequestListAfterCancel();
       cy.wait('@return_request_list_after_cancel')
-        .its('status')
+        .its('response.statusCode')
         .should('eq', 200);
 
       cy.get('cx-tab-paragraph-container button').eq(1).click();

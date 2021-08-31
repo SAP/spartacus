@@ -40,56 +40,61 @@ export function visitReturnOrderPage() {
 }
 
 export function getStubbedCancellableOrderDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}`,
+    },
     cancellableOrder
   );
 }
 
 export function getStubbedReturnableOrderDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}`,
+    },
     returnableOrder
   );
 }
 
 export function confirmCancelOrder() {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}/cancellation?*`,
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}/cancellation`,
+    },
     {}
   );
 }
 
 export function confirmReturnOrder() {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
     returnRequestDetails
   );
 }
 
 export function getStubbedReturnRequestList() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
     returnRequestList
   ).as('return_request_list');
 }
@@ -102,12 +107,13 @@ export function visitReturnRequestListPage() {
 }
 
 export function getStubbedReturnRequestDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
     returnRequestDetails
   ).as('return_request_details');
 }
@@ -123,12 +129,13 @@ export function visitReturnRequestDetailsPage() {
 }
 
 export function cancelReturnRequest() {
-  cy.server();
-  cy.route(
-    'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
+  cy.intercept(
+    {
+      method: 'PATCH',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
     {}
   );
 }
@@ -137,23 +144,25 @@ export function getStubbedReturnRequestListAfterCancel() {
   returnRequestList.returnRequests.pop();
   returnRequestList.returnRequests.push(cancelledReturnRequest);
 
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
     returnRequestList
   ).as('return_request_list_after_cancel');
 }
 
 export function getStubbedReturnRequestDetailsAfterCancel() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
     cancelledReturnRequest
   ).as('return_request_details_after_cancel');
 }
