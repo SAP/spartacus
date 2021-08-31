@@ -10,9 +10,7 @@ import {
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
-  UserOccTransitional_4_1_Module,
   UserTransitionalModule,
-  UserTransitional_4_1_Module,
 } from '@spartacus/core';
 import {
   AddressBookModule,
