@@ -80,7 +80,7 @@ export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
   cy.intercept({
     method: 'POST',
-    pathname: '/authorizationserver/oauth/revoke',
+    path: '/authorizationserver/oauth/revoke',
   }).as(aliasName);
 
   return `@${aliasName}`;
@@ -88,8 +88,10 @@ export function listenForTokenRevocationRequest(): string {
 
 export function listenForTokenAuthenticationRequest(): string {
   const aliasName = 'tokenAuthentication';
-  cy.server();
-  cy.route('POST', '/authorizationserver/oauth/token').as(aliasName);
+  cy.intercept({
+    method: 'POST',
+    path: '/authorizationserver/oauth/token',
+  }).as(aliasName);
 
   return `@${aliasName}`;
 }
