@@ -27,7 +27,7 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   );
 
   cy.visit('/checkout/payment-details');
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@cardTypes');
   cy.wait('@countries');

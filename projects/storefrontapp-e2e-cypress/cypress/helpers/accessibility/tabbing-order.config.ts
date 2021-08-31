@@ -600,6 +600,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.SELECT,
     },
     {
+      value: 'Quick Order',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Find a Store',
       type: TabbingOrderTypes.LINK,
     },

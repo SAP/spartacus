@@ -12,7 +12,9 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
     'getShippingAddress'
   );
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   const { firstName, lastName, phone, address } = user;
   fillShippingAddress({ firstName, lastName, phone, address }, false);
@@ -30,7 +32,9 @@ export function checkoutShippingAddressExistingTabbingOrder(
     'getShippingAddress'
   );
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
@@ -57,7 +61,9 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
   ).as('setAddress');
 
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.wait('@setAddress').its('status').should('eq', 200);
 

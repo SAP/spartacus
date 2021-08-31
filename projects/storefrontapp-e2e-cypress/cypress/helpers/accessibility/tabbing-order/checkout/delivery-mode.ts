@@ -12,7 +12,7 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
 
   cy.visit('/checkout/delivery-mode');
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-delivery-mode input').should('exist');
 
@@ -28,7 +28,7 @@ export function checkoutDeliveryModeTabbingOrderAccount(config: TabElement[]) {
   );
 
   cy.visit('/checkout/delivery-mode');
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-delivery-mode input').should('exist');
 
