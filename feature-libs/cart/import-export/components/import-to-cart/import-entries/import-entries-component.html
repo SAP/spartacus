@@ -1,6 +1,6 @@
 <button
   *ngIf="componentData$ | async as data"
-  class="cx-btn btn btn-block btn-primary col-lg-4 col-md-6"
+  class="link cx-action-link"
   (click)="openDialog(data.fileValidity)"
 >
   {{'importEntries.importProducts' | cxTranslate}}
