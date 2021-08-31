@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
 import { ICON_TYPE } from '../../../misc';

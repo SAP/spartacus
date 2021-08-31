@@ -6,8 +6,7 @@
     <span>
       <a
         [routerLink]="
-          { cxRoute: 'product', params: cartModification.entry.product }
-            | cxUrl
+          { cxRoute: 'product', params: cartModification.entry.product } | cxUrl
         "
       >
         {{ cartModification.entry.product.name }}
@@ -16,8 +15,7 @@
         'validation.productQuantityLowStock'
           | cxTranslate
             : {
-                quantity:
-                  cartModification.quantity - cartModification.quantityAdded
+                quantity: cartModification.quantityAdded
               }
       }}
     </span>
