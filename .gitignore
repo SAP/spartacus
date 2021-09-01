@@ -24,6 +24,7 @@ package-lock.json
 # verdaccio storage
 scripts/install/storage
 scripts/install/htpasswd
+
 # Environment config file
 scripts/install/config.sh
 
@@ -44,6 +45,7 @@ scripts/install/config.sh
 **/coverage
 
 # misc
+.lighthouseci/
 /.sass-cache
 /connect.lock
 /libpeerconnection.log
