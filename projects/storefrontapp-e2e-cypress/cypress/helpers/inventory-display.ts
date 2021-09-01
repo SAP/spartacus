@@ -83,7 +83,14 @@ export function assertInventoryDisplay(
           }
         }
       } else {
-        expect(text).to.equal(`${sampleData.stockLabel}`);
+        if (
+          stock.stockLevelStatus === 'outOfStock' ||
+          functionality === 'outOfStock'
+        ) {
+          expect(text).to.equal(sampleData.stockOutOfStockLabel);
+        } else {
+          expect(text).to.equal(`${sampleData.stockLabel}`);
+        }
       }
     });
   });
@@ -110,12 +117,16 @@ export function runInventoryDisplayE2E(business: string, sampleData: any) {
     });
 
     describe('Inventory Display - disabled', () => {
-      before(() => {
+      beforeEach(() => {
         configureInventoryDisplay(false);
       });
 
       it('should NOT render number of available stock', () => {
         testInventoryDisplay(sampleData.IN_STOCK_WITH_QUANTITY_PRODUCT);
+      });
+
+      it("should render 'out of stock' if stock level 0 and inventory display is off", () => {
+        testInventoryDisplay(sampleData.OUT_OF_STOCK_PRODUCT, 'outOfStock');
       });
     });
 
