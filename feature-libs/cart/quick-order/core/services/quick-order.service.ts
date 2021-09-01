@@ -124,7 +124,7 @@ export class QuickOrderService {
           if (cartEvent.error?.details.length) {
             // @ts-ignore
             let isOutOfStock = cartEvent.error?.details.some(
-              (e) => e.type === 'InsufficientStockError'
+              (e: any) => e.type === 'InsufficientStockError'
             );
             event.quantityAdded = isOutOfStock ? 0 : event.quantity;
           }

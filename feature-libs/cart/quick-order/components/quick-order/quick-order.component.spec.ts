@@ -33,7 +33,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
+  addToCart(
+    entries: OrderEntry[]
+  ): Observable<[number, CartAddEntrySuccessEvent[]]> {
     return combineLatest([mockEntriesLength$.asObservable()]).pipe(
       map(([length]) => [length, []])
     );
@@ -140,7 +142,7 @@ describe('QuickOrderComponent', () => {
     spyOn(quickOrderService, 'addToCart').and.returnValue(of([1, []]));
     spyOn(globalMessageService, 'add').and.stub();
 
-    component.addToCart();
+    component.addToCart([]);
 
     expect(quickOrderService.addToCart).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
