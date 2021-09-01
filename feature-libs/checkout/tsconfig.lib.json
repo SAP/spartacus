@@ -25,6 +25,13 @@
       "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@spartacus/cart/quick-order/components": [
+        "dist/cart/quick-order/components"
+      ],
+      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],

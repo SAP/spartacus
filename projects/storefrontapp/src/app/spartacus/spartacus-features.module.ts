@@ -76,6 +76,7 @@ import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -88,9 +89,8 @@ const featureModules = [];
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
-    OrderApprovalFeatureModule,
-
-    BulkPricingFeatureModule
+    BulkPricingFeatureModule,
+    OrderApprovalFeatureModule
   );
 }
 if (environment.cdc) {
@@ -206,6 +206,7 @@ if (environment.digitalPayments) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],
