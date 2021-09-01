@@ -170,10 +170,12 @@ context('Auxiliary Keys', () => {
 });
 
 function loadPageWithComponenents(pageUrl: string) {
-  cy.server();
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
-  ).as('getComponents');
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components`,
+  }).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

@@ -25,13 +25,12 @@ context('Currency switch - cart page', () => {
       });
     });
 
-    cy.server();
     cy.visit('/cart');
-
-    cy.route('GET', siteContextSelector.CURRENCY_REQUEST).as(
-      'currencies_request'
-    );
-    cy.wait(`@currencies_request`).its('status').should('eq', 200);
+    cy.intercept({
+      method: 'GET',
+      path: siteContextSelector.CURRENCY_REQUEST,
+    }).as('currencies_request');
+    cy.wait(`@currencies_request`).its('response.statusCode').should('eq', 200);
   });
 
   describe('cart page', () => {
