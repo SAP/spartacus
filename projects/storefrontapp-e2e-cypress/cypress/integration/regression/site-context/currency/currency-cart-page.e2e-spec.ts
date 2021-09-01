@@ -56,7 +56,10 @@ context('Currency switch - cart page', () => {
     it('should change currency for cart details', () => {
       cy.intercept({
         method: 'GET',
-        path: `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`,
+        pathname: `${baseUrl}/users/current/carts/${cartId}`,
+        query: {
+          curr: siteContextSelector.CURRENCY_JPY,
+        },
       }).as('switchedCartContext');
 
       switchSiteContext(
