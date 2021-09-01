@@ -39,9 +39,10 @@ context('Currency switch - cart page', () => {
     )}/${Cypress.env('BASE_SITE')}`;
 
     it('should change currency in the url', () => {
-      cy.route('GET', siteContextSelector.CART_REQUEST).as(
-        siteContextSelector.CART_REQUEST_ALIAS
-      );
+      cy.intercept({
+        method: 'GET',
+        path: siteContextSelector.CART_REQUEST,
+      }).as(siteContextSelector.CART_REQUEST_ALIAS);
 
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
@@ -53,10 +54,10 @@ context('Currency switch - cart page', () => {
     });
 
     it('should change currency for cart details', () => {
-      cy.route(
-        'GET',
-        `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`
-      ).as('switchedCartContext');
+      cy.intercept({
+        method: 'GET',
+        path: `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`,
+      }).as('switchedCartContext');
 
       switchSiteContext(
         siteContextSelector.CURRENCY_JPY,
