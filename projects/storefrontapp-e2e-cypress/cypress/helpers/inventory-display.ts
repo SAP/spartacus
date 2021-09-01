@@ -103,8 +103,8 @@ export function testInventoryDisplay(
   assertInventoryDisplay(productCode, `@${productDetailsAlias}`, functionality);
 }
 
-export function runInventoryDisplayE2E(consumer: string, sampleData: any) {
-  context(`${consumer} - Inventory Display`, () => {
+export function runInventoryDisplayE2E(business: string, sampleData: any) {
+  context(`${business} - Inventory Display`, () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
