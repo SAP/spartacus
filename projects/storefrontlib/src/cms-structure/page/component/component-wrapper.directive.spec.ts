@@ -77,8 +77,12 @@ class MockDynamicAttributeService {
 }
 
 @Component({
-  template:
-    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>',
+  template: `<ng-container
+    [cxComponentWrapper]="component"
+    (cxComponentRef)="testComponentRef($event)"
+  >
+    +
+  </ng-container>`,
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
@@ -91,6 +95,8 @@ class TestWrapperComponent {
       },
     },
   };
+
+  testComponentRef(_componentRef: any): void {}
 }
 
 class MockConfigInitializerService
@@ -99,6 +105,7 @@ class MockConfigInitializerService
 }
 
 describe('ComponentWrapperDirective', () => {
+  let component: TestWrapperComponent;
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
@@ -186,6 +193,7 @@ describe('ComponentWrapperDirective', () => {
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
+        component = fixture.componentInstance;
       });
 
       it('should instantiate the found component correctly', () => {
@@ -253,18 +261,32 @@ describe('ComponentWrapperDirective', () => {
 
       it('should inject cms component data', () => {
         fixture.detectChanges();
-        const testCromponemtInstance = <TestComponent>(
+        const testComponentInstance = <TestComponent>(
           fixture.debugElement.children[0].componentInstance
         );
-        expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+        expect(testComponentInstance.cmsData.uid).toContain('test_uid');
+        expect((testComponentInstance as any).testKey).not.toContain(
+          'testValue'
+        );
       });
 
       it('should provide configurable cms component providers', () => {
         fixture.detectChanges();
-        const testCromponemtInstance = <TestComponent>(
+        const testComponentInstance = <TestComponent>(
           fixture.debugElement.children[0].componentInstance
         );
-        expect(testCromponemtInstance.testService).toEqual('testValue');
+        expect(testComponentInstance.testService).toEqual('testValue');
+        expect((testComponentInstance as any).testKey).not.toContain(
+          'testValue'
+        );
+      });
+
+      it('should emit component ref', () => {
+        spyOn(component, 'testComponentRef').and.callThrough();
+
+        fixture.detectChanges();
+
+        expect(component.testComponentRef).toHaveBeenCalled();
       });
     });
 
