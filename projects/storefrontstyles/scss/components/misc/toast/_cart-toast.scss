@@ -1,0 +1,93 @@
+:root {
+  --cx-cart-toast-height: 240px;
+  --cx-cart-toast-width: 375px;
+  --cx-cart-toast-desktop-header-offset: 192px;
+  --cx-cart-toast-background: var(--cx-color-inverse);
+  --cx-cart-toast-bottom-height: 50px;
+  --cx-cart-toast-translateY: -100%;
+}
+
+cx-cart-toast {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  .toast-container {
+    position: absolute;
+    border: 1px solid var(--cx-color-dark);
+    background: var(--cx-cart-toast-background);
+    width: var(--cx-cart-toast-width);
+    transition: transform 0.5s ease;
+    transform: translateY(var(--cx-cart-toast-translateY));
+    pointer-events: auto;
+
+    .cart-toast-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      padding: 12px 0;
+      color: var(--cx-color-inverse);
+      background: var(--cx-color-dark);
+    }
+
+    h3 {
+      font-weight: 600;
+    }
+
+    .cart-toast-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px 13px;
+
+      .cx-product-image {
+        margin: 0 10px 0 0;
+      }
+      .cart-toast-product {
+        span {
+          display: block;
+        }
+      }
+      .continue-shopping {
+        display: flex;
+        align-items: center;
+        color: var(--cx-color-primary);
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  > .on-header {
+    --cx-cart-toast-translateY: var(--cx-cart-toast-desktop-header-offset);
+  }
+
+  > .on-fixed-header {
+    position: fixed;
+    --cx-cart-toast-translateY: var(--cx-cart-toast-desktop-header-offset);
+  }
+
+  > .off-header {
+    position: fixed;
+    --cx-cart-toast-translateY: 0;
+  }
+
+  > .transition-none {
+    transition: none;
+  }
+
+  > .close-toast {
+    --cx-cart-toast-translateY: -100%;
+  }
+}
