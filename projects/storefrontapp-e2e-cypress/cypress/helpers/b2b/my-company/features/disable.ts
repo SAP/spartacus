@@ -9,7 +9,9 @@ export function disableTest(config: MyCompanyConfig) {
     before(() => {
       loginAsMyCompanyAdmin();
 
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
+      cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+        'getEntity'
+      );
       if (config.preserveCookies) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
           entityId = cookie.value;
@@ -23,8 +25,10 @@ export function disableTest(config: MyCompanyConfig) {
     });
 
     it('should disable/enable', () => {
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
-      cy.route('PATCH', `**`).as('saveEntity');
+      cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+        'loadEntity'
+      );
+      cy.intercept({ method: 'PATCH', path: `**` }).as('saveEntity');
 
       cy.get('cx-org-card cx-org-toggle-status button')
         .contains('Disable')
