@@ -27,7 +27,11 @@ export function configureInventoryDisplay(enable: boolean) {
   });
 }
 
-export function assertInventoryDisplay(productCode: string, alias: string) {
+export function assertInventoryDisplay(
+  productCode: string,
+  alias: string,
+  functionality: string
+) {
   cy.get(`${alias}`).then((xhr) => {
     let isInventoryDisplayActive;
     cy.getCookie('cxConfigE2E')
@@ -45,15 +49,23 @@ export function assertInventoryDisplay(productCode: string, alias: string) {
 
       if (isInventoryDisplayActive) {
         // Out of stock
-        if (stock.stockLevelStatus === 'outOfStock') {
+        if (
+          stock.stockLevelStatus === 'outOfStock' ||
+          functionality === 'outOfStock'
+        ) {
           expect(text).to.equal(sampleData.stockOutOfStockLabel);
         } else {
           if (stock?.stockLevel) {
             /**
-             * Currently have sample data set for the 'Webcams' category to have a threshold
-             * Threshold is set to 343.
+             * B2C: Currently have sample data set for the 'Webcams' category to have a threshold.
+             *    Threshold is set to 343.
+             * B2B: Currently have sample data set for the 'Measuring & Layout Tools' category to have a threshold.
+             *    Threshold is set to 215.
              **/
-            if (stock?.isValueRounded) {
+            if (
+              stock?.isValueRounded ||
+              functionality === 'categoryThresholdLimitReached'
+            ) {
               expect(text).to.equal(
                 `${stock.stockLevel}+ ${sampleData.stockLabel}`
               );
@@ -77,7 +89,10 @@ export function assertInventoryDisplay(productCode: string, alias: string) {
   });
 }
 
-export function testInventoryDisplay(productCode: string) {
+export function testInventoryDisplay(
+  productCode: string,
+  functionality: string = ''
+) {
   const productDetailsAlias = interceptProductDetails(productCode);
   visitProductPage(productCode);
 
@@ -85,7 +100,7 @@ export function testInventoryDisplay(productCode: string) {
     .its('response.statusCode')
     .should('eq', 200);
 
-  assertInventoryDisplay(productCode, `@${productDetailsAlias}`);
+  assertInventoryDisplay(productCode, `@${productDetailsAlias}`, functionality);
 }
 
 export function runInventoryDisplayE2E(consumer: string, sampleData: any) {
@@ -114,7 +129,7 @@ export function runInventoryDisplayE2E(consumer: string, sampleData: any) {
       });
 
       it("should render 'out of stock' if stock level 0 and inventory display is on", () => {
-        testInventoryDisplay(sampleData.OUT_OF_STOCK_PRODUCT);
+        testInventoryDisplay(sampleData.OUT_OF_STOCK_PRODUCT, 'outOfStock');
       });
 
       it("should render 'In Stock' if force inStock status and inventory display is on", () => {
@@ -122,7 +137,10 @@ export function runInventoryDisplayE2E(consumer: string, sampleData: any) {
       });
 
       it('should render + if threshold applied and inventory display is on', () => {
-        testInventoryDisplay(sampleData.THRESHOLD_STOCK);
+        testInventoryDisplay(
+          sampleData.THRESHOLD_STOCK,
+          'categoryThresholdLimitReached'
+        );
       });
 
       it('should NOT render + if threshold greater than stock level and inventory display is on', () => {
