@@ -20,6 +20,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
+import { CartToastConfig } from '../cart-toast/cart-toast-config';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Component({
@@ -64,6 +65,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
     activeCartService: ActiveCartService,
+    cartToastConfig: CartToastConfig,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     component?: CmsComponentData<CmsAddToCartComponent>
   );
@@ -75,7 +77,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
+    activeCartService: ActiveCartService,
+    cartToastConfig: CartToastConfig
   );
 
   constructor(
@@ -83,6 +86,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
+    protected cartToastConfig: CartToastConfig,
     @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
   ) {}
 
@@ -150,7 +154,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((entries) => {
         this.numberOfEntriesBeforeAdd = entries.length;
-        this.openModal();
+        this.cartToastConfig.cartToast?.enabled || this.openModal();
         this.activeCartService.addEntry(this.productCode, quantity);
       });
   }
