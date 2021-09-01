@@ -32,7 +32,7 @@ export function updateTest(config: MyCompanyConfig) {
     it(`should update`, () => {
       if (config.selectOptionsEndpoint) {
         config.selectOptionsEndpoint.forEach((endpoint) => {
-          cy.route(endpoint).as(`getSelectOptionsFor${endpoint}`);
+          cy.intercept(endpoint).as(`getSelectOptionsFor${endpoint}`);
         });
       }
 
