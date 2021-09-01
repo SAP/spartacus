@@ -15,6 +15,7 @@ import {
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
+import { LaunchDialogService, LAUNCH_CALLER } from '../launch-dialog';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
 @Component({
@@ -53,7 +54,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });
+    this.launchDialogService.launch(LAUNCH_CALLER.CART_TOAST);
   }
 
   collapseMenuIfClickOutside(event: any): void {
