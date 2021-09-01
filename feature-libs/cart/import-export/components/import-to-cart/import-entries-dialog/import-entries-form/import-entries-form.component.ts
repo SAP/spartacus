@@ -13,11 +13,7 @@ import {
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
-import {
-  CmsComponentData,
-  LaunchDialogService,
-  FormUtils,
-} from '@spartacus/storefront';
+import { LaunchDialogService, FormUtils } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -42,13 +38,12 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected cmsComponentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit() {
-    this.cmsComponentData.data$
+    this.launchDialogService.data$
       .pipe(take(1))
       .subscribe((data: CmsImportEntriesComponent) => {
         this.componentData = data;

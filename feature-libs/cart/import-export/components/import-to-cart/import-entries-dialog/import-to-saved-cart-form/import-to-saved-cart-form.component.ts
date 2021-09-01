@@ -11,14 +11,13 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  CmsImportEntriesComponent,
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
   NameSource,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
-import { CmsComponentData, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { ImportEntriesFormComponent } from 'feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportToCartService } from '../../import-to-cart.service';
 
@@ -51,7 +50,6 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected cmsComponentData: CmsComponentData<CmsImportEntriesComponent>,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators,
     protected datePipe: CxDatePipe
@@ -59,7 +57,6 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     super(
       launchDialogService,
       importToCartService,
-      cmsComponentData,
       importService,
       filesFormValidators
     );
