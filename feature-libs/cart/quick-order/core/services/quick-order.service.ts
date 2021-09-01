@@ -6,6 +6,7 @@ import {
   OrderEntry,
   Product,
   ProductAdapter,
+  CartAddEntryFailEvent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -113,6 +114,23 @@ export class QuickOrderService {
           events.push(cartEvent);
         }
       });
+
+    subscription.add(
+      this.eventService
+        .get(CartAddEntryFailEvent)
+        .subscribe((cartEvent: CartAddEntryFailEvent) => {
+          let event = { ...cartEvent } as CartAddEntrySuccessEvent;
+          // @ts-ignore
+          if (cartEvent.error?.details.length) {
+            // @ts-ignore
+            let isOutOfStock = cartEvent.error?.details.some(
+              (e) => e.type === 'InsufficientStockError'
+            );
+            event.quantityAdded = isOutOfStock ? 0 : event.quantity;
+          }
+          events.push(event);
+        })
+    );
 
     return this.getEntries().pipe(
       first(),
