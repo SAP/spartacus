@@ -85,8 +85,8 @@ context('Auxiliary Keys', () => {
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/products/search`
-      ).as('query');
+        )}/products/search`,
+      }).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
