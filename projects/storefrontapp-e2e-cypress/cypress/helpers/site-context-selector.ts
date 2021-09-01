@@ -128,8 +128,7 @@ export function paymentDetailsNextStep() {
 export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    cy.server();
-    cy.route(request).as(alias);
+    cy.intercept(request).as(alias);
   });
 
   afterEach(() => {
