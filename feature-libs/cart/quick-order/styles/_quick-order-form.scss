@@ -19,6 +19,10 @@ cx-quick-order-form {
       top: 12px;
     }
 
+    .search:hover {
+      cursor: pointer;
+    }
+
     .list-limit-reached-text {
       bottom: -15px;
       color: var(--cx-color-danger);
