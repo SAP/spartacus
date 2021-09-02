@@ -55,6 +55,6 @@ export class ImportCsvService {
   }
 
   private get separator() {
-    return this.importExportConfig.importExport?.file.separator ?? ',';
+    return this.importExportConfig.cartImportExport?.file.separator ?? ',';
   }
 }

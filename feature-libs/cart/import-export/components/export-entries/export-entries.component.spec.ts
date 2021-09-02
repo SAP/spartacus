@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
@@ -89,16 +89,22 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
-const csvOutput = '"3803058","2"';
+const transitionalArray = [
+  ['SKU', 'quantity'],
+  ['3803058', '2'],
+];
 
 const entries$ = new BehaviorSubject([entry]);
 
 class MockExportEntriesService {
-  getEntries = createSpy('getEntries').and.returnValue(entries$.asObservable());
-  exportEntries = createSpy('getEntries').and.returnValue([entry]);
+  getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
+    of(transitionalArray)
+  );
 }
 class MockExportService {
-  dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);
+  convertDataToCsvAndDownload = createSpy(
+    'convertDataToCsvAndDownload'
+  ).and.callThrough();
 }
 
 describe('ExportEntriesComponent', () => {
@@ -147,17 +153,17 @@ describe('ExportEntriesComponent', () => {
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportToCsv').and.callThrough();
-    const downloadCsvSpy = spyOn(component, 'downloadCsv');
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
 
     expect(btn.nativeElement).toBeTruthy();
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportToCsvSpy).toHaveBeenCalledWith();
-      expect(downloadCsvSpy).toHaveBeenCalledWith(csvOutput);
-      expect(exportEntriesService.exportEntries).toHaveBeenCalledWith();
-      expect(exportService.dataToCsv).toHaveBeenCalledWith([entry] as any);
+      expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
+      expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
+      expect(exportService.convertDataToCsvAndDownload).toHaveBeenCalledWith(
+        transitionalArray
+      );
     });
   });
 

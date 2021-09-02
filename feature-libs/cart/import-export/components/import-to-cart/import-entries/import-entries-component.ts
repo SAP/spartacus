@@ -24,7 +24,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntriesComponent implements OnDestroy {
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
   componentData$ = this.componentData.data$;

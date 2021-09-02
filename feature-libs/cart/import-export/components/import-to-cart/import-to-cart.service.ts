@@ -6,11 +6,14 @@ import {
   ProductImportStatus,
   ProductsData,
 } from '@spartacus/cart/import-export/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  ActiveCartService,
   Cart,
   CartActions,
   MultiCartService,
+  OrderEntry,
+  RoutingService,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
@@ -30,52 +33,88 @@ export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
+    protected routingService: RoutingService,
+    protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject
   ) {}
 
   loadProductsToCart(
     products: ProductsData,
-    savedCartInfo: { name: string; description?: string }
+    savedCartInfo?: { name: string; description?: string }
   ): Observable<ProductImportInfo> {
-    return this.userIdService.takeUserId().pipe(
-      switchMap((userId: string) =>
-        this.multiCartService
-          .createCart({
-            userId,
-            extraData: { active: false },
-          })
-          .pipe(
-            filter((cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-              Boolean(cartData.value?.code)
-            ),
-            map(
-              (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-                cartData.value?.code as string
-            ),
-            tap((cartId: string) => {
-              // TODO: #13393
-              // for active cart use: getCartIdByUserId(cartData, userId)
-              this.savedCartService.saveCart({
-                cartId,
-                saveCartName: savedCartInfo.name,
-                saveCartDescription: savedCartInfo.description,
-              });
-              this.savedCartService.loadSavedCarts();
-            }),
-            observeOn(queueScheduler),
-            delayWhen(() =>
-              this.savedCartService
-                .getSaveCartProcessLoading()
-                .pipe(filter((loading) => !loading))
-            ),
-            tap((cartId: string) =>
-              this.multiCartService.addEntries(userId, cartId, products)
-            ),
-            switchMap((cartId: string) => this.getResults(cartId)),
-            take(products.length)
-          )
-      )
+    return this.setEntries(products, savedCartInfo).pipe(
+      switchMap((cartId: string) => this.getResults(cartId)),
+      take(products.length)
+    );
+  }
+
+  protected setEntries(
+    products: ProductsData,
+    savedCartInfo?: { name: string; description?: string }
+  ): Observable<string> {
+    return this.routingService.getRouterState().pipe(
+      switchMap((route) => {
+        switch (route.state?.semanticRoute) {
+          case 'savedCarts':
+            return this.userIdService.takeUserId().pipe(
+              switchMap((userId: string) =>
+                this.multiCartService
+                  .createCart({
+                    userId,
+                    extraData: { active: false },
+                  })
+                  .pipe(
+                    filter((cartData: StateUtils.ProcessesLoaderState<Cart>) =>
+                      Boolean(cartData.value?.code)
+                    ),
+                    map(
+                      (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
+                        cartData.value?.code as string
+                    ),
+                    tap((cartId: string) => {
+                      this.savedCartService.saveCart({
+                        cartId,
+                        saveCartName: savedCartInfo?.name,
+                        saveCartDescription: savedCartInfo?.description,
+                      });
+                      this.savedCartService.loadSavedCarts();
+                    }),
+                    observeOn(queueScheduler),
+                    delayWhen(() =>
+                      this.savedCartService
+                        .getSaveCartProcessLoading()
+                        .pipe(filter((loading) => !loading))
+                    ),
+                    tap((cartId: string) =>
+                      this.multiCartService.addEntries(userId, cartId, products)
+                    )
+                  )
+              )
+            );
+          case 'cart': {
+            this.activeCartService.addEntries(
+              this.mapProductsToOrderEntries(products)
+            );
+            return this.activeCartService.getActiveCartId();
+          }
+          default: {
+            this.activeCartService.addEntries(
+              this.mapProductsToOrderEntries(products)
+            );
+            return this.activeCartService.getActiveCartId();
+          }
+        }
+      })
+    );
+  }
+
+  protected mapProductsToOrderEntries(products: ProductsData): OrderEntry[] {
+    return products.map(
+      (product: { productCode: string; quantity: number }) => ({
+        product: { code: product.productCode },
+        quantity: product.quantity,
+      })
     );
   }
 

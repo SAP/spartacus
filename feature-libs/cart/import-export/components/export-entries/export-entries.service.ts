@@ -6,8 +6,8 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { filter, map, switchMap, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   ImportExportConfig,
@@ -28,7 +28,7 @@ export class ExportEntriesService {
 
   private get additionalColumns(): ExportColumn[] {
     return (
-      this.importExportConfig.importExport?.export?.additionalColumns ?? []
+      this.importExportConfig.cartImportExport?.export?.additionalColumns ?? []
     );
   }
 
@@ -57,7 +57,7 @@ export class ExportEntriesService {
     );
   }
 
-  getEntries(): Observable<OrderEntry[]> {
+  protected getEntries(): Observable<OrderEntry[]> {
     return this.routingService.getRouterState().pipe(
       switchMap((route) => {
         switch (route.state?.semanticRoute) {
@@ -80,32 +80,32 @@ export class ExportEntriesService {
     );
   }
 
-  exportEntries() {
-    const names: string[] = [];
-    const values: any[] = [];
+  protected getResolvedValues(): Observable<string[][]> {
+    return this.getEntries().pipe(
+      map((entries) =>
+        entries.map((entry) =>
+          this.columns.map((column) => this.resolveValue(column.value, entry))
+        )
+      )
+    );
+  }
 
-    this.columns.map((column) => {
-      this.translationService
-        .translate(`exportEntries.columnNames.${column.name.key}`)
-        .pipe(take(1))
-        .subscribe((name) => names.push(name));
-    });
+  protected getTranslatedColumnHeaders(): Observable<string[]> {
+    return combineLatest(
+      this.columns.map((column) =>
+        this.translationService.translate(
+          `exportEntries.columnNames.${column.name.key}`
+        )
+      )
+    );
+  }
 
-    this.getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        entries.map((entry) => {
-          values.push(
-            Object.assign(
-              {},
-              this.columns.map((column) =>
-                this.resolveValue(column.value, entry)
-              )
-            )
-          );
-        });
-      });
-
-    return [{ ...names }, ...values];
+  getResolvedEntries(): Observable<string[][]> {
+    return this.getResolvedValues().pipe(
+      withLatestFrom(this.getTranslatedColumnHeaders()),
+      map(([values, headers]) => {
+        return [headers, ...values];
+      })
+    );
   }
 }
