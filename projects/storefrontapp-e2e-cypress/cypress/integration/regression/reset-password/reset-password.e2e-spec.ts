@@ -30,13 +30,16 @@ context('Reset Password Page', () => {
 
   it('should react as expected on password change success.', () => {
     // We use a mock because the change password token required is only available from a reset password email.
-    cy.server();
-    cy.route({
-      method: 'POST',
-      url: '**/resetpassword*',
-      status: 202,
-      response: {},
-    }).as('postResetPassword');
+    cy.intercept(
+      {
+        method: 'POST',
+        url: '**/resetpassword*',
+      },
+      {
+        body: {},
+        statusCode: 202,
+      }
+    ).as('postResetPassword');
     alerts.getSuccessAlert().should('not.exist');
 
     cy.get('cx-reset-password form').within(() => {
