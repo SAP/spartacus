@@ -148,11 +148,12 @@ export function selectAccountShippingAddress() {
 }
 
 export function selectAccountDeliveryMode() {
-  cy.server();
-  cy.route(
-    'PUT',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/**/deliverymode?*`
-  ).as('putDeliveryMode');
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?*`,
+  }).as('putDeliveryMode');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
@@ -166,7 +167,7 @@ export function selectAccountDeliveryMode() {
 
   cy.get('.cx-checkout-btns button.btn-primary').click();
 
-  cy.wait('@putDeliveryMode').its('status').should('eq', 200);
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
