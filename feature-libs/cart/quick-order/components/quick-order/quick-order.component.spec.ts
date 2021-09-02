@@ -33,9 +33,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(
-    entries: OrderEntry[]
-  ): Observable<[number, CartAddEntrySuccessEvent[]]> {
+  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
     return combineLatest([mockEntriesLength$.asObservable()]).pipe(
       map(([length]) => [length, []])
     );
