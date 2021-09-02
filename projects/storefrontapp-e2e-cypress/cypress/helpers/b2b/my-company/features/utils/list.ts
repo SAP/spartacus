@@ -13,7 +13,9 @@ export function testList(
   config: MyCompanyConfig,
   options?: TestListOptions
 ): void {
-  cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+  cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+    'getData'
+  );
   if (options.trigger) {
     waitForData((data) => {
       const requestData = data;
@@ -60,7 +62,9 @@ export function testListSorting(config: MyCompanyConfig): void {
   config.rows.forEach((row) => {
     if (row.sortLabel && row?.sortLabel !== DEFAULT_SORT_LABEL) {
       it(`should sort table data by ${row.sortLabel}`, () => {
-        cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+        cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+          'getData'
+        );
         waitForData((data) => {
           verifyList(
             getListRowsFromBody(data, config.objectType, config.rows),
