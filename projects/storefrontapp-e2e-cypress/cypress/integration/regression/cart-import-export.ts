@@ -1,292 +1,185 @@
-import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
 import * as cart from '../../helpers/cart';
+import * as importExport from '../../helpers/cart-import-export';
 import { APPAREL_BASESITE } from '../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../helpers/viewport-context';
-
-interface ImportConfig {
-  name: string;
-  description: string;
-  saveTime: string;
-  quantity: number;
-  total: string;
-  headers: Array<string>;
-}
-
-const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
-const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
-const nonDefaultImportExportConfig = {
-  importExport: {
-    file: {
-      // Alternative separator
-      separator: ' 8=D ',
-    },
-    export: {
-      additionalColumns: [
-        // Regular key and value
-        {
-          name: {
-            key: 'name',
-          },
-          value: 'product.name',
-        },
-        // String value with invalid key
-        {
-          name: {
-            key: 'manufacturer',
-          },
-          value: 'product.manufacturer',
-        },
-        // Boolean value with valid (non-relevant) key
-        {
-          name: {
-            key: 'price',
-          },
-          value: 'product.availableForPickup',
-        },
-        // Deep value with invalid key
-        {
-          name: {
-            key: 'primaryImageFormat',
-          },
-          value: 'product.images.PRIMARY.thumbnail.format',
-        },
-        // Invalid key and value
-        {
-          name: {
-            key: 'invalidKey',
-          },
-          value: 'invalidValue',
-        },
-      ],
-    },
-  },
-};
-const configurableProductConfig = {
-  importExport: {
-    export: {
-      additionalColumns: [
-        {
-          name: {
-            key: 'engravedTextHeading',
-          },
-          value: 'configurationInfos.0.configurationValue',
-        },
-        {
-          name: {
-            key: 'fontSize',
-          },
-          value: 'configurationInfos.1.configurationValue',
-        },
-        {
-          name: {
-            key: 'fontType',
-          },
-          value: 'configurationInfos.2.configurationValue',
-        },
-      ],
-    },
-  },
-};
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Single product', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
-      const headers = getCsvHeaders(EXPECTED_CSV);
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
 
       it('should export cart', () => {
-        addProductToCart();
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart();
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Single Product Cart',
           description: 'A test description for Single Product Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '$114.12',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Single product with larger quantity', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-      const headers = getCsvHeaders(EXPECTED_CSV);
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
 
       it('should export cart', () => {
-        addProductToCart();
-        addProductToCart();
-        addProductToCart();
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart();
+        importExport.addProductToCart();
+        importExport.addProductToCart();
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Single Product (Lg Qty) Cart',
           description: 'A test description for Single Product (Lg Qty) Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 3,
           total: '$322.36',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
 
       it('should export cart', () => {
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[1].code);
-        addProductToCart(cart.products[2].code);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.addProductToCart(cart.products[2].code);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Multi-Product Cart',
           description: 'A test description for Multi-Product Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 3,
           total: '$564.69',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Multiple products with varied quantities', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,2,Photosmart E317 Digital Camera,$228.24\r\n3470545,3,EASYSHARE M381,"$1,112.16"`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
 
       it('should export cart', () => {
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[1].code);
-        addProductToCart(cart.products[1].code);
-        addProductToCart(cart.products[2].code);
-        addProductToCart(cart.products[2].code);
-        addProductToCart(cart.products[2].code);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.addProductToCart(cart.products[2].code);
+        importExport.addProductToCart(cart.products[2].code);
+        importExport.addProductToCart(cart.products[2].code);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Multi-Product Cart with varied quantities',
           description:
             'A test description for Multi-Product Cart with varied quantities.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 6,
           total: '$1,420.25',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Normal products with configurable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
 
       it('should export cart', () => {
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[1].code);
-        addProductToCart(cart.products[1].code);
-        addProductToCart(cart.products[1].code);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Normal and Configurable Products Cart',
           description:
             'A test description for Normal and Configurable Products Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 6,
           total: '$621.91',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Non-default export configuration', () => {
       const EXPECTED_CSV = `Code 8=D Quantity 8=D Name 8=D [importExport:exportEntries.columnNames.manufacturer] 8=D Price 8=D [importExport:exportEntries.columnNames.primaryImageFormat] 8=D [importExport:exportEntries.columnNames.invalidKey]\r\n1934793 8=D 1 8=D PowerShot A480 8=D Canon 8=D true 8=D thumbnail 8=D \r\n300938 8=D 1 8=D Photosmart E317 Digital Camera 8=D HP 8=D true 8=D thumbnail 8=D \r\n`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
 
       beforeEach(() => {
-        cy.cxConfig(nonDefaultImportExportConfig);
+        cy.cxConfig(importExport.nonDefaultImportExportConfig);
       });
 
       it('should export cart', () => {
-        addProductToCart(cart.products[0].code);
-        addProductToCart(cart.products[1].code);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[1].code);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Non-default export Cart',
           description: 'A test description for Non-default export Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 2,
           total: '$193.97',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
-    describe('Configurable products', () => {
+    // TODO: Enable and improve once importing configurable products is supported (#13456)
+    xdescribe('Configurable products', () => {
       const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
 
       beforeEach(() => {
-        cy.cxConfig(configurableProductConfig);
+        cy.cxConfig(importExport.configurableProductConfig);
       });
 
       it('should export cart', () => {
-        addProductToCart(cart.products[0].code);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Configurable products Cart',
           description: 'A test description for Configurable products Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '$99.85',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Variable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
-      const expectedData = convertCsvToArray(EXPECTED_CSV);
-      const headers = getCsvHeaders(EXPECTED_CSV);
       const variableProductCode = '300785814';
 
       beforeEach(() => {
@@ -299,47 +192,29 @@ context('Cart Import/Export', () => {
       });
 
       it('should export cart', () => {
-        addProductToCart(variableProductCode);
-
-        exportCart(EXPECTED_CSV);
+        importExport.addProductToCart(variableProductCode);
+        importExport.exportCart(EXPECTED_CSV);
       });
 
       it('should import cart', () => {
-        const importConfig: ImportConfig = {
+        importExport.importCartTestFromConfig({
           name: 'Variable products Cart',
           description: 'A test description for Variable products Cart.',
-          saveTime: getSavedDate(),
+          saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '£24.26',
-          headers: headers,
-        };
-        importData(importConfig, expectedData);
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
       });
     });
 
     describe('Malformed CSVs', () => {
       it('should NOT import empty csv file', () => {
-        cy.writeFile(`cypress/downloads/empty.csv`, '');
+        const CSV = 'empty.csv';
+        cy.writeFile(`cypress/downloads/${CSV}`, '');
+        importExport.attemptUpload(`../downloads/${CSV}`);
 
-        loginAsMyCompanyAdmin();
-
-        cy.visit('my-account/saved-carts');
-        cy.get('cx-import-entries button').contains('Import Products').click();
-        cy.get(
-          'cx-import-entries-form cx-file-upload input[type="file"]'
-        ).attachFile(
-          { filePath: `../downloads/empty.csv` },
-          { allowEmpty: true }
-        );
-        cy.get('cx-import-entries-form input[formcontrolname="name"]').type(
-          'Empty File'
-        );
-        cy.get(
-          'cx-import-entries-form textarea[formcontrolname="description"]'
-        ).type('A test description.');
-
-        cy.intercept('GET', '**/users/current/carts/*?**').as('import');
-        cy.get('cx-import-entries-form button').contains('Upload').click();
         cy.get('cx-import-entries-form cx-form-errors p').contains(
           'File should not be empty'
         );
@@ -349,23 +224,10 @@ context('Cart Import/Export', () => {
       });
 
       it('should NOT import malformed csv file', () => {
-        cy.writeFile(`cypress/downloads/malformed.csv`, 'I am wrong :(');
+        const CSV = 'malformed.csv';
+        cy.writeFile(`cypress/downloads/${CSV}`, 'I am wrong :(');
+        importExport.attemptUpload(`../downloads/${CSV}`);
 
-        loginAsMyCompanyAdmin();
-
-        cy.visit('my-account/saved-carts');
-        cy.get('cx-import-entries button').contains('Import Products').click();
-        cy.get(
-          'cx-import-entries-form cx-file-upload input[type="file"]'
-        ).attachFile({ filePath: `../downloads/malformed.csv` });
-        cy.get('cx-import-entries-form input[formcontrolname="name"]').type(
-          'Malformed Cart'
-        );
-        cy.get(
-          'cx-import-entries-form textarea[formcontrolname="description"]'
-        ).type('A test description.');
-
-        cy.get('cx-import-entries-form button').contains('Upload').click();
         cy.get('cx-import-entries-form cx-form-errors p').contains(
           'File is not parsable'
         );
@@ -373,24 +235,9 @@ context('Cart Import/Export', () => {
 
       it('should only import remaining stock', () => {
         const toImport = `Code,Quantity\r\n325234,999\r\n`;
-        cy.writeFile(`cypress/downloads/limited-quantity.csv`, toImport);
-        loginAsMyCompanyAdmin();
-
-        cy.visit('my-account/saved-carts');
-        cy.get('cx-import-entries button').contains('Import Products').click();
-        cy.get(
-          'cx-import-entries-form cx-file-upload input[type="file"]'
-        ).attachFile({ filePath: `../downloads/limited-quantity.csv` });
-        cy.get('cx-import-entries-form input[formcontrolname="name"]').type(
-          'Limited Qty Cart'
-        );
-        cy.get(
-          'cx-import-entries-form textarea[formcontrolname="description"]'
-        ).type('A test description.');
-
-        cy.intercept('GET', '**/users/current/carts/*?**').as('import');
-        cy.get('cx-import-entries-form button').contains('Upload').click();
-
+        const CSV = 'limited-quantity.csv';
+        cy.writeFile(`cypress/downloads/${CSV}`, toImport);
+        importExport.attemptUpload(`../downloads/${CSV}`);
         cy.wait('@import');
 
         cy.get('.cx-import-entries-summary-warnings p').contains(
@@ -408,162 +255,3 @@ context('Cart Import/Export', () => {
     });
   });
 });
-
-function getSavedDate(): string {
-  const d = new Date();
-  const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-  const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
-  const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
-  return `${month} ${day}, ${year}`;
-}
-
-/**
- * Navigates to the PDP page to add the product with the given code.
- * @param productCode identifies the unique product to add.
- */
-function addProductToCart(productCode: string = cart.products[1].code) {
-  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
-  cy.intercept('POST', `**/users/*/carts/*/entries?**`).as('addToCart');
-  cy.visit(`/product/${productCode}`);
-  cart.clickAddToCart();
-  cy.wait(['@refresh_cart', '@addToCart']);
-}
-
-/**
- * Goes to the cart page and clicks the button to export cart.
- * @param expectedData will compare the data of the downloaded .csv to the parsed string.
- */
-function exportCart(expectedData?: string) {
-  cy.visit('cart');
-  cy.get('cx-export-entries button').contains('Export to CSV').click();
-  if (expectedData) {
-    cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
-  }
-}
-
-function convertCsvToArray(csv: string): Array<string> {
-  return csv.replaceAll('\r\n', ',').split(',');
-}
-
-function getCsvHeaders(csv: string): Array<string> {
-  return csv.split('\r\n', 1)[0].split(',');
-}
-
-function importData(config: ImportConfig, expectedData) {
-  loginAsMyCompanyAdmin();
-
-  cy.visit('my-account/saved-carts');
-  cy.get('cx-import-entries button').contains('Import Products').click();
-  cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
-    cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
-  });
-  cy.get(
-    'cx-import-entries-form cx-file-upload input[type="file"]'
-  ).attachFile({ filePath: `../downloads/${config.name}.csv` });
-  cy.get('cx-import-entries-form input[formcontrolname="name"]').type(
-    config.name
-  );
-  cy.get('cx-import-entries-form textarea[formcontrolname="description"]').type(
-    config.description
-  );
-
-  cy.intercept('GET', '**/users/current/carts/*?**').as('import');
-  cy.get('cx-import-entries-form button').contains('Upload').click();
-
-  cy.wait('@import').then((xhr) => {
-    // cy.get(
-    //   'cx-import-entries-summary div.cx-import-entries-summary-status'
-    // ).contains(`Products has been loaded to new cart "${config.name}".`);
-
-    // cy.get('p.cx-import-entries-summary-successes').contains(
-    //   `${config.quantity} out of ${config.quantity} products have been imported successfully.`
-    // );
-
-    const importedCart = xhr.response.body;
-
-    cy.get(
-      'cx-import-entries-summary div.cx-import-entries-summary-footer button'
-    )
-      .contains('Close')
-      .click();
-
-    verifyImportedData();
-    restoreCart();
-    verifyCart();
-
-    /**
-     * Check that the imported cart displays correctly in saved carts list.
-     */
-    function verifyImportedData() {
-      cy.get(`cx-saved-cart-list td.cx-saved-cart-list-cart-id`)
-        .contains(importedCart.code)
-        .parentsUntil('tr')
-        .parent()
-        .within(() => {
-          cy.get(`td.cx-saved-cart-list-cart-name`).contains(config.name);
-          cy.get(`td.cx-saved-cart-list-date-saved`).contains(config.saveTime);
-          cy.get(`td.cx-saved-cart-list-quantity`).contains(config.quantity);
-          cy.get(`td.cx-saved-cart-list-total`).contains(config.total);
-        });
-    }
-
-    /**
-     * Restore the imported cart from the saved carts list.
-     */
-    function restoreCart() {
-      cy.get('cx-saved-cart-list td.cx-saved-cart-list-cart-id')
-        .contains(importedCart.code)
-        .parentsUntil('tr')
-        .get('td.cx-saved-cart-list-make-cart-active')
-        .contains('Make cart active')
-        .click();
-      cy.get('cx-saved-cart-form-dialog div.cx-saved-cart-form-footer button')
-        .contains('Restore')
-        .click();
-      cy.get('cx-global-message').contains(
-        `Existing cart is activated by ${importedCart.code} successfully.`
-      );
-    }
-
-    /**
-     * Check that the restored cart contains the correct products.
-     */
-    function verifyCart() {
-      const rowLength = config.headers.length;
-      const rowCount = (expectedData.length - 1 - rowLength) / rowLength;
-
-      cy.visit('cart');
-
-      for (let i = 0; i < rowCount; i++) {
-        cy.get('cx-cart-item')
-          .eq(i)
-          .within(() => {
-            for (let j = 0; j < config.headers.length; j++) {
-              const cell = expectedData[rowLength + rowLength * i + j];
-              switch (config.headers[j]) {
-                case 'Code':
-                  return cy.get('div.cx-code').contains(cell);
-                case 'Quantity':
-                  return cy
-                    .get('div.cx-quantity cx-item-counter input')
-                    .should('have.value', cell);
-                case 'Name':
-                  return cy.get('div.cx-name').contains(cell);
-                case 'Price':
-                  return cy.get('div.cx-price').contains(cell);
-                case '[importExport:exportEntries.columnNames.engravedTextHeading]':
-                  cy.get('div.cx-configuration-info .cx-label').contains('Engraved Text');
-                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
-                case '[importExport:exportEntries.columnNames.fontSize]':
-                  cy.get('div.cx-configuration-info .cx-label').contains('Font Size');
-                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
-                case '[importExport:exportEntries.columnNames.fontType]':
-                  cy.get('div.cx-configuration-info .cx-label').contains('Font Type');
-                  return cy.get('div.cx-configuration-info .cx-value').contains(cell);
-              }
-            }
-          });
-      }
-    }
-  });
-}
