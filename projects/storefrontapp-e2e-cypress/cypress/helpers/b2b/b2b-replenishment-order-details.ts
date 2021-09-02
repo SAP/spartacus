@@ -23,14 +23,12 @@ export function createReplenishmentDetailsRequestRoute(
   replenishmentOrderCode: string,
   alias: string
 ) {
-  cy.server();
-
-  cy.route(
-    requestMethod,
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: requestMethod,
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/replenishmentOrders/${replenishmentOrderCode}*`
-  ).as(alias);
+    )}/users/*/replenishmentOrders/${replenishmentOrderCode}*`,
+  }).as(alias);
 
   return `@${alias}`;
 }
@@ -49,7 +47,9 @@ export function clickReplenishmentDetails(replenishmentOrderCode: string) {
     .should('have.attr', 'href')
     .and('eq', replenishmentOrderDetailsUrl(replenishmentOrderCode));
 
-  cy.wait(replenishmentDetailsAlias).its('status').should('eq', 200);
+  cy.wait(replenishmentDetailsAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   return replenishmentDetailsAlias;
 }
@@ -137,7 +137,9 @@ export function verifyReplenishmentIsCancelled(replenishmentOrderCode: string) {
       cy.get(`${replenishmentCancelDialogSelector} .btn-primary`).click();
     });
 
-  cy.wait(cancelReplenishmentAlias).its('status').should('eq', 200);
+  cy.wait(cancelReplenishmentAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   alerts
     .getSuccessAlert()
