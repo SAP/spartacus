@@ -37,67 +37,73 @@ export function loginB2bApprover() {
 }
 
 export function getStubbedPendingOrderDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/*`,
+    },
     pendingOrder
   );
 }
 
 export function getStubbedOrderApprovalList() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderapprovals?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderapprovals?*`,
+    },
     approvalOrderList
   ).as('order_approval_list');
 }
 
 export function getStubbedOrderApprovalDetail() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+    },
     approvalOrderDetail
   ).as('orderApprovalPending');
 }
 
 export function makeStubbedDecision() {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderapprovals/${approvalOrderDetail.code}/decision?*`,
+  cy.intercept(
+    {
+      method: 'POST',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderapprovals/${approvalOrderDetail.code}/decision?*`,
+    },
     {}
   );
 }
 
 export function getStubbedRejectedOrderApprovalDetail() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+    },
     rejectedOrderDetails
   ).as('orderApprovalRejected');
 }
 
 export function getStubbedApprovedOrderApprovalDetail() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
+    },
     approvedOrderDetails
   ).as('orderApprovalApproved');
 }
