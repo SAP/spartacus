@@ -67,21 +67,19 @@ context('Product Configuration', () => {
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      cy.server();
-
-      cy.route(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PATCH',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*`
-      ).as('updateConfig');
+        )}/ccpconfigurator/*`,
+      }).as('updateConfig');
 
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*/pricing*`
-      ).as('priceUpdate');
+        )}/ccpconfigurator/*/pricing*`,
+      }).as('priceUpdate');
 
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 

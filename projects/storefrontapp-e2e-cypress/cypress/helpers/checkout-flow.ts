@@ -36,7 +36,6 @@ export function clickHamburger() {
  * @returns a Routing alias
  */
 export function waitForPage(page: string, alias: string): string {
-  // TODO cy.intercept() doesn't work here (* is greedy, so all other expressions match it first.)
   // homepage is not explicitly being asked as it's driven by the backend.
   const route =
     page === 'homepage'

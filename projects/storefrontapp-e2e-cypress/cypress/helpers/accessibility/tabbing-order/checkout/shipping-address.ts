@@ -53,19 +53,19 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
     'getShippingAddress'
   );
 
-  cy.route(
-    'PUT',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/**/addresses/delivery*`
-  ).as('setAddress');
+    )}/**/addresses/delivery*`,
+  }).as('setAddress');
 
   cy.visit('/checkout/shipping-address');
   cy.wait(`@${shippingAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.wait('@setAddress').its('status').should('eq', 200);
+  cy.wait('@setAddress').its('response.statusCode').should('eq', 200);
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -73,12 +73,12 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('getCart');
+    )}/users/current/carts/*`,
+  }).as('getCart');
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });

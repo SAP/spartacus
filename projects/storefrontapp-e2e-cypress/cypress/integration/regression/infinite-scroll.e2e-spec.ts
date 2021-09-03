@@ -21,7 +21,6 @@ describe('Infinite scroll', () => {
   });
 
   beforeEach(() => {
-    cy.server();
     cy.intercept({
       method: 'GET',
       query: {

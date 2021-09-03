@@ -44,7 +44,7 @@ export function getStubbedPendingOrderDetails() {
         'BASE_SITE'
       )}/users/current/orders/*`,
     },
-    pendingOrder
+    { body: pendingOrder }
   );
 }
 
@@ -56,7 +56,7 @@ export function getStubbedOrderApprovalList() {
         'BASE_SITE'
       )}/users/current/orderapprovals?*`,
     },
-    approvalOrderList
+    { body: approvalOrderList }
   ).as('order_approval_list');
 }
 
@@ -68,7 +68,7 @@ export function getStubbedOrderApprovalDetail() {
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    approvalOrderDetail
+    { body: approvalOrderDetail }
   ).as('orderApprovalPending');
 }
 
@@ -80,7 +80,7 @@ export function makeStubbedDecision() {
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}/decision?*`,
     },
-    {}
+    { body: {} }
   );
 }
 
@@ -92,7 +92,7 @@ export function getStubbedRejectedOrderApprovalDetail() {
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    rejectedOrderDetails
+    { body: rejectedOrderDetails }
   ).as('orderApprovalRejected');
 }
 
@@ -104,7 +104,7 @@ export function getStubbedApprovedOrderApprovalDetail() {
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    approvedOrderDetails
+    { body: approvedOrderDetails }
   ).as('orderApprovalApproved');
 }
 

@@ -47,7 +47,7 @@ export function getStubbedCancellableOrderDetails() {
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}`,
     },
-    cancellableOrder
+    { body: cancellableOrder }
   );
 }
 
@@ -59,7 +59,7 @@ export function getStubbedReturnableOrderDetails() {
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}`,
     },
-    returnableOrder
+    { body: returnableOrder }
   );
 }
 
@@ -71,7 +71,7 @@ export function confirmCancelOrder() {
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}/cancellation`,
     },
-    {}
+    { body: {} }
   );
 }
 
@@ -83,7 +83,7 @@ export function confirmReturnOrder() {
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
-    returnRequestDetails
+    { body: returnRequestDetails }
   );
 }
 
@@ -95,7 +95,7 @@ export function getStubbedReturnRequestList() {
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
-    returnRequestList
+    { body: returnRequestList }
   ).as('return_request_list');
 }
 
@@ -114,7 +114,7 @@ export function getStubbedReturnRequestDetails() {
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },
-    returnRequestDetails
+    { body: returnRequestDetails }
   ).as('return_request_details');
 }
 
@@ -136,7 +136,7 @@ export function cancelReturnRequest() {
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },
-    {}
+    { body: {} }
   );
 }
 
@@ -151,7 +151,7 @@ export function getStubbedReturnRequestListAfterCancel() {
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
-    returnRequestList
+    { body: returnRequestList }
   ).as('return_request_list_after_cancel');
 }
 
@@ -163,6 +163,6 @@ export function getStubbedReturnRequestDetailsAfterCancel() {
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },
-    cancelledReturnRequest
+    { body: cancelledReturnRequest }
   ).as('return_request_details_after_cancel');
 }

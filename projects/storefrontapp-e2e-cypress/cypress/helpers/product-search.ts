@@ -181,35 +181,35 @@ export function sortByLowestPrice() {
   enterProduct();
   createProductSortQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
-  cy.wait('@query_price_asc').its('status').should('eq', 200);
+  cy.wait('@query_price_asc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$1.58');
 }
 
 export function sortByHighestPrice() {
   createProductSortQuery('price-desc', 'query_price_desc');
   cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
-  cy.wait('@query_price_desc').its('status').should('eq', 200);
+  cy.wait('@query_price_desc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
 }
 
 export function sortByNameAscending() {
   createProductSortQuery('name-asc', 'query_name_asc');
   cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
-  cy.wait('@query_name_asc').its('status').should('eq', 200);
+  cy.wait('@query_name_asc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', '10.2 Megapixel D-SLR');
 }
 
 export function sortByNameDescending() {
   createProductSortQuery('name-desc', 'query_name_desc');
   cy.get(sortingOptionSelector).ngSelect('Name (descending)');
-  cy.wait('@query_name_desc').its('status').should('eq', 200);
+  cy.wait('@query_name_desc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', 'Wide Strap for EOS 450D');
 }
 
 export function sortByRelevance() {
   createProductSortQuery('relevance', 'query_relevance');
   cy.get(sortingOptionSelector).ngSelect('Relevance');
-  cy.wait('@query_relevance').its('status').should('eq', 200);
+  cy.wait('@query_relevance').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 
@@ -256,7 +256,10 @@ export function clearSelectedFacet() {
 }
 
 export function createProductSortQuery(sort: string, alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
+  cy.intercept({
+    method: 'GET',
+    path: `${searchUrlPrefix}?fields=*&sort=${sort}*`,
+  }).as(alias);
 }
 
 export function createProductQuery(
@@ -265,10 +268,10 @@ export function createProductQuery(
   pageSize: number,
   currentPage: string = ''
 ): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
-  ).as(alias);
+  cy.intercept({
+    method: 'GET',
+    path: `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`,
+  }).as(alias);
 }
 
 export function createProductFacetQuery(
@@ -276,10 +279,10 @@ export function createProductFacetQuery(
   search: string,
   alias: string
 ): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`
-  ).as(alias);
+  cy.intercept({
+    method: 'GET',
+    path: `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`,
+  }).as(alias);
 }
 
 export function assertNumberOfProducts(alias: string, category: string) {

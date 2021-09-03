@@ -83,7 +83,9 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
 
     cy.get('cx-searchbox input').clear().type(`${id}{enter}`);
 
-    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
+      .its('response.statusCode')
+      .should('eq', 200);
 
     cy.get('cx-product-list-item .cx-product-name')
       .first()
@@ -321,7 +323,6 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
-  cy.server();
   createProductQuery(
     QUERY_ALIAS.PRODUCE_CODE,
     product.code,
@@ -332,7 +333,9 @@ export function addProductAsAnonymous() {
     force: true,
   });
 
-  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)

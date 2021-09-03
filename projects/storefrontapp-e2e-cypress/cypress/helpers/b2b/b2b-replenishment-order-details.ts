@@ -123,8 +123,6 @@ export function cancellationButtons(numberOfButton: number) {
 }
 
 export function verifyReplenishmentIsCancelled(replenishmentOrderCode: string) {
-  cy.server();
-
   const cancelReplenishmentAlias = createReplenishmentDetailsRequestRoute(
     'PATCH',
     replenishmentOrderCode,

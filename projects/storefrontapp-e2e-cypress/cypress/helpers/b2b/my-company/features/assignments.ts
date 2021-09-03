@@ -19,7 +19,9 @@ export function assignmentsTest(config: MyCompanyConfig) {
       before(() => {
         loginAsMyCompanyAdmin();
 
-        cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
+        cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+          'getEntity'
+        );
         if (config.preserveCookies) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
             entityId = cookie.value;
@@ -33,7 +35,6 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
       beforeEach(() => {
         cy.restoreLocalStorage();
-        cy.server();
       });
 
       afterEach(() => {
@@ -73,8 +74,10 @@ export function assignmentsTest(config: MyCompanyConfig) {
             .click();
           completeForm(subConfig.createConfig.rows, FormType.CREATE);
 
-          cy.route('POST', '**').as('save');
-          cy.route('GET', `**${entityId}**`).as('getEntityData');
+          cy.intercept({ method: 'POST', path: '**' }).as('save');
+          cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
+            'getEntityData'
+          );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
           cy.wait('@getEntityData');
@@ -107,8 +110,10 @@ export function assignmentsTest(config: MyCompanyConfig) {
             .click({ force: true });
           completeForm(subConfig.editConfig.rows, FormType.UPDATE);
 
-          cy.route('PATCH', '**').as('save');
-          cy.route('GET', `**${entityId}**`).as('getEntityData');
+          cy.intercept({ method: 'PATCH', path: '**' }).as('save');
+          cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
+            'getEntityData'
+          );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
           cy.wait('@getEntityData');
@@ -138,9 +143,10 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
       if (subConfig.deleteEntity) {
         it('should delete', () => {
-          cy.server();
-          cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
-          cy.route('DELETE', `**`).as('deleteEntity');
+          cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+            'getEntity'
+          );
+          cy.intercept({ method: 'DELETE', path: `**` }).as('deleteEntity');
 
           cy.get('cx-org-sub-list cx-table').contains(subConfig.deleteEntity);
 
@@ -148,8 +154,10 @@ export function assignmentsTest(config: MyCompanyConfig) {
             .contains('Delete')
             .click();
 
-          cy.route('DELETE', '**').as('delete');
-          cy.route('GET', `**${entityId}**`).as('getEntityData');
+          cy.intercept({ method: 'DELETE', path: '**' }).as('delete');
+          cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
+            'getEntityData'
+          );
           cy.get('cx-org-confirmation')
             .contains(CONFIRMATION_LABELS.CONFIRM)
             .click();
@@ -190,7 +198,6 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
-          cy.server();
           clickManage();
 
           cy.get('cx-org-sub-list cx-table tr td')
@@ -200,7 +207,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
               clickAssign(firstOption);
 
-              cy.route('GET', `**`).as('getAssignable');
+              cy.intercept({ method: 'GET', path: `**` }).as('getAssignable');
               cy.get('cx-org-card .header')
                 .contains(ASSIGNMENT_LABELS.DONE)
                 .click();
@@ -214,7 +221,6 @@ export function assignmentsTest(config: MyCompanyConfig) {
         });
 
         it('should assign and unassign from assignments list', () => {
-          cy.server();
           if (!subConfig.skipAssignmentWaits) {
             clickManage();
           } else {
@@ -230,7 +236,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
             .parent()
             .contains(ASSIGNMENT_LABELS.ASSIGN);
 
-          cy.route('GET', `**`).as('getAssignable');
+          cy.intercept({ method: 'GET', path: `**` }).as('getAssignable');
           cy.get('cx-org-card .header')
             .contains(ASSIGNMENT_LABELS.DONE)
             .click();
@@ -243,7 +249,6 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
         if (subConfig.canUnassignAll) {
           it('should assign and unassign all', () => {
-            cy.server();
             clickManage(false);
 
             clickAssign(firstOption);
@@ -261,7 +266,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
     function clickManage(waitForAssignable = true) {
       if (waitForAssignable) {
-        cy.route('GET', `**`).as('getAssignable');
+        cy.intercept({ method: 'GET', path: `**` }).as('getAssignable');
         cy.get('cx-org-card .header a')
           .contains(ASSIGNMENT_LABELS.MANAGE)
           .click();
@@ -278,7 +283,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
     }
 
     function clickAssign(option: string) {
-      cy.route('POST', '**').as('assign');
+      cy.intercept({ method: 'POST', path: '**' }).as('assign');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()
@@ -291,7 +296,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
     }
 
     function clickUnassign(option: string) {
-      cy.route('DELETE', '**').as('unassign');
+      cy.intercept({ method: 'DELETE', path: '**' }).as('unassign');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()

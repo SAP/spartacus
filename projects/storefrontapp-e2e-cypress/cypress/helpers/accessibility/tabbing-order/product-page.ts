@@ -4,14 +4,14 @@ import { TabElement } from '../tabbing-order.model';
 const containerSelector = '.ProductDetailsPageTemplate .Summary';
 
 export function productPageTabbingOrder(config: TabElement[]) {
-  cy.server();
   cy.visit(testProductUrl);
 
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/products/779841/reviews*`
-  ).as('reviews');
+    )}/products/779841/reviews*`,
+  }).as('reviews');
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Film cameras');

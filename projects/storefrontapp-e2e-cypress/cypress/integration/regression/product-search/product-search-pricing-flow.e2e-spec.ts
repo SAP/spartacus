@@ -20,7 +20,6 @@ context('Product search pricing flow', () => {
         // compact cameras category ID
         const categoryId = '576';
         const category = 'Digital Compacts';
-        cy.server();
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
           `:relevance:allCategories:${categoryId}`,
@@ -46,7 +45,7 @@ context('Product search pricing flow', () => {
         });
 
         cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);

@@ -34,7 +34,6 @@ context('Merchandising Carousel - Product page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });

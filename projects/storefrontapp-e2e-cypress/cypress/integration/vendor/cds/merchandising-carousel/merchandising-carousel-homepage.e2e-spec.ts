@@ -16,7 +16,7 @@ function testHomePage(): void {
   const homePage = waitForPage('homepage', 'getHomePage');
   navigation.visitHomePage({});
 
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
     strategyRequestAlias,
@@ -31,7 +31,6 @@ context('Merchandising Carousel - Home page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });
