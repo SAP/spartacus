@@ -23,6 +23,14 @@ cx-quick-order-form {
       cursor: pointer;
     }
 
+    .reset {
+      color: var(--cx-color-light);
+      font-size: 25px;
+      position: absolute;
+      right: 48px;
+      top: 12px;
+    }
+
     .list-limit-reached-text {
       bottom: -15px;
       color: var(--cx-color-danger);

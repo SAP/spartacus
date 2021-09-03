@@ -26,6 +26,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
+  resetVisible: boolean = false;
 
   get isDisabled(): boolean {
     return this._disabled;
@@ -72,9 +73,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.searchProduct(productCode));
   }
 
+  setResetVisible() {
+    let product = this.form?.get('product')?.value;
+    this.resetVisible = product;
+  }
+
   clear(event?: Event): void {
     event?.preventDefault();
     this.form.reset();
+    this.resetVisible = false;
   }
 
   protected searchProduct(productCode: string): Subscription {
