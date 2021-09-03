@@ -54,7 +54,7 @@ describe('B2B - Order Approval', () => {
         .should('eq', 200);
 
       cy.get('@order_approval_list')
-        .its('url')
+        .its('request.url')
         .should('contain', 'sort=byOrderNumber');
 
       // Accessibility

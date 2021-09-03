@@ -31,7 +31,7 @@ context('Product search rating flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           productName,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductQuery(
           QUERY_ALIAS.DSC_N1,

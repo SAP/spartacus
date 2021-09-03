@@ -36,7 +36,7 @@ context('Product search store flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           category,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductSortQuery('name-desc', QUERY_ALIAS.NAME_DSC_FILTER);
 

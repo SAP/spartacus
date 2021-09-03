@@ -24,7 +24,7 @@ context('Product search pricing flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           `:relevance:allCategories:${categoryId}`,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
