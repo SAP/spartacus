@@ -288,7 +288,10 @@ export function createProductFacetQuery(
 ): void {
   cy.intercept({
     method: 'GET',
-    path: `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`,
+    pathname: `${searchUrlPrefix}`,
+    query: {
+      query: `${search}:relevance:${param}*`,
+    },
   }).as(alias);
 }
 

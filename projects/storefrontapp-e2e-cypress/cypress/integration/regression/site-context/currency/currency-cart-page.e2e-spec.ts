@@ -34,9 +34,7 @@ context('Currency switch - cart page', () => {
   });
 
   describe('cart page', () => {
-    const baseUrl = `${Cypress.env('API_URL')}/${Cypress.env(
-      'OCC_PREFIX'
-    )}/${Cypress.env('BASE_SITE')}`;
+    const baseUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
 
     it('should change currency in the url', () => {
       cy.intercept({
