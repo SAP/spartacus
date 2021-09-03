@@ -20,7 +20,6 @@ class MockQuickOrderItemComponent {
   @Input() index: number;
   @Input() loading: boolean;
 }
-//
 
 describe('QuickOrderTableComponent', () => {
   let component: QuickOrderTableComponent;
