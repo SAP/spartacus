@@ -8,7 +8,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { filter, map, switchMap, first, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
@@ -109,16 +109,10 @@ export class ExportEntriesService {
   }
 
   protected displayExportMessage() {
-    this.translationService
-      .translate('exportEntries.exportMessage')
-      .pipe(first())
-      .subscribe((message) =>
-        this.globalMessageService.add(
-          message,
-          GlobalMessageType.MSG_TYPE_INFO,
-          this.exportConfig.messageTimeout
-        )
-      );
+    this.globalMessageService.add(
+      { key: 'exportEntries.exportMessage' },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
   }
 
   getResolvedEntries(): Observable<string[][]> {

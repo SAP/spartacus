@@ -22,7 +22,6 @@ export const defaultImportExportConfig: ImportExportConfig = {
         },
       ],
       messageEnabled: true,
-      messageTimeout: 6000,
       downloadDelay: 1000,
       fileName: 'cart',
     },

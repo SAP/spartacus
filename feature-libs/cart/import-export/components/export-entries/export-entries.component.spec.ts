@@ -7,7 +7,6 @@ import {
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -101,16 +100,11 @@ class MockExportEntriesService {
     of(transitionalArray)
   );
 }
-class MockExportService {
-  convertDataToCsvAndDownload = createSpy(
-    'convertDataToCsvAndDownload'
-  ).and.callThrough();
-}
 
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
-  let exportService: ExportCsvService;
+
   let exportEntriesService: ExportEntriesService;
 
   beforeEach(
@@ -126,10 +120,6 @@ describe('ExportEntriesComponent', () => {
             provide: ExportEntriesService,
             useClass: MockExportEntriesService,
           },
-          {
-            provide: ExportCsvService,
-            useClass: MockExportService,
-          },
         ],
         declarations: [ExportEntriesComponent],
       }).compileComponents();
@@ -140,7 +130,6 @@ describe('ExportEntriesComponent', () => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
     component = fixture.componentInstance;
 
-    exportService = TestBed.inject(ExportCsvService);
     exportEntriesService = TestBed.inject(ExportEntriesService);
   });
 
@@ -161,7 +150,7 @@ describe('ExportEntriesComponent', () => {
     fixture.whenStable().then(() => {
       expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
       expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
-      expect(exportService.convertDataToCsvAndDownload).toHaveBeenCalledWith(
+      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(
         transitionalArray
       );
     });

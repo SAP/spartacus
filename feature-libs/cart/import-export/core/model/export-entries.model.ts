@@ -26,12 +26,7 @@ export interface ExportConfig {
   messageEnabled?: boolean;
 
   /**
-   * Specifies how long (in milliseconds) the message should be visible to user.
-   */
-  messageTimeout?: number;
-
-  /**
-   * Property dedicated to delay download start process.
+   * Property dedicated to delay download starting process.
    */
   downloadDelay?: number;
 
