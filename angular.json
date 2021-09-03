@@ -102,7 +102,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
+              "serviceWorker": false,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "development": {
