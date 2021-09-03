@@ -13,10 +13,12 @@
       type="text"
     />
 
-    <cx-icon [type]="iconTypes.RESET"
+    <cx-icon
+      [type]="iconTypes.RESET"
       [hidden]="!resetVisible"
       (click)="clear($event)"
-      class="reset" tabindex="-1">
+      class="reset"
+      tabindex="-1">
     </cx-icon>
 
     <cx-icon 

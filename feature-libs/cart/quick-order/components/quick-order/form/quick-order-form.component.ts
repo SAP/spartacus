@@ -73,9 +73,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.searchProduct(productCode));
   }
 
-  setResetVisible() {
+  setResetVisible(): void {
     let product = this.form?.get('product')?.value;
-    this.resetVisible = product;
+    this.resetVisible = (product === "" || product == null) ? false : true;
   }
 
   clear(event?: Event): void {
