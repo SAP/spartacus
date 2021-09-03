@@ -19,7 +19,12 @@
       class="reset" tabindex="-1">
     </cx-icon>
 
-    <cx-icon [type]="iconTypes.SEARCH" (click)="search($event)" class="search" tabindex="-1"></cx-icon>
+    <cx-icon 
+      [type]="iconTypes.SEARCH"
+      (click)="search($event)"
+      class="search"
+      tabindex="-1">
+    </cx-icon>
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
 
