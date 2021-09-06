@@ -137,7 +137,7 @@ describe('OccSavedCartAdapter', () => {
   describe('should clone a saved cart from cloneSavedCart endpoint', () => {
     it('should clone a saved cart', () => {
       adapter
-        .cloneSavedCart(mockUserId, mockCartId)
+        .cloneSavedCart(mockUserId, mockCartId, mockCartName)
         .subscribe((data) =>
           expect(data).toEqual(mockSavedCartResult.savedCartData)
         );
