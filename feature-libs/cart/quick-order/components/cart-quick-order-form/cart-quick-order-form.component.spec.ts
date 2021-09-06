@@ -143,7 +143,6 @@ describe('CartQuickOrderFormComponent', () => {
 
   it('should show global confirmation message on add entry success event', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
-    // spyOn(eventService, 'get').and.returnValue(of(mockCartAddEntrySuccessEvent));
     spyOn(eventService, 'get').and.callThrough();
 
     component.ngOnInit();
@@ -165,7 +164,6 @@ describe('CartQuickOrderFormComponent', () => {
 
   it('should show global error message on add entry fail event', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
-    // spyOn(eventService, 'get').and.returnValue(of(mockCartAddEntryFailEvent));
     spyOn(eventService, 'get').and.callThrough();
 
     component.ngOnInit();
