@@ -187,7 +187,7 @@ export class QuickOrderService {
   }
 
   private createQuickOrderResultEvent(
-    cartEvent: CartAddEntrySuccessEvent & CartAddEntryFailEvent
+    cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
   ): QuickOrderAddEntryEvent {
     let evt: QuickOrderAddEntryEvent = {
       productCode: cartEvent.productCode,
