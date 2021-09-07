@@ -26,13 +26,12 @@ const MockCmsImportEntriesComponent = <CmsComponentData<any>>{
 };
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
+  openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
-  ) {
-    return of();
-  }
+    _vcr?: ViewContainerRef,
+    _data?: any
+  ): void {}
 }
 
 describe('ImportEntriesComponent', () => {
@@ -56,7 +55,7 @@ describe('ImportEntriesComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
 
     fixture.detectChanges();
     el = fixture.debugElement;
@@ -67,17 +66,17 @@ describe('ImportEntriesComponent', () => {
   });
 
   it('should trigger an open dialog to import CSV', () => {
-    component.openDialog(mockCmsComponentData.fileValidity);
-    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+    component.openDialog(mockCmsComponentData);
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
       component['vcr'],
-      mockCmsComponentData.fileValidity
+      mockCmsComponentData
     );
   });
 
   it('should show import button', () => {
-    const button = el.queryAll(By.css('.btn'));
+    const button = el.queryAll(By.css('.link.cx-action-link'));
     expect(button.length).toEqual(1);
   });
 });

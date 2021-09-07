@@ -13,7 +13,6 @@ import {
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
-  CmsComponentData,
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
@@ -63,12 +62,9 @@ const cmsComponentDataSubject = new BehaviorSubject<CmsImportEntriesComponent>(
   mockCmsComponentData
 );
 
-const MockCmsComponentData = <CmsComponentData<CmsImportEntriesComponent>>{
-  data$: cmsComponentDataSubject.asObservable(),
-};
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
+  data$ = cmsComponentDataSubject.asObservable();
 }
 
 class MockImportToCartService implements Partial<ImportToCartService> {
@@ -91,7 +87,6 @@ class MockLanguageService {
 describe('ImportToSavedCartFormComponent', () => {
   let component: ImportToSavedCartFormComponent;
   let fixture: ComponentFixture<ImportToSavedCartFormComponent>;
-  let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
   let el: DebugElement;
@@ -110,7 +105,6 @@ describe('ImportToSavedCartFormComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvService, useClass: MockImportCsvService },
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
@@ -119,7 +113,6 @@ describe('ImportToSavedCartFormComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
 
@@ -131,44 +124,6 @@ describe('ImportToSavedCartFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get the file Validity', () => {
-    expect(component.fileValidity).toEqual(mockCmsComponentData.fileValidity);
-  });
-
-  it('should close dialog on close method', () => {
-    const mockCloseReason = 'Close Import Products Dialog';
-    spyOn(launchDialogService, 'closeDialog');
-    component.close(mockCloseReason);
-
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
-    );
-  });
-
-  it('should build the form', () => {
-    expect(component.form?.get('file')?.value).toBeDefined();
-    expect(component.form?.get('name')?.value).toBeDefined();
-    expect(component.form?.get('description')?.value).toBeDefined();
-  });
-
-  it('should validate maximum size and parsable file while building form', () => {
-    expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
-  });
-
-  it('should trigger submit event when save method is called', () => {
-    component.form.get('file')?.setValue([mockFile]);
-    const mockSubmitData = {
-      products: mockProducts,
-      name: '',
-      description: '',
-    };
-    spyOn(component.submitEvent, 'emit');
-    component.save();
-
-    expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
 
   describe('updateCartName', () => {
