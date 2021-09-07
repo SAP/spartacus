@@ -13,7 +13,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  CmsConfig,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -81,15 +80,6 @@ if (!environment.production) {
     provideConfig(<FeaturesConfig>{
       features: {
         level: '4.0',
-      },
-    }),
-    provideConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductAddToCartComponent: {
-          data: {
-            inventoryDisplay: true,
-          },
-        },
       },
     }),
   ],
