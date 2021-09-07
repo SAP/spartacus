@@ -71,7 +71,7 @@ export interface SsrOptimizationOptions {
    *
    * The value should always be higher than `timeout` and `forcedSsrTimeout`.
    *
-   * Default value is 300 seconds (5 minutes).
+   * Default value is 300000 milliseconds (5 minutes).
    */
   maxRenderTime?: number;
 
