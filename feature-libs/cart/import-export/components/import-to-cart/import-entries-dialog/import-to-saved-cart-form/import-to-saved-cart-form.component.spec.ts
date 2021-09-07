@@ -132,11 +132,6 @@ describe('ImportToSavedCartFormComponent', () => {
     expect(component.form?.get('description')?.value).toBeDefined();
   });
 
-  it('should validate maximum size and parsable file while building form', () => {
-    expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
-  });
-
   it('should trigger submit event when save method is called', () => {
     component.form.get('file')?.setValue([mockFile]);
     const mockSubmitData = {
