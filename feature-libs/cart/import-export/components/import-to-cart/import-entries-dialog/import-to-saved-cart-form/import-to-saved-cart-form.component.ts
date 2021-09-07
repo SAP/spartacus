@@ -10,15 +10,15 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CxDatePipe } from '@spartacus/core';
 import {
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
   NameSource,
 } from '@spartacus/cart/import-export/core';
-import { CxDatePipe } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { ImportEntriesFormComponent } from 'feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-form/import-entries-form.component';
+import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({

@@ -126,6 +126,32 @@ describe('ImportToSavedCartFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should build the form', () => {
+    expect(component.form?.get('file')?.value).toBeDefined();
+    expect(component.form?.get('name')?.value).toBeDefined();
+    expect(component.form?.get('description')?.value).toBeDefined();
+  });
+
+  it('should validate maximum size and parsable file while building form', () => {
+    expect(filesFormValidators.maxSize).toHaveBeenCalled();
+    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
+  });
+
+  it('should trigger submit event when save method is called', () => {
+    component.form.get('file')?.setValue([mockFile]);
+    const mockSubmitData = {
+      products: mockProducts,
+      savedCartInfo: {
+        name: '',
+        description: '',
+      },
+    };
+    spyOn(component.submitEvent, 'emit');
+    component.save();
+
+    expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
+  });
+
   describe('updateCartName', () => {
     it('should call updateCartName on event change', () => {
       spyOn(component, 'updateCartName').and.callThrough();
