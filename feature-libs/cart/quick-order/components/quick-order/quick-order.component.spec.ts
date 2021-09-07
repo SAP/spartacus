@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
@@ -75,6 +75,33 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockData),
 };
 
+@Component({
+  template: '',
+  selector: 'cx-quick-order-form',
+})
+class MockQuickOrderFormComponent {
+  @Input() isDisabled: boolean;
+  @Input() isLoading: boolean;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-quick-order-table',
+})
+class MockQuickOrderTableComponent {
+  @Input() entries: OrderEntry[];
+  @Input() loading: boolean;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-progress-button',
+})
+class MockProgressButtonComponent {
+  @Input() loading: boolean;
+  @Input() disabled: boolean;
+}
+
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
@@ -85,7 +112,12 @@ describe('QuickOrderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuickOrderComponent],
+      declarations: [
+        QuickOrderComponent,
+        MockQuickOrderFormComponent,
+        MockQuickOrderTableComponent,
+        MockProgressButtonComponent,
+      ],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -140,7 +172,7 @@ describe('QuickOrderComponent', () => {
     spyOn(quickOrderService, 'addToCart').and.returnValue(of([1, []]));
     spyOn(globalMessageService, 'add').and.stub();
 
-    component.addToCart();
+    component.addToCart([]);
 
     expect(quickOrderService.addToCart).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
