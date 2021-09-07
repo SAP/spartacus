@@ -11,16 +11,21 @@ let requestData: any;
 
 export function testList(
   config: MyCompanyConfig,
-  options?: TestListOptions
+  options?: TestListOptions,
+  suffix: string = ''
 ): void {
   cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-    'getData'
+    `getData${suffix}`
   );
   if (options.trigger) {
-    waitForData((data) => {
-      const requestData = data;
-      validateList(requestData);
-    }, options.trigger());
+    waitForData(
+      suffix,
+      (data) => {
+        const requestData = data;
+        validateList(requestData);
+      },
+      options.trigger
+    );
   } else {
     validateList(requestData);
   }
@@ -47,13 +52,17 @@ export function testList(
       data.pagination?.currentPage < data.pagination?.totalPages - 1 &&
       data.pagination?.currentPage < MAX_PAGES
     ) {
-      testList(config, {
-        trigger: () =>
-          cy
-            .get(`cx-pagination a.page`)
-            .contains(data.pagination.currentPage + 2)
-            .click(),
-      });
+      testList(
+        config,
+        {
+          trigger: () =>
+            cy
+              .get(`cx-pagination a.page`)
+              .contains(data.pagination.currentPage + 2)
+              .click(),
+        },
+        data.pagination.currentPage + 2
+      );
     }
   }
 }
@@ -63,14 +72,18 @@ export function testListSorting(config: MyCompanyConfig): void {
     if (row.sortLabel && row?.sortLabel !== DEFAULT_SORT_LABEL) {
       it(`should sort table data by ${row.sortLabel}`, () => {
         cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-          'getData'
+          `getData${row.sortLabel}`
         );
-        waitForData((data) => {
-          verifyList(
-            getListRowsFromBody(data, config.objectType, config.rows),
-            config.rows
-          );
-        }, ngSelect(row.sortLabel));
+        waitForData(
+          row.sortLabel,
+          (data) => {
+            verifyList(
+              getListRowsFromBody(data, config.objectType, config.rows),
+              config.rows
+            );
+          },
+          () => ngSelect(row.sortLabel)
+        );
       });
     }
   });
