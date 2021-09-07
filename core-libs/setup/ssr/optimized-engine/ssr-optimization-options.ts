@@ -76,6 +76,24 @@ export interface SsrOptimizationOptions {
   maxRenderTime?: number;
 
   /**
+   * Instead of immediately falling back to CSR while a render is in progress,
+   * this option will make the subsequent requests wait for the current render,
+   * honoring the `timeout` option.
+   *
+   * E.g., consider the following setup where `timeout` options is set 3s,
+   * and the given request takes 4s to render.
+   * The flow is as follows:
+   *
+   * - 1st request arrives and triggers the SSR.
+   * - 2nd request for the same URL arrives 2s after the 1st one.
+   *    Instead of falling back to CSR, it waits for the render.
+   * - 1st request times out after 3s.
+   * - one second after the timeout, the current render finishes.
+   * - the 2nd request returns SSR after only 2s of waiting.
+   */
+  optimizeCsrFallback?: boolean;
+
+  /**
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
