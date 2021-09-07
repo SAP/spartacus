@@ -6,7 +6,7 @@ import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequestState: MemoizedSelector<
   StateWithUser,
@@ -14,7 +14,7 @@ export const getOrderReturnRequestState: MemoizedSelector<
 > = createSelector(getUserState, (state: UserState) => state.orderReturn);
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequest: MemoizedSelector<
   StateWithUser,
@@ -25,7 +25,7 @@ export const getOrderReturnRequest: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequestLoading: MemoizedSelector<
   StateWithUser,
@@ -36,7 +36,7 @@ export const getOrderReturnRequestLoading: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequestSuccess: MemoizedSelector<
   StateWithUser,
@@ -49,7 +49,7 @@ export const getOrderReturnRequestSuccess: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequestListState: MemoizedSelector<
   StateWithUser,
@@ -57,7 +57,7 @@ export const getOrderReturnRequestListState: MemoizedSelector<
 > = createSelector(getUserState, (state: UserState) => state.orderReturnList);
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrderReturnRequestList: MemoizedSelector<
   StateWithUser,

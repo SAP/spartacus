@@ -4,7 +4,7 @@ import { ConsignmentTracking, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @Component({
   selector: 'cx-tracking-events',
