@@ -192,8 +192,8 @@ export class QuickOrderService {
     let evt: QuickOrderAddEntryEvent = {
       productCode: cartEvent.productCode,
       quantity: cartEvent.quantity,
-      entry: cartEvent.entry || undefined,
-      quantityAdded: cartEvent.quantityAdded,
+      entry: (cartEvent as CartAddEntrySuccessEvent).entry || undefined,
+      quantityAdded: (cartEvent as CartAddEntrySuccessEvent).quantityAdded,
       // @ts-ignore
       error: cartEvent.error || undefined,
     };

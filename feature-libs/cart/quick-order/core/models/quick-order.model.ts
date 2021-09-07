@@ -4,6 +4,6 @@ export type QuickOrderAddEntryEvent = {
   productCode: string;
   entry?: OrderEntry;
   quantityAdded?: number;
-  quantity?: number;
+  quantity: number;
   error?: HttpErrorModel;
 };
