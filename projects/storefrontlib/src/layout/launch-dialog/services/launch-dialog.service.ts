@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
