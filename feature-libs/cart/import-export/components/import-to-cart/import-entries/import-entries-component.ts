@@ -2,26 +2,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
 import {
+  CmsComponentData,
   LaunchDialogService,
   LAUNCH_CALLER,
-  CmsComponentData,
 } from '@spartacus/storefront';
-import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',
   templateUrl: './import-entries-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesComponent implements OnDestroy {
-  protected subscription = new Subscription();
+export class ImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   componentData$ = this.componentData.data$;
@@ -33,19 +29,11 @@ export class ImportEntriesComponent implements OnDestroy {
   ) {}
 
   openDialog(cmsData: CmsImportEntriesComponent): void {
-    const dialog = this.launchDialogService.openDialog(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
       this.vcr,
       cmsData
     );
-
-    if (dialog) {
-      this.subscription.add(dialog.pipe(take(1)).subscribe());
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }
