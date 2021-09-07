@@ -1,0 +1,24 @@
+ci:
+  collect:
+    numberOfRuns:3
+    url:
+       - http://localhost:4000
+       - http://localhost:4000/electronics-spa/en/USD/Brands/Canon/c/brand_10
+       - http://localhost:4000/electronics-spa/en/USD/product/832386/ef-300mm-f-2.8l-is-usm
+    startServerCommand: 'yarn serve:ssr'
+  assert:
+    preset: lighthouse:recommended
+    assertions:
+      offscreen-images: 'off'
+      uses-webp-images: 'off'
+      color-contrast: 'off'
+      first-contentful-paint:
+        - error
+        - maxNumericValue: 2000
+          aggregationMethod: optimistic
+      interactive:
+        - error
+        - maxNumericValue: 5000
+          aggregationMethod: optimistic
+  upload:
+    target: 'temporary-public-storage'
