@@ -41,7 +41,7 @@ export class ImportEntriesDialogComponent {
   });
 
   placement$ = this.importToCartService.placement$;
-  PlacementType = ImportCartRoutes;
+  Placement = ImportCartRoutes;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
