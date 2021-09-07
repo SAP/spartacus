@@ -50,7 +50,7 @@ export class ImportToCartService {
     );
   }
 
-  get placement$(): Observable<string> {
+  get placement$(): Observable<string | undefined> {
     return this.routingService
       .getRouterState()
       .pipe(map((route) => route.state?.semanticRoute));
