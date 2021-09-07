@@ -1,17 +1,17 @@
 import {
-  SPARTACUS_STOREFRONTLIB,
+  ANGULAR_CORE,
+  ANGULAR_ROUTER,
+  ELEMENT_REF,
   HAMBURGER_MENU_SERVICE,
   NAVIGATION_UI_COMPONENT,
-  ANGULAR_ROUTER,
-  ROUTER,
-  ANGULAR_CORE,
   RENDERER_2,
-  ELEMENT_REF,
+  ROUTER,
+  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NAVIGATION_UI_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  //projects/storefrontlib/src/cms-components/navigation/navigation/navigation-ui.component.ts
+  //projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.ts
   class: NAVIGATION_UI_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
