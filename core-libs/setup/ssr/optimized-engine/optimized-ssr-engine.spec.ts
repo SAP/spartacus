@@ -1,11 +1,12 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { OptimizedSsrEngine } from './optimized-ssr-engine';
+import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
+const defaultRenderTime = 100;
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
  *
@@ -32,11 +33,11 @@ class TestEngineRunner {
     const engineInstanceMock = (
       filePath: string,
       _: any,
-      callback: Function
+      callback: SsrCallbackFn
     ) => {
       setTimeout(() => {
         callback(undefined, `${filePath}-${this.renderCount++}`);
-      }, renderTime ?? 100);
+      }, renderTime ?? defaultRenderTime);
     };
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(
@@ -47,19 +48,22 @@ class TestEngineRunner {
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
-  request(url: string) {
-    const response = {};
+  request(url: string, httpHeaders?: { [key: string]: string }) {
+    const response: { [key: string]: string } = {};
+    const headers = new Headers(httpHeaders);
     const optionsMock = {
-      req: {
+      req: <Partial<Request>>{
         originalUrl: url,
+        headers,
+        get: (header: string): string | null => headers.get(header),
       },
-      res: {
+      res: <Partial<Response>>{
         set: (key: string, value: any) => (response[key] = value),
       },
     };
 
     this.engineInstance(url, optionsMock, (_, html) => {
-      this.renders.push(html);
+      this.renders.push(html ?? '');
       this.responseParams.push(response);
     });
 
@@ -96,7 +100,7 @@ describe('OptimizedSsrEngine', () => {
     });
   });
 
-  describe('no-store cache controll header', () => {
+  describe('no-store cache control header', () => {
     it('should be applied for a fallback', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
       expect(engineRunner.renders).toEqual(['']);
@@ -282,6 +286,24 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
     }));
+
+    describe('when a custom rendering strategy function is provided to handle the crawler and bot detection', () => {
+      it('should return custom renders', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          renderingStrategyResolver: (req) =>
+            req.get('User-Agent')?.match(/bot|crawl|slurp|spider|mediapartners/)
+              ? RenderingStrategy.ALWAYS_SSR
+              : RenderingStrategy.DEFAULT,
+          timeout: 50,
+        });
+
+        engineRunner.request('a');
+        engineRunner.request('a', { 'User-Agent': 'bot' });
+        tick(200);
+
+        expect(engineRunner.renders).toEqual(['', 'a-1']);
+      }));
+    });
   });
 
   describe('forcedSsrTimeout option', () => {
@@ -418,5 +440,93 @@ describe('OptimizedSsrEngine', () => {
 
       flush();
     }));
+  });
+
+  describe('optimizeCsrFallback', () => {
+    const requestUrl = 'a';
+    const timeout = 300;
+    const renderTime = 400;
+
+    it('should be disabled by default', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout }, renderTime);
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      engineRunner.request(requestUrl);
+
+      tick(200);
+      engineRunner.request(requestUrl);
+
+      tick(100);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `CSR fallback: rendering in progress (${requestUrl})`
+      );
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+        false
+      );
+      expect(engineRunner.renders).toEqual(['', '']);
+
+      flush();
+    }));
+
+    describe('when enabled', () => {
+      it('should NOT queue the subsequent requests for a different URL', fakeAsync(() => {
+        const differentUrl = 'b';
+        const engineRunner = new TestEngineRunner(
+          { timeout, optimizeCsrFallback: true },
+          renderTime
+        );
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(requestUrl);
+        tick(200);
+
+        engineRunner.request(differentUrl);
+        tick(300);
+
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+          false
+        );
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
+          false
+        );
+
+        expect(engineRunner.renderCount).toEqual(1);
+        expect(engineRunner.renders).toEqual(['', '']);
+
+        flush();
+      }));
+
+      it('should queue the subsequent requests for the same URL, honouring the timeout option at the same time', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner(
+          { timeout, optimizeCsrFallback: true },
+          renderTime
+        );
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(requestUrl);
+
+        tick(200);
+
+        engineRunner.request(requestUrl);
+
+        tick(100);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+          false
+        );
+
+        tick(100);
+        expect(engineRunner.renderCount).toEqual(1);
+        expect(engineRunner.renders).toEqual(['', `${requestUrl}-0`]);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `Processing queued SSR requests for ${requestUrl}...`
+        );
+
+        flush();
+      }));
+    });
   });
 });
