@@ -74,14 +74,21 @@ export class OptimizedSsrEngine {
       ? this.currentConcurrency >= this.ssrOptions.concurrency
       : false;
 
-    if (concurrencyLimitExceed) {
+    // if using optimizeCsrFallback, we should always start the rendering
+    const isRendering = this.ssrOptions?.optimizeCsrFallback
+      ? false
+      : this.renderingCache.isRendering(this.getRenderingKey(request));
+    if (isRendering) {
+      this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
+    } else if (concurrencyLimitExceed) {
       this.log(
         `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
       );
     }
 
     return (
-      (!concurrencyLimitExceed &&
+      (!isRendering &&
+        !concurrencyLimitExceed &&
         this.getRenderingStrategy(request) !== RenderingStrategy.ALWAYS_CSR) ||
       this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
     );
@@ -197,7 +204,7 @@ export class OptimizedSsrEngine {
             this.renderingCache.store(renderingKey, err, html);
           }
 
-          if (!queueProcessing) {
+          if (this.ssrOptions?.optimizeCsrFallback && !queueProcessing) {
             this.log(
               `Processing queued SSR requests for ${request.originalUrl}...`
             );
@@ -208,7 +215,10 @@ export class OptimizedSsrEngine {
           }
         };
 
-        if (this.callbackQueue[renderingKey]) {
+        if (
+          this.ssrOptions?.optimizeCsrFallback &&
+          this.callbackQueue[renderingKey]
+        ) {
           this.callbackQueue[renderingKey]?.push(renderCallback);
         } else {
           this.callbackQueue[renderingKey] = [];
@@ -221,49 +231,6 @@ export class OptimizedSsrEngine {
     } else {
       this.log(`Render from cache (${request?.originalUrl})`);
     }
-  }
-
-  protected renderFinishedCallback(
-    renderingKey: string,
-    maxRenderTimeout: NodeJS.Timeout,
-    waitingForRender: NodeJS.Timeout | undefined,
-    request: Request,
-    callback: SsrCallbackFn
-  ): SsrCallbackFn {
-    return (err, html) => {
-      // the first render that completes should initialize the callbacks
-      this.callbackQueue[renderingKey] = [];
-
-      if (!maxRenderTimeout) {
-        // ignore this render's result because it exceeded maxRenderTimeout
-        this.log(
-          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
-        );
-        return;
-      }
-      clearTimeout(maxRenderTimeout);
-      this.currentConcurrency--;
-
-      this.log(`Rendering completed (${request?.originalUrl})`);
-
-      if (waitingForRender) {
-        // if request is still waiting for render, return it
-        clearTimeout(waitingForRender);
-        callback(err, html);
-
-        // store the render only if caching is enabled
-        if (this.ssrOptions?.cache) {
-          this.renderingCache.store(renderingKey, err, html);
-        } else {
-          this.renderingCache.clear(renderingKey);
-        }
-      } else {
-        // store the render for future use
-        this.renderingCache.store(renderingKey, err, html);
-      }
-      this.callbackQueue[renderingKey]?.forEach((cb) => cb(err, html));
-      this.callbackQueue[renderingKey] = null;
-    };
   }
 
   protected log(message: string, debug = true): void {
