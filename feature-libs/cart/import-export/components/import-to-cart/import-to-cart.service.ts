@@ -5,6 +5,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
+  ImportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
@@ -17,7 +18,6 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { CartRoutes } from 'feature-libs/cart/import-export/core/model/car-import-export.model';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -63,10 +63,10 @@ export class ImportToCartService {
     return this.placement$.pipe(
       switchMap((placement) => {
         switch (placement) {
-          case CartRoutes.SAVED_CARTS: {
+          case ImportCartRoutes.SAVED_CARTS: {
             return this.setEntriesToSavedCart(products, savedCartInfo);
           }
-          case CartRoutes.CART: {
+          case ImportCartRoutes.CART: {
             return this.setEntriesToActiveCart(products);
           }
           default: {

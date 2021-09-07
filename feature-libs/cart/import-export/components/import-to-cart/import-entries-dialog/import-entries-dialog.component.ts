@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartRoutes } from 'feature-libs/cart/import-export/core/model/car-import-export.model';
 import { BehaviorSubject } from 'rxjs';
 import {
   FocusConfig,
@@ -11,6 +10,7 @@ import {
   ProductImportStatus,
   ProductImportInfo,
   ProductsData,
+  ImportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
 import { finalize } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class ImportEntriesDialogComponent {
   });
 
   placement$ = this.importToCartService.placement$;
-  PlacementType = CartRoutes;
+  PlacementType = ImportCartRoutes;
 
   constructor(
     protected launchDialogService: LaunchDialogService,

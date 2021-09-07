@@ -61,3 +61,8 @@ export interface CmsImportEntriesComponent extends CmsComponent {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
 }
+
+export enum ImportCartRoutes {
+  SAVED_CARTS = 'savedCarts',
+  CART = 'cart',
+}
