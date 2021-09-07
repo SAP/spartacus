@@ -13,7 +13,7 @@ import {
   Translatable,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 const mockCart: Cart = {
@@ -49,9 +49,11 @@ const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
 
 const cart$ = new BehaviorSubject<Cart>(mockCart);
 
+const addEntryCartEvent$ = new Subject();
+
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
-    return of();
+    return addEntryCartEvent$.asObservable();
   }
 }
 
@@ -141,13 +143,12 @@ describe('CartQuickOrderFormComponent', () => {
 
   it('should show global confirmation message on add entry success event', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(eventService, 'get').and.returnValue(
-      of(mockCartAddEntrySuccessEvent)
-    );
+    spyOn(eventService, 'get').and.callThrough();
 
     component.ngOnInit();
     component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
+    addEntryCartEvent$.next(mockCartAddEntrySuccessEvent);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -163,11 +164,12 @@ describe('CartQuickOrderFormComponent', () => {
 
   it('should show global error message on add entry fail event', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(eventService, 'get').and.returnValue(of(mockCartAddEntryFailEvent));
+    spyOn(eventService, 'get').and.callThrough();
 
     component.ngOnInit();
     component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
+    addEntryCartEvent$.next(mockCartAddEntryFailEvent);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
