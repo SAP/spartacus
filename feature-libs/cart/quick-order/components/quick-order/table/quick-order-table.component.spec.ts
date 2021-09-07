@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
@@ -11,6 +11,16 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
+@Component({
+  template: '',
+  selector: 'cx-quick-order-item',
+})
+class MockQuickOrderItemComponent {
+  @Input() entry: OrderEntry;
+  @Input() index: number;
+  @Input() loading: boolean;
+}
+
 describe('QuickOrderTableComponent', () => {
   let component: QuickOrderTableComponent;
   let fixture: ComponentFixture<QuickOrderTableComponent>;
@@ -19,7 +29,7 @@ describe('QuickOrderTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuickOrderTableComponent],
+      declarations: [QuickOrderTableComponent, MockQuickOrderItemComponent],
     }).compileComponents();
   });
 

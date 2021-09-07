@@ -8,7 +8,9 @@ import {
 import { SafeHtml } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { ICON_TYPE } from './icon.model';
+import { ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
+
+type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
 /**
  *
