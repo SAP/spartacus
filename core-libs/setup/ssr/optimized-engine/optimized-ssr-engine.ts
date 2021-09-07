@@ -199,7 +199,7 @@ export class OptimizedSsrEngine {
 
           if (!queueProcessing) {
             this.log(
-              `processing queued request for ${request.originalUrl} and returning ssr render...`
+              `Processing queued SSR requests for ${request.originalUrl}...`
             );
             this.callbackQueue[renderingKey]?.forEach((cb) =>
               cb(err, html, true)
