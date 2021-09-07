@@ -15,7 +15,8 @@ const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
-  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  timeout: 3000,
+  optimizeCsrFallback: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
