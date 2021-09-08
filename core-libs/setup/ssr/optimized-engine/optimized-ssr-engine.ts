@@ -21,7 +21,7 @@ export type SsrCallbackFn = (
    * The indicator if `this.callbackQueue` is being processed.
    * Mitigates the infinite loop.
    */
-  queueProcessing?: boolean
+  isQueueProcessing?: boolean
 ) => void;
 
 /**
@@ -175,7 +175,11 @@ export class OptimizedSsrEngine {
 
         this.log(`Rendering started (${request?.originalUrl})`);
 
-        const renderCallback: SsrCallbackFn = (err, html, queueProcessing) => {
+        const renderCallback: SsrCallbackFn = (
+          err,
+          html,
+          isQueueProcessing
+        ) => {
           if (!maxRenderTimeout) {
             // ignore this render's result because it exceeded maxRenderTimeout
             this.log(
@@ -204,7 +208,7 @@ export class OptimizedSsrEngine {
             this.renderingCache.store(renderingKey, err, html);
           }
 
-          if (this.ssrOptions?.optimizeCsrFallback && !queueProcessing) {
+          if (this.ssrOptions?.optimizeCsrFallback && !isQueueProcessing) {
             this.log(
               `Processing queued SSR requests for ${request.originalUrl}...`
             );
