@@ -220,4 +220,14 @@ describe('QuickOrderService', () => {
         done();
       });
   });
+
+  it('should set added product', () => {
+    service.setProductAdded(mockProduct1Code);
+    service
+      .getProductAdded()
+      .subscribe((result) => {
+        expect(result).toEqual(mockProduct1Code);
+      })
+      .unsubscribe();
+  });
 });

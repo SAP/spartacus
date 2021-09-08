@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/events/page/page.events.ts
+// projects/storefrontlib/events/page/page.events.ts
 export const PAGE_EVENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: PAGE_EVENT,

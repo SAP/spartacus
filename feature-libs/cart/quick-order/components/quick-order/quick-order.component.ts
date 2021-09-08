@@ -68,13 +68,20 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToCart(): void {
+  addToCart(entries: OrderEntry[]): void {
     this.clearErrors();
 
     this.quickOrderService
       .addToCart()
       .pipe(first())
       .subscribe(([entriesLength, errors]) => {
+        errors.forEach((err) => {
+          if (!err.entry) {
+            err.entry = entries.find(
+              (e) => e.product?.code === err.productCode
+            );
+          }
+        });
         this.setErrors(errors);
         const noAddedEntries = errors.filter(
           (error) => error.quantityAdded === 0
