@@ -13,7 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, take, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -31,8 +31,9 @@ export class TabParagraphContainerComponent
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
 
-  tabTitleParams: Observable<any>[] = [];
+  tabTitleParams: (Observable<any> | null)[] = [];
 
+  // TODO: it is not used any more, so can be removed in 5.0
   subscription: Subscription;
 
   constructor(
@@ -98,21 +99,18 @@ export class TabParagraphContainerComponent
   ngAfterViewInit(): void {
     // If the sub cms components data exist, the components created before ngAfterViewInit are called.
     // In this case, the title parameters are directly pulled from them.
-    // If the sub cms components data does not exist, it should should be loaded first.
-    // In this case, listen to the changes to wait for them to be created.
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
-    } else {
-      this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) =>
-          this.getTitleParams(tabComps)
-      );
     }
+  }
+
+  tabCompLoaded(componentRef: any): void {
+    this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
-      if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
+      if (comp.cmpRef?.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
       } else {
         this.tabTitleParams.push(null);
