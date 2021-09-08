@@ -2,7 +2,7 @@ import { CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT } from '../../../../shared/co
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.component.ts
   selector: 'cx-checkout-progress-mobile-bottom',
   componentClassName: CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT,
   removedProperties: [

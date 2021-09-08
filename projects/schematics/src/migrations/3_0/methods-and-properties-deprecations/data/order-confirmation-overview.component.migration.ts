@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-//projects/storefrontlib/src/cms-components/order-confirmation/components/order-confirmation-overview/order-confirmation-overview.component.ts;
+//projects/storefrontlib/cms-components/order-confirmation/components/order-confirmation-overview/order-confirmation-overview.component.ts;
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: ORDER_CONFIRMATION_OVERVIEW_COMPONENT,
