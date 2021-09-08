@@ -16,7 +16,7 @@ import { ListNavigationModule } from '../../../../shared/components/list-navigat
 import { OrderHistoryComponent } from './order-history.component';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @NgModule({
   imports: [

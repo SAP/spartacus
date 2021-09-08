@@ -19,7 +19,7 @@ import { LAUNCH_CALLER } from '../../../../layout/launch-dialog/config/launch-co
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/launch-dialog.service';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @Component({
   selector: 'cx-replenishment-order-history',

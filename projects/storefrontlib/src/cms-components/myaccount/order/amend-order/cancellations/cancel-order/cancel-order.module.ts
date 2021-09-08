@@ -14,7 +14,7 @@ import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @NgModule({
   imports: [

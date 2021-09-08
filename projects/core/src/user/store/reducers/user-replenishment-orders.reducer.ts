@@ -10,7 +10,7 @@ export const initialState: ReplenishmentOrderList = {
 };
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export function reducer(
   state = initialState,
