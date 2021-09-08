@@ -23,7 +23,7 @@ const components = [
 ];
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @NgModule({
   imports: [

@@ -3,12 +3,12 @@ import { UserActions } from '../actions/index';
 import { ConsignmentTrackingState } from '../user-state';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const initialState: ConsignmentTrackingState = {};
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export function reducer(
   state = initialState,

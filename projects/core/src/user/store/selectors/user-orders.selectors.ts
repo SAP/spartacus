@@ -6,7 +6,7 @@ import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrdersState: MemoizedSelector<
   StateWithUser,
@@ -14,7 +14,7 @@ export const getOrdersState: MemoizedSelector<
 > = createSelector(getUserState, (state: UserState) => state.orders);
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrdersLoaded: MemoizedSelector<
   StateWithUser,
@@ -24,7 +24,7 @@ export const getOrdersLoaded: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getOrders: MemoizedSelector<
   StateWithUser,

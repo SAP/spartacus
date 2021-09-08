@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 import { ReturnRequestService } from '../return-request.service';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @Component({
   selector: 'cx-return-request-overview',
