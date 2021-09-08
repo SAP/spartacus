@@ -151,13 +151,16 @@ export class OptimizedSsrEngine {
 
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
-        // take up a concurrency slot only if the request is not currently being rendered
-        if (!this.isRendering(request)) {
+        if (
+          !this.ssrOptions?.optimizeCsrFallback ||
+          // if the wait for render options is enabled,
+          // take up only one concurrency slot for the first render
+          !this.isRendering(request)
+        ) {
           this.currentConcurrency++;
         }
 
         let waitingForRender: NodeJS.Timeout | undefined;
-
         if (this.shouldTimeout(request)) {
           // establish timeout for rendering
           const timeout = this.getTimeout(request);
@@ -179,8 +182,16 @@ export class OptimizedSsrEngine {
         // setting the timeout for hanging renders that might not ever finish due to various reasons
         // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
         let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-          // TODO:#ssr
-          this.currentConcurrency--;
+          if (
+            !this.ssrOptions?.optimizeCsrFallback ||
+            // if the wait for render option is enabled,
+            // release the concurrency slot only for the first render,
+            // as other waiting renders didn't take up a slot
+            this.isRendering(request)
+          ) {
+            this.currentConcurrency--;
+          }
+
           this.renderingCache.clear(renderingKey);
           maxRenderTimeout = undefined;
 
@@ -216,7 +227,6 @@ export class OptimizedSsrEngine {
           if (waitingForRender) {
             // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
-            // TODO:#ssr - third param is ok to be missing?
             callback(err, html);
 
             // store the render only if caching is enabled

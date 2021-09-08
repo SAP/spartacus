@@ -568,9 +568,9 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      it('should queue multiple subsequent requests for the same URL, and re-use the render', fakeAsync(() => {
+      it('should queue multiple subsequent requests for the same URL, re-use the render and take up only one concurrent slot', fakeAsync(() => {
         const engineRunner = new TestEngineRunner(
-          { timeout, optimizeCsrFallback: true },
+          { timeout, optimizeCsrFallback: true, concurrency: 2 },
           renderTime
         );
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
@@ -584,6 +584,10 @@ describe('OptimizedSsrEngine', () => {
         engineRunner.request(requestUrl);
         tick(1);
         engineRunner.request(requestUrl);
+
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
 
         tick(100);
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
@@ -637,8 +641,48 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      // TODO:#ssr
-      it('should free up only one concurrent slot if all the queued renders are hanging', fakeAsync(() => {}));
+      it('should free up only one concurrent slot when all the queued renders are hanging', fakeAsync(() => {
+        const hangingRequest = 'a';
+        const ssrRequest = 'b';
+        const renderTime = 200;
+        const maxRenderTime = renderTime - 50; // shorter than the predicted render time
+        const engineRunner = new TestEngineRunner(
+          { concurrency: 2, maxRenderTime, optimizeCsrFallback: true },
+          renderTime
+        );
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(hangingRequest);
+        engineRunner.request(hangingRequest);
+        engineRunner.request(hangingRequest);
+
+        tick(1);
+        expect(engineRunner.renderCount).toEqual(0);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
+
+        tick(maxRenderTime);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
+          false
+        );
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          0
+        );
+
+        // even though the hanging request is still rendering, we've freed up a slot for a new request
+        engineRunner.request(ssrRequest);
+        tick(1);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `Rendering started (${ssrRequest})`
+        );
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
+
+        flush();
+      }));
     });
   });
 });
