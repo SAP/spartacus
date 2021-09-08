@@ -10,11 +10,29 @@ ci:
     preset: lighthouse:recommended
     assertions:
       offscreen-images: 'off'
+      valid-source-maps: 'off'
+      robots-txt: 'off'
       uses-webp-images: 'off'
+      uses-optimized-images: 'warn'
       color-contrast: 'off'
+      button-name: 'warn'
+      csp-xss: 'off'
+      errors-in-console: 'warn'
+      font-display: 'warn'
+      image-alt: 'warn'
+      image-size-responsive: 'warn'
+      maskable-icon: 'warn'
+      meta-description: 'warn'
+      non-composited-animations: 'warn'
+      service-worker: 'warn'
+      tap-targets: 'warn'
+      themed-omnibox: 'warn'
+      unsized-images: 'warn'
+      unused-css-rules: 'warn'
+      unused-javascript: 'warn'
       first-contentful-paint:
         - error
-        - maxNumericValue: 2000
+        - maxNumericValue: 2750
           aggregationMethod: optimistic
       interactive:
         - error
