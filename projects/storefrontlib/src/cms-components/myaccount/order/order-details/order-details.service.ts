@@ -17,7 +17,7 @@ import {
 import { OrderDetailsServiceTransitionalToken } from '../order-transitional-tokens';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @Injectable({
   providedIn: 'root',

@@ -3,11 +3,13 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Output,
   Renderer2,
   Type,
   ViewContainerRef,
@@ -36,6 +38,7 @@ import { ComponentHandlerService } from './services/component-handler.service';
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
+  @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();
 
   /**
    * @deprecated since 2.0
@@ -119,6 +122,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       .pipe(
         tap(({ elementRef, componentRef }) => {
           this.cmpRef = componentRef;
+
+          this.cxComponentRef.emit(componentRef);
+
           this.dispatchEvent(ComponentCreateEvent, elementRef);
           this.decorate(elementRef);
           this.injector.get(ChangeDetectorRef).markForCheck();

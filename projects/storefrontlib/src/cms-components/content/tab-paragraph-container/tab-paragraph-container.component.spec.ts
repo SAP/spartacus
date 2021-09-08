@@ -178,4 +178,20 @@ describe('TabParagraphContainerComponent', () => {
 
     expect(param).toEqual('title param');
   });
+
+  it('should be able to get tab title after tab component created', () => {
+    let childCompFixture: ComponentFixture<TestComponent>;
+    childCompFixture = TestBed.createComponent(TestComponent);
+
+    component.tabCompLoaded(childCompFixture.componentRef);
+
+    let param = '';
+    component.tabTitleParams.forEach((param$) => {
+      if (param$ != null) {
+        param$.subscribe((value) => (param = value)).unsubscribe();
+      }
+    });
+
+    expect(param).toEqual('title param');
+  });
 });

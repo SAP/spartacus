@@ -89,6 +89,7 @@ export default async function run(
     '@spartacus/setup': 'core-libs/setup',
     '@spartacus/cart': 'feature-libs/cart',
     '@spartacus/order': 'feature-libs/order',
+    '@spartacus/digital-payments': 'integration-libs/digital-payments',
   };
 
   const duplexUtil = through(function (
@@ -326,6 +327,10 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
       break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
+      break;
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
@@ -357,6 +362,10 @@ if (typeof config.to === 'undefined') {
     case 'order':
     case '@spartacus/order':
       config.library = '@spartacus/order';
+      break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
       break;
     default:
       config.library = undefined;
