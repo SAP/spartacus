@@ -499,7 +499,47 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      it('should queue the subsequent requests for the same URL, honouring the timeout option at the same time', fakeAsync(() => {
+      it('should queue the subsequent request for the same URL, and use a new timer for it', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner(
+          { timeout, optimizeCsrFallback: true },
+          1000
+        );
+        const logSpy = spyOn<any>(
+          engineRunner.optimizedSsrEngine,
+          'log'
+        ).and.callThrough();
+
+        engineRunner.request(requestUrl);
+
+        tick(200);
+
+        engineRunner.request(requestUrl);
+
+        //1st times out
+        tick(100);
+        // 2nd request times out
+        tick(200);
+
+        let renderExceedMessageCount = 0;
+        logSpy.calls.allArgs().forEach((args: unknown[]) => {
+          args.forEach((message: unknown) => {
+            if (
+              message ===
+              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`
+            ) {
+              renderExceedMessageCount++;
+            }
+          });
+        });
+
+        expect(renderExceedMessageCount).toBe(2);
+        expect(engineRunner.renderCount).toEqual(0);
+        expect(engineRunner.renders).toEqual(['', '']);
+
+        flush();
+      }));
+
+      it('should queue the subsequent request for the same URL', fakeAsync(() => {
         const engineRunner = new TestEngineRunner(
           { timeout, optimizeCsrFallback: true },
           renderTime
@@ -521,6 +561,44 @@ describe('OptimizedSsrEngine', () => {
         tick(100);
         expect(engineRunner.renderCount).toEqual(1);
         expect(engineRunner.renders).toEqual(['', `${requestUrl}-0`]);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `Processing queued SSR requests for ${requestUrl}...`
+        );
+
+        flush();
+      }));
+
+      it('should queue the subsequent requests for the same URL', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner(
+          { timeout, optimizeCsrFallback: true },
+          renderTime
+        );
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(requestUrl);
+
+        tick(200);
+
+        engineRunner.request(requestUrl);
+        tick(1);
+        engineRunner.request(requestUrl);
+        tick(1);
+        engineRunner.request(requestUrl);
+
+        tick(100);
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+          false
+        );
+
+        tick(100);
+        expect(engineRunner.renderCount).toEqual(1);
+        expect(engineRunner.renders).toEqual([
+          '',
+          `${requestUrl}-0`,
+          `${requestUrl}-0`,
+          `${requestUrl}-0`,
+        ]);
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `Processing queued SSR requests for ${requestUrl}...`
         );
