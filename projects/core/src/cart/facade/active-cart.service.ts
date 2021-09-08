@@ -391,7 +391,7 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
-    // TODO: Support multiple, simultaneous invocation of this function, when cart is not loaded/created
+    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
