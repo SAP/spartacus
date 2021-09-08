@@ -13,7 +13,10 @@
     <ng-container *ngIf="component">
       <div [class.active]="i === activeTabNum">
         <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
-          <ng-container [cxComponentWrapper]="component"></ng-container>
+          <ng-container
+            [cxComponentWrapper]="component"
+            (cxComponentRef)="tabCompLoaded($event)"
+          ></ng-container>
         </ng-template>
       </div>
     </ng-container>

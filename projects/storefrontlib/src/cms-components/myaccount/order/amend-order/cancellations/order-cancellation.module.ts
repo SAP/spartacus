@@ -3,7 +3,7 @@ import { CancelOrderConfirmationModule } from './cancel-order-confirmation/cance
 import { CancelOrderModule } from './cancel-order/cancel-order.module';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 @NgModule({
   imports: [CancelOrderModule, CancelOrderConfirmationModule],

@@ -1,6 +1,6 @@
 export const myAccount = {
   /**
-   * @deprecated since 4.1, use feature-library @spartacus/order/assets instead
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
    */
   orderDetails: {
     orderId: 'Order #',
@@ -103,7 +103,7 @@ export const myAccount = {
     },
   },
   /**
-   * @deprecated since 4.1, use feature-library @spartacus/order/assets instead
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
    */
   orderHistory: {
     orderHistory: 'Order history',
@@ -234,7 +234,7 @@ export const myAccount = {
     },
   },
   /**
-   * @deprecated since 4.1, use feature-library @spartacus/order/assets instead
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
    */
   AccountOrderHistoryTabContainer: {
     tabs: {
@@ -243,7 +243,7 @@ export const myAccount = {
     },
   },
   /**
-   * @deprecated since 4.1, use feature-library @spartacus/order/assets instead
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
    */
   returnRequestList: {
     returnRequestId: 'Return #',
@@ -267,7 +267,7 @@ export const myAccount = {
     statusDisplay_COMPLETED: 'Completed',
   },
   /**
-   * @deprecated since 4.1, use feature-library @spartacus/order/assets instead
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
    */
   returnRequest: {
     returnRequestId: 'Return Request #',

@@ -250,6 +250,7 @@ export class CloneSavedCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
+      saveCartName?: string;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
@@ -262,6 +263,7 @@ export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       userId: string;
       cartId: string;
+      saveCartName?: string;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
@@ -274,6 +276,7 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
     public payload: {
       userId: string;
       cartId: string;
+      saveCartName?: string;
       error: any;
     }
   ) {
