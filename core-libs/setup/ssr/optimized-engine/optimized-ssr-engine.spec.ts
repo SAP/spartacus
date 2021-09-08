@@ -444,6 +444,7 @@ describe('OptimizedSsrEngine', () => {
 
   describe('optimizeCsrFallback', () => {
     const requestUrl = 'a';
+    const differentUrl = 'b';
     const timeout = 300;
     const renderTime = 400;
 
@@ -471,7 +472,6 @@ describe('OptimizedSsrEngine', () => {
 
     describe('when enabled', () => {
       it('should NOT queue the subsequent requests for a different URL', fakeAsync(() => {
-        const differentUrl = 'b';
         const engineRunner = new TestEngineRunner(
           { timeout, optimizeCsrFallback: true },
           renderTime
@@ -539,7 +539,7 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      it('should queue the subsequent request for the same URL', fakeAsync(() => {
+      it('should queue the subsequent request and re-use the render', fakeAsync(() => {
         const engineRunner = new TestEngineRunner(
           { timeout, optimizeCsrFallback: true },
           renderTime
@@ -568,7 +568,7 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      it('should queue the subsequent requests for the same URL', fakeAsync(() => {
+      it('should queue multiple subsequent requests for the same URL, and re-use the render', fakeAsync(() => {
         const engineRunner = new TestEngineRunner(
           { timeout, optimizeCsrFallback: true },
           renderTime
@@ -605,6 +605,40 @@ describe('OptimizedSsrEngine', () => {
 
         flush();
       }));
+
+      it('should queue multiple subsequent requests for the same URL, and take up concurrency slots', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner(
+          { timeout, optimizeCsrFallback: true, concurrency: 2 },
+          200
+        );
+        engineRunner
+          .request(requestUrl)
+          .request(requestUrl)
+          .request(requestUrl)
+          .request(requestUrl)
+          .request(requestUrl);
+
+        tick(20);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
+
+        engineRunner.request(differentUrl);
+        tick(20);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          2
+        );
+
+        tick(250);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          0
+        );
+
+        flush();
+      }));
+
+      // TODO:#ssr
+      it('should free up only one concurrent slot if all the queued renders are hanging', fakeAsync(() => {}));
     });
   });
 });

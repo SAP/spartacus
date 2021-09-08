@@ -70,28 +70,40 @@ export class OptimizedSsrEngine {
   }
 
   protected shouldRender(request: Request): boolean {
-    const concurrencyLimitExceed = this.ssrOptions?.concurrency
-      ? this.currentConcurrency >= this.ssrOptions.concurrency
-      : false;
+    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
 
-    // if using optimizeCsrFallback, we should always start the rendering
-    const isRendering = this.ssrOptions?.optimizeCsrFallback
+    // if the option is enabled, we shouldn't fall back
+    const fallBack = this.ssrOptions?.optimizeCsrFallback
       ? false
-      : this.renderingCache.isRendering(this.getRenderingKey(request));
-    if (isRendering) {
+      : this.isRendering(request);
+    if (fallBack) {
       this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
-    } else if (concurrencyLimitExceed) {
+    } else if (concurrencyLimitExceeded) {
       this.log(
         `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
       );
     }
 
     return (
-      (!isRendering &&
-        !concurrencyLimitExceed &&
+      (!fallBack &&
+        !concurrencyLimitExceeded &&
         this.getRenderingStrategy(request) !== RenderingStrategy.ALWAYS_CSR) ||
       this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
     );
+  }
+
+  protected isRendering(request: Request): boolean {
+    return this.renderingCache.isRendering(this.getRenderingKey(request));
+  }
+
+  protected isConcurrencyLimitExceeded(request: Request): boolean {
+    // we don't take up a concurrency slot if the request should just wait for the render
+    if (this.isRendering(request) && this.ssrOptions?.optimizeCsrFallback) {
+      return false;
+    }
+    return this.ssrOptions?.concurrency
+      ? this.currentConcurrency >= this.ssrOptions.concurrency
+      : false;
   }
 
   protected shouldTimeout(request: Request): boolean {
@@ -139,7 +151,11 @@ export class OptimizedSsrEngine {
 
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
-        this.currentConcurrency++;
+        // take up a concurrency slot only if the request is not currently being rendered
+        if (!this.isRendering(request)) {
+          this.currentConcurrency++;
+        }
+
         let waitingForRender: NodeJS.Timeout | undefined;
 
         if (this.shouldTimeout(request)) {
@@ -163,6 +179,7 @@ export class OptimizedSsrEngine {
         // setting the timeout for hanging renders that might not ever finish due to various reasons
         // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
         let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
+          // TODO:#ssr
           this.currentConcurrency--;
           this.renderingCache.clear(renderingKey);
           maxRenderTimeout = undefined;
@@ -188,13 +205,18 @@ export class OptimizedSsrEngine {
             return;
           }
           clearTimeout(maxRenderTimeout);
-          this.currentConcurrency--;
+          // we've taken only one slot for the first request which triggered the render
+          // therefore, all queued requests should not decrease the concurrency slots.
+          if (!isQueueProcessing) {
+            this.currentConcurrency--;
+          }
 
           this.log(`Rendering completed (${request?.originalUrl})`);
 
           if (waitingForRender) {
             // if request is still waiting for render, return it
             clearTimeout(waitingForRender);
+            // TODO:#ssr - third param is ok to be missing?
             callback(err, html);
 
             // store the render only if caching is enabled
