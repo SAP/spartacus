@@ -1,8 +1,8 @@
 import {
   ANGULAR_CORE,
+  ANONYMOUS_CONSENTS_SERVICE,
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT,
-  ANONYMOUS_CONSENTS_SERVICE,
   LAUNCH_DIALOG_SERVICE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/anonymous-consent-management/banner/anonymous-consent-management-banner.component.ts
+  // storefrontlib/cms-components/anonymous-consent-management/banner/anonymous-consent-management-banner.component.ts
   class: ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -43,7 +43,7 @@ export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V1: Constru
 };
 
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/anonymous-consent-management/banner/anonymous-consent-management-banner.component.ts
+  // storefrontlib/cms-components/anonymous-consent-management/banner/anonymous-consent-management-banner.component.ts
   class: ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -145,7 +145,7 @@
 #  Cart Functionality
 # ================================================
 /projects/core/src/cart/**                                               @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-/projects/storefrontlib/src/cms-components/cart/**                       @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/storefrontlib/cms-components/cart/**                           @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Routing Functionality
