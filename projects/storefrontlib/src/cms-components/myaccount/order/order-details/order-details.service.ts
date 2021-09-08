@@ -56,9 +56,6 @@ export class OrderDetailsService {
       if (serivce) {
         return serivce.getOrderDetails();
       }
-      throw Error(
-        'Cannot get order details. Install `@spartacus/order` library which provides required services.'
-      );
     }
 
     return this.orderLoad$.pipe(
