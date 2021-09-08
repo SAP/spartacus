@@ -102,7 +102,7 @@ const defaultTestBedConfig = {
   ],
 };
 
-fdescribe('OrderDetailsService', () => {
+describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
   let userService;
   let routingService;
