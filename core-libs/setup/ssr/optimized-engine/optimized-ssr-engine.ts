@@ -105,6 +105,12 @@ export class OptimizedSsrEngine {
     return this.renderingCache.isRendering(this.getRenderingKey(request));
   }
 
+  /**
+   * Checks for the concurrency limit with `reuseCurrentRendering` in mind.
+   *
+   * @param request
+   * @returns true if the concurrency limit has been exceeded
+   */
   protected isConcurrencyLimitExceeded(request: Request): boolean {
     // we don't take up a concurrency slot if the request should just wait for the render
     if (this.isRendering(request) && this.ssrOptions?.reuseCurrentRendering) {
