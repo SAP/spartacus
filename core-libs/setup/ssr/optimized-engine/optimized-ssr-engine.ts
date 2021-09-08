@@ -73,7 +73,7 @@ export class OptimizedSsrEngine {
     const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
 
     // if the option is enabled, we shouldn't fall back
-    const fallBack = this.ssrOptions?.optimizeCsrFallback
+    const fallBack = this.ssrOptions?.reuseCurrentRendering
       ? false
       : this.isRendering(request);
     if (fallBack) {
@@ -98,7 +98,7 @@ export class OptimizedSsrEngine {
 
   protected isConcurrencyLimitExceeded(request: Request): boolean {
     // we don't take up a concurrency slot if the request should just wait for the render
-    if (this.isRendering(request) && this.ssrOptions?.optimizeCsrFallback) {
+    if (this.isRendering(request) && this.ssrOptions?.reuseCurrentRendering) {
       return false;
     }
     return this.ssrOptions?.concurrency
@@ -152,7 +152,7 @@ export class OptimizedSsrEngine {
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
         if (
-          !this.ssrOptions?.optimizeCsrFallback ||
+          !this.ssrOptions?.reuseCurrentRendering ||
           // if the wait for render options is enabled,
           // take up only one concurrency slot for the first render
           !this.isRendering(request)
@@ -183,7 +183,7 @@ export class OptimizedSsrEngine {
         // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
         let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
           if (
-            !this.ssrOptions?.optimizeCsrFallback ||
+            !this.ssrOptions?.reuseCurrentRendering ||
             // if the wait for render option is enabled,
             // release the concurrency slot only for the first render,
             // as other waiting renders didn't take up a slot
@@ -216,8 +216,8 @@ export class OptimizedSsrEngine {
             return;
           }
           clearTimeout(maxRenderTimeout);
-          // we've taken only one slot for the first request which triggered the render
-          // therefore, all queued requests should not decrease the concurrency slots.
+          // we've taken only one slot for the first request which triggered the render.
+          // therefore, all subsequent requests waiting for the same render should not decrease the concurrency slots.
           if (!isQueueProcessing) {
             this.currentConcurrency--;
           }
@@ -240,9 +240,9 @@ export class OptimizedSsrEngine {
             this.renderingCache.store(renderingKey, err, html);
           }
 
-          if (this.ssrOptions?.optimizeCsrFallback && !isQueueProcessing) {
+          if (this.ssrOptions?.reuseCurrentRendering && !isQueueProcessing) {
             this.log(
-              `Processing queued SSR requests for ${request.originalUrl}...`
+              `Processing waiting SSR requests for ${request.originalUrl}...`
             );
             this.callbackQueue[renderingKey]?.forEach((cb) =>
               cb(err, html, true)
@@ -252,7 +252,7 @@ export class OptimizedSsrEngine {
         };
 
         if (
-          this.ssrOptions?.optimizeCsrFallback &&
+          this.ssrOptions?.reuseCurrentRendering &&
           this.callbackQueue[renderingKey]
         ) {
           this.callbackQueue[renderingKey]?.push(renderCallback);

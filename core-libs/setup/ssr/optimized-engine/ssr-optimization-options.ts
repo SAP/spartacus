@@ -96,7 +96,7 @@ export interface SsrOptimizationOptions {
    * - one second after the timeout, the current render finishes.
    * - the 2nd request returns SSR after only 2s of waiting.
    */
-  optimizeCsrFallback?: boolean;
+  reuseCurrentRendering?: boolean;
 
   /**
    * Enable detailed logs for troubleshooting problems
