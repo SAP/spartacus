@@ -18,10 +18,10 @@ export type SsrCallbackFn = (
    */
   html?: string | undefined,
   /**
-   * The indicator if `this.callbackQueue` is being processed.
+   * An indicator if `this.waitingRenderCallbacks` is being processed.
    * Mitigates the infinite loop.
    */
-  isQueueProcessing?: boolean
+  waitingRendersProcessing?: boolean
 ) => void;
 
 /**
@@ -215,7 +215,7 @@ export class OptimizedSsrEngine {
         const renderCallback: SsrCallbackFn = (
           err,
           html,
-          isQueueProcessing
+          waitingRendersProcessing
         ) => {
           if (!maxRenderTimeout) {
             // ignore this render's result because it exceeded maxRenderTimeout
@@ -227,7 +227,7 @@ export class OptimizedSsrEngine {
           clearTimeout(maxRenderTimeout);
           // we've taken only one slot for the first request which triggered the render.
           // therefore, all subsequent requests waiting for the same render should not decrease the concurrency slots.
-          if (!isQueueProcessing) {
+          if (!waitingRendersProcessing) {
             this.currentConcurrency--;
           }
 
@@ -249,7 +249,10 @@ export class OptimizedSsrEngine {
             this.renderingCache.store(renderingKey, err, html);
           }
 
-          if (this.ssrOptions?.reuseCurrentRendering && !isQueueProcessing) {
+          if (
+            this.ssrOptions?.reuseCurrentRendering &&
+            !waitingRendersProcessing
+          ) {
             this.log(
               `Processing waiting SSR requests for ${request.originalUrl}...`
             );
