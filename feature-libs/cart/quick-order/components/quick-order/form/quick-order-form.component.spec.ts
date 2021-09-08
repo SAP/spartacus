@@ -10,6 +10,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { Component, Input } from '@angular/core';
 
 const mockProductCode: string = 'mockCode';
 const mockProduct: Product = {
@@ -45,6 +47,14 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
 describe('QuickOrderFormComponent', () => {
   let component: QuickOrderFormComponent;
   let fixture: ComponentFixture<QuickOrderFormComponent>;
@@ -53,8 +63,8 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [QuickOrderFormComponent],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [QuickOrderFormComponent, MockCxIconComponent],
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
