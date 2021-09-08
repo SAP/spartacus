@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_NOT_EMPTY_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+  // projects/storefrontlib/cms-components/cart/cart-not-empty.guard.ts
   class: CART_NOT_EMPTY_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

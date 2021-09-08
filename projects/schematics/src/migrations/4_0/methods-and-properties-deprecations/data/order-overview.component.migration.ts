@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/shared/components/order-overview/order-overview.component.ts
+// projects/storefrontlib/shared/components/order-overview/order-overview.component.ts
 export const ORDER_OVERVIEW_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: ORDER_OVERVIEW_COMPONENT,
