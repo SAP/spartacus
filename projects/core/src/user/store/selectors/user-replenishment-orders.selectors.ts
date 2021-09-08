@@ -6,7 +6,7 @@ import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getReplenishmentOrdersState: MemoizedSelector<
   StateWithUser,
@@ -17,7 +17,7 @@ export const getReplenishmentOrdersState: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getReplenishmentOrders: MemoizedSelector<
   StateWithUser,
@@ -29,7 +29,7 @@ export const getReplenishmentOrders: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getReplenishmentOrdersLoading: MemoizedSelector<
   StateWithUser,
@@ -41,7 +41,7 @@ export const getReplenishmentOrdersLoading: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getReplenishmentOrdersError: MemoizedSelector<
   StateWithUser,
@@ -53,7 +53,7 @@ export const getReplenishmentOrdersError: MemoizedSelector<
 );
 
 /**
- * @deprecated since 4.1 - use order lib instead
+ * @deprecated since 4.2 - use order lib instead
  */
 export const getReplenishmentOrdersSuccess: MemoizedSelector<
   StateWithUser,
