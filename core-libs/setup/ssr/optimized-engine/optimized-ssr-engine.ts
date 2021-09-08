@@ -32,7 +32,16 @@ export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
   private templateCache = new Map<string, string>();
-  private callbackQueue: Record<string, SsrCallbackFn[] | null> = {};
+  /**
+   * When the config `reuseCurrentRendering` is true,
+   * we want to reuse the html result
+   * for all the subsequent requests for the same URL.
+   * Therefore we need to store the callbacks
+   * for all those received requests
+   * and invoke them with the html after
+   * the initial render outputs the html.
+   */
+  private waitingRenderCallbacks: Record<string, SsrCallbackFn[] | null> = {};
 
   get engineInstance(): NgExpressEngineInstance {
     return this.renderResponse.bind(this);
@@ -244,20 +253,20 @@ export class OptimizedSsrEngine {
             this.log(
               `Processing waiting SSR requests for ${request.originalUrl}...`
             );
-            this.callbackQueue[renderingKey]?.forEach((cb) =>
+            this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
               cb(err, html, true)
             );
-            this.callbackQueue[renderingKey] = null;
+            this.waitingRenderCallbacks[renderingKey] = null;
           }
         };
 
         if (
           this.ssrOptions?.reuseCurrentRendering &&
-          this.callbackQueue[renderingKey]
+          this.waitingRenderCallbacks[renderingKey]
         ) {
-          this.callbackQueue[renderingKey]?.push(renderCallback);
+          this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
         } else {
-          this.callbackQueue[renderingKey] = [];
+          this.waitingRenderCallbacks[renderingKey] = [];
           this.expressEngine(filePath, options, renderCallback);
         }
       } else {
