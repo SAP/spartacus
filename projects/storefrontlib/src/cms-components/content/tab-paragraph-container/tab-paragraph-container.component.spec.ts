@@ -183,7 +183,7 @@ describe('TabParagraphContainerComponent', () => {
     let childCompFixture: ComponentFixture<TestComponent>;
     childCompFixture = TestBed.createComponent(TestComponent);
 
-    component.tabCompCreated(childCompFixture.componentRef);
+    component.tabCompLoaded(childCompFixture.componentRef);
 
     let param = '';
     component.tabTitleParams.forEach((param$) => {

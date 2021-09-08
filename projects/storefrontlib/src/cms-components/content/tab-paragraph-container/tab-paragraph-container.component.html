@@ -15,7 +15,7 @@
         <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
           <ng-container
             [cxComponentWrapper]="component"
-            (cxComponentRef)="tabCompCreated($event)"
+            (cxComponentRef)="tabCompLoaded($event)"
           ></ng-container>
         </ng-template>
       </div>

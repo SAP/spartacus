@@ -31,7 +31,7 @@ export class TabParagraphContainerComponent
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
 
-  tabTitleParams: (Observable<any> | undefined)[] = [];
+  tabTitleParams: (Observable<any> | null)[] = [];
 
   // TODO: it is not used any more, so can be removed in 5.0
   subscription: Subscription;
@@ -104,7 +104,7 @@ export class TabParagraphContainerComponent
     }
   }
 
-  tabCompCreated(componentRef: any): void {
+  tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
@@ -113,7 +113,7 @@ export class TabParagraphContainerComponent
       if (comp.cmpRef?.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
       } else {
-        this.tabTitleParams.push(undefined);
+        this.tabTitleParams.push(null);
       }
     });
   }
