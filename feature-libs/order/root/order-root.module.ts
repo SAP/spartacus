@@ -11,7 +11,7 @@ import { defaultOrderRoutingConfig } from './config/default-order-routing-config
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultCartOrderComponentsConfig(): CmsConfig {
+export function defaultOrderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [ORDER_FEATURE]: {
@@ -120,7 +120,7 @@ export function defaultCartOrderComponentsConfig(): CmsConfig {
     ]),
   ],
   providers: [
-    provideDefaultConfigFactory(defaultCartOrderComponentsConfig),
+    provideDefaultConfigFactory(defaultOrderComponentsConfig),
     provideDefaultConfig(defaultOrderRoutingConfig),
   ],
 })
