@@ -13,7 +13,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/checkout.guard.ts
   class: CHECKOUT_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
