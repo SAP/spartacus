@@ -1,9 +1,13 @@
 cx-quick-order {
-  .quick-order-errors {
+  .quick-order-errors,
+  .quick-order-successes,
+  .quick-order-warnings {
     margin-top: 10px;
     padding-inline-start: 30px;
 
-    .quick-order-error-item {
+    .quick-order-error-item,
+    .quick-order-success-item,
+    .quick-order-warning-item {
       padding-bottom: 3px;
     }
   }
