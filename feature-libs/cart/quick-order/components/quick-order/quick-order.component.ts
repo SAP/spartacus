@@ -86,7 +86,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
       .addToCart()
       .pipe(first())
       .subscribe(([entries, errors]) => {
-        console.log('TEST', entries, errors);
         errors.forEach((err) => {
           if (!err.entry) {
             err.entry = orderEntries.find(
@@ -99,10 +98,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         this.extractWarnings(errors);
 
         if (!errors.length) {
-          console.log('showAddedToCartSuccessMessage');
           this.showAddedToCartSuccessMessage();
         } else {
-          console.log('show extractSuccesses');
           this.extractSuccesses(errors, entries);
         }
       });
@@ -122,14 +119,12 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   protected extractErrors(errors: CartAddEntrySuccessEvent[]): void {
     const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
-    console.log('extractErrors', noAddedEntries);
 
     this.setErrors(noAddedEntries);
   }
 
   protected extractWarnings(errors: CartAddEntrySuccessEvent[]): void {
     const warnings = errors.filter((error) => error.quantityAdded !== 0);
-    console.log('extractWarnings', warnings);
 
     this.setWarnings(warnings);
   }
@@ -148,7 +143,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         successAddedEntries.push(entry);
       }
     });
-    console.log('extractSuccesses', successAddedEntries);
 
     this.setSuccesses(successAddedEntries);
   }
