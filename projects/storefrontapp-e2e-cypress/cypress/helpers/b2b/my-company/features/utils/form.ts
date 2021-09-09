@@ -53,7 +53,7 @@ export function completeForm(
   function getFieldByLabel(input: MyCompanyRowConfig) {
     return input.inputType === INPUT_TYPE.CHECKBOX
       ? cy.get('cx-org-form fieldset legend').contains(input.formLabel).parent()
-      : cy.get('label span').contains(input.formLabel).parent();
+      : cy.get('cx-org-form label span').contains(input.formLabel).parent();
   }
 
   // For situations where more than one control exists in form with the same label.
