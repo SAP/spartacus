@@ -59,7 +59,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '3.2'
+      level: '4.1'
     }
   }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
 })
@@ -282,7 +282,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '3.2'
+      level: '4.1'
     }
   }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
 })
@@ -493,7 +493,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '3.2'
+      level: '4.1'
     }
   })]
 })

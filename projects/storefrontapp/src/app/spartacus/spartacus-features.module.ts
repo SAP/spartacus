@@ -72,10 +72,12 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -88,9 +90,8 @@ const featureModules = [];
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
-    OrderApprovalFeatureModule,
-
-    BulkPricingFeatureModule
+    BulkPricingFeatureModule,
+    OrderApprovalFeatureModule
   );
 }
 if (environment.cdc) {
@@ -103,6 +104,9 @@ if (environment.cpq) {
   featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
 } else {
   featureModules.push(ProductConfiguratorRulebasedFeatureModule);
+}
+if (environment.digitalPayments) {
+  featureModules.push(DigitalPaymentsFeatureModule);
 }
 
 @NgModule({
@@ -205,6 +209,7 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
   ],

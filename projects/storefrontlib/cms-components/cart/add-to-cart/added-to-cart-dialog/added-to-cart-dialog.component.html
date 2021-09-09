@@ -1,0 +1,119 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <ng-container *ngIf="(loaded$ | async) || modalIsOpen; else loading">
+    <div class="cx-dialog-header modal-header">
+      <div
+        class="cx-dialog-title modal-title"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {{
+          (addedEntryWasMerged$ | async)
+            ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
+            : ('addToCart.itemsAddedToYourCart' | cxTranslate)
+        }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body" *ngIf="entry$ | async as entry">
+      <div class="cx-dialog-row">
+        <div class="cx-dialog-item col-sm-12 col-md-6">
+          <cx-cart-item
+            [item]="entry"
+            [compact]="true"
+            [quantityControl]="getQuantityControl() | async"
+            [promotionLocation]="promotionLocation"
+          ></cx-cart-item>
+        </div>
+        <!-- Separator -->
+        <div
+          class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+        ></div>
+        <!-- Total container -->
+        <div
+          class="cx-dialog-actions col-sm-12 col-md-6"
+          *ngIf="cart$ | async as cart"
+        >
+          <div class="cx-dialog-total">
+            <div>
+              {{
+                'cartItems.cartTotal'
+                  | cxTranslate: { count: cart.deliveryItemsQuantity }
+              }}
+            </div>
+
+            <div>{{ cart.subTotal?.formattedValue }}</div>
+          </div>
+
+          <!-- Promotions -->
+          <div class="cx-dialog-promotions">
+            <cx-promotions
+              [promotions]="
+                (cart.appliedOrderPromotions || []).concat(
+                  cart.potentialOrderPromotions || []
+                )
+              "
+            ></cx-promotions>
+          </div>
+
+          <!-- Actions -->
+          <div class="cx-dialog-buttons">
+            <a
+              [class.disabled]="form.dirty"
+              [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+              cxModal="dismiss"
+              cxModalReason="View Cart click"
+              class="btn btn-primary"
+              autofocus
+              >{{ 'addToCart.viewCart' | cxTranslate }}</a
+            >
+            <a
+              [class.disabled]="form.dirty"
+              [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+              cxModal="dismiss"
+              cxModalReason="Proceed To Checkout click"
+              class="btn btn-secondary"
+              >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'addToCart.updatingCart' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
+      </div>
+    </div>
+  </ng-template>
+</div>

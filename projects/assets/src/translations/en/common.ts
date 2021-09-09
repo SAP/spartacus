@@ -19,6 +19,7 @@ export const common = {
     menu: 'Menu',
     reset: 'Reset',
     search: 'Search',
+    add: 'Add',
   },
   pageMetaResolver: {
     category: {
