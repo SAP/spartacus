@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   CmsQuickOrderComponent,
+  QuickOrderAddEntryEvent,
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
@@ -19,7 +20,6 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { QuickOrderAddEntryEvent } from '../../core/models/quick-order.model';
 
 @Component({
   selector: 'cx-quick-order',
