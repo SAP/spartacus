@@ -945,6 +945,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
+            "tsConfig": "feature-libs/order/tsconfig.lib.json",
             "project": "feature-libs/order/ng-package.json"
           },
           "configurations": {
@@ -968,8 +969,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "feature-libs/checkout/**/*.ts",
-              "feature-libs/checkout/**/*.html"
+              "feature-libs/order/**/*.ts",
+              "feature-libs/order/**/*.html"
             ]
           }
         }

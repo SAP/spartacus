@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { ReplenishmentOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
