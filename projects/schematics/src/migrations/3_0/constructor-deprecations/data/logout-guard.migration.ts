@@ -13,7 +13,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGOUT_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/user/logout-guard.ts
+  // projects/storefrontlib/cms-components/user/logout-guard.ts
   class: LOGOUT_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

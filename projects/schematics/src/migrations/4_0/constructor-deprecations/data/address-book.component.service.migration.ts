@@ -7,7 +7,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts
+  // projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts
   class: ADDRESS_BOOK_COMPONENT_SERVICE,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [

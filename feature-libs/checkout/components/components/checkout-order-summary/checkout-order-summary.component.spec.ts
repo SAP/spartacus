@@ -11,7 +11,7 @@ import {
   PromotionsComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/src/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import createSpy = jasmine.createSpy;
 

@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation.component.ts
+  // storefrontlib/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation.component.ts
   class: REPLENISHMENT_ORDER_CANCELLATION_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -43,7 +43,7 @@ export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1: Constructo
 };
 
 export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation.component.ts
+  // storefrontlib/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation.component.ts
   class: REPLENISHMENT_ORDER_CANCELLATION_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
