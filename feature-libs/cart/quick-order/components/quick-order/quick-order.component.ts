@@ -80,7 +80,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   addToCart(orderEntries: OrderEntry[]): void {
-    this.clearErrorsAndWarnings();
+    this.clearStatuses();
 
     this.quickOrderService
       .addToCart()
@@ -94,13 +94,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.verifyErrors(errors);
-        this.verifyWarnings(errors);
+        this.extractErrors(errors);
+        this.extractWarnings(errors);
 
         if (!errors.length) {
           this.showAddedToCartSuccessMessage();
         } else {
-          this.verifySuccesses(errors, entries);
+          this.extractSuccesses(errors, entries);
         }
       });
   }
@@ -117,19 +117,19 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartSuccesses$.next([]);
   }
 
-  protected verifyErrors(errors: CartAddEntrySuccessEvent[]): void {
+  protected extractErrors(errors: CartAddEntrySuccessEvent[]): void {
     const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
 
     this.setErrors(noAddedEntries);
   }
 
-  protected verifyWarnings(errors: CartAddEntrySuccessEvent[]): void {
+  protected extractWarnings(errors: CartAddEntrySuccessEvent[]): void {
     const warnings = errors.filter((error) => error.quantityAdded !== 0);
 
     this.setWarnings(warnings);
   }
 
-  protected verifySuccesses(
+  protected extractSuccesses(
     errors: CartAddEntrySuccessEvent[],
     entries: OrderEntry[]
   ): void {
@@ -147,7 +147,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.setSuccesses(successAddedEntries);
   }
 
-  protected clearErrorsAndWarnings(): void {
+  protected clearStatuses(): void {
     this.clearErrors();
     this.clearWarnings();
     this.clearSuccesses();
