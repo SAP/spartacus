@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -19,7 +14,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 @Component({
@@ -27,7 +22,7 @@ import { first, map } from 'rxjs/operators';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit, OnDestroy {
+export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<
@@ -42,7 +37,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   private cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   private cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   private cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
-  private subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -173,9 +167,5 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   protected setSuccesses(entries: OrderEntry[]): void {
     this.cartSuccesses$.next(entries);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }
