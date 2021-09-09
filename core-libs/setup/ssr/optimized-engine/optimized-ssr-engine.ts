@@ -172,8 +172,10 @@ export class OptimizedSsrEngine {
       if (this.shouldRender(request)) {
         if (
           !this.ssrOptions?.reuseCurrentRendering ||
-          // if the wait for render options is enabled,
-          // take up only one concurrency slot for the first render
+          /**
+           * if the wait for render options is enabled,
+           * take up only one concurrency slot for the first render
+           */
           !this.isRendering(request)
         ) {
           this.currentConcurrency++;
@@ -203,9 +205,11 @@ export class OptimizedSsrEngine {
         let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
           if (
             !this.ssrOptions?.reuseCurrentRendering ||
-            // if the wait for render option is enabled,
-            // we will release the concurrency slot only for the first render,
-            // as other waiting renders didn't take up a slot
+            /**
+             * if the wait for render option is enabled,
+             * we will release the concurrency slot only for the first render,
+             * as other waiting renders didn't take up a slot
+             */
             this.isRendering(request)
           ) {
             this.currentConcurrency--;
