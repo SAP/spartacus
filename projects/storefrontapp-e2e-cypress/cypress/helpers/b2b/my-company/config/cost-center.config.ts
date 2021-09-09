@@ -16,7 +16,7 @@ export const costCenterConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
-      sortLabel: 'Name',
+      sortLabel: 'name',
       showInTable: true,
       formLabel: 'Name',
       showInDetails: true,
