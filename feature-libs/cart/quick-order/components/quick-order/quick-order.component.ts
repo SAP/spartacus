@@ -19,6 +19,7 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
+import { QuickOrderAddEntryEvent } from '../../core/models/quick-order.model';
 
 @Component({
   selector: 'cx-quick-order',
@@ -37,7 +38,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
 
-  private cartErrors$ = new BehaviorSubject<CartAddEntrySuccessEvent[]>([]);
+  private cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  private cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  private cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
   private subscription = new Subscription();
 
   constructor(
@@ -54,8 +57,16 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.quickOrderStatePersistenceService.initSync();
   }
 
-  get errors$(): Observable<CartAddEntrySuccessEvent[]> {
+  get errors$(): Observable<QuickOrderAddEntryEvent[]> {
     return this.cartErrors$.asObservable();
+  }
+
+  get warnings$(): Observable<QuickOrderAddEntryEvent[]> {
+    return this.cartWarnings$.asObservable();
+  }
+
+  get successes$(): Observable<OrderEntry[]> {
+    return this.cartSuccesses$.asObservable();
   }
 
   clear(): void {
@@ -68,33 +79,78 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToCart(entries: OrderEntry[]): void {
-    this.clearErrors();
+  addToCart(orderEntries: OrderEntry[]): void {
+    this.clearErrorsAndWarnings();
 
     this.quickOrderService
       .addToCart()
       .pipe(first())
-      .subscribe(([entriesLength, errors]) => {
+      .subscribe(([entries, errors]) => {
         errors.forEach((err) => {
           if (!err.entry) {
-            err.entry = entries.find(
+            err.entry = orderEntries.find(
               (e) => e.product?.code === err.productCode
             );
           }
         });
-        this.setErrors(errors);
-        const noAddedEntries = errors.filter(
-          (error) => error.quantityAdded === 0
-        );
 
-        if (entriesLength !== noAddedEntries.length) {
+        this.verifyErrors(errors);
+        this.verifyWarnings(errors);
+
+        if (!errors.length) {
           this.showAddedToCartSuccessMessage();
+        } else {
+          this.verifySuccesses(errors, entries);
         }
       });
   }
 
   clearErrors(): void {
     this.cartErrors$.next([]);
+  }
+
+  clearWarnings(): void {
+    this.cartWarnings$.next([]);
+  }
+
+  clearSuccesses(): void {
+    this.cartSuccesses$.next([]);
+  }
+
+  protected verifyErrors(errors: CartAddEntrySuccessEvent[]): void {
+    const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
+
+    this.setErrors(noAddedEntries);
+  }
+
+  protected verifyWarnings(errors: CartAddEntrySuccessEvent[]): void {
+    const warnings = errors.filter((error) => error.quantityAdded !== 0);
+
+    this.setWarnings(warnings);
+  }
+
+  protected verifySuccesses(
+    errors: CartAddEntrySuccessEvent[],
+    entries: OrderEntry[]
+  ): void {
+    const successAddedEntries: OrderEntry[] = [];
+
+    entries.forEach((entry) => {
+      const element = errors.find(
+        (error) => error.productCode === entry.product?.code
+      );
+      if (!element) {
+        successAddedEntries.push(entry);
+      }
+    });
+
+    this.setSuccesses(successAddedEntries);
+  }
+
+  protected clearErrorsAndWarnings(): void {
+    this.clearErrors();
+    this.clearWarnings();
+    this.clearSuccesses();
   }
 
   protected showAddedToCartSuccessMessage(): void {
@@ -106,8 +162,16 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected setErrors(errors: CartAddEntrySuccessEvent[]): void {
+  protected setErrors(errors: QuickOrderAddEntryEvent[]): void {
     this.cartErrors$.next(errors);
+  }
+
+  protected setWarnings(warnings: QuickOrderAddEntryEvent[]): void {
+    this.cartWarnings$.next(warnings);
+  }
+
+  protected setSuccesses(entries: OrderEntry[]): void {
+    this.cartSuccesses$.next(entries);
   }
 
   ngOnDestroy(): void {

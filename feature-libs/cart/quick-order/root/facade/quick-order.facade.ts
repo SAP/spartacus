@@ -80,5 +80,5 @@ export abstract class QuickOrderFacade {
   /**
    * Adding to cart all products from the list
    */
-  abstract addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]>;
+  abstract addToCart(): Observable<[OrderEntry[], CartAddEntrySuccessEvent[]]>;
 }

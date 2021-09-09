@@ -33,9 +33,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
-    return combineLatest([mockEntriesLength$.asObservable()]).pipe(
-      map(([length]) => [length, []])
+  addToCart(): Observable<[OrderEntry[], CartAddEntrySuccessEvent[]]> {
+    return combineLatest([mockEntries$.asObservable()]).pipe(
+      map(([entries]) => [entries, []])
     );
   }
 }
@@ -47,7 +47,6 @@ class MockQuickOrderStatePersistenceService
 
 const mockIsStable$ = new BehaviorSubject<boolean>(true);
 const mockCartId$ = new BehaviorSubject<string>('123456789');
-const mockEntriesLength$ = new BehaviorSubject<number>(1);
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
@@ -169,7 +168,9 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'addToCart').and.returnValue(of([1, []]));
+    spyOn(quickOrderService, 'addToCart').and.returnValue(
+      of([[mockEntry], []])
+    );
     spyOn(globalMessageService, 'add').and.stub();
 
     component.addToCart([]);
