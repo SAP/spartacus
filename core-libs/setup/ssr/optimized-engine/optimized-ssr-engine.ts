@@ -8,7 +8,7 @@ import {
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
-export type SsrCallbackFn = (
+type SsrCallbackFn = (
   /**
    * Error that might've occurred while rendering.
    */

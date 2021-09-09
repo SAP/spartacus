@@ -1,6 +1,6 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
+import { OptimizedSsrEngine } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
@@ -33,7 +33,10 @@ class TestEngineRunner {
     const engineInstanceMock = (
       filePath: string,
       _: any,
-      callback: SsrCallbackFn
+      callback: (
+        err?: Error | null | undefined,
+        html?: string | undefined
+      ) => void
     ) => {
       setTimeout(() => {
         callback(undefined, `${filePath}-${this.renderCount++}`);

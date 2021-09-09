@@ -3,16 +3,13 @@ import { NgSetupOptions } from '@nguniversal/express-engine';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { Request } from 'express';
-import {
-  OptimizedSsrEngine,
-  SsrCallbackFn,
-} from '../optimized-engine/optimized-ssr-engine';
+import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
 import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
 
 export type NgExpressEngineInstance = (
   filePath: string,
   options: object,
-  callback: SsrCallbackFn
+  callback: (err?: Error | null | undefined, html?: string | undefined) => void
 ) => void;
 
 export type NgExpressEngine = (
