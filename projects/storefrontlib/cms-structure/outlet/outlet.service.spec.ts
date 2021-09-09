@@ -32,11 +32,13 @@ class TestContainerComponent {}
 
 @Component({
   template: ` any `,
+  selector: 'cx-any-component',
 })
 class AnyComponent {}
 
 @Component({
   template: ` any2 `,
+  selector: 'cx-any2-component',
 })
 class Any2Component {}
 @NgModule({

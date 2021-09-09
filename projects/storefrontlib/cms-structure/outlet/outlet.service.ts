@@ -94,10 +94,15 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
 
-      // Compare and remove specified selector
-      existing = existing?.filter(
-        (val) => (val as any).selector !== (value as any).selector
-      );
+      // Compare and remove specified selector ComponentFactory first
+      existing = existing?.filter((val) => {
+        // Compare selectors for
+        if ((value as any).selector) {
+          return (val as any).selector !== (value as any).selector;
+        }
+        // For TemplateRef compare objects directly
+        return val !== value;
+      });
 
       store.set(outlet, existing ?? []);
     }
