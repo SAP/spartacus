@@ -10,7 +10,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // projects/storefrontlib/src/events/cart/cart-page-event.builder.ts
+  // projects/storefrontlib/events/cart/cart-page-event.builder.ts
   class: CART_PAGE_EVENT_BUILDER,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -21,7 +21,7 @@ export const CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1: ConstructorDeprecat
 };
 
 export const CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // projects/storefrontlib/src/events/cart/cart-page-event.builder.ts
+  // projects/storefrontlib/events/cart/cart-page-event.builder.ts
   class: CART_PAGE_EVENT_BUILDER,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

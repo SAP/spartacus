@@ -9,7 +9,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component.ts
+  // projects/storefrontlib/cms-components/cart/add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component.ts
   class: ADDED_TO_CART_DIALOG_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

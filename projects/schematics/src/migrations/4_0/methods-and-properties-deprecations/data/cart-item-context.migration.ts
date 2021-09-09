@@ -7,7 +7,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
+// projects/storefrontlib/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts
 export const CART_ITEM_CONTEXT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CART_ITEM_CONTEXT,
