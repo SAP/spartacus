@@ -268,9 +268,11 @@ export class OptimizedSsrEngine {
             this.ssrOptions?.reuseCurrentRendering &&
             !waitingRendersProcessing
           ) {
-            this.log(
-              `Processing waiting SSR requests for ${request.originalUrl}...`
-            );
+            if (this.waitingRenderCallbacks[renderingKey]?.length) {
+              this.log(
+                `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
+              );
+            }
             this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
               cb(err, html, true)
             );

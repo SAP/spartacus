@@ -497,7 +497,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.renderCount).toEqual(1);
           expect(engineRunner.renders).toEqual(['', `${requestUrl}-0`]);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Processing waiting SSR requests for ${requestUrl}...`
+            `Processing 1 waiting SSR requests for ${requestUrl}...`
           );
 
           flush();
@@ -581,7 +581,7 @@ describe('OptimizedSsrEngine', () => {
             `${requestUrl}-0`,
           ]);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Processing waiting SSR requests for ${requestUrl}...`
+            `Processing 3 waiting SSR requests for ${requestUrl}...`
           );
 
           flush();
