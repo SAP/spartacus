@@ -19,7 +19,7 @@ import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 /**
- * @deprecated since 4.2 - use OrderReturnFacade in @spartacus/order/root instead
+ * @deprecated since 4.2 - use OrderReturnRequestFacade in @spartacus/order/root instead
  * TODO: In order lib, processStateStore is added in OrderReturnService's constructor,
  * need to update it in 5.0 migration doc.
  */
