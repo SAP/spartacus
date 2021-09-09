@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-//projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts;
+//projects/storefrontlib/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts;
 export const ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: ORDER_DETAIL_SHIPPING_COMPONENT,

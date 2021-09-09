@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
+import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
   EventService,
   OrderEntry,
   Product,
   ProductAdapter,
+  CartAddEntryFailEvent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -13,7 +18,7 @@ import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderService {
+export class QuickOrderService implements QuickOrderFacade {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
@@ -99,9 +104,9 @@ export class QuickOrderService {
   /**
    * Adding to cart all products from the list
    */
-  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
-    let entriesLength = 0;
-    const events: CartAddEntrySuccessEvent[] = [];
+  addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]> {
+    let entries: OrderEntry[] = [];
+    const events: QuickOrderAddEntryEvent[] = [];
     const subscription = this.eventService
       .get(CartAddEntrySuccessEvent)
       .subscribe((cartEvent: CartAddEntrySuccessEvent) => {
@@ -110,23 +115,29 @@ export class QuickOrderService {
           (!!cartEvent.quantityAdded &&
             cartEvent.quantityAdded < cartEvent.quantity)
         ) {
-          events.push(cartEvent);
+          events.push(this.createQuickOrderResultEvent(cartEvent));
         }
       });
 
+    subscription.add(
+      this.eventService
+        .get(CartAddEntryFailEvent)
+        .subscribe((cartEvent: CartAddEntryFailEvent) => {
+          events.push(this.createQuickOrderResultEvent(cartEvent));
+        })
+    );
+
     return this.getEntries().pipe(
       first(),
-      switchMap((entries) => {
-        entriesLength = entries.length;
-        this.activeCartService.addEntries(entries);
+      switchMap((elements) => {
+        entries = elements;
+        this.activeCartService.addEntries(elements);
         this.clearList();
 
         return this.activeCartService.isStable();
       }),
       filter((isStable) => isStable),
-      map(
-        () => [entriesLength, events] as [number, CartAddEntrySuccessEvent[]]
-      ),
+      map(() => [entries, events] as [OrderEntry[], QuickOrderAddEntryEvent[]]),
       tap(() => subscription.unsubscribe())
     );
   }
@@ -176,5 +187,27 @@ export class QuickOrderService {
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
     );
+  }
+
+  private createQuickOrderResultEvent(
+    cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
+  ): QuickOrderAddEntryEvent {
+    let evt: QuickOrderAddEntryEvent = {
+      productCode: cartEvent.productCode,
+      quantity: cartEvent.quantity,
+      entry: (cartEvent as CartAddEntrySuccessEvent).entry || undefined,
+      quantityAdded: (cartEvent as CartAddEntrySuccessEvent).quantityAdded,
+      // @ts-ignore
+      error: cartEvent.error || undefined,
+    };
+
+    if (evt.error?.details?.length) {
+      let isOutOfStock = evt.error?.details.some(
+        (e: any) => e.type === 'InsufficientStockError'
+      );
+      evt.quantityAdded = isOutOfStock ? 0 : evt.quantity;
+    }
+
+    return evt;
   }
 }
