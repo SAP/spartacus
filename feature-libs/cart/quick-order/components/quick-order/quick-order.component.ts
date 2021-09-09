@@ -6,13 +6,14 @@ import {
 } from '@angular/core';
 import {
   CmsQuickOrderComponent,
-  QuickOrderAddEntryEvent,
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntrySuccessEvent,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
@@ -117,20 +118,20 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartSuccesses$.next([]);
   }
 
-  protected extractErrors(errors: CartAddEntrySuccessEvent[]): void {
+  protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {
     const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
 
     this.setErrors(noAddedEntries);
   }
 
-  protected extractWarnings(errors: CartAddEntrySuccessEvent[]): void {
+  protected extractWarnings(errors: QuickOrderAddEntryEvent[]): void {
     const warnings = errors.filter((error) => error.quantityAdded !== 0);
 
     this.setWarnings(warnings);
   }
 
   protected extractSuccesses(
-    errors: CartAddEntrySuccessEvent[],
+    errors: QuickOrderAddEntryEvent[],
     entries: OrderEntry[]
   ): void {
     const successAddedEntries: OrderEntry[] = [];

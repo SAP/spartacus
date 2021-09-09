@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
+import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
   EventService,
@@ -10,12 +14,11 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
-import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderService {
+export class QuickOrderService implements QuickOrderFacade {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
