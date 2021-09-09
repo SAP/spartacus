@@ -13,7 +13,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts
+// projects/storefrontlib/cms-components/checkout/services/checkout-config.service.ts
 export const CHECKOUT_CONFIG_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_CONFIG_SERVICE,

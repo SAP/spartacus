@@ -7,7 +7,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-items/order-detail-items.component.ts
+  // projects/storefrontlib/cms-components/myaccount/order/order-details/order-detail-items/order-detail-items.component.ts
   class: ORDER_DETAIL_ITEMS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
