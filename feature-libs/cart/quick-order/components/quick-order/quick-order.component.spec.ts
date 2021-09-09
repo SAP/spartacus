@@ -22,8 +22,29 @@ import { QuickOrderComponent } from './quick-order.component';
 const mockProduct: Product = {
   code: '123456789',
 };
+const mockProduct2: Product = {
+  code: '987654321',
+};
 const mockEntry: OrderEntry = {
   product: mockProduct,
+};
+const mockEntry2: OrderEntry = {
+  product: mockProduct2,
+};
+
+const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
+  cartCode: 'test',
+  cartId: 'testCode',
+  entry: {
+    product: {
+      name: 'TestName',
+      code: '987654321',
+    },
+  },
+  productCode: '987654321',
+  quantity: 2,
+  quantityAdded: 1,
+  userId: 'testUserId',
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
@@ -167,21 +188,35 @@ describe('QuickOrderComponent', () => {
     );
   });
 
-  it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'addToCart').and.returnValue(
-      of([[mockEntry], []])
-    );
-    spyOn(globalMessageService, 'add').and.stub();
+  describe('should trigger add to cart', () => {
+    it('in standard way', () => {
+      spyOn(quickOrderService, 'addToCart').and.returnValue(
+        of([[mockEntry], []])
+      );
+      spyOn(globalMessageService, 'add').and.stub();
 
-    component.addToCart([]);
+      component.addToCart([]);
 
-    expect(quickOrderService.addToCart).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'quickOrderTable.addedtoCart',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+      expect(quickOrderService.addToCart).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'quickOrderTable.addedtoCart',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('with warning and success messages', () => {
+      spyOn(quickOrderService, 'addToCart').and.returnValue(
+        of([[mockEntry, mockEntry2], [mockCartAddEntrySuccessEvent]])
+      );
+
+      component.addToCart([]);
+      fixture.detectChanges();
+
+      expect(quickOrderService.addToCart).toHaveBeenCalled();
+      expect(el.query(By.css('cx-message .quick-order-warnings'))).toBeTruthy();
+    });
   });
 
   it('should hide "empty list" button if there are no entries', () => {
