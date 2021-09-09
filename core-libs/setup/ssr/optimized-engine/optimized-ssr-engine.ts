@@ -8,7 +8,7 @@ import {
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
-type SsrCallbackFn = (
+export type SsrCallbackFn = (
   /**
    * Error that might've occurred while rendering.
    */
@@ -16,12 +16,7 @@ type SsrCallbackFn = (
   /**
    * HTML response.
    */
-  html?: string | undefined,
-  /**
-   * An indicator if `this.waitingRenderCallbacks` is being processed.
-   * Mitigates the infinite loop.
-   */
-  waitingRendersProcessing?: boolean
+  html?: string | undefined
 ) => void;
 
 /**
@@ -209,7 +204,7 @@ export class OptimizedSsrEngine {
           if (
             !this.ssrOptions?.reuseCurrentRendering ||
             // if the wait for render option is enabled,
-            // release the concurrency slot only for the first render,
+            // we will release the concurrency slot only for the first render,
             // as other waiting renders didn't take up a slot
             this.isRendering(request)
           ) {
@@ -227,11 +222,9 @@ export class OptimizedSsrEngine {
 
         this.log(`Rendering started (${request?.originalUrl})`);
 
-        const renderCallback: SsrCallbackFn = (
-          err,
-          html,
-          waitingRendersProcessing
-        ) => {
+        // capture the information about the first callback in a closure variable
+        const firstRequest = !this.waitingRenderCallbacks[renderingKey];
+        const renderCallback: SsrCallbackFn = (err, html) => {
           if (!maxRenderTimeout) {
             // ignore this render's result because it exceeded maxRenderTimeout
             this.log(
@@ -240,9 +233,17 @@ export class OptimizedSsrEngine {
             return;
           }
           clearTimeout(maxRenderTimeout);
-          // we've taken only one slot for the first request which triggered the render.
-          // therefore, all subsequent requests waiting for the same render should not decrease the concurrency slots.
-          if (!waitingRendersProcessing) {
+
+          /**
+           * For the cases when the reuseCurrentRendering
+           * option is enabled we have to also check if the
+           * callback for the first request is being executed.
+           * In such a case, only the first request had taken
+           * a concurrency slot, and all the subsequent requests
+           * which are waiting for the same render should not
+           * decrease the concurrency slots.
+           */
+          if (!this.ssrOptions?.reuseCurrentRendering || firstRequest) {
             this.currentConcurrency--;
           }
 
@@ -264,17 +265,14 @@ export class OptimizedSsrEngine {
             this.renderingCache.store(renderingKey, err, html);
           }
 
-          if (
-            this.ssrOptions?.reuseCurrentRendering &&
-            !waitingRendersProcessing
-          ) {
+          if (this.ssrOptions?.reuseCurrentRendering && firstRequest) {
             if (this.waitingRenderCallbacks[renderingKey]?.length) {
               this.log(
                 `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
               );
             }
             this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
-              cb(err, html, true)
+              cb(err, html)
             );
             this.waitingRenderCallbacks[renderingKey] = null;
           }
