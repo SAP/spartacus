@@ -76,7 +76,7 @@
     font-weight: $font-weight-normal;
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      justify-content: space-between;
     }
 
     @include media-breakpoint-only(xl) {
@@ -110,7 +110,15 @@
     align-items: center;
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  .cx-item-counter-readonly {
+    @include media-breakpoint-down(sm) {
+      position: relative;
+      left: 95px;
+      width: 10px !important;
     }
   }
 
@@ -121,7 +129,15 @@
     margin-bottom: 0;
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      width: 238px;
     }
   }
 

@@ -83,6 +83,7 @@
               [readonly]="
                 !item.updateable || readonly || options.isSaveForLater
               "
+              [class.cx-item-counter-readonly]="readonly"
               [max]="item.product.stock?.stockLevel || 1000"
               [allowZero]="true"
             >
