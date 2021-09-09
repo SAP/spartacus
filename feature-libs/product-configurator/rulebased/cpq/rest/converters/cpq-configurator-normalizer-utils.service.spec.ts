@@ -417,6 +417,37 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toEqual(expectedPriceSummary);
   });
 
+  it('should convert price summary when no base price is 0', () => {
+    const cpqConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: 'USD',
+      currencySign: '$',
+      responder: { totalPrice: '$3333.33', baseProductPrice: '0.00' },
+    };
+    const expectedPriceSummary: Configurator.PriceSummary = {
+      currentTotal: {
+        currencyIso: 'USD',
+        formattedValue: '$3,333.33',
+        value: 3333.33,
+      },
+      basePrice: {
+        currencyIso: 'USD',
+        formattedValue: '$0.00',
+        value: 0,
+      },
+      selectedOptions: {
+        currencyIso: 'USD',
+        formattedValue: '$3,333.33',
+        value: 3333.33,
+      },
+    };
+    expect(
+      cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
+        cpqConfiguration
+      )
+    ).toEqual(expectedPriceSummary);
+  });
+
   it('should convert price summary when no total price exists', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
