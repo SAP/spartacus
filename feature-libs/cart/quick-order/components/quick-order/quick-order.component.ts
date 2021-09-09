@@ -1,23 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntrySuccessEvent,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 @Component({
@@ -25,7 +22,7 @@ import { first, map } from 'rxjs/operators';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit, OnDestroy {
+export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<
@@ -37,8 +34,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
 
-  private cartErrors$ = new BehaviorSubject<CartAddEntrySuccessEvent[]>([]);
-  private subscription = new Subscription();
+  private cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  private cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  private cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -54,8 +52,16 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.quickOrderStatePersistenceService.initSync();
   }
 
-  get errors$(): Observable<CartAddEntrySuccessEvent[]> {
+  get errors$(): Observable<QuickOrderAddEntryEvent[]> {
     return this.cartErrors$.asObservable();
+  }
+
+  get warnings$(): Observable<QuickOrderAddEntryEvent[]> {
+    return this.cartWarnings$.asObservable();
+  }
+
+  get successes$(): Observable<OrderEntry[]> {
+    return this.cartSuccesses$.asObservable();
   }
 
   clear(): void {
@@ -68,33 +74,78 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToCart(entries: OrderEntry[]): void {
-    this.clearErrors();
+  addToCart(orderEntries: OrderEntry[]): void {
+    this.clearStatuses();
 
     this.quickOrderService
       .addToCart()
       .pipe(first())
-      .subscribe(([entriesLength, errors]) => {
+      .subscribe(([entries, errors]) => {
         errors.forEach((err) => {
           if (!err.entry) {
-            err.entry = entries.find(
+            err.entry = orderEntries.find(
               (e) => e.product?.code === err.productCode
             );
           }
         });
-        this.setErrors(errors);
-        const noAddedEntries = errors.filter(
-          (error) => error.quantityAdded === 0
-        );
 
-        if (entriesLength !== noAddedEntries.length) {
+        this.extractErrors(errors);
+        this.extractWarnings(errors);
+
+        if (!errors.length) {
           this.showAddedToCartSuccessMessage();
+        } else {
+          this.extractSuccesses(errors, entries);
         }
       });
   }
 
   clearErrors(): void {
     this.cartErrors$.next([]);
+  }
+
+  clearWarnings(): void {
+    this.cartWarnings$.next([]);
+  }
+
+  clearSuccesses(): void {
+    this.cartSuccesses$.next([]);
+  }
+
+  protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {
+    const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
+
+    this.setErrors(noAddedEntries);
+  }
+
+  protected extractWarnings(errors: QuickOrderAddEntryEvent[]): void {
+    const warnings = errors.filter((error) => error.quantityAdded !== 0);
+
+    this.setWarnings(warnings);
+  }
+
+  protected extractSuccesses(
+    errors: QuickOrderAddEntryEvent[],
+    entries: OrderEntry[]
+  ): void {
+    const successAddedEntries: OrderEntry[] = [];
+
+    entries.forEach((entry) => {
+      const element = errors.find(
+        (error) => error.productCode === entry.product?.code
+      );
+      if (!element) {
+        successAddedEntries.push(entry);
+      }
+    });
+
+    this.setSuccesses(successAddedEntries);
+  }
+
+  protected clearStatuses(): void {
+    this.clearErrors();
+    this.clearWarnings();
+    this.clearSuccesses();
   }
 
   protected showAddedToCartSuccessMessage(): void {
@@ -106,11 +157,15 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected setErrors(errors: CartAddEntrySuccessEvent[]): void {
+  protected setErrors(errors: QuickOrderAddEntryEvent[]): void {
     this.cartErrors$.next(errors);
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  protected setWarnings(warnings: QuickOrderAddEntryEvent[]): void {
+    this.cartWarnings$.next(warnings);
+  }
+
+  protected setSuccesses(entries: OrderEntry[]): void {
+    this.cartSuccesses$.next(entries);
   }
 }
