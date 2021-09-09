@@ -1,10 +1,12 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntrySuccessEvent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -32,9 +34,7 @@ const mockEntry2: OrderEntry = {
   product: mockProduct2,
 };
 
-const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
-  cartCode: 'test',
-  cartId: 'testCode',
+const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
   entry: {
     product: {
       name: 'TestName',
@@ -44,7 +44,6 @@ const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
   productCode: '987654321',
   quantity: 2,
   quantityAdded: 1,
-  userId: 'testUserId',
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
@@ -54,7 +53,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(): Observable<[OrderEntry[], CartAddEntrySuccessEvent[]]> {
+  addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]> {
     return combineLatest([mockEntries$.asObservable()]).pipe(
       map(([entries]) => [entries, []])
     );
@@ -208,7 +207,7 @@ describe('QuickOrderComponent', () => {
 
     it('with warning and success messages', () => {
       spyOn(quickOrderService, 'addToCart').and.returnValue(
-        of([[mockEntry, mockEntry2], [mockCartAddEntrySuccessEvent]])
+        of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
       );
 
       component.addToCart([]);
