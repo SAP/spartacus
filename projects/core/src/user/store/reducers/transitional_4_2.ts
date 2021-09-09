@@ -32,7 +32,7 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 
-export function getReducersTransitional_4_1(): ActionReducerMap<
+export function getReducersTransitional_4_2(): ActionReducerMap<
   Partial<UserState>
 > {
   return {
@@ -70,7 +70,7 @@ export function getReducersTransitional_4_1(): ActionReducerMap<
   };
 }
 
-export const reducerTransitional_4_1_Provider: Provider = {
+export const reducerTransitional_4_2_Provider: Provider = {
   provide: reducerToken,
-  useFactory: getReducersTransitional_4_1,
+  useFactory: getReducersTransitional_4_2,
 };

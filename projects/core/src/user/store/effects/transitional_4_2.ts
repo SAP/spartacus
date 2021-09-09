@@ -10,7 +10,7 @@ import { UserAddressesEffects } from './user-addresses.effect';
 import { UserConsentsEffect } from './user-consents.effect';
 import { UserCostCenterEffects } from './user-cost-center.effect';
 
-export const effectsTransitional_4_1: any[] = [
+export const effectsTransitional_4_2: any[] = [
   ClearMiscsDataEffect,
   DeliveryCountriesEffects,
   RegionsEffects,
