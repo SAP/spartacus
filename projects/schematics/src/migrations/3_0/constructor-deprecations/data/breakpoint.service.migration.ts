@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const BREAKPOINT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts
+  // projects/storefrontlib/layout/breakpoint/breakpoint.service.ts
   class: BREAKPOINT_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
