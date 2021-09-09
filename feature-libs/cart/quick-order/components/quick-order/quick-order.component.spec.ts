@@ -1,10 +1,12 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
-  CartAddEntrySuccessEvent,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -22,8 +24,26 @@ import { QuickOrderComponent } from './quick-order.component';
 const mockProduct: Product = {
   code: '123456789',
 };
+const mockProduct2: Product = {
+  code: '987654321',
+};
 const mockEntry: OrderEntry = {
   product: mockProduct,
+};
+const mockEntry2: OrderEntry = {
+  product: mockProduct2,
+};
+
+const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
+  entry: {
+    product: {
+      name: 'TestName',
+      code: '987654321',
+    },
+  },
+  productCode: '987654321',
+  quantity: 2,
+  quantityAdded: 1,
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
@@ -33,9 +53,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockEntries$;
   }
   clearList(): void {}
-  addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]> {
-    return combineLatest([mockEntriesLength$.asObservable()]).pipe(
-      map(([length]) => [length, []])
+  addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]> {
+    return combineLatest([mockEntries$.asObservable()]).pipe(
+      map(([entries]) => [entries, []])
     );
   }
 }
@@ -47,7 +67,6 @@ class MockQuickOrderStatePersistenceService
 
 const mockIsStable$ = new BehaviorSubject<boolean>(true);
 const mockCartId$ = new BehaviorSubject<string>('123456789');
-const mockEntriesLength$ = new BehaviorSubject<number>(1);
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId(): Observable<string> {
@@ -168,19 +187,35 @@ describe('QuickOrderComponent', () => {
     );
   });
 
-  it('should trigger add to cart', () => {
-    spyOn(quickOrderService, 'addToCart').and.returnValue(of([1, []]));
-    spyOn(globalMessageService, 'add').and.stub();
+  describe('should trigger add to cart', () => {
+    it('in standard way', () => {
+      spyOn(quickOrderService, 'addToCart').and.returnValue(
+        of([[mockEntry], []])
+      );
+      spyOn(globalMessageService, 'add').and.stub();
 
-    component.addToCart([]);
+      component.addToCart([]);
 
-    expect(quickOrderService.addToCart).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'quickOrderTable.addedtoCart',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+      expect(quickOrderService.addToCart).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'quickOrderTable.addedtoCart',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('with warning and success messages', () => {
+      spyOn(quickOrderService, 'addToCart').and.returnValue(
+        of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
+      );
+
+      component.addToCart([]);
+      fixture.detectChanges();
+
+      expect(quickOrderService.addToCart).toHaveBeenCalled();
+      expect(el.query(By.css('cx-message .quick-order-warnings'))).toBeTruthy();
+    });
   });
 
   it('should hide "empty list" button if there are no entries', () => {
