@@ -36,7 +36,19 @@ ci:
           aggregationMethod: optimistic
       interactive:
         - error
-        - maxNumericValue: 5000
+        - maxNumericValue: 20000
+          aggregationMethod: optimistic
+      total-byte-weight:
+        - error
+        - minScore: 0.5
+          aggregationMethod: optimistic
+      unminified-javascript:
+        - error
+        - maxLength: 1
+          aggregationMethod: optimistic
+      uses-text-compression:
+        - error
+        - maxLength: 11
           aggregationMethod: optimistic
   upload:
     target: 'temporary-public-storage'
