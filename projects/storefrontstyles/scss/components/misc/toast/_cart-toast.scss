@@ -1,9 +1,10 @@
 :root {
-  --cx-cart-toast-height: 240px;
+  // --cx-cart-toast-height: 240px;
   --cx-cart-toast-width: 375px;
   --cx-cart-toast-desktop-header-offset: 192px;
+  --cx-cart-toast-tablet-header-offset: 77px;
+  --cx-cart-toast-mobile-header-offset: 57px;
   --cx-cart-toast-background: var(--cx-color-inverse);
-  --cx-cart-toast-bottom-height: 50px;
   --cx-cart-toast-translateY: -100%;
 }
 
@@ -22,7 +23,7 @@ cx-cart-toast {
     position: absolute;
     border: 1px solid var(--cx-color-dark);
     background: var(--cx-cart-toast-background);
-    width: var(--cx-cart-toast-width);
+    width: 100%;
     transition: transform 0.5s ease;
     transform: translateY(var(--cx-cart-toast-translateY));
     pointer-events: auto;
@@ -36,7 +37,7 @@ cx-cart-toast {
       font-weight: 600;
       padding: 12px 0;
       color: var(--cx-color-inverse);
-      background: var(--cx-color-dark);
+      background: var(--cx-color-secondary);
     }
 
     h3 {
@@ -60,6 +61,7 @@ cx-cart-toast {
       .continue-shopping {
         display: flex;
         align-items: center;
+        justify-content: center;
         color: var(--cx-color-primary);
         &:hover {
           cursor: pointer;
@@ -67,19 +69,29 @@ cx-cart-toast {
         }
       }
     }
+
+    @include media-breakpoint-up(md) {
+      width: var(--cx-cart-toast-width);
+    }
   }
 
-  > .on-header {
-    --cx-cart-toast-translateY: var(--cx-cart-toast-desktop-header-offset);
+  > .on-header,
+  .on-fixed-header {
+    --cx-cart-toast-translateY: var(--cx-cart-toast-mobile-header-offset);
+    @include media-breakpoint-up(md) {
+      --cx-cart-toast-translateY: var(--cx-cart-toast-tablet-header-offset);
+    }
+    @include media-breakpoint-up(lg) {
+      --cx-cart-toast-translateY: var(--cx-cart-toast-desktop-header-offset);
+    }
   }
 
-  > .on-fixed-header {
+  > .on-fixed-header,
+  .off-header {
     position: fixed;
-    --cx-cart-toast-translateY: var(--cx-cart-toast-desktop-header-offset);
   }
 
   > .off-header {
-    position: fixed;
     --cx-cart-toast-translateY: 0;
   }
 

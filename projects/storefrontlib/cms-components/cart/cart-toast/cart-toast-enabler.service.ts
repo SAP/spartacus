@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
-} from 'projects/storefrontlib/src/layout';
+  LaunchDialogService,
+} from 'projects/storefrontlib/layout/launch-dialog';
 import { CartToastConfig } from './cart-toast-config';
 
 @Injectable({

@@ -90,6 +90,7 @@ export class CartToastComponent implements OnInit, OnDestroy {
         )
         .subscribe(({ quantityAdded, product }) => {
           let toastContainerClass = `${this.toastContainerBaseClass} `;
+          console.log(product);
           const toastItem = this.cartToastService.addToast(
             quantityAdded,
             product,

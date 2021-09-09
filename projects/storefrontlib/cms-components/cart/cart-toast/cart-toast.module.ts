@@ -6,7 +6,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { MediaModule } from 'projects/storefrontlib/src/shared';
+import { MediaModule } from '../../../shared';
 import { CartToastComponent } from './cart-toast.component';
 import { CartToastService } from './cart-toast.service';
 import { defaultCartToastConfig } from './default-cart-toast-configs';
