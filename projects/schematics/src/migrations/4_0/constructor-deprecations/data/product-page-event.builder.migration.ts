@@ -10,7 +10,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/events/product/product-page-event.builder.spec.ts
+  // projects/storefrontlib/events/product/product-page-event.builder.spec.ts
   class: PRODUCT_PAGE_EVENT_BUILDER,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

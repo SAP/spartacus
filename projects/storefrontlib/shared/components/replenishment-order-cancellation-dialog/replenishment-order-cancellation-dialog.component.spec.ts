@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -7,7 +7,7 @@ import {
   Translatable,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
