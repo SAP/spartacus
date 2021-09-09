@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -67,7 +66,7 @@ export class ResetPasswordComponentService {
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
+      error: (error: unknown) => this.onError(error),
     });
   }
 
@@ -81,16 +80,18 @@ export class ResetPasswordComponentService {
     this.redirect();
   }
 
-  protected onError(error: Error): void {
+  protected onError(error: unknown): void {
     this.busy$.next(false);
-    ((error as HttpErrorModel)?.details ?? []).forEach((err: ErrorModel) => {
-      if (err.message) {
-        this.globalMessage.add(
-          { raw: err.message },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
-    });
+    if (error instanceof HttpErrorModel) {
+      (error.details ?? []).forEach((err) => {
+        if (err.message) {
+          this.globalMessage.add(
+            { raw: err.message },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      });
+    }
   }
 
   /**

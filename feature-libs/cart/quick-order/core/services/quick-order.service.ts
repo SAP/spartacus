@@ -7,6 +7,7 @@ import {
   Product,
   ProductAdapter,
   CartAddEntryFailEvent,
+  HttpErrorModel,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -192,15 +193,21 @@ export class QuickOrderService {
     let evt: QuickOrderAddEntryEvent = {
       productCode: cartEvent.productCode,
       quantity: cartEvent.quantity,
-      entry: (cartEvent as CartAddEntrySuccessEvent).entry || undefined,
-      quantityAdded: (cartEvent as CartAddEntrySuccessEvent).quantityAdded,
-      // @ts-ignore
-      error: cartEvent.error || undefined,
     };
+
+    if ('entry' in cartEvent) {
+      evt.entry = cartEvent.entry;
+    }
+    if ('quantityAdded' in cartEvent) {
+      evt.quantityAdded = cartEvent.quantityAdded;
+    }
+    if ('error' in cartEvent && cartEvent.error instanceof HttpErrorModel) {
+      evt.error = cartEvent.error;
+    }
 
     if (evt.error?.details?.length) {
       let isOutOfStock = evt.error?.details.some(
-        (e: any) => e.type === 'InsufficientStockError'
+        (e) => e.type === 'InsufficientStockError'
       );
       evt.quantityAdded = isOutOfStock ? 0 : evt.quantity;
     }
