@@ -9,5 +9,5 @@ export * from './occ-user-order.adapter';
 export * from './occ-user-payment.adapter';
 export * from './occ-user-replenishment-order.adapter';
 export * from './user-occ-transitional.module';
-export * from './user-occ-transitional_4_1.module';
+export * from './user-occ-transitional_4_2.module';
 export * from './user-occ.module';

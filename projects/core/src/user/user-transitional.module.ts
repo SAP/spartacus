@@ -4,7 +4,7 @@ import { UserEventModule } from './events/user-event.module';
 import { UserStoreTransitionalModule } from './store/user-store-transitional.module';
 
 /**
- * @deprecated since 4.1 - use UserTransitional_4_1_Module with order lib instead
+ * @deprecated since 4.2 - use UserTransitional_4_2_Module with order lib instead
  */
 @NgModule({
   imports: [UserStoreTransitionalModule, UserEventModule],
