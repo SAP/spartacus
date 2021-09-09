@@ -78,6 +78,15 @@ export class OptimizedSsrEngine {
       : RenderingStrategy.DEFAULT;
   }
 
+  /**
+   * When returns true, the server side rendering should be performed.
+   * When returns false, the CSR fallback should be returned.
+   *
+   * The CSR fallback should happen, when there is already
+   * a pending rendering for the same URL
+   * (unless the reuseCurrentRendering config option is enabled)
+   * OR when the concurrency limit for rendering various URLs is exceeded.
+   */
   protected shouldRender(request: Request): boolean {
     const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
 
@@ -279,7 +288,6 @@ export class OptimizedSsrEngine {
           this.expressEngine(filePath, options, renderCallback);
         }
       } else {
-        // if there is already rendering in progress, return the fallback
         this.fallbackToCsr(response, filePath, callback);
       }
     } else {
