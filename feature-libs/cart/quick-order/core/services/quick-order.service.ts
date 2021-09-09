@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
+  QuickOrderAddEntryEvent,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
+import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
   EventService,
@@ -10,12 +14,11 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
-import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderService {
+export class QuickOrderService implements QuickOrderFacade {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
@@ -101,8 +104,8 @@ export class QuickOrderService {
   /**
    * Adding to cart all products from the list
    */
-  addToCart(): Observable<[number, QuickOrderAddEntryEvent[]]> {
-    let entriesLength = 0;
+  addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]> {
+    let entries: OrderEntry[] = [];
     const events: QuickOrderAddEntryEvent[] = [];
     const subscription = this.eventService
       .get(CartAddEntrySuccessEvent)
@@ -126,15 +129,15 @@ export class QuickOrderService {
 
     return this.getEntries().pipe(
       first(),
-      switchMap((entries) => {
-        entriesLength = entries.length;
-        this.activeCartService.addEntries(entries);
+      switchMap((elements) => {
+        entries = elements;
+        this.activeCartService.addEntries(elements);
         this.clearList();
 
         return this.activeCartService.isStable();
       }),
       filter((isStable) => isStable),
-      map(() => [entriesLength, events] as [number, QuickOrderAddEntryEvent[]]),
+      map(() => [entries, events] as [OrderEntry[], QuickOrderAddEntryEvent[]]),
       tap(() => subscription.unsubscribe())
     );
   }
