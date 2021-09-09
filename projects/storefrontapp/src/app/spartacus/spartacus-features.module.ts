@@ -9,8 +9,8 @@ import {
   OrderOccModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitional_4_2_Module,
-  UserTransitional_4_2_Module,
+  UserOccTransitionalModule,
+  UserTransitionalModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -36,6 +36,10 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
+  OrderCancellationModule,
+  OrderDetailsModule,
+  OrderHistoryModule,
+  OrderReturnModule,
   PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
@@ -49,6 +53,10 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
+  ReplenishmentOrderDetailsModule,
+  ReplenishmentOrderHistoryModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -63,7 +71,6 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
-import { OrderFeatureModule } from './features/order-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
@@ -123,8 +130,8 @@ if (environment.digitalPayments) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitional_4_2_Module,
-    UserOccTransitional_4_2_Module,
+    UserTransitionalModule,
+    UserOccTransitionalModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
@@ -168,6 +175,14 @@ if (environment.digitalPayments) {
     CostCenterOccModule,
 
     // Order
+    OrderHistoryModule,
+    OrderDetailsModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
+    ReplenishmentOrderHistoryModule,
+    ReplenishmentOrderDetailsModule,
     OrderOccModule,
 
     // Page Events
@@ -191,7 +206,6 @@ if (environment.digitalPayments) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
-    OrderFeatureModule,
     QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ...featureModules,
