@@ -1,20 +1,20 @@
 import {
-  REGISTER_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
-  ANONYMOUS_CONSENTS_SERVICE,
+  ANGULAR_FORMS,
   ANONYMOUS_CONSENTS_CONFIG,
+  ANONYMOUS_CONSENTS_SERVICE,
   AUTH_CONFIG_SERVICE,
   FORM_BUILDER,
   GLOBAL_MESSAGE_SERVICE,
-  ANGULAR_FORMS,
+  REGISTER_COMPONENT,
   ROUTING_SERVICE,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
   USER_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/user/register/register.component.ts
+  // projects/storefrontlib/cms-components/user/register/register.component.ts
   class: REGISTER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

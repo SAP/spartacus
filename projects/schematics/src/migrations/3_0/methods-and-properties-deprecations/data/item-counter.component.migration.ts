@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/shared/components/item-counter/item-counter.component.ts
+// projects/storefrontlib/shared/components/item-counter/item-counter.component.ts
 export const ITEM_COUNTER_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: ITEM_COUNTER_COMPONENT,
