@@ -9,8 +9,8 @@ import {
   OrderOccModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitionalModule,
-  UserTransitionalModule,
+  UserOccTransitional_4_2_Module,
+  UserTransitional_4_2_Module,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -123,8 +123,8 @@ if (environment.digitalPayments) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitionalModule,
-    UserOccTransitionalModule,
+    UserTransitional_4_2_Module,
+    UserOccTransitional_4_2_Module,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
