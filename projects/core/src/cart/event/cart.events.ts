@@ -40,6 +40,7 @@ export class CartAddEntryFailEvent extends CartEvent {
   static readonly type = 'CartAddEntryFailEvent';
   productCode: string;
   quantity: number;
+  error?: unknown;
 }
 
 export class CartRemoveEntryFailEvent extends CartEvent {
