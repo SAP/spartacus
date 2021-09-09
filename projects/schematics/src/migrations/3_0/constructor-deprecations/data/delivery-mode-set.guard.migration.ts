@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const DELIVERY_MODE_SET_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/delivery-mode-set.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/delivery-mode-set.guard.ts
   class: DELIVERY_MODE_SET_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

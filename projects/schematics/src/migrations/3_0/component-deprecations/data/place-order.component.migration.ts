@@ -2,7 +2,7 @@ import { PLACE_ORDER_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/place-order/place-order.component.ts
   selector: 'cx-place-order',
   componentClassName: PLACE_ORDER_COMPONENT,
   removedProperties: [
