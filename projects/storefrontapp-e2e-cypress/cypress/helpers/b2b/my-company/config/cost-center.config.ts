@@ -11,6 +11,17 @@ export const costCenterConfig: MyCompanyConfig = {
   selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
+      label: 'Code',
+      sortLabel: 'Code',
+      variableName: 'uid',
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `test-entity-${randomString()}`,
+      updateValue: `edited-entity-${randomString()}`,
+      formLabel: 'Code',
+      showInDetails: true,
+      useInUrl: true,
+    },
+    {
       label: 'Name',
       variableName: 'name',
       inputType: INPUT_TYPE.TEXT,
@@ -29,17 +40,6 @@ export const costCenterConfig: MyCompanyConfig = {
       updateValue: 'Active',
       showInTable: true,
       showInDetails: true,
-    },
-    {
-      label: 'Code',
-      sortLabel: 'Code',
-      variableName: 'uid',
-      inputType: INPUT_TYPE.TEXT,
-      createValue: `test-entity-${randomString()}`,
-      updateValue: `edited-entity-${randomString()}`,
-      formLabel: 'Code',
-      showInDetails: true,
-      useInUrl: true,
     },
     {
       label: 'Currency',
