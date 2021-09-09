@@ -34,8 +34,7 @@
 
       padding: 12px 9px;
       max-height: 46px;
-      min-width: 48px;
-      max-width: 78px;
+      width: 46%;
 
       &:focus {
         background: var(--cx-color-background);
@@ -47,7 +46,7 @@
     margin: 0;
 
     max-height: 48px;
-    min-width: 40px;
+    width: 27%;
 
     border: none;
 
