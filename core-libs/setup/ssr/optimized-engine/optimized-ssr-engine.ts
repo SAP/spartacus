@@ -28,20 +28,17 @@ export class OptimizedSsrEngine {
   protected renderingCache = new RenderingCache(this.ssrOptions);
   private templateCache = new Map<string, string>();
   /**
-   * When the config `reuseCurrentRendering` is true,
-   * we want to reuse the html result
-   * for all the subsequent requests for the same URL.
-   * Therefore we need to store the callbacks
-   * for all those received requests
-   * and invoke them with the html after
-   * the initial render outputs the html.
+   * When the config `reuseCurrentRendering` is true, we want to reuse the html result
+   * for all the subsequent pending requests for the same rendering key.
+   * Therefore we need to store the callbacks for all the subsequent requests
+   * and invoke them with the html after the initial render outputs the html.
    *
    * For a given rendering key, it can have the following values:
    * - null               = there are no pending requests for the rendering key
    * - empty array        = there is only one main pending request for the rendering key, which is being rendered,
-   *                          but no other requests are waiting
+   *                          but no other requests are waiting to reuse the result.
    * - elements in array  = there is one main pending request which is being rendered, and the elements of the array
-   *                          are the render callbacks for the next pending requests for the same rendering key
+   *                          are the render callbacks for the requests waiting to reuse the result
    */
   private waitingRenderCallbacks: Record<string, SsrCallbackFn[] | null> = {};
 
@@ -92,10 +89,8 @@ export class OptimizedSsrEngine {
   protected shouldRender(request: Request): boolean {
     const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
 
-    // if the option is enabled, we shouldn't fall back
-    const fallBack = this.ssrOptions?.reuseCurrentRendering
-      ? false
-      : this.isRendering(request);
+    const fallBack =
+      this.isRendering(request) && !this.ssrOptions?.reuseCurrentRendering;
     if (fallBack) {
       this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
     } else if (concurrencyLimitExceeded) {
