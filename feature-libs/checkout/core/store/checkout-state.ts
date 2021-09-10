@@ -26,6 +26,10 @@ export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
 }
 
+// TODO: Remove this interface in 5.0 after full switch to query for card types
+/**
+ * @deprecated since 4.3.0. Card types are now handled with Query in CheckoutPaymentService.
+ */
 export interface CardTypesState {
   entities: { [code: string]: CardType };
 }
@@ -55,6 +59,7 @@ export interface OrderTypesState {
 
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
+  // TODO: Remove this part of the state in 5.0 after full switch to query for card types
   cardTypes: CardTypesState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;

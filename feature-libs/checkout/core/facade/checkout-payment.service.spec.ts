@@ -5,9 +5,11 @@ import {
   CardType,
   Cart,
   PaymentDetails,
+  QueryService,
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -47,6 +49,16 @@ describe('CheckoutPaymentService', () => {
     }
   }
 
+  class MockCheckoutPaymentConnector
+    implements Partial<CheckoutPaymentConnector> {
+    getCardTypes() {
+      return of([
+        { code: 'visa', name: 'visa' },
+        { code: 'masterCard', name: 'masterCard' },
+      ]);
+    }
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -55,8 +67,13 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
+        QueryService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        {
+          provide: CheckoutPaymentConnector,
+          useClass: MockCheckoutPaymentConnector,
+        },
       ],
     });
 
@@ -79,6 +96,7 @@ describe('CheckoutPaymentService', () => {
   ));
 
   it('should be able to get the card types', () => {
+    // TODO: Remove store dispatch in 5.0
     store.dispatch(
       new CheckoutActions.LoadCardTypesSuccess([
         { code: 'visa', name: 'visa' },
@@ -111,6 +129,7 @@ describe('CheckoutPaymentService', () => {
     expect(tempPaymentDetails).toEqual(paymentDetails);
   });
 
+  // TODO: Remove test in 5.0
   it('should be able to load supported cart types', () => {
     service.loadSupportedCardTypes();
     expect(store.dispatch).toHaveBeenCalledWith(

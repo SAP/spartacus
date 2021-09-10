@@ -1,6 +1,7 @@
 import { CardType } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
 
+// TODO: Remove this file in 5.0 after full switch to query for card types
 describe('Card Types Actions', () => {
   describe('LoadCardTypes', () => {
     it('should create the action', () => {

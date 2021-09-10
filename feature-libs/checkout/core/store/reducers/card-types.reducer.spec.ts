@@ -2,6 +2,7 @@ import { CardType } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
 import * as fromReducer from './card-types.reducer';
 
+// TODO: Remove this file in 5.0 after full switch to query for card types
 describe('Card Types Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {

@@ -50,8 +50,10 @@ export abstract class CheckoutPaymentFacade {
    */
   abstract resetSetPaymentDetailsProcess(): void;
 
+  // TODO: Remove in 5.0 when QueryService will be guaranteed to be required
   /**
    * Load the supported card types
+   * @deprecated since 4.3.0. CardTypes are automatically loaded when `getCardTypes` is subscribed to.
    */
   abstract loadSupportedCardTypes(): void;
 

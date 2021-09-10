@@ -20,6 +20,7 @@ const mockCardTypes: CardType[] = [
   },
 ];
 
+// TODO: Remove this file in 5.0 after full switch to query for card types
 describe('Card Types effect', () => {
   let service: CheckoutPaymentConnector;
   let effect: CardTypesEffects;

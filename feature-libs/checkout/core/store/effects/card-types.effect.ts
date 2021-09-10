@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
 
+// TODO: Remove this file in 5.0 after full switch to query for card types
 @Injectable()
 export class CardTypesEffects {
   @Effect()
@@ -16,9 +16,7 @@ export class CardTypesEffects {
     switchMap(() => {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
         map((cardTypes) => new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
-        catchError((error) =>
-          of(new CheckoutActions.LoadCardTypesFail(normalizeHttpError(error)))
-        )
+        catchError((error) => of(new CheckoutActions.LoadCardTypesFail(error)))
       );
     })
   );

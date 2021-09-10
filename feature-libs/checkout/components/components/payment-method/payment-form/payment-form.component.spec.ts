@@ -259,6 +259,7 @@ describe('PaymentFormComponent', () => {
     });
   });
 
+  // TODO: Remove in 5.0, when the loading will be handled by query
   it('should call ngOnInit to get supported card types if they do not exist', (done) => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();

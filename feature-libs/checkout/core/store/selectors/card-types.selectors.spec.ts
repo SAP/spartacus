@@ -6,6 +6,7 @@ import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
 import { CheckoutSelectors } from '../selectors/index';
 
+// TODO: Remove this file in 5.0 after full switch to query for card types
 describe('Card Types Selectors', () => {
   let store: Store<StateWithCheckout>;
 

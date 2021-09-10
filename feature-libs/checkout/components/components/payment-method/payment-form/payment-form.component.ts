@@ -118,6 +118,7 @@ export class PaymentFormComponent implements OnInit {
     );
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
+      // TODO: Remove with 5.0, as the card types are now automatically loaded
       tap((cardTypes) => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutPaymentService.loadSupportedCardTypes();
