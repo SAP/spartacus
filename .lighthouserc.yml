@@ -48,7 +48,16 @@ ci:
           aggregationMethod: optimistic
       uses-text-compression:
         - error
-        - maxLength: 11
+        - maxLength: 13
           aggregationMethod: optimistic
+      uses-rel-preconnect:
+        - error
+        - maxLength: 1
+          aggregationMethod: optimistic
+      linkName:
+        - error
+        - minScore: 1
+          aggregationMethod: optimistic
+
   upload:
     target: 'temporary-public-storage'
