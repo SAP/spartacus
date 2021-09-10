@@ -16,7 +16,6 @@ import {
   ExportColumn,
   ExportCsvService,
   ExportConfig,
-  defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -36,7 +35,6 @@ export class ExportEntriesService {
   private get exportConfig(): ExportConfig {
     return {
       ...this.importExportConfig.cartImportExport?.export,
-      ...defaultImportExportConfig.cartImportExport?.export,
     };
   }
 
