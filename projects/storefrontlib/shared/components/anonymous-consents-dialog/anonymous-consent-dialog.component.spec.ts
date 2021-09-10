@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -8,7 +8,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';

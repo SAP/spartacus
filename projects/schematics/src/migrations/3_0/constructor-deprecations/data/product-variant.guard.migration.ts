@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_VARIANT_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts
+  // projects/storefrontlib/cms-components/product/product-variants/guards/product-variant.guard.ts
   class: PRODUCT_VARIANT_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
