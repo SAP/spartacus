@@ -82,12 +82,12 @@ export class OptimizedSsrEngine {
    * When returns false, the CSR fallback should be returned.
    *
    * The CSR fallback should happen, when there is already
-   * a pending rendering for the same URL
+   * a pending rendering for the same rendering key
    * (unless the reuseCurrentRendering config option is enabled)
    * OR when the concurrency limit for rendering various URLs is exceeded.
    */
   protected shouldRender(request: Request): boolean {
-    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
+    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded();
 
     const fallBack =
       this.isRendering(request) && !this.ssrOptions?.reuseCurrentRendering;
