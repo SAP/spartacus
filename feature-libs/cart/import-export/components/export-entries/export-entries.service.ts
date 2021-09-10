@@ -121,7 +121,9 @@ export class ExportEntriesService {
   }
 
   downloadCsv(entries: string[][]) {
-    if (this.exportConfig.messageEnabled) this.displayExportMessage();
+    if (this.exportConfig.messageEnabled) {
+      this.displayExportMessage();
+    }
 
     this.exportCsvService.downloadCsv(
       this.exportCsvService.dataToCsv(entries),
