@@ -30,6 +30,7 @@ ci:
       unsized-images: 'warn'
       unused-css-rules: 'warn'
       unused-javascript: 'warn'
+      link-name: 'warn'
       first-contentful-paint:
         - error
         - maxNumericValue: 2750
@@ -53,10 +54,6 @@ ci:
       uses-rel-preconnect:
         - error
         - maxLength: 5
-          aggregationMethod: optimistic
-      linkName:
-        - error
-        - minScore: 1
           aggregationMethod: optimistic
   upload:
     target: 'temporary-public-storage'
