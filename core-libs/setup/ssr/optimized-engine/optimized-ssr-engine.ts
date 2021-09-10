@@ -188,7 +188,7 @@ export class OptimizedSsrEngine {
     /**
      * Tells whether this is the first pending request for the given rendering key.
      */
-    const isFirstRequestForKey = !this.waitingRenderCallbacks[renderingKey];
+    const isFirstRequestForKey = !this.renderingCache.isRendering(renderingKey);
 
     if (isFirstRequestForKey) {
       // Take up one concurrency slot for one rendering key - when the first request for this key occurs.
