@@ -33,9 +33,7 @@ export class ExportEntriesService {
   ) {}
 
   private get exportConfig(): ExportConfig {
-    return {
-      ...this.importExportConfig.cartImportExport?.export,
-    };
+    return this.importExportConfig.cartImportExport?.export;
   }
 
   private columns: ExportColumn[] = [
