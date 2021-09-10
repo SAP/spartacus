@@ -226,6 +226,7 @@ export class OptimizedSsrEngine {
       // as other waiting requests for the same key didn't take up a slot
       if (isFirstRequestForKey) {
         this.currentConcurrency--;
+        this.waitingRenderCallbacks[renderingKey] = null;
       }
 
       this.renderingCache.clear(renderingKey);
