@@ -288,9 +288,9 @@ export class OptimizedSsrEngine {
     };
 
     if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
-      this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
-    } else {
       this.expressEngine(filePath, options, renderCallback);
+    } else {
+      this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
     }
   }
 
