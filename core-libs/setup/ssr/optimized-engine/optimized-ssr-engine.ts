@@ -191,13 +191,14 @@ export class OptimizedSsrEngine {
     const isFirstRequestForKey = !this.renderingCache.isRendering(renderingKey);
 
     if (isFirstRequestForKey) {
-      // Take up one concurrency slot for one rendering key - when the first request for this key occurs.
-      // The subsequent pending requests for the same key should not take the concurrency slot.
-      this.currentConcurrency++;
-
-      // Any subsequent pending requests for the same rendering key
+      // Callbacks for any subsequent pending requests for the same rendering key
       // will be stored in the array `waitingRenderCallbacks[renderingKey]`:
       this.waitingRenderCallbacks[renderingKey] = [];
+
+      // Take up one concurrency slot for one rendering key - when the first request for this key occurs.
+      // The subsequent pending requests for the same key should not take the concurrency slot, as they
+      // are just waiting for the first request's render to finish and share the result.
+      this.currentConcurrency++;
     }
 
     let waitingForRender: NodeJS.Timeout | undefined;
@@ -222,11 +223,11 @@ export class OptimizedSsrEngine {
     // setting the timeout for hanging renders that might not ever finish due to various reasons
     // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
     let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      // we release the concurrency slot only for the first request for the rendering key,
-      // as other waiting requests for the same key didn't take up a slot
       if (isFirstRequestForKey) {
-        this.currentConcurrency--;
         this.waitingRenderCallbacks[renderingKey] = null;
+        // we release the concurrency slot only for the first request for the rendering key,
+        // as other waiting requests for the same key didn't take up a slot
+        this.currentConcurrency--;
       }
 
       this.renderingCache.clear(renderingKey);
@@ -268,7 +269,7 @@ export class OptimizedSsrEngine {
         this.renderingCache.store(renderingKey, err, html);
       }
 
-      if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
+      if (isFirstRequestForKey) {
         if (this.waitingRenderCallbacks[renderingKey]?.length) {
           this.log(
             `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
@@ -277,13 +278,11 @@ export class OptimizedSsrEngine {
         this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
           cb(err, html)
         );
-      }
 
-      // we release the concurrency slot only for the first request for the rendering key,
-      // as other waiting requests for the same key didn't take up a slot
-      if (isFirstRequestForKey) {
-        this.currentConcurrency--;
         this.waitingRenderCallbacks[renderingKey] = null;
+        // we release the concurrency slot only for the first request for the rendering key,
+        // as other waiting requests for the same key didn't take up a slot
+        this.currentConcurrency--;
       }
     };
 
