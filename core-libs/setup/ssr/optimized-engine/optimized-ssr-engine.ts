@@ -195,9 +195,9 @@ export class OptimizedSsrEngine {
       // will be stored in the array `waitingRenderCallbacks[renderingKey]`:
       this.waitingRenderCallbacks[renderingKey] = [];
 
-      // Take up one concurrency slot for one rendering key - when the first request for this key occurs.
+      // Take up one concurrency slot for one rendering key.
       // The subsequent pending requests for the same key should not take the concurrency slot, as they
-      // are just waiting for the first request's render to finish and share the result.
+      // are just passively waiting for the first request's render to finish and share the HTML result.
       this.currentConcurrency++;
     }
 
@@ -224,10 +224,11 @@ export class OptimizedSsrEngine {
     // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
     let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
       if (isFirstRequestForKey) {
-        this.waitingRenderCallbacks[renderingKey] = null;
         // we release the concurrency slot only for the first request for the rendering key,
         // as other waiting requests for the same key didn't take up a slot
         this.currentConcurrency--;
+
+        this.waitingRenderCallbacks[renderingKey] = null;
       }
 
       this.renderingCache.clear(renderingKey);
@@ -278,8 +279,8 @@ export class OptimizedSsrEngine {
         this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
           cb(err, html)
         );
-
         this.waitingRenderCallbacks[renderingKey] = null;
+
         // we release the concurrency slot only for the first request for the rendering key,
         // as other waiting requests for the same key didn't take up a slot
         this.currentConcurrency--;
