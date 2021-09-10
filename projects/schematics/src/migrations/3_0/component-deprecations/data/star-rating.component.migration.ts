@@ -5,7 +5,7 @@ import {
 } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/shared/components/star-rating/star-rating.component.ts
+// projects/storefrontlib/shared/components/star-rating/star-rating.component.ts
 export const STAR_RATING_COMPONENT_MIGRATION: ComponentData = {
   selector: 'cx-star-rating',
   componentClassName: STAR_RATING_COMPONENT,

@@ -2,7 +2,7 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts
+  // projects/storefrontlib/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts
   selector: 'cx-order-details-shipping',
   componentClassName: ORDER_DETAIL_SHIPPING_COMPONENT,
   removedProperties: [

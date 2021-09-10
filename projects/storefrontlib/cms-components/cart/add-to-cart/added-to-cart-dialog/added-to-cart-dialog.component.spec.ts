@@ -21,7 +21,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
+import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components';

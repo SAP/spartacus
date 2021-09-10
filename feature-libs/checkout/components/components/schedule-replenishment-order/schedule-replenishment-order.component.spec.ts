@@ -9,7 +9,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
 
