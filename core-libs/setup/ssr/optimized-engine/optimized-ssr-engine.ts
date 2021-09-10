@@ -280,7 +280,7 @@ export class OptimizedSsrEngine {
       }
     };
 
-    if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
+    if (isFirstRequestForKey) {
       this.expressEngine(filePath, options, renderCallback);
     } else {
       this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
