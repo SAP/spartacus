@@ -117,8 +117,7 @@
   .cx-item-counter-readonly {
     @include media-breakpoint-down(sm) {
       position: relative;
-      left: 95px;
-      width: 10px !important;
+      left: 105px;
     }
   }
 
@@ -137,7 +136,7 @@
   .cx-quantity,
   .cx-total {
     @include media-breakpoint-down(sm) {
-      width: 238px;
+      width: 250px;
     }
   }
 
