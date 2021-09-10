@@ -175,122 +175,121 @@ export class OptimizedSsrEngine {
 
     const renderingKey = this.getRenderingKey(request);
 
-    if (!this.returnCachedRender(request, callback)) {
-      if (this.shouldRender(request)) {
-        /**
-         * Tells whether this is the first pending request for the given rendering key.
-         */
-        const isFirstRequestForKey = !this.waitingRenderCallbacks[renderingKey];
+    if (this.returnCachedRender(request, callback)) {
+      this.log(`Render from cache (${request?.originalUrl})`);
+      return;
+    }
 
-        // Any subsequent pending requests for the same rendering key
-        // will be stored in the array `waitingRenderCallbacks[renderingKey]`:
-        this.waitingRenderCallbacks[renderingKey] ??= [];
+    if (!this.shouldRender(request)) {
+      this.fallbackToCsr(response, filePath, callback);
+      return;
+    }
 
-        // take up only one concurrency slot for a single rendering key - when the first request for this key occurs
-        // the subsequent pending requests for the same key should not take the concurrency slot
-        if (isFirstRequestForKey) {
-          this.currentConcurrency++;
-        }
+    /**
+     * Tells whether this is the first pending request for the given rendering key.
+     */
+    const isFirstRequestForKey = !this.waitingRenderCallbacks[renderingKey];
 
-        let waitingForRender: NodeJS.Timeout | undefined;
-        if (this.shouldTimeout(request)) {
-          // establish timeout for rendering
-          const timeout = this.getTimeout(request);
-          waitingForRender = setTimeout(() => {
-            waitingForRender = undefined;
-            this.fallbackToCsr(response, filePath, callback);
-            this.log(
-              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
-              false
-            );
-          }, timeout);
+    if (isFirstRequestForKey) {
+      // Take up one concurrency slot for one rendering key - when the first request for this key occurs.
+      // The subsequent pending requests for the same key should not take the concurrency slot.
+      this.currentConcurrency++;
+
+      // Any subsequent pending requests for the same rendering key
+      // will be stored in the array `waitingRenderCallbacks[renderingKey]`:
+      this.waitingRenderCallbacks[renderingKey] = [];
+    }
+
+    let waitingForRender: NodeJS.Timeout | undefined;
+    if (this.shouldTimeout(request)) {
+      // establish timeout for rendering
+      const timeout = this.getTimeout(request);
+      waitingForRender = setTimeout(() => {
+        waitingForRender = undefined;
+        this.fallbackToCsr(response, filePath, callback);
+        this.log(
+          `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
+          false
+        );
+      }, timeout);
+    } else {
+      this.fallbackToCsr(response, filePath, callback);
+    }
+
+    // start rendering
+    this.renderingCache.setAsRendering(renderingKey);
+
+    // setting the timeout for hanging renders that might not ever finish due to various reasons
+    // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
+    let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
+      // we release the concurrency slot only for the first request for the rendering key,
+      // as other waiting requests for the same key didn't take up a slot
+      if (isFirstRequestForKey) {
+        this.currentConcurrency--;
+      }
+
+      this.renderingCache.clear(renderingKey);
+      maxRenderTimeout = undefined;
+
+      this.log(
+        `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
+        false
+      );
+    }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
+
+    this.log(`Rendering started (${request?.originalUrl})`);
+
+    const renderCallback: SsrCallbackFn = (err, html) => {
+      if (!maxRenderTimeout) {
+        // ignore this render's result because it exceeded maxRenderTimeout
+        this.log(
+          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+        );
+        return;
+      }
+      clearTimeout(maxRenderTimeout);
+
+      this.log(`Rendering completed (${request?.originalUrl})`);
+
+      if (waitingForRender) {
+        // if request is still waiting for render, return it
+        clearTimeout(waitingForRender);
+        callback(err, html);
+
+        // store the render only if caching is enabled
+        if (this.ssrOptions?.cache) {
+          this.renderingCache.store(renderingKey, err, html);
         } else {
-          this.fallbackToCsr(response, filePath, callback);
-        }
-
-        // start rendering
-        this.renderingCache.setAsRendering(renderingKey);
-
-        // setting the timeout for hanging renders that might not ever finish due to various reasons
-        // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
-        let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-          // we release the concurrency slot only for the first request for the rendering key,
-          // as other waiting requests for the same key didn't take up a slot
-          if (isFirstRequestForKey) {
-            this.currentConcurrency--;
-          }
-
           this.renderingCache.clear(renderingKey);
-          maxRenderTimeout = undefined;
-
-          this.log(
-            `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
-            false
-          );
-        }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
-
-        this.log(`Rendering started (${request?.originalUrl})`);
-
-        const renderCallback: SsrCallbackFn = (err, html) => {
-          if (!maxRenderTimeout) {
-            // ignore this render's result because it exceeded maxRenderTimeout
-            this.log(
-              `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
-            );
-            return;
-          }
-          clearTimeout(maxRenderTimeout);
-
-          // we release the concurrency slot only for the first request for the rendering key,
-          // as other waiting requests for the same key didn't take up a slot
-          if (isFirstRequestForKey) {
-            this.currentConcurrency--;
-          }
-
-          this.log(`Rendering completed (${request?.originalUrl})`);
-
-          if (waitingForRender) {
-            // if request is still waiting for render, return it
-            clearTimeout(waitingForRender);
-            callback(err, html);
-
-            // store the render only if caching is enabled
-            if (this.ssrOptions?.cache) {
-              this.renderingCache.store(renderingKey, err, html);
-            } else {
-              this.renderingCache.clear(renderingKey);
-            }
-          } else {
-            // store the render for future use
-            this.renderingCache.store(renderingKey, err, html);
-          }
-
-          if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
-            if (this.waitingRenderCallbacks[renderingKey]?.length) {
-              this.log(
-                `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
-              );
-            }
-            this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
-              cb(err, html)
-            );
-          }
-
-          if (isFirstRequestForKey) {
-            this.waitingRenderCallbacks[renderingKey] = null;
-          }
-        };
-
-        if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
-          this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
-        } else {
-          this.expressEngine(filePath, options, renderCallback);
         }
       } else {
-        this.fallbackToCsr(response, filePath, callback);
+        // store the render for future use
+        this.renderingCache.store(renderingKey, err, html);
       }
+
+      if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
+        if (this.waitingRenderCallbacks[renderingKey]?.length) {
+          this.log(
+            `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
+          );
+        }
+        this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
+          cb(err, html)
+        );
+      }
+
+      // we release the concurrency slot only for the first request for the rendering key,
+      // as other waiting requests for the same key didn't take up a slot
+      if (isFirstRequestForKey) {
+        this.currentConcurrency--;
+        this.waitingRenderCallbacks[renderingKey] = null;
+      }
+    };
+
+    if (this.ssrOptions?.reuseCurrentRendering && isFirstRequestForKey) {
+      this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
     } else {
-      this.log(`Render from cache (${request?.originalUrl})`);
+      this.expressEngine(filePath, options, renderCallback);
     }
   }
 
