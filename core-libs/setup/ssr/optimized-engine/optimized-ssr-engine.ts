@@ -263,7 +263,7 @@ export class OptimizedSsrEngine {
       }
 
       if (isFirstRequestForKey) {
-        // share the html rendering result of the first request with other pending requests of the same key
+        // share the rendering result of the first request with other pending requests of the same key
         if (this.waitingRenderCallbacks[renderingKey]?.length) {
           this.log(
             `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
