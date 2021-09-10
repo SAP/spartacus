@@ -182,7 +182,8 @@ export class OptimizedSsrEngine {
 
     if (isFirstRequestForKey) {
       // Callbacks for any subsequent pending requests for the same rendering key
-      // will be stored in the array `waitingRenderCallbacks[renderingKey]`:
+      // will be stored in the array. Finally they will be invoked only when the first request's
+      // render finishes and shares the html result with them:
       this.waitingRenderCallbacks[renderingKey] = [];
 
       // Take up one concurrency slot for one rendering key.
@@ -218,6 +219,7 @@ export class OptimizedSsrEngine {
         // as other waiting requests for the same key didn't take up a slot
         this.currentConcurrency--;
 
+        // forget the callbacks that waiting for the result of the first request's render
         this.waitingRenderCallbacks[renderingKey] = null;
       }
 
