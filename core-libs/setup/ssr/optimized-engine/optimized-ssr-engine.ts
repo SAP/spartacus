@@ -27,6 +27,7 @@ export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
   private templateCache = new Map<string, string>();
+
   /**
    * When the config `reuseCurrentRendering` is true, we want to reuse the html result
    * for all the subsequent pending requests for the same rendering key.
@@ -40,7 +41,7 @@ export class OptimizedSsrEngine {
    * - elements in array  = there is one main pending request which is being rendered, and the elements of the array
    *                          are the render callbacks for the requests waiting to reuse the result
    */
-  private waitingRenderCallbacks: Record<string, SsrCallbackFn[] | null> = {};
+  private waitingRenderCallbacks = new Map<string, SsrCallbackFn[] | null>();
 
   get engineInstance(): NgExpressEngineInstance {
     return this.renderResponse.bind(this);
@@ -184,7 +185,7 @@ export class OptimizedSsrEngine {
       // Callbacks for any subsequent pending requests for the same rendering key
       // will be stored in the array. Finally they will be invoked only when the first request's
       // render finishes and shares the html result with them:
-      this.waitingRenderCallbacks[renderingKey] = [];
+      this.waitingRenderCallbacks.set(renderingKey, []);
 
       // Take up one concurrency slot for one rendering key.
       // The subsequent pending requests for the same key should not take the concurrency slot, as they
@@ -220,7 +221,7 @@ export class OptimizedSsrEngine {
         this.currentConcurrency--;
 
         // forget the callbacks that waiting for the result of the first request's render
-        this.waitingRenderCallbacks[renderingKey] = null;
+        this.waitingRenderCallbacks.delete(renderingKey);
       }
 
       this.renderingCache.clear(renderingKey);
@@ -264,15 +265,18 @@ export class OptimizedSsrEngine {
 
       if (isFirstRequestForKey) {
         // share the rendering result of the first request with other pending requests of the same key
-        if (this.waitingRenderCallbacks[renderingKey]?.length) {
+        if (this.waitingRenderCallbacks.get(renderingKey)?.length) {
           this.log(
-            `Processing ${this.waitingRenderCallbacks[renderingKey]?.length} waiting SSR requests for ${request.originalUrl}...`
+            `Processing ${
+              this.waitingRenderCallbacks.get(renderingKey)?.length
+            } waiting SSR requests for ${request.originalUrl}...`
           );
         }
-        this.waitingRenderCallbacks[renderingKey]?.forEach((cb) =>
-          cb(err, html)
-        );
-        this.waitingRenderCallbacks[renderingKey] = null;
+        this.waitingRenderCallbacks
+          .get(renderingKey)
+          ?.forEach((cb) => cb(err, html));
+
+        this.waitingRenderCallbacks.delete(renderingKey);
 
         // we release the concurrency slot only for the first request for the rendering key,
         // as other waiting requests for the same key didn't take up a slot
@@ -283,7 +287,7 @@ export class OptimizedSsrEngine {
     if (isFirstRequestForKey) {
       this.expressEngine(filePath, options, renderCallback);
     } else {
-      this.waitingRenderCallbacks[renderingKey]?.push(renderCallback);
+      this.waitingRenderCallbacks.get(renderingKey)?.push(renderCallback);
     }
   }
 
