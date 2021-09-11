@@ -23,10 +23,17 @@ export const quickOrderList = {
   header: 'Add Products/Skus',
   subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
   errorProceedingToCart: 'Error proceeding to Cart.',
+  warningProceedingToCart: 'Warning proceeding to Cart.',
+  successfullyAddedToCart: 'Successfully added to Cart.',
   errors: {
     productIsOutOfStock: '{{ name }} (#{{code}}) is out of stock.',
+  },
+  warnings: {
     productWasReduced:
       'Quantity for {{ name }} (#{{code}}) was reduced to {{ quantityAdded}}.',
+  },
+  successes: {
+    productAddedToCart: '{{ name }} (#{{code}}) was added to cart.',
   },
 };
 
