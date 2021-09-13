@@ -32,7 +32,7 @@ export class ExportEntriesService {
     protected exportCsvService: ExportCsvService
   ) {}
 
-  private get exportConfig(): ExportConfig {
+  private get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;
   }
 
@@ -49,7 +49,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...(this.exportConfig.additionalColumns ?? []),
+    ...(this.exportConfig?.additionalColumns ?? []),
   ];
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
@@ -121,7 +121,7 @@ export class ExportEntriesService {
   }
 
   downloadCsv(entries: string[][]) {
-    if (this.exportConfig.messageEnabled) {
+    if (this.exportConfig?.messageEnabled) {
       this.displayExportMessage();
     }
 
