@@ -1,5 +1,7 @@
 export const exportEntries = {
   exportToCsv: 'Export to CSV',
+  exportMessage:
+    'CSV file will download automatically to your device, if it does not please check your browser settings',
   columnNames: {
     code: 'Code',
     quantity: 'Quantity',
