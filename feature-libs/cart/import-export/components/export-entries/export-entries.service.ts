@@ -5,6 +5,8 @@ import {
   OrderEntry,
   RoutingService,
   TranslationService,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
@@ -12,6 +14,8 @@ import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   ImportExportConfig,
   ExportColumn,
+  ExportCsvService,
+  ExportConfig,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -23,13 +27,13 @@ export class ExportEntriesService {
     protected activeCartService: ActiveCartService,
     protected savedCartDetailsService: SavedCartDetailsService,
     protected importExportConfig: ImportExportConfig,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected globalMessageService: GlobalMessageService,
+    protected exportCsvService: ExportCsvService
   ) {}
 
-  private get additionalColumns(): ExportColumn[] {
-    return (
-      this.importExportConfig.cartImportExport?.export?.additionalColumns ?? []
-    );
+  private get exportConfig(): ExportConfig | undefined {
+    return this.importExportConfig.cartImportExport?.export;
   }
 
   private columns: ExportColumn[] = [
@@ -45,7 +49,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...this.additionalColumns,
+    ...(this.exportConfig?.additionalColumns ?? []),
   ];
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
@@ -100,12 +104,30 @@ export class ExportEntriesService {
     );
   }
 
+  protected displayExportMessage() {
+    this.globalMessageService.add(
+      { key: 'exportEntries.exportMessage' },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+  }
+
   getResolvedEntries(): Observable<string[][]> {
     return this.getResolvedValues().pipe(
       withLatestFrom(this.getTranslatedColumnHeaders()),
       map(([values, headers]) => {
         return [headers, ...values];
       })
+    );
+  }
+
+  downloadCsv(entries: string[][]) {
+    if (this.exportConfig?.messageEnabled) {
+      this.displayExportMessage();
+    }
+
+    this.exportCsvService.downloadCsv(
+      this.exportCsvService.dataToCsv(entries),
+      this.exportConfig
     );
   }
 }

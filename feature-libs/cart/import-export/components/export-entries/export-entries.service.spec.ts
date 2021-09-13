@@ -9,6 +9,7 @@ import {
   RouterState,
   PriceType,
   TranslationService,
+  GlobalMessageService,
 } from '@spartacus/core';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
@@ -117,6 +118,10 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   );
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
   let translationService: TranslationService;
@@ -133,6 +138,10 @@ describe('ExportEntriesService', () => {
         {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
       ],
     });
