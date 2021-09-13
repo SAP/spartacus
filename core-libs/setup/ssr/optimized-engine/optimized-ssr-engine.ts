@@ -123,6 +123,11 @@ export class OptimizedSsrEngine {
       : false;
   }
 
+  /**
+   * Returns true, when the `timeout` option has been configured to non-zero value OR
+   * when the rendering strategy for the given request is ALWAYS_SSR.
+   * Otherwise, it returns false.
+   */
   protected shouldTimeout(request: Request): boolean {
     return (
       !!this.ssrOptions?.timeout ||
@@ -164,34 +169,23 @@ export class OptimizedSsrEngine {
     const request: Request = options.req;
     const response: Response = options.res || options.req.res;
 
-    const renderingKey = this.getRenderingKey(request);
-
     if (this.returnCachedRender(request, callback)) {
       this.log(`Render from cache (${request?.originalUrl})`);
       return;
     }
-
     if (!this.shouldRender(request)) {
       this.fallbackToCsr(response, filePath, callback);
       return;
     }
+
+    const renderingKey = this.getRenderingKey(request);
 
     /**
      * Tells whether this is the first pending request for the given rendering key.
      */
     const isFirstRequestForKey = !this.renderingCache.isRendering(renderingKey);
 
-    if (isFirstRequestForKey) {
-      // Callbacks for any subsequent pending requests for the same rendering key
-      // will be stored in the array. Finally they will be invoked only when the first request's
-      // render finishes and shares the html result with them:
-      this.waitingRenderCallbacks.set(renderingKey, []);
-
-      // Take up one concurrency slot for one rendering key.
-      // The subsequent pending requests for the same key should not take the concurrency slot, as they
-      // are just passively waiting for the first request's render to finish and share the HTML result.
-      this.currentConcurrency++;
-    }
+    this.updateConcurrencyBeforeRender({ request, isFirstRequestForKey });
 
     let waitingForRender: NodeJS.Timeout | undefined;
     if (this.shouldTimeout(request)) {
@@ -206,24 +200,20 @@ export class OptimizedSsrEngine {
         );
       }, timeout);
     } else {
+      // Here we respond with the fallback to CSR, but we don't `return`.
+      // We let the actual rendering task to happen in the background
+      // to eventually store the rendered result in the cache.
       this.fallbackToCsr(response, filePath, callback);
     }
 
     // start rendering
     this.renderingCache.setAsRendering(renderingKey);
 
-    // setting the timeout for hanging renders that might not ever finish due to various reasons
-    // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
+    // Setting the timeout for hanging renders that might not ever finish due to various reasons.
+    // After the configured `maxRenderTime` passes, we consider the rendering task as finished,
+    // and release the concurrency slot.
+    // Even if the rendering task completes in the future, we will ignore its result.
     let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      if (isFirstRequestForKey) {
-        // we release the concurrency slot only for the first request for the rendering key,
-        // as other waiting requests for the same key didn't take up a slot
-        this.currentConcurrency--;
-
-        // forget the callbacks that waiting for the result of the first request's render
-        this.waitingRenderCallbacks.delete(renderingKey);
-      }
-
       this.renderingCache.clear(renderingKey);
       maxRenderTimeout = undefined;
 
@@ -231,6 +221,8 @@ export class OptimizedSsrEngine {
         `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
         false
       );
+
+      this.updateConcurrencyAfterRender({ request, isFirstRequestForKey });
     }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
 
     this.log(`Rendering started (${request?.originalUrl})`);
@@ -263,8 +255,9 @@ export class OptimizedSsrEngine {
         this.renderingCache.store(renderingKey, err, html);
       }
 
-      if (isFirstRequestForKey) {
-        // share the rendering result of the first request with other pending requests of the same key
+      // When config `reuseCurrentRendering` is enabled,
+      // share the result of the first request's render with other waiting requests for the same key
+      if (isFirstRequestForKey && this.ssrOptions?.reuseCurrentRendering) {
         if (this.waitingRenderCallbacks.get(renderingKey)?.length) {
           this.log(
             `Processing ${
@@ -275,20 +268,18 @@ export class OptimizedSsrEngine {
         this.waitingRenderCallbacks
           .get(renderingKey)
           ?.forEach((cb) => cb(err, html));
-
-        this.waitingRenderCallbacks.delete(renderingKey);
-
-        // we release the concurrency slot only for the first request for the rendering key,
-        // as other waiting requests for the same key didn't take up a slot
-        this.currentConcurrency--;
       }
+
+      this.updateConcurrencyAfterRender({ request, isFirstRequestForKey });
     };
 
-    if (isFirstRequestForKey) {
-      this.expressEngine(filePath, options, renderCallback);
-    } else {
-      this.waitingRenderCallbacks.get(renderingKey)?.push(renderCallback);
-    }
+    this.startRender({
+      filePath,
+      options,
+      renderCallback,
+      request,
+      isFirstRequestForKey,
+    });
   }
 
   protected log(message: string, debug = true): void {
@@ -309,5 +300,98 @@ export class OptimizedSsrEngine {
     }
 
     return doc;
+  }
+
+  /**
+   * Starts the rendering task, by delegating it to the original Angular Universal express engine.
+   *
+   * In case when the config `reuseCurrentRendering` is enabled and if there is already a pending
+   * rendering task for the same key, now new rendering task will be started, but the shared result
+   * will be returned at the moment when the pending rendering task completes.
+   */
+  private startRender({
+    filePath,
+    options,
+    renderCallback,
+    request,
+    isFirstRequestForKey,
+  }: {
+    filePath: string;
+    options: any;
+    renderCallback: SsrCallbackFn;
+    request: Request;
+    isFirstRequestForKey: boolean;
+  }) {
+    const renderingKey = this.getRenderingKey(request);
+
+    if (this.ssrOptions?.reuseCurrentRendering) {
+      if (isFirstRequestForKey) {
+        this.expressEngine(filePath, options, renderCallback);
+      } else {
+        this.waitingRenderCallbacks.get(renderingKey)?.push(renderCallback);
+      }
+    } else {
+      this.expressEngine(filePath, options, renderCallback);
+    }
+  }
+
+  /**
+   * Updates the state of the concurrency before starting the render.
+   */
+  private updateConcurrencyBeforeRender({
+    request,
+    isFirstRequestForKey,
+  }: {
+    request: Request;
+    isFirstRequestForKey: boolean;
+  }): void {
+    const renderingKey = this.getRenderingKey(request);
+
+    if (this.ssrOptions?.reuseCurrentRendering) {
+      if (isFirstRequestForKey) {
+        // When config `reuseCurrentRendering` is enabled, we take up one concurrency slot for one rendering key.
+        // The subsequent pending requests for the same key should not take the concurrency slot. It makes sense,
+        // because they are just passively waiting for the first request's render to finish and share the HTML result,
+        // so they don't take up the CPU.
+        this.currentConcurrency++;
+
+        // When config `reuseCurrentRendering` is enabled
+        // callbacks for any subsequent pending requests for the same rendering key
+        // will be stored in the array. Finally they will be invoked only when the first request's
+        // render finishes and shares the html result with them
+        this.waitingRenderCallbacks.set(renderingKey, []);
+      }
+    } else {
+      this.currentConcurrency++;
+    }
+  }
+
+  /**
+   * Updates the state of the concurrency after the render is considered finished.
+   *
+   * The render is considered finished either when it completes or when it hangs (when the configured
+   * `maxRenderTime` passes for the request).
+   */
+  private updateConcurrencyAfterRender({
+    request,
+    isFirstRequestForKey,
+  }: {
+    request: Request;
+    isFirstRequestForKey: boolean;
+  }) {
+    const renderingKey = this.getRenderingKey(request);
+
+    if (this.ssrOptions?.reuseCurrentRendering) {
+      if (isFirstRequestForKey) {
+        // we release the concurrency slot only for the first request for the rendering key,
+        // as other waiting requests for the same key didn't take up a slot
+        this.currentConcurrency--;
+
+        // clear the list of callbacks waiting for the result of the first request's render
+        this.waitingRenderCallbacks.delete(renderingKey);
+      }
+    } else {
+      this.currentConcurrency--;
+    }
   }
 }
