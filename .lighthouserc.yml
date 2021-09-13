@@ -33,7 +33,7 @@ ci:
       link-name: 'warn'
       first-contentful-paint:
         - error
-        - maxNumericValue: 2750
+        - maxNumericValue: 11000
           aggregationMethod: optimistic
       interactive:
         - error
