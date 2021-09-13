@@ -30,16 +30,9 @@ export class OptimizedSsrEngine {
 
   /**
    * When the config `reuseCurrentRendering` is true, we want to reuse the html result
-   * for all the subsequent pending requests for the same rendering key.
-   * Therefore we need to store the callbacks for all the subsequent requests
-   * and invoke them with the html after the initial render outputs the html.
-   *
-   * For a given rendering key, it can have the following values:
-   * - undefined          = there are no pending requests for the rendering key
-   * - empty array        = there is only one main pending request for the rendering key, which is being rendered,
-   *                          but no other requests are waiting to reuse the result.
-   * - elements in array  = there is one main pending request which is being rendered, and the elements of the array
-   *                          are the render callbacks for the requests waiting to reuse the result
+   * for all the pending requests for the same rendering key.
+   * Therefore we need to store the callbacks for all the requests
+   * and invoke them with the html after the render completes.
    */
   private waitingRenderCallbacks = new Map<string, SsrCallbackFn[]>();
 
@@ -218,7 +211,7 @@ export class OptimizedSsrEngine {
     this.renderingCache.setAsRendering(renderingKey);
 
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
-    // After the configured `maxRenderTime` passes, we consider the rendering task as hanged,
+    // After the configured `maxRenderTime` passes, we consider the rendering task as hanging,
     // and release the concurrency slot.
     // Even if the rendering task completes in the future in the background, we will ignore its result.
     let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
