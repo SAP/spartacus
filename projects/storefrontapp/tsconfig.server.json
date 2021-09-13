@@ -48,6 +48,21 @@
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
       ],
+      "@spartacus/cart/quick-order": [
+        "../../feature-libs/cart/quick-order/public_api"
+      ],
+      "@spartacus/cart/quick-order/assets": [
+        "../../feature-libs/cart/quick-order/assets/public_api"
+      ],
+      "@spartacus/cart/quick-order/components": [
+        "../../feature-libs/cart/quick-order/components/public_api"
+      ],
+      "@spartacus/cart/quick-order/core": [
+        "../../feature-libs/cart/quick-order/core/public_api"
+      ],
+      "@spartacus/cart/quick-order/root": [
+        "../../feature-libs/cart/quick-order/root/public_api"
+      ],
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"
       ],
@@ -238,10 +253,13 @@
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
+      "@spartacus/digital-payments": [
+        "../../integration-libs/digital-payments/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
   },
   "angularCompilerOptions": {

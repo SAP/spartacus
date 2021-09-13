@@ -1,10 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { OccConfiguratorCpqUpdateCartEntrySerializer } from './occ-configurator-cpq-update-cart-entry-serializer';
 
 describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {

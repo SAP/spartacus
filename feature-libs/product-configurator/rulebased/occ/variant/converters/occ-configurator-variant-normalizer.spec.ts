@@ -6,9 +6,9 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
 const configId = '192826';
@@ -186,6 +186,7 @@ const attributeMSIWithValue: Configurator.Attribute = {
 const configuration: OccConfigurator.Configuration = {
   configId: configId,
   complete: true,
+  consistent: true,
   rootProduct: 'CONF_PRODUCT',
   groups: [
     {
@@ -286,9 +287,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(occConfiguratorVariantNormalizer).toBeTruthy();
   });
 
-  it('should convert a configuration', () => {
+  it('should convert a configuration and support "complete" and "consistent" attribute', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.complete).toBe(true);
+    expect(result.consistent).toBe(true);
   });
 
   it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {

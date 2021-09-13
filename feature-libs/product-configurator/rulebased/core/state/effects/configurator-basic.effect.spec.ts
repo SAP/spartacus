@@ -20,8 +20,8 @@ import {
   GROUP_ID_5,
   GROUP_ID_6,
   GROUP_ID_7,
-} from '../../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
+} from '../../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -89,6 +89,7 @@ const productConfiguration: Configurator.Configuration = {
   groups: [group, groupWithSubGroup],
   flatGroups: [group],
   priceSummary: {},
+  priceSupplements: [],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -369,9 +370,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: groupId,
@@ -403,9 +405,10 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -417,6 +420,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
   });
+
   describe('Effect updateConfigurationFail', () => {
     it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
       const payloadInput = productConfiguration;

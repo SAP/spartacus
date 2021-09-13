@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_RETURN_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/order/amend-order/returns/order-return.guard.ts
+  // projects/storefrontlib/cms-components/myaccount/order/amend-order/returns/order-return.guard.ts
   class: ORDER_RETURN_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

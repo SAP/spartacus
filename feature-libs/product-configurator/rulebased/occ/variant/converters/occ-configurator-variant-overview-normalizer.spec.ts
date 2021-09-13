@@ -2,13 +2,13 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OccConfigurator } from '../variant-configurator-occ.models';
-import { Configurator } from './../../../core/model/configurator.model';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_3,
-} from './../../../shared/testing/configurator-test-data';
+} from '../../../testing/configurator-test-data';
+import { OccConfigurator } from '../variant-configurator-occ.models';
+import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-variant-overview-normalizer';
 
 const generalGroupName = '_GEN';

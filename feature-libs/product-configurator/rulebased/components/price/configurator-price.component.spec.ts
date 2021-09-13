@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 
 @Pipe({

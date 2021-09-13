@@ -1,16 +1,16 @@
 import {
-  TAB_PARAGRAPH_CONTAINER_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
+  BREAKPOINT_SERVICE,
   CMS_COMPONENT_DATA_CLASS,
   CMS_SERVICE,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT,
   WINDOW_REF,
-  BREAKPOINT_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
+  // projects/storefrontlib/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
   class: TAB_PARAGRAPH_CONTAINER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -33,7 +33,7 @@ export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION: Construc
 };
 
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT_CONSTRUCTOR_DEPRECATION_2: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
+  // projects/storefrontlib/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
   class: TAB_PARAGRAPH_CONTAINER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

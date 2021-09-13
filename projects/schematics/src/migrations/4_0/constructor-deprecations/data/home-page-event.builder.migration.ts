@@ -8,7 +8,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/events/home/home-page-event.builder.ts
+  // projects/storefrontlib/events/home/home-page-event.builder.ts
   class: HOME_PAGE_EVENT_BUILDER,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

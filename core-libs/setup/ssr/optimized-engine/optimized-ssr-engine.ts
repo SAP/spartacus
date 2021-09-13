@@ -1,12 +1,12 @@
 /* webpackIgnore: true */
+import { Request, Response } from 'express';
 import * as fs from 'fs';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
-import { RenderingCache } from './rendering-cache';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { Request, Response } from 'express';
 
 /**
  * The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
@@ -62,7 +62,7 @@ export class OptimizedSsrEngine {
     );
 
     if (isRendering) {
-      this.log(`CSR fallback: rendering in progress (${request.url})`);
+      this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
     } else if (concurrencyLimitExceed) {
       this.log(
         `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
@@ -132,7 +132,7 @@ export class OptimizedSsrEngine {
             waitingForRender = undefined;
             this.fallbackToCsr(response, filePath, callback);
             this.log(
-              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}`,
+              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
               false
             );
           }, timeout);
@@ -142,11 +142,33 @@ export class OptimizedSsrEngine {
 
         // start rendering
         this.renderingCache.setAsRendering(renderingKey);
-        this.log(`Rendering started (${request?.url})`);
+
+        // setting the timeout for hanging renders that might not ever finish due to various reasons
+        // releasing concurrency slots by decreasing the `this.currentConcurrency--`.
+        let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
+          this.currentConcurrency--;
+          this.renderingCache.clear(renderingKey);
+          maxRenderTimeout = undefined;
+
+          this.log(
+            `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
+            false
+          );
+        }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
+
+        this.log(`Rendering started (${request?.originalUrl})`);
         this.expressEngine(filePath, options, (err, html) => {
+          if (!maxRenderTimeout) {
+            // ignore this render's result because it exceeded maxRenderTimeout
+            this.log(
+              `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+            );
+            return;
+          }
+          clearTimeout(maxRenderTimeout);
           this.currentConcurrency--;
 
-          this.log(`Rendering completed (${request?.url})`);
+          this.log(`Rendering completed (${request?.originalUrl})`);
 
           if (waitingForRender) {
             // if request is still waiting for render, return it
@@ -169,7 +191,7 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
       }
     } else {
-      this.log(`Render from cache (${request?.url})`);
+      this.log(`Render from cache (${request?.originalUrl})`);
     }
   }
 

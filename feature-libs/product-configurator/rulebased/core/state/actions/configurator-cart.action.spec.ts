@@ -3,7 +3,7 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';

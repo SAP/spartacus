@@ -3,25 +3,22 @@ import { facadeFactory, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function paymentTypeFacadeFactory() {
-  return facadeFactory({
-    facade: PaymentTypeFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: [
-      'getPaymentTypes',
-      'loadPaymentTypes',
-      'setPaymentType',
-      'getSelectedPaymentType',
-      'isAccountPayment',
-      'getPoNumber',
-    ],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: paymentTypeFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: PaymentTypeFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: [
+        'getPaymentTypes',
+        'loadPaymentTypes',
+        'setPaymentType',
+        'getSelectedPaymentType',
+        'isAccountPayment',
+        'getPoNumber',
+      ],
+      async: true,
+    }),
 })
 export abstract class PaymentTypeFacade {
   /**

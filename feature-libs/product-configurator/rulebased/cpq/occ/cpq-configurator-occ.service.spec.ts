@@ -17,10 +17,8 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,

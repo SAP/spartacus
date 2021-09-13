@@ -302,7 +302,9 @@ export function restoreCart(
   product: SampleProduct,
   savedCartForm: any,
   isEmptyCart: boolean = false,
-  cloneSavedCart: boolean = false
+  cloneSavedCart: { isCloneCartActive: boolean; cloneName?: string } = {
+    isCloneCartActive: false,
+  }
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -355,14 +357,18 @@ export function restoreCart(
             cy.get('cx-saved-cart-list button:first').should('exist').click();
 
             cy.get('cx-saved-cart-form-dialog').within(() => {
-              if (cloneSavedCart) {
+              if (cloneSavedCart.isCloneCartActive) {
                 cy.get('input[type="checkbox"]').check();
+
+                if (cloneSavedCart?.cloneName) {
+                  cy.get('input[type="text"]').type(cloneSavedCart.cloneName);
+                }
               }
 
               cy.get('button[aria-label="Restore"]').click();
             });
 
-            if (cloneSavedCart) {
+            if (cloneSavedCart.isCloneCartActive) {
               cy.wait(`@${cloneSavedCartAlias}`)
                 .its('response.statusCode')
                 .should('eq', 200);
@@ -391,10 +397,16 @@ export function restoreCart(
 
         verifyMiniCartQuantity(1);
 
-        if (cloneSavedCart) {
-          cy.get(
-            'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
-          ).should('contain', 'Copy of');
+        if (cloneSavedCart.isCloneCartActive) {
+          if (cloneSavedCart?.cloneName) {
+            cy.get(
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+            ).should('contain', cloneSavedCart.cloneName);
+          } else {
+            cy.get(
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+            ).should('contain', 'Copy of');
+          }
         }
 
         // assert that the cart was properly swapped / made active

@@ -222,6 +222,15 @@ export class ConfiguratorCartService {
     );
   }
 
+  /**
+   * Remove all configurations that are linked to cart entries
+   */
+  removeCartBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveCartBoundConfigurations()
+    );
+  }
+
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {

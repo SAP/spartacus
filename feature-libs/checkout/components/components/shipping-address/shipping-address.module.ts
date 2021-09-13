@@ -5,9 +5,9 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
-  CartNotEmptyGuard,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { ShippingAddressComponent } from './shipping-address.component';
 

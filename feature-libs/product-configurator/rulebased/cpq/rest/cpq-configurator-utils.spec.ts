@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorTestUtils } from '../../shared/testing';
 import {
   attributeCheckbox,
   attributeRadioButton,
   productConfiguration,
-} from '../../shared/testing/configurator-test-data';
+} from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { CpqConfiguratorUtils } from './cpq-configurator-utils';
 

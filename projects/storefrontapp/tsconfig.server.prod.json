@@ -17,6 +17,15 @@
       "@spartacus/cart/main/occ": ["../../dist/cart/main/occ"],
       "@spartacus/cart/main/root": ["../../dist/cart/main/root"],
       "@spartacus/cart": ["../../dist/cart"],
+      "@spartacus/cart/quick-order/assets": [
+        "../../dist/cart/quick-order/assets"
+      ],
+      "@spartacus/cart/quick-order/components": [
+        "../../dist/cart/quick-order/components"
+      ],
+      "@spartacus/cart/quick-order": ["../../dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/core": ["../../dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order/root": ["../../dist/cart/quick-order/root"],
       "@spartacus/cart/saved-cart/assets": [
         "../../dist/cart/saved-cart/assets"
       ],
@@ -159,6 +168,7 @@
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/digital-payments": ["../../dist/digital-payments"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],

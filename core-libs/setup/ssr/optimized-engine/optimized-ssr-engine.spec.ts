@@ -1,5 +1,6 @@
+import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine } from './optimized-ssr-engine';
-import { fakeAsync, tick } from '@angular/core/testing';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
@@ -23,20 +24,26 @@ class TestEngineRunner {
   responseParams: object[] = [];
 
   renderCount = 0;
-  engineInstance;
+  optimizedSsrEngine: OptimizedSsrEngine;
+  engineInstance: NgExpressEngineInstance;
 
-  constructor(options: SsrOptimizationOptions) {
+  constructor(options: SsrOptimizationOptions, renderTime?: number) {
     // mocked engine instance that will render test output in 100 milliseconds
-    const engineInstanceMock = (filePath, _, callback) => {
+    const engineInstanceMock = (
+      filePath: string,
+      _: any,
+      callback: Function
+    ) => {
       setTimeout(() => {
         callback(undefined, `${filePath}-${this.renderCount++}`);
-      }, 100);
+      }, renderTime ?? 100);
     };
 
-    this.engineInstance = new OptimizedSsrEngine(
+    this.optimizedSsrEngine = new OptimizedSsrEngine(
       engineInstanceMock,
       options
-    ).engineInstance;
+    );
+    this.engineInstance = this.optimizedSsrEngine.engineInstance;
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
@@ -47,7 +54,7 @@ class TestEngineRunner {
         originalUrl: url,
       },
       res: {
-        set: (key, value) => (response[key] = value),
+        set: (key: string, value: any) => (response[key] = value),
       },
     };
 
@@ -307,6 +314,109 @@ describe('OptimizedSsrEngine', () => {
       tick(50);
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
+    }));
+  });
+
+  describe('maxRenderTime option', () => {
+    const fiveMinutes = 300000;
+
+    it('should not kick-in for the non-hanging (normal) renders', fakeAsync(() => {
+      const renderTime = 10;
+      const requestUrl = 'a';
+      const engineRunner = new TestEngineRunner({}, renderTime).request(
+        requestUrl
+      );
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      tick(renderTime + 1);
+      expect(engineRunner.renderCount).toEqual(1);
+      expect(engineRunner.optimizedSsrEngine['log']).not.toHaveBeenCalledWith(
+        `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
+        false
+      );
+    }));
+
+    it('should use the default value of 5 minutes for hanging renders', fakeAsync(() => {
+      const requestUrl = 'a';
+      const renderTime = fiveMinutes + 100;
+      const engineRunner = new TestEngineRunner({}, renderTime).request(
+        requestUrl
+      );
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      tick(fiveMinutes);
+      expect(engineRunner.renderCount).toEqual(0);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
+        false
+      );
+
+      tick(101);
+      expect(engineRunner.renderCount).toEqual(1);
+    }));
+
+    it('should use the provided value instead of the default one', fakeAsync(() => {
+      const requestUrl = 'a';
+      const renderTime = 200;
+      const maxRenderTime = renderTime - 50; // shorter than the predicted render time
+      const engineRunner = new TestEngineRunner(
+        { maxRenderTime },
+        renderTime
+      ).request(requestUrl);
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      tick(maxRenderTime);
+      expect(engineRunner.renderCount).toEqual(0);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
+        false
+      );
+
+      tick(50);
+      expect(engineRunner.renderCount).toEqual(1);
+    }));
+
+    it('should release the concurrency slot for the hanging render', fakeAsync(() => {
+      const hangingRequest = 'a';
+      const csrRequest = 'b';
+      const ssrRequest = 'c';
+      const renderTime = 200;
+      const maxRenderTime = renderTime - 50; // shorter than the predicted render time
+      const engineRunner = new TestEngineRunner(
+        { concurrency: 1, maxRenderTime },
+        renderTime
+      );
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      // issue two requests
+      engineRunner.request(hangingRequest);
+      engineRunner.request(csrRequest);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
+
+      tick(1);
+      // while the concurrency slot is busy rendering the first hanging request, the second request gets the CSR version
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `CSR fallback: Concurrency limit exceeded (1)`
+      );
+      expect(engineRunner.renderCount).toEqual(0);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
+
+      tick(maxRenderTime);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
+        false
+      );
+      expect(engineRunner.renderCount).toEqual(0);
+
+      // even though the hanging request is still rendering, we've freed up a slot for a new request
+      engineRunner.request(ssrRequest);
+      tick(1);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `Rendering started (${ssrRequest})`
+      );
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
+
+      flush();
     }));
   });
 });

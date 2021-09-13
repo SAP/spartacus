@@ -12,7 +12,7 @@ import {
   GROUP_ID_8,
   productConfiguration,
   productConfigurationWithConflicts,
-} from '../../shared/testing/configurator-test-data';
+} from '../../testing/configurator-test-data';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
