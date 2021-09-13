@@ -7,12 +7,14 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { PageComponentModule } from '@spartacus/storefront';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AddToSavedCartsComponent: {

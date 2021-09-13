@@ -7,7 +7,7 @@ cx-add-to-saved-cart {
     margin-top: 3rem;
 
     .cx-action-link {
-      &:last-child {
+      //&:first-child {
         margin-inline-end: 0;
         &:before {
           content: '|';
@@ -17,7 +17,7 @@ cx-add-to-saved-cart {
           margin-inline-start: 0.313rem;
           margin-inline-end: 0.313rem;
         }
-      }
+      //}
     }
 
     @include media-breakpoint-up(sm) {
