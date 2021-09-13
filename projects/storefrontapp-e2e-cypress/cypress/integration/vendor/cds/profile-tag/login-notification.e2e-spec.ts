@@ -9,7 +9,6 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 describe('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cy.intercept('POST', '**/users/current/loginnotification*').as(loginAlias);
     navigation.visitHomePage({
@@ -37,7 +36,8 @@ describe('login notification', () => {
     loginHelper.registerUser();
     loginHelper.loginUser();
     cy.wait(`@${loginAlias}`).then((xhr) => {
-      expect(xhr.request.headers['X-Consent-Reference']).to.eq(
+      // xhr request headers have lower case for header names. The actual header is: `X-Consent-Reference`.
+      expect(xhr.request.headers['x-consent-reference']).to.eq(
         profileTagHelper.testCr
       );
     });

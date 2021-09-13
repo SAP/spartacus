@@ -4,7 +4,7 @@ export const strategyRequestAlias = 'strategyProductsApiRequest';
 
 export const cdsHelper = {
   setUpMocks(alias: string): void {
-    cy.route(
+    cy.intercept(
       'GET',
       '/strategy/*/strategies/*/products**',
       merchandisingCarousel.STRATEGY_RESPONSE
