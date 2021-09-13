@@ -32,23 +32,26 @@ export class ExportCsvService {
 
   downloadCsv(
     csvData: string,
-    filename = 'data',
-    extension = 'csv',
-    delay = 0
+    {
+      fileName = 'data',
+      extension = 'csv',
+      type = 'text/csv;charset=utf-8;',
+      downloadDelay = 0,
+    }
   ) {
     setTimeout(() => {
-      let blob = new Blob(['\ufeff' + csvData], {
-        type: 'text/csv;charset=utf-8;',
+      const blob = new Blob(['\ufeff' + csvData], {
+        type,
       });
-      let link = document.createElement('a');
-      let url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
 
       link.setAttribute('href', url);
-      link.setAttribute('download', `${filename}.${extension}`);
+      link.setAttribute('download', `${fileName}.${extension}`);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    }, delay);
+    }, downloadDelay);
   }
 }
