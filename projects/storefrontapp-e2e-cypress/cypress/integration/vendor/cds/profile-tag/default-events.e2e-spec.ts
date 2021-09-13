@@ -5,6 +5,7 @@ import * as loginHelper from '../../../../helpers/login';
 import * as paymentHelper from '../../../../helpers/payment-methods';
 import { navigation } from '../../../../helpers/navigation';
 import * as productSearch from '../../../../helpers/product-search';
+import * as promotionsHelper from '../../../../helpers/applied-promotions';
 import {
   createProductQuery,
   QUERY_ALIAS,
@@ -17,7 +18,6 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 describe('Profile-tag events', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -55,11 +55,11 @@ describe('Profile-tag events', () => {
     });
 
     it('should send a CartModified event on modifying the cart', () => {
+      goToProductPage();
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/anonymous/carts/*`
       ).as('getRefreshedCart');
-      goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-cart-item cx-item-counter').get(`[aria-label="Add one more"]`).first().click();
@@ -192,17 +192,25 @@ describe('Profile-tag events', () => {
     const tokenAuthRequestAlias = loginHelper.listenForTokenAuthenticationRequest();
     loginHelper.loginUser();
     cy.wait(tokenAuthRequestAlias).its('status').should('eq', 200);
-    checkoutFlow.visitHomePage();
-    checkoutFlowPersistentUser.goToProductPageFromCategory();
-    checkoutFlowPersistentUser.addProductToCart();
-    //checkoutFlowPersistentUser.addPaymentMethod();
-    paymentHelper.addPaymentMethod(paymentHelper.testPaymentDetail[0]);
-    cy.wait(0).then(() => {
-      checkoutFlowPersistentUser.addShippingAddress();
+
+    goToProductPage();
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.get('cx-added-to-cart-dialog .btn-primary').click();
+
+    cy.get('.cart-details-wrapper > :nth-child(1)').then(($cart) => {
+      const cartId = $cart.text().match(/[0-9]+/)[0];
+      cy.log(`CartId: ${cartId}`);
+      cy.window()
+        .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+        .then(({ token }) => {
+          const stateAuth = token;
+          cy.requireShippingAddressAdded(promotionsHelper.defaultAddress, stateAuth, cartId);
+          cy.requirePaymentMethodAdded(cartId);
+        });
+        promotionsHelper.selectShippingAddress();
+        promotionsHelper.selectDeliveryMethod();
+        promotionsHelper.selectPaymentMethod();
     });
-    checkoutFlowPersistentUser.selectShippingAddress();
-    checkoutFlowPersistentUser.selectDeliveryMethod();
-    checkoutFlowPersistentUser.selectPaymentMethod();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       `checkout/review-order`
@@ -315,7 +323,17 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a Navigated event when a navigation occurs', () => {
+  it('should send a Navigated event when a navigation to product page occurs', () => {
+    goToProductPage();
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.window().then((win) => {
+      expect(
+        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
+      ).to.equal(1);
+    });
+  });
+
+  it('should send a Navigated event when a navigation to category page occurs', () => {
     const categoryPage = checkoutFlow.waitForPage(
       'CategoryPage',
       'getCategory'
@@ -324,6 +342,7 @@ describe('Profile-tag events', () => {
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
     cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    // The above click sequence only results in merchandisingCarouselViewEvent and not navigation
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
@@ -336,7 +355,6 @@ describe('Profile-tag events', () => {
 // and the next will then have consent granted
 describe('Consent Changed', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
