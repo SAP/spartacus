@@ -7,13 +7,13 @@ import { login } from '../../support/utils/login';
 
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    context('Basic functionality', () => {
+    context('Anonymous user', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
 
-    context('visiting homepage', () => {
+    context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
@@ -37,7 +37,11 @@ describe('Cart', () => {
       it('should add product and manipulate cart quantity', () => {
         cart.manipulateCartQuantity();
       });
+    });
+  });
 
+  viewportContext(['desktop'], () => {
+    context('Anonymous user', () => {
       it('should be unable to add out of stock products to cart', () => {
         cart.outOfStock();
       });
@@ -47,15 +51,20 @@ describe('Cart', () => {
         cy.reload();
         cart.verifyCartNotEmpty();
       });
+    });
+
+    context('Registered user', () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cart.loginRegisteredUser();
+        visitHomePage();
+      });
 
       it('should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
-        // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
-        // Related issue: #4672
-        cy.wait(2000);
         cy.window().then((window) => {
           const storage = JSON.parse(
             window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
@@ -71,9 +80,6 @@ describe('Cart', () => {
           cy.get('.cart-details-wrapper .cx-total').contains(
             `Cart #${cartCode}`
           );
-          cy.selectUserMenuOption({
-            option: 'Sign Out',
-          });
         });
       });
 
@@ -94,27 +100,6 @@ describe('Cart', () => {
           )}/users/current/carts?fields*`
         ).as('carts');
         cart.loginCartUser();
-        cy.wait('@carts');
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
-
-        // cleanup
-        cart.removeCartItem(cart.products[0]);
-        cart.validateEmptyCart();
-      });
-
-      it('should load cart saved in browser storage', () => {
-        cart.loginCartUser();
-        cy.visit(`/product/${cart.products[0].code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
-        cy.reload();
-        cy.intercept(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts*`
-        ).as('carts');
         cy.wait('@carts');
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
@@ -206,7 +191,7 @@ describe('Cart', () => {
           false
         ).then((res) => {
           expect(res.status).to.eq(200);
-          // remove cart
+          cy.log('Removing current Cart for the test case');
           cy.request({
             method: 'DELETE',
             url: `${Cypress.env('API_URL')}/${Cypress.env(
