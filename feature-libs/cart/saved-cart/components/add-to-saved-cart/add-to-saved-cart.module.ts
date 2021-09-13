@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -15,6 +16,7 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
     CommonModule,
     RouterModule,
     PageComponentModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AddToSavedCartsComponent: {
