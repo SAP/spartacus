@@ -33,8 +33,7 @@ describe('login notification', () => {
       });
   });
   it('should call the login endpoint of EC on a successful login', () => {
-    loginHelper.registerUser();
-    loginHelper.loginUser();
+    loginHelper.loginAsDefaultUser();
     cy.wait(`@${loginAlias}`).then((xhr) => {
       // xhr request headers have lower case for header names. The actual header is: `X-Consent-Reference`.
       expect(xhr.request.headers['x-consent-reference']).to.eq(
