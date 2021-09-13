@@ -246,7 +246,10 @@
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
+      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"],
+      "@spartacus/storefront/cms-wrapper": [
+        "../../projects/storefrontlib/cms-wrapper"
+      ]
     }
   },
   "angularCompilerOptions": {
