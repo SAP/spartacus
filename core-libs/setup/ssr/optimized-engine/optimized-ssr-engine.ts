@@ -35,13 +35,13 @@ export class OptimizedSsrEngine {
    * and invoke them with the html after the initial render outputs the html.
    *
    * For a given rendering key, it can have the following values:
-   * - null               = there are no pending requests for the rendering key
+   * - undefined          = there are no pending requests for the rendering key
    * - empty array        = there is only one main pending request for the rendering key, which is being rendered,
    *                          but no other requests are waiting to reuse the result.
    * - elements in array  = there is one main pending request which is being rendered, and the elements of the array
    *                          are the render callbacks for the requests waiting to reuse the result
    */
-  private waitingRenderCallbacks = new Map<string, SsrCallbackFn[] | null>();
+  private waitingRenderCallbacks = new Map<string, SsrCallbackFn[]>();
 
   get engineInstance(): NgExpressEngineInstance {
     return this.renderResponse.bind(this);
