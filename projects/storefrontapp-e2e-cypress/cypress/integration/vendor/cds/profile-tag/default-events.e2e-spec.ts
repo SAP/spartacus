@@ -62,8 +62,10 @@ describe('Profile-tag events', () => {
       ).as('getRefreshedCart');
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.wait(500);
       cy.get('cx-cart-item cx-item-counter').get(`[aria-label="Add one more"]`).first().click();
       cy.wait('@getRefreshedCart');
+      cy.wait(1500);
       cy.window().then((win) => {
         expect(
           profileTagHelper.eventCount(
