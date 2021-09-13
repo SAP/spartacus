@@ -11,7 +11,7 @@ describe('login notification', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
-    cy.route('POST', '**/users/current/loginnotification**').as(loginAlias);
+    cy.intercept('POST', '**/users/current/loginnotification*').as(loginAlias);
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
@@ -21,7 +21,7 @@ describe('login notification', () => {
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
   });
-  it('should not call the login endpont of EC on a failed login', () => {
+  it('should not call the login endpoint of EC on a failed login', () => {
     loginHelper.loginWithBadCredentials();
     navigation
       .visitHomePage({
@@ -33,8 +33,9 @@ describe('login notification', () => {
         expect(navigation.requestsCount(loginAlias)).eq(0);
       });
   });
-  it('should call the login endpont of EC on a successful login', () => {
-    loginHelper.loginAsDefaultUser();
+  it('should call the login endpoint of EC on a successful login', () => {
+    loginHelper.registerUser();
+    loginHelper.loginUser();
     cy.wait(`@${loginAlias}`).then((xhr) => {
       expect(xhr.request.headers['X-Consent-Reference']).to.eq(
         profileTagHelper.testCr

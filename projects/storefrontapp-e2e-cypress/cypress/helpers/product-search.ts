@@ -268,7 +268,7 @@ export function createProductQuery(
   pageSize: number,
   currentPage: string = ''
 ): void {
-  cy.route(
+  cy.intercept(
     'GET',
     `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
   ).as(alias);

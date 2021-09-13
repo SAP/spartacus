@@ -51,7 +51,7 @@ export const profileTagHelper = {
   profileTagScriptResponse: {},
 
   grantConsent() {
-    cy.route('POST', '/consent/*/consentReferences').as(
+    cy.intercept('POST', '/consent/*/consentReferences').as(
       'consentReferenceCreation'
     );
     clickAllowAllFromBanner();

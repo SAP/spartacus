@@ -69,7 +69,7 @@ export function addProductToCart() {
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
 }
 
-export function addPaymentMethod() {
+export function addPaymentMethod(user=username) {
   cy.get('.cx-total')
     .first()
     .then(($cart) => {
@@ -80,7 +80,7 @@ export function addPaymentMethod() {
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/users/${user}/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
