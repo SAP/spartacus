@@ -41,7 +41,7 @@ describe('ExportCsvService', () => {
   it('should convert data and download', () => {
     spyOn(service, 'dataToCsv').and.callThrough();
     spyOn(service, 'downloadCsv').and.callThrough();
-    service.convertDataToCsvAndDownload(mockEntries);
+    service.downloadCsv(service.dataToCsv(mockEntries));
     expect(service.dataToCsv).toHaveBeenCalledWith(mockEntries);
     expect(service.downloadCsv).toHaveBeenCalledWith(mockCsvString);
   });

@@ -1,60 +1,57 @@
-<ng-container>
-  <div
-    [cxFocus]="focusConfig"
-    (esc)="close('Escape clicked')"
-    class="cx-import-entries-dialog"
-  >
-    <div class="cx-import-entries-container">
-      <!-- Modal Header -->
-      <div class="modal-header cx-import-entries-header">
-        <ng-container>
-          <div class="cx-import-entries-title modal-title">
-            {{ 'importEntriesDialog.importProducts' | cxTranslate }}
-          </div>
-        </ng-container>
-
-        <button
-          (click)="close('Close Import Products Dialog')"
-          [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
-          class="cx-import-entries-close close"
-          type="button"
-          [disabled]="(summary$ | async)?.loading"
-        >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-          </span>
-        </button>
-      </div>
-
-      <!-- Modal Body -->
-
-      <ng-container
-        *ngIf="formState; else importSummary"
-        [ngSwitch]="placement$ | async"
-      >
-        <ng-container *ngSwitchCase="Placement.SAVED_CARTS">
-          <cx-import-to-saved-cart-form
-            (submitEvent)="importProducts($event)"
-          ></cx-import-to-saved-cart-form>
-        </ng-container>
-        <ng-container *ngSwitchCase="Placement.CART">
-          <cx-import-entries-form
-            (submitEvent)="importProducts($event)"
-          ></cx-import-entries-form>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <cx-import-entries-form
-            (submitEvent)="importProducts($event)"
-          ></cx-import-entries-form>
-        </ng-container>
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-import-entries-dialog"
+>
+  <div class="cx-import-entries-container">
+    <!-- Modal Header -->
+    <div class="modal-header cx-import-entries-header">
+      <ng-container>
+        <div class="cx-import-entries-title modal-title">
+          {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+        </div>
       </ng-container>
 
-      <ng-template #importSummary>
-        <cx-import-entries-summary
-          [summary]="summary$ | async"
-          (closeEvent)="close('Close Import Products Dialog')"
-        ></cx-import-entries-summary>
-      </ng-template>
+      <button
+        (click)="close('Close Import Products Dialog')"
+        [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
+        class="cx-import-entries-close close"
+        type="button"
+        [disabled]="(summary$ | async)?.loading"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
     </div>
+
+    <!-- Modal Body -->
+
+    <ng-container
+      *ngIf="formState; else importSummary"
+      [ngSwitch]="placement$ | async"
+    >
+      <cx-import-to-saved-cart-form
+        (submitEvent)="importProducts($event)"
+        *ngSwitchCase="Placement.SAVED_CARTS"
+      ></cx-import-to-saved-cart-form>
+
+      <cx-import-entries-form
+        (submitEvent)="importProducts($event)"
+        *ngSwitchCase="Placement.CART"
+      ></cx-import-entries-form>
+
+      <cx-import-entries-form
+        (submitEvent)="importProducts($event)"
+        *ngSwitchDefault
+      ></cx-import-entries-form>
+    </ng-container>
+
+    <ng-template #importSummary>
+      <cx-import-entries-summary
+        [summary]="summary$ | async"
+        (closeEvent)="close('Close Import Products Dialog')"
+      ></cx-import-entries-summary>
+    </ng-template>
   </div>
-</ng-container>
+</div>
