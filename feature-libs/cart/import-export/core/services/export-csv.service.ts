@@ -37,7 +37,7 @@ export class ExportCsvService {
       extension = 'csv',
       type = 'text/csv;charset=utf-8;',
       downloadDelay = 0,
-    }
+    } = {}
   ) {
     setTimeout(() => {
       const blob = new Blob(['\ufeff' + csvData], {
