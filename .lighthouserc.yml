@@ -55,12 +55,12 @@ ci:
       themed-omnibox: 'warn'
       total-byte-weight:
         - error
-        - minScore: 0.65
+        - minScore: 0.55
       unminified-javascript: 'warn'
       unsized-images: 'warn'
       unused-css-rules:
         - error
-        - maxLength: 6
+        - maxLength: 7
         - minScore: 0.19
         # - minScore: 0.19
         # - minScore: 0.14
