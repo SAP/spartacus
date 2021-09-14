@@ -13,10 +13,10 @@ ci:
       valid-source-maps: 'off'
       robots-txt: 'off'
       uses-webp-images: 'off'
-      uses-optimized-images: 'warn'
       color-contrast: 'off'
-      button-name: 'warn'
       csp-xss: 'off'
+      button-name: 'warn'
+      uses-optimized-images: 'warn'
       errors-in-console: 'warn'
       font-display: 'warn'
       image-alt: 'warn'
@@ -34,26 +34,20 @@ ci:
       first-contentful-paint:
         - error
         - maxNumericValue: 11000
-          aggregationMethod: optimistic
       interactive:
         - error
         - maxNumericValue: 20000
-          aggregationMethod: optimistic
       total-byte-weight:
         - error
         - minScore: 0.5
-          aggregationMethod: optimistic
       unminified-javascript:
         - error
         - maxLength: 1
-          aggregationMethod: optimistic
       uses-text-compression:
         - error
         - maxLength: 13
-          aggregationMethod: optimistic
       uses-rel-preconnect:
         - error
         - maxLength: 5
-          aggregationMethod: optimistic
   upload:
     target: 'temporary-public-storage'
