@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
@@ -58,7 +58,6 @@ export class LaunchDialogService {
       );
     }
   }
-
   /**
    * Render the element based on the strategy from the launch configuration
    *
