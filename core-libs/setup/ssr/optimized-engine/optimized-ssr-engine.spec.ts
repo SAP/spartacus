@@ -628,7 +628,6 @@ describe('OptimizedSsrEngine', () => {
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
           engineRunner.request(requestUrl);
-
           tick(200);
 
           engineRunner.request(requestUrl);
@@ -643,7 +642,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.renderCount).toEqual(1);
           expect(engineRunner.renders).toEqual(['', `${requestUrl}-0`]);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Processing 1 waiting SSR requests for ${requestUrl}...`
+            `Processing 2 waiting SSR requests for ${requestUrl}...`
           );
 
           flush();
@@ -727,7 +726,7 @@ describe('OptimizedSsrEngine', () => {
             `${requestUrl}-0`,
           ]);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Processing 3 waiting SSR requests for ${requestUrl}...`
+            `Processing 4 waiting SSR requests for ${requestUrl}...`
           );
 
           flush();
