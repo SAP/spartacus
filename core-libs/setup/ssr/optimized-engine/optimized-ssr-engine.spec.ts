@@ -101,10 +101,14 @@ describe('OptimizedSsrEngine', () => {
     it('should return timed out render in the followup request, also when timeout is set to 0', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
       expect(engineRunner.renders).toEqual(['']);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
 
       tick(200);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
+
       engineRunner.request('a');
       expect(engineRunner.renders[1]).toEqual('a-0');
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
     }));
   });
 
@@ -156,12 +160,20 @@ describe('OptimizedSsrEngine', () => {
         cache: true,
         timeout: 200,
       }).request('a');
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
 
       tick(200);
+
       engineRunner.request('a');
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
+
       tick(200);
+
       engineRunner.request('a');
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
+
       tick(200);
+
       expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
     }));
   });
@@ -300,8 +312,15 @@ describe('OptimizedSsrEngine', () => {
         ).and.callThrough();
 
         engineRunner.request('a');
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
+
         tick(1);
         engineRunner.request('a');
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          2
+        );
         expect(engineRunner.renders).toEqual([]);
 
         tick(100);
@@ -309,6 +328,9 @@ describe('OptimizedSsrEngine', () => {
         expect(
           engineRunner.optimizedSsrEngine['expressEngine']
         ).toHaveBeenCalledTimes(2);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          0
+        );
       }));
     });
 
@@ -363,14 +385,23 @@ describe('OptimizedSsrEngine', () => {
           renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
           timeout: 200,
         }).request('a');
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
 
         tick(1);
         engineRunner.request('a');
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          1
+        );
 
         expect(engineRunner.renders).toEqual(['']); // immediate fallback to CSR for the 2nd request for the same key
 
         tick(100);
         expect(engineRunner.renders).toEqual(['', 'a-0']);
+        expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+          0
+        );
       }));
     });
 
@@ -394,21 +425,24 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('forcedSsrTimeout option', () => {
-    it('should fallback to csr when forcedSsrTimeout timeout is exceeded for ALWAYS_SSR rendering strategy, and return the timed out render in the followup request', fakeAsync(() => {
+    it('should fallback to CSR when forcedSsrTimeout timeout is exceeded for ALWAYS_SSR rendering strategy, and return the timed out render in the followup request', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
         timeout: 50,
         forcedSsrTimeout: 80,
       }).request('a');
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(1);
 
       tick(60);
       expect(engineRunner.renders).toEqual([]);
 
       tick(50);
       expect(engineRunner.renders).toEqual(['']);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
 
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
+      expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(0);
     }));
 
     it('should not affect DEFAULT rendering strategy', fakeAsync(() => {
