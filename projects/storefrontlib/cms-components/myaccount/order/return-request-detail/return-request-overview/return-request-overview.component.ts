@@ -1,14 +1,17 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
+import { ReturnRequest } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ReturnRequest } from '@spartacus/core';
 import { ReturnRequestService } from '../return-request.service';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-return-request-overview',
   templateUrl: './return-request-overview.component.html',
