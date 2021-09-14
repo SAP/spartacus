@@ -326,7 +326,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a Navigated event when a navigation to category page occurs', () => {
+  it('should not send a Navigated event when merchandising banner is clicked', () => {
     const categoryPage = checkoutFlow.waitForPage(
       'CategoryPage',
       'getCategory'
@@ -334,12 +334,11 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    // The above click sequence only results in merchandisingCarouselViewEvent and not navigation
     cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
-      ).to.equal(1);
+      ).to.equal(0);
     });
   });
 });
