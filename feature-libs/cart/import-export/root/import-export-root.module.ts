@@ -14,6 +14,7 @@ import { CART_IMPORT_EXPORT_FEATURE } from './feature-name';
           cmsComponents: [
             'ExportOrderEntriesComponent',
             'ImportProductsComponent',
+            'CombinedImportExportComponent',
           ],
         },
       },
