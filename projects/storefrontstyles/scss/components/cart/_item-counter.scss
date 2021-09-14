@@ -25,15 +25,15 @@
   }
 
   &:not(.readonly) {
-    display: inline-flex;
-    border: solid 1px var(--cx-color-light);
     border-radius: 4px;
-    input {
-      border: solid 1px var(--cx-color-light);
-      border-width: 0 1px;
+    border: solid 1px var(--cx-color-light);
+    display: inline-flex;
 
-      padding: 12px 9px;
+    input {
+      border-width: 0 1px;
+      border: solid 1px var(--cx-color-light);
       max-height: 46px;
+      padding: 12px 9px;
       width: 46%;
 
       &:focus {
@@ -43,17 +43,13 @@
   }
 
   button {
+    background-color: var(--cx-color-transparent);
+    border: none;
+    color: var(--cx-color-text);
+    cursor: pointer;
     margin: 0;
-
     max-height: 48px;
     width: 27%;
-
-    border: none;
-
-    cursor: pointer;
-
-    color: var(--cx-color-text);
-    background-color: var(--cx-color-transparent);
 
     @include type(3);
 
@@ -63,8 +59,8 @@
 
     &:focus {
       color: var(--cx-color, var(--cx-color-primary));
-      font-weight: var(--cx-font-weight-bold);
       cursor: pointer;
+      font-weight: var(--cx-font-weight-bold);
     }
 
     &:disabled {
