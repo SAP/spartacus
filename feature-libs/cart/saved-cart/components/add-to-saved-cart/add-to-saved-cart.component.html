@@ -19,21 +19,5 @@
     >
       <span>{{ 'addToSavedCart.saveCartForLater' | cxTranslate }}</span>
     </button>
-    <ng-container
-      *cxFeatureLevel="'4.2'"
-      [cxComponentWrapper]="{
-        flexType: 'ExportOrderEntriesComponent',
-        typeCode: 'CMSFlexComponent',
-        uid: 'ExportOrderEntriesComponent'
-      }"
-    ></ng-container>
-    <ng-container
-      *cxFeatureLevel="'4.2'"
-      [cxComponentWrapper]="{
-        flexType: 'ImportProductsComponent',
-        typeCode: 'CMSFlexComponent',
-        uid: 'ImportProductsComponent'
-      }"
-    ></ng-container>
   </div>
 </ng-container>

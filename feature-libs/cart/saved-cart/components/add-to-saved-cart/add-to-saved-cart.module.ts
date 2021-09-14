@@ -4,19 +4,15 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
-  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    PageComponentModule,
-    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AddToSavedCartsComponent: {
