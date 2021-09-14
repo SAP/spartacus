@@ -350,13 +350,6 @@ export class OptimizedSsrEngine {
 
         // Note: we access the Map at the moment of the render finished (don't store value it in a local variable),
         //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
-        if (this.renderCallbacks.get(renderingKey)?.length) {
-          this.log(
-            `Processing ${
-              this.renderCallbacks.get(renderingKey)?.length
-            } waiting SSR requests for ${request.originalUrl}...`
-          );
-        }
         this.renderCallbacks.get(renderingKey)?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
         this.renderCallbacks.delete(renderingKey);
       });
