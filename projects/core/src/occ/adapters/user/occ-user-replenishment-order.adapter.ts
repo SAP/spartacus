@@ -1,16 +1,19 @@
-import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { REPLENISHMENT_ORDER_NORMALIZER } from '../../../checkout/connectors/replenishment-order/converters';
 import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order/user-replenishment-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+/**
+ * @deprecated since 4.2 - use OccReplenishmentOrderAdapter in @spartacus/order/occ instead
+ */
 @Injectable()
 export class OccUserReplenishmentOrderAdapter
   implements UserReplenishmentOrderAdapter {
