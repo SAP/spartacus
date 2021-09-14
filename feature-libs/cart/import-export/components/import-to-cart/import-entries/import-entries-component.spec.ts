@@ -26,12 +26,14 @@ const MockCmsImportEntriesComponent = <CmsComponentData<any>>{
 };
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe(
+  openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef,
     _data?: any
-  ): void {}
+  ) {
+    return of();
+  }
 }
 
 describe('ImportEntriesComponent', () => {
@@ -55,7 +57,7 @@ describe('ImportEntriesComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     fixture.detectChanges();
     el = fixture.debugElement;
@@ -67,7 +69,7 @@ describe('ImportEntriesComponent', () => {
 
   it('should trigger an open dialog to import CSV', () => {
     component.openDialog(mockCmsComponentData);
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
       component['vcr'],
