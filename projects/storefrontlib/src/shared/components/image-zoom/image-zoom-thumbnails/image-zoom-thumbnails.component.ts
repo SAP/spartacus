@@ -13,7 +13,6 @@ import { ThumbnailsGroup } from './image-zoom-thumbnails.model';
 @Component({
   selector: 'cx-image-zoom-thumbnails',
   templateUrl: './image-zoom-thumbnails.component.html',
-  styleUrls: ['image-zoom-thumbnails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomThumbnailsComponent {
