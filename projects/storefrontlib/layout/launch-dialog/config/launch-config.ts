@@ -7,7 +7,8 @@ export interface LaunchConfig {
 export type LaunchOptions =
   | LaunchOutletDialog
   | LaunchInlineDialog
-  | LaunchRoute;
+  | LaunchRoute
+  | LaunchGlobalDialog;
 
 /**
  * Parent type for configurations that render components
@@ -43,6 +44,13 @@ export interface LaunchOutletDialog extends LaunchDialog {
  */
 export interface LaunchInlineDialog extends LaunchDialog {
   inline: boolean;
+}
+
+/**
+ * Configuration type to render globally (FIND A BETTER NAME)
+ */
+export interface LaunchGlobalDialog extends LaunchDialog {
+  global: boolean;
 }
 
 /**

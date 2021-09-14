@@ -4,7 +4,7 @@ import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component
 export const defaultSavedCartFormLayoutConfig: LayoutConfig = {
   launch: {
     SAVED_CART: {
-      inline: true,
+      global: true,
       component: SavedCartFormDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
