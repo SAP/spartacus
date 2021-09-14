@@ -33,7 +33,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
     config: LaunchInlineDialog,
     caller: LAUNCH_CALLER | string,
     vcr: ViewContainerRef
-  ): Observable<ComponentRef<any> | undefined> | void {
+  ): Observable<ComponentRef<any>> {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
