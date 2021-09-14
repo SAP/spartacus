@@ -47,13 +47,16 @@ class TestEngineRunner {
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
-  request(url: string) {
-    const response = {};
+  request(url: string, params?: { httpHeaders?: { [key: string]: string } }) {
+    const response: { [key: string]: string } = {};
+    const headers = new Headers(params?.httpHeaders ?? {});
     const optionsMock = {
-      req: {
+      req: <Partial<Request>>{
         originalUrl: url,
+        headers,
+        get: (header: string): string | null => headers.get(header),
       },
-      res: {
+      res: <Partial<Response>>{
         set: (key: string, value: any) => (response[key] = value),
       },
     };
@@ -368,6 +371,24 @@ describe('OptimizedSsrEngine', () => {
 
         tick(100);
         expect(engineRunner.renders).toEqual(['', 'a-0']);
+      }));
+    });
+
+    describe('custom resolver function', () => {
+      it('should return different strategies for different requests', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          renderingStrategyResolver: (req) =>
+            req.get('User-Agent')?.match(/bot|crawl|slurp|spider|mediapartners/)
+              ? RenderingStrategy.ALWAYS_SSR
+              : RenderingStrategy.DEFAULT,
+          timeout: 50,
+        });
+
+        engineRunner.request('a');
+        engineRunner.request('a', { httpHeaders: { 'User-Agent': 'bot' } });
+        tick(200);
+
+        expect(engineRunner.renders).toEqual(['', 'a-1']);
       }));
     });
   });
