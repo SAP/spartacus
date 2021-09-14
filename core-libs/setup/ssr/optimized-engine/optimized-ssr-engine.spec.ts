@@ -176,7 +176,13 @@ describe('OptimizedSsrEngine', () => {
         .request('e');
 
       tick(200);
-      expect(engineRunner.renders).toEqual(['', '', 'a-0', 'b-1', 'c-2']); // first two '' are CSR fallbacks for requests 'd' and 'e'
+      expect(engineRunner.renders).toEqual([
+        '', // CSR fallback for 'd'
+        '', // CSR fallback for 'e'
+        'a-0',
+        'b-1',
+        'c-2',
+      ]);
     }));
 
     it('should reinvigorate limit after emptying the queue', fakeAsync(() => {
