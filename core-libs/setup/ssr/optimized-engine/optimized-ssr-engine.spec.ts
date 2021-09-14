@@ -375,7 +375,7 @@ describe('OptimizedSsrEngine', () => {
     });
 
     describe('custom resolver function', () => {
-      it('should return different strategies for different requests', fakeAsync(() => {
+      it('should return different strategies for different types of request', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: (req) =>
             req.get('User-Agent')?.match(/bot|crawl|slurp|spider|mediapartners/)
