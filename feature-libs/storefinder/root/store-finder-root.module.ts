@@ -12,7 +12,7 @@ export function defaultStoreFinderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [STORE_FINDER_FEATURE]: {
-        cmsComponents: ['StoreFinderComponent'],
+        cmsComponents: ['StoreFinderComponent', 'CMSProductListComponent'],
       },
     },
   };
