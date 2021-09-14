@@ -20,6 +20,11 @@ import {
   StateWithUser,
 } from '../store/user-state';
 
+/**
+ * @deprecated since 4.2 - use ReplenishmentOrderFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in ReplenishmentOrderService's constructor,
+ * need to update it in 5.0 migration doc.
+ */
 @Injectable({
   providedIn: 'root',
 })
