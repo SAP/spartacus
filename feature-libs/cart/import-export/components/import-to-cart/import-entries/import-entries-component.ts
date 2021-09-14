@@ -13,10 +13,7 @@ import {
   LAUNCH_CALLER,
   CmsComponentData,
 } from '@spartacus/storefront';
-import {
-  CmsImportEntriesComponent,
-  FileValidity,
-} from '@spartacus/cart/import-export/core';
+import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',
@@ -35,12 +32,12 @@ export class ImportEntriesComponent implements OnDestroy {
     protected componentData: CmsComponentData<CmsImportEntriesComponent>
   ) {}
 
-  openDialog(fileValidity: FileValidity): void {
+  openDialog(cmsData: CmsImportEntriesComponent): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
       this.vcr,
-      fileValidity
+      cmsData
     );
 
     if (dialog) {
