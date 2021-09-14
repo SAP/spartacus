@@ -9,33 +9,67 @@ ci:
   assert:
     preset: lighthouse:recommended
     assertions:
-      offscreen-images: 'warn'
-      valid-source-maps: 'warn'
-      robots-txt: 'off'
-      uses-webp-images: 'off'
-      color-contrast: 'off'
-      csp-xss: 'off'
+      bootup-time:
+        - error
+        - minScore: 0.44
       button-name: 'warn'
-      uses-optimized-images: 'warn'
+      color-contrast: 'warn'
+      csp-xss: 'warn'
+      cumulative-layout-shift:
+        - error
+        - minScore: 0.03 
+        # - minScore: 0.02 
       errors-in-console: 'warn'
+      first-contentful-paint:
+        - error
+        - minScore: 0.3
+      first-meaningful-paint: 'warn'
       font-display: 'warn'
       image-alt: 'warn'
       image-size-responsive: 'warn'
+      interactive:
+        - error
+        - minScore: 0.04
+      largest-contentful-paint: 'warn'
+      legacy-javascript: 'warn'
+      link-name: 'warn'
+      mainthread-work-breakdown:
+        - error
+        - minScore: 0.14
       maskable-icon: 'warn'
+      max-potential-fid: 'warn'
       meta-description: 'warn'
+      modern-image-formats: 'warn'
       non-composited-animations: 'warn'
+      offscreen-images: 'warn'
+      render-blocking-resources:
+        - error
+        - maxLength: 2
+      robots-txt: 'warn'
+      server-response-time: 'warn'
       service-worker: 'warn'
+      speed-index:
+        - error
+        - minScore: 0.1
       tap-targets: 'warn'
       themed-omnibox: 'warn'
-      unsized-images: 'warn'
-      unused-css-rules: 'warn'
-      unused-javascript: 'warn'
-      uses-text-compression: 'off'
-      link-name: 'warn'
-      first-contentful-paint: 'warn'
-      interactive: 'warn'
-      total-byte-weight: 'warn'
+      total-byte-weight:
+        - error
+        - minScore: 0.65
       unminified-javascript: 'warn'
+      unsized-images: 'warn'
+      unused-css-rules:
+        - error
+        - maxLength: 6
+        - minScore: 0.19
+        # - minScore: 0.19
+        # - minScore: 0.14
+        # - minScore: 0.21
+      unused-javascript: 'warn'
+      uses-optimized-images: 'warn'
       uses-rel-preconnect: 'warn'
+      uses-webp-images: 'warn'
+      valid-source-maps: 'warn'
+      uses-text-compression: 'warn'
   upload:
     target: 'temporary-public-storage'
