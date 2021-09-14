@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
@@ -57,23 +57,6 @@ export class LaunchDialogService {
         map(([comp]) => comp)
       );
     }
-  }
-
-  /**
-   * Opens dialog and subscribe in the service. Most useful for Outlet rendering since the trigger component is destroyed when rendering the dialog.
-   *
-   * @param caller Launch Caller
-   * @param openElement Element to open
-   * @param vcr ViewContainerRef (inline launch)
-   * @param data Data to provide to the rendered element
-   */
-  openDialogAndSubscribe(
-    caller: LAUNCH_CALLER | string,
-    openElement?: ElementRef,
-    vcr?: ViewContainerRef,
-    data?: any
-  ): void {
-    this.openDialog(caller, openElement, vcr, data)?.pipe(take(1)).subscribe();
   }
 
   /**

@@ -8,7 +8,7 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   OutletPosition,
   OutletService,
@@ -39,7 +39,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
   render(
     config: LaunchOutletDialog,
     caller: LAUNCH_CALLER | string
-  ): Observable<ComponentRef<any> | undefined> | void {
+  ): Observable<ComponentRef<any>> {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -68,8 +68,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
           if (config?.dialogType) {
             this.applyClasses(component, config?.dialogType);
           }
-        }),
-        take(1)
+        })
       );
     }
   }
