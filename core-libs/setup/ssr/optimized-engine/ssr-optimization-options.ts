@@ -77,9 +77,9 @@ export interface SsrOptimizationOptions {
 
   /**
    * Instead of immediately falling back to CSR
-   * while a render is in progress, this option will make
-   * the subsequent requests wait for the current render,
-   * honoring the `timeout` option.
+   * while a render for the same key is in progress, this option will make
+   * the subsequent requests for this key wait for the current render,
+   * honoring the `timeout` option, independently for each request.
    *
    * The requests that are waiting for the render will _not_
    * take up a concurrency slot.
