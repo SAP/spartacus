@@ -689,7 +689,7 @@ describe('OptimizedSsrEngine', () => {
         }));
       });
 
-      describe('the multiple subsequent requests for the same URL should reuse the render', () => {
+      describe('the multiple subsequent requests for the same rendering key should reuse the render', () => {
         it('and take up only one concurrent slot', fakeAsync(() => {
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
@@ -698,15 +698,20 @@ describe('OptimizedSsrEngine', () => {
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
           engineRunner.request(requestUrl);
+          expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+            1
+          );
 
           tick(200);
 
           engineRunner.request(requestUrl);
-          tick(1);
           engineRunner.request(requestUrl);
-          tick(1);
-          engineRunner.request(requestUrl);
+          expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+            1
+          );
 
+          tick(1);
+          engineRunner.request(requestUrl);
           expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
             1
           );
@@ -716,8 +721,14 @@ describe('OptimizedSsrEngine', () => {
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
             false
           );
+          expect(engineRunner.renders).toEqual(['']); // the first request fallback to CSR due to timeout
+          expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+            1
+          ); // the render still continues in the background
 
           tick(100);
+
+          // eventually the render succeeds and 3 waiting requests get the same response:
           expect(engineRunner.renderCount).toEqual(1);
           expect(engineRunner.renders).toEqual([
             '',
@@ -773,7 +784,7 @@ describe('OptimizedSsrEngine', () => {
       });
 
       describe('combined with maxRenderTime option', () => {
-        it('should free up only one concurrent slot when all the queued renders are hanging', fakeAsync(() => {
+        it('should free up only one concurrent slot when the render is hanging for many waiting requests', fakeAsync(() => {
           const hangingRequest = 'a';
           const ssrRequest = 'b';
           const renderTime = 200;
@@ -814,6 +825,10 @@ describe('OptimizedSsrEngine', () => {
           );
 
           flush();
+
+          expect(engineRunner.optimizedSsrEngine['currentConcurrency']).toEqual(
+            0
+          );
         }));
       });
 
