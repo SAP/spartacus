@@ -109,9 +109,11 @@ describe('ImportEntriesDialogComponent', () => {
     it('should call loadProductsToCart method', () => {
       loadProducts$.next(mockLoadProduct);
       component.importProducts({
-        name: mockName,
-        description: '',
         products: mockProducts,
+        savedCartInfo: {
+          name: mockName,
+          description: '',
+        },
       });
 
       expect(importToCartService.loadProductsToCart).toHaveBeenCalledWith(
@@ -126,9 +128,11 @@ describe('ImportEntriesDialogComponent', () => {
     it('should call populateSummary when products are loaded', () => {
       spyOn<any>(component, 'populateSummary');
       component.importProducts({
-        name: mockName,
-        description: '',
         products: mockProducts,
+        savedCartInfo: {
+          name: mockName,
+          description: '',
+        },
       });
 
       expect(component['populateSummary']).toHaveBeenCalledWith(

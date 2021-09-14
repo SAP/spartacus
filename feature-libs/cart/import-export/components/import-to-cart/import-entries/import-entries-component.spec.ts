@@ -29,7 +29,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
+    _data?: any
   ) {
     return of();
   }
@@ -67,17 +68,17 @@ describe('ImportEntriesComponent', () => {
   });
 
   it('should trigger an open dialog to import CSV', () => {
-    component.openDialog(mockCmsComponentData.fileValidity);
+    component.openDialog(mockCmsComponentData);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
       component['vcr'],
-      mockCmsComponentData.fileValidity
+      mockCmsComponentData
     );
   });
 
   it('should show import button', () => {
-    const button = el.queryAll(By.css('.btn'));
+    const button = el.queryAll(By.css('.link.cx-action-link'));
     expect(button.length).toEqual(1);
   });
 });

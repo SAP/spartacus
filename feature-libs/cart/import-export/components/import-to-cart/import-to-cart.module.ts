@@ -16,6 +16,7 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
+import { ImportToSavedCartFormComponent } from './import-entries-dialog/import-to-saved-cart-form/import-to-saved-cart-form.component';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
 import { NameSource } from '@spartacus/cart/import-export/core';
@@ -57,12 +58,14 @@ import { NameSource } from '@spartacus/cart/import-export/core';
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
+    ImportToSavedCartFormComponent,
   ],
   exports: [
     ImportEntriesComponent,
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
+    ImportToSavedCartFormComponent,
   ],
   providers: [provideConfig(defaultImportEntriesLayoutConfig)],
 })

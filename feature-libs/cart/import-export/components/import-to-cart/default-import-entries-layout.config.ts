@@ -4,7 +4,7 @@ import { ImportEntriesDialogComponent } from './import-entries-dialog/import-ent
 export const defaultImportEntriesLayoutConfig: LayoutConfig = {
   launch: {
     IMPORT_TO_CART: {
-      inline: true,
+      outlet: 'cx-storefront',
       component: ImportEntriesDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
