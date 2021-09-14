@@ -35,6 +35,11 @@
       "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["dist/tracking/tms"],
+      "@spartacus/cart/main/components": ["dist/cart/main/components"],
+      "@spartacus/cart/main/core": ["dist/cart/main/core"],
+      "@spartacus/cart/main": ["dist/cart/main"],
+      "@spartacus/cart/main/occ": ["dist/cart/main/occ"],
+      "@spartacus/cart/main/root": ["dist/cart/main/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [
