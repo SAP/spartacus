@@ -29,12 +29,16 @@ export class OptimizedSsrEngine {
   private templateCache = new Map<string, string>();
 
   /**
-   * When the config `reuseCurrentRendering` is true, we want to reuse the html result
+   * When the config `reuseCurrentRendering` is enabled, we want perform
+   * only one render for one rendering key and reuse the html result
    * for all the pending requests for the same rendering key.
-   * Therefore we need to store the callbacks for all the requests
+   * Therefore we need to store the callbacks for all the pending requests
    * and invoke them with the html after the render completes.
+   *
+   * This Map should be used only when `reuseCurrentRendering` config is enabled.
+   * It's indexed by the rendering keys.
    */
-  private waitingRenderCallbacks = new Map<string, SsrCallbackFn[]>();
+  private renderCallbacks = new Map<string, SsrCallbackFn[]>();
 
   get engineInstance(): NgExpressEngineInstance {
     return this.renderResponse.bind(this);
@@ -75,10 +79,10 @@ export class OptimizedSsrEngine {
    * When returns true, the server side rendering should be performed.
    * When returns false, the CSR fallback should be returned.
    *
-   * The CSR fallback should happen, when there is already
+   * We should not render, when there is already
    * a pending rendering for the same rendering key
-   * (unless the reuseCurrentRendering config option is enabled)
-   * OR when the concurrency limit for rendering various URLs is exceeded.
+   * (unless the `reuseCurrentRendering` config option is enabled)
+   * OR when the concurrency limit is exceeded.
    */
   protected shouldRender(request: Request): boolean {
     const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded();
@@ -101,6 +105,10 @@ export class OptimizedSsrEngine {
     );
   }
 
+  /**
+   * Returns true, if at this moment there is a pending render for the given rendering key.
+   * Otherwise, returns false.
+   */
   protected isRendering(request: Request): boolean {
     return this.renderingCache.isRendering(this.getRenderingKey(request));
   }
@@ -128,12 +136,24 @@ export class OptimizedSsrEngine {
     );
   }
 
+  /**
+   * Returns the timeout value.
+   *
+   * In case of the rendering strategy ALWAYS_SSR, it returns the config `forcedSsrTimeout`.
+   * Otherwise, it returns the config `timeout`.
+   */
   protected getTimeout(request: Request): number {
     return this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
       ? this.ssrOptions?.forcedSsrTimeout ?? 60000
       : this.ssrOptions?.timeout ?? 0;
   }
 
+  /**
+   * If there is an available cached response for this rendering key,
+   * it invokes the given render callback with the response and returns true.
+   *
+   * Otherwise, it returns false.
+   */
   protected returnCachedRender(
     request: Request,
     callback: SsrCallbackFn
@@ -224,7 +244,7 @@ export class OptimizedSsrEngine {
       );
 
       if (this.ssrOptions?.reuseCurrentRendering) {
-        this.waitingRenderCallbacks.delete(renderingKey);
+        this.renderCallbacks.delete(renderingKey);
       }
 
       this.decrementCurrentConcurrency({ isFirstRequestForKey });
@@ -296,7 +316,7 @@ export class OptimizedSsrEngine {
    * Delegates the render to the original _Angular Universal express engine_.
    *
    * In case when the config `reuseCurrentRendering` is enabled and **if there is already a pending
-   * render task for the same key**, it doesn't delegate a new render to Angular Universal.
+   * render task for the same rendering key**, it doesn't delegate a new render to Angular Universal.
    * Instead, it waits for the current rendering to complete and then reuse the result for all waiting requests.
    */
   private startRender({
@@ -319,28 +339,26 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    if (!this.waitingRenderCallbacks.has(renderingKey)) {
-      this.waitingRenderCallbacks.set(renderingKey, []);
+    if (!this.renderCallbacks.has(renderingKey)) {
+      this.renderCallbacks.set(renderingKey, []);
     }
-    this.waitingRenderCallbacks.get(renderingKey)?.push(renderCallback);
+    this.renderCallbacks.get(renderingKey)?.push(renderCallback);
 
     if (isFirstRequestForKey) {
       this.expressEngine(filePath, options, (err, html) => {
         // Share the result of the render with all awaiting requests for the same key:
 
-        // Note: we access the Map's array at the moment of the render finished (don't store the array it in a local variable),
-        //       because in the meantime something might have deleted the array (i.e. when `maxRenderTime` passed).
-        if (this.waitingRenderCallbacks.get(renderingKey)?.length) {
+        // Note: we access the Map at the moment of the render finished (don't store value it in a local variable),
+        //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
+        if (this.renderCallbacks.get(renderingKey)?.length) {
           this.log(
             `Processing ${
-              this.waitingRenderCallbacks.get(renderingKey)?.length
+              this.renderCallbacks.get(renderingKey)?.length
             } waiting SSR requests for ${request.originalUrl}...`
           );
         }
-        this.waitingRenderCallbacks
-          .get(renderingKey)
-          ?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks for this rendering key
-        this.waitingRenderCallbacks.delete(renderingKey);
+        this.renderCallbacks.get(renderingKey)?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
+        this.renderCallbacks.delete(renderingKey);
       });
     }
   }
