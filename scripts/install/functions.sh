@@ -226,6 +226,7 @@ function install_from_sources {
         'product'
         'setup'
         'cart'
+        'order'
         'asm'
         'user'
         'organization'

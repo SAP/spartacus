@@ -38,15 +38,15 @@
 #  (just to make this file easier to understand)
 # ================================================
 
-#  hackergil - Gilberto Alvarado Jimenez
-#  tobi-or-not-tobi - Tobias Ouwejan
-#  dunqan - Stanisław Stanisławski
 #  Platonn - Krzysztof Platis
 #  marlass - Marcin Lasak
 #  LTiger14 - Louis Pierrestiger
 #  znikola - Nikola Zarić
 #  developpeurweb - Miguel Estrada
 #  psmul - Patryk Smul
+#  plabadie - Patrick Labadie
+#  WeizhengSap - Weizheng Gao
+#  hackergil - Gilberto Alvarado Jimenez
 
 
 # ===========================================================
@@ -54,10 +54,6 @@
 # ===========================================================
 #  Used for approving minor changes, large-scale refactorings, and emergency situations.
 #  (secret team to avoid review requests)
-#
-#   - tobi-or-not-tobi
-#   - dunqan
-#   - hackergil
 
 
 # ===========================================================
@@ -65,8 +61,6 @@
 # ===========================================================
 #  Used for approving changes in core library for non explicitly owned parts and new features
 #
-#   - tobi-or-not-tobi
-#   - dunqan
 #   - Platonn
 #   - marlass
 #   - LTiger14
@@ -78,16 +72,14 @@
 # ===========================================================
 #  Used for approving changes in style library
 #
-#   - tobi-or-not-tobi
-#   - LTiger14
 #   - developpeurweb
+#   - LTiger14
 
 
 # ===========================================================
 #  @SAP/spartacus-cart-owners
 # ===========================================================
 #
-#   - tobi-or-not-tobi
 #   - Platonn
 #   - marlass
 
@@ -96,16 +88,16 @@
 #  @SAP/spartacus-routing-owners
 # ===========================================================
 #
-#   - dunqan
 #   - Platonn
+
 
 # ===========================================================
 #  @SAP/spartacus-schematics-owners
 # ===========================================================
 #
 #   - znikola
+#   - marlass
 #   - psmul
-
 
 
 ######################################################################################################
@@ -129,28 +121,28 @@
 # (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
 # ================================================
 
-# * @dunqan @SAP/spartacus-global-owners
+# * @SAP/spartacus-global-owners
 
 # ================================================
 #  Spartacus Core
 # ================================================
-/projects/core/src/**                                                        @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+/projects/core/src/**                                                  @SAP/spartacus-core-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Spartacus Styles
 # ================================================
-/projects/storefrontstyles/src/**                                            @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+/projects/storefrontstyles/src/**                                      @SAP/spartacus-style-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Cart Functionality
 # ================================================
-/projects/core/src/cart/**                                               @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-/projects/storefrontlib/cms-components/cart/**                           @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/core/src/cart/**                                             @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Routing Functionality
 # ================================================
-/projects/core/src/routing/**                                            @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+/projects/core/src/routing/**                                          @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Schematics
@@ -161,4 +153,4 @@
 #  CODEOWNERS Owners owners ...
 # ================================================
 
-/.github/CODEOWNERS                                                      @dunqan @SAP/spartacus-global-owners
+/.github/CODEOWNERS                                                     @SAP/spartacus-global-owners

@@ -7,6 +7,9 @@ import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class ConsignmentTrackingEffects {
   @Effect()

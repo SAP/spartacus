@@ -37,6 +37,12 @@
       "@spartacus/checkout": ["dist/checkout"],
       "@spartacus/checkout/occ": ["dist/checkout/occ"],
       "@spartacus/checkout/root": ["dist/checkout/root"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/organization/administration/assets": [
         "dist/organization/administration/assets"
       ],
