@@ -68,7 +68,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
     config: LaunchOptions,
     caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef
-  ): void | Observable<ComponentRef<any> | undefined>;
+  ): void | Observable<ComponentRef<any>>;
 
   /**
    * Determines if the strategy is the right one for the provided configuration
