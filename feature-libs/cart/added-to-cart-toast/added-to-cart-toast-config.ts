@@ -5,7 +5,7 @@ import { Config, OccConfig } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CartToastConfig extends OccConfig {
+export abstract class AddedToCartToastConfig extends OccConfig {
   cartToast?: {
     timeout?: number;
     enabled?: boolean;
@@ -13,5 +13,5 @@ export abstract class CartToastConfig extends OccConfig {
 }
 
 declare module '@spartacus/core' {
-  interface Config extends CartToastConfig {}
+  interface Config extends AddedToCartToastConfig {}
 }
