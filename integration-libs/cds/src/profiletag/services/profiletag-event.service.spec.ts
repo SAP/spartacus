@@ -59,6 +59,7 @@ describe('ProfileTagEventTracker', () => {
       document: {
         createElement: () => ({}),
         getElementsByTagName: () => [{ appendChild: appendChildSpy }],
+        querySelector: () => {},
       },
     };
     baseSiteService = {
@@ -105,6 +106,32 @@ describe('ProfileTagEventTracker', () => {
     });
     expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
+  });
+
+  it(`Should not add config parameters to the q array if PT is already loaded`, () => {
+    const profileTagLoaded$ = profileTagEventTracker.addTracker();
+    let subscription = profileTagLoaded$.subscribe();
+    const baseSite = 'electronics-test';
+    getActiveBehavior.next(baseSite);
+    subscription.unsubscribe();
+
+    expect(nativeWindow.Y_TRACKING.q[0][0]).toEqual({
+      ...mockCDSConfig.cds.profileTag,
+      tenant: mockCDSConfig.cds.tenant,
+      siteId: baseSite,
+      spa: true,
+    });
+    expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
+
+    // reset the mock correctly so that the existing script is detected
+    spyOn(mockedWindowRef.document, 'querySelector').and.returnValue({} as Element);
+    // retrigger profile-tag
+    subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next(baseSite);
+    subscription.unsubscribe();
+    // Add script should be called only once during initial addition and not 2 times.
+    expect(appendChildSpy).toHaveBeenCalledTimes(1);
+    expect(nativeWindow.Y_TRACKING.q[0].length).toEqual(1);
   });
 
   it(`Should not call the push method if the event receiver callback hasn't been called`, () => {

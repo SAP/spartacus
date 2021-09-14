@@ -108,7 +108,7 @@ export class ProfileTagEventService {
    * Checks if the script with the given source exists in the document or not.
    */
   private isScriptLoaded(scriptSource: string): boolean {
-    return document.querySelectorAll('[src="' + scriptSource + '"]').length > 0;
+    return !!this.winRef.document.querySelector(`[src="${scriptSource}"]`);
   }
 
   private addScript(): void {
