@@ -105,9 +105,9 @@ export class ProfileTagEventService {
   }
 
   /*
-  * Checks if the script with the given source exists in the document or not.
-  */
-  isScriptLoaded(scriptSource: string): boolean {
+   * Checks if the script with the given source exists in the document or not.
+   */
+  private isScriptLoaded(scriptSource: string): boolean {
     return document.querySelectorAll('[src="' + scriptSource + '"]').length > 0;
   }
 
