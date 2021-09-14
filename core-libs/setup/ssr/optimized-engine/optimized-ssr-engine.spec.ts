@@ -668,7 +668,7 @@ describe('OptimizedSsrEngine', () => {
     });
 
     describe('when enabled', () => {
-      describe('the subsequent request should reuse the current render', () => {
+      describe('multiple subsequent requests for the same rendering key should reuse the current render', () => {
         it('and the first request should timeout', fakeAsync(() => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
@@ -738,9 +738,50 @@ describe('OptimizedSsrEngine', () => {
 
           flush();
         }));
-      });
 
-      describe('the multiple subsequent requests for the same rendering key should reuse the render', () => {
+        it('also when the rendering strategy is ALWAYS_SSR', fakeAsync(() => {
+          const timeout = 300;
+          const engineRunner = new TestEngineRunner(
+            {
+              timeout,
+              reuseCurrentRendering: true,
+              renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+            },
+            400
+          );
+          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+          engineRunner.request(requestUrl);
+          expect(getCurrentConcurrency(engineRunner)).toEqual({
+            currentConcurrency: 1,
+          });
+          expect(getWaitingRenderCallbacks(engineRunner, requestUrl)).toEqual({
+            waitingRenderCallbacks: 1,
+          });
+
+          tick(200);
+          engineRunner.request(requestUrl);
+          expect(getCurrentConcurrency(engineRunner)).toEqual({
+            currentConcurrency: 1,
+          });
+          expect(getWaitingRenderCallbacks(engineRunner, requestUrl)).toEqual({
+            waitingRenderCallbacks: 2,
+          });
+
+          tick(200);
+
+          expect(engineRunner.renderCount).toEqual(1);
+          expect(engineRunner.renders).toEqual([
+            `${requestUrl}-0`,
+            `${requestUrl}-0`,
+          ]);
+          expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+            `Processing 2 waiting SSR requests for ${requestUrl}...`
+          );
+
+          flush();
+        }));
+
         it('and take up only one concurrent slot', fakeAsync(() => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
@@ -932,7 +973,7 @@ describe('OptimizedSsrEngine', () => {
         }));
       });
 
-      it('should NOT queue the subsequent requests for a different URL', fakeAsync(() => {
+      it('should NOT queue the subsequent requests for a different rendering key', fakeAsync(() => {
         const timeout = 300;
         const engineRunner = new TestEngineRunner(
           { timeout, reuseCurrentRendering: true },
