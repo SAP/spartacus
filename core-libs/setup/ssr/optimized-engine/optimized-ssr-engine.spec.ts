@@ -95,7 +95,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renders).toEqual(['']);
     });
 
-    it('should return timed out render in the followup request, even when timeout is set to 0', fakeAsync(() => {
+    it('should return timed out render in the followup request, also when timeout is set to 0', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
       expect(engineRunner.renders).toEqual(['']);
 
@@ -269,7 +269,7 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['a-0']);
       }));
 
-      it('should ignore timeout even if it is set to 0', fakeAsync(() => {
+      it('should ignore timeout also when it is set to 0', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
           timeout: 0,
@@ -280,7 +280,7 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['a-0']);
       }));
 
-      it('should render each request, even if there is already a pending render for the same rendering key', fakeAsync(() => {
+      it('should render each request separately, even if there is already a pending render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
           timeout: 200,
@@ -349,7 +349,7 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['', 'a-0']);
       }));
 
-      it('should fallback to CSR if there is already pending a render for the same rendering key', fakeAsync(() => {
+      it('should fallback to CSR when there is already pending a render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
           timeout: 200,
@@ -501,7 +501,7 @@ describe('OptimizedSsrEngine', () => {
       flush();
     }));
 
-    it('should not cache the result of the hanging render even when it succeeds after `maxRenderTime`', fakeAsync(() => {
+    it('should not cache the result of the hanging render, even when it succeeds after `maxRenderTime`', fakeAsync(() => {
       const requestUrl = 'a';
       const renderTime = fiveMinutes + 100;
       const engineRunner = new TestEngineRunner(
