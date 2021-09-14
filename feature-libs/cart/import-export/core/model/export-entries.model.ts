@@ -35,3 +35,8 @@ export interface ExportConfig {
    */
   fileName?: string;
 }
+
+export enum ExportCartRoutes {
+  SAVED_CART_DETAILS = 'savedCartsDetails',
+  CART = 'cart',
+}
