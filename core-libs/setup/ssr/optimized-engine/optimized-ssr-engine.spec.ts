@@ -591,12 +591,11 @@ describe('OptimizedSsrEngine', () => {
   describe('reuseCurrentRendering', () => {
     const requestUrl = 'a';
     const differentUrl = 'b';
-    const timeout = 300;
-    const renderTime = 400;
 
     describe('when disabled', () => {
-      it('trigger the fall back to CSR', fakeAsync(() => {
-        const engineRunner = new TestEngineRunner({ timeout }, renderTime);
+      it('should trigger the fall back to CSR', fakeAsync(() => {
+        const timeout = 300;
+        const engineRunner = new TestEngineRunner({ timeout }, 400);
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
         engineRunner.request(requestUrl);
@@ -621,9 +620,10 @@ describe('OptimizedSsrEngine', () => {
     describe('when enabled', () => {
       describe('the subsequent request should reuse the current render', () => {
         it('and the first request should timeout', fakeAsync(() => {
+          const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true },
-            renderTime
+            400
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -649,6 +649,7 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('and honour the timer option', fakeAsync(() => {
+          const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true },
             1000
@@ -691,9 +692,10 @@ describe('OptimizedSsrEngine', () => {
 
       describe('the multiple subsequent requests for the same rendering key should reuse the render', () => {
         it('and take up only one concurrent slot', fakeAsync(() => {
+          const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
-            renderTime
+            400
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -744,6 +746,7 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('combined with a different request should take up two concurrency slots', fakeAsync(() => {
+          const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
             200
@@ -833,9 +836,10 @@ describe('OptimizedSsrEngine', () => {
       });
 
       it('should NOT queue the subsequent requests for a different URL', fakeAsync(() => {
+        const timeout = 300;
         const engineRunner = new TestEngineRunner(
           { timeout, reuseCurrentRendering: true },
-          renderTime
+          400
         );
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
