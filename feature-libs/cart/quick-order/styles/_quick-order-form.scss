@@ -23,6 +23,10 @@ cx-quick-order-form {
       cursor: pointer;
     }
 
+    .search-disabled:hover {
+      cursor: not-allowed;
+    }
+
     .reset {
       color: var(--cx-color-light);
       font-size: 25px;

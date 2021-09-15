@@ -23,8 +23,9 @@
 
     <cx-icon 
       [type]="iconTypes.SEARCH"
-      (click)="search($event)"
+      (click)="!isDisabled && search($event)"
       class="search"
+      [class.search-disabled]="isDisabled"
       tabindex="-1">
     </cx-icon>
 
