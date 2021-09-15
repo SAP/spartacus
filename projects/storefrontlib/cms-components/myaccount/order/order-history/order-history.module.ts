@@ -10,11 +10,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

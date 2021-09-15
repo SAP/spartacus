@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  getLastValueSync,
+  Order,
+  RoutingService,
+  UnifiedInjector,
+  UserOrderService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -8,7 +14,11 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { OrderDetailsServiceTransitionalToken } from '../order-transitional-tokens';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +28,8 @@ export class OrderDetailsService {
 
   constructor(
     private userOrderService: UserOrderService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private unifiedInjector?: UnifiedInjector
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params.orderCode),
@@ -38,6 +49,15 @@ export class OrderDetailsService {
   }
 
   getOrderDetails(): Observable<Order> {
+    if (this.unifiedInjector) {
+      const serivce = getLastValueSync(
+        this.unifiedInjector.get(OrderDetailsServiceTransitionalToken)
+      );
+      if (serivce) {
+        return serivce.getOrderDetails();
+      }
+    }
+
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetails())
     );

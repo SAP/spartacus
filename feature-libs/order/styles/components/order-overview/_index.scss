@@ -1,0 +1,23 @@
+@import './order-overview';
+
+$order-overview-allowlist: cx-order-overview !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $order-overview-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $order-overview-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

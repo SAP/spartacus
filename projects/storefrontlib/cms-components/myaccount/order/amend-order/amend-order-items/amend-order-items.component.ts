@@ -4,6 +4,9 @@ import { OrderEntry, Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-amend-order-items',
   templateUrl: './amend-order-items.component.html',
