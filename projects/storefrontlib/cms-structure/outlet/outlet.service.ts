@@ -96,7 +96,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
 
       // Compare and remove specified selector ComponentFactory first
       existing = existing?.filter((val) => {
-        // Compare selectors for
+        // Compare selectors for ComponentFactory objects (most cases)
         if ((value as any).selector) {
           return (val as any).selector !== (value as any).selector;
         }
