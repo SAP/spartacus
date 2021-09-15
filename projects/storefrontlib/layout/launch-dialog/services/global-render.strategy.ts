@@ -9,11 +9,7 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-  LaunchGlobalDialog,
-  LaunchInlineDialog,
-  LAUNCH_CALLER,
-} from '../config/launch-config';
+import { LaunchGlobalDialog, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -27,8 +23,12 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
     super(document, rendererFactory);
   }
 
+  get hostComponent() {
+    return this.injector.get(ApplicationRef)?.components?.[0];
+  }
+
   render(
-    config: LaunchInlineDialog,
+    config: LaunchGlobalDialog,
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any> | undefined> | void {
     if (this.shouldRender(caller, config)) {
@@ -42,8 +42,11 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
 
       const componentRef = componentFactory.create(contentInjector);
 
-      this.injector.get(ApplicationRef).attachView(componentRef.hostView);
-      this.document.body.appendChild(componentRef.location.nativeElement);
+      this.injector.get(ApplicationRef)?.attachView(componentRef.hostView);
+
+      this.hostComponent?.location?.nativeElement.appendChild(
+        componentRef.location.nativeElement
+      );
 
       if (config?.dialogType) {
         this.applyClasses(componentRef, config?.dialogType);
