@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConsignmentTracking, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-tracking-events',
   templateUrl: './tracking-events.component.html',

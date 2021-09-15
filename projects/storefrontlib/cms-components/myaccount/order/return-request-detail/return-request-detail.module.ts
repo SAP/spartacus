@@ -9,11 +9,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { MediaModule } from '../../../../shared/index';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { ReturnRequestOverviewComponent } from './return-request-overview/return-request-overview.component';
+import { MediaModule } from '../../../../shared/index';
 import { ReturnRequestItemsComponent } from './return-request-items/return-request-items.component';
+import { ReturnRequestOverviewComponent } from './return-request-overview/return-request-overview.component';
 import { ReturnRequestTotalsComponent } from './return-request-totals/return-request-totals.component';
 
 const components = [
@@ -22,6 +22,9 @@ const components = [
   ReturnRequestTotalsComponent,
 ];
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,
