@@ -9,13 +9,15 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
+import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishment-order-details/default-replenishment-order-cancellation-layout.config';
+import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,
