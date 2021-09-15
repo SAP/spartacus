@@ -124,7 +124,9 @@ describe('ProfileTagEventTracker', () => {
     expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
 
     // reset the mock correctly so that the existing script is detected
-    spyOn(mockedWindowRef.document, 'querySelector').and.returnValue({} as Element);
+    spyOn(mockedWindowRef.document, 'querySelector').and.returnValue(
+      {} as Element
+    );
     // retrigger profile-tag
     subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next(baseSite);
