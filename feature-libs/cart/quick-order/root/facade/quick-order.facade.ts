@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import {
-  CartAddEntrySuccessEvent,
-  facadeFactory,
-  OrderEntry,
-  Product,
-} from '@spartacus/core';
+import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
+import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
 
 export function quickOrderFacadeFactory() {
   return facadeFactory({
@@ -80,5 +76,5 @@ export abstract class QuickOrderFacade {
   /**
    * Adding to cart all products from the list
    */
-  abstract addToCart(): Observable<[number, CartAddEntrySuccessEvent[]]>;
+  abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
 }
