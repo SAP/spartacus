@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, StaticProvider } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +26,8 @@ import { StoreFinderStoreDescriptionComponent } from './store-finder-store-descr
 import { StoreFinderStoreComponent } from './store-finder-store/store-finder-store.component';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderComponent } from './store-finder/store-finder.component';
-import { TestComponent } from './test/test.component';
+import { Test1Component } from './test/test1.component';
+import { Test2Component } from './test/test2.component';
 
 @NgModule({
   imports: [
@@ -75,12 +76,16 @@ import { TestComponent } from './test/test.component';
         },
       },
     }),
-    ...(provideOutlet({
+    provideOutlet({
       id: ProductListOutlets.ITEM_ACTIONS,
       position: OutletPosition.AFTER,
-      component: TestComponent,
-      lazyLoad: true,
-    }) as StaticProvider[]),
+      component: Test1Component,
+    }),
+    provideOutlet({
+      id: ProductListOutlets.ITEM_ACTIONS,
+      position: OutletPosition.AFTER,
+      component: Test2Component,
+    }),
   ],
   declarations: [
     StoreFinderSearchComponent,
@@ -96,7 +101,8 @@ import { TestComponent } from './test/test.component';
     StoreFinderComponent,
     StoreFinderPaginationDetailsComponent,
     StoreFinderStoreComponent,
-    TestComponent,
+    Test1Component,
+    Test2Component,
   ],
   exports: [
     ScheduleComponent,
