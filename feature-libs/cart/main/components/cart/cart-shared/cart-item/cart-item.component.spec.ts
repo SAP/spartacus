@@ -22,9 +22,9 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { OutletDirective } from 'projects/storefrontlib/src/cms-structure/outlet/outlet.directive';
-import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
+import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';

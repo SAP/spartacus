@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CartVoucherService } from '@spartacus/cart/main/core';
 import { I18nTestingModule, Voucher } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { OrderSummaryComponent } from './order-summary.component';
 
 @Component({

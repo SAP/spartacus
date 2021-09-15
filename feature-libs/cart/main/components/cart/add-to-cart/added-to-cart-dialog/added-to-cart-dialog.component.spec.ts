@@ -27,7 +27,7 @@ import {
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
+import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
