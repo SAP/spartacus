@@ -11,6 +11,9 @@ import {
   Product,
   ProductAdapter,
   CartAddEntryFailEvent,
+  ProductSearchAdapter,
+  ProductSearchPage,
+  SearchConfig,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -27,6 +30,7 @@ export class QuickOrderService implements QuickOrderFacade {
   constructor(
     protected activeCartService: ActiveCartService,
     protected productAdapter: ProductAdapter,
+    protected productSearchAdapter: ProductSearchAdapter,
     protected eventService: EventService
   ) {}
 
@@ -38,10 +42,15 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Search product using sku
+   * Search product using query
    */
-  search(productCode: string): Observable<Product> {
-    return this.productAdapter.load(productCode);
+  search(query: string, maxProducts: number): Observable<Product[]> {
+    const searchConfig: SearchConfig = {
+      pageSize: maxProducts,
+    };
+    return this.productSearchAdapter
+      .search(query, searchConfig)
+      .pipe(map((searchPage: ProductSearchPage) => searchPage.products || []));
   }
 
   /**

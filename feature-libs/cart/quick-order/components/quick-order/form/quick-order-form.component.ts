@@ -1,6 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -8,14 +8,15 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  Product,
-} from '@spartacus/core';
+import { GlobalMessageService, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order-form',
@@ -26,6 +27,14 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
+  config = {
+    minCharactersBeforeRequest: 2,
+    maxProducts: 5,
+    displayProductImages: true,
+  };
+  // SET DEFAULT CONFIG
+
+  results$: Observable<Product[]>;
 
   get isDisabled(): boolean {
     return this._disabled;
@@ -48,50 +57,117 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected _disabled: boolean = false;
   protected _loading: boolean = false;
+  protected _focusedElementIndex: number | null = null;
+  protected _results: Product[] = [];
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected quickOrderService: QuickOrderFacade
+    protected quickOrderService: QuickOrderFacade,
+    protected winRef: WindowRef,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.buildForm();
     this.subscription.add(this.watchProductAdd());
+    this.subscription.add(this.watchQueryChange());
   }
 
-  search(event?: Event): void {
-    if (this.form.invalid) {
+  onBlur(element: Element): void {
+    const elementList = Array.from(element.classList);
+
+    if ((elementList || []).includes('quick-order-results-products')) {
       return;
     }
 
-    event?.preventDefault();
-
-    const productCode = this.form.get('product')?.value;
-
-    this.isSearching = true;
-    this.subscription.add(this.searchProduct(productCode));
+    this.close();
   }
 
   clear(event?: Event): void {
     event?.preventDefault();
+
     this.form.reset();
+    this.close();
   }
 
-  protected searchProduct(productCode: string): Subscription {
-    return this.quickOrderService
-      .search(productCode)
-      .pipe(finalize(() => (this.isSearching = false)))
-      .subscribe(
-        (product: Product) => {
-          this.quickOrderService.addProduct(product);
-        },
-        (error: HttpErrorResponse) => {
-          this.globalMessageService.add(
-            error.error.errors[0].message,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      );
+  add(product: Product, event?: Event): void {
+    event?.preventDefault();
+    this.quickOrderService.addProduct(product);
+    this.clear();
+  }
+
+  addProduct(event: Event): void {
+    const activeProductIndex = this.getFocusedElementIndex();
+
+    // Add product if there is focus on it
+    if (activeProductIndex !== null) {
+      const product = this._results[activeProductIndex];
+      this.add(product, event);
+      // Add product if there is only one in the result list
+    } else if (this._results.length === 1) {
+      this.add(this._results[0], event);
+    }
+  }
+
+  focusNextChild(): void {
+    if (!this.isResultsBoxOpen()) {
+      return;
+    }
+
+    const activeFocusedElementIndex = this.getFocusedElementIndex();
+
+    if (
+      activeFocusedElementIndex === null ||
+      this._results.length - 1 === activeFocusedElementIndex
+    ) {
+      this.setFocusedElementIndex(0);
+    } else {
+      this.setFocusedElementIndex(activeFocusedElementIndex + 1);
+    }
+  }
+
+  focusPreviousChild(): void {
+    if (!this.isResultsBoxOpen()) {
+      return;
+    }
+
+    const activeFocusedElementIndex = this.getFocusedElementIndex();
+
+    if (activeFocusedElementIndex === null || activeFocusedElementIndex === 0) {
+      this.setFocusedElementIndex(this._results.length - 1);
+    } else {
+      this.setFocusedElementIndex(activeFocusedElementIndex - 1);
+    }
+  }
+
+  getFocusedElementIndex(): number | null {
+    return this._focusedElementIndex;
+  }
+
+  protected setFocusedElementIndex(value: number): void {
+    this._focusedElementIndex = value;
+  }
+
+  protected resetFocusedElementIndex(): void {
+    this._focusedElementIndex = null;
+  }
+
+  protected open(): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', true);
+  }
+
+  protected isResultsBoxOpen(): boolean {
+    return !!this._results.length;
+  }
+
+  protected toggleBodyClass(className: string, add?: boolean) {
+    if (add === undefined) {
+      this.winRef.document.body.classList.toggle(className);
+    } else {
+      add
+        ? this.winRef.document.body.classList.add(className)
+        : this.winRef.document.body.classList.remove(className);
+    }
   }
 
   protected buildForm() {
@@ -100,6 +176,46 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     this.form = form;
     this.validateProductControl(this.isDisabled);
+  }
+
+  protected watchQueryChange(): Subscription {
+    return this.form.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(300),
+        filter(
+          (value) =>
+            !!value.product &&
+            value.product.length >= this.config.minCharactersBeforeRequest
+        )
+      )
+      .subscribe((value) => {
+        this.searchProducts(value.product);
+        this.open();
+        this.cd.detectChanges();
+      });
+  }
+
+  protected searchProducts(query: string): void {
+    this.results$ = this.quickOrderService
+      .search(query, this.config.maxProducts)
+      .pipe(
+        tap((products: Product[]) => {
+          this._results = products;
+          this.resetFocusedElementIndex();
+        })
+      );
+  }
+
+  protected clearResults(): void {
+    this.results$ = of([]);
+    this._results = [];
+  }
+
+  protected close(): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+    this.resetFocusedElementIndex();
+    this.clearResults();
   }
 
   protected watchProductAdd(): Subscription {
