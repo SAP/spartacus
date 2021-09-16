@@ -228,7 +228,12 @@ describe('ExportEntriesService', () => {
         output: 'PC Service Set Professional',
       },
       { key: 'returnableQuantity', output: '0' },
+      {
+        key: 'product.stock',
+        output: `{'stockLevel':365,'stockLevelStatus':'inStock'}`,
+      },
       { key: 'notExistingKey', output: '' },
+      { key: 'notExistingKey.notExistingKey', output: '' },
     ];
 
     testData.forEach(({ key, output }) => {
