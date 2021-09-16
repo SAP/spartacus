@@ -215,10 +215,10 @@ context('Cart Import/Export', () => {
         cy.writeFile(`cypress/downloads/${CSV}`, '');
         importExport.attemptUpload(`../downloads/${CSV}`);
 
-        cy.get('cx-import-entries-form cx-form-errors p').contains(
+        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File should not be empty'
         );
-        cy.get('cx-import-entries-form cx-form-errors p').contains(
+        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File is not parsable'
         );
       });
@@ -228,7 +228,7 @@ context('Cart Import/Export', () => {
         cy.writeFile(`cypress/downloads/${CSV}`, 'I am wrong :(');
         importExport.attemptUpload(`../downloads/${CSV}`);
 
-        cy.get('cx-import-entries-form cx-form-errors p').contains(
+        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File is not parsable'
         );
       });

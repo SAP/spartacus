@@ -2,7 +2,7 @@ import { loginAsMyCompanyAdmin } from './b2b/my-company/my-company.utils';
 import * as cart from './cart';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
-const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/data.csv`;
+const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
 
 /**
  * Config format for `importCartTest`.
@@ -261,19 +261,19 @@ export function importCartTestFromConfig(config: ImportConfig) {
     cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
   });
   cy.get(
-    'cx-import-entries-form cx-file-upload input[type="file"]'
+    'cx-import-entries-dialog cx-file-upload input[type="file"]'
   ).attachFile({ filePath: `../downloads/${config.name}.csv` });
-  cy.get('cx-import-entries-form textarea[formcontrolname="description"]').type(
-    config.description
-  );
+  cy.get(
+    'cx-import-entries-dialog textarea[formcontrolname="description"]'
+  ).type(config.description);
 
   cy.intercept('GET', '**/users/current/carts/*?**').as('import');
-  cy.get('cx-import-entries-form button').contains('Upload').click();
+  cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
   cy.wait('@import').then((xhr) => {
     cy.get(
       'cx-import-entries-summary div.cx-import-entries-summary-status'
-    ).contains(`Products has been loaded to new cart "${config.name}".`);
+    ).contains(`Products has been loaded to cart ${config.name}`);
 
     const importedCart = xhr.response.body;
 
@@ -297,17 +297,16 @@ export function attemptUpload(csvPath: string) {
 
   cy.visit('my-account/saved-carts');
   cy.get('cx-import-entries button').contains('Import Products').click();
-  cy.get('cx-import-entries-form cx-file-upload input[type="file"]').attachFile(
-    { filePath: csvPath },
-    { allowEmpty: true }
-  );
-  cy.get('cx-import-entries-form input[formcontrolname="name"]').type(
+  cy.get(
+    'cx-import-entries-dialog cx-file-upload input[type="file"]'
+  ).attachFile({ filePath: csvPath }, { allowEmpty: true });
+  cy.get('cx-import-entries-dialog input[formcontrolname="name"]').type(
     'Test Cart'
   );
-  cy.get('cx-import-entries-form textarea[formcontrolname="description"]').type(
-    'A test description.'
-  );
+  cy.get(
+    'cx-import-entries-dialog textarea[formcontrolname="description"]'
+  ).type('A test description.');
 
   cy.intercept('GET', '**/users/current/carts/*?**').as('import');
-  cy.get('cx-import-entries-form button').contains('Upload').click();
+  cy.get('cx-import-entries-dialog button').contains('Upload').click();
 }
