@@ -131,7 +131,6 @@ describe('ProfileTagEventTracker', () => {
     subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next(baseSite);
     subscription.unsubscribe();
-    // Add script should be called only once during initial addition and not 2 times.
     expect(appendChildSpy).toHaveBeenCalledTimes(1);
     expect(nativeWindow.Y_TRACKING.q[0].length).toEqual(1);
   });
