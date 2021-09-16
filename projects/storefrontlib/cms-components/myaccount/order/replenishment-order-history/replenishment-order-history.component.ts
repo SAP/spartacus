@@ -1,8 +1,8 @@
 import {
-  Component,
-  OnDestroy,
   ChangeDetectionStrategy,
+  Component,
   ElementRef,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,9 +15,12 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { LaunchDialogService } from '../../../../layout/launch-dialog/services/launch-dialog.service';
 import { LAUNCH_CALLER } from '../../../../layout/launch-dialog/config/launch-config';
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/launch-dialog.service';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-replenishment-order-history',
   templateUrl: './replenishment-order-history.component.html',
