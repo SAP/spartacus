@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { LayoutConfig } from '../config/layout-config';
+import { GlobalRenderStrategy } from './services/global-render.strategy';
 import {
   InlineRenderStrategy,
   LaunchRenderStrategy,
@@ -23,6 +24,11 @@ import {
     {
       provide: LaunchRenderStrategy,
       useExisting: RoutingRenderStrategy,
+      multi: true,
+    },
+    {
+      provide: LaunchRenderStrategy,
+      useExisting: GlobalRenderStrategy,
       multi: true,
     },
   ],
