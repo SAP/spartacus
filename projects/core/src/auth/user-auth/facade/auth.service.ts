@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -19,6 +19,16 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  /**
+   * Indicates whether the access token is being refreshed
+   */
+  refreshInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Indicates whether the logout is being performed
+   */
+  logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -77,6 +87,7 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
+    this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
@@ -101,5 +112,19 @@ export class AuthService {
    */
   logout(): void {
     this.routingService.go({ cxRoute: 'logout' });
+  }
+
+  /**
+   * Start or stop the refresh process
+   */
+  setRefreshProgress(progress: boolean): void {
+    (this.refreshInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  /**
+   * Start or stop the logout process
+   */
+  setLogoutProgress(progress: boolean): void {
+    (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 }

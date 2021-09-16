@@ -117,12 +117,12 @@ context('B2B - Saved Cart', () => {
         );
       });
 
-      it('should make cart active and not swap cart when active cart is empty, and clone saved cart', () => {
+      it('should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name', () => {
         savedCart.restoreCart(
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
           true,
-          true
+          { isCloneCartActive: true, cloneName: 'newClonedName' }
         );
       });
 
@@ -148,7 +148,7 @@ context('B2B - Saved Cart', () => {
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
           false,
-          true
+          { isCloneCartActive: true }
         );
       });
     });

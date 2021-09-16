@@ -1,0 +1,23 @@
+<form
+  (ngSubmit)="search($event)"
+  [formGroup]="form"
+  class="quick-order-form-container"
+>
+  <div class="quick-order-form-input">
+    <input
+      [attr.aria-label]="'common.search' | cxTranslate"
+      class="form-control"
+      formControlName="product"
+      placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+      type="text"
+    />
+
+    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
+
+    <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+
+    <span *ngIf="isDisabled" class="list-limit-reached-text">
+      {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
+    </span>
+  </div>
+</form>

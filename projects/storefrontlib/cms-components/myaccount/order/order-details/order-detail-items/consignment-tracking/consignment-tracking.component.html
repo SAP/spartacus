@@ -1,0 +1,11 @@
+<ng-container *ngIf="consignment && consignment.status">
+  <div *ngIf="consignmentStatus.includes(consignment.status)">
+    <button
+      (click)="openTrackingDialog(consignment)"
+      class="btn btn-action btn-track"
+      type="button"
+    >
+      {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
+    </button>
+  </div>
+</ng-container>
