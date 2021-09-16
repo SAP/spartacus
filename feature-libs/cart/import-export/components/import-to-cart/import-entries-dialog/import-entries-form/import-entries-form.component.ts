@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  CmsImportEntriesComponent,
+  ImportConfig,
   ImportCsvService,
   FilesFormValidators,
   ProductsData,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import { LaunchDialogService, FormUtils } from '@spartacus/storefront';
@@ -26,7 +27,7 @@ import { ImportToCartService } from '../../import-to-cart.service';
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  componentData?: CmsImportEntriesComponent;
+  componentData?: ImportConfig;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
 
@@ -39,16 +40,13 @@ export class ImportEntriesFormComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
     protected importService: ImportCsvService,
-    protected filesFormValidators: FilesFormValidators
+    protected filesFormValidators: FilesFormValidators,
+    protected importExportConfig: ImportExportConfig
   ) {}
 
   ngOnInit() {
-    this.launchDialogService.data$
-      .pipe(take(1))
-      .subscribe((data: CmsImportEntriesComponent) => {
-        this.componentData = data;
-        this.form = this.buildForm();
-      });
+    this.componentData = this.importExportConfig.cartImportExport?.import;
+    this.form = this.buildForm();
 
     this.formSubmitSubject$
       .pipe(

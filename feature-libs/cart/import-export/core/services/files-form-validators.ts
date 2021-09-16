@@ -37,6 +37,20 @@ export class FilesFormValidators {
   }
 
   /**
+   * Checks max size of file
+   *
+   * @param {number} maxSize Max size [MB]
+   * @returns Uses 'tooLarge' validator error with maxSize property
+   * @memberof FilesFormValidators
+   */
+  maxLines(_maxLines?: number): ValidatorFn {
+    return (_control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+  }
+
+  /**
    * Checks empty file
    *
    * @returns Uses 'empty' validator error

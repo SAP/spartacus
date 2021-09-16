@@ -8,12 +8,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-  CmsComponentData,
-} from '@spartacus/storefront';
-import { CmsImportEntriesComponent } from '@spartacus/cart/import-export/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-import-entries',
@@ -24,20 +19,16 @@ export class ImportEntriesComponent implements OnDestroy {
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
-  componentData$ = this.componentData.data$;
-
   constructor(
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>
+    protected launchDialogService: LaunchDialogService
   ) {}
 
-  openDialog(cmsData: CmsImportEntriesComponent): void {
+  openDialog(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      this.vcr,
-      cmsData
+      this.vcr
     );
 
     if (dialog) {

@@ -1,7 +1,6 @@
 <button
-  *ngIf="componentData$ | async as data"
   class="link cx-action-link"
-  (click)="openDialog(data)"
+  (click)="openDialog()"
 >
   {{'importEntries.importProducts' | cxTranslate}}
 </button>
