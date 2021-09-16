@@ -15,7 +15,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SHIPPING_ADDRESS_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/shipping-address/shipping-address.component.ts
   class: SHIPPING_ADDRESS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

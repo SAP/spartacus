@@ -15,7 +15,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ON_NAVIGATE_FOCUS_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts
+  // projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts
   class: ON_NAVIGATE_FOCUS_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

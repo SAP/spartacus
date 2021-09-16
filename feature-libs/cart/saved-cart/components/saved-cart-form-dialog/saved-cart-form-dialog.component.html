@@ -103,21 +103,41 @@
             </div>
           </div>
 
-          <div
-            *ngIf="layoutOption === savedCartFormType.RESTORE"
-            class="cx-copy-saved-cart-row form-check"
-          >
-            <input
-              id="cx-copy-saved-cart"
-              type="checkbox"
-              class="cx-copy-saved-cart-input"
-              [checked]="isCloneSavedCart"
-              (change)="toggleIsCloneSavedCart()"
-            />
-            <label for="cx-copy-saved-cart" class="cx-copy-saved-cart-label">{{
-              'savedCartDialog.keepCopySavedCart' | cxTranslate
-            }}</label>
-          </div>
+          <ng-container *ngIf="layoutOption === savedCartFormType.RESTORE">
+            <div class="cx-copy-saved-cart-row form-check">
+              <input
+                id="cx-copy-saved-cart"
+                type="checkbox"
+                class="cx-copy-saved-cart-input"
+                [checked]="isCloneSavedCart"
+                (change)="toggleIsCloneSavedCart()"
+              />
+              <label
+                for="cx-copy-saved-cart"
+                class="cx-copy-saved-cart-label"
+                >{{ 'savedCartDialog.keepCopySavedCart' | cxTranslate }}</label
+              >
+            </div>
+
+            <div *ngIf="isCloneSavedCart" class="cx-copy-saved-cart-row">
+              <label>
+                <span class="label-content">
+                  {{ 'savedCartDialog.nameOfCloneCart' | cxTranslate }}
+                </span>
+
+                <input
+                  [maxLength]="nameMaxLength"
+                  class="form-control"
+                  formControlName="cloneName"
+                  type="text"
+                  placeholder="{{
+                    'savedCartDialog.defaultCloneCartName'
+                      | cxTranslate: { name: form.get('name')?.value }
+                  }}"
+                />
+              </label>
+            </div>
+          </ng-container>
 
           <div class="cx-saved-cart-form-footer">
             <button
