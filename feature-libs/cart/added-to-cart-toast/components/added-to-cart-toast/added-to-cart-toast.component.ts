@@ -19,7 +19,7 @@ import { CartToastItem, CART_TOAST_STATE } from '../../core/models';
 import { AddedToCartToastService } from '../../core/services';
 
 @Component({
-  selector: 'cx-cart-toast',
+  selector: 'cx-added-to-cart-toast',
   templateUrl: './added-to-cart-toast.component.html',
 })
 export class AddedToCartToastComponent implements OnInit, OnDestroy {

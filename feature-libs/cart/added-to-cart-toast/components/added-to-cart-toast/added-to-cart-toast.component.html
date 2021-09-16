@@ -1,16 +1,16 @@
 <ng-container *ngIf="cartToasts$ | async as cartToasts">
   <div *ngFor="let toast of cartToasts" [class]="toast.baseClass">
-    <div class="cart-toast-title">
+    <div class="added-to-cart-toast-title">
       {{ toast.quantity }} {{ toast.quantity > 1 ? 'items' : 'item' }} added
     </div>
-    <div class="cart-toast-content">
+    <div class="added-to-cart-toast-content">
       <cx-media
         class="cx-product-image"
         [container]="toast.images?.PRIMARY"
         format="product"
         [alt]="toast.productName"
       ></cx-media>
-      <div class="cart-toast-product">
+      <div class="added-to-cart-toast-product">
         <h3>{{ toast.productName }}</h3>
         <span>Qty: {{ toast.quantity }}</span>
         <span>Price: {{ toast.unitPrice }}</span>
