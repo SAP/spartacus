@@ -1,4 +1,10 @@
-import { Injectable, InjectFlags, Injector, NgModuleRef } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  Injectable,
+  InjectFlags,
+  Injector,
+  NgModuleRef,
+} from '@angular/core';
 import {
   CMSComponentConfig,
   CmsComponentMapping,
@@ -11,7 +17,10 @@ import {
   FeatureModulesService,
 } from '@spartacus/core';
 import { defer, Observable, of, zip } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
+import { OutletPosition } from '../outlet/outlet.model';
+import { PROVIDE_OUTLET_OPTIONS } from '../outlet/outlet.providers';
+import { OutletService } from '../outlet/outlet.service';
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef<any>;
@@ -44,7 +53,9 @@ export class CmsFeaturesService {
 
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected featureModules: FeatureModulesService
+    protected featureModules: FeatureModulesService,
+    protected outletService: OutletService,
+    protected componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.initFeatureMap();
   }
@@ -156,6 +167,7 @@ export class CmsFeaturesService {
         this.featureInstances.set(
           featureName,
           this.featureModules.resolveFeature(featureName).pipe(
+            tap((moduleRef) => this.registerOutletsForModule(moduleRef)),
             map((moduleRef) =>
               this.createFeatureInstance(moduleRef, featureName)
             ),
@@ -165,6 +177,25 @@ export class CmsFeaturesService {
       }
 
       return this.featureInstances.get(featureName);
+    });
+  }
+
+  protected registerOutletsForModule(moduleRef: NgModuleRef<any>) {
+    const outletOptions: any[] = moduleRef.injector.get<any[]>(
+      PROVIDE_OUTLET_OPTIONS,
+      [],
+      InjectFlags.Self
+    );
+
+    outletOptions.forEach((options) => {
+      const factory = this.componentFactoryResolver.resolveComponentFactory(
+        options.component
+      );
+      this.outletService.add(
+        options.id,
+        factory,
+        options.position ?? OutletPosition.AFTER
+      );
     });
   }
 
