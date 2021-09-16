@@ -101,8 +101,8 @@ function configureSpartacusModules(
 
       [
         `// User Core,
-        UserTransitionalModule,`,
-        'UserOccTransitionalModule,',
+        UserTransitional_4_2_Module,`,
+        'UserOccTransitional_4_2_Module,',
         `// User UI,
         AddressBookModule,`,
         'PaymentMethodsModule,',
@@ -117,8 +117,8 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: [
-                'UserTransitionalModule',
-                'UserOccTransitionalModule',
+                'UserTransitional_4_2_Module',
+                'UserOccTransitional_4_2_Module',
               ],
             },
             {
@@ -245,31 +245,10 @@ function configureSpartacusModules(
 
       [
         `// Order,
-        OrderHistoryModule,`,
-        'OrderDetailsModule,',
-        'OrderCancellationModule,',
-        'OrderReturnModule,',
-        'ReturnRequestListModule,',
-        'ReturnRequestDetailModule,',
-        'ReplenishmentOrderHistoryModule,',
-        'ReplenishmentOrderDetailsModule,',
-        'OrderOccModule',
+        OrderOccModule`,
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: [
-                'OrderCancellationModule',
-                'OrderDetailsModule',
-                'OrderHistoryModule',
-                'OrderReturnModule',
-                'ReplenishmentOrderDetailsModule',
-                'ReplenishmentOrderHistoryModule',
-                'ReturnRequestDetailModule',
-                'ReturnRequestListModule',
-              ],
-            },
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: ['OrderOccModule'],

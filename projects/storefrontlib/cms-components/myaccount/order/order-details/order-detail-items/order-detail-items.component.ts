@@ -8,6 +8,9 @@ import {
   completedValues,
 } from './order-consigned-entries/order-consigned-entries.model';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',

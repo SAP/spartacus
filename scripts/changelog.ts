@@ -88,6 +88,7 @@ export default async function run(
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
     '@spartacus/cart': 'feature-libs/cart',
+    '@spartacus/order': 'feature-libs/order',
     '@spartacus/digital-payments': 'integration-libs/digital-payments',
   };
 
@@ -357,6 +358,10 @@ if (typeof config.to === 'undefined') {
     case 'cart':
     case '@spartacus/cart':
       config.library = '@spartacus/cart';
+      break;
+    case 'order':
+    case '@spartacus/order':
+      config.library = '@spartacus/order';
       break;
     case 'digital-payments':
     case '@spartacus/digital-payments':
