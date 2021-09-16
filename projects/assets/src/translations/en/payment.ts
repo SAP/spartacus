@@ -31,7 +31,9 @@ export const payment = {
     invalidField: 'InvalidField: {{ field }}',
   },
   paymentCard: {
+    deletePayment: 'You are about to delete this payment method',
     deleteConfirmation: 'Are you sure you want to delete this payment method?',
+    paymentMethodDeletedSuccesfully: 'Payment method deleted successfully',
     setAsDefault: 'Set as default',
     expires: 'Expires: {{ month }}/{{ year }}',
     defaultPaymentMethod: '✓ DEFAULT',

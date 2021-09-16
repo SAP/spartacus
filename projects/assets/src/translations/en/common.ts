@@ -21,6 +21,9 @@ export const common = {
     search: 'Search',
     add: 'Add',
   },
+  screenReader: {
+    actionCancelled: "Action cancelled, nothing changed",
+  },
   pageMetaResolver: {
     category: {
       title: '{{count}} result for {{query}}',

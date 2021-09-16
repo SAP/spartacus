@@ -54,12 +54,22 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button aria-label="Action cancelled, nothing changed" class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button
+          [attr.aria-label]="'screenReader.actionCancelled' | cxTranslate"
+          class="btn btn-block btn-secondary"
+          (click)="cancelEdit()"
+        >
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
       <div class="col-md-6">
-        <button aria-label="Payment method deleted successfully" class="btn btn-block btn-primary" (click)="delete()">
+        <button
+          [attr.aria-label]="
+            'paymentCard.paymentMethodDeletedSuccesfully' | cxTranslate
+          "
+          class="btn btn-block btn-primary"
+          (click)="delete()"
+        >
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
