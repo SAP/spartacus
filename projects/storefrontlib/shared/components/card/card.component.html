@@ -11,7 +11,7 @@
   <!-- Card Body -->
   <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
     <!-- Edit message -->
-    <div *ngIf="editMode" class="cx-card-delete-msg">
+    <div *ngIf="editMode" role="alert" class="cx-card-delete-msg">
       {{ content.deleteMsg }}
     </div>
     <!-- Card title -->
@@ -54,12 +54,12 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button aria-label="Action cancelled, nothing changed" class="btn btn-block btn-secondary" (click)="cancelEdit()">
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
       <div class="col-md-6">
-        <button class="btn btn-block btn-primary" (click)="delete()">
+        <button aria-label="Payment method deleted successfully" class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
