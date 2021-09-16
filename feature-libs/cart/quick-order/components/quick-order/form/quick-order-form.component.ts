@@ -7,7 +7,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderFacade,
+  QuickOrderFormConfig,
+} from '@spartacus/cart/quick-order/root';
 import { GlobalMessageService, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
@@ -27,13 +30,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
-  config = {
-    minCharactersBeforeRequest: 2,
-    maxProducts: 5,
-    displayProductImages: true,
-  };
-  // SET DEFAULT CONFIG
-
   results$: Observable<Product[]>;
 
   get isDisabled(): boolean {
@@ -61,10 +57,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected _results: Product[] = [];
 
   constructor(
+    protected cd: ChangeDetectorRef,
+    protected config: QuickOrderFormConfig,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef,
-    protected cd: ChangeDetectorRef
+    protected winRef: WindowRef
   ) {}
 
   ngOnInit(): void {
@@ -183,11 +180,17 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       .pipe(
         distinctUntilChanged(),
         debounceTime(300),
-        filter(
-          (value) =>
-            !!value.product &&
-            value.product.length >= this.config.minCharactersBeforeRequest
-        )
+        filter((value) => {
+          if (this.config.quickOrderForm) {
+            return (
+              !!value.product &&
+              value.product.length >=
+                this.config.quickOrderForm.minCharactersBeforeRequest
+            );
+          }
+
+          return value;
+        })
       )
       .subscribe((value) => {
         this.searchProducts(value.product);
@@ -198,7 +201,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected searchProducts(query: string): void {
     this.results$ = this.quickOrderService
-      .search(query, this.config.maxProducts)
+      .search(query, this.config?.quickOrderForm?.maxProducts)
       .pipe(
         tap((products: Product[]) => {
           this._results = products;

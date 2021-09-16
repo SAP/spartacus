@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  defaultQuickOrderFormConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -44,9 +45,10 @@ export class QuickOrderService implements QuickOrderFacade {
   /**
    * Search product using query
    */
-  search(query: string, maxProducts: number): Observable<Product[]> {
+  search(query: string, maxProducts?: number): Observable<Product[]> {
     const searchConfig: SearchConfig = {
-      pageSize: maxProducts,
+      pageSize:
+        maxProducts || defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
     };
     return this.productSearchAdapter
       .search(query, searchConfig)

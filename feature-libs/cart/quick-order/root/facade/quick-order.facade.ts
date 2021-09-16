@@ -36,7 +36,7 @@ export abstract class QuickOrderFacade {
   /**
    * Search product using query
    */
-  abstract search(query: string, maxProducts: number): Observable<Product[]>;
+  abstract search(query: string, maxProducts?: number): Observable<Product[]>;
 
   /**
    * Clear a list of added entries
