@@ -129,7 +129,6 @@ describe('ProfileTagEventTracker', () => {
     );
     // retrigger profile-tag
     subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next(baseSite);
     subscription.unsubscribe();
     expect(appendChildSpy).toHaveBeenCalledTimes(1);
     expect(nativeWindow.Y_TRACKING.q[0].length).toEqual(1);
