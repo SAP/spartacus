@@ -6,10 +6,10 @@ import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-validation-cart-item-warning',
-  templateUrl: './cart-validation-cart-item-warning.component.html',
+  templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartValidationCartItemWarningComponent {
+export class CartItemValidationWarningComponent {
   @Input()
   code: string;
 

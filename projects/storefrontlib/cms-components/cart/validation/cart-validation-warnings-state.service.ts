@@ -18,12 +18,12 @@ export class CartValidationWarningsStateService {
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
-  shouldEndClear$ = new Subject<boolean>();
+  shouldCloseStream$ = new Subject<boolean>();
   cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
 
   checkForValidationResultClear$ = this.routingService.getRouterState().pipe(
     withLatestFrom(this.cartValidationResult$),
-    takeUntil(this.shouldEndClear$),
+    takeUntil(this.shouldCloseStream$),
     tap(([routerState, cartModifications]) => {
       if (
         this.navigationIdCount + this.NAVIGATION_SKIPS <=
@@ -32,7 +32,7 @@ export class CartValidationWarningsStateService {
       ) {
         this.cartValidationResult$.next([]);
         this.navigationIdCount = routerState.navigationId;
-        this.shouldEndClear$.next(true);
+        this.shouldCloseStream$.next(true);
       }
     })
   );

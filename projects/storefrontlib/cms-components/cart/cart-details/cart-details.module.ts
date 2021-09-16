@@ -12,7 +12,7 @@ import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
-import { CartValidationCartWarningsModule } from '../validation/cart-warnings/cart-validation-cart-warnings.module';
+import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { CartValidationCartWarningsModule } from '../validation/cart-warnings/ca
     PromotionsModule,
     FeaturesConfigModule,
     I18nModule,
-    CartValidationCartWarningsModule,
+    CartValidationWarningsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
