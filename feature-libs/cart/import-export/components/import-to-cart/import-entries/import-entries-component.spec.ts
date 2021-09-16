@@ -2,35 +2,15 @@ import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  CmsComponentData,
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportEntriesComponent } from './import-entries-component';
-
-const mockCmsComponentData = {
-  fileValidity: {
-    maxSize: 1,
-    allowedExtensions: [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel',
-      'text/csv',
-      '.csv',
-    ],
-  },
-};
-const MockCmsImportEntriesComponent = <CmsComponentData<any>>{
-  data$: of(mockCmsComponentData),
-};
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
+    _vcr?: ViewContainerRef
   ) {
     return of();
   }
@@ -48,7 +28,6 @@ describe('ImportEntriesComponent', () => {
       declarations: [ImportEntriesComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: CmsComponentData, useValue: MockCmsImportEntriesComponent },
       ],
     }).compileComponents();
 
@@ -68,12 +47,11 @@ describe('ImportEntriesComponent', () => {
   });
 
   it('should trigger an open dialog to import CSV', () => {
-    component.openDialog(mockCmsComponentData);
+    component.openDialog();
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
-      component['vcr'],
-      mockCmsComponentData
+      component['vcr']
     );
   });
 

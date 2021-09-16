@@ -9,7 +9,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
-  CmsImportEntriesComponent,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
@@ -17,7 +17,7 @@ import {
   FormErrorsModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportToSavedCartFormComponent } from './import-to-saved-cart-form.component';
 
@@ -26,18 +26,25 @@ const mockLoadFileData: string[][] = [
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
 
-const mockCmsComponentData: CmsImportEntriesComponent = {
-  fileValidity: {
-    maxSize: 1,
-    allowedExtensions: [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel',
-      'text/csv',
-      '.csv',
-    ],
-  },
-  cartNameGeneration: {
-    source: NameSource.FILE_NAME,
+const mockImportExportConfig: ImportExportConfig = {
+  cartImportExport: {
+    file: {
+      separator: ',',
+    },
+    import: {
+      fileValidity: {
+        maxSize: 1,
+        allowedExtensions: [
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-excel',
+          'text/csv',
+          '.csv',
+        ],
+      },
+      cartNameGeneration: {
+        source: NameSource.FILE_NAME,
+      },
+    },
   },
 };
 
@@ -58,13 +65,8 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-const cmsComponentDataSubject = new BehaviorSubject<CmsImportEntriesComponent>(
-  mockCmsComponentData
-);
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
-  data$ = cmsComponentDataSubject.asObservable();
 }
 
 class MockImportToCartService implements Partial<ImportToCartService> {
@@ -106,6 +108,7 @@ describe('ImportToSavedCartFormComponent', () => {
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvService, useClass: MockImportCsvService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ImportExportConfig, useValue: mockImportExportConfig },
       ],
     }).compileComponents();
 
@@ -226,10 +229,15 @@ describe('ImportToSavedCartFormComponent', () => {
     testData.forEach(
       ({ testName, cartNameGeneration, resultMask, alreadyFilledName }) => {
         it(testName, () => {
-          cmsComponentDataSubject.next({
-            ...cmsComponentDataSubject.value,
-            cartNameGeneration,
-          });
+          component['importExportConfig'] = {
+            cartImportExport: {
+              ...mockImportExportConfig.cartImportExport,
+              import: {
+                ...mockImportExportConfig.cartImportExport.import,
+                cartNameGeneration,
+              },
+            },
+          };
           component.ngOnInit();
 
           if (alreadyFilledName) {
