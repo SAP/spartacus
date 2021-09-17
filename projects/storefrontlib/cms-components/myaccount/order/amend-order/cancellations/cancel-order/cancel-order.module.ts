@@ -6,13 +6,16 @@ import {
   CmsPageGuard,
   PageLayoutComponent,
 } from '../../../../../../cms-structure/index';
+import { FormErrorsModule } from '../../../../../../shared/index';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
 import { OrderAmendService } from '../../amend-order.service';
 import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
-import { FormErrorsModule } from '../../../../../../shared/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,
