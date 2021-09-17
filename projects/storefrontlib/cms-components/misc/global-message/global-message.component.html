@@ -1,6 +1,8 @@
 <div *ngIf="messages$ | async as messages">
   <div
     class="alert alert-success"
+    aria-live="polite"
+    aria-atomic="true"
     *ngFor="
       let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION];
       let i = index
@@ -20,6 +22,8 @@
   </div>
   <div
     class="alert alert-info"
+    aria-live="polite"
+    aria-atomic="true"
     *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
   >
     <span class="alert-icon">
@@ -36,6 +40,8 @@
   </div>
   <div
     class="alert alert-warning"
+    aria-live="assertive"
+    aria-atomic="true"
     *ngFor="
       let infoMsg of messages[messageType.MSG_TYPE_WARNING];
       let i = index
@@ -55,6 +61,8 @@
   </div>
   <div
     class="alert alert-danger"
+    aria-live="assertive"
+    aria-atomic="true"
     *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
   >
     <span class="alert-icon">
