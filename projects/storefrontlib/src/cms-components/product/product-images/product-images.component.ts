@@ -10,7 +10,7 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
+  private mainMediaContainer = new BehaviorSubject<ImageGroup | any>(null);
 
   private product$: Observable<Product> = this.currentProductService
     .getProduct()
@@ -81,7 +81,7 @@ export class ProductImagesComponent {
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2
+      product.images.GALLERY.length < 2 
     ) {
       return [];
     }
