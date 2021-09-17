@@ -206,7 +206,7 @@ export class OptimizedSsrEngine {
      */
     const isFirstRequestForKey = !this.renderingCache.isRendering(renderingKey);
 
-    this.incrementCurrentConcurrency({ isFirstRequestForKey });
+    this.incrementCurrentConcurrency(isFirstRequestForKey);
 
     let waitingForRender: NodeJS.Timeout | undefined;
     if (this.shouldTimeout(request)) {
@@ -246,10 +246,8 @@ export class OptimizedSsrEngine {
         this.renderCallbacks.delete(renderingKey);
       }
 
-      this.decrementCurrentConcurrency({ isFirstRequestForKey });
+      this.decrementCurrentConcurrency(isFirstRequestForKey);
     }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
-
-    this.log(`Rendering started (${request?.originalUrl})`);
 
     const renderCallback: SsrCallbackFn = (err, html) => {
       if (!maxRenderTimeout) {
@@ -279,7 +277,7 @@ export class OptimizedSsrEngine {
         this.renderingCache.store(renderingKey, err, html);
       }
 
-      this.decrementCurrentConcurrency({ isFirstRequestForKey });
+      this.decrementCurrentConcurrency(isFirstRequestForKey);
     };
 
     this.handleRender({
@@ -334,6 +332,7 @@ export class OptimizedSsrEngine {
     const renderingKey = this.getRenderingKey(request);
 
     if (!this.ssrOptions?.reuseCurrentRendering) {
+      this.log(`Rendering started (${request?.originalUrl})`);
       this.expressEngine(filePath, options, renderCallback);
       return;
     }
@@ -344,6 +343,7 @@ export class OptimizedSsrEngine {
     this.renderCallbacks.get(renderingKey)?.push(renderCallback);
 
     if (isFirstRequestForKey) {
+      this.log(`Rendering started (${request?.originalUrl})`);
       this.expressEngine(filePath, options, (err, html) => {
         // Share the result of the render with all awaiting requests for the same key:
 
@@ -353,16 +353,17 @@ export class OptimizedSsrEngine {
         this.renderCallbacks.delete(renderingKey);
       });
     }
+
+    const renderCallbacksCount = this.renderCallbacks.get(renderingKey)?.length;
+    this.log(
+      `${renderCallbacksCount} requests waiting for the render to complete (${request?.originalUrl})`
+    );
   }
 
   /**
    * Updates the state of the concurrency before starting the render.
    */
-  private incrementCurrentConcurrency({
-    isFirstRequestForKey,
-  }: {
-    isFirstRequestForKey: boolean;
-  }): void {
+  private incrementCurrentConcurrency(isFirstRequestForKey: boolean): void {
     if (!this.ssrOptions?.reuseCurrentRendering) {
       this.currentConcurrency++;
       return;
@@ -380,11 +381,7 @@ export class OptimizedSsrEngine {
   /**
    * Updates the state of the concurrency after the render is considered finished.
    */
-  private decrementCurrentConcurrency({
-    isFirstRequestForKey,
-  }: {
-    isFirstRequestForKey: boolean;
-  }) {
+  private decrementCurrentConcurrency(isFirstRequestForKey: boolean) {
     if (!this.ssrOptions?.reuseCurrentRendering) {
       this.currentConcurrency--;
       return;
