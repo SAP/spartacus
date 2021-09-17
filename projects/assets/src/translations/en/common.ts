@@ -22,7 +22,7 @@ export const common = {
     add: 'Add',
   },
   screenReader: {
-    actionCancelled: "Action cancelled, nothing changed",
+    actionCancelled: 'Action cancelled, nothing changed',
   },
   pageMetaResolver: {
     category: {
