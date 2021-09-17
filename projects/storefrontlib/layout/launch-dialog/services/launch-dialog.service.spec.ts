@@ -222,7 +222,6 @@ describe('LaunchDialogService', () => {
       service.openDialogAndSubscribe(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
-        component.vcr,
         { test: 123 }
       );
 
@@ -231,7 +230,7 @@ describe('LaunchDialogService', () => {
       ).toHaveBeenCalledWith(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
-        component.vcr,
+        undefined,
         { test: 123 }
       );
     });

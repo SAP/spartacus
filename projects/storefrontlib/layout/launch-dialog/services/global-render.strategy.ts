@@ -44,7 +44,8 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
 
       this.injector.get(ApplicationRef)?.attachView(componentRef.hostView);
 
-      this.hostComponent?.location.nativeElement.appendChild(
+      this.renderer.appendChild(
+        this.hostComponent?.location.nativeElement,
         componentRef.location.nativeElement
       );
 

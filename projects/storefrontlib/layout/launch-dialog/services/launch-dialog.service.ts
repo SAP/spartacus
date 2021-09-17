@@ -90,16 +90,16 @@ export class LaunchDialogService {
    *
    * @param caller Launch Caller
    * @param openElement Element to open
-   * @param vcr ViewContainerRef (inline launch)
    * @param data Data to provide to the rendered element
    */
   openDialogAndSubscribe(
     caller: LAUNCH_CALLER | string,
     openElement?: ElementRef,
-    vcr?: ViewContainerRef,
     data?: any
   ): void {
-    this.openDialog(caller, openElement, vcr, data)?.pipe(take(1)).subscribe();
+    this.openDialog(caller, openElement, undefined, data)
+      ?.pipe(take(1))
+      .subscribe();
   }
 
   /**
