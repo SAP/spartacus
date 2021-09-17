@@ -1,5 +1,5 @@
 <ng-container *ngIf="order$ | async as order">
-  <div class="cx-page-header" aria-label="polite" aria-atomic="true">
+  <div class="cx-page-header" aria-live="polite" aria-atomic="true">
     <h1 class="cx-page-title">
       {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
       {{
@@ -12,7 +12,7 @@
 
   <div
     class="cx-order-confirmation-message"
-    aria-label="polite"
+    aria-live="polite"
     aria-atomic="true"
   >
     <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
