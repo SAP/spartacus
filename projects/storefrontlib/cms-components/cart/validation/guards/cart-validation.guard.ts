@@ -11,7 +11,7 @@ import {
   CartModification,
   RoutingService,
 } from '@spartacus/core';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
 
 @Injectable({
@@ -29,9 +29,10 @@ export class CartValidationGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    this.cartValidationWarningsStateService.checkForValidationResultClear$.subscribe();
-
     return this.cartValidationService.getCartValidationStatus().pipe(
+      tap(() => {
+        this.cartValidationWarningsStateService.checkForValidationResultClear$.subscribe();
+      }),
       map((cartModificationList: CartModificationList) => {
         this.updateValidationResultState(
           cartModificationList?.cartModifications

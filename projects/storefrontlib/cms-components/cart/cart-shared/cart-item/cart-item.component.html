@@ -1,5 +1,8 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
+  <cx-cart-item-validation-warning
+    [code]="item.product.code"
+  ></cx-cart-item-validation-warning>
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
     <div class="col-2 cx-image-container">

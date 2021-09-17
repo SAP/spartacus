@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CartValidationCartWarningsModule } from './cart-warnings/cart-validation-cart-warnings.module';
+import { CartValidationWarningsModule } from './cart-warnings/cart-validation-warnings.module';
 
 @NgModule({
-  imports: [CartValidationCartWarningsModule],
+  imports: [CartValidationWarningsModule],
   providers: [],
 })
 export class CartValidationComponentsModule {}

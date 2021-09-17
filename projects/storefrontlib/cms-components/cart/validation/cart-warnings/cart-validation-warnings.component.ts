@@ -5,11 +5,11 @@ import { CartValidationWarningsStateService } from '../cart-validation-warnings-
 import { ICON_TYPE } from '../../../misc';
 
 @Component({
-  selector: 'cx-cart-validation-cart-warnings',
-  templateUrl: './cart-validation-cart-warnings.component.html',
+  selector: 'cx-cart-validation-warnings',
+  templateUrl: './cart-validation-warnings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartValidationCartWarningsComponent {
+export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;
   visibleWarnings: { [key: string]: boolean } = {};
 
