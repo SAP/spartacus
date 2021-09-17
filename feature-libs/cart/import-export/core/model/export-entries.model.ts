@@ -34,6 +34,11 @@ export interface ExportConfig {
    * File name for exported file.
    */
   fileName?: string;
+
+  /**
+   * Determines lines limit in exported CSV file.
+   */
+  maxLines?: number;
 }
 
 export enum ExportCartRoutes {

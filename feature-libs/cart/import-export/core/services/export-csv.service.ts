@@ -14,20 +14,27 @@ export class ExportCsvService {
   /**
    * Converts array of objects into CSV data structure.
    *
-   * @param objectsArray Array of objects which should be converted to CSV.
-   * @returns Processed string ready to be saved into file
+   * @param {string[][]} objectsArray Array of objects which should be converted to CSV.
+   * @param {number} [maxLines] Maximum number of ilnes in final CSV data.
+   * @returns {string} Processed string ready to be saved into file.
    */
-  dataToCsv(objectsArray: string[][]): string {
+  dataToCsv(objectsArray: string[][], maxLines?: number): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-    return array.reduce((csvString: string, row: string[]) => {
-      const line = row.reduce((currentLine, column) => {
-        currentLine += currentLine !== '' ? this.separator : '';
-        const cell = column.includes(this.separator) ? `"${column}"` : column;
-        return `${currentLine}${cell}`;
-      }, '');
-      return `${csvString}${line}\r\n`;
-    }, '');
+    return array.reduce(
+      (csvString: string, row: string[], index: number, result: string[]) => {
+        if (maxLines && maxLines === index + 1) {
+          result.splice(maxLines);
+        }
+        const line = row.reduce((currentLine, column) => {
+          currentLine += currentLine !== '' ? this.separator : '';
+          const cell = column.includes(this.separator) ? `"${column}"` : column;
+          return `${currentLine}${cell}`;
+        }, '');
+        return `${csvString}${line}\r\n`;
+      },
+      ''
+    );
   }
 
   downloadCsv(

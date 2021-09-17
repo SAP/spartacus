@@ -127,7 +127,7 @@ export class ExportEntriesService {
     }
 
     this.exportCsvService.downloadCsv(
-      this.exportCsvService.dataToCsv(entries),
+      this.exportCsvService.dataToCsv(entries, this.exportConfig?.maxLines),
       this.exportConfig
     );
   }

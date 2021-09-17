@@ -23,6 +23,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
       messageEnabled: true,
       downloadDelay: 1000,
       fileName: 'cart',
+      maxLines: 1000,
     },
   },
 };

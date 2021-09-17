@@ -34,8 +34,16 @@ describe('ExportCsvService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should convert array to csv string', () => {
+  it('should convert array to CSV string', () => {
     expect(service.dataToCsv(mockEntries)).toBe(mockCsvString);
+  });
+
+  it('should convert array to CSV string and set maxLines limit', () => {
+    const maxLines = 2;
+
+    expect(service.dataToCsv(mockEntries, maxLines)).toBe(
+      `Sku,Quantity,Name,Price\r\n4567133,1,PSM 80 A,$12.00\r\n`
+    );
   });
 
   it('should convert data and download', () => {
