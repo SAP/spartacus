@@ -780,6 +780,7 @@ describe('OptimizedSsrEngine', () => {
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
+          // start 1st request
           engineRunner.request(requestUrl);
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
@@ -788,13 +789,17 @@ describe('OptimizedSsrEngine', () => {
             renderCallbacksCount: 1,
           });
 
+          // start 2nd request
           tick(200);
-
           engineRunner.request(requestUrl);
+          expect(getCurrentConcurrency(engineRunner)).toEqual({
+            currentConcurrency: 1,
+          });
           expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
             renderCallbacksCount: 2,
           });
 
+          // start 3rd request
           engineRunner.request(requestUrl);
           expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
             renderCallbacksCount: 3,
@@ -803,15 +808,7 @@ describe('OptimizedSsrEngine', () => {
             currentConcurrency: 1,
           });
 
-          tick(1);
-          engineRunner.request(requestUrl);
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
-            renderCallbacksCount: 4,
-          });
-          expect(getCurrentConcurrency(engineRunner)).toEqual({
-            currentConcurrency: 1,
-          });
-
+          // 1st request timeout
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
@@ -822,13 +819,11 @@ describe('OptimizedSsrEngine', () => {
             currentConcurrency: 1,
           }); // the render still continues in the background
 
+          // eventually the render succeeds and 2 remaining requests get the same response:
           tick(100);
-
-          // eventually the render succeeds and 3 remaining requests get the same response:
           expect(engineRunner.renderCount).toEqual(1);
           expect(engineRunner.renders).toEqual([
             '', // CSR fallback of the 1st request due to it timed out
-            `${requestUrl}-0`,
             `${requestUrl}-0`,
             `${requestUrl}-0`,
           ]);
