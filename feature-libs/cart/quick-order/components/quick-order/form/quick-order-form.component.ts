@@ -175,6 +175,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.validateProductControl(this.isDisabled);
   }
 
+  protected isEmpty(product: string): boolean {
+    return(product.trim() === '' || product == null);
+  }
+
   protected watchQueryChange(): Subscription {
     return this.form.valueChanges
       .pipe(
@@ -182,6 +186,12 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         debounceTime(300),
         filter((value) => {
           if (this.config.quickOrderForm) {
+            //Check if input to quick order is an empty after deleting input manually
+            if(this.isEmpty(value.product)){
+              //Clear recommendation results on empty string
+              this.clear();
+              return false;
+            }
             return (
               !!value.product &&
               value.product.length >=
