@@ -5,7 +5,7 @@ import { CartValidationWarningsStateService } from '../cart-validation-warnings-
 import { ICON_TYPE } from '../../../misc';
 
 @Component({
-  selector: 'cx-cart-validation-cart-warnings',
+  selector: 'cx-cart-validation-warnings',
   templateUrl: './cart-validation-warnings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

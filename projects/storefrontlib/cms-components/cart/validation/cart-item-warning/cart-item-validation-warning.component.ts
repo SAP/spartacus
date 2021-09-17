@@ -5,7 +5,7 @@ import { ICON_TYPE } from '../../../misc';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-cart-validation-cart-item-warning',
+  selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
