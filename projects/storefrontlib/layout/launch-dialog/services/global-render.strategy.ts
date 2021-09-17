@@ -30,7 +30,7 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
   render(
     config: LaunchGlobalDialog,
     caller: LAUNCH_CALLER | string
-  ): Observable<ComponentRef<any> | undefined> | void {
+  ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -44,7 +44,7 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
 
       this.injector.get(ApplicationRef)?.attachView(componentRef.hostView);
 
-      this.hostComponent?.location?.nativeElement.appendChild(
+      this.hostComponent?.location.nativeElement.appendChild(
         componentRef.location.nativeElement
       );
 

@@ -26,7 +26,8 @@ export interface LaunchDialog {
 }
 
 /**
- * Configuration type to render a component in an outlet
+ * Configuration type to render a component in an outlet.
+ * Outlet rendering should only be used for elements that open once and do not close.
  */
 export interface LaunchOutletDialog extends LaunchDialog {
   /**
@@ -47,7 +48,8 @@ export interface LaunchInlineDialog extends LaunchDialog {
 }
 
 /**
- * Configuration type to render globally (FIND A BETTER NAME)
+ * Configuration type to render a component directly inside the cx-storefront (storefront selector).
+ * Best used for global elements like dialogs.
  */
 export interface LaunchGlobalDialog extends LaunchDialog {
   global: boolean;

@@ -1,3 +1,4 @@
+export * from './global-render.strategy';
 export * from './inline-render.strategy';
 export * from './launch-dialog.service';
 export * from './launch-render.strategy';

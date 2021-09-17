@@ -68,7 +68,7 @@ export class LaunchDialogService {
     caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef,
     data?: any
-  ): void | Observable<ComponentRef<any>> {
+  ): void | Observable<ComponentRef<any> | undefined> {
     const config = this.findConfiguration(caller);
     if (config) {
       const renderer = this.getStrategy(config);
@@ -109,11 +109,14 @@ export class LaunchDialogService {
    */
   clear(caller: LAUNCH_CALLER | string): void {
     const config = this.findConfiguration(caller);
-    const renderer = this.getStrategy(config);
 
-    // Render if the strategy exists
-    if (renderer) {
-      renderer.remove(caller, config);
+    if (config) {
+      const renderer = this.getStrategy(config);
+
+      // Render if the strategy exists
+      if (renderer) {
+        renderer.remove(caller, config);
+      }
     }
   }
 
@@ -130,7 +133,9 @@ export class LaunchDialogService {
    *
    * @param caller LAUNCH_CALLER
    */
-  protected findConfiguration(caller: LAUNCH_CALLER | string): LaunchOptions {
+  protected findConfiguration(
+    caller: LAUNCH_CALLER | string
+  ): LaunchOptions | undefined {
     if (this.layoutConfig?.launch) {
       return this.layoutConfig.launch[caller];
     }
