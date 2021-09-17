@@ -23,6 +23,7 @@ export class QuickOrderService implements QuickOrderFacade {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
+  protected lastDeletedEntry: OrderEntry | null = null;
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -74,6 +75,7 @@ export class QuickOrderService implements QuickOrderFacade {
   removeEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
+      this.setLastDeletedEntry(entriesList[index]);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
@@ -140,6 +142,32 @@ export class QuickOrderService implements QuickOrderFacade {
       map(() => [entries, events] as [OrderEntry[], QuickOrderAddEntryEvent[]]),
       tap(() => subscription.unsubscribe())
     );
+  }
+
+  /**
+   * Set last deleted entry
+   */
+  setLastDeletedEntry(entry: OrderEntry | null): void {
+    this.lastDeletedEntry = entry;
+  }
+
+  /**
+   * Return last deleted entry
+   */
+  getLastDeletedEntry(): OrderEntry | null {
+    return this.lastDeletedEntry;
+  }
+
+  /**
+   * Undo last deleted entry
+   */
+  undoLastDeletedEntry(): void {
+    const deletedEntry = this.getLastDeletedEntry();
+
+    if (deletedEntry) {
+      this.addEntry(deletedEntry);
+      this.setLastDeletedEntry(null);
+    }
   }
 
   /**

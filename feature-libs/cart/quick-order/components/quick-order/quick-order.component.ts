@@ -112,6 +112,14 @@ export class QuickOrderComponent implements OnInit {
     this.cartSuccesses$.next([]);
   }
 
+  undoDeletion(): void {
+    this.quickOrderService.undoLastDeletedEntry();
+  }
+
+  isUndoDeletionEnable(): boolean {
+    return !!this.quickOrderService.getLastDeletedEntry();
+  }
+
   protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {
     const noAddedEntries = errors.filter((error) => error.quantityAdded === 0);
 

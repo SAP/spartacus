@@ -85,7 +85,21 @@
       <cx-quick-order-form
         [isDisabled]="entries.length >= quickOrderListLimit"
         [isLoading]="!(isCartStable$ | async)"
-      ></cx-quick-order-form>
+      >
+        <!-- <div class="quick-order-undo"> -->
+        <div class="col-xs-12 col-md-4 col-lg-3">
+          <button
+            *ngIf="isUndoDeletionEnable()"
+            (click)="undoDeletion()"
+            [attr.aria-label]="'Undo Entry Deletion'"
+            class="btn btn-block btn-primary undo-button"
+            type="button"
+          >
+            Undo Entry Deletion
+          </button>
+        </div>
+        <!-- </div> -->
+      </cx-quick-order-form>
     </div>
 
     <div class="quick-order-table-body">
@@ -96,7 +110,7 @@
     </div>
 
     <div class="quick-order-footer row">
-      <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="col-xs-12 col-md-4 col-lg-3">
         <button
           *ngIf="entries.length"
           (click)="clear()"
@@ -109,7 +123,7 @@
         </button>
       </div>
 
-      <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="col-xs-12 col-md-4 col-lg-3">
         <cx-progress-button
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"

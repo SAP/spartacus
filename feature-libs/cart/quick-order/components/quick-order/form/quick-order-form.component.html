@@ -1,23 +1,27 @@
-<form
-  (ngSubmit)="search($event)"
-  [formGroup]="form"
-  class="quick-order-form-container"
->
-  <div class="quick-order-form-input">
-    <input
-      [attr.aria-label]="'common.search' | cxTranslate"
-      class="form-control"
-      formControlName="product"
-      placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
-      type="text"
-    />
+<div class="quick-order-form-container row">
+  <form
+    (ngSubmit)="search($event)"
+    [formGroup]="form"
+    class="col-xs-12 col-md-4 col-lg-3 quick-order-form-content"
+  >
+    <div class="quick-order-form-input">
+      <input
+        [attr.aria-label]="'common.search' | cxTranslate"
+        class="form-control"
+        formControlName="product"
+        placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+        type="text"
+      />
 
-    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
+      <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
 
-    <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+      <cx-form-errors [control]="form.get('product')"></cx-form-errors>
 
-    <span *ngIf="isDisabled" class="list-limit-reached-text">
-      {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
-    </span>
-  </div>
-</form>
+      <span *ngIf="isDisabled" class="list-limit-reached-text">
+        {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
+      </span>
+    </div>
+  </form>
+
+  <ng-content></ng-content>
+</div>

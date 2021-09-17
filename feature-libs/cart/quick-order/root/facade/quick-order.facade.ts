@@ -9,16 +9,19 @@ export function quickOrderFacadeFactory() {
     facade: QuickOrderFacade,
     feature: CART_QUICK_ORDER_CORE_FEATURE,
     methods: [
-      'getEntries',
-      'search',
-      'clearList',
-      'loadEntries',
-      'updateEntryQuantity',
-      'removeEntry',
       'addProduct',
-      'getProductAdded',
-      'setProductAdded',
       'addToCart',
+      'clearList',
+      'getEntries',
+      'getProductAdded',
+      'loadEntries',
+      'removeEntry',
+      'search',
+      'setProductAdded',
+      'updateEntryQuantity',
+      'setLastDeletedEntry',
+      'getLastDeletedEntry',
+      'undoLastDeletedEntry',
     ],
   });
 }
@@ -77,4 +80,19 @@ export abstract class QuickOrderFacade {
    * Adding to cart all products from the list
    */
   abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
+
+  /**
+   * Set last deleted entry
+   */
+  abstract setLastDeletedEntry(entry: OrderEntry): void;
+
+  /**
+   * Return last deleted entry
+   */
+  abstract getLastDeletedEntry(): OrderEntry | null;
+
+  /**
+   * Undo last deleted entry
+   */
+  abstract undoLastDeletedEntry(): void;
 }
