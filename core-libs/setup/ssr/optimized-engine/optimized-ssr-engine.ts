@@ -227,7 +227,6 @@ export class OptimizedSsrEngine {
       this.fallbackToCsr(response, filePath, callback);
     }
 
-    // start rendering
     this.renderingCache.setAsRendering(renderingKey);
 
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
@@ -283,7 +282,7 @@ export class OptimizedSsrEngine {
       this.decrementCurrentConcurrency({ isFirstRequestForKey });
     };
 
-    this.startRender({
+    this.handleRender({
       filePath,
       options,
       renderCallback,
@@ -319,7 +318,7 @@ export class OptimizedSsrEngine {
    * render task for the same rendering key**, it doesn't delegate a new render to Angular Universal.
    * Instead, it waits for the current rendering to complete and then reuse the result for all waiting requests.
    */
-  private startRender({
+  private handleRender({
     filePath,
     options,
     renderCallback,
@@ -331,7 +330,7 @@ export class OptimizedSsrEngine {
     renderCallback: SsrCallbackFn;
     request: Request;
     isFirstRequestForKey: boolean;
-  }) {
+  }): void {
     const renderingKey = this.getRenderingKey(request);
 
     if (!this.ssrOptions?.reuseCurrentRendering) {
@@ -348,7 +347,7 @@ export class OptimizedSsrEngine {
       this.expressEngine(filePath, options, (err, html) => {
         // Share the result of the render with all awaiting requests for the same key:
 
-        // Note: we access the Map at the moment of the render finished (don't store value it in a local variable),
+        // Note: we access the Map at the moment of the render finished (don't store value in a local variable),
         //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
         this.renderCallbacks.get(renderingKey)?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
         this.renderCallbacks.delete(renderingKey);

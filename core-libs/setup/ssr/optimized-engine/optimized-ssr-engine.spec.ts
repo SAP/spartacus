@@ -667,7 +667,7 @@ describe('OptimizedSsrEngine', () => {
     });
 
     describe('when enabled', () => {
-      describe('multiple subsequent requests for the same rendering key should reuse the current render', () => {
+      describe('multiple subsequent requests for the same rendering key should reuse the same render', () => {
         it('and the first request should timeout', fakeAsync(() => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
@@ -827,7 +827,7 @@ describe('OptimizedSsrEngine', () => {
           // eventually the render succeeds and 3 remaining requests get the same response:
           expect(engineRunner.renderCount).toEqual(1);
           expect(engineRunner.renders).toEqual([
-            '',
+            '', // CSR fallback of the 1st request due to it timed out
             `${requestUrl}-0`,
             `${requestUrl}-0`,
             `${requestUrl}-0`,
@@ -960,7 +960,7 @@ describe('OptimizedSsrEngine', () => {
         }));
       });
 
-      it('should NOT queue the subsequent requests for a different rendering key', fakeAsync(() => {
+      it('should perform separate renders for different rendering keys', fakeAsync(() => {
         const timeout = 300;
         const engineRunner = new TestEngineRunner(
           { timeout, reuseCurrentRendering: true },
