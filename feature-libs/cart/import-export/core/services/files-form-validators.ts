@@ -37,15 +37,16 @@ export class FilesFormValidators {
   }
 
   /**
-   * Checks max size of file
+   * Checks max lines of file
    *
-   * @param {number} maxSize Max size [MB]
-   * @returns Uses 'tooLarge' validator error with maxSize property
+   * @param {number} maxLines
+   * @returns Uses 'tooManyItems' validator error with maxLines property
    * @memberof FilesFormValidators
    */
   maxLines(_maxLines?: number): ValidatorFn {
     return (_control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
+      // TODO: Add maxLines validator logic #13772
       return Object.keys(errors).length === 0 ? null : errors;
     };
   }
