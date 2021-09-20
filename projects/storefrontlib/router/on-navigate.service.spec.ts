@@ -73,7 +73,7 @@ fdescribe('OnNavigateService', () => {
 
   describe('setResetViewOnNavigate()', () => {
     beforeEach(() => {
-      spyOn(viewportScroller, 'scrollToPosition');
+      spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
     });
 
     it('should scroll to the top on navigation when no position (forward navigation)', () => {
