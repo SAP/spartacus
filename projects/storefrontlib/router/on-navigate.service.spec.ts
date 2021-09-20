@@ -17,9 +17,9 @@ class MockRouter implements Partial<Router> {
   events = mockEvents$.asObservable();
 }
 
-class MockViewPortScroller implements Partial<ViewportScroller> {
-  scrollToPosition(_position: [number, number]): void {}
-}
+// class MockViewPortScroller implements Partial<ViewportScroller> {
+//   scrollToPosition(_position: [number, number]): void {}
+// }
 
 fdescribe('OnNavigateService', () => {
   let service: OnNavigateService;
@@ -39,10 +39,11 @@ fdescribe('OnNavigateService', () => {
           provide: Router,
           useClass: MockRouter,
         },
-        {
-          provide: ViewportScroller,
-          useClass: MockViewPortScroller,
-        },
+        ViewportScroller,
+        // {
+        //   provide: ViewportScroller,
+        //   useClass: MockViewPortScroller,
+        // },
       ],
     }).compileComponents();
 
@@ -72,26 +73,28 @@ fdescribe('OnNavigateService', () => {
 
   describe('setResetViewOnNavigate()', () => {
     beforeEach(() => {
-      spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
+      spyOn(viewportScroller, 'scrollToPosition');
     });
 
     it('should scroll to the top on navigation when no position (forward navigation)', () => {
       mockEvents$.next(
         new Scroll(new NavigationEnd(1, '/test', '/test'), null, null)
       );
-
-      service.setResetViewOnNavigate(true);
-
-      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
-    });
-
-    it('should scroll to a position on navigation when no position (backward navigation)', () => {
       mockEvents$.next(
-        new Scroll(new NavigationEnd(2, '/test2', '/test2'), [1000, 500], null)
+        new Scroll(new NavigationEnd(2, '/test2', '/test2'), null, null)
       );
 
       service.setResetViewOnNavigate(true);
 
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalled();
+    });
+
+    it('should scroll to a position on navigation when no position (backward navigation)', () => {
+      console.log('in here');
+      mockEvents$.next(
+        new Scroll(new NavigationEnd(2, '/test2', '/test2'), [1000, 500], null)
+      );
+      service.setResetViewOnNavigate(true);
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000,
         500,

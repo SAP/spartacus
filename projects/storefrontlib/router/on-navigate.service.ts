@@ -34,6 +34,7 @@ export class OnNavigateService implements OnDestroy {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      console.log('enabled');
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
@@ -50,6 +51,7 @@ export class OnNavigateService implements OnDestroy {
           } else {
             console.log('aft');
             this.viewportScroller.scrollToPosition([0, 0]);
+            console.log('vat');
           }
         });
     }
