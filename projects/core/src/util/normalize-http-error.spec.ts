@@ -21,11 +21,15 @@ describe('normalizeHttpError', () => {
         url: '/xxx',
       });
 
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result?.message).toEqual(mockError.message);
-      expect(result?.status).toEqual(mockError.status);
-      expect(result?.statusText).toEqual(mockError.statusText);
-      expect(result?.url).toEqual(mockError.url);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+        })
+      );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
 
@@ -37,9 +41,20 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result?.message).toEqual(mockError.message);
-      expect(result?.details).toEqual([{ message: 'errorMessage' }]);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+          details: [
+            {
+              message: 'errorMessage',
+            },
+          ],
+        })
+      );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
 
@@ -51,11 +66,21 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result?.message).toEqual(mockError.message);
-      expect(result?.details).toEqual([
-        { message: 'errorMessage', type: 'errorType' },
-      ]);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+          details: [
+            {
+              message: 'errorMessage',
+              type: 'errorType',
+            },
+          ],
+        })
+      );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
   });
