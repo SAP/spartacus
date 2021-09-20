@@ -56,6 +56,7 @@ export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
 export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
 export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
+export const SPARTACUS_ORDER = '@spartacus/order';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -1108,4 +1109,5 @@ export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
 
 export const CLI_CHECKOUT_FEATURE = 'Checkout';
+export const CLI_ORDER_FEATURE = 'Order';
 /******* CLI end *******/

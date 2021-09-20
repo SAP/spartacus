@@ -13,6 +13,9 @@ import {
   tap,
 } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

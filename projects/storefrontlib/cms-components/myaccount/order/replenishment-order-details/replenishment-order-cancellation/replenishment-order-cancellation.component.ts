@@ -9,11 +9,14 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../../layout/launch-dialog/services/launch-dialog.service';
-import { LAUNCH_CALLER } from '../../../../../layout/launch-dialog/config/launch-config';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LAUNCH_CALLER } from '../../../../../layout/launch-dialog/config/launch-config';
+import { LaunchDialogService } from '../../../../../layout/launch-dialog/services/launch-dialog.service';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-replenishment-order-cancellation',
   templateUrl: './replenishment-order-cancellation.component.html',

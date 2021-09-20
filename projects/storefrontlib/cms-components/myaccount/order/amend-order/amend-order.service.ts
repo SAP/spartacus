@@ -18,6 +18,9 @@ function ValidateQuantityToCancel(control: FormControl) {
   return quantity > 0 ? null : { cxNoSelectedItemToCancel: true };
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export abstract class OrderAmendService {
   protected amendType: AmendOrderType;

@@ -43,33 +43,42 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
 
   termsAndConditions: { paths: ['terms-and-conditions'] },
+
+  /** @deprecated since 4.2, use order lib instead */
   orders: {
     paths: ['my-account/orders'],
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderDetails: {
     paths: ['my-account/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderGuest: {
     paths: ['guest/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderReturn: {
     paths: ['my-account/order/return/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderReturnConfirmation: {
     paths: ['my-account/order/return/confirmation/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderCancel: {
     paths: ['my-account/order/cancel/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   orderCancelConfirmation: {
     paths: ['my-account/order/cancel/confirmation/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   returnRequestDetails: {
     paths: ['my-account/return-request/:returnCode'],
     paramsMapping: { returnCode: 'rma' },
@@ -79,9 +88,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
   },
+  /** @deprecated since 4.2, use order lib instead */
   replenishmentOrders: {
     paths: ['my-account/my-replenishments'],
   },
+  /** @deprecated since 4.2, use order lib instead */
   replenishmentDetails: {
     paths: ['my-account/my-replenishment/:replenishmentOrderCode'],
     paramsMapping: { replenishmentOrderCode: 'replenishmentOrderCode' },
