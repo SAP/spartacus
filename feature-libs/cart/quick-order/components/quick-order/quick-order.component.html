@@ -108,7 +108,7 @@
     </div>
 
     <div class="quick-order-footer row">
-      <div class="col-xs-12 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-md-5 col-lg-4">
         <button
           *ngIf="entries.length"
           (click)="clear()"
@@ -121,7 +121,7 @@
         </button>
       </div>
 
-      <div class="col-xs-12 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-md-5 col-lg-4">
         <cx-progress-button
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
