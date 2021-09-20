@@ -17,6 +17,9 @@ import { OrderReturnGuard } from '../order-return.guard';
 import { OrderReturnService } from '../order-return.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

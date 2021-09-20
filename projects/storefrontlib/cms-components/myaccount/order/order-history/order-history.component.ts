@@ -11,6 +11,9 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
