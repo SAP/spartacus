@@ -19,11 +19,17 @@ cx-quick-order {
     width: 100%;
   }
 
-  .undo-button {
-    margin-bottom: 0 !important;
+  .quick-order-undo-body {
+    display: flex;
+    justify-content: flex-end;
 
-    @media (max-width: 767px) {
-      margin-top: 20px;
+    .undo-button {
+      margin-bottom: 0 !important;
+
+      @media (max-width: 767px) {
+        margin-top: 20px;
+        width: 100%;
+      }
     }
   }
 
