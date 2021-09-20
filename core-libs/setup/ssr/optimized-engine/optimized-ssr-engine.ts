@@ -201,12 +201,12 @@ export class OptimizedSsrEngine {
 
     const renderingKey = this.getRenderingKey(request);
 
-    let waitingForRender: NodeJS.Timeout | undefined;
+    let requestTimeout: NodeJS.Timeout | undefined;
     if (this.shouldTimeout(request)) {
       // establish timeout for rendering
       const timeout = this.getTimeout(request);
-      waitingForRender = setTimeout(() => {
-        waitingForRender = undefined;
+      requestTimeout = setTimeout(() => {
+        requestTimeout = undefined;
         this.fallbackToCsr(response, filePath, callback);
         this.log(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
@@ -221,9 +221,9 @@ export class OptimizedSsrEngine {
     }
 
     const renderCallback: SsrCallbackFn = (err, html) => {
-      if (waitingForRender) {
+      if (requestTimeout) {
         // if request is still waiting for render, return it
-        clearTimeout(waitingForRender);
+        clearTimeout(requestTimeout);
         callback(err, html);
 
         // store the render only if caching is enabled
