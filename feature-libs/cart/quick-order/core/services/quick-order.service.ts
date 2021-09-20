@@ -193,7 +193,7 @@ export class QuickOrderService implements QuickOrderFacade {
   private createQuickOrderResultEvent(
     cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
   ): QuickOrderAddEntryEvent {
-    let evt: QuickOrderAddEntryEvent = {
+    const evt: QuickOrderAddEntryEvent = {
       productCode: cartEvent.productCode,
       quantity: cartEvent.quantity,
     };
@@ -209,7 +209,7 @@ export class QuickOrderService implements QuickOrderFacade {
     }
 
     if (evt.error?.details?.length) {
-      let isOutOfStock = evt.error?.details.some(
+      const isOutOfStock = evt.error?.details.some(
         (e) => e.type === 'InsufficientStockError'
       );
       evt.quantityAdded = isOutOfStock ? 0 : evt.quantity;
