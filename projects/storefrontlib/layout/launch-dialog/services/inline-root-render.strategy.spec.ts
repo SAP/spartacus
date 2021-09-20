@@ -5,8 +5,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
-import { LaunchGlobalDialog, LAUNCH_CALLER } from '../config';
-import { GlobalRenderStrategy } from './global-render.strategy';
+import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config';
+import { InlineRootRenderStrategy } from './inline-root-render.strategy';
 
 @Component({
   template: '',
@@ -21,8 +21,8 @@ class MockRootComponent {}
 
 const mockLaunchConfig: LayoutConfig = {
   launch: {
-    TEST_GLOBAL: {
-      global: true,
+    TEST_INLINE_ROOT: {
+      inlineRoot: true,
       component: TestComponent,
     },
     TEST_OUTLET: {
@@ -48,15 +48,15 @@ class MockComponentFactoryResolver {
   }
 }
 
-describe('GlobalRenderStrategy', () => {
+describe('InlineRootRenderStrategy', () => {
   let fixture: ComponentFixture<MockRootComponent>;
-  let globalRenderStrategy: GlobalRenderStrategy;
+  let inlineRootRenderStrategy: InlineRootRenderStrategy;
   let appRef: ApplicationRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        GlobalRenderStrategy,
+        InlineRootRenderStrategy,
         {
           provide: ComponentFactoryResolver,
           useClass: MockComponentFactoryResolver,
@@ -68,11 +68,11 @@ describe('GlobalRenderStrategy', () => {
     appRef = TestBed.inject(ApplicationRef);
     fixture = TestBed.createComponent(MockRootComponent);
     appRef.components.push(fixture.componentRef);
-    globalRenderStrategy = TestBed.inject(GlobalRenderStrategy);
+    inlineRootRenderStrategy = TestBed.inject(InlineRootRenderStrategy);
   });
 
   it('should be created', () => {
-    expect(globalRenderStrategy).toBeTruthy();
+    expect(inlineRootRenderStrategy).toBeTruthy();
   });
 
   describe('render', () => {
@@ -80,9 +80,12 @@ describe('GlobalRenderStrategy', () => {
       spyOn(appRef, 'attachView');
       spyOn(fixture.componentRef.location.nativeElement, 'appendChild');
       const config = mockLaunchConfig?.launch?.[
-        'TEST_GLOBAL'
-      ] as LaunchGlobalDialog;
-      globalRenderStrategy.render(config, 'TEST_GLOBAL' as LAUNCH_CALLER);
+        'TEST_INLINE_ROOT'
+      ] as LaunchInlineRootDialog;
+      inlineRootRenderStrategy.render(
+        config,
+        'TEST_INLINE_ROOT' as LAUNCH_CALLER
+      );
 
       expect(appRef.attachView).toHaveBeenCalledWith(hostView as any);
       expect(
@@ -92,18 +95,18 @@ describe('GlobalRenderStrategy', () => {
   });
 
   describe('match', () => {
-    it('should return TRUE for an global config', () => {
+    it('should return TRUE for an inline root config', () => {
       const config = mockLaunchConfig?.launch?.[
-        'TEST_GLOBAL'
-      ] as LaunchGlobalDialog;
-      expect(globalRenderStrategy.hasMatch(config)).toBeTruthy();
+        'TEST_INLINE_ROOT'
+      ] as LaunchInlineRootDialog;
+      expect(inlineRootRenderStrategy.hasMatch(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
       const config = mockLaunchConfig?.launch?.[
         'TEST_OUTLET'
-      ] as LaunchGlobalDialog;
-      expect(globalRenderStrategy.hasMatch(config)).toBeFalsy();
+      ] as LaunchInlineRootDialog;
+      expect(inlineRootRenderStrategy.hasMatch(config)).toBeFalsy();
     });
   });
 });

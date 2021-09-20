@@ -9,11 +9,11 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { LaunchGlobalDialog, LAUNCH_CALLER } from '../config/launch-config';
+import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class GlobalRenderStrategy extends LaunchRenderStrategy {
+export class InlineRootRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
@@ -28,7 +28,7 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
   }
 
   render(
-    config: LaunchGlobalDialog,
+    config: LaunchInlineRootDialog,
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
@@ -59,7 +59,7 @@ export class GlobalRenderStrategy extends LaunchRenderStrategy {
     }
   }
 
-  hasMatch(config: LaunchGlobalDialog) {
-    return Boolean(config.global);
+  hasMatch(config: LaunchInlineRootDialog) {
+    return Boolean(config.inlineRoot);
   }
 }

@@ -1,13 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { LayoutConfig } from '../config/layout-config';
-import { GlobalRenderStrategy } from './services/global-render.strategy';
 import {
   InlineRenderStrategy,
   LaunchRenderStrategy,
   OutletRenderStrategy,
   RoutingRenderStrategy,
 } from './services/index';
+import { InlineRootRenderStrategy } from './services/inline-root-render.strategy';
 
 @NgModule({
   providers: [
@@ -28,7 +28,7 @@ import {
     },
     {
       provide: LaunchRenderStrategy,
-      useExisting: GlobalRenderStrategy,
+      useExisting: InlineRootRenderStrategy,
       multi: true,
     },
   ],

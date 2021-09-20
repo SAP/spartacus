@@ -8,7 +8,7 @@ export type LaunchOptions =
   | LaunchOutletDialog
   | LaunchInlineDialog
   | LaunchRoute
-  | LaunchGlobalDialog;
+  | LaunchInlineRootDialog;
 
 /**
  * Parent type for configurations that render components
@@ -51,8 +51,8 @@ export interface LaunchInlineDialog extends LaunchDialog {
  * Configuration type to render a component directly inside the cx-storefront (storefront selector).
  * Best used for global elements like dialogs.
  */
-export interface LaunchGlobalDialog extends LaunchDialog {
-  global: boolean;
+export interface LaunchInlineRootDialog extends LaunchDialog {
+  inlineRoot: boolean;
 }
 
 /**
