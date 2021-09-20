@@ -36,12 +36,12 @@
           (click)="add(product, $event)"
           (keydown.enter)="add(product, $event)"
           (keydown.escape)="clear($event)"
-          [class.has-media]="config.displayProductImages"
+          [class.has-media]="config?.quickOrderForm?.displayProductImages"
           [ngClass]="{ active: getFocusedElementIndex() === i }"
           class="quick-order-results-product"
         >
           <cx-media
-            *ngIf="config.displayProductImages"
+            *ngIf="config?.quickOrderForm?.displayProductImages"
             [container]="product.images?.PRIMARY"
             class="media"
             format="thumbnail"
