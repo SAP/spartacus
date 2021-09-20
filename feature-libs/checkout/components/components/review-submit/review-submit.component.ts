@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -10,7 +11,6 @@ import {
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   Cart,
   CostCenter,
@@ -42,7 +42,7 @@ export class ReviewSubmitComponent {
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,

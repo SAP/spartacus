@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -19,7 +20,7 @@ import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: CommonConfiguratorUtilsService,
     protected userIdService: UserIdService
   ) {}

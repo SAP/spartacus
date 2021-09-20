@@ -5,13 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   GlobalMessageService,
   GlobalMessageType,
@@ -51,7 +51,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {}
 

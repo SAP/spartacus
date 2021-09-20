@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
+} from '@spartacus/cart/main/root';
+import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
-  CartAddEntrySuccessEvent,
   EventService,
   OrderEntry,
   Product,
   ProductAdapter,
-  CartAddEntryFailEvent,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -25,7 +27,7 @@ export class QuickOrderService implements QuickOrderFacade {
   >([]);
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected productAdapter: ProductAdapter,
     protected eventService: EventService
   ) {}

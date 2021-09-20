@@ -1,12 +1,13 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
-import { AddToCartModule } from '../../../cms-components/cart/index';
+// **** this needs to be resolved
+import { AddToCartModule } from 'feature-libs/cart/main/components/cart/add-to-cart/add-to-cart.module';
+import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {

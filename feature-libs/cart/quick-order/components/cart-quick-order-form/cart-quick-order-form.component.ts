@@ -5,11 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
-  Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+} from '@spartacus/cart/main/root';
+import {
+  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,

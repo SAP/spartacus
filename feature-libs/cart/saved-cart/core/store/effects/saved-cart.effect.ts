@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { ActiveCartService, CartActions } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
   Cart,
-  CartActions,
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,

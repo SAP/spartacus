@@ -7,12 +7,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  ActiveCartService,
-  AuthService,
-  Cart,
-  RoutingService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthService, Cart, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -31,7 +27,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,

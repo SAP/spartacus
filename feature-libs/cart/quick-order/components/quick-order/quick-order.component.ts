@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -8,7 +9,6 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,

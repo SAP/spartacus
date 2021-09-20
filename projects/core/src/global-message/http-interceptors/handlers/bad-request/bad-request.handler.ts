@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isCartNotFoundError } from '../../../../cart/utils/utils';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -18,7 +17,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
-    this.handleBadCartRequest(request, response);
+    //this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
@@ -77,7 +76,7 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected handleBadCartRequest(
+  /*protected handleBadCartRequest(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
@@ -89,7 +88,7 @@ export class BadRequestHandler extends HttpErrorHandler {
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
-  }
+  }*/
 
   protected handleVoucherOperationError(
     _request: HttpRequest<any>,

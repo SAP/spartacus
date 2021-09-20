@@ -7,14 +7,17 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ActiveCartService,
   ConsignmentEntry,
-  MultiCartService,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
+// **** this needs to be resolved
+import {
+  ActiveCartService,
+  MultiCartService,
+  SelectiveCartService,
+} from 'feature-libs/cart/main/core/facade/index';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';

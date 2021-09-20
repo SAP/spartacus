@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
+import { SelectiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { Cart } from '@spartacus/core';
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -13,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartService
   ) {}
 

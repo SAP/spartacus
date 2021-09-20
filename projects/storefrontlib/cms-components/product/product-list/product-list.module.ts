@@ -8,6 +8,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+// **** this needs to be resolved
+import { AddToCartModule } from 'feature-libs/cart/main/components/cart/add-to-cart/add-to-cart.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { ViewConfig } from '../../../shared/config/view-config';
@@ -18,7 +20,6 @@ import {
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';

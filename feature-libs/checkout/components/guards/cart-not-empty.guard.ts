@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartService, Cart, SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { Cart, SemanticPathService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -12,7 +13,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}

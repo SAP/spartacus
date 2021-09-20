@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  ActiveCartService,
-  CartVoucherService,
-} from '@spartacus/cart/main/core';
+import { CartVoucherService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   Cart,
   CustomerCoupon,
@@ -35,7 +33,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     protected cartVoucherService: CartVoucherService,
     protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   ngOnInit() {

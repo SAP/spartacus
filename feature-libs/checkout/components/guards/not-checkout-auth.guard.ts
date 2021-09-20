@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import {
-  ActiveCartService,
-  AuthService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthService, SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
     protected authService: AuthService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}

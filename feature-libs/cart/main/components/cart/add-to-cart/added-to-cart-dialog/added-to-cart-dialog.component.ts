@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { Cart, OrderEntry, PromotionLocation } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -40,7 +40,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   constructor(
     protected modalService: ModalService,
-    protected cartService: ActiveCartService
+    protected cartService: ActiveCartFacade
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,

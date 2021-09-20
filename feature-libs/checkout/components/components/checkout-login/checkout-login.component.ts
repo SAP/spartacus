@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActiveCartService, AuthRedirectService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
@@ -26,7 +27,7 @@ export class CheckoutLoginComponent implements OnDestroy {
   constructor(
     protected formBuilder: FormBuilder,
     protected authRedirectService: AuthRedirectService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   onSubmit() {

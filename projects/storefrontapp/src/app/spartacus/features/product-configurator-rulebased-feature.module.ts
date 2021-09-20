@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { provideConfig } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import {
@@ -16,6 +17,7 @@ import {
             import('@spartacus/product-configurator/rulebased').then(
               (m) => m.RulebasedConfiguratorModule
             ),
+          dependencies: [CART_FEATURE],
         },
       },
       i18n: {

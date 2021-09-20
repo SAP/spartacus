@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { CartActions, MultiCartService } from '@spartacus/cart/main/core';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -17,12 +18,7 @@ import {
   SaveCartFailEvent,
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
-import {
-  Cart,
-  CartActions,
-  EventService,
-  MultiCartService,
-} from '@spartacus/core';
+import { Cart, EventService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';
