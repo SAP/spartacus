@@ -43,7 +43,7 @@ export class FilesFormValidators {
    * @returns Uses 'tooManyItems' validator error with maxLines property
    * @memberof FilesFormValidators
    */
-  maxLines(maxLines?: number): ValidatorFn {
+  maxLines(maxLines?: number): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
