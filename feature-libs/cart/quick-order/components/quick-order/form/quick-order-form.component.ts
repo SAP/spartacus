@@ -83,18 +83,20 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   clear(event?: Event): void {
-    console.log('here');
     event?.preventDefault();
-    console.log(this.form.get('product'));
-    this.form.reset();
-    console.log(this.form.get('product'));
-    this.close();
+
+    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+
+    let product = this.form.get('product')?.value;
+    if(!!product){
+      this.form.reset();
+      this.close();
+    }
   }
 
   add(product: Product, event?: Event): void {
     event?.preventDefault();
     this.quickOrderService.addProduct(product);
-    this.clear();
   }
 
   addProduct(event: Event): void {
@@ -230,7 +232,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
     this.resetFocusedElementIndex();
     this.clearResults();
   }
