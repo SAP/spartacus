@@ -43,11 +43,18 @@ export class FilesFormValidators {
    * @returns Uses 'tooManyItems' validator error with maxLines property
    * @memberof FilesFormValidators
    */
-  maxLines(_maxLines?: number): ValidatorFn {
-    return (_control: AbstractControl): ValidationErrors | null => {
+  maxLines(maxLines?: number): ValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
-      // TODO: Add maxLines validator logic #13772
-      return Object.keys(errors).length === 0 ? null : errors;
+      const file: File = control.value[0];
+      return this.importCsvService.loadCsvData(file).pipe(
+        tap((data: string[][]) => {
+          if (maxLines && data.length > maxLines) {
+            errors.tooManyLines = { maxLines };
+          }
+        }),
+        map(() => (Object.keys(errors).length === 0 ? null : errors))
+      );
     };
   }
 

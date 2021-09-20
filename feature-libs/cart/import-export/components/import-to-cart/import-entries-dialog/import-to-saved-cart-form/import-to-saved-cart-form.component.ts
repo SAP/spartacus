@@ -89,12 +89,12 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
           this.filesFormValidators.maxSize(
             this.componentData?.fileValidity?.maxSize
           ),
-          this.filesFormValidators
-            .maxLines(this.componentData?.fileValidity?.maxLines)
-            .bind(this.filesFormValidators),
         ],
         [
           this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
+          this.filesFormValidators
+            .maxLines(this.componentData?.fileValidity?.maxLines)
+            .bind(this.filesFormValidators),
           this.filesFormValidators
             .parsableFile(this.importToCartService.isDataParsableToProducts)
             .bind(this.filesFormValidators),

@@ -170,6 +170,7 @@ export const common = {
       empty: 'File should not be empty',
       invalidExtension: 'File extension is not valid',
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyLines: 'The number of items is greater than {{ maxLines }}',
       notParsable: 'File is not parsable',
     },
   },
