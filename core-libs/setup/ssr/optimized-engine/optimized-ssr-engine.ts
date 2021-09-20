@@ -324,6 +324,15 @@ export class OptimizedSsrEngine {
     );
   }
 
+  /**
+   * Delegates the render to the original _Angular Universal express engine_.
+   *
+   * There is no way to abort the running render of Angular Universal.
+   * So if the render doesn't complete in the configured `maxRenderTime`,
+   * we just consider the render task as hanging (note: it's a potential memory leak!).
+   * Later on, even if the render completes somewhen in the future, we will ignore
+   * its result.
+   */
   private startRender({
     filePath,
     options,
@@ -339,8 +348,7 @@ export class OptimizedSsrEngine {
 
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
     // After the configured `maxRenderTime` passes, we consider the rendering task as hanging,
-    // and release the concurrency slot.
-    // Even if the rendering task completes in the future in the background, we will ignore its result.
+    // and release the concurrency slot and forget all callbacks waiting for the render's result.
     let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
       this.renderingCache.clear(renderingKey);
       maxRenderTimeout = undefined;
