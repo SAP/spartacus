@@ -71,19 +71,23 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   onBlur(element: Element): void {
-    const elementList = Array.from(element.classList);
+    if(element) {
+      const elementList = Array.from(element.classList);
 
-    if ((elementList || []).includes('quick-order-results-products')) {
-      return;
+      if ((elementList || []).includes('quick-order-results-products')) {
+        return;
+      }
     }
 
     this.close();
   }
 
   clear(event?: Event): void {
+    console.log('here');
     event?.preventDefault();
-
+    console.log(this.form.get('product'));
     this.form.reset();
+    console.log(this.form.get('product'));
     this.close();
   }
 
@@ -175,8 +179,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.validateProductControl(this.isDisabled);
   }
 
-  protected isEmpty(product: string): boolean {
-    return(product.trim() === '' || product == null);
+  protected isEmpty(product?: string): boolean {
+    return(product?.trim() === '' || product == null);
   }
 
   protected watchQueryChange(): Subscription {
