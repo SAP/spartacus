@@ -219,7 +219,7 @@ export class CpqConfiguratorNormalizerUtilsService {
         this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
       }
-      if (priceSummary.currentTotal?.value && priceSummary.basePrice?.value) {
+      if (priceSummary.currentTotal && priceSummary.basePrice) {
         const selectedOptionsPrice: Configurator.PriceDetails = {
           currencyIso: currency,
           value: priceSummary.currentTotal.value - priceSummary.basePrice.value,
