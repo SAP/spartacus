@@ -10,11 +10,12 @@ import {
   ADDRESS_SERIALIZER,
   ConverterService,
   DeliveryMode,
+  normalizeHttpError,
   Occ,
   OccEndpointsService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -94,15 +95,15 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
 
+  // TODO: Change return type to Observable<unknown> in 5.0
   public setAddress(
     userId: string,
     cartId: string,
     addressId: string
   ): Observable<any> {
-    return this.http.put(
-      this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
-      {}
-    );
+    return this.http
+      .put(this.getSetDeliveryAddressEndpoint(userId, cartId, addressId), {})
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   public setMode(

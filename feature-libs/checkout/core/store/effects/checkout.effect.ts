@@ -85,6 +85,7 @@ export class CheckoutEffects {
     withdrawOn(this.contextChange$)
   );
 
+  // TODO: Remove effect in 5.0 when we switch to command and queries
   @Effect()
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
@@ -114,11 +115,7 @@ export class CheckoutEffects {
             }),
           ]),
           catchError((error) =>
-            of(
-              new CheckoutActions.SetDeliveryAddressFail(
-                normalizeHttpError(error)
-              )
-            )
+            of(new CheckoutActions.SetDeliveryAddressFail(error))
           )
         );
     }),

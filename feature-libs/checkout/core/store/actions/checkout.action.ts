@@ -38,8 +38,17 @@ export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
 export const ADD_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Add Delivery Address Success';
 
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const SET_DELIVERY_ADDRESS = '[Checkout] Set Delivery Address';
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const SET_DELIVERY_ADDRESS_FAIL = '[Checkout] Set Delivery Address Fail';
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
 export const RESET_SET_DELIVERY_ADDRESS_PROCESS =
@@ -122,6 +131,9 @@ export class AddDeliveryAddressSuccess implements Action {
   constructor(public payload: Address) {}
 }
 
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class SetDeliveryAddress extends StateUtils.EntityLoadAction {
   readonly type = SET_DELIVERY_ADDRESS;
   constructor(
@@ -131,6 +143,9 @@ export class SetDeliveryAddress extends StateUtils.EntityLoadAction {
   }
 }
 
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class SetDeliveryAddressFail extends StateUtils.EntityFailAction {
   readonly type = SET_DELIVERY_ADDRESS_FAIL;
   constructor(public payload: any) {
@@ -138,6 +153,9 @@ export class SetDeliveryAddressFail extends StateUtils.EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
