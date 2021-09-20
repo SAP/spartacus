@@ -20,6 +20,15 @@ class MockViewPortScroller implements Partial<ViewportScroller> {
   scrollToPosition(_position: [number, number]): void {}
 }
 
+function emitPairScrollEvent(position: [number, number] | null) {
+  mockEvents$.next(
+    new Scroll(new NavigationEnd(1, '/test', '/test'), null, null)
+  );
+  mockEvents$.next(
+    new Scroll(new NavigationEnd(2, '/test2', '/test2'), position, null)
+  );
+}
+
 describe('OnNavigateService', () => {
   let service: OnNavigateService;
   let config: OnNavigateConfig;
@@ -77,33 +86,27 @@ describe('OnNavigateService', () => {
     it('should scroll to the top on navigation when no position (forward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
-      mockEvents$.next(
-        new Scroll(new NavigationEnd(1, '/test', '/test'), null, null)
-      );
-      mockEvents$.next(
-        new Scroll(new NavigationEnd(2, '/test2', '/test2'), null, null)
-      );
+      emitPairScrollEvent(null);
 
-      expect(viewportScroller.scrollToPosition).toHaveBeenCalled();
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
 
-    it('should scroll to a position on navigation when no position (backward navigation)', () => {
+    it('should scroll to a position on navigation when scroll contains position (backward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
-      mockEvents$.next(
-        new Scroll(new NavigationEnd(1, '/test', '/test'), null, null)
-      );
-      mockEvents$.next(
-        new Scroll(new NavigationEnd(2, '/test2', '/test2'), [1000, 500], null)
-      );
+      emitPairScrollEvent([1000, 500]);
+
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000,
         500,
       ]);
     });
 
-    it('should NOT scroll when on navigation when disabled', () => {
+    it('should NOT scroll when on navigation is disabled', () => {
       service.setResetViewOnNavigate(false);
+
+      emitPairScrollEvent(null);
+
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
     });
   });
