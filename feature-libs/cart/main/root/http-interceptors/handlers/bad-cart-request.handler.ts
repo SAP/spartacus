@@ -15,6 +15,10 @@ import { isCartNotFoundError } from '../../utils/utils';
 export class BadCartRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return this.getErrors(errorResponse).some(isCartNotFoundError);
+  }
+
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadCartRequest(request, response);
   }
@@ -40,6 +44,6 @@ export class BadCartRequestHandler extends HttpErrorHandler {
   }
 
   getPriority(): Priority {
-    return Priority.LOW;
+    return Priority.NORMAL;
   }
 }

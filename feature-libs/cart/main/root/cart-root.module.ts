@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import { HttpErrorHandler, provideDefaultConfigFactory } from '@spartacus/core';
 import { CART_CORE_FEATURE, CART_FEATURE } from './feature-name';
+import { BadCartRequestHandler } from './http-interceptors/handlers/bad-cart-request.handler';
 
 export function defaultCartComponentsConfig() {
   const config = {
@@ -26,6 +27,13 @@ export function defaultCartComponentsConfig() {
 
 @NgModule({
   imports: [],
-  providers: [provideDefaultConfigFactory(defaultCartComponentsConfig)],
+  providers: [
+    provideDefaultConfigFactory(defaultCartComponentsConfig),
+    {
+      provide: HttpErrorHandler,
+      useExisting: BadCartRequestHandler,
+      multi: true,
+    },
+  ],
 })
 export class CartRootModule {}
