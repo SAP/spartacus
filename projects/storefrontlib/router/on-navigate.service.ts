@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { OnNavigateConfig } from './config';
 @Injectable({
   providedIn: 'root',
 })
-export class OnNavigateService implements OnDestroy {
+export class OnNavigateService {
   protected subscription: Subscription;
 
   constructor(
@@ -51,9 +51,5 @@ export class OnNavigateService implements OnDestroy {
           }
         });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }
