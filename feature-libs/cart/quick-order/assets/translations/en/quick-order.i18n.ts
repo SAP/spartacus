@@ -15,6 +15,7 @@ export const quickOrderCartForm = {
 export const quickOrderForm = {
   placeholder: 'Enter Product name or SKU',
   listLimitReached: 'The product limit has been reached',
+  id: 'ID {{ id }}',
 };
 
 export const quickOrderList = {

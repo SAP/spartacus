@@ -50,8 +50,14 @@
             role="presentation"
           ></cx-media>
           <div class="name" [innerHTML]="product.name"></div>
-          <span class="stock">
-            {{ 'addToCart.' + product.stock?.stockLevelStatus | cxTranslate }}
+          <span class="id">
+            {{
+              'quickOrderForm.id'
+                | cxTranslate
+                  : {
+                      id: product.code
+                    }
+            }}
           </span>
           <span class="price">{{ product.price?.formattedValue }}</span>
         </li>
