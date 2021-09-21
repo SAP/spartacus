@@ -18,7 +18,7 @@ export class FilesFormValidators {
       if (maxSize) {
         const files: File[] = Array.from(control.value);
         files.forEach((file: File) => {
-          if (file.size / 1000000 > maxSize) {
+          if (file.size > maxSize * 1000000) {
             errors.tooLarge = { maxSize };
           }
         });
