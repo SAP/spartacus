@@ -11,7 +11,7 @@ import {
   QuickOrderFacade,
   QuickOrderFormConfig,
 } from '@spartacus/cart/quick-order/root';
-import { GlobalMessageService, Product, WindowRef } from '@spartacus/core';
+import { Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import {
@@ -59,7 +59,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   constructor(
     protected cd: ChangeDetectorRef,
     protected config: QuickOrderFormConfig,
-    protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
   ) {}
@@ -70,13 +69,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.watchQueryChange());
   }
 
-  onBlur(element: Element): void {
+  onBlur(element?: Element): void {
     if (element) {
-      const elementList = Array.from(element.classList);
-
       if (
-        (elementList || []).includes('quick-order-results-products') ||
-        (elementList || []).includes('quick-order-form-reset-icon')
+        (element?.className).includes('quick-order-results-products') ||
+        (element?.className).includes('quick-order-form-reset-icon')
       ) {
         return;
       }
@@ -160,7 +157,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     return !!this._results.length;
   }
 
-  protected setFocusedElementIndex(value: number): void {
+  setResults(results: Product[]): void {
+    this._results = results;
+  }
+
+  setFocusedElementIndex(value: number | null): void {
     this._focusedElementIndex = value;
   }
 

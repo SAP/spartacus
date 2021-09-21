@@ -12,7 +12,6 @@ import {
   HttpErrorModel,
   OrderEntry,
   Product,
-  ProductAdapter,
   ProductSearchAdapter,
   ProductSearchPage,
   SearchConfig,
@@ -31,7 +30,6 @@ export class QuickOrderService implements QuickOrderFacade {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter,
     protected productSearchAdapter: ProductSearchAdapter,
     protected eventService: EventService
   ) {}
