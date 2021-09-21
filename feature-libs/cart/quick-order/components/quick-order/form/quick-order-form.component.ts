@@ -71,10 +71,13 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   onBlur(element: Element): void {
-    if(element) {
+    if (element) {
       const elementList = Array.from(element.classList);
 
-      if ((elementList || []).includes('quick-order-results-products')) {
+      if (
+        (elementList || []).includes('quick-order-results-products') ||
+        (elementList || []).includes('quick-order-form-reset-icon')
+      ) {
         return;
       }
     }
@@ -85,12 +88,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   clear(event?: Event): void {
     event?.preventDefault();
 
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+    if (this.isResultsBoxOpen()) {
+      this.toggleBodyClass('quick-order-searchbox-is-active', false);
 
-    let product = this.form.get('product')?.value;
-    if(!!product){
-      this.form.reset();
+      let product = this.form.get('product')?.value;
+
+      if (!!product) {
+        this.form.reset();
+      }
+
+      // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
       this.close();
+      this.cd.detectChanges();
     }
   }
 
@@ -147,6 +156,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     return this._focusedElementIndex;
   }
 
+  isResultsBoxOpen(): boolean {
+    return !!this._results.length;
+  }
+
   protected setFocusedElementIndex(value: number): void {
     this._focusedElementIndex = value;
   }
@@ -157,10 +170,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected open(): void {
     this.toggleBodyClass('quick-order-searchbox-is-active', true);
-  }
-
-  protected isResultsBoxOpen(): boolean {
-    return !!this._results.length;
   }
 
   protected toggleBodyClass(className: string, add?: boolean) {
@@ -182,7 +191,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected isEmpty(product?: string): boolean {
-    return(product?.trim() === '' || product == null);
+    return product?.trim() === '' || product == null;
   }
 
   protected watchQueryChange(): Subscription {
@@ -193,7 +202,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         filter((value) => {
           if (this.config.quickOrderForm) {
             //Check if input to quick order is an empty after deleting input manually
-            if(this.isEmpty(value.product)){
+            if (this.isEmpty(value.product)) {
               //Clear recommendation results on empty string
               this.clear();
               return false;

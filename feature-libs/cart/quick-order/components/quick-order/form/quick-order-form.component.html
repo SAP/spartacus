@@ -15,11 +15,13 @@
 
     <cx-icon
       (click)="clear($event)"
-      [type]="iconTypes.RESET"
-      class="reset"
+      [type]="isResultsBoxOpen() ? iconTypes.RESET : iconTypes.SEARCH"
+      [ngClass]="{
+        'quick-order-form-reset-icon': isResultsBoxOpen(),
+        'quick-order-form-search-icon': !isResultsBoxOpen()
+      }"
       tabindex="-1"
     ></cx-icon>
-    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>
 
     <cx-form-errors [control]="form.get('product')"></cx-form-errors>
 
@@ -28,8 +30,8 @@
     </span>
   </div>
 
-  <div role="listbox" class="quick-order-results">
-    <ng-container *ngIf="results$ | async as results">
+  <ng-container *ngIf="results$ | async as results">
+    <div role="listbox" class="quick-order-results">
       <ul class="quick-order-results-products" tabindex="0">
         <li
           *ngFor="let product of results; let i = index"
@@ -54,6 +56,6 @@
           <span class="price">{{ product.price?.formattedValue }}</span>
         </li>
       </ul>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 </form>
