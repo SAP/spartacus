@@ -33,8 +33,17 @@ export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
 export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
   '[Checkout] Clear Checkout Delivery Mode Fail';
 
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export const ADD_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Add Delivery Address Success';
 
@@ -114,6 +123,9 @@ export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
 
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
   constructor(
@@ -121,11 +133,17 @@ export class AddDeliveryAddress implements Action {
   ) {}
 }
 
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class AddDeliveryAddressFail implements Action {
   readonly type = ADD_DELIVERY_ADDRESS_FAIL;
   constructor(public payload: any) {}
 }
 
+/**
+ * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class AddDeliveryAddressSuccess implements Action {
   readonly type = ADD_DELIVERY_ADDRESS_SUCCESS;
   constructor(public payload: Address) {}

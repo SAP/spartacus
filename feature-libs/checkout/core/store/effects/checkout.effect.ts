@@ -35,6 +35,7 @@ export class CheckoutEffects {
     )
   );
 
+  // TODO: Remove effect in 5.0 when we switch to command and queries
   @Effect()
   addDeliveryAddress$: Observable<
     | UserActions.LoadUserAddresses
@@ -74,11 +75,7 @@ export class CheckoutEffects {
             }
           }),
           catchError((error) =>
-            of(
-              new CheckoutActions.AddDeliveryAddressFail(
-                normalizeHttpError(error)
-              )
-            )
+            of(new CheckoutActions.AddDeliveryAddressFail(error))
           )
         )
     ),

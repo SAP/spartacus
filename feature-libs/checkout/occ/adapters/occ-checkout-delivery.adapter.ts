@@ -92,7 +92,10 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
         }
       )
-      .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
+      .pipe(
+        this.converter.pipeable(ADDRESS_NORMALIZER),
+        catchError((error) => throwError(normalizeHttpError(error)))
+      );
   }
 
   // TODO: Change return type to Observable<unknown> in 5.0

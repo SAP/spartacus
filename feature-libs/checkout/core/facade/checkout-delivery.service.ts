@@ -16,6 +16,7 @@ import {
   QueryService,
   StateUtils,
   StateWithProcess,
+  UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -177,11 +178,69 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  protected createDeliveryAddressCommand = this.command?.create<Address>(
+    (payload) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          if (
+            userId &&
+            cartId &&
+            (userId !== OCC_USER_ID_ANONYMOUS ||
+              this.activeCartService.isGuestCart()) &&
+            this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
+          ) {
+            return this.checkoutDeliveryConnector
+              .createAddress(userId, cartId, payload)
+              .pipe(
+                tap(() => {
+                  if (userId !== OCC_USER_ID_ANONYMOUS) {
+                    this.checkoutStore.dispatch(
+                      new UserActions.LoadUserAddresses(userId)
+                    );
+                  }
+                }),
+                switchMap((address) => {
+                  address['titleCode'] = payload.titleCode;
+                  if (payload.region?.isocodeShort) {
+                    Object.assign(address.region, {
+                      isocodeShort: payload.region.isocodeShort,
+                    });
+                  }
+                  return this.setDeliveryAddress(address);
+                })
+              );
+          }
+          return of(); // TODO: should we throw error here? useful dev info?
+        })
+      );
+    },
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
   /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
-  createAndSetAddress(address: Address): void {
+  createAndSetAddress(address: Address): Observable<unknown> {
+    // TODO: Remove condition in 5.0 when fully switching to commands
+    if (
+      this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
+    ) {
+      if (this.createDeliveryAddressCommand) {
+        // TODO: Remove check in 5.0 when all services will be provided
+        return this.createDeliveryAddressCommand.execute(address);
+      }
+      throw new Error(
+        'Missing constructor parameters in CheckoutDeliveryService'
+      );
+    }
+    // TODO: Remove this code in 5.0 when all services for command will be required
     if (this.actionAllowed()) {
       let userId;
       this.userIdService
@@ -204,6 +263,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         );
       }
     }
+    return of(undefined);
   }
 
   /**
@@ -283,6 +343,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               .setAddress(userId, cartId, addressId)
               .pipe(
                 tap(() => {
+                  // TODO: Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
+                  );
                   this.checkoutStore.dispatch(
                     new CheckoutActions.ClearCheckoutDeliveryMode({
                       userId,
