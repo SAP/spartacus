@@ -197,20 +197,29 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       map((value) => {
-        if (value && this.selectiveCartService && this.options.isSaveForLater) {
-          this.selectiveCartService.updateEntry(
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value && this.cartId && this.userId) {
-          this.multiCartService?.updateEntry(
-            this.userId,
-            this.cartId,
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value) {
-          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
+        if (!this.readonly) {
+          if (
+            value &&
+            this.selectiveCartService &&
+            this.options.isSaveForLater
+          ) {
+            this.selectiveCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          } else if (value && this.cartId && this.userId) {
+            this.multiCartService?.updateEntry(
+              this.userId,
+              this.cartId,
+              value.entryNumber,
+              value.quantity
+            );
+          } else if (value) {
+            this.activeCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          }
         }
       }),
       map(() => <FormGroup>this.form.get(this.getControlName(item)))
