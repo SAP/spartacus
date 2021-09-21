@@ -343,7 +343,7 @@ export class OptimizedSsrEngine {
     options: any;
     renderCallback: SsrCallbackFn;
     request: Request;
-  }) {
+  }): void {
     const renderingKey = this.getRenderingKey(request);
 
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
