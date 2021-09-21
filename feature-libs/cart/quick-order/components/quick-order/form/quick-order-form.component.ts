@@ -57,8 +57,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected _results: Product[] = [];
 
   constructor(
+    public config: QuickOrderFormConfig,
     protected cd: ChangeDetectorRef,
-    protected config: QuickOrderFormConfig,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
   ) {}
