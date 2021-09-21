@@ -85,7 +85,7 @@ export class OptimizedSsrEngine {
    * OR when the concurrency limit is exceeded.
    */
   protected shouldRender(request: Request): boolean {
-    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded();
+    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(request);
 
     const fallBack =
       this.isRendering(request) && !this.ssrOptions?.reuseCurrentRendering;
@@ -116,9 +116,14 @@ export class OptimizedSsrEngine {
   /**
    * Checks for the concurrency limit
    *
-   * @returns true if the concurrency limit has been exceeded
+   * @returns true if rendering this request would exceed the concurrency limit
    */
-  protected isConcurrencyLimitExceeded(): boolean {
+  protected isConcurrencyLimitExceeded(request: Request): boolean {
+    // If we can reuse a pending render, we don't take up a new concurrency slot
+    if (this.ssrOptions?.reuseCurrentRendering && this.isRendering(request)) {
+      return false;
+    }
+
     return this.ssrOptions?.concurrency
       ? this.currentConcurrency >= this.ssrOptions.concurrency
       : false;

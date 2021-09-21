@@ -837,6 +837,26 @@ describe('OptimizedSsrEngine', () => {
           flush();
         }));
 
+        it('and concurrency limit should NOT fallback to CSR, when the request is for a pending render', fakeAsync(() => {
+          const engineRunner = new TestEngineRunner({
+            reuseCurrentRendering: true,
+            timeout: 200,
+            concurrency: 1,
+          });
+          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+          engineRunner.request('a');
+          engineRunner.request('a');
+
+          tick(200);
+          expect(
+            engineRunner.optimizedSsrEngine['log']
+          ).not.toHaveBeenCalledWith(
+            `CSR fallback: Concurrency limit exceeded (1)`
+          );
+          expect(engineRunner.renders).toEqual(['a-0', 'a-0']);
+        }));
+
         it('combined with a different request should take up two concurrency slots', fakeAsync(() => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
