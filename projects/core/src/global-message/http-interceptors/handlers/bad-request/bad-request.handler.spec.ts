@@ -44,29 +44,6 @@ const MockBadLoginResponse = {
   },
 } as HttpErrorResponse;
 
-const MockBadCartResponse = {
-  error: {
-    errors: [
-      {
-        subjectType: 'cart',
-        reason: 'notFound',
-      },
-    ],
-  },
-} as HttpErrorResponse;
-
-const MockBadCartResponseForSelectiveCart = {
-  error: {
-    errors: [
-      {
-        subjectType: 'cart',
-        subject: 'selectivecart-electronics-12345',
-        reason: 'notFound',
-      },
-    ],
-  },
-} as HttpErrorResponse;
-
 const MockValidationErrorResponse = {
   error: {
     errors: [
