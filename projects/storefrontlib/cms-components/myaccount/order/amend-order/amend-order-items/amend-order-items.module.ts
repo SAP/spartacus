@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   ItemCounterModule,
@@ -9,6 +9,9 @@ import {
 } from '../../../../../shared/index';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

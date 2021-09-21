@@ -92,7 +92,9 @@ export function testListSorting(config: MyCompanyConfig): void {
 function ngSelect(sortKey: string): void {
   cy.get(`ng-select`).click();
   cy.wait(1000);
-  cy.get('div.ng-option').contains(sortKey).click({ force: true });
+  cy.get('div.ng-option')
+    .contains(sortKey, { matchCase: false })
+    .click({ force: true });
 }
 
 /**

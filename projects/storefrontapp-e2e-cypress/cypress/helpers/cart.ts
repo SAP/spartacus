@@ -279,7 +279,9 @@ export function removeAllItemsFromCart() {
 export function removeCartItem(product) {
   registerDeleteCartItemRoute();
 
-  getCartItem(product.name).findByText('Remove').click();
+  getCartItem(product.name).within(() => {
+    cy.get('.cx-remove-btn > .link').click();
+  });
 
   cy.wait('@delete_cart_item');
 }

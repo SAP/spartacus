@@ -4,9 +4,12 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import { FormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-amend-order-actions',
   templateUrl: './amend-order-actions.component.html',

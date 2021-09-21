@@ -24,22 +24,23 @@ import {
   PRODUCT_INTERESTS,
   REGIONS,
   RegionsState,
+  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_COST_CENTERS,
-  USER_ORDER_DETAILS,
   USER_ORDERS,
+  USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
-  USER_REPLENISHMENT_ORDER_DETAILS,
   USER_REPLENISHMENT_ORDERS,
-  USER_RETURN_REQUEST_DETAILS,
+  USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
-  UserState,
+  USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
+import { reducerToken } from './index';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
@@ -52,8 +53,10 @@ import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
-import { reducerToken } from './index';
 
+/**
+ * @deprecated since 4.2 - use getReducersTransitional_4_2 with order lib instead
+ */
 export function getReducersTransitional(): ActionReducerMap<
   Partial<UserState>
 > {
@@ -114,6 +117,9 @@ export function getReducersTransitional(): ActionReducerMap<
   };
 }
 
+/**
+ * @deprecated since 4.2 - use reducerTransitional_4_2_Provider with order lib instead
+ */
 export const reducerTransitionalProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducersTransitional,
