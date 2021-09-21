@@ -1,5 +1,3 @@
-import { CmsComponent } from '@spartacus/core';
-
 export type ProductsData = {
   productCode: string;
   quantity: number;
@@ -7,6 +5,7 @@ export type ProductsData = {
 
 export interface InvalidFileInfo {
   tooLarge?: { maxSize: number };
+  tooManyLines?: { maxLines: number };
   empty?: boolean;
   notParsable?: boolean;
 }
@@ -14,6 +13,7 @@ export interface InvalidFileInfo {
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
+  maxLines?: number;
   allowedExtensions?: string[];
 }
 
@@ -57,7 +57,7 @@ export interface CartNameGeneration {
   };
 }
 
-export interface CmsImportEntriesComponent extends CmsComponent {
+export interface ImportConfig {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
 }

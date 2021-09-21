@@ -1,3 +1,4 @@
+import { NameSource } from '../model/import-to-cart.model';
 import { ImportExportConfig } from './import-export-config';
 
 export const defaultImportExportConfig: ImportExportConfig = {
@@ -23,6 +24,21 @@ export const defaultImportExportConfig: ImportExportConfig = {
       messageEnabled: true,
       downloadDelay: 1000,
       fileName: 'cart',
+    },
+    import: {
+      fileValidity: {
+        maxSize: 1,
+        maxLines: 100,
+        allowedExtensions: [
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-excel',
+          'text/csv',
+          '.csv',
+        ],
+      },
+      cartNameGeneration: {
+        source: NameSource.FILE_NAME,
+      },
     },
   },
 };

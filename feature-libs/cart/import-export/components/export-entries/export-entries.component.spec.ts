@@ -99,6 +99,9 @@ class MockExportEntriesService {
   getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
     of(transitionalArray)
   );
+  downloadCsv = createSpy('downloadCsvSpy').and.returnValue(
+    of(transitionalArray)
+  );
 }
 
 describe('ExportEntriesComponent', () => {

@@ -18,6 +18,7 @@ import {
   NameSource,
 } from '@spartacus/cart/import-export/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 import { ImportToCartService } from '../../import-to-cart.service';
 
@@ -52,13 +53,15 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     protected importToCartService: ImportToCartService,
     protected importService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators,
+    protected importExportConfig: ImportExportConfig,
     protected datePipe: CxDatePipe
   ) {
     super(
       launchDialogService,
       importToCartService,
       importService,
-      filesFormValidators
+      filesFormValidators,
+      importExportConfig
     );
   }
 
@@ -89,6 +92,9 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
         ],
         [
           this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
+          this.filesFormValidators
+            .maxLines(this.componentData?.fileValidity?.maxLines)
+            .bind(this.filesFormValidators),
           this.filesFormValidators
             .parsableFile(this.importToCartService.isDataParsableToProducts)
             .bind(this.filesFormValidators),
