@@ -10,6 +10,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CheckoutDeliveryConnector } from '..';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -46,6 +47,9 @@ describe('CheckoutDeliveryService', () => {
     }
   }
 
+  class MockCheckoutDeliveryConnector
+    implements Partial<CheckoutDeliveryConnector> {}
+
   const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
@@ -70,6 +74,10 @@ describe('CheckoutDeliveryService', () => {
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        {
+          provide: CheckoutDeliveryConnector,
+          useClass: MockCheckoutDeliveryConnector,
+        },
       ],
     });
 
