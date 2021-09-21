@@ -71,10 +71,12 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   onBlur(element: Element): void {
-    const elementList = Array.from(element.classList);
+    if(element) {
+      const elementList = Array.from(element.classList);
 
-    if ((elementList || []).includes('quick-order-results-products')) {
-      return;
+      if ((elementList || []).includes('quick-order-results-products')) {
+        return;
+      }
     }
 
     this.close();
@@ -83,14 +85,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   clear(event?: Event): void {
     event?.preventDefault();
 
-    this.form.reset();
-    this.close();
+    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+
+    let product = this.form.get('product')?.value;
+    if(!!product){
+      this.form.reset();
+      this.close();
+    }
   }
 
   add(product: Product, event?: Event): void {
     event?.preventDefault();
     this.quickOrderService.addProduct(product);
-    this.clear();
   }
 
   addProduct(event: Event): void {
@@ -175,6 +181,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.validateProductControl(this.isDisabled);
   }
 
+  protected isEmpty(product?: string): boolean {
+    return(product?.trim() === '' || product == null);
+  }
+
   protected watchQueryChange(): Subscription {
     return this.form.valueChanges
       .pipe(
@@ -182,6 +192,12 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         debounceTime(300),
         filter((value) => {
           if (this.config.quickOrderForm) {
+            //Check if input to quick order is an empty after deleting input manually
+            if(this.isEmpty(value.product)){
+              //Clear recommendation results on empty string
+              this.clear();
+              return false;
+            }
             return (
               !!value.product &&
               value.product.length >=
@@ -216,7 +232,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
     this.resetFocusedElementIndex();
     this.clearResults();
   }
