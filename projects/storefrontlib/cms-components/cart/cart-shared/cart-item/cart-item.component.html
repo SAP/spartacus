@@ -77,13 +77,12 @@
           >
             {{ 'cartItems.quantity' | cxTranslate }}
           </div>
-          <div class="cx-value">
+          <div class="cx-value" [class.readonly-value]="readonly">
             <cx-item-counter
               [control]="quantityControl"
               [readonly]="
                 !item.updateable || readonly || options.isSaveForLater
               "
-              [class.cx-item-counter-readonly]="readonly"
               [max]="item.product.stock?.stockLevel || 1000"
               [allowZero]="true"
             >

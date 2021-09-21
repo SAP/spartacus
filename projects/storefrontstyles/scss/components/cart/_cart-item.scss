@@ -111,13 +111,16 @@
 
     @include media-breakpoint-down(sm) {
       justify-content: space-between;
-    }
-  }
 
-  .cx-item-counter-readonly {
-    @include media-breakpoint-down(sm) {
-      position: relative;
-      left: 105px;
+      .readonly-value {
+        display: flex;
+        justify-content: space-between;
+
+        &::before {
+          content: '';
+          width: 105px;
+        }
+      }
     }
   }
 
