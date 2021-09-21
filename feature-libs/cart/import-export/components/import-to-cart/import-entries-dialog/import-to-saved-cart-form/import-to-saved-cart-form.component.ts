@@ -51,7 +51,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportCsvService,
+    protected importCsvService: ImportCsvService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,
     protected datePipe: CxDatePipe
@@ -59,7 +59,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     super(
       launchDialogService,
       importToCartService,
-      importService,
+      importCsvService,
       filesFormValidators,
       importExportConfig
     );
@@ -67,15 +67,17 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
 
   save() {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
-      this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(loadedFile),
-        savedCartInfo: {
-          name: this.form.get('name')?.value,
-          description: this.form.get('description')?.value,
-        },
+    this.importCsvService
+      .loadCsvData(file)
+      .subscribe((loadedFile: string[][]) => {
+        this.submitEvent.emit({
+          products: this.importToCartService.csvDataToProduct(loadedFile),
+          savedCartInfo: {
+            name: this.form.get('name')?.value,
+            description: this.form.get('description')?.value,
+          },
+        });
       });
-    });
   }
 
   protected buildForm(): FormGroup {
@@ -91,13 +93,9 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
           ),
         ],
         [
-          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
-          this.filesFormValidators
-            .maxLines(this.componentData?.fileValidity?.maxLines)
-            .bind(this.filesFormValidators),
-          this.filesFormValidators
-            .parsableFile(this.importToCartService.isDataParsableToProducts)
-            .bind(this.filesFormValidators),
+          this.importCsvService
+            .isReadableFile(this.importToCartService.isDataParsableToProducts)
+            .bind(this.importCsvService),
         ]
       )
     );

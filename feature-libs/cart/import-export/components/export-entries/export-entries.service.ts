@@ -16,6 +16,7 @@ import {
   ExportColumn,
   ExportCsvService,
   ExportConfig,
+  ExportService,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -29,14 +30,15 @@ export class ExportEntriesService {
     protected importExportConfig: ImportExportConfig,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    protected exportCsvService: ExportCsvService
+    protected exportCsvService: ExportCsvService,
+    protected exportService: ExportService
   ) {}
 
-  private get exportConfig(): ExportConfig | undefined {
+  protected get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;
   }
 
-  private columns: ExportColumn[] = [
+  protected columns: ExportColumn[] = [
     {
       name: {
         key: 'code',
@@ -126,7 +128,7 @@ export class ExportEntriesService {
       this.displayExportMessage();
     }
 
-    this.exportCsvService.downloadCsv(
+    this.exportService.download(
       this.exportCsvService.dataToCsv(entries),
       this.exportConfig
     );

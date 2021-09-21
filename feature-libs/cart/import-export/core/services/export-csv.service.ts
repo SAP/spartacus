@@ -7,7 +7,7 @@ import { ImportExportConfig } from '../config/import-export-config';
 export class ExportCsvService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
-  private get separator() {
+  protected get separator() {
     return this.importExportConfig.cartImportExport?.file.separator ?? ',';
   }
 
@@ -28,30 +28,5 @@ export class ExportCsvService {
       }, '');
       return `${csvString}${line}\r\n`;
     }, '');
-  }
-
-  downloadCsv(
-    csvData: string,
-    {
-      fileName = 'data',
-      extension = 'csv',
-      type = 'text/csv;charset=utf-8;',
-      downloadDelay = 0,
-    } = {}
-  ) {
-    setTimeout(() => {
-      const blob = new Blob(['\ufeff' + csvData], {
-        type,
-      });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-
-      link.setAttribute('href', url);
-      link.setAttribute('download', `${fileName}.${extension}`);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }, downloadDelay);
   }
 }

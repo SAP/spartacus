@@ -1,35 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ImportExportConfig } from '../config/import-export-config';
+import { ImportService } from './import.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportCsvService {
-  constructor(protected importExportConfig: ImportExportConfig) {}
-
-  /**
-   * Extracts CSV file and process into a JSON data
-   *
-   * @param file CSV file to extract the data
-   * @returns processed data from CSV or error data in CSV extraction
-   */
-  loadFile(file: File): Observable<string | ProgressEvent<FileReader>> {
-    return new Observable((observer: Observer<string>) => {
-      const fileReader: FileReader = new FileReader();
-      fileReader.readAsText(file);
-      fileReader.onload = () => {
-        observer.next(fileReader.result as string);
-        observer.complete();
-      };
-      fileReader.onerror = (error) => {
-        fileReader.abort();
-        observer.error(error);
-      };
-    });
-  }
-
+  constructor(
+    protected importExportConfig: ImportExportConfig,
+    protected importService: ImportService
+  ) {}
   /**
    * Processes the CSV data
    *
@@ -49,12 +36,59 @@ export class ImportCsvService {
   }
 
   loadCsvData(file: File): Observable<string[][]> {
-    return this.loadFile(file).pipe(
-      map((res) => this.readCsvData(res as string))
-    );
+    return this.importService
+      .loadTextFile(file)
+      .pipe(map((res) => this.readCsvData(res as string)));
   }
 
-  private get separator() {
+  isReadableFile(
+    isDataParsable?: (data: string[][]) => boolean
+  ): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const errors: ValidationErrors = {};
+      const file: File = control.value[0];
+      return (this.importService.loadTextFile(file) as Observable<string>).pipe(
+        tap((data: string) => {
+          this.validEmpty(data, errors);
+        }),
+        map((res) => this.readCsvData(res)),
+        tap((data: string[][]) => {
+          this.validTooManyLines(data, errors);
+          this.validNotParsable(data, errors, isDataParsable);
+        }),
+        map(() => (Object.keys(errors).length === 0 ? null : errors))
+      );
+    };
+  }
+
+  protected validEmpty(data: string, errors: ValidationErrors) {
+    if (data.toString().length === 0) {
+      errors.empty = true;
+    }
+  }
+
+  protected validTooManyLines(data: string[][], errors: ValidationErrors) {
+    if (this.maxLines && data.length > this.maxLines) {
+      errors.tooManyLines = { maxLines: this.maxLines };
+    }
+  }
+
+  protected validNotParsable(
+    data: string[][],
+    errors: ValidationErrors,
+    isDataParsable?: (data: string[][]) => boolean
+  ) {
+    if (!errors.empty && isDataParsable && !isDataParsable(data)) {
+      errors.notParsable = true;
+    }
+  }
+
+  protected get separator(): string {
     return this.importExportConfig.cartImportExport?.file.separator ?? ',';
+  }
+
+  protected get maxLines(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxLines;
   }
 }
