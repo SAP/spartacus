@@ -184,19 +184,6 @@ describe('BadRequestHandler', () => {
     );
   });
 
-  it('should handle bad cart error', () => {
-    service.handleError(MockRequest, MockBadCartResponse);
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'httpHandlers.cartNotFound' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
-  it('should not handle bad cart error for selective cart', () => {
-    service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
-    expect(globalMessageService.add).not.toHaveBeenCalled();
-  });
-
   it('should handle duplication of a registered email for guest checkout', () => {
     service.handleError(MockRequest, MockBadGuestDuplicateEmailResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
