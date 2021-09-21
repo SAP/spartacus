@@ -20,9 +20,6 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AddToCartModule } from '@spartacus/cart/main/components';
 import {
   AuthGuard,
   CmsConfig,
@@ -14,6 +13,7 @@ import {
   MediaModule,
   StarRatingModule,
 } from '@spartacus/storefront';
+import { AddToCartModule } from '../cart/add-to-cart/add-to-cart.module';
 import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 

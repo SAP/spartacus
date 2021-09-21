@@ -10,7 +10,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  CartSharedModule,
   FormErrorsModule,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
@@ -26,7 +25,6 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
 @NgModule({
   imports: [
     ReactiveFormsModule,
-    CartSharedModule,
     CommonModule,
     I18nModule,
     UrlModule,

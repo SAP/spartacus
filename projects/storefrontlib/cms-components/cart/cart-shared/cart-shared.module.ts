@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 // **** this needs to be resolved
-import { CartCouponModule } from 'feature-libs/cart/main/components';
+//import { CartCouponModule } from 'feature-libs/cart/main/components';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
@@ -23,7 +23,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
   imports: [
     CommonModule,
     RouterModule,
-    CartCouponModule,
+    //CartCouponModule,
     ReactiveFormsModule,
     UrlModule,
     NgbModule,

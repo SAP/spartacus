@@ -6,18 +6,18 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+// **** this needs to be resolved
+import {
+  ActiveCartFacade,
+  MultiCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   ConsignmentEntry,
   OrderEntry,
   PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-// **** this needs to be resolved
-import {
-  ActiveCartService,
-  MultiCartService,
-  SelectiveCartService,
-} from 'feature-libs/cart/main/core/facade/index';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
@@ -70,10 +70,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
+    protected activeCartService: ActiveCartFacade,
+    protected selectiveCartService: SelectiveCartFacade,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {}
 
   ngOnInit(): void {
