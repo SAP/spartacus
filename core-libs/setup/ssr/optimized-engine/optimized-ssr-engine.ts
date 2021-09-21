@@ -324,9 +324,8 @@ export class OptimizedSsrEngine {
       });
     }
 
-    const renderCallbacksCount = this.renderCallbacks.get(renderingKey)?.length;
     this.log(
-      `${renderCallbacksCount} rendering callbacks are waiting for the render to complete (${request?.originalUrl})`
+      `Request is waiting for the render to complete (${request?.originalUrl})`
     );
   }
 
