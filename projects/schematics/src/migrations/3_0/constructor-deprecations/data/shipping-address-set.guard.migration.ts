@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SHIPPING_ADDRESS_SET_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/shipping-address-set.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/shipping-address-set.guard.ts
   class: SHIPPING_ADDRESS_SET_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

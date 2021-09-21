@@ -9,7 +9,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/anonymous-consent-management/open-dialog/anonymous-consent-open-dialog.component.ts
+  // storefrontlib/cms-components/anonymous-consent-management/open-dialog/anonymous-consent-open-dialog.component.ts
   class: ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -37,7 +37,7 @@ export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V1: ConstructorDe
 };
 
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // storefrontlib/src/cms-components/anonymous-consent-management/open-dialog/anonymous-consent-open-dialog.component.ts
+  // storefrontlib/cms-components/anonymous-consent-management/open-dialog/anonymous-consent-open-dialog.component.ts
   class: ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

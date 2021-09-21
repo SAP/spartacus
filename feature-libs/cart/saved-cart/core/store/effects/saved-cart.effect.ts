@@ -247,31 +247,35 @@ export class SavedCartEffects {
   > = this.actions$.pipe(
     ofType(SavedCartActions.CLONE_SAVED_CART),
     map((action: SavedCartActions.CloneSavedCart) => action.payload),
-    switchMap(({ userId, cartId }) => {
-      return this.savedCartConnector.cloneSavedCart(userId, cartId).pipe(
-        switchMap((_) => {
-          return [
-            new SavedCartActions.CloneSavedCartSuccess({
-              userId,
-              cartId,
-            }),
-            new SavedCartActions.RestoreSavedCart({
-              userId,
-              cartId,
-            }),
-            new SavedCartActions.LoadSavedCarts({ userId }),
-          ];
-        }),
-        catchError((error: HttpErrorResponse) =>
-          of(
-            new SavedCartActions.CloneSavedCartFail({
-              userId,
-              cartId,
-              error: normalizeHttpError(error),
-            })
+    switchMap(({ userId, cartId, saveCartName }) => {
+      return this.savedCartConnector
+        .cloneSavedCart(userId, cartId, saveCartName)
+        .pipe(
+          switchMap((_) => {
+            return [
+              new SavedCartActions.CloneSavedCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+              }),
+              new SavedCartActions.RestoreSavedCart({
+                userId,
+                cartId,
+              }),
+              new SavedCartActions.LoadSavedCarts({ userId }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.CloneSavedCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                error: normalizeHttpError(error),
+              })
+            )
           )
-        )
-      );
+        );
     })
   );
 

@@ -229,10 +229,14 @@ describe('SavedCartFormDialogComponent', () => {
     spyOn(savedCartService, 'restoreSavedCart');
     spyOn(savedCartService, 'cloneSavedCart');
 
+    component?.form?.get('cloneName')?.setValue(mockCart.name);
     component.isCloneSavedCart = true;
 
     component.restoreSavedCart(mockCartId);
-    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(
+      mockCartId,
+      mockCart.name
+    );
     expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
   });
 

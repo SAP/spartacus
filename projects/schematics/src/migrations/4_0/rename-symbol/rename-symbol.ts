@@ -127,44 +127,44 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newNode: DEFAULT_USER_ROUTING_CONFIG,
     newImportPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   },
-  // projects/storefrontlib/src/cms-components/product/config/default-view-config.ts
+  // projects/storefrontlib/cms-components/product/config/default-view-config.ts
   {
     previousNode: 'defaultScrollConfig',
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics-loader.service.ts
   {
     previousNode: QUALTRICS_LOADER_SERVICE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/config/qualtrics-config.ts
   {
     previousNode: QUALTRICS_CONFIG,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics-loader.service.ts
   {
     previousNode: QUALTRICS_EVENT_NAME,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics.component.ts
   {
     previousNode: QUALTRICS_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.module.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics.module.ts
   {
     previousNode: QUALTRICS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: 'QualtricsComponentsModule',
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/asm/asm.module.ts
+  // projects/storefrontlib/cms-components/asm/asm.module.ts
   {
     previousNode: ASM_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -342,93 +342,93 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_SMARTEDIT}/core`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
   {
     previousNode: VARIANT_STYLE_ICONS_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
   {
     previousNode: VARIANT_STYLE_ICONS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: PRODUCT_VARIANT_STYLE_ICONS_MODULE,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/close-account.module.ts
+  // projects/storefrontlib/cms-components/myaccount/close-account/close-account.module.ts
   {
     previousNode: CLOSE_ACCOUNT_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/forgot-password/forgot-password.module.ts
   {
     previousNode: FORGOT_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/register/register.module.ts
+  // projects/storefrontlib/cms-components/user/register/register.module.ts
   {
     previousNode: REGISTER_COMPONENT_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/reset-password/reset-password.module.ts
   {
     previousNode: RESET_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-email/update-email.module.ts
   {
     previousNode: UPDATE_EMAIL_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-password/update-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-password/update-password.module.ts
   {
     previousNode: UPDATE_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-profile/update-profile.module.ts
   {
     previousNode: UPDATE_PROFILE_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login/login.module.ts
+  // projects/storefrontlib/cms-components/user/login/login.module.ts
   {
     previousNode: LOGIN_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.module.ts
+  // projects/storefrontlib/cms-components/user/login-form/login-form.module.ts
   {
     previousNode: LOGIN_FORM_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
+  // projects/storefrontlib/cms-components/user/login-register/login-register.module.ts
   {
     previousNode: LOGIN_REGISTER_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
+  // projects/storefrontlib/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
   {
     previousNode: CLOSE_ACCOUNT_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
+  // projects/storefrontlib/cms-components/user/login-register/login-register.component.ts
   {
     previousNode: LOGIN_REGISTER_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   {
     previousNode: ITEM,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -438,7 +438,7 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
 ];
 
 export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
-  // projects/storefrontlib/src/cms-components/user/checkout-login/*
+  // projects/storefrontlib/cms-components/user/checkout-login/*
   {
     previousNode: 'CheckoutLoginComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -449,7 +449,7 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/order-confirmation/*
+  // projects/storefrontlib/cms-components/order-confirmation/*
   {
     previousNode: 'OrderConfirmationModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -490,7 +490,7 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/checkout/*
+  // projects/storefrontlib/cms-components/checkout/*
   {
     previousNode: 'CheckoutComponentModule',
     newNode: 'CheckoutComponentsModule',
@@ -986,7 +986,7 @@ export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_CORE,
     newImportPath: SPARTACUS_CHECKOUT_CORE,
   },
-  // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+  // projects/storefrontlib/cms-components/cart/cart-not-empty.guard.ts
   {
     previousNode: CART_NOT_EMPTY_GUARD,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
