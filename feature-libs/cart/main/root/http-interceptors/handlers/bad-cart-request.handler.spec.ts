@@ -21,7 +21,7 @@ const MockJaloErrorResponse = {
   },
 } as HttpErrorResponse;
 
-const MockBadCartResponse = {
+const MockCartNotFoundResponse = {
   error: {
     errors: [
       {
@@ -32,7 +32,18 @@ const MockBadCartResponse = {
   },
 } as HttpErrorResponse;
 
-const MockBadCartResponseForSelectiveCart = {
+const MockOtherCartErrorResponse = {
+  error: {
+    errors: [
+      {
+        subjectType: 'cart',
+        reason: 'other',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const MockCartNotFoundResponseForSelectiveCart = {
   error: {
     errors: [
       {
@@ -78,6 +89,20 @@ describe('BadCartRequestHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
   });
 
+  it('should match cart not found error', () => {
+    expect(service.hasMatch(MockCartNotFoundResponse)).toBe(true);
+  });
+
+  it('should NOT match cart not found error for selectiive cart', () => {
+    expect(service.hasMatch(MockCartNotFoundResponseForSelectiveCart)).toBe(
+      false
+    );
+  });
+
+  it('should NOT match other errors', () => {
+    expect(service.hasMatch(MockOtherCartErrorResponse)).toBe(false);
+  });
+
   it('should not handle response without errors', () => {
     service.handleError(MockRequest, MockRandomResponse);
     expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -94,7 +119,7 @@ describe('BadCartRequestHandler', () => {
   });
 
   it('should handle bad cart error', () => {
-    service.handleError(MockRequest, MockBadCartResponse);
+    service.handleError(MockRequest, MockCartNotFoundResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.cartNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -102,7 +127,7 @@ describe('BadCartRequestHandler', () => {
   });
 
   it('should not handle bad cart error for selective cart', () => {
-    service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
+    service.handleError(MockRequest, MockCartNotFoundResponseForSelectiveCart);
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 });

@@ -15,6 +15,10 @@ import { isCartNotFoundError } from '../../utils/utils';
 export class BadCartRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
+  getPriority(): Priority {
+    return Priority.NORMAL;
+  }
+
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return this.getErrors(errorResponse).some(isCartNotFoundError);
   }
@@ -41,9 +45,5 @@ export class BadCartRequestHandler extends HttpErrorHandler {
     return (response.error?.errors || []).filter(
       (error) => error.type !== 'JaloObjectNoLongerValidError'
     );
-  }
-
-  getPriority(): Priority {
-    return Priority.NORMAL;
   }
 }
