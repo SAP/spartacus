@@ -5,8 +5,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import {
+  DIALOG_TYPE,
   LaunchInlineDialog,
   LaunchOptions,
   LaunchRoute,
@@ -14,7 +16,6 @@ import {
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
-import { of } from 'rxjs';
 
 const mockLaunchConfig: LayoutConfig = {
   launch: {
@@ -25,11 +26,16 @@ const mockLaunchConfig: LayoutConfig = {
     TEST_URL: {
       cxRoute: 'url',
     },
+    TEST_DIALOG: {
+      inline: true,
+      component: {},
+      dialogType: DIALOG_TYPE.DIALOG,
+    },
   },
 };
 
-const urlConfig = mockLaunchConfig.launch['TEST_URL'];
-const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
+const urlConfig = mockLaunchConfig.launch?.['TEST_URL'];
+const inlineConfig = mockLaunchConfig.launch?.['TEST_INLINE'];
 
 @Injectable({
   providedIn: 'root',
@@ -174,14 +180,14 @@ describe('LaunchDialogService', () => {
 
     it('should call LaunchDialogService launch', () => {
       service.openDialog(
-        LAUNCH_CALLER.REPLENISHMENT_ORDER,
-        null,
+        'TEST_DIALOG' as LAUNCH_CALLER,
+        undefined,
         component.vcr,
         { test: 123 }
       );
 
       expect(service.launch).toHaveBeenCalledWith(
-        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        'TEST_DIALOG' as LAUNCH_CALLER,
         component.vcr,
         {
           test: 123,
@@ -189,23 +195,44 @@ describe('LaunchDialogService', () => {
       );
     });
 
-    it('should call LaunchDialogService clear on close and destriy', () => {
+    it('should call LaunchDialogService clear on close and destroy', () => {
       spyOn(service, 'clear');
       spyOn(componentRef, 'destroy');
       service['_dialogClose'].next('close');
 
-      const comp = service.openDialog(
-        LAUNCH_CALLER.REPLENISHMENT_ORDER,
-        null,
+      const openDialog = service.openDialog(
+        'TEST_DIALOG' as LAUNCH_CALLER,
+        undefined,
         component.vcr
       );
 
-      comp.subscribe();
+      openDialog?.subscribe();
 
       expect(service.clear).toHaveBeenCalledWith(
-        LAUNCH_CALLER.REPLENISHMENT_ORDER
+        'TEST_DIALOG' as LAUNCH_CALLER
       );
       expect(componentRef.destroy).toHaveBeenCalled();
+    });
+  });
+
+  describe('openDialogAndSubscribe', () => {
+    it('should call "openDialog" method', () => {
+      spyOn(service, 'openDialog');
+
+      service.openDialogAndSubscribe(
+        'TEST_DIALOG' as LAUNCH_CALLER,
+        undefined,
+        { test: 123 }
+      );
+
+      expect(
+        service.openDialog
+      ).toHaveBeenCalledWith(
+        'TEST_DIALOG' as LAUNCH_CALLER,
+        undefined,
+        undefined,
+        { test: 123 }
+      );
     });
   });
 });
