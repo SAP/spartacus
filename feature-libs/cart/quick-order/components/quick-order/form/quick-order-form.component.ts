@@ -72,8 +72,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   onBlur(element?: Element): void {
     if (element) {
       if (
-        (element?.className).includes('quick-order-results-products') ||
-        (element?.className).includes('quick-order-form-reset-icon')
+        (element?.className || '').includes('quick-order-results-products') ||
+        (element?.className || '').includes('quick-order-form-reset-icon')
       ) {
         return;
       }

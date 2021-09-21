@@ -1,5 +1,5 @@
 export const quickOrderCartForm = {
-  entriesWasAdded: '({{ quantity }}) {{ product }} has been added to the cart',
+  entriesWereAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entryWasAdded: '{{ product }} has been added to the cart',
   noResults: 'We could not find any products',
   stockLevelReached: 'The maximum stock level has been reached',

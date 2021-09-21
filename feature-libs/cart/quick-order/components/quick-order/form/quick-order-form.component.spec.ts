@@ -36,6 +36,7 @@ const mockResultsProductElement = {
 const mockResetIconElement = {
   className: 'quick-order-form-reset-icon',
 } as Element;
+const mockEmptyElement = {} as Element;
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   search(_query: string, _maxProducts?: number): Observable<Product[]> {
@@ -159,6 +160,12 @@ describe('QuickOrderFormComponent', () => {
 
       expect(component.isResultsBoxOpen()).toBeTruthy();
     });
+
+    it('should trigger close and clear results as element is empty object', () => {
+      component.onBlur(mockEmptyElement);
+
+      expect(component.isResultsBoxOpen()).toBeFalsy();
+    });
   });
 
   describe('should trigger focusNextChild method', () => {
@@ -260,6 +267,17 @@ describe('QuickOrderFormComponent', () => {
 
       expect(component.form.get('product')?.value).toBeNull();
       expect(component.isResultsBoxOpen()).toBeFalsy();
+    });
+
+    it('and trigger prevent default', () => {
+      const ev = {
+        preventDefault() {},
+      };
+      spyOn(ev, 'preventDefault').and.callThrough();
+
+      component.form?.get('product')?.setValue('test');
+      component.clear(ev as Event);
+      expect(ev.preventDefault).toHaveBeenCalled();
     });
   });
 
