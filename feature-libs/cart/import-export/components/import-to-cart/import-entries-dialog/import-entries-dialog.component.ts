@@ -29,7 +29,7 @@ export class ImportEntriesDialogComponent {
     focusOnEscape: true,
   };
 
-  formState: Boolean = true;
+  formState: boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
     loading: false,
     cartName: '',
