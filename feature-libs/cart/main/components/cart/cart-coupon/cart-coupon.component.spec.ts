@@ -6,13 +6,12 @@ import {
   ActiveCartService,
   CartVoucherService,
 } from '@spartacus/cart/main/core';
+import { Cart, Voucher } from '@spartacus/cart/main/root';
 import {
-  Cart,
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeaturesConfigModule,
   I18nTestingModule,
-  Voucher,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
