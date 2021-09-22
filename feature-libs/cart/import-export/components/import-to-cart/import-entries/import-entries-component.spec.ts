@@ -3,17 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of } from 'rxjs';
 import { ImportEntriesComponent } from './import-entries-component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
+  openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
-  ) {
-    return of();
-  }
+  ) {}
 }
 
 describe('ImportEntriesComponent', () => {
@@ -36,7 +33,7 @@ describe('ImportEntriesComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
 
     fixture.detectChanges();
     el = fixture.debugElement;
@@ -48,7 +45,7 @@ describe('ImportEntriesComponent', () => {
 
   it('should trigger an open dialog to import CSV', () => {
     component.openDialog();
-    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
       component['vcr']
