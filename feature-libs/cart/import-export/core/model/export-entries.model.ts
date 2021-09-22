@@ -13,6 +13,21 @@ export interface ExportColumn {
   value: string;
 }
 
+export interface FileOptions {
+  /**
+   * File name for exported file.
+   */
+  fileName: string;
+  /**
+   * Extension for exported file.
+   */
+  extension: string;
+  /**
+   * Mime/type for exported file.
+   */
+  type: string;
+}
+
 export interface ExportConfig {
   /**
    * Specifies which columns besides code and quantity can be exported to CSV file.
@@ -31,9 +46,9 @@ export interface ExportConfig {
   downloadDelay?: number;
 
   /**
-   * File name for exported file.
+   * Metadata for exported file.
    */
-  fileName?: string;
+  fileOptions: FileOptions;
 }
 
 export enum ExportCartRoutes {

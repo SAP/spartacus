@@ -127,10 +127,11 @@ export class ExportEntriesService {
     if (this.exportConfig?.messageEnabled) {
       this.displayExportMessage();
     }
-
-    this.exportService.download(
-      this.exportCsvService.dataToCsv(entries),
-      this.exportConfig
-    );
+    setTimeout(() => {
+      this.exportService.download(
+        this.exportCsvService.dataToCsv(entries),
+        this.exportConfig.fileOptions
+      );
+    }, this.exportConfig.downloadDelay ?? 0);
   }
 }

@@ -23,7 +23,11 @@ export const defaultImportExportConfig: ImportExportConfig = {
       ],
       messageEnabled: true,
       downloadDelay: 1000,
-      fileName: 'cart',
+      fileOptions: {
+        fileName: 'cart',
+        extension: 'csv',
+        type: 'text/csv;charset=utf-8;',
+      },
     },
     import: {
       fileValidity: {
