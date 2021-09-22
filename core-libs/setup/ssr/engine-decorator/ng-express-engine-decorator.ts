@@ -1,9 +1,12 @@
 import { NgModuleFactory, StaticProvider, Type } from '@angular/core';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
-import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
-import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { Request } from 'express';
+import {
+  OptimizedSsrEngine,
+  SsrCallbackFn,
+} from '../optimized-engine/optimized-ssr-engine';
+import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
 
 /**
  * These are the allowed options for the engine
@@ -29,8 +32,8 @@ export interface RenderOptions extends NgSetupOptions {
 
 export type NgExpressEngineInstance = (
   filePath: string,
-  options: RenderOptions,
-  callback: (err?: Error | null, html?: string) => void
+  options: object,
+  callback: SsrCallbackFn
 ) => void;
 
 export type NgExpressEngine = (
