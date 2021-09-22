@@ -1,4 +1,5 @@
-import { Order, Principal, OrderApprovalPermissionType } from '@spartacus/core';
+import { Principal } from '@spartacus/cart/main/root';
+import { Order, OrderApprovalPermissionType } from '@spartacus/core';
 
 export enum OrderApprovalDecisionValue {
   APPROVE = 'APPROVE',
