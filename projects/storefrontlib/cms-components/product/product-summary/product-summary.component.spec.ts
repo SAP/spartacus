@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 // **** this needs to be resolved
-import { AddToCartModule } from 'feature-libs/cart/main/components/cart/add-to-cart/add-to-cart.module';
+//import { AddToCartModule } from 'feature-libs/cart/main/components/cart/add-to-cart/add-to-cart.module';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
@@ -23,7 +23,7 @@ describe('ProductSummaryComponent in product', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          AddToCartModule,
+          //AddToCartModule,
           ItemCounterModule,
           I18nTestingModule,
           RouterTestingModule,

@@ -6,7 +6,6 @@ export * from './cart-coupon/index';
 export * from './cart-details/cart-details.component';
 export * from './cart-details/cart-details.module';
 export * from './cart-not-empty.guard';
-export * from './cart-outlets.model';
 export * from './cart-page-layout-handler';
 export * from './cart-shared/index';
 export * from './cart-totals/cart-totals.component';

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   savedCartTranslationChunksConfig,
   savedCartTranslations,
@@ -18,7 +17,6 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
         [CART_SAVED_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/saved-cart').then((m) => m.SavedCartModule),
-          dependencies: [CART_FEATURE],
         },
       },
     }),

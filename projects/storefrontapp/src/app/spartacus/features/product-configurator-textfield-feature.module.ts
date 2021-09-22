@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { provideConfig } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import {} from '@spartacus/product-configurator/rulebased/root';
@@ -18,7 +17,6 @@ import {
             import('@spartacus/product-configurator/textfield').then(
               (m) => m.TextfieldConfiguratorModule
             ),
-          dependencies: [CART_FEATURE],
         },
       },
       i18n: {

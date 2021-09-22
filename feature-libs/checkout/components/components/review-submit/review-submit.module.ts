@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CmsConfig,
   I18nModule,
@@ -10,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
+  CartSharedModule,
   IconModule,
   PromotionsModule,
 } from '@spartacus/storefront';

@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CartOutlets } from '@spartacus/cart/main/root';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
 

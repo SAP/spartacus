@@ -3,6 +3,9 @@ import { CartVoucherFacade } from '@spartacus/cart/main/root';
 import { Voucher } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',

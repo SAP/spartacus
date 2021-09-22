@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/main/components';
+import { CartOutlets } from '@spartacus/cart/main/root';
 import { I18nModule } from '@spartacus/core';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';

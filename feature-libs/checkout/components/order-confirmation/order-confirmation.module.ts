@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -10,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
+  CartSharedModule,
   FormErrorsModule,
   OrderOverviewModule,
   PromotionsModule,

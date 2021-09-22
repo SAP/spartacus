@@ -2,10 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  AddToCartModule,
-  CartSharedModule,
-} from '@spartacus/cart/main/components';
-import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
@@ -13,7 +9,9 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  AddToCartModule,
   CardModule,
+  CartSharedModule,
   IconModule,
   MediaModule,
   SpinnerModule,

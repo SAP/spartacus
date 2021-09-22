@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   quickOrderTranslationChunksConfig,
   quickOrderTranslations,
@@ -20,7 +19,6 @@ import { provideConfig } from '@spartacus/core';
             import('@spartacus/cart/quick-order').then(
               (m) => m.QuickOrderModule
             ),
-          dependencies: [CART_FEATURE],
         },
       },
       i18n: {

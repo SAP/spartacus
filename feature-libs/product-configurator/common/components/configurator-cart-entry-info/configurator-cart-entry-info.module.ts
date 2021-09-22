@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/main/components';
+import { CartOutlets } from '@spartacus/cart/main/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
