@@ -46,7 +46,6 @@
     "e2e:run:ci:cdc": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc",
     "e2e:run:ci:digital-payments": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:digital-payments",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
-    
     "generate:docs": "npx @compodoc/compodoc@1.1.13 -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/**/*.html feature-libs/**/*.html --exclude **/node_modules/**/*.html -a alt,title,placeholder,aria-label",
