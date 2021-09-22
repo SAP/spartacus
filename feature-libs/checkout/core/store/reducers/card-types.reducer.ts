@@ -1,4 +1,4 @@
-import { CardType } from '@spartacus/core';
+import { CardType } from '@spartacus/cart/main/root';
 import { CheckoutActions } from '../actions/index';
 import { CardTypesState } from '../checkout-state';
 
