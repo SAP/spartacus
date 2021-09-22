@@ -1,26 +1,21 @@
-import { Address } from './address.model';
-import { Currency } from './misc.model';
 import {
+  Address,
+  CostCenter,
+  Currency,
   DeliveryMode,
   OrderEntry,
   PickupOrderEntryGroup,
+  Price,
+  Promotion,
   PromotionOrderEntryConsumed,
-} from './order.model';
-import { CostCenter } from './org-unit.model';
-import { Price, Promotion } from './product.model';
+} from '@spartacus/core';
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
   description?: string;
   promotion?: Promotion;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export enum PromotionLocation {
   ActiveCart = 'CART',
   Checkout = 'CHECKOUT',
@@ -29,17 +24,11 @@ export enum PromotionLocation {
   SavedCart = 'SAVED_CART',
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export enum B2BPaymentTypeEnum {
   ACCOUNT_PAYMENT = 'ACCOUNT',
   CARD_PAYMENT = 'CARD',
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface Voucher {
   appliedValue?: Price;
   code?: string;
@@ -53,9 +42,6 @@ export interface Voucher {
   voucherCode?: string;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface DeliveryOrderEntryGroup {
   deliveryAddress?: Address;
   entries?: OrderEntry[];
@@ -63,33 +49,21 @@ export interface DeliveryOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface Principal {
   name?: string;
   uid?: string;
 }
 
- /**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface CardType {
   code?: string;
   name?: string;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface PaymentType {
   code?: string;
   displayName?: string;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;
@@ -107,16 +81,10 @@ export interface PaymentDetails {
   subscriptionId?: string;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface SaveCartResult {
   savedCartData?: Cart;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface Cart {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
@@ -158,9 +126,6 @@ export interface Cart {
   user?: Principal;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface CartModification {
   deliveryModeChanged?: boolean;
   entry?: OrderEntry;
