@@ -39,7 +39,8 @@ import { PersistFocusService } from './persist-focus.service';
 @Directive() // selector: '[cxPersistFocus]',
 export class PersistFocusDirective
   extends BlockFocusDirective
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   protected defaultConfig: PersistFocusConfig = {};
 
   /**

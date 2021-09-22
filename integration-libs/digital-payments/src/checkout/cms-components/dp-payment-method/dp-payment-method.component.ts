@@ -25,7 +25,8 @@ import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 })
 export class DpPaymentMethodComponent
   extends CorePaymentMethodComponent
-  implements OnInit {
+  implements OnInit
+{
   showCallbackScreen = false;
 
   isDpCallback(): boolean {

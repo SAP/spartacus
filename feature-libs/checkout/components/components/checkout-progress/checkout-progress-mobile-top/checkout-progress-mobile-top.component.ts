@@ -12,8 +12,8 @@ import { CheckoutStepService } from '../../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressMobileTopComponent implements OnInit {
-  private _steps$: BehaviorSubject<CheckoutStep[]> = this.checkoutStepService
-    .steps$;
+  private _steps$: BehaviorSubject<CheckoutStep[]> =
+    this.checkoutStepService.steps$;
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -23,9 +23,10 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
   cart$: Observable<Cart>;
 
   activeStepIndex: number;
-  activeStepIndex$: Observable<number> = this.checkoutStepService.activeStepIndex$.pipe(
-    tap((index) => (this.activeStepIndex = index))
-  );
+  activeStepIndex$: Observable<number> =
+    this.checkoutStepService.activeStepIndex$.pipe(
+      tap((index) => (this.activeStepIndex = index))
+    );
 
   get steps$(): Observable<CheckoutStep[]> {
     return this._steps$.asObservable();

@@ -3,7 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry, StateUtils } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -17,19 +17,16 @@ export const getMultiCartState: MemoizedSelector<
 
 export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
-  StateUtils.EntityProcessesLoaderState<Cart>
+  EntityProcessesLoaderState<Cart>
 > = createSelector(getMultiCartState, (state: MultiCartState) => state.carts);
 
 export const getCartEntitySelectorFactory = (
   cartId: string
-): MemoizedSelector<
-  StateWithMultiCart,
-  StateUtils.ProcessesLoaderState<Cart>
-> => {
+): MemoizedSelector<StateWithMultiCart, ProcessesLoaderState<Cart>> => {
   return createSelector(
     getMultiCartEntities,
-    (state: StateUtils.EntityProcessesLoaderState<Cart>) =>
-      StateUtils.entityProcessesLoaderStateSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityProcessesLoaderStateSelector(state, cartId)
   );
 };
 
@@ -38,8 +35,8 @@ export const getCartSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartEntities,
-    (state: StateUtils.EntityProcessesLoaderState<Cart>) =>
-      StateUtils.entityValueSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityValueSelector(state, cartId)
   );
 };
 
@@ -48,8 +45,8 @@ export const getCartIsStableSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: StateUtils.EntityProcessesLoaderState<Cart>) =>
-      StateUtils.entityIsStableSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityIsStableSelector(state, cartId)
   );
 };
 
@@ -58,8 +55,8 @@ export const getCartHasPendingProcessesSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: StateUtils.EntityProcessesLoaderState<Cart>) =>
-      StateUtils.entityHasPendingProcessesSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityHasPendingProcessesSelector(state, cartId)
   );
 };
 
@@ -85,26 +82,17 @@ export const getCartEntrySelectorFactory = (
   );
 };
 
-export const getActiveCartId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
+export const getActiveCartId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.active);
 
-export const getWishListId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state?.wishList
-);
+export const getWishListId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.wishList);
 
 export const getCartsSelectorFactory: MemoizedSelector<
   StateWithMultiCart,
   Cart[]
 > = createSelector(
   getMultiCartEntities,
-  (state: StateUtils.EntityProcessesLoaderState<Cart>) =>
-    Object.keys(state.entities).map((key) =>
-      StateUtils.entityValueSelector(state, key)
-    )
+  (state: EntityProcessesLoaderState<Cart>) =>
+    Object.keys(state.entities).map((key) => entityValueSelector(state, key))
 );

@@ -12,7 +12,8 @@ import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core
   providedIn: 'root',
 })
 export class OccUserListNormalizer
-  implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>> {
+  implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
