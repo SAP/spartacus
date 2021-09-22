@@ -3,6 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  Cart,
+  PaymentDetails,
+  PaymentType,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
@@ -13,15 +19,11 @@ import {
 import {
   ActiveCartService,
   Address,
-  Cart,
   CostCenter,
   Country,
   DeliveryMode,
   I18nTestingModule,
   OrderEntry,
-  PaymentDetails,
-  PaymentType,
-  PromotionLocation,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';

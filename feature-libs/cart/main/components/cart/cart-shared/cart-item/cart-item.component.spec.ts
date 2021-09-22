@@ -19,8 +19,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeaturesConfigModule,
   I18nTestingModule,
-  PromotionLocation,
 } from '@spartacus/core';
+import { PromotionLocation } from '@spartacus/cart/main/root';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';

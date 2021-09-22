@@ -3,13 +3,8 @@ import {
   ActiveCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
-import {
-  Cart,
-  CmsParagraphComponent,
-  CmsService,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/core';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+import { CmsParagraphComponent, CmsService, OrderEntry } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
-  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';

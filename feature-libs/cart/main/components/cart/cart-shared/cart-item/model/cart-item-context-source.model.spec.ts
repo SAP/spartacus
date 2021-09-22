@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { OrderEntry, PromotionLocation } from '@spartacus/core';
+import { PromotionLocation } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/core';
 import { CartItemComponentOptions } from '../cart-item.component';
 import { CartItemContextSource } from './cart-item-context-source.model';
 

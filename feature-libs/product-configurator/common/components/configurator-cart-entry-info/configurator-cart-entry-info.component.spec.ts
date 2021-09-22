@@ -10,7 +10,6 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
-  PromotionLocation,
 } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';

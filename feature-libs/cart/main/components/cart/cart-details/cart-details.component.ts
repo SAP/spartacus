@@ -3,13 +3,8 @@ import {
   ActiveCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
-import {
-  AuthService,
-  Cart,
-  OrderEntry,
-  PromotionLocation,
-  RoutingService,
-} from '@spartacus/core';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+import { AuthService, OrderEntry, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 

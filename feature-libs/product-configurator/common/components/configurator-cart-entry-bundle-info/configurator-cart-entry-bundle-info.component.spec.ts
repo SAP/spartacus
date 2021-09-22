@@ -8,11 +8,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
-import {
-  I18nTestingModule,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/core';
+import { PromotionLocation } from '@spartacus/cart/main/root';
+import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,

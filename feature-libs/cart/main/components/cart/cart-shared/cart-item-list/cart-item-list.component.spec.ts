@@ -7,13 +7,13 @@ import {
   MultiCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
+import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
   ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
-  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';

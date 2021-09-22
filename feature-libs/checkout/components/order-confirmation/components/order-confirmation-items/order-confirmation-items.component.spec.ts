@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { PromotionLocation } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   FeaturesConfig,
@@ -8,7 +9,6 @@ import {
   I18nTestingModule,
   Order,
   OrderEntry,
-  PromotionLocation,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
