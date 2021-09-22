@@ -231,6 +231,10 @@ export class OptimizedSsrEngine {
         clearTimeout(requestTimeout);
         callback(err, html);
 
+        this.log(
+          `Request is resolved with the SSR rendering result (${request?.originalUrl})`
+        );
+
         // store the render only if caching is enabled
         if (this.ssrOptions?.cache) {
           this.renderingCache.store(renderingKey, err, html);
@@ -324,7 +328,7 @@ export class OptimizedSsrEngine {
     }
 
     this.log(
-      `Request is waiting for the render to complete (${request?.originalUrl})`
+      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
     );
   }
 
