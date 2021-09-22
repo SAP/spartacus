@@ -57,6 +57,9 @@ export const SET_DELIVERY_ADDRESS = '[Checkout] Set Delivery Address';
 export const SET_DELIVERY_ADDRESS_FAIL = '[Checkout] Set Delivery Address Fail';
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command and it's status can be tracked with return value of setDeliveryAddress method.
+ */
 export const RESET_SET_DELIVERY_ADDRESS_PROCESS =
   '[Checkout] Reset Set Delivery Address Process';
 
@@ -175,6 +178,9 @@ export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
+ */
 export class ResetSetDeliveryAddressProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_DELIVERY_ADDRESS_PROCESS;
   constructor() {

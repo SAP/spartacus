@@ -62,6 +62,8 @@ export abstract class CheckoutDeliveryFacade {
 
   /**
    * Get status about successfully set Delivery Address
+   *
+   * @deprecated since 4.3.0. Use return value of setDeliveryAddress method to know if the action was successful or failed.
    */
   abstract getSetDeliveryAddressProcess(): Observable<
     StateUtils.LoaderState<void>
@@ -69,6 +71,8 @@ export abstract class CheckoutDeliveryFacade {
 
   /**
    * Clear info about process of setting Delivery Address
+   *
+   * @deprecated since 4.3.0. Instead of the process use the return value of setDeliveryAddress method to observe it's status.
    */
   abstract resetSetDeliveryAddressProcess(): void;
 

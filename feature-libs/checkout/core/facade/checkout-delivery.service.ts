@@ -129,6 +129,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
 
   /**
    * Get status about successfully set Delivery Address
+   *
+   * @deprecated since 4.3.0. Use return value of setDeliveryAddress method to know if the action was successful or failed.
    */
   getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
     return this.processStateStore.pipe(
@@ -140,6 +142,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
 
   /**
    * Clear info about process of setting Delivery Address
+   *
+   * @deprecated since 4.3.0. Instead of the process use the return value of setDeliveryAddress method to observe it's status.
    */
   resetSetDeliveryAddressProcess(): void {
     this.checkoutStore.dispatch(
