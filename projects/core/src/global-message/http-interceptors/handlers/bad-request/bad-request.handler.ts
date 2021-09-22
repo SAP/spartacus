@@ -17,7 +17,6 @@ export class BadRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
-    //this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
@@ -75,20 +74,6 @@ export class BadRequestHandler extends HttpErrorHandler {
         );
       });
   }
-
-  /*protected handleBadCartRequest(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter((e) => isCartNotFoundError(e))
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.cartNotFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }*/
 
   protected handleVoucherOperationError(
     _request: HttpRequest<any>,
