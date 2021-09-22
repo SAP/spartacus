@@ -198,28 +198,27 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
             !this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
           ) {
             return of(); // TODO: should we throw error here? useful dev info?
-          } else {
-            return this.checkoutDeliveryConnector
-              .createAddress(userId, cartId, payload)
-              .pipe(
-                tap(() => {
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.checkoutStore.dispatch(
-                      new UserActions.LoadUserAddresses(userId)
-                    );
-                  }
-                }),
-                switchMap((address) => {
-                  address['titleCode'] = payload.titleCode;
-                  if (payload.region?.isocodeShort) {
-                    Object.assign(address.region, {
-                      isocodeShort: payload.region.isocodeShort,
-                    });
-                  }
-                  return this.setDeliveryAddress(address);
-                })
-              );
           }
+          return this.checkoutDeliveryConnector
+            .createAddress(userId, cartId, payload)
+            .pipe(
+              tap(() => {
+                if (userId !== OCC_USER_ID_ANONYMOUS) {
+                  this.checkoutStore.dispatch(
+                    new UserActions.LoadUserAddresses(userId)
+                  );
+                }
+              }),
+              switchMap((address) => {
+                address['titleCode'] = payload.titleCode;
+                if (payload.region?.isocodeShort) {
+                  Object.assign(address.region, {
+                    isocodeShort: payload.region.isocodeShort,
+                  });
+                }
+                return this.setDeliveryAddress(address);
+              })
+            );
         })
       );
     },
@@ -348,36 +347,35 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               !this.activeCartService.isGuestCart())
           ) {
             return of(); // TODO: should we throw error here? useful dev info?
-          } else {
-            return this.checkoutDeliveryConnector
-              .setAddress(userId, cartId, addressId)
-              .pipe(
-                tap(() => {
-                  // TODO: Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearCheckoutDeliveryMode({
-                      userId,
-                      cartId,
-                    })
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearSupportedDeliveryModes()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.LoadSupportedDeliveryModes({
-                      userId,
-                      cartId,
-                    })
-                  );
-                })
-              );
           }
+          return this.checkoutDeliveryConnector
+            .setAddress(userId, cartId, addressId)
+            .pipe(
+              tap(() => {
+                // TODO: Remove this one dispatch when we will have query for checkout addresses
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.SetDeliveryAddressSuccess(payload)
+                );
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.ClearCheckoutDeliveryMode({
+                    userId,
+                    cartId,
+                  })
+                );
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.ClearSupportedDeliveryModes()
+                );
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+                );
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.LoadSupportedDeliveryModes({
+                    userId,
+                    cartId,
+                  })
+                );
+              })
+            );
         })
       );
     },
