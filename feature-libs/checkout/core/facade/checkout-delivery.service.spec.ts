@@ -10,7 +10,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CheckoutDeliveryConnector } from '..';
+import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';

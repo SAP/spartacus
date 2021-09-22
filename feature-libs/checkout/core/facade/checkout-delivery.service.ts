@@ -7,6 +7,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  Command,
   CommandService,
   CommandStrategy,
   DeliveryMode,
@@ -28,7 +29,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutDeliveryConnector } from '..';
+import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -178,7 +179,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
-  protected createDeliveryAddressCommand = this.command?.create<Address>(
+  // TODO: Remove optional chaining and update types in 5.0
+  protected createDeliveryAddressCommand:
+    | undefined
+    | Command<Address, unknown> = this.command?.create<Address>(
     (payload) => {
       return combineLatest([
         this.userIdService.takeUserId(),
@@ -187,12 +191,14 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         take(1),
         switchMap(([userId, cartId]) => {
           if (
-            userId &&
-            cartId &&
-            (userId !== OCC_USER_ID_ANONYMOUS ||
-              this.activeCartService.isGuestCart()) &&
-            this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
+            !userId ||
+            !cartId ||
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart()) ||
+            !this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
           ) {
+            return of(); // TODO: should we throw error here? useful dev info?
+          } else {
             return this.checkoutDeliveryConnector
               .createAddress(userId, cartId, payload)
               .pipe(
@@ -214,7 +220,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                 })
               );
           }
-          return of(); // TODO: should we throw error here? useful dev info?
         })
       );
     },
@@ -322,7 +327,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     }
   }
 
-  protected setDeliveryAddressCommand = this.command?.create<Address>(
+  // TODO: Remove optional chaining and update types in 5.0
+  protected setDeliveryAddressCommand:
+    | undefined
+    | Command<Address, unknown> = this.command?.create<Address>(
     (payload) => {
       const addressId = payload.id;
       return combineLatest([
@@ -332,13 +340,15 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         take(1),
         switchMap(([userId, cartId]) => {
           if (
-            userId &&
-            cartId &&
-            (userId !== OCC_USER_ID_ANONYMOUS ||
-              this.activeCartService.isGuestCart()) &&
-            addressId &&
-            this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
+            !userId ||
+            !cartId ||
+            !addressId ||
+            !this.checkoutDeliveryConnector || // TODO: Remove check in 5.0 when service will be required
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart())
           ) {
+            return of(); // TODO: should we throw error here? useful dev info?
+          } else {
             return this.checkoutDeliveryConnector
               .setAddress(userId, cartId, addressId)
               .pipe(
@@ -368,7 +378,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                 })
               );
           }
-          return of(); // TODO: should we throw error here? useful dev info?
         })
       );
     },
