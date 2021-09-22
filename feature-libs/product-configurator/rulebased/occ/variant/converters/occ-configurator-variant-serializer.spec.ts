@@ -10,9 +10,8 @@ describe('OccConfiguratorVariantSerializer', () => {
   let occConfiguratorVariantSerializer: OccConfiguratorVariantSerializer;
   const GROUP_ID = '1-CPQ_LAPTOP.1';
 
-  const groupWithoutAttributes: Configurator.Group = ConfiguratorTestUtils.createGroup(
-    GROUP_ID
-  );
+  const groupWithoutAttributes: Configurator.Group =
+    ConfiguratorTestUtils.createGroup(GROUP_ID);
 
   const groupWithSubGroup: Configurator.Group = {
     id: GROUP_ID,
@@ -144,9 +143,8 @@ describe('OccConfiguratorVariantSerializer', () => {
   });
 
   it('should convert configuration to occConfiguration', () => {
-    const convertedConfiguration = occConfiguratorVariantSerializer.convert(
-      sourceConfiguration
-    );
+    const convertedConfiguration =
+      occConfiguratorVariantSerializer.convert(sourceConfiguration);
     expect(convertedConfiguration.complete).toEqual(
       targetOccConfiguration.complete
     );

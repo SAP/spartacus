@@ -42,9 +42,8 @@ describe('PRODUCT_LISTING_URL_MATCHER', () => {
     const factory = TestBed.inject(PRODUCT_LISTING_URL_MATCHER);
     const mockRoute = {};
     const urlMatcher = factory(mockRoute);
-    const combinedMatchers = urlMatcherService.getCombined['calls'].argsFor(
-      0
-    )[0];
+    const combinedMatchers =
+      urlMatcherService.getCombined['calls'].argsFor(0)[0];
     expect(mockDefaultUrlMatcherFactory).toHaveBeenCalledWith(mockRoute);
     expect(combinedMatchers[0]).toBe(mockDefaultUrlMatcher);
     expect(combinedMatchers[1]._suffixRouteConfig).toEqual({
