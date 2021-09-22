@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/cart/main/core';
-import { normalizeHttpError } from '@spartacus/core';
+import { CartActions, normalizeHttpError } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
+
 @Injectable()
 export class ConfiguratorTextfieldEffects {
   @Effect()

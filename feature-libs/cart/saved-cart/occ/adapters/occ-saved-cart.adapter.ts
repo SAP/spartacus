@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CART_NORMALIZER } from '@spartacus/cart/main/core';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  CART_NORMALIZER,
   ConverterService,
   Occ,
   OccEndpointsService,

@@ -10,6 +10,7 @@ import { EMPTY, from, Observable } from 'rxjs';
 import {
   catchError,
   concatMap,
+  filter,
   map,
   switchMap,
   withLatestFrom,
@@ -122,7 +123,10 @@ export class WishListEffects {
     ),
     withLatestFrom(
       this.userIdService.getUserId(),
-      this.store.pipe(select(MultiCartSelectors.getWishListId))
+      this.store.pipe(
+        filter((store) => !!store.cart),
+        select(MultiCartSelectors.getWishListId)
+      )
     ),
     switchMap(([, userId, wishListId]) => {
       if (Boolean(wishListId)) {
