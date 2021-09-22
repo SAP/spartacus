@@ -21,7 +21,9 @@
     input {
       border: none;
       cursor: text;
-      width: 35px;
+      @include forVersion(4.2) {
+        width: 35px;
+      }
     }
   }
 
