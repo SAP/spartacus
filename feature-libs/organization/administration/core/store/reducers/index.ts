@@ -115,9 +115,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ORG_UNIT_ENTITIES,
         orgUnitEntitiesReducer
       ),
-      availableOrgUnitNodes: StateUtils.entityLoaderReducer<B2BUnitNode[]>(
-        ORG_UNIT_NODE_LIST
-      ),
+      availableOrgUnitNodes:
+        StateUtils.entityLoaderReducer<B2BUnitNode[]>(ORG_UNIT_NODE_LIST),
       tree: StateUtils.entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
       approvalProcesses: StateUtils.entityLoaderReducer<B2BApprovalProcess[]>(
         ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
@@ -130,9 +129,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities: StateUtils.entityLoaderReducer<Address>(
-        ADDRESS_ENTITIES
-      ),
+      addressEntities:
+        StateUtils.entityLoaderReducer<Address>(ADDRESS_ENTITIES),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<UserGroup>(
@@ -191,11 +189,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrganizationState>
-> = new InjectionToken<ActionReducerMap<OrganizationState>>(
-  'OrganizationReducers'
-);
+export const reducerToken: InjectionToken<ActionReducerMap<OrganizationState>> =
+  new InjectionToken<ActionReducerMap<OrganizationState>>(
+    'OrganizationReducers'
+  );
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

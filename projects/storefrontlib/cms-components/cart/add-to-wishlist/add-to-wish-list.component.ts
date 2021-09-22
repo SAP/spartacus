@@ -25,12 +25,12 @@ export class AddToWishListComponent {
     tap((product) => this.setStockInfo(product))
   );
 
-  wishListEntries$: Observable<
-    OrderEntry[]
-  > = this.wishListService.getWishList().pipe(
-    filter((wishlist) => Boolean(wishlist)),
-    map((wishList) => wishList.entries)
-  );
+  wishListEntries$: Observable<OrderEntry[]> = this.wishListService
+    .getWishList()
+    .pipe(
+      filter((wishlist) => Boolean(wishlist)),
+      map((wishList) => wishList.entries)
+    );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
   loading$: Observable<boolean> = this.wishListService.getWishListLoading();

@@ -60,18 +60,16 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const addDeliveryAddressAction = new CheckoutActions.AddDeliveryAddressSuccess(
-        address
-      );
+      const addDeliveryAddressAction =
+        new CheckoutActions.AddDeliveryAddressSuccess(address);
       const addDeliveryAddressState = fromCheckout.reducer(
         initialState,
         addDeliveryAddressAction
       );
       expect(addDeliveryAddressState.address).toEqual(address);
 
-      const setDeliveryAddressAction = new CheckoutActions.SetDeliveryAddressSuccess(
-        address
-      );
+      const setDeliveryAddressAction =
+        new CheckoutActions.SetDeliveryAddressSuccess(address);
       const setDeliveryAddressState = fromCheckout.reducer(
         initialState,
         setDeliveryAddressAction
@@ -118,18 +116,16 @@ describe('Checkout reducer', () => {
         id: 'mockPaymentDetails',
       };
 
-      const createPaymentDetailsAction = new CheckoutActions.CreatePaymentDetailsSuccess(
-        paymentDetails
-      );
+      const createPaymentDetailsAction =
+        new CheckoutActions.CreatePaymentDetailsSuccess(paymentDetails);
       const createPaymentDetailsState = fromCheckout.reducer(
         initialState,
         createPaymentDetailsAction
       );
       expect(createPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
 
-      const setPaymentDetailsAction = new CheckoutActions.SetPaymentDetailsSuccess(
-        paymentDetails
-      );
+      const setPaymentDetailsAction =
+        new CheckoutActions.SetPaymentDetailsSuccess(paymentDetails);
       const setPaymentDetailsState = fromCheckout.reducer(
         initialState,
         setPaymentDetailsAction

@@ -21,12 +21,13 @@ export class ConfiguratorCartEntryBundleInfoService {
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] = [];
     if (entry?.configurationInfos) {
-      const configurationInfos: ConfigurationInfo[] = entry.configurationInfos.filter(
-        (configurationInfo) =>
-          configurationInfo &&
-          (configurationInfo.configurationLabel ||
-            configurationInfo.configurationValue)
-      );
+      const configurationInfos: ConfigurationInfo[] =
+        entry.configurationInfos.filter(
+          (configurationInfo) =>
+            configurationInfo &&
+            (configurationInfo.configurationLabel ||
+              configurationInfo.configurationValue)
+        );
       const firstLabel = configurationInfos[0]?.configurationLabel;
       const firstValue = configurationInfos[0]?.configurationValue;
 
@@ -97,15 +98,17 @@ export class ConfiguratorCartEntryBundleInfoService {
     configurationInfo: ConfigurationInfo
   ): void {
     if (configurationInfo.configurationLabel) {
-      const configurationInfoSplit: string[] = configurationInfo.configurationLabel.split(
-        ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
-      );
+      const configurationInfoSplit: string[] =
+        configurationInfo.configurationLabel.split(
+          ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
+        );
       if (
         configurationInfoSplit[0] === ConfigurationInfoSpecialFields.LINE_ITEM
       ) {
-        const configurationInfoValue: string = configurationInfo.configurationValue
-          ? configurationInfo.configurationValue
-          : '';
+        const configurationInfoValue: string =
+          configurationInfo.configurationValue
+            ? configurationInfo.configurationValue
+            : '';
         this.addLineItemData(
           lineItemMap,
           configurationInfoSplit,

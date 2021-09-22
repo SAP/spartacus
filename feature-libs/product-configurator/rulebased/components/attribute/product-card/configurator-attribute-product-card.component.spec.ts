@@ -248,8 +248,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       expect(button.disabled).toBe(false);
     });
 
@@ -258,14 +259,16 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       expect(button.disabled).toBe(false);
     });
 
     it('should button be called with proper select method', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       button.click();
 
       fixture.detectChanges();
@@ -278,8 +281,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       button.click();
 
@@ -289,8 +293,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have select text when card type is no multi select and card is no selected', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.select');
     });
@@ -300,8 +305,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.deselect');
     });
@@ -312,8 +318,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.add');
     });
@@ -324,8 +331,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.remove');
     });
@@ -337,8 +345,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       button.click();
 

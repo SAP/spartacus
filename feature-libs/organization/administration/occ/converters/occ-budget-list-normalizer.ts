@@ -14,7 +14,8 @@ import {
   providedIn: 'root',
 })
 export class OccBudgetListNormalizer
-  implements Converter<Occ.BudgetsList, EntitiesModel<Budget>> {
+  implements Converter<Occ.BudgetsList, EntitiesModel<Budget>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
