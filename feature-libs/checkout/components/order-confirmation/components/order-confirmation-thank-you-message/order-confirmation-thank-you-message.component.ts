@@ -15,7 +15,8 @@ import { map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationThankYouMessageComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   order$: Observable<any>;
   isReplenishmentOrderType$: Observable<boolean>;
 
