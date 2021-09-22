@@ -76,7 +76,7 @@
     font-weight: $font-weight-normal;
 
     @include media-breakpoint-down(sm) {
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     @include media-breakpoint-only(xl) {
@@ -110,15 +110,19 @@
     align-items: center;
 
     @include media-breakpoint-down(sm) {
-      justify-content: space-between;
+      justify-content: flex-start;
+    }
 
-      .readonly-value {
-        display: flex;
-        justify-content: space-between;
+    @include forVersion(4.2) {
+      @include media-breakpoint-down(sm) {
+        .readonly-value {
+          display: flex;
+          justify-content: space-between;
 
-        &::before {
-          content: '';
-          width: 105px;
+          &::before {
+            content: '';
+            width: 105px;
+          }
         }
       }
     }
@@ -131,15 +135,18 @@
     margin-bottom: 0;
 
     @include media-breakpoint-down(sm) {
-      justify-content: space-between;
+      justify-content: flex-start;
     }
   }
 
-  .cx-price,
-  .cx-quantity,
-  .cx-total {
-    @include media-breakpoint-down(sm) {
-      width: 250px;
+  @include forVersion(4.2) {
+    .cx-price,
+    .cx-quantity,
+    .cx-total {
+      @include media-breakpoint-down(sm) {
+        width: 250px;
+        justify-content: space-between;
+      }
     }
   }
 
