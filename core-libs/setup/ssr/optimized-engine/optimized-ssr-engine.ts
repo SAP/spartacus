@@ -310,10 +310,6 @@ export class OptimizedSsrEngine {
     }
     this.renderCallbacks.get(renderingKey)?.push(renderCallback);
 
-    this.log(
-      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
-    );
-
     if (!this.renderingCache.isRendering(renderingKey)) {
       this.startRender({
         filePath,
@@ -331,6 +327,10 @@ export class OptimizedSsrEngine {
         },
       });
     }
+
+    this.log(
+      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
+    );
   }
 
   /**
