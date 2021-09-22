@@ -1,11 +1,13 @@
 import {
-  Address,
   CardType,
+  PaymentDetails,
+  PaymentType,
+} from '@spartacus/cart/main/root';
+import {
+  Address,
   DeliveryMode,
   Order,
   ORDER_TYPE,
-  PaymentDetails,
-  PaymentType,
   ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
