@@ -1,5 +1,5 @@
 const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
-const fs = require('fs')
+const fs = require('fs');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cypressTypeScriptPreprocessor);
@@ -16,10 +16,10 @@ module.exports = (on, config) => {
   on('task', {
     readFile(filename) {
       if (fs.existsSync(filename)) {
-        return fs.readFileSync(filename, 'utf8')
+        return fs.readFileSync(filename, 'utf8');
       }
 
-      return null
+      return null;
     },
-  })
-}
+  });
+};
