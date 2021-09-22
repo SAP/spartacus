@@ -47,10 +47,13 @@ export class OnNavigateService {
             this.viewportScroller.scrollToPosition(currentRoute.position);
           } else {
             if (
-              (this.config.enableResetViewOnNavigate?.ignoreQueryString &&
-                this.isPathEqual(previousRoute, currentRoute)) ||
-              this.isChildRoute(currentRoute)
+              this.config.enableResetViewOnNavigate?.ignoreQueryString &&
+              this.isPathEqual(previousRoute, currentRoute)
             ) {
+              return;
+            }
+
+            if (this.isChildRoute(currentRoute)) {
               return;
             }
 
