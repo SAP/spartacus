@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 100000,
-  "baseUrl": "https://jsapps.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com",
+  "baseUrl": "https://jsapps.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com",
   "chromeWebSecurity": false,
   "reporter": "junit",
   "reporterOptions": {
@@ -12,7 +12,7 @@
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com/",
+    "API_URL": "https://api.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com/",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",

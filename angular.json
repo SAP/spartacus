@@ -68,6 +68,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-checkout.scss",
                 "bundleName": "checkout"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-order.scss",
+                "bundleName": "order"
               }
             ],
             "stylePreprocessorOptions": {
@@ -528,7 +532,7 @@
     "cdc": {
       "projectType": "library",
       "root": "integration-libs/cdc",
-      "sourceRoot": "integration-libs/cdc/src",
+      "sourceRoot": "integration-libs/cdc",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -713,7 +717,7 @@
     "tracking": {
       "projectType": "library",
       "root": "feature-libs/tracking",
-      "sourceRoot": "feature-libs/tracking/src",
+      "sourceRoot": "feature-libs/tracking",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -750,7 +754,7 @@
     "smartedit": {
       "projectType": "library",
       "root": "feature-libs/smartedit",
-      "sourceRoot": "feature-libs/smartedit/src",
+      "sourceRoot": "feature-libs/smartedit",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -927,6 +931,46 @@
             "lintFilePatterns": [
               "feature-libs/user/**/*.ts",
               "feature-libs/user/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "order": {
+      "projectType": "library",
+      "root": "feature-libs/order",
+      "sourceRoot": "feature-libs/order",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/order/tsconfig.lib.json",
+            "project": "feature-libs/order/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/order/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "feature-libs/order/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/order/test.ts",
+            "tsConfig": "feature-libs/order/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/order/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/order/**/*.ts",
+              "feature-libs/order/**/*.html"
             ]
           }
         }

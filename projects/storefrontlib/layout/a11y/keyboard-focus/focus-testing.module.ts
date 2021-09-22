@@ -5,7 +5,7 @@ import { FocusConfig } from './keyboard-focus.model';
   selector: '[cxFocus]',
 })
 export class MockKeyboardFocusDirective {
-  @Input('cxFocus') protected config: FocusConfig = {};
+  @Input('cxFocus') config: FocusConfig = {};
 }
 
 @NgModule({
