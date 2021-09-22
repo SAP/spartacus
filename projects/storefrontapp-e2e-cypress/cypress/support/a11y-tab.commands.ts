@@ -27,7 +27,7 @@ declare global {
        *
        * @memberof Cypress.Chainable
        */
-      tabScreenshot: (config: TabScreenshotConfig) => void;
+      tabScreenshot: (config?: TabScreenshotConfig) => void;
     }
   }
 }
