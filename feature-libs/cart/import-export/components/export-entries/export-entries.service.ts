@@ -17,6 +17,7 @@ import {
   ExportCsvService,
   ExportConfig,
   ExportService,
+  ExportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -64,27 +65,41 @@ export class ExportEntriesService {
       : values?.toString() ?? '';
   }
 
+  protected get placement$(): Observable<string | undefined> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((route) => route.state?.semanticRoute));
+  }
+
   protected getEntries(): Observable<OrderEntry[]> {
-    return this.routingService.getRouterState().pipe(
-      switchMap((route) => {
-        switch (route.state?.semanticRoute) {
-          case 'savedCartsDetails':
-            return this.savedCartDetailsService
-              .getCartDetails()
-              .pipe(
-                map(
-                  (cart: Cart | undefined) =>
-                    cart?.entries ?? ([] as OrderEntry[])
-                )
-              );
-          case 'cart':
-            return this.activeCartService.getEntries();
-          default:
-            return this.activeCartService.getEntries();
+    return this.placement$.pipe(
+      switchMap((placement) => {
+        switch (placement) {
+          case ExportCartRoutes.SAVED_CART_DETAILS: {
+            return this.getSavedCartEntries();
+          }
+          case ExportCartRoutes.CART: {
+            return this.getCartEntries();
+          }
+          default: {
+            return this.getCartEntries();
+          }
         }
       }),
       filter((entries) => entries?.length > 0)
     );
+  }
+
+  protected getSavedCartEntries(): Observable<OrderEntry[]> {
+    return this.savedCartDetailsService
+      .getCartDetails()
+      .pipe(
+        map((cart: Cart | undefined) => cart?.entries ?? ([] as OrderEntry[]))
+      );
+  }
+
+  protected getCartEntries() {
+    return this.activeCartService.getEntries();
   }
 
   protected getResolvedValues(): Observable<string[][]> {
