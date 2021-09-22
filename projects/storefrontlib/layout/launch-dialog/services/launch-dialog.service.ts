@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
-import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
@@ -68,7 +68,7 @@ export class LaunchDialogService {
     caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef,
     data?: any
-  ): void | Observable<ComponentRef<any>> {
+  ): void | Observable<ComponentRef<any> | undefined> {
     const config = this.findConfiguration(caller);
     if (config) {
       const renderer = this.getStrategy(config);
@@ -86,17 +86,37 @@ export class LaunchDialogService {
   }
 
   /**
+   * Opens dialog and subscribe in the service. Should be used if the trigger component might get destroyed while the component is open.
+   *
+   * @param caller Launch Caller
+   * @param openElement Element to open
+   * @param data Data to provide to the rendered element
+   */
+  openDialogAndSubscribe(
+    caller: LAUNCH_CALLER | string,
+    openElement?: ElementRef,
+    data?: any
+  ): void {
+    this.openDialog(caller, openElement, undefined, data)
+      ?.pipe(take(1))
+      .subscribe();
+  }
+
+  /**
    * Util method to remove element from rendered elements list
    *
    * @param caller LAUNCH_CALLER
    */
   clear(caller: LAUNCH_CALLER | string): void {
     const config = this.findConfiguration(caller);
-    const renderer = this.getStrategy(config);
 
-    // Render if the strategy exists
-    if (renderer) {
-      renderer.remove(caller, config);
+    if (config) {
+      const renderer = this.getStrategy(config);
+
+      // Render if the strategy exists
+      if (renderer) {
+        renderer.remove(caller, config);
+      }
     }
   }
 
@@ -113,7 +133,9 @@ export class LaunchDialogService {
    *
    * @param caller LAUNCH_CALLER
    */
-  protected findConfiguration(caller: LAUNCH_CALLER | string): LaunchOptions {
+  protected findConfiguration(
+    caller: LAUNCH_CALLER | string
+  ): LaunchOptions | undefined {
     if (this.layoutConfig?.launch) {
       return this.layoutConfig.launch[caller];
     }
