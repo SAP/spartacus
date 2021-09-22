@@ -40,16 +40,51 @@ export class OnNavigateService {
           pairwise()
         )
         .subscribe((event: Scroll[]) => {
-          // Will be used in upcoming customizable forward navigation config
-          // const previousRoute = event[0];
+          const previousRoute = event[0];
           const currentRoute = event[1];
 
           if (currentRoute.position) {
             this.viewportScroller.scrollToPosition(currentRoute.position);
           } else {
+            if (
+              (this.config.enableResetViewOnNavigate?.ignoreQueryString &&
+                this.isPathEqual(previousRoute, currentRoute)) ||
+              this.isChildRoute(currentRoute)
+            ) {
+              return;
+            }
+
             this.viewportScroller.scrollToPosition([0, 0]);
           }
         });
     }
+  }
+
+  /**
+   * Verifies if the current route is a child route from the given ignore config route
+   *
+   * @param route
+   * @returns boolean whether the route is a child route
+   */
+  private isChildRoute(route: Scroll): boolean {
+    return (
+      this.config.enableResetViewOnNavigate?.ignoreRoutes?.some((configRoute) =>
+        route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
+      ) ?? false
+    );
+  }
+
+  /**
+   * Verifies if the previous and current route are the same without the query string
+   *
+   * @param previousRoute
+   * @param currentRoute
+   * @returns boolean depending on the previous and current route are equal without the query strings
+   */
+  private isPathEqual(previousRoute: Scroll, currentRoute: Scroll): boolean {
+    return (
+      previousRoute.routerEvent.urlAfterRedirects.split('?')[0] ===
+      currentRoute.routerEvent.urlAfterRedirects.split('?')[0]
+    );
   }
 }
