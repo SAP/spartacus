@@ -21,7 +21,7 @@ export const common = {
     search: 'Search',
     add: 'Add',
   },
-  screenReader: {
+  aria: {
     actionCancelled: 'Action cancelled, nothing changed',
   },
   pageMetaResolver: {
