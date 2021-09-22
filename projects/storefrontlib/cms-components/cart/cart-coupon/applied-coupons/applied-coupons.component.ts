@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CartVoucherFacade } from '@spartacus/cart/main/root';
 import { Voucher } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 
 /**
  * @deprecated since 4.1 - use cart lib instead

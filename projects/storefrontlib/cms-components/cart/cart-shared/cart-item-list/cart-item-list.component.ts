@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-// **** this needs to be resolved
 import {
   ActiveCartFacade,
   MultiCartFacade,

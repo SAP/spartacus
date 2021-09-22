@@ -9,14 +9,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import {
-  IconModule,
   ItemCounterModule,
-  KeyboardFocusModule,
   ModalModule,
-  PromotionsModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '../../../shared/index';
+import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';

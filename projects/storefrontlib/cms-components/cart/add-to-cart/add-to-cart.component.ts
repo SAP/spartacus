@@ -10,14 +10,12 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
-import {
-  CmsComponentData,
-  CurrentProductService,
-  ModalRef,
-  ModalService,
-} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { ModalRef } from '../../../shared/components/modal/modal-ref';
+import { ModalService } from '../../../shared/components/modal/modal.service';
+import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 /**
