@@ -58,8 +58,9 @@ describe('MessageComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
-    const element = testFixture.debugElement.query(By.css('cx-message'))
-      .nativeElement;
+    const element = testFixture.debugElement.query(
+      By.css('cx-message')
+    ).nativeElement;
     expect(element.textContent).toEqual('Test');
   });
 
