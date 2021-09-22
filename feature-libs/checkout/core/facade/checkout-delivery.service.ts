@@ -41,6 +41,27 @@ import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
+  /**
+   * @deprecated since 4.3.0. Provide additionally QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
+   */
+  constructor(
+    checkoutStore: Store<StateWithCheckout>,
+    processStateStore: Store<StateWithProcess<void>>,
+    activeCartService: ActiveCartService,
+    userIdService: UserIdService
+  );
+
+  constructor(
+    checkoutStore: Store<StateWithCheckout>,
+    processStateStore: Store<StateWithProcess<void>>,
+    activeCartService: ActiveCartService,
+    userIdService: UserIdService,
+    query: QueryService,
+    command: CommandService,
+    checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    featureConfigService: FeatureConfigService
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,

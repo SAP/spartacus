@@ -34,6 +34,25 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     }
   );
 
+  /**
+   * @deprecated since 4.3.0. Provide additionally QueryService and CheckoutPaymentConnector.
+   */
+  constructor(
+    checkoutStore: Store<StateWithCheckout>,
+    processStateStore: Store<StateWithProcess<void>>,
+    activeCartService: ActiveCartService,
+    userIdService: UserIdService
+  );
+
+  constructor(
+    checkoutStore: Store<StateWithCheckout>,
+    processStateStore: Store<StateWithProcess<void>>,
+    activeCartService: ActiveCartService,
+    userIdService: UserIdService,
+    query: QueryService,
+    checkoutPaymentConnector: CheckoutPaymentConnector
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
