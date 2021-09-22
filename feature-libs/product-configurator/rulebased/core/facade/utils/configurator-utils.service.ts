@@ -9,10 +9,10 @@ import { Configurator } from '../../model/configurator.model';
 export class ConfiguratorUtilsService {
   /**
    * Determines the direct parent group for an attribute group
-   * @param groups List of groups where we search for parent
-   * @param group If already part of groups, no further search is needed, and we return the provided parent group
-   * @param parentGroup Optional.
-   * @returns Parent group. Might be undefined
+   * @param {Configurator.Group[]} groups - List of groups where we search for parent
+   * @param {Configurator.Group} group - If already part of groups, no further search is needed, and we return the provided parent group
+   * @param {Configurator.Group} parentGroup - Optional parent group.
+   * @returns {Configurator.Group | undefined} - Parent group. Might be undefined
    */
   getParentGroup(
     groups: Configurator.Group[],
@@ -32,7 +32,16 @@ export class ConfiguratorUtilsService {
       .filter((foundGroup) => foundGroup)
       .pop();
   }
-
+  /**
+   * Finds group identified by its ID, and ensures that we always get a valid group.
+   * If nothing is found in the configuration group list, this methods returns the first group.
+   *
+   * The exceptional case can happen if e.g. an edit in a conflict was done that
+   * resolved the conflict, or if a group vanished due to object dependencies.
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param {string} groupId - Group id
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise first group
+   */
   getGroupById(
     groups: Configurator.Group[],
     groupId: string
@@ -42,14 +51,24 @@ export class ConfiguratorUtilsService {
       return currentGroup;
     }
     const groupFound = this.getGroupFromSubGroups(groups, groupId);
+    return groupFound ? groupFound : groups[0];
+  }
 
-    //we can safely assumed that a group exists, as we know the ID belongs to a
-    //group part of the configuration
-    if (groupFound) {
-      return groupFound;
-    } else {
-      throw new Error('Group could not be found ' + groupId);
-    }
+  /**
+   * Finds group identified by its ID. If nothing is found, this
+   * methods returns undefined
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param {string} groupId - Group id
+   * @returns {Configurator.Group | undefined} - Group identified by its id, if available. Otherwise undefined
+   */
+  getOptionalGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const currentGroup = groups.find((group) => group.id === groupId);
+    return currentGroup
+      ? currentGroup
+      : this.getGroupFromSubGroups(groups, groupId);
   }
 
   protected getGroupByIdIfPresent(
@@ -79,10 +98,22 @@ export class ConfiguratorUtilsService {
     return groupFound;
   }
 
+  /**
+   * Verifies whether the current group has a subgroups.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {boolean} - 'True' if the current group has any subgroups, otherwise 'false'
+   */
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
   }
 
+  /**
+   * Verifies whether the configuration has been created.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {boolean} - 'True' if the configuration hass been created, otherwise 'false'
+   */
   isConfigurationCreated(configuration?: Configurator.Configuration): boolean {
     const configId = configuration?.configId;
     return (
@@ -94,6 +125,14 @@ export class ConfiguratorUtilsService {
     );
   }
 
+  /**
+   * Creates configuration extract.
+   *
+   * @param {Configurator.Attribute} changedAttribute - changed configuration
+   * @param {Configurator.Configuration} configuration - configuration
+   * @param {Configurator.UpdateType} updateType - updated type
+   * @return {Configurator.Configuration} - Configuration
+   */
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration,
@@ -155,6 +194,14 @@ export class ConfiguratorUtilsService {
     return newConfiguration;
   }
 
+  /**
+   * Builds group path.
+   *
+   * @param {string} groupId - Group ID
+   * @param { Configurator.Group[]} groupList - List of groups
+   * @param { Configurator.Group[]} groupPath - Path of groups
+   * @return {boolean} - 'True' if the group has been found, otherwise 'false'
+   */
   buildGroupPath(
     groupId: string,
     groupList: Configurator.Group[],
@@ -186,8 +233,8 @@ export class ConfiguratorUtilsService {
   /**
    * Retrieves the configuration from state, and throws an error in case the configuration is
    * not available
-   * @param configurationState Process loader state containing product configuration
-   * @returns The actual product configuration
+   * @param {StateUtils.ProcessesLoaderState<Configurator.Configuration>} configurationState - Process loader state containing product configuration
+   * @returns {Configurator.Configuration} - The actual product configuration
    */
   getConfigurationFromState(
     configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>

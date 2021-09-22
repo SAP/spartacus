@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -14,15 +14,17 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected cartItemContext: CartItemContext
+    @Optional() protected cartItemContext: CartItemContext
   ) {}
 
-  readonly orderEntry$: Observable<OrderEntry> = this.cartItemContext.item$;
+  readonly orderEntry$: Observable<OrderEntry> =
+    this.cartItemContext?.item$ ?? EMPTY;
 
-  readonly quantityControl$: Observable<FormControl> = this.cartItemContext
-    .quantityControl$;
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
 
-  readonly readonly$: Observable<boolean> = this.cartItemContext.readonly$;
+  readonly readonly$: Observable<boolean> =
+    this.cartItemContext?.readonly$ ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(

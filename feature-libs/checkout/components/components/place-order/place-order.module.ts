@@ -9,7 +9,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CartNotEmptyGuard } from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spinner-layout.config';
 import { PlaceOrderComponent } from './place-order.component';

@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import {
   ItemCounterComponent,
   KeyboardFocusService,
@@ -20,6 +19,7 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';

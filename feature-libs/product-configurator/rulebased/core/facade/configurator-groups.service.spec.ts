@@ -11,8 +11,8 @@ import {
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+} from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
@@ -159,11 +159,36 @@ describe('ConfiguratorGroupsService', () => {
         done();
       });
     });
+
     it('should return undefined if menu parent group is not availaible in uiState', (done) => {
       const configurationWoMenuParentGroup = ConfiguratorTestUtils.createConfiguration(
         CONFIG_ID,
         ConfiguratorModelUtils.createInitialOwner()
       );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configurationWoMenuParentGroup)
+      );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
+
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return undefined if menu parent group cannot be found', (done) => {
+      const configurationWoMenuParentGroup: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        interactionState: {
+          menuParentGroup: 'Conflict header group that is gone',
+        },
+      };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configurationWoMenuParentGroup)
       );

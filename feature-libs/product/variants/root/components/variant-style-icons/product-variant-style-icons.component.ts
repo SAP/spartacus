@@ -14,7 +14,7 @@ import {
   VariantQualifier,
 } from '@spartacus/core';
 import {
-  ProductListItemContextSource,
+  ProductListItemContext,
   ProductListOutlets,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, Subscription } from 'rxjs';
@@ -29,13 +29,13 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(
     private config: OccConfig,
     @Optional()
-    protected productListItemContextSource?: ProductListItemContextSource
+    protected productListItemContext?: ProductListItemContext
   ) {}
 
   protected subscriptions = new Subscription();
   readonly ProductListOutlets = ProductListOutlets;
   readonly product$: Observable<Product> =
-    this.productListItemContextSource?.product$ ?? EMPTY;
+    this.productListItemContext?.product$ ?? EMPTY;
 
   @Input()
   variants: VariantOption[];

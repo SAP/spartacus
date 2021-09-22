@@ -143,16 +143,16 @@ describe('CpqAccessStorageService', () => {
     expect(counter).toBe(3);
   });
 
-  it('should transparently fetch new token, when access data has expired', fakeAsync(() => {
+  it('should not return access data if token is expired', fakeAsync(() => {
     accessDataObs = accessDataSubject = new BehaviorSubject<CpqAccessData>(
       expiredAccessData
     );
-    serviceUnderTest.getCpqAccessData().subscribe((returnedData) => {
-      expect(returnedData).toBeDefined();
-      expect(returnedData).toBe(accessData); //make sure that second/valid token data is returned
+    let hasCpqAccessDataEmitted = false;
+    serviceUnderTest.getCpqAccessData().subscribe(() => {
+      hasCpqAccessDataEmitted = true;
     });
-    accessDataSubject.next(accessData);
     discardPeriodicTasks();
+    expect(hasCpqAccessDataEmitted).toBe(false);
   }));
 
   it('should do only one additional call when expired token is emitted followed by valid one', fakeAsync(() => {

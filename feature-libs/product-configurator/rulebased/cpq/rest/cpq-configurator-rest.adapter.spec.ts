@@ -7,11 +7,9 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
@@ -169,22 +167,6 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
-  });
-
-  it('should handle missing product code during create configuration', () => {
-    adapterUnderTest
-      .createConfiguration({
-        key: owner.key,
-        id: owner.id,
-        configuratorType: ConfiguratorType.CPQ,
-        type: CommonConfigurator.OwnerType.PRODUCT,
-      })
-      .subscribe(
-        () => {},
-        (error) => {
-          expect(error).toBeDefined();
-        }
-      );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {

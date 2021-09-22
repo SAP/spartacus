@@ -9,33 +9,30 @@ import {
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function checkoutFacadeFactory() {
-  return facadeFactory({
-    facade: CheckoutFacade,
-    feature: CHECKOUT_CORE_FEATURE,
-    methods: [
-      'placeOrder',
-      'scheduleReplenishmentOrder',
-      'getPlaceOrderLoading',
-      'getPlaceOrderSuccess',
-      'getPlaceOrderError',
-      'clearPlaceOrderState',
-      'clearCheckoutData',
-      'clearCheckoutStep',
-      'loadCheckoutDetails',
-      'getCheckoutDetailsLoaded',
-      'isLoading',
-      'getOrderDetails',
-      'setOrderType',
-      'getCurrentOrderType',
-    ],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: checkoutFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: CheckoutFacade,
+      feature: CHECKOUT_CORE_FEATURE,
+      methods: [
+        'placeOrder',
+        'scheduleReplenishmentOrder',
+        'getPlaceOrderLoading',
+        'getPlaceOrderSuccess',
+        'getPlaceOrderError',
+        'clearPlaceOrderState',
+        'clearCheckoutData',
+        'clearCheckoutStep',
+        'loadCheckoutDetails',
+        'getCheckoutDetailsLoaded',
+        'isLoading',
+        'getOrderDetails',
+        'setOrderType',
+        'getCurrentOrderType',
+      ],
+      async: true,
+    }),
 })
 export abstract class CheckoutFacade {
   /**

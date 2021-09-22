@@ -1,0 +1,26 @@
+@import './order-details-items';
+@import './order-details-shipping';
+@import './order-details-actions';
+
+$order-details-allowlist: cx-order-details-items, cx-order-details-shipping,
+  cx-order-details-actions !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $order-details-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $order-details-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

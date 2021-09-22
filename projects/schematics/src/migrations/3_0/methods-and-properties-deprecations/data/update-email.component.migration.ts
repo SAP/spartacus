@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.component.ts
+// projects/storefrontlib/cms-components/myaccount/update-email/update-email.component.ts
 export const UPDATE_EMAIL_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: UPDATE_EMAIL_COMPONENT,

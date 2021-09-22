@@ -23,12 +23,12 @@
         "enum": ["Bulk-Pricing", "Product-Variants"],
         "type": "string"
       },
-      "default": ["Bulk-Pricing", "Product-Variants"],
+      "default": ["Product-Variants"],
       "x-prompt": {
         "message": "Which Product features would you like to set up?",
         "type": "list",
         "items": [
-          { "value": "Bulk-Pricing", "label": "Bulk Pricing" },
+          { "value": "Bulk-Pricing", "label": "Bulk Pricing (b2b feature)" },
           { "value": "Product-Variants", "label": "Product Variants" }
         ]
       }

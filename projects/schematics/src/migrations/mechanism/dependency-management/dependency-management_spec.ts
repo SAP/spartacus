@@ -147,34 +147,66 @@ describe('dependency management migrations', () => {
   });
 
   describe('cross dependencies', () => {
-    beforeEach(() => {
-      writeFile(
-        host,
-        '/package.json',
-        JSON.stringify({
-          name: 'xxx',
-          version: '3.0.0',
-          dependencies: {
-            '@spartacus/core': '3.0.0',
-            '@spartacus/storefront': '3.0.0',
-            '@spartacus/cds': '3.0.0',
-            '@spartacus/qualtrics': '3.0.0',
-          },
-        })
-      );
+    describe('when only "core" deps are present', () => {
+      beforeEach(() => {
+        writeFile(
+          host,
+          '/package.json',
+          JSON.stringify({
+            name: 'xxx',
+            version: '3.0.0',
+            dependencies: {
+              '@spartacus/core': '3.0.0',
+              '@spartacus/storefront': '3.0.0',
+              '@spartacus/organization': '3.0.0',
+              '@spartacus/setup': '3.0.0',
+            },
+          })
+        );
+      });
+      it('should install cross spartacus peer deps', async () => {
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const packageJson = JSON.parse(appTree.readContent('/package.json'));
+
+        expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/user']).toBeTruthy();
+      });
     });
-    it('should install cross spartacus peer deps', async () => {
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const packageJson = JSON.parse(appTree.readContent('/package.json'));
+    describe('when deps other than "core" are present', () => {
+      beforeEach(() => {
+        writeFile(
+          host,
+          '/package.json',
+          JSON.stringify({
+            name: 'xxx',
+            version: '3.0.0',
+            dependencies: {
+              '@spartacus/core': '3.0.0',
+              '@spartacus/storefront': '3.0.0',
+              '@spartacus/cds': '3.0.0',
+              '@spartacus/qualtrics': '3.0.0',
+            },
+          })
+        );
+      });
+      it('should install cross spartacus peer deps', async () => {
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
-      expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
+        const packageJson = JSON.parse(appTree.readContent('/package.json'));
+
+        expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
+      });
     });
   });
 });
