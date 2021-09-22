@@ -1,63 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { QuickOrderModule } from \\"@spartacus/cart/quick-order\\";
-import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
-import { QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
+import { ImportExportModule } from \\"@spartacus/cart/import-export\\";
+import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
+import { ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    QuickOrderRootModule,
-    QuickOrderModule
+    ImportExportRootModule,
+    ImportExportModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: quickOrderTranslations,
-      chunks: quickOrderTranslationChunksConfig,
+      resources: importExportTranslations,
+      chunks: importExportTranslationChunksConfig,
     },
   })]
 })
-export class CartQuickOrderFeatureModule { }
+export class CartImportExportFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
-import { CART_QUICK_ORDER_FEATURE, QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
+import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
+import { CART_IMPORT_EXPORT_FEATURE, ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    QuickOrderRootModule
+    ImportExportRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [CART_QUICK_ORDER_FEATURE]: {
+      [CART_IMPORT_EXPORT_FEATURE]: {
         module: () =>
-          import('@spartacus/cart/quick-order').then((m) => m.QuickOrderModule),
+          import('@spartacus/cart/import-export').then((m) => m.ImportExportModule),
       },
     }
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: quickOrderTranslations,
-      chunks: quickOrderTranslationChunksConfig,
+      resources: importExportTranslations,
+      chunks: importExportTranslationChunksConfig,
     },
   })
   ]
 })
-export class CartQuickOrderFeatureModule { }
+export class CartImportExportFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -173,64 +173,64 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
 }"
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { ImportExportModule } from \\"@spartacus/cart/import-export\\";
-import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
-import { ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
+import { QuickOrderModule } from \\"@spartacus/cart/quick-order\\";
+import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
+import { QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    ImportExportRootModule,
-    ImportExportModule
+    QuickOrderRootModule,
+    QuickOrderModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: importExportTranslations,
-      chunks: importExportTranslationChunksConfig,
+      resources: quickOrderTranslations,
+      chunks: quickOrderTranslationChunksConfig,
     },
   })]
 })
-export class CartImportExportFeatureModule { }
+export class CartQuickOrderFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
-import { CART_IMPORT_EXPORT_FEATURE, ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
+import { quickOrderTranslationChunksConfig, quickOrderTranslations } from \\"@spartacus/cart/quick-order/assets\\";
+import { CART_QUICK_ORDER_FEATURE, QuickOrderRootModule } from \\"@spartacus/cart/quick-order/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    ImportExportRootModule
+    QuickOrderRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [CART_IMPORT_EXPORT_FEATURE]: {
+      [CART_QUICK_ORDER_FEATURE]: {
         module: () =>
-          import('@spartacus/cart/import-export').then((m) => m.ImportExportModule),
+          import('@spartacus/cart/quick-order').then((m) => m.QuickOrderModule),
       },
     }
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: importExportTranslations,
-      chunks: importExportTranslationChunksConfig,
+      resources: quickOrderTranslations,
+      chunks: quickOrderTranslationChunksConfig,
     },
   })
   ]
 })
-export class CartImportExportFeatureModule { }
+export class CartQuickOrderFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
