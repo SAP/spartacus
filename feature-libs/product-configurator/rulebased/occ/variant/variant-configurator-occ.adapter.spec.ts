@@ -82,13 +82,8 @@ const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
 };
 
-const pricesOcc: OccConfigurator.Prices = OccConfiguratorTestUtils.createOccConfiguratorPrices(
-  false,
-  1,
-  0,
-  3,
-  3
-);
+const pricesOcc: OccConfigurator.Prices =
+  OccConfiguratorTestUtils.createOccConfiguratorPrices(false, 1, 0, 3, 3);
 
 const productConfigurationForCartEntry: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
@@ -355,12 +350,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: configuration.owner,
-      userId: userId,
-      cartId: documentId,
-      cartEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: configuration.owner,
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
+      };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
       .subscribe((resultConfiguration) => {
@@ -396,12 +392,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-      owner: configuration.owner,
-      userId: userId,
-      orderId: documentId,
-      orderEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: configuration.owner,
+        userId: userId,
+        orderId: documentId,
+        orderEntryNumber: documentEntryNumber,
+      };
     occConfiguratorVariantAdapter
       .readConfigurationForOrderEntry(params)
       .subscribe((resultConfiguration) => {
@@ -512,12 +509,13 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should set owner on readVariantConfigurationForCartEntry according to parameters', (done) => {
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: productConfigurationForCartEntry.owner,
-      userId: userId,
-      cartId: documentId,
-      cartEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: productConfigurationForCartEntry.owner,
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
+      };
     spyOn(converterService, 'pipeable').and.returnValue(() =>
       of(configuration)
     );
