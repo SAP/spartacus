@@ -22,12 +22,13 @@ export class BannerCarouselComponent {
     tap((d: model) => (this.theme = `${d.effect}-theme`))
   );
 
-  private items$: Observable<
-    Observable<ContentSlotComponentData>[]
-  > = this.componentData$.pipe(
-    map((data) => data.banners.trim().split(' ')),
-    map((codes) => codes.map((code) => this.cmsService.getComponentData(code)))
-  );
+  private items$: Observable<Observable<ContentSlotComponentData>[]> =
+    this.componentData$.pipe(
+      map((data) => data.banners.trim().split(' ')),
+      map((codes) =>
+        codes.map((code) => this.cmsService.getComponentData(code))
+      )
+    );
 
   /**
    * Adds a specific theme for the carousel. The effect can be

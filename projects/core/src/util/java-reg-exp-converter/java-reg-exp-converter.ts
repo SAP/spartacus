@@ -16,7 +16,8 @@ export class JavaRegExpConverter {
    *    2. extracted modifiers, i.e. `iu` (or undefined if no modifiers present)
    *    3. the rest of the regexp, i.e. `PATTERN`
    */
-  private readonly EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp = /^(\(\?([a-z]+)\))?(.*)/;
+  private readonly EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp =
+    /^(\(\?([a-z]+)\))?(.*)/;
 
   /**
    * Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers

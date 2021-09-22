@@ -161,8 +161,8 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect addOwner', () => {
     it('should emit 2 result actions', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfiguration)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
       );
       const addOwnerAction = new ConfiguratorActions.AddNextOwner({
         ownerKey: productConfiguration.owner.key,
@@ -178,12 +178,11 @@ describe('ConfiguratorCartEffect', () => {
         entryNumber.toString()
       );
 
-      const setInteractionStateAction = new ConfiguratorActions.SetInteractionState(
-        {
+      const setInteractionStateAction =
+        new ConfiguratorActions.SetInteractionState({
           entityKey: newCartEntryOwner.key,
           interactionState: productConfiguration.interactionState,
-        }
-      );
+        });
       actions$ = cold('-a', { a: addOwnerAction });
       const expected = cold('-(bc)', {
         b: setNextOwnerAction,
@@ -206,25 +205,23 @@ describe('ConfiguratorCartEffect', () => {
       const configurationState = {
         configurations: { entities: entities },
       };
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(configurationState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(configurationState)
       );
 
-      const configurationCartBound: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
-        '6514',
-        ownerCartEntry
-      );
+      const configurationCartBound: Configurator.Configuration =
+        ConfiguratorTestUtils.createConfiguration('6514', ownerCartEntry);
 
       entities[productConfiguration.owner.key] = productConfiguration.owner.key;
       entities[configurationCartBound.owner.key] =
         configurationCartBound.owner.key;
 
-      const removeCartBoundConfigurationsAction = new ConfiguratorActions.RemoveCartBoundConfigurations();
-      const removeConfigurationAction = new ConfiguratorActions.RemoveConfiguration(
-        {
+      const removeCartBoundConfigurationsAction =
+        new ConfiguratorActions.RemoveCartBoundConfigurations();
+      const removeConfigurationAction =
+        new ConfiguratorActions.RemoveConfiguration({
           ownerKey: [configurationCartBound.owner.key],
-        }
-      );
+        });
 
       actions$ = cold('-a', { a: removeCartBoundConfigurationsAction });
       const expected = cold('-(b)', {
@@ -239,16 +236,18 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect readConfigurationForCartEntry', () => {
     it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: owner,
-      };
+      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+        {
+          owner: owner,
+        };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
         readFromCartEntry
       );
 
-      const readCartEntrySuccessAction = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-        productConfiguration
-      );
+      const readCartEntrySuccessAction =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfiguration
+        );
 
       const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary(
         productConfiguration
@@ -269,9 +268,10 @@ describe('ConfiguratorCartEffect', () => {
       readConfigurationForCartEntryMock.and.returnValue(
         throwError(errorResponse)
       );
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: owner,
-      };
+      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+        {
+          owner: owner,
+        };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
         readFromCartEntry
       );
@@ -293,16 +293,18 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect readConfigurationForOrderEntry', () => {
     it('should emit a success action with content in case call is successful', () => {
-      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: owner,
-      };
+      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+        {
+          owner: owner,
+        };
       const action = new ConfiguratorActions.ReadOrderEntryConfiguration(
         readFromOrderEntry
       );
 
-      const readOrderEntrySuccessAction = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
-        productConfiguration
-      );
+      const readOrderEntrySuccessAction =
+        new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
+          productConfiguration
+        );
 
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', {
@@ -318,19 +320,19 @@ describe('ConfiguratorCartEffect', () => {
       readConfigurationForOrderEntryMock.and.returnValue(
         throwError(errorResponse)
       );
-      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-        owner: owner,
-      };
+      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+        {
+          owner: owner,
+        };
       const action = new ConfiguratorActions.ReadOrderEntryConfiguration(
         readFromOrderEntry
       );
 
-      const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
-        {
+      const completion =
+        new ConfiguratorActions.ReadOrderEntryConfigurationFail({
           ownerKey: productConfiguration.owner.key,
           error: normalizeHttpError(errorResponse),
-        }
-      );
+        });
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
