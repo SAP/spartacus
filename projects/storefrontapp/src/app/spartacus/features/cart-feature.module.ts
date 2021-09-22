@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CartModule } from '@spartacus/cart/main';
 import { CartRootModule, CART_FEATURE } from '@spartacus/cart/main/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CartRootModule, CartModule],
+  imports: [CartRootModule],
   providers: [
     provideConfig({
       featureModules: {

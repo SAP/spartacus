@@ -8,7 +8,7 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -61,7 +61,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
+    activeCartService: ActiveCartFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     component?: CmsComponentData<CmsAddToCartComponent>
   );
@@ -73,14 +73,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
+    activeCartService: ActiveCartFacade
   );
 
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
   ) {}
 

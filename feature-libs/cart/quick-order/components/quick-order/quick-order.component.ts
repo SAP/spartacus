@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -39,7 +39,7 @@ export class QuickOrderComponent implements OnInit {
   private cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsQuickOrderComponent>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
