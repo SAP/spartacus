@@ -14,7 +14,10 @@ import {
   Product,
   Translatable,
 } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  MessageComponentModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
@@ -130,7 +133,7 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, MessageComponentModule],
       declarations: [
         QuickOrderComponent,
         MockQuickOrderFormComponent,
