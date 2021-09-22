@@ -13,7 +13,7 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 import { ExpressCheckoutService } from './express-checkout.service';
@@ -90,7 +90,9 @@ const mockLoadSupportedDeliveryModesResult = new BehaviorSubject({
 });
 
 class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
-  setDeliveryAddress() {}
+  setDeliveryAddress() {
+    return of(undefined);
+  }
   setDeliveryMode() {}
   resetSetDeliveryAddressProcess() {}
   resetSetDeliveryModeProcess() {}
@@ -253,13 +255,14 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() => {
           mockSetDeliveryAddressResult.next({
             success: true,
             error: false,
             loading: false,
-          })
-        );
+          });
+          return of(undefined);
+        });
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe((data) => {
@@ -277,13 +280,14 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() => {
           mockSetDeliveryAddressResult.next({
             success: false,
             error: true,
             loading: false,
-          })
-        );
+          });
+          return of(undefined);
+        });
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe((data) => {
