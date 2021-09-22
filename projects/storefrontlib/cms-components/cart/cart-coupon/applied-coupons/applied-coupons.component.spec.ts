@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CartVoucherService } from '@spartacus/cart/main/core';
+import { CartVoucherFacade } from '@spartacus/cart/main/root';
 import { I18nTestingModule, Voucher } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
 const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
@@ -37,7 +37,7 @@ describe('AppliedCouponsComponent', () => {
   let component: MockedCartCouponComponent;
   let fixture: ComponentFixture<MockedCartCouponComponent>;
 
-  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
+  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherFacade', [
     'removeVoucher',
   ]);
 
@@ -51,7 +51,7 @@ describe('AppliedCouponsComponent', () => {
           MockedCartCouponComponent,
         ],
         providers: [
-          { provide: CartVoucherService, useValue: mockCartVoucherService },
+          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
         ],
       }).compileComponents();
     })

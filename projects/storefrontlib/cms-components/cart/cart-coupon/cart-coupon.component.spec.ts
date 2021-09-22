@@ -2,10 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  ActiveCartService,
-  CartVoucherService,
-} from '@spartacus/cart/main/core';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
 import {
   Cart,
   CustomerCouponSearchResult,
@@ -14,9 +11,9 @@ import {
   I18nTestingModule,
   Voucher,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
+import { FormErrorsModule } from '../../../shared/index';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
@@ -38,13 +35,13 @@ describe('CartCouponComponent', () => {
   let input: HTMLInputElement;
   let el: DebugElement;
 
-  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
+  const mockActiveCartService = jasmine.createSpyObj('ActiveCartFacade', [
     'getActive',
     'getActiveCartId',
     'isStable',
   ]);
 
-  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
+  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherFacade', [
     'addVoucher',
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
@@ -81,8 +78,8 @@ describe('CartCouponComponent', () => {
         ],
         declarations: [CartCouponComponent, MockAppliedCouponsComponent],
         providers: [
-          { provide: ActiveCartService, useValue: mockActiveCartService },
-          { provide: CartVoucherService, useValue: mockCartVoucherService },
+          { provide: ActiveCartFacade, useValue: mockActiveCartService },
+          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
           {
             provide: CustomerCouponService,
             useValue: mockCustomerCouponService,

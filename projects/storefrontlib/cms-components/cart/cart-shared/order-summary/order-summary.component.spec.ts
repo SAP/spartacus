@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  CartVoucherService,
-  I18nTestingModule,
-  Voucher,
-} from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CartVoucherFacade } from '@spartacus/cart/main/root';
+import { I18nTestingModule, Voucher } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderSummaryComponent } from './order-summary.component';
@@ -36,7 +33,7 @@ describe('OrderSummary', () => {
           MockAppliedCouponsComponent,
           MockFeatureLevelDirective,
         ],
-        providers: [{ provide: CartVoucherService, useValue: {} }],
+        providers: [{ provide: CartVoucherFacade, useValue: {} }],
       }).compileComponents();
     })
   );

@@ -1,6 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import {
-  ActiveCartService,
+  ActiveCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
+import {
   AuthService,
   BaseSiteService,
   CmsService,
@@ -16,7 +19,6 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
-  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
@@ -69,7 +71,7 @@ describe('CxApiService', () => {
       providers: [
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: CmsService, useClass: MockCmsService },
 
         { provide: PageMetaService, useClass: MockPageMetaService },
@@ -107,7 +109,7 @@ describe('CxApiService', () => {
           useClass: MockUserInterestsService,
         },
         {
-          provide: SelectiveCartService,
+          provide: SelectiveCartFacade,
           useClass: MockSelectiveCartService,
         },
       ],

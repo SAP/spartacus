@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   Cart,
   CmsAddToCartComponent,
@@ -12,13 +12,11 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
-import {
-  CmsComponentData,
-  CurrentProductService,
-  ModalService,
-  SpinnerModule,
-} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { ModalService } from '../../../shared/components/modal/index';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
@@ -101,7 +99,7 @@ class MockItemCounterComponent {
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service: ActiveCartService;
+  let service: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
 
@@ -124,7 +122,7 @@ describe('AddToCartComponent', () => {
             provide: ModalService,
             useValue: { open: () => ({ componentInstance: {} }) },
           },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
@@ -141,7 +139,7 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.inject(ActiveCartService);
+    service = TestBed.inject(ActiveCartFacade);
     modalInstance = TestBed.inject(ModalService);
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
