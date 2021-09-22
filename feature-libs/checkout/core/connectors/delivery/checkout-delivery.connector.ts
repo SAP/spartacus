@@ -15,6 +15,7 @@ export class CheckoutDeliveryConnector {
     return this.adapter.createAddress(userId, cartId, address);
   }
 
+  // TODO: Change return type to Observable<unknown> in 5.0
   public setAddress(
     userId: string,
     cartId: string,

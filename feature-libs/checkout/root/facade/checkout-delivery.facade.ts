@@ -105,7 +105,7 @@ export abstract class CheckoutDeliveryFacade {
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
-  abstract createAndSetAddress(address: Address): void;
+  abstract createAndSetAddress(address: Address): Observable<unknown>;
 
   /**
    * Load supported delivery modes
@@ -122,7 +122,7 @@ export abstract class CheckoutDeliveryFacade {
    * Set delivery address
    * @param address : The address to be set
    */
-  abstract setDeliveryAddress(address: Address): void;
+  abstract setDeliveryAddress(address: Address): Observable<unknown>;
 
   /**
    * Clear address already setup in last checkout process

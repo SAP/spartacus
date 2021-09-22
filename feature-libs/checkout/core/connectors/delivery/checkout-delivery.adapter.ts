@@ -15,8 +15,9 @@ export abstract class CheckoutDeliveryAdapter {
     address: Address
   ): Observable<Address>;
 
+  // TODO: Change return type to Observable<unknown> in 5.0
   /**
-   * Abstract method used to set adress for delivery
+   * Abstract method used to set address for delivery
    *
    * @param userId
    * @param cartId
