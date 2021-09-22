@@ -1,5 +1,10 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
+import { Injectable, isDevMode } from '@angular/core';
+import {
+  CmsService,
+  getLastValueSync,
+  Page,
+  UnifiedInjector,
+} from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -19,10 +24,15 @@ export class PageLayoutService {
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
-    @Optional()
-    @Inject(PAGE_LAYOUT_HANDLER)
-    private handlers: PageLayoutHandler[]
+    // TODO: need doc this in 5.0
+    //@Optional()
+    //@Inject(PAGE_LAYOUT_HANDLER)
+    //private handlers: PageLayoutHandler[],
+    private unifiedInjector: UnifiedInjector
   ) {}
+
+  private handlers: PageLayoutHandler[] =
+    getLastValueSync(this.unifiedInjector.get(PAGE_LAYOUT_HANDLER, [])) ?? [];
 
   // Prints warn messages for missing layout configs.
   // The warnings are only printed once per config
@@ -39,7 +49,7 @@ export class PageLayoutService {
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
         let result = of(slots);
-        for (const handler of this.handlers || []) {
+        for (const handler of this.handlers) {
           result = handler.handle(result, pageTemplate, section, breakpoint);
         }
         return result;
