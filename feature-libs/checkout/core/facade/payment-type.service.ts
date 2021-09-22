@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { B2BPaymentTypeEnum, PaymentType } from '@spartacus/cart/main/root';
 import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
-  B2BPaymentTypeEnum,
-  PaymentType,
   ProcessSelectors,
   StateWithProcess,
   UserIdService,
