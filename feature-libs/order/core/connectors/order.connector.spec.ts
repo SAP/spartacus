@@ -33,10 +33,8 @@ class MockOrderAdapter implements OrderAdapter {
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy(
-    'OrderAdapter.cancel'
-  ).and.callFake((userId, orderCode, {}) =>
-    of(`cancel-${userId}-${orderCode}`)
+  cancel = createSpy('OrderAdapter.cancel').and.callFake(
+    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(

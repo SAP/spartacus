@@ -10,19 +10,15 @@ export const getAddressesLoaderState: MemoizedSelector<
   LoaderState<Address[]>
 > = createSelector(getUserState, (state: UserState) => state.addresses);
 
-export const getAddresses: MemoizedSelector<
-  StateWithUser,
-  Address[]
-> = createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
-  StateUtils.loaderValueSelector(state)
-);
+export const getAddresses: MemoizedSelector<StateWithUser, Address[]> =
+  createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
+    StateUtils.loaderValueSelector(state)
+  );
 
-export const getAddressesLoading: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
-  StateUtils.loaderLoadingSelector(state)
-);
+export const getAddressesLoading: MemoizedSelector<StateWithUser, boolean> =
+  createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
+    StateUtils.loaderLoadingSelector(state)
+  );
 
 export const getAddressesLoadedSuccess: MemoizedSelector<
   StateWithUser,

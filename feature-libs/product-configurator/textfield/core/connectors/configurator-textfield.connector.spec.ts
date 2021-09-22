@@ -88,9 +88,10 @@ describe('ConfiguratorTextfieldConnector', () => {
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
     let result;
     service
       .readConfigurationForCartEntry(params)

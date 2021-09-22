@@ -172,11 +172,12 @@ function increaseBudgets(): Rule {
     const build = architect?.build;
     const configurations = build?.configurations;
     const productionConfiguration = configurations?.production;
-    const productionBudgets = (((productionConfiguration as any).budgets ??
-      []) as {
-      type: string;
-      maximumError: string;
-    }[]).map((budget) => {
+    const productionBudgets = (
+      ((productionConfiguration as any).budgets ?? []) as {
+        type: string;
+        maximumError: string;
+      }[]
+    ).map((budget) => {
       if (budget.type === 'initial') {
         return {
           ...budget,

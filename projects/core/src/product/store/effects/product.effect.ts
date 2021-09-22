@@ -22,27 +22,28 @@ export class ProductEffects {
   );
 
   loadProduct$ = createEffect(
-    () => ({ scheduler, debounce = 0 } = {}): Observable<
-      ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
-    > =>
-      this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT),
-        map((action: ProductActions.LoadProduct) => ({
-          code: action.payload,
-          scope: action.meta.scope,
-        })),
-        // we are grouping all load actions that happens at the same time
-        // to optimize loading and pass them all to productConnector.getMany
-        bufferDebounceTime(debounce, scheduler),
-        mergeMap((products) =>
-          merge(
-            ...this.productConnector
-              .getMany(products)
-              .map(this.productLoadEffect)
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+    () =>
+      ({ scheduler, debounce = 0 } = {}): Observable<
+        ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
+      > =>
+        this.actions$.pipe(
+          ofType(ProductActions.LOAD_PRODUCT),
+          map((action: ProductActions.LoadProduct) => ({
+            code: action.payload,
+            scope: action.meta.scope,
+          })),
+          // we are grouping all load actions that happens at the same time
+          // to optimize loading and pass them all to productConnector.getMany
+          bufferDebounceTime(debounce, scheduler),
+          mergeMap((products) =>
+            merge(
+              ...this.productConnector
+                .getMany(products)
+                .map(this.productLoadEffect)
+            )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   );
 
   private productLoadEffect(
