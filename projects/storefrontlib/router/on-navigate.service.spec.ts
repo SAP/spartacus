@@ -123,6 +123,15 @@ describe('OnNavigateService', () => {
       ]);
     });
 
+    it('should scroll to the top on navigation when route is not part of the ignored config routes', () => {
+      config.enableResetViewOnNavigate.ignoreRoutes = ['test1', 'test2'];
+
+      service.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent(null, '/test3');
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
+    });
+
     it('should scroll to a position on navigation when scroll contains position (backward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
