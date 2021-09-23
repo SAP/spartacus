@@ -56,9 +56,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Internal token streams which reads the latest from the storage.
    * Emits the token or `undefined`
    */
-  protected token$: Observable<
-    AuthToken | undefined
-  > = this.authStorageService
+  protected token$: Observable<AuthToken | undefined> = this.authStorageService
     .getToken()
     .pipe(map((token) => (token?.access_token ? token : undefined)));
 

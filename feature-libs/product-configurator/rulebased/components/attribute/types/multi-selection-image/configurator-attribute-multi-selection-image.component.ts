@@ -19,7 +19,8 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
 
@@ -57,10 +58,11 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       !this.attributeCheckBoxForms[index].value
     );
 
-    const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
-      this.attributeCheckBoxForms,
-      this.attribute
-    );
+    const selectedValues =
+      this.configUtilsService.assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      );
 
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,

@@ -298,9 +298,10 @@ export class ExpressCheckoutService {
                   StateUtils.LoaderState<void>
                 ]) => {
                   if (Boolean(deliveryModes.length)) {
-                    const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                      deliveryModes
-                    );
+                    const preferredDeliveryMode =
+                      this.checkoutConfigService.getPreferredDeliveryMode(
+                        deliveryModes
+                      );
                     return of([
                       preferredDeliveryMode,
                       setDeliveryModeStatus,

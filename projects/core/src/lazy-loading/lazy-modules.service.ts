@@ -58,9 +58,9 @@ export class LazyModulesService implements OnDestroy {
     protected injector: Injector,
     protected events: EventService
   ) {
-    this.eventSubscription = (this.modules$ as ConnectableObservable<
-      NgModuleRef<any>
-    >).connect();
+    this.eventSubscription = (
+      this.modules$ as ConnectableObservable<NgModuleRef<any>>
+    ).connect();
   }
 
   /**
@@ -151,9 +151,8 @@ export class LazyModulesService implements OnDestroy {
       [],
       InjectFlags.Self
     );
-    const asyncInitPromises: Promise<any>[] = this.runModuleInitializerFunctions(
-      moduleInits
-    );
+    const asyncInitPromises: Promise<any>[] =
+      this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) => {
