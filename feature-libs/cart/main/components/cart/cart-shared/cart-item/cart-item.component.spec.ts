@@ -16,11 +16,8 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
 import { PromotionLocation } from '@spartacus/cart/main/root';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
@@ -297,8 +294,9 @@ describe('CartItemComponent', () => {
 
     expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
     variants.forEach((variant) => {
-      const infoContainer: HTMLElement = el.query(By.css('.cx-info-container'))
-        .nativeElement;
+      const infoContainer: HTMLElement = el.query(
+        By.css('.cx-info-container')
+      ).nativeElement;
       expect(infoContainer.innerText).toContain(
         `${variant.name}: ${variant.value}`
       );
