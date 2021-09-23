@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
   BasePageMetaResolver,
-  Cart,
   CmsService,
   I18nTestingModule,
   PageMetaResolver,

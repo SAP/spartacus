@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
-  Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   EventService,

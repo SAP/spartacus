@@ -1,16 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
-import {
-  ActiveCartService,
-  Address,
-  Cart,
-  PaymentDetails,
-} from '@spartacus/core';
+import { ActiveCartService, Address, PaymentDetails } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from './checkout-details.service';
 

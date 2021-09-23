@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
-  Cart,
   CartVoucherService,
   I18nTestingModule,
 } from '@spartacus/core';

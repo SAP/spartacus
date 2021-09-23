@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartService, Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-checkout-order-summary',

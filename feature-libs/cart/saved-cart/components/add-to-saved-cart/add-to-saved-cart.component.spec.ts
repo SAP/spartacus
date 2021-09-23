@@ -1,10 +1,10 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
   AuthService,
-  Cart,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';

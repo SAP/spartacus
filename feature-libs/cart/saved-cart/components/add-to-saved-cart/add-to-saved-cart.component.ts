@@ -7,10 +7,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
   AuthService,
-  Cart,
   RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
