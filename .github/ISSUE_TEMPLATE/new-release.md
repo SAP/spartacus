@@ -10,9 +10,11 @@ assignees: ''
 ## Steps before the release
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
-- [ ] Create new maintenance branch (`release/*.*.x`) if it doesn't exist yet
-- [ ] Announce new maintenance branch (Set topic in tribe channel)
-- [ ] Create release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
+- [ ] If there is no maintenance branch yet:
+  - [ ] Create new maintenance branch (`release/*.*.x`)
+  - [ ] Announce new maintenance branch (Set topic in tribe channel)
+  - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
+- [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
@@ -31,7 +33,9 @@ assignees: ''
 
   Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
 
-- [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression scripts in parallel to get all the results faster, after that retry failed tests in open mode)
+  This can be done on a separate machine to speed up the release process.
+
+- [ ] Trigger a Travis build to run all e2e tests on this latest branch. Make sure all the tests pass.
 
 ---
 
@@ -51,17 +55,20 @@ assignees: ''
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
 
 
 ### For all operative systems
 
 Do the following steps to keep track of spartacussampledata releases:
 
-- [ ] Tag sample data branches for each version (1905, 2005, 2011):
+- [ ] Tag sample data branches for each version (1905, 2005, 2011, 2105):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
   - [ ] tag the final commit on [release/1905/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/1905/next) branch: `git tag 1905-*.*.* HEAD-COMMIT-HASH-FROM-release/1905/next`
   - [ ] tag the final commit on [release/2005/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2005/next) branch: `git tag 2005-*.*.* HEAD-COMMIT-HASH-FROM-release/2005/next`
   - [ ] tag the final commit on [release/2011/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2011/next) branch: `git tag 2011-*.*.* HEAD-COMMIT-HASH-FROM-release/2011/next`
+  - [ ] tag the final commit on [release/2105/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2105/next) branch: `git tag 2105-*.*.* HEAD-COMMIT-HASH-FROM-release/2105/next`
   - [ ] push created tags: `git push origin --tags`
 
 ---
@@ -82,6 +89,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
+    - [ ] `npm run release:order:with-changelog`
     - [ ] `npm run release:checkout:with-changelog` (needed since `4.0.0-rc.0`)
     - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
@@ -92,8 +100,11 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
-    - [ ] (for <3.2.0 releases set the spartacus peerDependencies manually, then)  
-      `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+    - [ ] `npm run release:cdc:with-changelog` (needed since `3.1.0-next.0`)
+      - [ ] For < 3.2.0 releases ONLY, set the spartacus peerDependencies manually, then run
+      `npm run release:cdc:with-changelog`.
+      - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release
+    - [ ] `npm run release:digital-payments:with-changelog` (needed since `4.1.0-next.0`)
     - [ ] `npm run release:schematics:with-changelog`
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)

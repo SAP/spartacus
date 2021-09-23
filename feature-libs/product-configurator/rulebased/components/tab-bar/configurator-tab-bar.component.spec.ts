@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -25,7 +26,7 @@ const mockRouterState: any = {
   },
 };
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -51,7 +52,7 @@ describe('ConfigTabBarComponent', () => {
 
       routerStateObservable = of(mockRouterState);
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
+        imports: [I18nTestingModule, RouterModule, RouterTestingModule],
         declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
         providers: [
           {

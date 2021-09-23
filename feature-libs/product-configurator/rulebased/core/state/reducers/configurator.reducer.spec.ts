@@ -92,6 +92,7 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
     });
   });
+
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
@@ -105,6 +106,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('ReadConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
@@ -118,6 +120,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('UpdateConfigurationSuccess action', () => {
     it('should not put configuration into the state because first we need to check for pending changes', () => {
       const { initialState } = StateReduce;
@@ -129,6 +132,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
@@ -143,6 +147,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
@@ -154,6 +159,7 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
@@ -211,7 +217,7 @@ describe('Configurator reducer', () => {
   });
 
   describe('UpdatePriceSummarySuccess action', () => {
-    it('should keep the existing groups altough it does not provide groups in its data', () => {
+    it('should keep the existing groups although it does not provide groups in its data', () => {
       const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
         configuration
       );

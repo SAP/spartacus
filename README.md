@@ -7,7 +7,7 @@
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
 - Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/spartacus-docs/).
-- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/) on our public demo site.
+- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/electronics-spa/en/USD/) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
 - Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For details on the 4.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.

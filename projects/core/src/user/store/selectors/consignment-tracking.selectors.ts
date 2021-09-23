@@ -7,6 +7,9 @@ import {
 } from '../user-state';
 import { getUserState } from './feature.selector';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getConsignmentTrackingState: MemoizedSelector<
   StateWithUser,
   ConsignmentTrackingState
@@ -15,6 +18,9 @@ export const getConsignmentTrackingState: MemoizedSelector<
   (state: UserState) => state.consignmentTracking
 );
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getConsignmentTracking: MemoizedSelector<
   StateWithUser,
   ConsignmentTracking

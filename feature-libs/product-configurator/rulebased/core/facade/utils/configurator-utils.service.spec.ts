@@ -6,6 +6,7 @@ import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
   GROUP_ID_2,
+  GROUP_ID_4,
   productConfiguration,
   subGroupWith2Attributes,
 } from '../../../testing/configurator-test-data';
@@ -131,15 +132,6 @@ describe('ConfiguratorGroupUtilsService', () => {
 
   it('should be created', () => {
     expect(classUnderTest).toBeTruthy();
-  });
-
-  it('should find group from group Id', () => {
-    const group = classUnderTest.getGroupById(
-      productConfiguration.groups,
-      GROUP_ID_2
-    );
-
-    expect(group).toBe(productConfiguration.groups[1]);
   });
 
   it('should find parent group from group', () => {
@@ -361,6 +353,50 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(() =>
         classUnderTest.getConfigurationFromState(configurationState)
       ).toThrowError();
+    });
+  });
+
+  describe('getOptionalGroupById', () => {
+    it('should find group from group id if present on the root level', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        GROUP_ID_2
+      );
+      expect(group).toBe(productConfiguration.groups[1]);
+    });
+
+    it('should find group from group id if present as sub group', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        GROUP_ID_4
+      );
+      expect(group).toBe(subGroupWith2Attributes);
+    });
+
+    it('should return undefined if group cannot be found', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        'UNKNOWN_ID'
+      );
+      expect(group).toBeUndefined();
+    });
+  });
+
+  describe('getGroupById', () => {
+    it('should find group from group id if present on the root level', () => {
+      const group = classUnderTest.getGroupById(
+        productConfiguration.groups,
+        GROUP_ID_2
+      );
+      expect(group).toBe(productConfiguration.groups[1]);
+    });
+
+    it('should fall back to first group if group cannot be found', () => {
+      const group = classUnderTest.getGroupById(
+        productConfiguration.groups,
+        'UNKNOWN_ID'
+      );
+      expect(group).toBe(productConfiguration.groups[0]);
     });
   });
 });

@@ -21,7 +21,10 @@ export class OccConfiguratorVariantOverviewNormalizer
     source: OccConfigurator.Overview,
     target?: Configurator.Overview
   ): Configurator.Overview {
-    const prices: OccConfigurator.Prices = { priceSummary: source.pricing };
+    const prices: OccConfigurator.Prices = {
+      priceSummary: source.pricing,
+      configId: source.id,
+    };
     const resultTarget: Configurator.Overview = {
       ...target,
       configId: source.id,

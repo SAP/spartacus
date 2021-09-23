@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
@@ -15,6 +21,14 @@ class MockGroupService {}
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
@@ -31,6 +45,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         declarations: [
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockFocusDirective,
+          MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
