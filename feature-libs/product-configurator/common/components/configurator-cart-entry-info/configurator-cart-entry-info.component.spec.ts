@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
   FeaturesConfigModule,
   I18nTestingModule,
