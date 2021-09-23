@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
+  ActiveCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   AuthService,
   Cart,
@@ -73,7 +73,7 @@ class MockCartCouponComponent {
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -108,11 +108,11 @@ describe('CartDetailsComponent', () => {
           MockCartCouponComponent,
         ],
         providers: [
-          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+          { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
           { provide: AuthService, useValue: mockAuthService },
           { provide: RoutingService, useValue: mockRoutingService },
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
         ],
@@ -126,7 +126,7 @@ describe('CartDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   it('should create cart details component', () => {

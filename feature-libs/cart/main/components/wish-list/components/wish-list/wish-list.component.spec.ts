@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { WishListService } from '@spartacus/cart/main/core';
+import { WishListFacade } from '@spartacus/cart/main/root';
 import { Cart, I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { WishListComponent } from './wish-list.component';
@@ -33,7 +33,7 @@ describe('WishListComponent', () => {
   let component: WishListComponent;
   let fixture: ComponentFixture<WishListComponent>;
 
-  let wishListService: WishListService;
+  let wishListService: WishListFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -42,7 +42,7 @@ describe('WishListComponent', () => {
         declarations: [WishListComponent, MockWishListItemComponent],
         providers: [
           {
-            provide: WishListService,
+            provide: WishListFacade,
             useClass: MockWishListService,
           },
         ],
@@ -54,7 +54,7 @@ describe('WishListComponent', () => {
     fixture = TestBed.createComponent(WishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.inject(WishListService);
+    wishListService = TestBed.inject(WishListFacade);
     fixture.detectChanges();
   });
 

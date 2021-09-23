@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { CartActions, MultiCartService } from '@spartacus/cart/main/core';
+import { CartActions } from '@spartacus/cart/main/core';
+import { MultiCartFacade } from '@spartacus/cart/main/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -46,14 +47,14 @@ const mockSavedCartData: Cart = {
   name: mockSavedCartName,
 };
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   getCart = () => of(mockCartData);
 }
 
 describe('SavedCartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
 
   beforeEach(() => {
     actions$ = new Subject();
@@ -61,14 +62,14 @@ describe('SavedCartEventBuilder', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartService },
       ],
     });
 
     TestBed.inject(SavedCartEventBuilder); // register events
 
     eventService = TestBed.inject(EventService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
   });
 
   describe('Save Cart Events', () => {
