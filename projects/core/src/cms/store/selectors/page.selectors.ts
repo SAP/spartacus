@@ -43,15 +43,11 @@ const getPageComponentTypesSelector: (page: Page) => string[] = (
   return Array.from(componentTypes);
 };
 
-export const getPageState: MemoizedSelector<
-  StateWithCms,
-  PageState
-> = createSelector(getCmsState, (state: CmsState) => state.page);
+export const getPageState: MemoizedSelector<StateWithCms, PageState> =
+  createSelector(getCmsState, (state: CmsState) => state.page);
 
-export const getPageStateIndex: MemoizedSelector<
-  StateWithCms,
-  IndexType
-> = createSelector(getPageState, (page: PageState) => page.index);
+export const getPageStateIndex: MemoizedSelector<StateWithCms, IndexType> =
+  createSelector(getPageState, (page: PageState) => page.index);
 
 export const getPageStateIndexEntityLoaderState = (
   pageContext: PageContext

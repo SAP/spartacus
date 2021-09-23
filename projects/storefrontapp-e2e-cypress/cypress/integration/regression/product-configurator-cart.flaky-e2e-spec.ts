@@ -189,7 +189,8 @@ context('Product Configuration', () => {
       configurationCart.navigateToOrderDetails();
       //don't check the order history aspect because this part is flaky
       //configuration.selectOrderByOrderNumberAlias();
-      const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+      const tokenRevocationRequestAlias =
+        login.listenForTokenRevocationRequest();
       login.signOutUser();
       cy.wait(tokenRevocationRequestAlias);
     });
