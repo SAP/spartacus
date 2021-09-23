@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   I18nTestingModule,
   UserAddressService,
@@ -139,7 +139,7 @@ describe('ShippingAddressComponent', () => {
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let userAddressService: UserAddressService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
 
@@ -155,7 +155,7 @@ describe('ShippingAddressComponent', () => {
         ],
         providers: [
           { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryFacade,
@@ -179,7 +179,7 @@ describe('ShippingAddressComponent', () => {
         .compileComponents();
 
       checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-      activeCartService = TestBed.inject(ActiveCartService);
+      activeCartService = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );

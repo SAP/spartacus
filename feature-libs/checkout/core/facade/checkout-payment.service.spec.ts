@@ -1,12 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  CardType,
-  Cart,
-  PaymentDetails,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { CardType, Cart, PaymentDetails, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -16,7 +11,7 @@ import { CheckoutPaymentService } from './checkout-payment.service';
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
   let userIdService: UserIdService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -55,14 +50,14 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutPaymentService);
     userIdService = TestBed.inject(UserIdService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;

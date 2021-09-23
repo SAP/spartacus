@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   BasePageMetaResolver,
   Cart,
   CmsService,
@@ -43,7 +43,7 @@ describe('CheckoutPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,

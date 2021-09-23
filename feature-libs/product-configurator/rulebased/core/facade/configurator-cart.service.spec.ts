@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Cart,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -112,7 +112,7 @@ describe('ConfiguratorCartService', () => {
           ConfiguratorCartService,
 
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {

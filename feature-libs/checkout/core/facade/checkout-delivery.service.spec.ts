@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   Address,
   Cart,
   DeliveryMode,
@@ -18,13 +18,13 @@ import { CheckoutDeliveryService } from './checkout-delivery.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let userIdService: UserIdService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class ActiveCartServiceStub implements Partial<ActiveCartService> {
+  class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
     cart;
     isGuestCart() {
       return true;
@@ -69,12 +69,12 @@ describe('CheckoutDeliveryService', () => {
       providers: [
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutDeliveryService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 

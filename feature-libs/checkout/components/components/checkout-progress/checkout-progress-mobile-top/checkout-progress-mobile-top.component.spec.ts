@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
-import { ActiveCartService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../../services/checkout-step.service';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
@@ -70,7 +71,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
         ],
         providers: [
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
         ],
       }).compileComponents();
     })
