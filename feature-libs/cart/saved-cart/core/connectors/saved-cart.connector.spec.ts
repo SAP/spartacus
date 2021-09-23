@@ -78,7 +78,11 @@ describe('SavedCartConnector', () => {
   });
 
   it('should clone saved cart', () => {
-    connector.cloneSavedCart(mockUserId, mockCartId);
-    expect(adapter.cloneSavedCart).toHaveBeenCalledWith(mockUserId, mockCartId);
+    connector.cloneSavedCart(mockUserId, mockCartId, mockCartName);
+    expect(adapter.cloneSavedCart).toHaveBeenCalledWith(
+      mockUserId,
+      mockCartId,
+      mockCartName
+    );
   });
 });

@@ -518,12 +518,10 @@ context('CPQ Configuration', () => {
       {
         name: 'Canon RF 24-105mm f4L IS USM',
         price: '$1,500.00',
-        quantity: '1',
       },
       {
         name: 'LowePro Streetline SL 140',
         price: '$110.00',
-        quantity: '1',
       },
     ];
     configurationCartCpq.checkAmountOfBundleItems(

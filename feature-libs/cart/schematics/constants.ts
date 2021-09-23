@@ -14,6 +14,18 @@ export const SAVED_CART_TRANSLATIONS = 'savedCartTranslations';
 export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
   'savedCartTranslationChunksConfig';
 
+export const CART_QUICK_ORDER_MODULE_NAME = 'CartQuickOrder';
+export const CART_QUICK_ORDER_FEATURE_NAME_CONSTANT =
+  'CART_QUICK_ORDER_FEATURE';
+export const QUICK_ORDER_MODULE = 'QuickOrderModule';
+export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
+export const SPARTACUS_QUICK_ORDER = `${SPARTACUS_CART}/quick-order`;
+export const SPARTACUS_QUICK_ORDER_ROOT = `${SPARTACUS_QUICK_ORDER}/root`;
+export const SPARTACUS_QUICK_ORDER_ASSETS = `${SPARTACUS_QUICK_ORDER}/assets`;
+export const QUICK_ORDER_TRANSLATIONS = 'quickOrderTranslations';
+export const QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG =
+  'quickOrderTranslationChunksConfig';
+
 export const CART_IMPORT_EXPORT_MODULE_NAME = 'CartImportExport';
 export const CART_IMPORT_EXPORT_FEATURE_NAME_CONSTANT =
   'CART_IMPORT_EXPORT_FEATURE';

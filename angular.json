@@ -68,6 +68,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-checkout.scss",
                 "bundleName": "checkout"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-order.scss",
+                "bundleName": "order"
               }
             ],
             "stylePreprocessorOptions": {
@@ -77,7 +81,7 @@
                 "./feature-libs"
               ]
             },
-            "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
+            "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
           "configurations": {
@@ -214,7 +218,7 @@
     },
     "storefrontlib": {
       "root": "projects/storefrontlib",
-      "sourceRoot": "projects/storefrontlib/src",
+      "sourceRoot": "projects/storefrontlib",
       "projectType": "library",
       "prefix": "cx",
       "architect": {
@@ -233,7 +237,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/storefrontlib/src/test.ts",
+            "main": "projects/storefrontlib/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
             "codeCoverageExclude": ["dist/**/*"],
@@ -557,6 +561,43 @@
             "lintFilePatterns": [
               "integration-libs/cdc/**/*.ts",
               "integration-libs/cdc/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "digital-payments": {
+      "projectType": "library",
+      "root": "integration-libs/digital-payments",
+      "sourceRoot": "integration-libs/digital-payments/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "integration-libs/digital-payments/tsconfig.lib.json",
+            "project": "integration-libs/digital-payments/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/digital-payments/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/digital-payments/src/test.ts",
+            "tsConfig": "integration-libs/digital-payments/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/digital-payments/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "integration-libs/digital-payments/**/*.ts",
+              "integration-libs/digital-payments/**/*.html"
             ]
           }
         }
@@ -890,6 +931,46 @@
             "lintFilePatterns": [
               "feature-libs/user/**/*.ts",
               "feature-libs/user/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "order": {
+      "projectType": "library",
+      "root": "feature-libs/order",
+      "sourceRoot": "feature-libs/order",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/order/tsconfig.lib.json",
+            "project": "feature-libs/order/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/order/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "feature-libs/order/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/order/test.ts",
+            "tsConfig": "feature-libs/order/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/order/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/order/**/*.ts",
+              "feature-libs/order/**/*.html"
             ]
           }
         }
