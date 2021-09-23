@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   normalizeHttpError,
   OCC_CART_ID_CURRENT,
   SiteContextActions,
@@ -244,15 +244,16 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> = this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    mergeMap(() => {
-      return [new CartActions.ResetCartDetails()];
-    })
-  );
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      mergeMap(() => {
+        return [new CartActions.ResetCartDetails()];
+      })
+    );
 
   @Effect()
   addEmail$: Observable<

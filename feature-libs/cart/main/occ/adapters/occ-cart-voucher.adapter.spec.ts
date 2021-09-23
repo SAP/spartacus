@@ -4,8 +4,8 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/main/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   ConverterService,
   OccConfig,
   OccEndpointsService,

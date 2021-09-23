@@ -3,7 +3,8 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { OrderEntry, StateUtils } from '@spartacus/core';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -85,18 +86,11 @@ export const getCartEntrySelectorFactory = (
   );
 };
 
-export const getActiveCartId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
+export const getActiveCartId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.active);
 
-export const getWishListId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state.wishList
-);
+export const getWishListId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.wishList);
 
 export const getCartsSelectorFactory: MemoizedSelector<
   StateWithMultiCart,

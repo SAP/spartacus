@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Cart, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';

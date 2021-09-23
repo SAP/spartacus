@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
 import { getCartIdByUserId } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import * as fromMultiCart from './multi-cart.reducer';

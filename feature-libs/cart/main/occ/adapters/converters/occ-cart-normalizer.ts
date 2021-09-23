@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   Converter,
   ConverterService,
   Occ,
