@@ -62,13 +62,13 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.headerElement = this.winRef.document.querySelector('header');
 
-    if (!this.customClass) this.customClass = 'cx-cart-toast';
+    if (!this.customClass) this.customClass = 'cx-added-cart-toast';
 
     this.baseClass = `${this.customClass}`;
     this.toastContainerClass = this.toastContainerBaseClass;
 
-    if (this.addedToCartToastConfig.cartToast?.timeout)
-      this.timeout = this.addedToCartToastConfig.cartToast?.timeout;
+    if (this.addedToCartToastConfig.addedToCartToast?.timeout)
+      this.timeout = this.addedToCartToastConfig.addedToCartToast?.timeout;
     else this.timeout = 3000;
 
     this.subscription.add(
@@ -89,7 +89,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
         )
         .subscribe(({ quantityAdded, product }) => {
           let toastContainerClass = `${this.toastContainerBaseClass} `;
-          console.log(product);
           const toastItem = this.addedToCartToastService.addToast(
             quantityAdded,
             product,
