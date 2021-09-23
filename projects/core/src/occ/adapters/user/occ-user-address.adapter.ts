@@ -34,13 +34,11 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       'Content-Type': 'application/json',
     });
 
-    return this.http
-      .get<Occ.AddressList>(url, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        map((addressList) => addressList.addresses),
-        this.converter.pipeableMany(ADDRESS_NORMALIZER)
-      );
+    return this.http.get<Occ.AddressList>(url, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      map((addressList) => addressList.addresses),
+      this.converter.pipeableMany(ADDRESS_NORMALIZER)
+    );
   }
 
   add(userId: string, address: Address): Observable<{}> {
@@ -83,12 +81,10 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     }
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
-    return this.http
-      .post<AddressValidation>(url, address, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
-      );
+    return this.http.post<AddressValidation>(url, address, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
+    );
   }
 
   delete(userId: string, addressId: string): Observable<{}> {

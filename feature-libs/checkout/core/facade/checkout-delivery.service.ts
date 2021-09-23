@@ -348,62 +348,61 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   // TODO: Remove optional chaining and update types in 5.0
-  protected setDeliveryAddressCommand:
-    | undefined
-    | Command<Address, unknown> = this.command?.create<Address>(
-    (payload) => {
-      const addressId = payload.id;
-      return combineLatest([
-        this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
-      ]).pipe(
-        take(1),
-        switchMap(([userId, cartId]) => {
-          if (
-            !userId ||
-            !cartId ||
-            !addressId ||
-            !this.checkoutDeliveryConnector || // TODO: Remove check in 5.0 when service will be required
-            (userId === OCC_USER_ID_ANONYMOUS &&
-              !this.activeCartService.isGuestCart())
-          ) {
-            return of(); // TODO: should we throw error here? useful dev info?
-          }
-          return this.checkoutDeliveryConnector
-            .setAddress(userId, cartId, addressId)
-            .pipe(
-              tap(() => {
-                // TODO: Remove this one dispatch when we will have query for checkout addresses
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.SetDeliveryAddressSuccess(payload)
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ClearCheckoutDeliveryMode({
-                    userId,
-                    cartId,
-                  })
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ClearSupportedDeliveryModes()
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.LoadSupportedDeliveryModes({
-                    userId,
-                    cartId,
-                  })
-                );
-              })
-            );
-        })
-      );
-    },
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+  protected setDeliveryAddressCommand: undefined | Command<Address, unknown> =
+    this.command?.create<Address>(
+      (payload) => {
+        const addressId = payload.id;
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              !addressId ||
+              !this.checkoutDeliveryConnector || // TODO: Remove check in 5.0 when service will be required
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              return of(); // TODO: should we throw error here? useful dev info?
+            }
+            return this.checkoutDeliveryConnector
+              .setAddress(userId, cartId, addressId)
+              .pipe(
+                tap(() => {
+                  // TODO: Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryMode({
+                      userId,
+                      cartId,
+                    })
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearSupportedDeliveryModes()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.LoadSupportedDeliveryModes({
+                      userId,
+                      cartId,
+                    })
+                  );
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   /**
    * Set delivery address

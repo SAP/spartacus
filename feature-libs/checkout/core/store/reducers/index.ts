@@ -24,9 +24,8 @@ export function getReducers(): ActionReducerMap<CheckoutState, any> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<CheckoutState>
-> = new InjectionToken<ActionReducerMap<CheckoutState>>('CheckoutReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<CheckoutState>> =
+  new InjectionToken<ActionReducerMap<CheckoutState>>('CheckoutReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

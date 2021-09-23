@@ -50,7 +50,8 @@ describe('CheckoutPaymentService', () => {
   }
 
   class MockCheckoutPaymentConnector
-    implements Partial<CheckoutPaymentConnector> {
+    implements Partial<CheckoutPaymentConnector>
+  {
     getCardTypes() {
       return of([
         { code: 'visa', name: 'visa' },
