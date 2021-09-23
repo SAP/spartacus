@@ -71,7 +71,7 @@ export interface Principal {
   uid?: string;
 }
 
- /**
+/**
  * @deprecated since 5.0, use cart lib instead
  */
 export interface CardType {
@@ -87,9 +87,6 @@ export interface PaymentType {
   displayName?: string;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;
