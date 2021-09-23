@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  PaymentDetails,
   PaymentType,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
@@ -24,6 +23,7 @@ import {
   DeliveryMode,
   I18nTestingModule,
   OrderEntry,
+  PaymentDetails,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
