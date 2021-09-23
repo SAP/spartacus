@@ -4,6 +4,7 @@ import {
   Currency,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PickupOrderEntryGroup,
   Price,
   Promotion,

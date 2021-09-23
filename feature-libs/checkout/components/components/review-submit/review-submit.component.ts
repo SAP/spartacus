@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  Cart,
-  PaymentDetails,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -21,6 +17,7 @@ import {
   Country,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
