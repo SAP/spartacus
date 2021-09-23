@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   getWishlistName,
   isSelectiveCart,
