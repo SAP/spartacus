@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-org-assign-cell',
   template: `
     <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
-      {{ isAsigned ? 'unassign' : 'assign' }}
+      {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
