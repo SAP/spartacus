@@ -5,8 +5,8 @@ import {
   ActiveCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
@@ -72,12 +72,8 @@ describe('SaveForLaterComponent', () => {
       of<Cart>({ code: '00001', totalItems: 0 })
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getCart.and.returnValue(
-      of<Cart>({ code: '123' })
-    );
-    mockSelectiveCartService.getEntries.and.returnValue(
-      of<OrderEntry[]>([{}])
-    );
+    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
+    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
   it('should create', () => {

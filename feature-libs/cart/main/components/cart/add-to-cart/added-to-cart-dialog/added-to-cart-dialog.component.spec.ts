@@ -11,9 +11,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService } from '@spartacus/cart/main/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
-  Cart,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,

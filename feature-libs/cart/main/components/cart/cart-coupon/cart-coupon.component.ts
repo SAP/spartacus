@@ -4,8 +4,8 @@ import {
   ActiveCartService,
   CartVoucherService,
 } from '@spartacus/cart/main/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,

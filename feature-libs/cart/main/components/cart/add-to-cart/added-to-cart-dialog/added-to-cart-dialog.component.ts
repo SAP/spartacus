@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartService } from '@spartacus/cart/main/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {

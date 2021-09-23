@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,

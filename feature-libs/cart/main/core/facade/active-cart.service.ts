@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   EMAIL_PATTERN,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -108,18 +108,22 @@ export class ActiveCartService implements OnDestroy {
 
     // Stream for getting the cart value
     const activeCartValue$ = this.cartSelector$.pipe(
-      map((cartEntity: StateUtils.ProcessesLoaderState<Cart>): {
-        cart: Cart;
-        isStable: boolean;
-        loaded: boolean;
-      } => {
-        return {
-          cart: cartEntity.value,
-          isStable: !cartEntity.loading && cartEntity.processesCount === 0,
-          loaded:
-            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
-        };
-      }),
+      map(
+        (
+          cartEntity: StateUtils.ProcessesLoaderState<Cart>
+        ): {
+          cart: Cart;
+          isStable: boolean;
+          loaded: boolean;
+        } => {
+          return {
+            cart: cartEntity.value,
+            isStable: !cartEntity.loading && cartEntity.processesCount === 0,
+            loaded:
+              (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+          };
+        }
+      ),
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart

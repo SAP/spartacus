@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/main/core';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 

@@ -3,7 +3,7 @@ import {
   ActiveCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

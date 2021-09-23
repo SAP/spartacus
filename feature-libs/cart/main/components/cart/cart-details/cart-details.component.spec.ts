@@ -6,10 +6,9 @@ import {
   ActiveCartService,
   SelectiveCartService,
 } from '@spartacus/cart/main/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
   AuthService,
-  Cart,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,

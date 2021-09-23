@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  Cart,
-  OrderEntry,
-  User,
-  UserIdService,
-  UserService,
-} from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { OrderEntry, User, UserIdService, UserService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartActions } from '../store/actions/index';
 import {

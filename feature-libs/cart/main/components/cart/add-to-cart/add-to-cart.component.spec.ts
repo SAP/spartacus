@@ -5,8 +5,8 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService } from '@spartacus/cart/main/core';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   CmsAddToCartComponent,
   I18nTestingModule,
   OrderEntry,
