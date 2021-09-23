@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefinder",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Store finder feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,9 +28,9 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
-    "@spartacus/core": "4.0.1",
-    "@spartacus/schematics": "4.0.1",
-    "@spartacus/storefront": "4.0.1",
+    "@spartacus/core": "4.0.2",
+    "@spartacus/schematics": "4.0.2",
+    "@spartacus/storefront": "4.0.2",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
