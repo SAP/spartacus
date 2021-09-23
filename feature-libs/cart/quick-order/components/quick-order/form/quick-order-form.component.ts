@@ -13,12 +13,12 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import { Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  tap,
+  take,
 } from 'rxjs/operators';
 
 @Component({
@@ -30,7 +30,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
-  results$: Observable<Product[]>;
+  noResults: boolean = false;
+  results: Product[] = [];
 
   get isDisabled(): boolean {
     return this._disabled;
@@ -54,7 +55,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected _disabled: boolean = false;
   protected _loading: boolean = false;
   protected _focusedElementIndex: number | null = null;
-  protected _results: Product[] = [];
 
   constructor(
     public config: QuickOrderFormConfig,
@@ -110,16 +110,16 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     // Add product if there is focus on it
     if (activeProductIndex !== null) {
-      const product = this._results[activeProductIndex];
+      const product = this.results[activeProductIndex];
       this.add(product, event);
       // Add product if there is only one in the result list
-    } else if (this._results.length === 1) {
-      this.add(this._results[0], event);
+    } else if (this.results.length === 1) {
+      this.add(this.results[0], event);
     }
   }
 
   focusNextChild(): void {
-    if (!this.isResultsBoxOpen()) {
+    if (!this.results.length) {
       return;
     }
 
@@ -127,7 +127,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (
       activeFocusedElementIndex === null ||
-      this._results.length - 1 === activeFocusedElementIndex
+      this.results.length - 1 === activeFocusedElementIndex
     ) {
       this.setFocusedElementIndex(0);
     } else {
@@ -136,14 +136,14 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   focusPreviousChild(): void {
-    if (!this.isResultsBoxOpen()) {
+    if (!this.results.length) {
       return;
     }
 
     const activeFocusedElementIndex = this.getFocusedElementIndex();
 
     if (activeFocusedElementIndex === null || activeFocusedElementIndex === 0) {
-      this.setFocusedElementIndex(this._results.length - 1);
+      this.setFocusedElementIndex(this.results.length - 1);
     } else {
       this.setFocusedElementIndex(activeFocusedElementIndex - 1);
     }
@@ -154,11 +154,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   isResultsBoxOpen(): boolean {
-    return !!this._results.length;
+    return !!(this.results.length || this.noResults);
   }
 
   setResults(results: Product[]): void {
-    this._results = results;
+    this.results = results;
   }
 
   setFocusedElementIndex(value: number | null): void {
@@ -220,30 +220,36 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       )
       .subscribe((value) => {
         this.searchProducts(value.product);
-        this.open();
-        this.cd.detectChanges();
       });
   }
 
   protected searchProducts(query: string): void {
-    this.results$ = this.quickOrderService
+    this.quickOrderService
       .search(query, this.config?.quickOrderForm?.maxProducts)
-      .pipe(
-        tap((products: Product[]) => {
-          this._results = products;
-          this.resetFocusedElementIndex();
-        })
-      );
+      .pipe(take(1))
+      .subscribe((products) => {
+        this.results = products;
+
+        if (this.results.length) {
+          this.noResults = false;
+        } else {
+          this.noResults = true;
+        }
+
+        this.open();
+        this.resetFocusedElementIndex();
+        this.cd.detectChanges();
+      });
   }
 
   protected clearResults(): void {
-    this.results$ = of([]);
-    this._results = [];
+    this.results = [];
   }
 
   protected close(): void {
     this.resetFocusedElementIndex();
     this.clearResults();
+    this.noResults = false;
   }
 
   protected watchProductAdd(): Subscription {

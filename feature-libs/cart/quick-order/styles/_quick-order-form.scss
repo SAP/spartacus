@@ -84,6 +84,15 @@ cx-quick-order-form {
         }
       }
     }
+
+    .quick-order-no-results {
+      align-items: center;
+      display: flex;
+      font-size: 1rem;
+      height: 37px;
+      justify-content: flex-start;
+      padding: 0 10px;
+    }
   }
 }
 

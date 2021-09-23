@@ -16,6 +16,7 @@ export const quickOrderForm = {
   placeholder: 'Enter Product name or SKU',
   listLimitReached: 'The product limit has been reached',
   id: 'ID {{ id }}',
+  noResults: 'We could not find any results',
 };
 
 export const quickOrderList = {

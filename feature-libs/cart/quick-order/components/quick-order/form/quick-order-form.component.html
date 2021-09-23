@@ -30,38 +30,46 @@
     </span>
   </div>
 
-  <ng-container *ngIf="results$ | async as results">
-    <div role="listbox" class="quick-order-results">
-      <ul class="quick-order-results-products" tabindex="0">
-        <li
-          *ngFor="let product of results; let i = index"
-          (click)="add(product, $event)"
-          (keydown.enter)="add(product, $event)"
-          (keydown.escape)="clear($event)"
-          [class.has-media]="config?.quickOrderForm?.displayProductImages"
-          [ngClass]="{ active: getFocusedElementIndex() === i }"
-          class="quick-order-results-product"
-        >
-          <cx-media
-            *ngIf="config?.quickOrderForm?.displayProductImages"
-            [container]="product.images?.PRIMARY"
-            class="media"
-            format="thumbnail"
-            role="presentation"
-          ></cx-media>
-          <div class="name" [innerHTML]="product.name"></div>
-          <span class="id">
-            {{
-              'quickOrderForm.id'
-                | cxTranslate
-                  : {
-                      id: product.code
-                    }
-            }}
-          </span>
-          <span class="price">{{ product.price?.formattedValue }}</span>
-        </li>
-      </ul>
-    </div>
-  </ng-container>
+  <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">
+    <ul
+      *ngIf="results.length; else noResults"
+      class="quick-order-results-products"
+      tabindex="0"
+    >
+      <li
+        *ngFor="let product of results; let i = index"
+        (click)="add(product, $event)"
+        (keydown.enter)="add(product, $event)"
+        (keydown.escape)="clear($event)"
+        [class.has-media]="config?.quickOrderForm?.displayProductImages"
+        [ngClass]="{ active: getFocusedElementIndex() === i }"
+        class="quick-order-results-product"
+      >
+        <cx-media
+          *ngIf="config?.quickOrderForm?.displayProductImages"
+          [container]="product.images?.PRIMARY"
+          class="media"
+          format="thumbnail"
+          role="presentation"
+        ></cx-media>
+        <div class="name" [innerHTML]="product.name"></div>
+        <span class="id">
+          {{
+            'quickOrderForm.id'
+              | cxTranslate
+                : {
+                    id: product.code
+                  }
+          }}
+        </span>
+        <span class="price">{{ product.price?.formattedValue }}</span>
+      </li>
+    </ul>
+
+    <ng-template #noResults>
+      <span class="quick-order-no-results">
+        {{ 'quickOrderForm.noResults' | cxTranslate }}
+      </span>
+    </ng-template>
+  </div>
 </form>
