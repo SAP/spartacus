@@ -8,6 +8,8 @@ import { OnNavigateService } from './on-navigate.service';
 const mockOnNavigateConfig: OnNavigateConfig = {
   enableResetViewOnNavigate: {
     active: true,
+    ignoreQueryString: false,
+    ignoreRoutes: [],
   },
 };
 
@@ -20,12 +22,16 @@ class MockViewPortScroller implements Partial<ViewportScroller> {
   scrollToPosition(_position: [number, number]): void {}
 }
 
-function emitPairScrollEvent(position: [number, number] | null) {
+function emitPairScrollEvent(
+  position: [number, number] | null,
+  currentRoute: string = '/test2',
+  previousRoute: string = '/test1'
+) {
   mockEvents$.next(
-    new Scroll(new NavigationEnd(1, '/test', '/test'), null, null)
+    new Scroll(new NavigationEnd(1, previousRoute, previousRoute), null, null)
   );
   mockEvents$.next(
-    new Scroll(new NavigationEnd(2, '/test2', '/test2'), position, null)
+    new Scroll(new NavigationEnd(2, currentRoute, currentRoute), position, null)
   );
 }
 
@@ -59,6 +65,8 @@ describe('OnNavigateService', () => {
     viewportScroller = TestBed.inject(ViewportScroller);
 
     config.enableResetViewOnNavigate.active = true;
+    config.enableResetViewOnNavigate.ignoreQueryString = false;
+    config.enableResetViewOnNavigate.ignoreRoutes = [];
     spyOn(service, 'setResetViewOnNavigate').and.callThrough();
   });
 
@@ -91,14 +99,46 @@ describe('OnNavigateService', () => {
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
 
+    it('should NOT scroll to the top on navigation when route has query strings', () => {
+      config.enableResetViewOnNavigate.ignoreQueryString = true;
+
+      service.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent(null, '/test2?spartacus=true', '/test2');
+
+      expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
+        0, 0,
+      ]);
+    });
+
+    it('should NOT scroll to the top on navigation when route is a child route', () => {
+      config.enableResetViewOnNavigate.ignoreRoutes = ['test2'];
+
+      service.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent(null, '/test2/newtestroute');
+
+      expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
+        0, 0,
+      ]);
+    });
+
+    it('should scroll to the top on navigation when route is not part of the ignored config routes', () => {
+      config.enableResetViewOnNavigate.ignoreRoutes = ['test1', 'test2'];
+
+      service.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent(null, '/test3');
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
+    });
+
     it('should scroll to a position on navigation when scroll contains position (backward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent([1000, 500]);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
-        1000,
-        500,
+        1000, 500,
       ]);
     });
 

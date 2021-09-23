@@ -8,8 +8,8 @@ import { Config } from '@spartacus/core';
 export abstract class OnNavigateConfig {
   enableResetViewOnNavigate?: {
     active?: boolean;
-    disableOnQueryParam?: string[];
-    disableOnSpecificRoutes?: string[];
+    ignoreQueryString?: boolean;
+    ignoreRoutes?: string[];
   };
 }
 
