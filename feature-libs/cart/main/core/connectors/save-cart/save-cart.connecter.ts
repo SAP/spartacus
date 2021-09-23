@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SaveCartResult } from '@spartacus/core';
+import { SaveCartResult } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 import { SaveCartAdapter } from './save-cart.adapter';
 
