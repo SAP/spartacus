@@ -107,8 +107,7 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null, '/test2?spartacus=true', '/test2');
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
-        0,
-        0,
+        0, 0,
       ]);
     });
 
@@ -120,8 +119,7 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null, '/test2/newtestroute');
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
-        0,
-        0,
+        0, 0,
       ]);
     });
 
@@ -131,8 +129,7 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent([1000, 500]);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
-        1000,
-        500,
+        1000, 500,
       ]);
     });
 
