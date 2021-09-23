@@ -6,7 +6,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantPriceNormalizer
-  implements Converter<OccConfigurator.Prices, Configurator.Configuration> {
+  implements Converter<OccConfigurator.Prices, Configurator.Configuration>
+{
   convert(
     source: OccConfigurator.Prices,
     target?: Configurator.Configuration

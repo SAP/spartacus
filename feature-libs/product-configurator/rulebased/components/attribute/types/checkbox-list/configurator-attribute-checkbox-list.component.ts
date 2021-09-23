@@ -19,7 +19,8 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeCheckBoxForms = new Array<FormControl>();
 
   @Input() group: string;
@@ -58,10 +59,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   onSelect(): void {
-    const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
-      this.attributeCheckBoxForms,
-      this.attribute
-    );
+    const selectedValues =
+      this.configUtilsService.assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      );
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -86,9 +88,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       return;
     }
 
-    const value:
-      | Configurator.Value
-      | undefined = this.configUtilsService
+    const value: Configurator.Value | undefined = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute

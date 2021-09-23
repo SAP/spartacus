@@ -25,7 +25,8 @@ import {
 })
 export class DpPaymentMethodComponent
   extends CorePaymentMethodComponent
-  implements OnInit {
+  implements OnInit
+{
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
