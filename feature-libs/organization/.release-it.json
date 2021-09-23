@@ -27,7 +27,8 @@
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/storefront",
             "peerDependencies.@spartacus/schematics",
-            "peerDependencies.@spartacus/user"
+            "peerDependencies.@spartacus/user",
+            "peerDependencies.@spartacus/cart"
           ]
         }
       ]
