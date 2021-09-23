@@ -1,7 +1,13 @@
 <ng-container *ngIf="cartToasts$ | async as cartToasts">
   <div *ngFor="let toast of cartToasts" [class]="toast.baseClass">
     <div class="added-to-cart-toast-title">
-      {{ toast.quantity }} {{ toast.quantity > 1 ? 'items' : 'item' }} added
+      {{
+        toast.quantity > 1
+          ? ('addedToCartToast.entriesAdded'
+            | cxTranslate: { quantity: toast.quantity })
+          : ('addedToCartToast.entryAdded'
+            | cxTranslate: { quantity: toast.quantity })
+      }}
     </div>
     <div class="added-to-cart-toast-content">
       <cx-media
@@ -16,14 +22,14 @@
         <span>Price: {{ toast.unitPrice }}</span>
       </div>
       <span class="continue-shopping" (click)="closeToast(toast)">
-        Continue Shopping
+        {{ 'addedToCartToast.continueShopping' | cxTranslate }}
       </span>
       <a
         [routerLink]="{ cxRoute: 'cart' } | cxUrl"
         (click)="closeToast(toast)"
         class="btn btn-primary btn-block"
       >
-        Go to Cart
+        {{ 'addedToCartToast.goToCart' | cxTranslate }}
       </a>
     </div>
   </div>
