@@ -17,7 +17,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/review-submit/review-submit.component.ts
   class: REVIEW_SUBMIT_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

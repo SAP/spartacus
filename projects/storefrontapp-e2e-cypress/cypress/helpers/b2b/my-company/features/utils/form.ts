@@ -52,8 +52,8 @@ export function completeForm(
 
   function getFieldByLabel(input: MyCompanyRowConfig) {
     return input.inputType === INPUT_TYPE.CHECKBOX
-      ? cy.get('cx-org-form fieldset legend').contains(input.formLabel).parent()
-      : cy.get('cx-org-form label span').contains(input.formLabel).parent();
+      ? cy.get('cx-org-card fieldset legend').contains(input.formLabel).parent()
+      : cy.get('cx-org-card label span').contains(input.formLabel).parent();
   }
 
   // For situations where more than one control exists in form with the same label.
@@ -76,7 +76,7 @@ export function completeForm(
       getFieldBySelector(input.selector).clear().type(input[valueKey]);
     } else {
       getFieldByLabel(input).within(() => {
-        cy.get(`cx-org-form cx-date-time-picker input`)
+        cy.get(`cx-org-card cx-date-time-picker input`)
           .clear()
           .type(input[valueKey]);
       });
@@ -98,7 +98,7 @@ export function completeForm(
 
   function selectCheckbox(input) {
     getFieldByLabel(input).within(() => {
-      cy.get('cx-org-form [type="checkbox"]').check(input[valueKey]);
+      cy.get('input[type="checkbox"]').check(input[valueKey]);
     });
   }
 }

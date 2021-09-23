@@ -104,8 +104,9 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       component.attribute.name +
       '--' +
       value1.valueCode;
-    const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
-      .nativeElement;
+    const valueToSelect = fixture.debugElement.query(
+      By.css(checkboxId)
+    ).nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
     valueToSelect.click();

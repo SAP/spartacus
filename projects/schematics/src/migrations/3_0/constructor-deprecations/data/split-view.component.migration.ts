@@ -1,15 +1,15 @@
 import {
-  SPLIT_VIEW_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
-  SPLIT_VIEW_SERVICE,
+  ANGULAR_CORE,
   BREAKPOINT_SERVICE,
   ELEMENT_REF,
-  ANGULAR_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  SPLIT_VIEW_COMPONENT,
+  SPLIT_VIEW_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SPLIT_VIEW_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/shared/components/split-view/split/split-view.component.ts
+  // projects/storefrontlib/shared/components/split-view/split/split-view.component.ts
   class: SPLIT_VIEW_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
