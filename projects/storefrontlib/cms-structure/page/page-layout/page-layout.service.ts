@@ -31,8 +31,8 @@ export class PageLayoutService {
     private unifiedInjector: UnifiedInjector
   ) {}
 
-  private handlers: PageLayoutHandler[] =
-    getLastValueSync(this.unifiedInjector.get(PAGE_LAYOUT_HANDLER, [])) ?? [];
+  private handlers$: Observable<PageLayoutHandler[]> =
+    this.unifiedInjector.get(PAGE_LAYOUT_HANDLER);
 
   // Prints warn messages for missing layout configs.
   // The warnings are only printed once per config
@@ -49,7 +49,7 @@ export class PageLayoutService {
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
         let result = of(slots);
-        for (const handler of this.handlers) {
+        for (const handler of getLastValueSync(this.handlers$) || []) {
           result = handler.handle(result, pageTemplate, section, breakpoint);
         }
         return result;
