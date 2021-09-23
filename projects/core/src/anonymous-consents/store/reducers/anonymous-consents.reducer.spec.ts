@@ -71,7 +71,8 @@ describe('anonymous consents reducer', () => {
     describe('undefined state', () => {
       it('should return the default state', () => {
         const { initialState } = fromReducer;
-        const action = {} as AnonymousConsentsActions.LoadAnonymousConsentTemplates;
+        const action =
+          {} as AnonymousConsentsActions.LoadAnonymousConsentTemplates;
         const result = fromReducer.reducer(undefined, action);
         expect(result).toEqual(initialState);
       });

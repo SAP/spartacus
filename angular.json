@@ -532,7 +532,7 @@
     "cdc": {
       "projectType": "library",
       "root": "integration-libs/cdc",
-      "sourceRoot": "integration-libs/cdc/src",
+      "sourceRoot": "integration-libs/cdc",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -717,7 +717,7 @@
     "tracking": {
       "projectType": "library",
       "root": "feature-libs/tracking",
-      "sourceRoot": "feature-libs/tracking/src",
+      "sourceRoot": "feature-libs/tracking",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -754,7 +754,7 @@
     "smartedit": {
       "projectType": "library",
       "root": "feature-libs/smartedit",
-      "sourceRoot": "feature-libs/smartedit/src",
+      "sourceRoot": "feature-libs/smartedit",
       "prefix": "cx",
       "architect": {
         "build": {

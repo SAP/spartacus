@@ -25,9 +25,8 @@ import { first, map } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
-  quickOrderListLimit$: Observable<
-    number | undefined
-  > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
+  quickOrderListLimit$: Observable<number | undefined> =
+    this.component.data$.pipe(map((data) => data.quickOrderListLimit));
   isCartStable$: Observable<boolean> = combineLatest([
     this.activeCartService.getActiveCartId(),
     this.activeCartService.isStable(),

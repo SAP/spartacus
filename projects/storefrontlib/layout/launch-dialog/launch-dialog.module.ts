@@ -7,6 +7,7 @@ import {
   OutletRenderStrategy,
   RoutingRenderStrategy,
 } from './services/index';
+import { InlineRootRenderStrategy } from './services/inline-root-render.strategy';
 
 @NgModule({
   providers: [
@@ -23,6 +24,11 @@ import {
     {
       provide: LaunchRenderStrategy,
       useExisting: RoutingRenderStrategy,
+      multi: true,
+    },
+    {
+      provide: LaunchRenderStrategy,
+      useExisting: InlineRootRenderStrategy,
       multi: true,
     },
   ],
