@@ -1,14 +1,14 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  PromotionLocation,
 } from '@spartacus/core';
 import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';

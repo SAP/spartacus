@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
-import { Consignment, Order, OrderEntry } from '@spartacus/core';
+import {
+  Consignment,
+  Order,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/core';
 
 /**
  * @deprecated since 4.2 - use order lib instead
