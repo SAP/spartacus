@@ -16,9 +16,7 @@ export const getOrderState: MemoizedSelector<
 /**
  * @deprecated since 4.2 - use order lib instead
  */
-export const getOrderDetails: MemoizedSelector<
-  StateWithUser,
-  Order
-> = createSelector(getOrderState, (state: LoaderState<Order>) =>
-  StateUtils.loaderValueSelector(state)
-);
+export const getOrderDetails: MemoizedSelector<StateWithUser, Order> =
+  createSelector(getOrderState, (state: LoaderState<Order>) =>
+    StateUtils.loaderValueSelector(state)
+  );
