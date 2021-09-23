@@ -5,7 +5,7 @@ export type ProductsData = {
 
 export interface InvalidFileInfo {
   tooLarge?: { maxSize: number };
-  tooManyLines?: { maxLines: number };
+  tooManyEntries?: { maxEntries: number };
   empty?: boolean;
   notParsable?: boolean;
 }
@@ -13,7 +13,7 @@ export interface InvalidFileInfo {
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  maxLines?: number;
+  maxEntries?: number;
   allowedExtensions?: string[];
 }
 

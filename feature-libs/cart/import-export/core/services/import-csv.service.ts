@@ -53,7 +53,7 @@ export class ImportCsvService {
         }),
         map((res) => this.readCsvData(res)),
         tap((data: string[][]) => {
-          this.validTooManyLines(data, errors);
+          this.validTooManyEntries(data, errors);
           this.validNotParsable(data, errors, isDataParsable);
         }),
         map(() => (Object.keys(errors).length === 0 ? null : errors))
@@ -67,9 +67,9 @@ export class ImportCsvService {
     }
   }
 
-  protected validTooManyLines(data: string[][], errors: ValidationErrors) {
-    if (this.maxLines && data.length > this.maxLines) {
-      errors.tooManyLines = { maxLines: this.maxLines };
+  protected validTooManyEntries(data: string[][], errors: ValidationErrors) {
+    if (this.maxEntries && data.length > this.maxEntries) {
+      errors.tooManyEntries = { maxEntries: this.maxEntries };
     }
   }
 
@@ -87,8 +87,8 @@ export class ImportCsvService {
     return this.importExportConfig.cartImportExport?.file.separator ?? ',';
   }
 
-  protected get maxLines(): number | undefined {
+  protected get maxEntries(): number | undefined {
     return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxLines;
+      ?.maxEntries;
   }
 }

@@ -32,7 +32,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
     import: {
       fileValidity: {
         maxSize: 1,
-        maxLines: 100,
+        maxEntries: 100,
         allowedExtensions: [
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/vnd.ms-excel',
