@@ -4,9 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import { PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/core';
 import {
-  Cart,
   ConverterService,
   Occ,
   OccConfig,

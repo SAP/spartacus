@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';

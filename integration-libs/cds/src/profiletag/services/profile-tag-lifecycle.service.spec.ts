@@ -5,10 +5,10 @@ import {
   Router,
 } from '@angular/router';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   ActiveCartService,
   AuthActions,
-  Cart,
   ConsentService,
 } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
