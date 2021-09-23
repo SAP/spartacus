@@ -18,8 +18,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
-      {{ isAssigned ? 'unassign' : 'assign' }}
+    <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
+      {{ isAsigned ? 'unassign' : 'assign' }}
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
