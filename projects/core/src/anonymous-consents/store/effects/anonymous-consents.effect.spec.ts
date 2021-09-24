@@ -198,10 +198,12 @@ describe('AnonymousConsentsEffects', () => {
         getConsentsBehavior.next(currentConsents);
         loadAnonymousConsentsBehavior.next([]);
 
-        const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+        const action =
+          new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
         actions$ = hot('-a', { a: action });
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+        const completion =
+          new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
         const expected = cold('-b', { b: completion });
 
         expect(effect.checkConsentVersions$).toBeObservable(expected);
@@ -212,7 +214,8 @@ describe('AnonymousConsentsEffects', () => {
         getConsentsBehavior.next(currentConsents);
         loadAnonymousConsentsBehavior.next(currentConsents);
 
-        const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+        const action =
+          new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
         actions$ = hot('-a', { a: action });
         const expected = cold('---');
@@ -232,13 +235,16 @@ describe('AnonymousConsentsEffects', () => {
         false
       );
 
-      const action = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-      const completion1 = new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-        mockTemplateList
-      );
-      const completion2 = new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-        false
-      );
+      const action =
+        new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+      const completion1 =
+        new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+          mockTemplateList
+        );
+      const completion2 =
+        new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+          false
+        );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
