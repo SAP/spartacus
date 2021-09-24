@@ -81,6 +81,20 @@ describe('MessageComponent', () => {
       By.css('.cx-message .cx-message-header .cx-message-text')
     ).nativeElement;
 
-    expect(text.textContent).toEqual('Test');
+    expect(text.textContent).toEqual(' Test ');
+  });
+
+  it('should show action button and trigger button action', () => {
+    spyOn(component.buttonAction, 'emit');
+    component.actionButtonText = 'Test';
+    fixture.detectChanges();
+
+    const button = el.query(By.css('.cx-message .cx-action-link'))
+      .nativeElement;
+    button.click();
+
+    expect(button.textContent).toEqual(' Test ');
+    expect(button).toBeTruthy();
+    expect(component.buttonAction.emit).toHaveBeenCalled();
   });
 });

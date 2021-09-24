@@ -31,6 +31,15 @@
     top: 8px;
   }
 
+  &-text {
+    align-items: center;
+    display: flex;
+
+    button {
+      margin-inline-start: 5px;
+    }
+  }
+
   &-body {
     font-size: var(--cx-font-size, 0.8125rem);
     font-weight: var(--cx-font-weight-normal);
