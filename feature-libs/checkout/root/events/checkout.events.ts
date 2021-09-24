@@ -4,8 +4,8 @@ import { Address, CxEvent } from '@spartacus/core';
  * An abstract event for all the checkout events.
  */
 export abstract class CheckoutEvent extends CxEvent {
-  userId?: string;
-  cartId?: string;
+  userId: string;
+  cartId: string;
 }
 
 /**
