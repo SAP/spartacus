@@ -17,7 +17,6 @@ import {
   ReplenishmentOrderCancellationDialogModule,
   SpinnerModule,
 } from '../../../../shared/index';
-import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderDetailItemsComponent } from '../order-details/order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
@@ -35,7 +34,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
  */
 @NgModule({
   imports: [
-    CartSharedModule,
+    //CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,

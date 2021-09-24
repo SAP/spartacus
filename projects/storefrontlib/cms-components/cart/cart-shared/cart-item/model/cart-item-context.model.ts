@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-item.component';
+
+export interface CartItemComponentOptions {
+  isSaveForLater?: boolean;
+  optionalBtn?: any;
+}
 
 /**
  * Context for `CartItemComponent`.
