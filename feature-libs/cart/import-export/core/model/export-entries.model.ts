@@ -35,6 +35,11 @@ export interface ExportConfig {
    * Metadata for exported file.
    */
   fileOptions: FileOptions;
+
+  /**
+   * Determines entries limit in exported CSV file.
+   */
+  maxEntries?: number;
 }
 
 export enum ExportCartRoutes {

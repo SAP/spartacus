@@ -131,8 +131,15 @@ export class ExportEntriesService {
     );
   }
 
+  protected limitValues(data: string[][]): string[][] {
+    return this.exportConfig?.maxEntries
+      ? data.splice(0, this.exportConfig?.maxEntries)
+      : data;
+  }
+
   getResolvedEntries(): Observable<string[][]> {
     return this.getResolvedValues().pipe(
+      map((values) => this.limitValues(values)),
       withLatestFrom(this.getTranslatedColumnHeaders()),
       map(([values, headers]) => {
         return [headers, ...values];
