@@ -200,7 +200,9 @@ function install_from_sources {
         pushd ../.. > /dev/null
         CLONE_DIR=`pwd`
         echo "CLONE DIR: ${CLONE_DIR}"
-        yarn build:libs
+#        yarn build:libs
+        ng build core --configuration production && ng build storefrontlib --configuration production 
+        
         popd > /dev/null
     else
         echo "Not installing develop. Cloning repo and installing dependencies."
@@ -223,22 +225,22 @@ function install_from_sources {
     local dist_packages=(
         'core'
         'storefrontlib'
-        'assets'
-        'checkout'
-        'product'
-        'setup'
-        'cart'
-        'order'
-        'asm'
-        'user'
-        'organization'
-        'storefinder'
-        'tracking'
-        'qualtrics'
-        'smartedit'
-        'cds'
-        'cdc'
-        'product-configurator'
+#         'assets'
+#         'checkout'
+#         'product'
+#         'setup'
+#         'cart'
+#          'order'
+#         'asm'
+#         'user'
+#         'organization'
+#         'storefinder'
+#         'tracking'
+#         'qualtrics'
+#         'smartedit'
+#         'cds'
+#         'cdc'
+#         'product-configurator'
     )
 
     local packages=(
@@ -250,9 +252,9 @@ function install_from_sources {
         publish_dist_package ${package} 
     done
 
-    for package in ${packages[@]}; do
-        publish_package ${package} 
-    done
+    # for package in ${packages[@]}; do
+    #     publish_package ${package} 
+    # done
 
     create_apps
 
