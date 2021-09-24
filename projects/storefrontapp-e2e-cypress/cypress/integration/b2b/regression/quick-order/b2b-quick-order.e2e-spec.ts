@@ -16,6 +16,10 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
+      it('should show result box  for 5 products', () => {
+        quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code, 5);
+      });
+
       it('should add product to the cart', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.addToCart();
@@ -49,18 +53,6 @@ context('B2B - Quick Order', () => {
         alerts
           .getAlert()
           .should('contain', `Quick order list has been cleared`);
-      });
-
-      it('should show message if product code is invalid', () => {
-        const invalidProductCode = 'invalidCode';
-
-        quickOrder.addWrongProductToTheList(invalidProductCode);
-        alerts
-          .getErrorAlert()
-          .should(
-            'contain',
-            `Product with code '${invalidProductCode}' not found!`
-          );
       });
 
       it('should limit the list and block form for adding more products', () => {
@@ -112,6 +104,11 @@ context('B2B - Quick Order', () => {
         quickOrder.addToCart();
         quickOrder.verifyQuickOrderPageShowErrorMessageOutOfStock();
         quickOrder.verifyQuickOrderPageShowSuccessMessageWasAdded();
+      });
+
+      it('should fill the form with random string and get empty results information', () => {
+        quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
+        quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
       });
     });
 

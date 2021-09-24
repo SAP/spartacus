@@ -5,7 +5,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/ta
 import { waitForPage } from '../checkout-flow';
 
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
-export const GET_PRODUCT_ENDPOINT_ALIAS = 'getProduct';
+export const SEARCH_PRODUCTS_ENDPOINT_ALIAS = 'searchProducts';
 
 export function interceptAddToCartEndpoint() {
   cy.intercept(
@@ -18,15 +18,15 @@ export function interceptAddToCartEndpoint() {
   return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
-export function interceptGetProductEndpoint(productCode: string) {
+export function interceptSearchProductsEndpoint(query: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/products/${productCode}?fields=*&lang=en&curr=USD`
-  ).as(GET_PRODUCT_ENDPOINT_ALIAS);
+    )}/products/search?**`
+  ).as(SEARCH_PRODUCTS_ENDPOINT_ALIAS);
 
-  return GET_PRODUCT_ENDPOINT_ALIAS;
+  return SEARCH_PRODUCTS_ENDPOINT_ALIAS;
 }
 
 export function visitCartPage() {
@@ -46,21 +46,31 @@ export function visitQuickOrderPage() {
   cy.wait(`@${quickOrderPage}`).its('status').should('eq', 200);
 }
 
-export function addProductToTheList(productCode: string) {
-  const alias = this.interceptGetProductEndpoint(productCode);
+export function addProductToTheList(query: string) {
+  const alias = this.interceptSearchProductsEndpoint(query);
 
-  cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
+  cy.get('.quick-order-form-input input').type(`${query}`);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.get('.quick-order-results-products').should('exist');
+  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
+}
+
+export function addWrongProductQuery(query: string) {
+  const alias = this.interceptSearchProductsEndpoint(query);
+
+  cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function addProductToTheListAndModifyQuantity(
-  productCode: string,
+  query: string,
   quantity: number
 ) {
-  const alias = this.interceptGetProductEndpoint(productCode);
+  const alias = this.interceptSearchProductsEndpoint(query);
 
-  cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
+  cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
 
   this.modifyProductQuantityInQuickOrderList(quantity);
 }
@@ -72,17 +82,11 @@ export function modifyProductQuantityInQuickOrderList(quantity: number) {
     .blur();
 }
 
-export function addWrongProductToTheList(productCode: string) {
-  const alias = this.interceptGetProductEndpoint(productCode);
-
-  cy.get('.quick-order-form-input input').type(`${productCode}{enter}`);
-  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 400);
-}
-
 export function addManyProductsToTheList(products: SampleProduct[]) {
-  products.forEach((product) => {
-    this.addProductToTheList(product.code);
-  });
+  for (let i = 0; i < products.length; i++) {
+    this.addProductToTheList(products[i].code);
+    this.verifyQuickOrderListQuantity(i + 1);
+  }
 }
 
 export function clearList() {
@@ -130,6 +134,14 @@ export function verifyMiniCartQuantity(quantity: number) {
   cy.get('cx-mini-cart .count').should('contain', quantity);
 }
 
+export function verifyQuickOrderFormResultsBoxIsEmpty() {
+  cy.get('.quick-order-no-results').should('exist');
+  cy.get('.quick-order-no-results').should(
+    'contain',
+    'We could not find any results'
+  );
+}
+
 export function verifyQuickOrderListQuantity(quantity: number) {
   cy.get('cx-quick-order')
     .find('.cx-quick-order-table-row')
@@ -164,6 +176,19 @@ export function prepareCartWithProduct() {
 
   this.verifyMiniCartQuantity(1);
   this.visitCartPage();
+}
+
+export function getQuickOrderResultBox(query: string, resultBoxLength: number) {
+  const alias = this.interceptSearchProductsEndpoint(query);
+
+  cy.get('.quick-order-form-input input').type(`${query}`);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.get('.quick-order-results-products').should('exist');
+
+  cy.get('.quick-order-results-products li').should(
+    'have.length',
+    resultBoxLength
+  );
 }
 
 export function verifyCartPageTabbingOrder() {

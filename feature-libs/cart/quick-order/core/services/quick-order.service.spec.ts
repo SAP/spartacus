@@ -1,5 +1,6 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { defaultQuickOrderFormConfig } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
@@ -7,6 +8,9 @@ import {
   OrderEntry,
   Product,
   ProductAdapter,
+  ProductSearchAdapter,
+  ProductSearchPage,
+  SearchConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -57,10 +61,23 @@ const mockEntry1AfterUpdate: OrderEntry = {
   },
 };
 const mockEntries: OrderEntry[] = [mockEntry1, mockEntry2];
+const mockMaxProducts: number = 10;
+const mockSearchConfig: SearchConfig = {
+  pageSize: mockMaxProducts,
+};
+const mockDefaultSearchConfig: SearchConfig = {
+  pageSize: defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
+};
+const mockProductSearchPage: ProductSearchPage = {
+  products: [mockProduct1, mockProduct2],
+};
 
-class MockProductAdapter implements Partial<ProductAdapter> {
-  load(_productCode: any, _scope?: string): Observable<Product> {
-    return of(mockProduct1);
+class MockProductSearchAdapter implements Partial<ProductSearchAdapter> {
+  search(
+    _query: string,
+    _searchConfig?: SearchConfig
+  ): Observable<ProductSearchPage> {
+    return of(mockProductSearchPage);
   }
 }
 
@@ -82,13 +99,14 @@ class MockEventService implements Partial<EventService> {
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
-  let productAdapter: ProductAdapter;
+  let productSearchAdapter: ProductSearchAdapter;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
+        ProductAdapter,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -97,12 +115,12 @@ describe('QuickOrderService', () => {
           provide: EventService,
           useClass: MockEventService,
         },
-        { provide: ProductAdapter, useClass: MockProductAdapter },
+        { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
-    productAdapter = TestBed.inject(ProductAdapter);
+    productSearchAdapter = TestBed.inject(ProductSearchAdapter);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 
@@ -147,11 +165,38 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should trigger search', () => {
-    spyOn(productAdapter, 'load');
+  describe('should trigger search', () => {
+    beforeEach(() => {
+      spyOn(productSearchAdapter, 'search').and.returnValue(
+        of(mockProductSearchPage)
+      );
+    });
 
-    service.search(mockProduct1Code);
-    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
+    it('with provided maxProducts', (done) => {
+      service
+        .search(mockProduct1Code, mockMaxProducts)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(productSearchAdapter.search).toHaveBeenCalledWith(
+            mockProduct1Code,
+            mockSearchConfig
+          );
+          done();
+        });
+    });
+
+    it('with default config maxProducts value', (done) => {
+      service
+        .search(mockProduct1Code)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(productSearchAdapter.search).toHaveBeenCalledWith(
+            mockProduct1Code,
+            mockDefaultSearchConfig
+          );
+          done();
+        });
+    });
   });
 
   it('should update entry quantity', (done) => {
@@ -180,7 +225,6 @@ describe('QuickOrderService', () => {
       });
   });
 
-  // TODO: Fully check this method behavior
   it('should add products to the cart', (done) => {
     spyOn(activeCartService, 'addEntries').and.callThrough();
     spyOn(activeCartService, 'isStable').and.callThrough();
@@ -221,13 +265,24 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should set added product', () => {
+  it('should set added product', (done) => {
     service.setProductAdded(mockProduct1Code);
     service
       .getProductAdded()
+      .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(mockProduct1Code);
-      })
-      .unsubscribe();
+      });
+    done();
+  });
+
+  it('should get added product', (done) => {
+    service
+      .getProductAdded()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toBeNull();
+      });
+    done();
   });
 });

@@ -34,9 +34,9 @@ export abstract class QuickOrderFacade {
   abstract getEntries(): BehaviorSubject<OrderEntry[]>;
 
   /**
-   * Search product using sku
+   * Search product using query
    */
-  abstract search(productCode: string): Observable<Product>;
+  abstract search(query: string, maxProducts?: number): Observable<Product[]>;
 
   /**
    * Clear a list of added entries
