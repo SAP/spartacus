@@ -544,6 +544,9 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
+  /**
+   * Reloads active cart
+   */
   reloadActiveCart() {
     combineLatest([this.getActiveCartId(), this.userIdService.takeUserId()])
       .pipe(

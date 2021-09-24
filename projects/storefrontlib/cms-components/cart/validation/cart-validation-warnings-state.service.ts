@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { RoutingService, CartModification } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationWarningsStateService {
+export class CartValidationWarningsStateService implements OnDestroy {
   constructor(protected routingService: RoutingService) {
     this.routingService
       .getRouterState()
@@ -14,10 +14,12 @@ export class CartValidationWarningsStateService {
       .subscribe(
         (routerState) => (this.navigationIdCount = routerState.navigationId)
       );
+    this.subscription.add(this.checkForValidationResultClear$.subscribe());
   }
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
+  subscription = new Subscription();
   shouldCloseStream$ = new Subject<boolean>();
   cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
 
@@ -36,4 +38,8 @@ export class CartValidationWarningsStateService {
       }
     })
   );
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
