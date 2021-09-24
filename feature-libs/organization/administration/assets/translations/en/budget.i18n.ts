@@ -21,8 +21,7 @@ export const orgBudget = {
     byValue: 'Value',
   },
 
-  hint:
-    'Budgets set overall purchase limits and are assigned to cost centers. A buyer selects a cost center when checking out.',
+  hint: 'Budgets set overall purchase limits and are assigned to cost centers. A buyer selects a cost center when checking out.',
 
   details: {
     title: 'Budget Details',

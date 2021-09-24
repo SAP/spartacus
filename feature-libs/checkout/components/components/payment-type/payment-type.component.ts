@@ -27,9 +27,8 @@ export class PaymentTypeComponent {
   typeSelected: string;
   cartPoNumber: string;
 
-  paymentTypes$: Observable<
-    PaymentType[]
-  > = this.paymentTypeService.getPaymentTypes();
+  paymentTypes$: Observable<PaymentType[]> =
+    this.paymentTypeService.getPaymentTypes();
 
   typeSelected$: Observable<string> = this.paymentTypeService
     .getSelectedPaymentType()

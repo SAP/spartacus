@@ -26,7 +26,8 @@ const UNLOCK_HIDDEN_ELEMENTS = true;
 @Directive() // selector: '[cxLockFocus]'
 export class LockFocusDirective
   extends TrapFocusDirective
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   protected defaultConfig: LockFocusConfig = { lock: true };
 
   // @Input('cxLockFocus')
