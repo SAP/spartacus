@@ -78,6 +78,12 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 class MockImportCsvService implements Partial<ImportCsvService> {
   loadFile = () => of(mockCsvString);
   loadCsvData = () => of(mockLoadFileData);
+  isReadableFile = (
+    _separator: string,
+    _isDataParsable?: (data: string[][]) => boolean
+  ) => {
+    return () => of(null);
+  };
 }
 
 class MockLanguageService {
@@ -91,6 +97,7 @@ describe('ImportToSavedCartFormComponent', () => {
   let fixture: ComponentFixture<ImportToSavedCartFormComponent>;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
+  let importCsvService: ImportCsvService;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -116,12 +123,13 @@ describe('ImportToSavedCartFormComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
+    importCsvService = TestBed.inject(ImportCsvService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(filesFormValidators, 'parsableFile').and.callThrough();
+    spyOn(importCsvService, 'isReadableFile').and.callThrough();
     fixture.detectChanges();
   });
 

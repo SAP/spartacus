@@ -76,6 +76,12 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 class MockImportCsvService implements Partial<ImportCsvService> {
   loadFile = () => of(mockCsvString);
   loadCsvData = () => of(mockLoadFileData);
+  isReadableFile = (
+    _separator: string,
+    _isDataParsable?: (data: string[][]) => boolean
+  ) => {
+    return () => of(null);
+  };
 }
 
 class MockLanguageService {
@@ -90,6 +96,7 @@ describe('ImportEntriesFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
+  let importCsvService: ImportCsvService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -116,10 +123,11 @@ describe('ImportEntriesFormComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
+    importCsvService = TestBed.inject(ImportCsvService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(importCsvService, 'isReadableFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(filesFormValidators, 'parsableFile').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -149,7 +157,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should validate maximum size and parsable file while building form', () => {
     expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
+    expect(importCsvService.isReadableFile).toHaveBeenCalled();
   });
 
   it('should trigger submit event when save method is called', () => {
