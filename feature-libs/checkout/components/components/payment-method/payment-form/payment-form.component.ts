@@ -126,7 +126,8 @@ export class PaymentFormComponent implements OnInit {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
-    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
+    this.loading$ =
+      this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.showSameAsShippingAddressCheckbox$ = combineLatest([
       this.countries$,
@@ -179,8 +180,8 @@ export class PaymentFormComponent implements OnInit {
   }
 
   toggleDefaultPaymentMethod(): void {
-    this.paymentForm.value.defaultPayment = !this.paymentForm.value
-      .defaultPayment;
+    this.paymentForm.value.defaultPayment =
+      !this.paymentForm.value.defaultPayment;
   }
 
   toggleSameAsShippingAddress(): void {
@@ -211,7 +212,8 @@ export class PaymentFormComponent implements OnInit {
         SuggestedAddressDialogComponent,
         { centered: true, size: 'lg' }
       );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.billingAddressForm.value;
+      this.suggestedAddressModalRef.componentInstance.enteredAddress =
+        this.billingAddressForm.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result

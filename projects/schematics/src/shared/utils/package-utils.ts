@@ -146,9 +146,8 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   }
   const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
-  const isServerConfiguration = !!angularJson.projects[projectName].architect[
-    'server'
-  ];
+  const isServerConfiguration =
+    !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
   if (!serverFileLocation) {

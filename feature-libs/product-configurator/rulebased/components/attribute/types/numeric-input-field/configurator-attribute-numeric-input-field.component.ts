@@ -27,7 +27,8 @@ class DefaultSettings {
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   numericFormatPattern: string;
   locale: string;
 
@@ -87,12 +88,13 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       ),
     ]);
 
-    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      numTotalLength,
-      negativeAllowed,
-      this.locale
-    );
+    this.numericFormatPattern =
+      this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.locale
+      );
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }

@@ -64,10 +64,11 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       currencyIso: CURRENCY,
       value: 123.45,
     };
-    const valuePriceTotal = cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      quantity,
-      valuePrice
-    );
+    const valuePriceTotal =
+      cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        quantity,
+        valuePrice
+      );
     expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(valuePriceTotal?.value).toBe(370.35);
     expect(valuePriceTotal?.formattedValue).toBe('$370.35');
@@ -79,10 +80,11 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       currencyIso: CURRENCY,
       value: 123.45,
     };
-    const valuePriceTotal = cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      quantity,
-      valuePrice
-    );
+    const valuePriceTotal =
+      cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        quantity,
+        valuePrice
+      );
     expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(valuePriceTotal?.value).toBe(123.45);
     expect(valuePriceTotal?.formattedValue).toBe('$123.45');
@@ -267,10 +269,11 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       ],
     };
 
-    const attributePriceTotal = cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
-      attribute,
-      CURRENCY
-    );
+    const attributePriceTotal =
+      cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
+        attribute,
+        CURRENCY
+      );
     expect(attributePriceTotal.currencyIso).toBe(CURRENCY);
     expect(attributePriceTotal.value).toBe(100.01);
     expect(attributePriceTotal.formattedValue).toBe('$100.01');

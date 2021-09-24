@@ -70,11 +70,11 @@ export function verifyPaymentCard(cardLength: number) {
 
 export function visitPaymentDetailsPage() {
   const paymentDetailPage = waitForPage(
-    '/my-account/payment-detail',
+    '/my-account/payment-details',
     'getPaymentDetail'
   );
   cy.selectUserMenuOption({ option: 'Payment Details' });
-  cy.wait(`@${paymentDetailPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentDetailPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function addPaymentMethod(paymentDetail: PaymentDetail) {

@@ -51,11 +51,13 @@ export const profileTagHelper = {
   profileTagScriptResponse: {},
 
   grantConsent() {
-    cy.route('POST', '/consent/*/consentReferences').as(
+    cy.intercept({ method: 'POST', path: '/consent/*/consentReferences' }).as(
       'consentReferenceCreation'
     );
     clickAllowAllFromBanner();
-    cy.wait('@consentReferenceCreation').its('status').should('eq', 201);
+    cy.wait('@consentReferenceCreation')
+      .its('response.statusCode')
+      .should('eq', 201);
   },
   getEvent(window: any, eventName: EventNames): any[] {
     return window.Y_TRACKING.eventLayer.filter(
