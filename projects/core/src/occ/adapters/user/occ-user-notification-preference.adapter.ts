@@ -20,7 +20,8 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserNotificationPreferenceAdapter
-  implements UserNotificationPreferenceAdapter {
+  implements UserNotificationPreferenceAdapter
+{
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,

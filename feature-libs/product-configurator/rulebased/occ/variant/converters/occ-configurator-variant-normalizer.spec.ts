@@ -294,9 +294,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {
-    const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(
-      configuration
-    );
+    const result: Configurator.Configuration =
+      occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.isCartEntryUpdateRequired).toBeUndefined();
   });
 

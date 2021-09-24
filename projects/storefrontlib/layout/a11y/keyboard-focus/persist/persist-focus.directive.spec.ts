@@ -67,21 +67,24 @@ describe('PersistFocusDirective', () => {
       fixture.detectChanges();
     });
     it('should not create `data-cx-focus`', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#a')
+      ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toBeFalsy();
     });
 
     it('should create `data-cx-focus` attribute for string value', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toEqual('key-b');
       expect(service.get).toHaveBeenCalledWith('test-group');
     });
 
     it('should create `data-cx-focus` attribute for configured key', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#c'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#c')
+      ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toEqual('key-c');
     });
 
@@ -92,8 +95,9 @@ describe('PersistFocusDirective', () => {
 
   describe('focused', () => {
     it('should focus persisted element`', () => {
-      const el: HTMLElement = fixture.debugElement.query(By.css('#d'))
-        .nativeElement;
+      const el: HTMLElement = fixture.debugElement.query(
+        By.css('#d')
+      ).nativeElement;
       spyOn(el, 'focus');
       fixture.detectChanges();
 

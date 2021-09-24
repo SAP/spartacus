@@ -33,7 +33,7 @@ export function visitCartPage() {
   const cartPage = waitForPage('/cart', 'cartPage');
 
   cy.visit(`/cart`);
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitQuickOrderPage() {
@@ -43,7 +43,7 @@ export function visitQuickOrderPage() {
   );
 
   cy.visit('/my-account/quick-order');
-  cy.wait(`@${quickOrderPage}`).its('status').should('eq', 200);
+  cy.wait(`@${quickOrderPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function addProductToTheList(query: string) {
