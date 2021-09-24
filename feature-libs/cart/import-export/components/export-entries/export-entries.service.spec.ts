@@ -13,8 +13,8 @@ import {
 } from '@spartacus/core';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
+  defaultImportExportConfig,
   ImportExportConfig,
-  NameSource,
 } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 import createSpy = jasmine.createSpy;
@@ -121,189 +121,144 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-let service: ExportEntriesService;
-let translationService: TranslationService;
-let savedCartDetailsService: SavedCartDetailsService;
-let activeCartService: ActiveCartService;
-
-function configureTestingModule(config: ImportExportConfig) {
-  TestBed.configureTestingModule({
-    imports: [I18nTestingModule],
-    providers: [
-      { provide: ImportExportConfig, useValue: config },
-      { provide: RoutingService, useClass: MockRoutingService },
-      { provide: ActiveCartService, useClass: MockActiveCartService },
-      {
-        provide: SavedCartDetailsService,
-        useClass: MockSavedCartDetailsService,
-      },
-      {
-        provide: GlobalMessageService,
-        useClass: MockGlobalMessageService,
-      },
-    ],
-  });
-
-  service = TestBed.inject(ExportEntriesService);
-  translationService = TestBed.inject(TranslationService);
-  savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
-  activeCartService = TestBed.inject(ActiveCartService);
-}
-
-function getMockImportExportConfig(maxEntries?: number): ImportExportConfig {
-  return {
-    cartImportExport: {
-      file: {
-        separator: ',',
-      },
-      import: {
-        fileValidity: {
-          maxSize: 1,
-          maxLines: 100,
-          allowedExtensions: [
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.ms-excel',
-            'text/csv',
-            '.csv',
-          ],
-        },
-        cartNameGeneration: {
-          source: NameSource.FILE_NAME,
-        },
-      },
-      export: {
-        additionalColumns: [
-          {
-            name: {
-              key: 'name',
-            },
-            value: 'product.name',
-          },
-          {
-            name: {
-              key: 'price',
-            },
-            value: 'totalPrice.formattedValue',
-          },
-        ],
-        messageEnabled: true,
-        downloadDelay: 1000,
-        fileName: 'cart',
-        maxEntries: maxEntries || 1000,
-      },
-    },
-  };
-}
-
 describe('ExportEntriesService', () => {
-  describe('For default configuration', () => {
-    beforeEach(() => {
-      configureTestingModule(getMockImportExportConfig());
-    });
+  let service: ExportEntriesService;
+  let translationService: TranslationService;
+  let savedCartDetailsService: SavedCartDetailsService;
+  let activeCartService: ActiveCartService;
 
-    it('should be created', () => {
-      expect(service).toBeTruthy();
-    });
-
-    describe('getResolvedEntries', () => {
-      it('should translate headings and export entries to specific format', () => {
-        routerStateSubject.next({
-          state: {
-            semanticRoute: 'savedCartsDetails',
-          },
-        } as RouterState);
-        spyOn(translationService, 'translate').and.callThrough();
-
-        let result: string[][] = [];
-        service.getResolvedEntries().subscribe((data) => (result = data));
-
-        const headings = [
-          'exportEntries.columnNames.code',
-          'exportEntries.columnNames.quantity',
-          'exportEntries.columnNames.name',
-          'exportEntries.columnNames.price',
-        ];
-
-        const values = [
-          entry.product?.code,
-          entry.quantity?.toString(),
-          entry.product?.name,
-          entry.totalPrice?.formattedValue,
-        ];
-
-        expect(result.length).toEqual(3);
-        expect(result).toEqual([[...headings], values, values]);
-        expect(translationService.translate).toHaveBeenCalledTimes(4);
-      });
-
-      it('should resolve data from saved cart', () => {
-        routerStateSubject.next({
-          state: {
-            semanticRoute: 'savedCartsDetails',
-          },
-        } as RouterState);
-        service.getResolvedEntries().subscribe();
-        expect(savedCartDetailsService.getCartDetails).toHaveBeenCalledWith();
-      });
-
-      it('should resolve data from active cart', () => {
-        routerStateSubject.next({
-          state: {
-            semanticRoute: 'cart',
-          },
-        } as RouterState);
-        service.getResolvedEntries().subscribe();
-        expect(activeCartService.getEntries).toHaveBeenCalledWith();
-      });
-
-      it('should resolve data from other page', () => {
-        routerStateSubject.next({
-          state: {
-            semanticRoute: 'otherPage',
-          },
-        } as RouterState);
-        service.getResolvedEntries().subscribe();
-        expect(activeCartService.getEntries).toHaveBeenCalledWith();
-      });
-    });
-
-    describe('resolveValue', () => {
-      const testData = [
-        { key: 'product.code', output: '3803058' },
-        { key: 'quantity', output: '2' },
-        { key: 'product.name', output: 'PC Service Set Professional' },
-        { key: 'totalPrice.formattedValue', output: '$47.00' },
-        { key: 'updateable', output: 'true' },
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
-          key: 'product.images.PRIMARY.zoom.altText',
-          output: 'PC Service Set Professional',
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
-        { key: 'returnableQuantity', output: '0' },
         {
-          key: 'product.stock',
-          output: `{'stockLevel':365,'stockLevelStatus':'inStock'}`,
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
-        { key: 'notExistingKey', output: '' },
-        { key: 'notExistingKey.notExistingKey', output: '' },
-      ];
-
-      testData.forEach(({ key, output }) => {
-        it(`should resolve value for ${key}`, () => {
-          expect(service['resolveValue'](key, entry)).toBe(output);
-        });
-      });
+      ],
     });
+    service = TestBed.inject(ExportEntriesService);
+    translationService = TestBed.inject(TranslationService);
+    savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
-  describe('For maxEntries lower than number of returned products', () => {
-    beforeEach(() => {
-      configureTestingModule(getMockImportExportConfig(1));
-    });
-    it(`should adjust maxEntries limit`, () => {
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  describe('getResolvedEntries', () => {
+    it('should translate headings and export entries to specific format', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      spyOn(translationService, 'translate').and.callThrough();
+
       let result: string[][] = [];
       service.getResolvedEntries().subscribe((data) => (result = data));
 
-      expect(result.length).toEqual(2);
+      const headings = [
+        'exportEntries.columnNames.code',
+        'exportEntries.columnNames.quantity',
+        'exportEntries.columnNames.name',
+        'exportEntries.columnNames.price',
+      ];
+
+      const values = [
+        entry.product?.code,
+        entry.quantity?.toString(),
+        entry.product?.name,
+        entry.totalPrice?.formattedValue,
+      ];
+
+      expect(result.length).toEqual(3);
+      expect(result).toEqual([[...headings], values, values]);
+      expect(translationService.translate).toHaveBeenCalledTimes(4);
     });
+
+    it('should resolve data from saved cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(savedCartDetailsService.getCartDetails).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from active cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'cart',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from other page', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'otherPage',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('resolveValue', () => {
+    const testData = [
+      { key: 'product.code', output: '3803058' },
+      { key: 'quantity', output: '2' },
+      { key: 'product.name', output: 'PC Service Set Professional' },
+      { key: 'totalPrice.formattedValue', output: '$47.00' },
+      { key: 'updateable', output: 'true' },
+      {
+        key: 'product.images.PRIMARY.zoom.altText',
+        output: 'PC Service Set Professional',
+      },
+      { key: 'returnableQuantity', output: '0' },
+      {
+        key: 'product.stock',
+        output: `{'stockLevel':365,'stockLevelStatus':'inStock'}`,
+      },
+      { key: 'notExistingKey', output: '' },
+      { key: 'notExistingKey.notExistingKey', output: '' },
+    ];
+
+    testData.forEach(({ key, output }) => {
+      it(`should resolve value for ${key}`, () => {
+        expect(service['resolveValue'](key, entry)).toBe(output);
+      });
+    });
+  });
+
+  it(`should adjust maxEntries limit`, () => {
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport.export,
+          maxEntries: 1,
+        },
+      },
+    };
+
+    let result: string[][] = [];
+    service
+      .getResolvedEntries()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+    expect(result.length).toEqual(2);
   });
 });
