@@ -17,7 +17,6 @@ import {
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
@@ -109,12 +108,12 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getEntries = createSpy('getEntries').and.returnValue(of([entry]));
+  getEntries = createSpy('getEntries').and.returnValue(of([entry, entry]));
 }
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails = createSpy('getCartDetails').and.returnValue(
-    of({ entries: [entry] })
+    of({ entries: [entry, entry] })
   );
 }
 
@@ -164,7 +163,7 @@ describe('ExportEntriesService', () => {
       } as RouterState);
       spyOn(translationService, 'translate').and.callThrough();
 
-      let result;
+      let result: string[][] = [];
       service.getResolvedEntries().subscribe((data) => (result = data));
 
       const headings = [
@@ -181,7 +180,8 @@ describe('ExportEntriesService', () => {
         entry.totalPrice?.formattedValue,
       ];
 
-      expect(result).toEqual([[...headings], values]);
+      expect(result.length).toEqual(3);
+      expect(result).toEqual([[...headings], values, values]);
       expect(translationService.translate).toHaveBeenCalledTimes(4);
     });
 
@@ -241,5 +241,24 @@ describe('ExportEntriesService', () => {
         expect(service['resolveValue'](key, entry)).toBe(output);
       });
     });
+  });
+
+  it(`should adjust maxEntries limit`, () => {
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport.export,
+          maxEntries: 1,
+        },
+      },
+    };
+
+    let result: string[][] = [];
+    service
+      .getResolvedEntries()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+    expect(result.length).toEqual(2);
   });
 });

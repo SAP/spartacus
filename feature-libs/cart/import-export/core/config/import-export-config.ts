@@ -10,8 +10,8 @@ import { ExportConfig } from '../model/export-entries.model';
 export abstract class ImportExportConfig {
   cartImportExport?: {
     file: { separator: string };
-    export?: ExportConfig;
     import?: ImportConfig;
+    export?: ExportConfig;
   };
 }
 

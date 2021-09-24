@@ -6,6 +6,21 @@ export const defaultImportExportConfig: ImportExportConfig = {
     file: {
       separator: ',',
     },
+    import: {
+      fileValidity: {
+        maxSize: 1,
+        maxLines: 100,
+        allowedExtensions: [
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-excel',
+          'text/csv',
+          '.csv',
+        ],
+      },
+      cartNameGeneration: {
+        source: NameSource.FILE_NAME,
+      },
+    },
     export: {
       additionalColumns: [
         {
@@ -24,21 +39,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
       messageEnabled: true,
       downloadDelay: 1000,
       fileName: 'cart',
-    },
-    import: {
-      fileValidity: {
-        maxSize: 1,
-        maxLines: 100,
-        allowedExtensions: [
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          'application/vnd.ms-excel',
-          'text/csv',
-          '.csv',
-        ],
-      },
-      cartNameGeneration: {
-        source: NameSource.FILE_NAME,
-      },
+      maxEntries: 1000,
     },
   },
 };
