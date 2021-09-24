@@ -27,13 +27,11 @@ context('Product search rating flow', () => {
       it('should be able to search and show product rating', () => {
         const productName = 'DSC-N1';
 
-        cy.server();
-
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
           productName,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductQuery(
           QUERY_ALIAS.DSC_N1,
@@ -46,7 +44,9 @@ context('Product search rating flow', () => {
 
         cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-        cy.wait(`@${QUERY_ALIAS.DSC_N1}`).its('status').should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
 
@@ -59,7 +59,7 @@ context('Product search rating flow', () => {
         // Navigate to previous page
         previousPage();
         cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         // active paginated number
@@ -68,10 +68,12 @@ context('Product search rating flow', () => {
         assertFirstProduct();
 
         // Filter by category
-        cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
+        cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
+          'facets'
+        );
         clickFacet('Category');
 
-        cy.wait(`@facets`).its('status').should('eq', 200);
+        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
         assertNumberOfProducts(`@facets`, `"${productName}"`);
 
@@ -79,9 +81,11 @@ context('Product search rating flow', () => {
 
         clearSelectedFacet();
 
-        cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
+        cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
+          'facets'
+        );
 
-        cy.wait(`@facets`).its('status').should('eq', 200);
+        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
         assertNumberOfProducts(`@facets`, `"${productName}"`);
 

@@ -66,7 +66,7 @@ export const orderHistoryTest = {
         .findByText('Start Shopping')
         .click();
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
       checkBanner();
     });
   },
