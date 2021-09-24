@@ -1,9 +1,5 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
 import {
-  ActiveCartFacade,
-  SelectiveCartFacade,
-} from '@spartacus/cart/main/root';
-import {
   AuthService,
   BaseSiteService,
   CmsService,
@@ -39,8 +35,6 @@ export class CxApiService {
   constructor(
     // auth
     @Optional() public auth: AuthService,
-    // cart
-    @Optional() public cart: ActiveCartFacade,
     // cms
     @Optional() public cms: CmsService,
     @Optional() public pageMeta: PageMetaService,
@@ -74,7 +68,6 @@ export class CxApiService {
     public userNotificationPreferenceService: UserNotificationPreferenceService,
     @Optional()
     public userInterestsService: UserInterestsService,
-    @Optional() public selectiveCartService: SelectiveCartFacade,
     // framework
     public ngZone: NgZone
   ) {}
