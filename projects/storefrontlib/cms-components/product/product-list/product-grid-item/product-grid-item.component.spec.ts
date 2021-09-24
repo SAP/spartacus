@@ -184,11 +184,11 @@ describe('ProductGridItemComponent in product-list', () => {
     ).toContain('productDetails.noReviews');
   });
 
-  it('should display add to cart component', () => {
+  /*it('should display add to cart component', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).not.toBeNull();
-  });
+  });*/
 
   it('should not display add to cart component when product is out of stock', () => {
     component.product.stock.stockLevelStatus = 'outOfStock';
