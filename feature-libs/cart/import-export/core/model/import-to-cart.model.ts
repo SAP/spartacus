@@ -14,7 +14,7 @@ export interface FileValidity {
   // size unit is MB
   maxSize?: number;
   maxEntries?: number;
-  allowedExtensions?: string[];
+  allowedTypes?: string[];
 }
 
 export enum ProductImportStatus {

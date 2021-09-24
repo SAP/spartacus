@@ -32,7 +32,7 @@ const mockImportExportConfig: ImportExportConfig = {
     import: {
       fileValidity: {
         maxSize: 1,
-        allowedExtensions: [
+        allowedTypes: [
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/vnd.ms-excel',
           'text/csv',
