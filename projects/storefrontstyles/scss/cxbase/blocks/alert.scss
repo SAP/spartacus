@@ -81,7 +81,7 @@
     top: var(--cx-top, 32%);
     right: 3rem;
 
-    @include forVersion(4.1) {
+    @include forVersion(4.2) {
       right: auto;
       &::before {
         content: '';
