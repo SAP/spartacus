@@ -2,7 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage } from '../../checkout-flow';
+import { waitForPage, waitForProductPage } from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -179,7 +179,7 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(`@${requestAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
   cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then((request) => {
     expect(request.url).to.contain(`site=${site}`);
@@ -322,9 +322,9 @@ export function clickOnCarouselItem(
     .parent()
     .within(() => {
       cy.root().should('be.visible');
-      const productPage = waitForPage('ProductPage', 'getProductPage');
+      const productPage = waitForProductPage(productId, 'getProductPage');
       cy.get('a').click();
-      cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
     });
 
   if (checkForCarouselEvent) {
@@ -337,7 +337,7 @@ export function clickOnCarouselItem(
 export function navigateToHomepage(): void {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-page-slot.SiteLogo').click();
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function navigateToCategory(categoryName: string): void {
@@ -345,7 +345,7 @@ export function navigateToCategory(categoryName: string): void {
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function waitForCarouselViewEvent(): void {

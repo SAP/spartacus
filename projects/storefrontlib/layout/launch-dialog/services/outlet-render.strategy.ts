@@ -39,7 +39,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
   render(
     config: LaunchOutletDialog,
     caller: LAUNCH_CALLER | string
-  ): Observable<ComponentRef<any>> {
+  ): Observable<ComponentRef<any> | undefined> | void {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -65,7 +65,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
             );
         }),
         tap((component) => {
-          if (config?.dialogType) {
+          if (config?.dialogType && component) {
             this.applyClasses(component, config?.dialogType);
           }
         })

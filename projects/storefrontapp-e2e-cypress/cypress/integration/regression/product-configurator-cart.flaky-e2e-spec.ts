@@ -68,13 +68,12 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/products/suggestions?term=CONF_HOME_THEATER_ML*`
-      ).as('productSearch');
+        )}/products/suggestions?term=CONF_HOME_THEATER_ML*`,
+      }).as('productSearch');
       productSearch.searchForProduct(testProductMultiLevel);
       cy.wait('@productSearch');
       configuration.clickOnAddToCartBtnOnPD();
@@ -86,13 +85,12 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      cy.server();
-      cy.route(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PATCH',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*`
-      ).as('updateConfig');
+        )}/ccpconfigurator/*`,
+      }).as('updateConfig');
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -181,7 +179,9 @@ context('Product Configuration', () => {
       login.registerUser();
       const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
       login.loginUser();
-      cy.wait(tokenAuthRequestAlias).its('status').should('eq', 200);
+      cy.wait(tokenAuthRequestAlias)
+        .its('response.statusCode')
+        .should('eq', 200);
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
@@ -189,7 +189,8 @@ context('Product Configuration', () => {
       configurationCart.navigateToOrderDetails();
       //don't check the order history aspect because this part is flaky
       //configuration.selectOrderByOrderNumberAlias();
-      const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+      const tokenRevocationRequestAlias =
+        login.listenForTokenRevocationRequest();
       login.signOutUser();
       cy.wait(tokenRevocationRequestAlias);
     });

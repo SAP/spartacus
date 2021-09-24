@@ -20,12 +20,11 @@ context('Product search pricing flow', () => {
         // compact cameras category ID
         const categoryId = '576';
         const category = 'Digital Compacts';
-        cy.server();
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
           `:relevance:allCategories:${categoryId}`,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
@@ -46,7 +45,7 @@ context('Product search pricing flow', () => {
         });
 
         cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);

@@ -35,7 +35,8 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
             `There is no httpHeaderName configured in Personalization`
           );
         }
-        this.requestHeader = this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
+        this.requestHeader =
+          this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
           PERSONALIZATION_TIME_KEY
         );

@@ -35,7 +35,8 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             `There is no httpHeaderName configured in Personalization`
           );
         }
-        this.requestHeader = this.config.personalization?.httpHeaderName?.id.toLowerCase();
+        this.requestHeader =
+          this.config.personalization?.httpHeaderName?.id.toLowerCase();
         this.personalizationId = this.winRef.localStorage?.getItem(
           PERSONALIZATION_ID_KEY
         );

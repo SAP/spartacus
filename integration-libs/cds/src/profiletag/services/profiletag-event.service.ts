@@ -104,7 +104,19 @@ export class ProfileTagEventService {
     this.exposeConfig(newConfig);
   }
 
+  /*
+   * Checks if the script with the given source exists in the document or not.
+   */
+  private isScriptLoaded(scriptSource: string): boolean {
+    return !!this.winRef.document.querySelector(
+      `script[src="${scriptSource}"]`
+    );
+  }
+
   private addScript(): void {
+    if (this.isScriptLoaded(this.config.cds.profileTag.javascriptUrl)) {
+      return;
+    }
     const profileTagScript = this.winRef.document.createElement('script');
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
@@ -128,6 +140,9 @@ export class ProfileTagEventService {
 
   private exposeConfig(options: ProfileTagJsConfig): void {
     const q = this.profileTagWindow.Y_TRACKING.q || [];
+    if (q.length !== 0) {
+      return;
+    }
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
   }
