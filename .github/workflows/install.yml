@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '12'
       - name: Yarn
-        run: yarn
+        run: yarn install --no-lockfile
         env:
           FORCE_COLOR: 2 # Support colors from chalk
       - name: run installation script
