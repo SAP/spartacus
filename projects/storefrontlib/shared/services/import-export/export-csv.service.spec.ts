@@ -7,7 +7,7 @@ const separator = ',';
 const fileOptions: FileOptions = {
   fileName: 'data',
   extension: 'csv',
-  type: 'string',
+  type: 'text/csv;charset=utf-8;',
 };
 
 const mockEntries = [
