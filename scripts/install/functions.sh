@@ -218,6 +218,8 @@ function install_from_sources {
 
     sleep 15
 
+    (npm adduser --registry http://localhost:4873)
+
     local dist_packages=(
         'core'
         'storefrontlib'
