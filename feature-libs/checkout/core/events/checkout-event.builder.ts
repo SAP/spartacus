@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import { StateEventService } from '@spartacus/core';
 import { CheckoutActions } from '../store/actions/index';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
 
 @Injectable()
 export class CheckoutEventBuilder {

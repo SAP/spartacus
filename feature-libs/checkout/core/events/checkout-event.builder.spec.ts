@@ -33,7 +33,7 @@ describe('CheckoutEventBuilder', () => {
       code: '1234',
     };
 
-    let result: OrderPlacedEvent;
+    let result: OrderPlacedEvent | undefined;
     eventService
       .get(OrderPlacedEvent)
       .pipe(take(1))
