@@ -1,7 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
 
@@ -34,33 +34,44 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
-      this.subscription = this.router.events
-        .pipe(
+      this.subscription = combineLatest([
+        this.isDataLoaded(),
+        this.router.events.pipe(
           filter((event): event is Scroll => event instanceof Scroll),
           pairwise()
-        )
-        .subscribe((event: Scroll[]) => {
-          const previousRoute = event[0];
-          const currentRoute = event[1];
+        ),
+      ]).subscribe(([dataLoaded, event]) => {
+        const previousRoute = event[0];
+        const currentRoute = event[1];
 
-          if (currentRoute.position) {
-            this.viewportScroller.scrollToPosition(currentRoute.position);
-          } else {
-            if (
-              this.config.enableResetViewOnNavigate?.ignoreQueryString &&
-              this.isPathEqual(previousRoute, currentRoute)
-            ) {
-              return;
-            }
-
-            if (this.isChildRoute(currentRoute)) {
-              return;
-            }
-
-            this.viewportScroller.scrollToPosition([0, 0]);
+        if (currentRoute.position && dataLoaded) {
+          this.viewportScroller.scrollToPosition(currentRoute.position);
+        } else {
+          if (
+            this.config.enableResetViewOnNavigate?.ignoreQueryString &&
+            this.isPathEqual(previousRoute, currentRoute)
+          ) {
+            return;
           }
-        });
+
+          if (this.isChildRoute(currentRoute)) {
+            return;
+          }
+
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }
+      });
     }
+  }
+
+  /**
+   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
+   * You can observe any data in this method.
+   *
+   * Defaults to true.
+   */
+  protected isDataLoaded(): Observable<boolean> {
+    return of(true);
   }
 
   /**
