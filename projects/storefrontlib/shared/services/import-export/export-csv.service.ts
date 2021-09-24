@@ -11,7 +11,7 @@ export class ExportCsvService {
    * Converts array of objects into CSV data structure.
    *
    * @param objectsArray Array of objects which should be converted to CSV.
-   * @param separator
+   * @param separator for csv data
    * @returns Processed string ready to be saved into file
    */
   dataToCsv(objectsArray: string[][], separator: string): string {
@@ -31,7 +31,7 @@ export class ExportCsvService {
    * Downloads CSV file
    *
    * @param objectsArray Array of objects which should be converted to CSV.
-   * @param separator string
+   * @param separator for csv data
    * @param fileOptions FileOptions
    * @returns Processed string ready to be saved into file
    */

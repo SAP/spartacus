@@ -81,10 +81,10 @@ export class ExportEntriesService {
             return this.getSavedCartEntries();
           }
           case ExportCartRoutes.CART: {
-            return this.getCartEntries();
+            return this.getActiveCartEntries();
           }
           default: {
-            return this.getCartEntries();
+            return this.getActiveCartEntries();
           }
         }
       }),
@@ -100,7 +100,7 @@ export class ExportEntriesService {
       );
   }
 
-  protected getCartEntries() {
+  protected getActiveCartEntries() {
     return this.activeCartService.getEntries();
   }
 

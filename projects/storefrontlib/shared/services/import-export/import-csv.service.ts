@@ -18,7 +18,7 @@ export class ImportCsvService {
    *
    * @param csvString raw extracted data from CSV
    * @param ignoreHeader flag allows for ignore headers row while reading
-   * @param separator
+   * @param separator for csv data
    * @returns Processed data containing productCode and quantity
    */
   readCsvData(
