@@ -44,6 +44,7 @@ function prepare_install {
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     npm i -g verdaccio@5
+    npm i -g npm-cli-login
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
@@ -220,7 +221,7 @@ function install_from_sources {
 
     sleep 15
 
-    (npm adduser --registry http://localhost:4873)
+    (npm-cli-login -u user -p password -e user@password.cn -r http://localhost:4873)
 
     local dist_packages=(
         'core'
