@@ -19,4 +19,4 @@ jobs:
         with:
           node-version: '12'
       - name: run installation script
-        run: cd ./scripts/install && ./run.sh
+        run: cd ./scripts/install && ./run.sh install
