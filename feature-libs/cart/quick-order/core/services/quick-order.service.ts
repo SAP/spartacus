@@ -27,7 +27,7 @@ export class QuickOrderService implements QuickOrderFacade {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected lastDeletedEntry: OrderEntry | null = null;
+  protected deletedEntries: OrderEntry[] = [];
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -85,7 +85,7 @@ export class QuickOrderService implements QuickOrderFacade {
   removeEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
-      this.setLastDeletedEntry(entriesList[index]);
+      this.addDeletedEntry(entriesList[index]);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
@@ -155,29 +155,34 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Set last deleted entry
+   * Add deleted entry
    */
-  setLastDeletedEntry(entry: OrderEntry | null): void {
-    this.lastDeletedEntry = entry;
+  addDeletedEntry(entry: OrderEntry): void {
+    this.deletedEntries.push(entry);
   }
 
   /**
-   * Return last deleted entry
+   * Return deleted entries
    */
-  getLastDeletedEntry(): OrderEntry | null {
-    return this.lastDeletedEntry;
+  getDeletedEntries(): OrderEntry[] {
+    return this.deletedEntries;
   }
 
   /**
-   * Undo last deleted entry
+   * Undo deleted entry
    */
-  undoLastDeletedEntry(): void {
-    const deletedEntry = this.getLastDeletedEntry();
-
-    if (deletedEntry) {
-      this.addEntry(deletedEntry);
-      this.setLastDeletedEntry(null);
+  undoDeletedEntry(productCode: string): void {
+    console.log('undoDeletedEntry', this.deletedEntries);
+    if (this.deletedEntries) {
+      const entryIndex = this.deletedEntries.findIndex(
+        (element: OrderEntry) => element.product?.code === productCode
+      );
+      if (entryIndex !== -1) {
+        this.addEntry(this.deletedEntries[entryIndex]);
+        this.deletedEntries.splice(entryIndex, 1);
+      }
     }
+    console.log('undoDeletedEntry results', this.deletedEntries);
   }
 
   /**

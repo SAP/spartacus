@@ -1,3 +1,15 @@
+<ng-container *ngIf="deletedEntries.length">
+  <cx-message
+    *ngFor="let deletedEntry of deletedEntries"
+    (closeMessage)="clearErrors()"
+    (buttonAction)="undoDeletion(deletedEntry)"
+    [text]="'delted entries'"
+    [actionButtonText]="'UNDO'"
+    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+  >
+  </cx-message>
+</ng-container>
+
 <ng-container *ngIf="errors$ | async as errors">
   <cx-message
     *ngIf="errors.length > 0"
@@ -86,7 +98,7 @@
         [isDisabled]="entries.length >= quickOrderListLimit"
         [isLoading]="!(isCartStable$ | async)"
       >
-        <div class="col-xs-12 col-md-4 col-lg-4 quick-order-undo-body">
+        <!-- <div class="col-xs-12 col-md-4 col-lg-4 quick-order-undo-body">
           <button
             *ngIf="isUndoDeletionEnable()"
             (click)="undoDeletion()"
@@ -96,7 +108,7 @@
           >
             {{ 'quickOrderList.undoDeletion' | cxTranslate }}
           </button>
-        </div>
+        </div> -->
       </cx-quick-order-form>
     </div>
 

@@ -19,9 +19,9 @@ export function quickOrderFacadeFactory() {
       'search',
       'setProductAdded',
       'updateEntryQuantity',
-      'setLastDeletedEntry',
-      'getLastDeletedEntry',
-      'undoLastDeletedEntry',
+      'addDeletedEntry',
+      'getDeletedEntries',
+      'undoDeletedEntry',
     ],
   });
 }
@@ -82,17 +82,17 @@ export abstract class QuickOrderFacade {
   abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
 
   /**
-   * Set last deleted entry
+   * Add deleted entry
    */
-  abstract setLastDeletedEntry(entry: OrderEntry): void;
+  abstract addDeletedEntry(entry: OrderEntry): void;
 
   /**
-   * Return last deleted entry
+   * Return deleted entries
    */
-  abstract getLastDeletedEntry(): OrderEntry | null;
+  abstract getDeletedEntries(): OrderEntry[];
 
   /**
-   * Undo last deleted entry
+   * Undo deleted entry
    */
-  abstract undoLastDeletedEntry(): void;
+  abstract undoDeletedEntry(productCode: string): void;
 }

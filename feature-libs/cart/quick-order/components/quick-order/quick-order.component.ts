@@ -63,6 +63,9 @@ export class QuickOrderComponent implements OnInit {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
+  get deletedEntries(): OrderEntry[] {
+    return this.quickOrderService.getDeletedEntries();
+  }
 
   clear(): void {
     this.quickOrderService.clearList();
@@ -112,12 +115,10 @@ export class QuickOrderComponent implements OnInit {
     this.cartSuccesses$.next([]);
   }
 
-  undoDeletion(): void {
-    this.quickOrderService.undoLastDeletedEntry();
-  }
-
-  isUndoDeletionEnable(): boolean {
-    return !!this.quickOrderService.getLastDeletedEntry();
+  undoDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.undoDeletedEntry(entry.product?.code);
+    }
   }
 
   protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {
