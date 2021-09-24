@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import {
+  defaultQuickOrderFormConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   EventService,
+  HttpErrorModel,
   OrderEntry,
   Product,
-  ProductAdapter,
-  CartAddEntryFailEvent,
-  HttpErrorModel,
+  ProductSearchAdapter,
+  ProductSearchPage,
+  SearchConfig,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -27,7 +30,7 @@ export class QuickOrderService implements QuickOrderFacade {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter,
+    protected productSearchAdapter: ProductSearchAdapter,
     protected eventService: EventService
   ) {}
 
@@ -39,10 +42,16 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Search product using sku
+   * Search product using query
    */
-  search(productCode: string): Observable<Product> {
-    return this.productAdapter.load(productCode);
+  search(query: string, maxProducts?: number): Observable<Product[]> {
+    const searchConfig: SearchConfig = {
+      pageSize:
+        maxProducts || defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
+    };
+    return this.productSearchAdapter
+      .search(query, searchConfig)
+      .pipe(map((searchPage: ProductSearchPage) => searchPage.products || []));
   }
 
   /**

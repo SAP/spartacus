@@ -1,5 +1,5 @@
 export const quickOrderCartForm = {
-  entriesWasAdded: '({{ quantity }}) {{ product }} has been added to the cart',
+  entriesWereAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entryWasAdded: '{{ product }} has been added to the cart',
   noResults: 'We could not find any products',
   stockLevelReached: 'The maximum stock level has been reached',
@@ -13,14 +13,16 @@ export const quickOrderCartForm = {
 };
 
 export const quickOrderForm = {
-  placeholder: 'Enter Product SKU',
+  placeholder: 'Enter Product name or SKU',
   listLimitReached: 'The product limit has been reached',
+  id: 'ID {{ id }}',
+  noResults: 'We could not find any results',
 };
 
 export const quickOrderList = {
   addToCart: 'Add to cart',
   emptyList: 'Empty list',
-  header: 'Add Products/Skus',
+  header: 'Add Products/SKUs',
   subHeader: 'You can add up to {{ limit }} valid SKU at a time.',
   errorProceedingToCart: 'Error proceeding to Cart.',
   warningProceedingToCart: 'Warning proceeding to Cart.',
