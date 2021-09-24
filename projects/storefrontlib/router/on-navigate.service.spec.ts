@@ -1,8 +1,9 @@
 import { ViewportScroller } from '@angular/common';
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationEnd, Router, Scroll } from '@angular/router';
 import { OnNavigateConfig } from '@spartacus/storefront';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
 
 const mockOnNavigateConfig: OnNavigateConfig = {
@@ -16,6 +17,18 @@ const mockOnNavigateConfig: OnNavigateConfig = {
 const mockEvents$ = new Subject<Scroll>();
 class MockRouter implements Partial<Router> {
   events = mockEvents$.asObservable();
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+class CustomOnNavigateService extends OnNavigateService {
+  collectData() {
+    return of(true);
+  }
+  protected isDataLoaded() {
+    return this.collectData();
+  }
 }
 
 class MockViewPortScroller implements Partial<ViewportScroller> {
@@ -45,6 +58,7 @@ describe('OnNavigateService', () => {
       imports: [],
       providers: [
         OnNavigateService,
+        CustomOnNavigateService,
         {
           provide: OnNavigateConfig,
           useValue: mockOnNavigateConfig,
@@ -68,6 +82,7 @@ describe('OnNavigateService', () => {
     config.enableResetViewOnNavigate.ignoreQueryString = false;
     config.enableResetViewOnNavigate.ignoreRoutes = [];
     spyOn(service, 'setResetViewOnNavigate').and.callThrough();
+    spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
   });
 
   describe('initializeWithConfig()', () => {
@@ -87,10 +102,6 @@ describe('OnNavigateService', () => {
   });
 
   describe('setResetViewOnNavigate()', () => {
-    beforeEach(() => {
-      spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
-    });
-
     it('should scroll to the top on navigation when no position (forward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
@@ -148,6 +159,23 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent(null);
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('custom service', () => {
+    it('should invoke custom data collector', () => {
+      const customService = TestBed.inject(CustomOnNavigateService);
+      spyOn(customService, 'collectData').and.callThrough();
+
+      customService.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent([1000, 500]);
+
+      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
+        1000, 500,
+      ]);
+
+      expect(customService.collectData).toHaveBeenCalled();
     });
   });
 });
