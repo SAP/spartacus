@@ -119,10 +119,9 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
-    spyOn(
-      authHeaderService,
-      'handleExpiredAccessToken'
-    ).and.callFake((_, next) => next.handle(new HttpRequest('GET', '/test')));
+    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+      (_, next) => next.handle(new HttpRequest('GET', '/test'))
+    );
     const sub: Subscription = http.get('/occ').subscribe((result) => {
       expect(result).toEqual('someText');
       done();

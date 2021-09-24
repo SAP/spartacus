@@ -9,9 +9,11 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 describe('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
-    cy.route('POST', '**/users/current/loginnotification**').as(loginAlias);
+    cy.intercept({
+      method: 'POST',
+      path: '**/users/current/loginnotification**',
+    }).as(loginAlias);
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,

@@ -14,8 +14,8 @@ export class PageLayoutComponent {
   }
   readonly section$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
-  readonly templateName$: Observable<string> = this.pageLayoutService
-    .templateName$;
+  readonly templateName$: Observable<string> =
+    this.pageLayoutService.templateName$;
 
   readonly layoutName$: Observable<string> = this.section$.pipe(
     switchMap((section) => (section ? of(section) : this.templateName$))
