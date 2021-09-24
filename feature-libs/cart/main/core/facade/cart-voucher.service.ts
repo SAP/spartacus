@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   ProcessSelectors,
   StateWithProcess,
@@ -9,7 +10,6 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
-import { ActiveCartService } from './active-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ import { ActiveCartService } from './active-cart.service';
 export class CartVoucherService {
   constructor(
     protected store: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 

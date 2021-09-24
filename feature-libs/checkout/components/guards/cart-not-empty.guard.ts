@@ -5,9 +5,6 @@ import { Cart, SemanticPathService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */
 @Injectable({
   providedIn: 'root',
 })

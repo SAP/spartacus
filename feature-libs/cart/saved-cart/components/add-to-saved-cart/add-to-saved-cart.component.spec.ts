@@ -1,7 +1,7 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   AuthService,
   Cart,
@@ -22,7 +22,7 @@ const mockCart: Cart = {
 const cart$ = new BehaviorSubject<Cart>(mockCart);
 const isLoggedInSubject$ = new BehaviorSubject(false);
 
-class MockActiveCartService implements Partial<ActiveCartFacade> {
+class MockActiveCartService implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return cart$.asObservable();
   }
@@ -59,7 +59,7 @@ describe('AddToSavedCartComponent', () => {
       imports: [StoreModule.forRoot({}), I18nTestingModule, UrlTestingModule],
       declarations: [AddToSavedCartComponent],
       providers: [
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

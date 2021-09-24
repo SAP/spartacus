@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
+  ActiveCartFacade,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
@@ -17,7 +18,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { ActiveCartService } from '../facade/active-cart.service';
 import { CartActions } from '../store/index';
 
 /**
@@ -28,7 +28,7 @@ export class CartEventBuilder {
   constructor(
     protected actionsSubject: ActionsSubject,
     protected event: EventService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {
     this.register();
   }
