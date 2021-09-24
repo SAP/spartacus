@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
   COMMANDS_AND_QUERIES_BASED_CHECKOUT,
+  DeliveryAddressSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -11,6 +12,7 @@ import {
   CommandService,
   CommandStrategy,
   DeliveryMode,
+  EventService,
   FeatureConfigService,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
@@ -41,8 +43,122 @@ import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
+  // TODO:#13888 Remove optional chaining and update types in 5.0
+  protected createDeliveryAddressCommand:
+    | undefined
+    | Command<Address, unknown> = this.command?.create<Address>(
+    (payload) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          if (
+            !userId ||
+            !cartId ||
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart()) ||
+            !this.checkoutDeliveryConnector // TODO:#13888 Remove check in 5.0 when service will be required
+          ) {
+            return of(); // TODO:#13888 should we throw error here? useful dev info?
+          }
+          return this.checkoutDeliveryConnector
+            .createAddress(userId, cartId, payload)
+            .pipe(
+              tap(() => {
+                if (userId !== OCC_USER_ID_ANONYMOUS) {
+                  this.checkoutStore.dispatch(
+                    new UserActions.LoadUserAddresses(userId)
+                  );
+                }
+              }),
+              switchMap((address) => {
+                address['titleCode'] = payload.titleCode;
+                if (payload.region?.isocodeShort) {
+                  Object.assign(address.region, {
+                    isocodeShort: payload.region.isocodeShort,
+                  });
+                }
+                return this.setDeliveryAddress(address);
+              })
+            );
+        })
+      );
+    },
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
+  // TODO:#13888 Remove optional chaining and update types in 5.0
+  protected setDeliveryAddressCommand: undefined | Command<Address, unknown> =
+    this.command?.create<Address>(
+      (payload) => {
+        const addressId = payload.id;
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              !addressId ||
+              !this.checkoutDeliveryConnector || // TODO:#13888 Remove check in 5.0 when service will be required
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              return of(); // TODO:#13888 should we throw error here? useful dev info?
+            }
+            return this.checkoutDeliveryConnector
+              .setAddress(userId, cartId, addressId)
+              .pipe(
+                tap(() => {
+                  // TODO:#13888 Remove check in 5.0 when eventService will be required
+                  this.eventService?.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      address: payload,
+                    },
+                    DeliveryAddressSetEvent
+                  );
+                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryMode({
+                      userId,
+                      cartId,
+                    })
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearSupportedDeliveryModes()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.LoadSupportedDeliveryModes({
+                      userId,
+                      cartId,
+                    })
+                  );
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   /**
-   * @deprecated since 4.3.0. Provide additionally QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
+   * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
    */
   constructor(
     checkoutStore: Store<StateWithCheckout>,
@@ -56,6 +172,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     processStateStore: Store<StateWithProcess<void>>,
     activeCartService: ActiveCartService,
     userIdService: UserIdService,
+    eventService: EventService,
     query: QueryService,
     command: CommandService,
     checkoutDeliveryConnector: CheckoutDeliveryConnector,
@@ -67,6 +184,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
+    protected eventService?: EventService,
     protected query?: QueryService,
     protected command?: CommandService,
     protected checkoutDeliveryConnector?: CheckoutDeliveryConnector,
@@ -200,72 +318,24 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
-  // TODO: Remove optional chaining and update types in 5.0
-  protected createDeliveryAddressCommand:
-    | undefined
-    | Command<Address, unknown> = this.command?.create<Address>(
-    (payload) => {
-      return combineLatest([
-        this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
-      ]).pipe(
-        take(1),
-        switchMap(([userId, cartId]) => {
-          if (
-            !userId ||
-            !cartId ||
-            (userId === OCC_USER_ID_ANONYMOUS &&
-              !this.activeCartService.isGuestCart()) ||
-            !this.checkoutDeliveryConnector // TODO: Remove check in 5.0 when service will be required
-          ) {
-            return of(); // TODO: should we throw error here? useful dev info?
-          }
-          return this.checkoutDeliveryConnector
-            .createAddress(userId, cartId, payload)
-            .pipe(
-              tap(() => {
-                if (userId !== OCC_USER_ID_ANONYMOUS) {
-                  this.checkoutStore.dispatch(
-                    new UserActions.LoadUserAddresses(userId)
-                  );
-                }
-              }),
-              switchMap((address) => {
-                address['titleCode'] = payload.titleCode;
-                if (payload.region?.isocodeShort) {
-                  Object.assign(address.region, {
-                    isocodeShort: payload.region.isocodeShort,
-                  });
-                }
-                return this.setDeliveryAddress(address);
-              })
-            );
-        })
-      );
-    },
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
-
   /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
   createAndSetAddress(address: Address): Observable<unknown> {
-    // TODO: Remove condition in 5.0 when fully switching to commands
+    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
     if (
       this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
       if (this.createDeliveryAddressCommand) {
-        // TODO: Remove check in 5.0 when all services will be provided
+        // TODO:#13888 Remove check in 5.0 when all services will be provided
         return this.createDeliveryAddressCommand.execute(address);
       }
       throw new Error(
         'Missing constructor parameters in CheckoutDeliveryService'
       );
     }
-    // TODO: Remove this code in 5.0 when all services for command will be required
+    // TODO:#13888 Remove this code in 5.0 when all services for command will be required
     if (this.actionAllowed()) {
       let userId;
       this.userIdService
@@ -347,81 +417,24 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     }
   }
 
-  // TODO: Remove optional chaining and update types in 5.0
-  protected setDeliveryAddressCommand: undefined | Command<Address, unknown> =
-    this.command?.create<Address>(
-      (payload) => {
-        const addressId = payload.id;
-        return combineLatest([
-          this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
-        ]).pipe(
-          take(1),
-          switchMap(([userId, cartId]) => {
-            if (
-              !userId ||
-              !cartId ||
-              !addressId ||
-              !this.checkoutDeliveryConnector || // TODO: Remove check in 5.0 when service will be required
-              (userId === OCC_USER_ID_ANONYMOUS &&
-                !this.activeCartService.isGuestCart())
-            ) {
-              return of(); // TODO: should we throw error here? useful dev info?
-            }
-            return this.checkoutDeliveryConnector
-              .setAddress(userId, cartId, addressId)
-              .pipe(
-                tap(() => {
-                  // TODO: Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearCheckoutDeliveryMode({
-                      userId,
-                      cartId,
-                    })
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearSupportedDeliveryModes()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.LoadSupportedDeliveryModes({
-                      userId,
-                      cartId,
-                    })
-                  );
-                })
-              );
-          })
-        );
-      },
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
-
   /**
    * Set delivery address
    * @param address : The address to be set
    */
   setDeliveryAddress(address: Address): Observable<unknown> {
-    // TODO: Remove condition in 5.0 when fully switching to commands
+    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
     if (
       this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
       if (this.setDeliveryAddressCommand) {
-        // TODO: Remove check in 5.0 when all services will be provided
+        // TODO:#13888 Remove check in 5.0 when all services will be provided
         return this.setDeliveryAddressCommand.execute(address);
       }
       throw new Error(
         'Missing constructor parameters in CheckoutDeliveryService'
       );
     }
-    // TODO: Remove this code in 5.0 when all services for command will be required
+    // TODO:#13888 Remove this code in 5.0 when all services for command will be required
     if (this.actionAllowed()) {
       let userId;
       this.userIdService
