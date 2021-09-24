@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NameSource,
-  FilesFormValidators,
-  ImportCsvService,
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
@@ -14,6 +12,8 @@ import {
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
+  FilesFormValidators,
+  ImportCsvService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';

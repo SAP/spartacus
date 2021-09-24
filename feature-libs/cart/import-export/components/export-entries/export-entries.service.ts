@@ -8,15 +8,14 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+import { ExportCsvService } from '@spartacus/storefront';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   ImportExportConfig,
   ExportColumn,
-  ExportCsvService,
   ExportConfig,
-  ExportService,
   ExportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 
@@ -31,12 +30,15 @@ export class ExportEntriesService {
     protected importExportConfig: ImportExportConfig,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    protected exportCsvService: ExportCsvService,
-    protected exportService: ExportService
+    protected exportCsvService: ExportCsvService
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;
+  }
+
+  protected get separator() {
+    return this.importExportConfig.cartImportExport.file.separator;
   }
 
   protected columns: ExportColumn[] = [
@@ -143,8 +145,9 @@ export class ExportEntriesService {
       this.displayExportMessage();
     }
     setTimeout(() => {
-      this.exportService.download(
-        this.exportCsvService.dataToCsv(entries),
+      this.exportCsvService.downloadCsv(
+        entries,
+        this.separator,
         this.exportConfig.fileOptions
       );
     }, this.exportConfig.downloadDelay ?? 0);

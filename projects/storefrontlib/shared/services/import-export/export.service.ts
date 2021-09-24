@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileOptions } from 'feature-libs/cart/import-export/core/model';
+import { FileOptions } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',

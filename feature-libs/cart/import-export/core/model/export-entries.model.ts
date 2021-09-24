@@ -1,4 +1,5 @@
 import { Translatable } from '@spartacus/core';
+import { FileOptions } from '@spartacus/storefront';
 
 export interface ExportColumn {
   /**
@@ -11,21 +12,6 @@ export interface ExportColumn {
    * Dot notation string which refers to specified `OrderEntry` attribute.
    */
   value: string;
-}
-
-export interface FileOptions {
-  /**
-   * File name for exported file.
-   */
-  fileName: string;
-  /**
-   * Extension for exported file.
-   */
-  extension: string;
-  /**
-   * Mime/type for exported file.
-   */
-  type: string;
 }
 
 export interface ExportConfig {

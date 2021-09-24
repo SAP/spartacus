@@ -8,13 +8,16 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ImportConfig,
-  ImportCsvService,
-  FilesFormValidators,
   ProductsData,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
-import { LaunchDialogService, FormUtils } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  FormUtils,
+  ImportCsvService,
+  FilesFormValidators,
+} from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -77,7 +80,7 @@ export class ImportEntriesFormComponent implements OnInit {
   save() {
     const file: File = this.form.get('file')?.value?.[0];
     this.importCsvService
-      .loadCsvData(file)
+      .loadCsvData(file, this.separator)
       .subscribe((loadedFile: string[][]) => {
         this.submitEvent.emit({
           products: this.importToCartService.csvDataToProduct(loadedFile),
@@ -99,11 +102,18 @@ export class ImportEntriesFormComponent implements OnInit {
         ],
         [
           this.importCsvService
-            .isReadableFile(this.importToCartService.isDataParsableToProducts)
+            .isReadableFile(
+              this.separator,
+              this.importToCartService.isDataParsableToProducts
+            )
             .bind(this.importCsvService),
         ]
       )
     );
     return form;
+  }
+
+  protected get separator() {
+    return this.importExportConfig.cartImportExport.file.separator;
   }
 }

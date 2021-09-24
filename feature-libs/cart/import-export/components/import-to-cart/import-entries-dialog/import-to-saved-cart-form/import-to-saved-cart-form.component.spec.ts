@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   NameSource,
-  FilesFormValidators,
-  ImportCsvService,
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
@@ -16,6 +14,8 @@ import {
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
+  FilesFormValidators,
+  ImportCsvService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';

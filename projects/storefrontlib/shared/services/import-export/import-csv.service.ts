@@ -6,42 +6,42 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ImportExportConfig } from '../config/import-export-config';
 import { ImportService } from './import.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportCsvService {
-  constructor(
-    protected importExportConfig: ImportExportConfig,
-    protected importService: ImportService
-  ) {}
+  constructor(protected importService: ImportService) {}
   /**
    * Processes the CSV data
    *
    * @param csvString raw extracted data from CSV
    * @param ignoreHeader flag allows for ignore headers row while reading
+   * @param separator
    * @returns Processed data containing productCode and quantity
    */
-  readCsvData(csvString: string, ignoreHeader = true): string[][] {
+  readCsvData(
+    csvString: string,
+    separator: string,
+    ignoreHeader = true
+  ): string[][] {
     return csvString
       .split('\n')
-      .map((row) =>
-        row.split(this.separator).map((cell) => cell.replace(/"/g, ''))
-      )
+      .map((row) => row.split(separator).map((cell) => cell.replace(/"/g, '')))
       .filter(
         (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
       );
   }
 
-  loadCsvData(file: File): Observable<string[][]> {
+  loadCsvData(file: File, separator: string): Observable<string[][]> {
     return this.importService
       .loadTextFile(file)
-      .pipe(map((res) => this.readCsvData(res as string)));
+      .pipe(map((res) => this.readCsvData(res as string, separator)));
   }
 
   isReadableFile(
+    separator: string,
     isDataParsable?: (data: string[][]) => boolean
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -51,7 +51,7 @@ export class ImportCsvService {
         tap((data: string) => {
           this.validEmpty(data, errors);
         }),
-        map((res) => this.readCsvData(res)),
+        map((res) => this.readCsvData(res, separator)),
         tap((data: string[][]) => {
           this.validTooManyEntries(data, errors);
           this.validNotParsable(data, errors, isDataParsable);
@@ -67,9 +67,13 @@ export class ImportCsvService {
     }
   }
 
-  protected validTooManyEntries(data: string[][], errors: ValidationErrors) {
-    if (this.maxEntries && data.length > this.maxEntries) {
-      errors.tooManyEntries = { maxEntries: this.maxEntries };
+  protected validTooManyEntries(
+    data: string[][],
+    errors: ValidationErrors,
+    maxEntries?: number
+  ) {
+    if (maxEntries && data.length > maxEntries) {
+      errors.tooManyEntries = { maxEntries };
     }
   }
 
@@ -81,14 +85,5 @@ export class ImportCsvService {
     if (!errors.empty && isDataParsable && !isDataParsable(data)) {
       errors.notParsable = true;
     }
-  }
-
-  protected get separator(): string {
-    return this.importExportConfig.cartImportExport?.file.separator ?? ',';
-  }
-
-  protected get maxEntries(): number | undefined {
-    return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries;
   }
 }
