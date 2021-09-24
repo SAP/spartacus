@@ -23,4 +23,4 @@ jobs:
         env:
           FORCE_COLOR: 2 # Support colors from chalk
       - name: run installation script
-        run: ./scripts/install/run.sh
+        run: cd ./scripts/install && ./run.sh
