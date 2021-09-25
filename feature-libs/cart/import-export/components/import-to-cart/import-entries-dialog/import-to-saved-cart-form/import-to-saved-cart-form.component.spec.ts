@@ -78,11 +78,7 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 class MockImportCsvService implements Partial<ImportCsvService> {
   loadFile = () => of(mockCsvString);
   loadCsvData = () => of(mockLoadFileData);
-  isReadableFile = (
-    _separator: string,
-    _isDataParsable?: (data: string[][]) => boolean,
-    _maxEntries?: number
-  ) => {
+  validateData = (_file, _params) => {
     return () => of(null);
   };
 }
@@ -130,7 +126,7 @@ describe('ImportToSavedCartFormComponent', () => {
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(importCsvService, 'isReadableFile').and.callThrough();
+    spyOn(importCsvService, 'validateData').and.callThrough();
     fixture.detectChanges();
   });
 

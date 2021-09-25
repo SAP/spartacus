@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  ValidationErrors,
-} from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { InvalidFileInfo } from '../../models/file';
 import { ImportService } from './import.service';
 
 @Injectable({
@@ -40,26 +37,30 @@ export class ImportCsvService {
       .pipe(map((res) => this.readCsvData(res as string, separator)));
   }
 
-  isReadableFile(
-    separator: string,
-    isDataParsable?: (data: string[][]) => boolean,
-    maxEntries?: number
-  ): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const errors: ValidationErrors = {};
-      const file: File = control.value[0];
-      return (this.importService.loadTextFile(file) as Observable<string>).pipe(
-        tap((data: string) => {
-          this.validateEmpty(data, errors);
-        }),
-        map((res) => this.readCsvData(res, separator)),
-        tap((data: string[][]) => {
-          this.validateTooManyEntries(data, errors, maxEntries);
-          this.validNotParsable(data, errors, isDataParsable);
-        }),
-        map(() => (Object.keys(errors).length === 0 ? null : errors))
-      );
-    };
+  validateData(
+    file: File,
+    {
+      separator,
+      isDataParsable,
+      maxEntries,
+    }: {
+      separator?: string;
+      isDataParsable?: (data: string[][]) => boolean;
+      maxEntries?: number;
+    }
+  ): Observable<InvalidFileInfo | null> {
+    const errors: InvalidFileInfo = {};
+    return (this.importService.loadTextFile(file) as Observable<string>).pipe(
+      tap((data: string) => {
+        this.validateEmpty(data, errors);
+      }),
+      map((res) => this.readCsvData(res, separator)),
+      tap((data: string[][]) => {
+        this.validateTooManyEntries(data, errors, maxEntries);
+        this.validNotParsable(data, errors, isDataParsable);
+      }),
+      map(() => (Object.keys(errors).length === 0 ? null : errors))
+    );
   }
 
   protected validateEmpty(data: string, errors: ValidationErrors) {

@@ -76,11 +76,7 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 class MockImportCsvService implements Partial<ImportCsvService> {
   loadFile = () => of(mockCsvString);
   loadCsvData = () => of(mockLoadFileData);
-  isReadableFile = (
-    _separator: string,
-    _isDataParsable?: (data: string[][]) => boolean,
-    _maxEntries?: number
-  ) => {
+  validateData = (_file, _params) => {
     return () => of(null);
   };
 }
@@ -127,7 +123,7 @@ describe('ImportEntriesFormComponent', () => {
     importCsvService = TestBed.inject(ImportCsvService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
-    spyOn(importCsvService, 'isReadableFile').and.callThrough();
+    spyOn(importCsvService, 'validateData').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
     fixture.detectChanges();
   });
@@ -158,7 +154,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should validate maximum size and parsable file while building form', () => {
     expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(importCsvService.isReadableFile).toHaveBeenCalled();
+    expect(importCsvService.validateData).toHaveBeenCalled();
   });
 
   it('should trigger submit event when save method is called', () => {

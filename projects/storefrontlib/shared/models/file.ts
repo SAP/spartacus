@@ -12,3 +12,10 @@ export interface FileOptions {
    */
   type: string;
 }
+
+export interface InvalidFileInfo {
+  tooLarge?: { maxSize: number };
+  tooManyEntries?: { maxEntries: number };
+  empty?: boolean;
+  notParsable?: boolean;
+}
