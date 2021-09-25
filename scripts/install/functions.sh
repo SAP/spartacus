@@ -232,7 +232,7 @@ function install_from_sources {
         'product'
         'setup'
         'cart'
-         'order'
+        'order'
         'asm'
         'user'
         'organization'

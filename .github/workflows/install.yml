@@ -1,12 +1,11 @@
-
 on:
   push:
     branches:
       - 'feature/GH-13889'
-name: Installation script
+name: Installation
 jobs:
   install:
-    name: Installation script
+    name: Build libs and install
     environment: dev
     runs-on: ubuntu-latest
     steps:
