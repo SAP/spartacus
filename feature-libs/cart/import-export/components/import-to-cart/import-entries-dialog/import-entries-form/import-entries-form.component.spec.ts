@@ -152,7 +152,6 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should validate maximum size and parsable file while building form', () => {
     expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(importCsvService.validateData).toHaveBeenCalled();
   });
 
   it('should trigger submit event when save method is called', () => {
