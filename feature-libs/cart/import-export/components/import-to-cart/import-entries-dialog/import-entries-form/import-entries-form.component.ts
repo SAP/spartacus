@@ -104,7 +104,8 @@ export class ImportEntriesFormComponent implements OnInit {
           this.importCsvService
             .isReadableFile(
               this.separator,
-              this.importToCartService.isDataParsableToProducts
+              this.importToCartService.isDataParsableToProducts,
+              this.maxEntries
             )
             .bind(this.importCsvService),
         ]
@@ -115,5 +116,10 @@ export class ImportEntriesFormComponent implements OnInit {
 
   protected get separator() {
     return this.importExportConfig.cartImportExport.file.separator;
+  }
+
+  protected get maxEntries() {
+    return this.importExportConfig.cartImportExport.import?.fileValidity
+      ?.maxEntries;
   }
 }

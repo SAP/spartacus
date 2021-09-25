@@ -42,18 +42,19 @@ export class ImportCsvService {
 
   isReadableFile(
     separator: string,
-    isDataParsable?: (data: string[][]) => boolean
+    isDataParsable?: (data: string[][]) => boolean,
+    maxEntries?: number
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const errors: ValidationErrors = {};
       const file: File = control.value[0];
       return (this.importService.loadTextFile(file) as Observable<string>).pipe(
         tap((data: string) => {
-          this.validEmpty(data, errors);
+          this.validateEmpty(data, errors);
         }),
         map((res) => this.readCsvData(res, separator)),
         tap((data: string[][]) => {
-          this.validTooManyEntries(data, errors);
+          this.validateTooManyEntries(data, errors, maxEntries);
           this.validNotParsable(data, errors, isDataParsable);
         }),
         map(() => (Object.keys(errors).length === 0 ? null : errors))
@@ -61,13 +62,13 @@ export class ImportCsvService {
     };
   }
 
-  protected validEmpty(data: string, errors: ValidationErrors) {
+  protected validateEmpty(data: string, errors: ValidationErrors) {
     if (data.toString().length === 0) {
       errors.empty = true;
     }
   }
 
-  protected validTooManyEntries(
+  protected validateTooManyEntries(
     data: string[][],
     errors: ValidationErrors,
     maxEntries?: number

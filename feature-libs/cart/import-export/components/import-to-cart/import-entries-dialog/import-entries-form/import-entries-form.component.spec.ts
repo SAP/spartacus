@@ -78,7 +78,8 @@ class MockImportCsvService implements Partial<ImportCsvService> {
   loadCsvData = () => of(mockLoadFileData);
   isReadableFile = (
     _separator: string,
-    _isDataParsable?: (data: string[][]) => boolean
+    _isDataParsable?: (data: string[][]) => boolean,
+    _maxEntries?: number
   ) => {
     return () => of(null);
   };

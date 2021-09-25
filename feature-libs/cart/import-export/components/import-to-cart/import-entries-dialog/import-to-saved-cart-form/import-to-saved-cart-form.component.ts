@@ -95,7 +95,8 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
           this.importCsvService
             .isReadableFile(
               this.separator,
-              this.importToCartService.isDataParsableToProducts
+              this.importToCartService.isDataParsableToProducts,
+              this.maxEntries
             )
             .bind(this.importCsvService),
         ]
