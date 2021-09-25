@@ -182,7 +182,9 @@ function restore_clone {
         pushd ../.. > /dev/null
         for path in ${SPARTACUS_PROJECTS[@]} 
         do
-            rm ${path}/package.json-E
+            if [ -f "${path}/package.json-E" ]; then
+                rm ${path}/package.json-E
+            fi
         done
         git checkout .
         popd > /dev/null
