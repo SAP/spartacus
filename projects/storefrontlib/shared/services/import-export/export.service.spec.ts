@@ -22,7 +22,7 @@ describe('ExportService', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should download the file', () => {
+  it('should download the file', () => {
     const link = document.createElement('a');
     const fakeUrl =
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
