@@ -79,8 +79,7 @@ const entry: OrderEntry = {
       stockLevel: 365,
       stockLevelStatus: 'inStock',
     },
-    url:
-      '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
+    url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
     slug: 'pc-service-set-professional',
     nameHtml: 'PC Service Set Professional',
   },

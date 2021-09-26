@@ -29,8 +29,7 @@ export const importEntriesDialog = {
   upload: 'Upload',
   close: 'Close',
   summary: {
-    info:
-      'Do not close or refresh this window while products are being imported.',
+    info: 'Do not close or refresh this window while products are being imported.',
     loaded: 'Products has been loaded to cart {{ cartName }}',
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:

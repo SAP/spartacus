@@ -177,7 +177,8 @@ describe('ImportToSavedCartFormComponent', () => {
             mask: 'yyyy/MM/dd_hh:mm',
           },
         },
-        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+        resultMask:
+          /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
       },
       {
         testName: 'should update cart name based on the date with prefix',
@@ -188,7 +189,8 @@ describe('ImportToSavedCartFormComponent', () => {
             mask: 'yyyy/MM/dd_hh:mm',
           },
         },
-        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+        resultMask:
+          /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
       },
       {
         testName: 'should update cart name based on the date with suffix',
@@ -199,7 +201,8 @@ describe('ImportToSavedCartFormComponent', () => {
             mask: 'yyyy/MM/dd_hh:mm',
           },
         },
-        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
+        resultMask:
+          /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
       },
       {
         testName:
@@ -212,7 +215,8 @@ describe('ImportToSavedCartFormComponent', () => {
             mask: 'yyyy/MM/dd_hh:mm',
           },
         },
-        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
+        resultMask:
+          /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
       },
       {
         testName: 'should not update cart name if it was already filled',

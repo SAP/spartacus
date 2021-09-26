@@ -56,9 +56,9 @@ describe('FileUploadComponent', () => {
     it('should emit event', () => {
       spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
-      expect(component.update.emit).toHaveBeenCalledWith(([
+      expect(component.update.emit).toHaveBeenCalledWith([
         mockFile,
-      ] as unknown) as FileList);
+      ] as unknown as FileList);
     });
   });
 });

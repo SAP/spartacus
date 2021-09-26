@@ -147,8 +147,8 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
 
   protected setFieldValueByDatetime(nameField: AbstractControl) {
     const date = new Date();
-    const fromDateOptions = this.componentData?.cartNameGeneration
-      ?.fromDateOptions;
+    const fromDateOptions =
+      this.componentData?.cartNameGeneration?.fromDateOptions;
     const mask = fromDateOptions?.mask;
     const prefix = fromDateOptions?.prefix ?? '';
     const suffix = fromDateOptions?.suffix ?? '';
