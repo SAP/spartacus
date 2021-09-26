@@ -18,7 +18,8 @@ import { startWith } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplenishmentOrderCancellationDialogComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   private subscription = new Subscription();
 
   replenishmentOrderCode: string;

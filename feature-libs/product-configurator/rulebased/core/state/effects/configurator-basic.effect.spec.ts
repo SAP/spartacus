@@ -224,12 +224,11 @@ describe('ConfiguratorEffect', () => {
         groupId: '',
       });
 
-      const readConfigurationFailAction = new ConfiguratorActions.ReadConfigurationFail(
-        {
+      const readConfigurationFailAction =
+        new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
           error: normalizeHttpError(errorResponse),
-        }
-      );
+        });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
 
@@ -258,12 +257,11 @@ describe('ConfiguratorEffect', () => {
         payloadInput
       );
 
-      const overviewSuccessAction = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-        {
+      const overviewSuccessAction =
+        new ConfiguratorActions.GetConfigurationOverviewSuccess({
           ownerKey: owner.key,
           overview: productConfiguration.overview ?? { configId: CONFIG_ID },
-        }
-      );
+        });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: overviewSuccessAction });
 
@@ -303,9 +301,8 @@ describe('ConfiguratorEffect', () => {
 
     it('must not emit anything in case source action is not covered', () => {
       const payloadInput = productConfiguration;
-      const actionNotCovered = new ConfiguratorActions.UpdateConfigurationSuccess(
-        payloadInput
-      );
+      const actionNotCovered =
+        new ConfiguratorActions.UpdateConfigurationSuccess(payloadInput);
       actions$ = hot('-a', { a: actionNotCovered });
       const expected = cold('-');
       expect(configEffects.updateConfiguration$).toBeObservable(expected);
@@ -330,13 +327,11 @@ describe('ConfiguratorEffect', () => {
   describe('Effect updatePriceSummary', () => {
     it('should emit a price summary success action in case call is successfull', () => {
       const payloadInput = productConfiguration;
-      const updatePriceSummaryAction = new ConfiguratorActions.UpdatePriceSummary(
-        payloadInput
-      );
+      const updatePriceSummaryAction =
+        new ConfiguratorActions.UpdatePriceSummary(payloadInput);
 
-      const updatePriceSummarySuccessAction = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        productConfiguration
-      );
+      const updatePriceSummarySuccessAction =
+        new ConfiguratorActions.UpdatePriceSummarySuccess(productConfiguration);
       actions$ = hot('-a', { a: updatePriceSummaryAction });
       const expected = cold('-b', { b: updatePriceSummarySuccessAction });
 
@@ -346,9 +341,8 @@ describe('ConfiguratorEffect', () => {
     it('should emit a fail action in case something goes wrong', () => {
       readPriceSummaryMock.and.returnValue(throwError(errorResponse));
       const payloadInput = productConfiguration;
-      const updatePriceSummaryAction = new ConfiguratorActions.UpdatePriceSummary(
-        payloadInput
-      );
+      const updatePriceSummaryAction =
+        new ConfiguratorActions.UpdatePriceSummary(payloadInput);
 
       const failAction = new ConfiguratorActions.UpdatePriceSummaryFail({
         ownerKey: productConfiguration.owner.key,
@@ -367,9 +361,10 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         payloadInput
       );
-      const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        productConfiguration
-      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfiguration
+        );
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
         ...productConfiguration,
         interactionState: { currentGroup: groupId },
@@ -402,9 +397,10 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         payloadInput
       );
-      const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        productConfiguration
-      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfiguration
+        );
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
         ...productConfiguration,
         interactionState: { currentGroup: groupId },
@@ -428,9 +424,10 @@ describe('ConfiguratorEffect', () => {
         configuration: payloadInput,
         error: undefined,
       });
-      const completion = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-        productConfiguration
-      );
+      const completion =
+        new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+          productConfiguration
+        );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(configEffects.updateConfigurationFail$).toBeObservable(expected);
@@ -476,9 +473,8 @@ describe('ConfiguratorEffect', () => {
         groupId: groupId,
         parentGroupId: undefined,
       });
-      const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
-        productConfiguration
-      );
+      const readConfigurationSuccess =
+        new ConfiguratorActions.ReadConfigurationSuccess(productConfiguration);
       const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup({
         entityKey: productConfiguration.owner.key,
         currentGroup: groupId,
@@ -509,12 +505,11 @@ describe('ConfiguratorEffect', () => {
         groupId: groupId,
         parentGroupId: undefined,
       });
-      const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
-        {
+      const readConfigurationFail =
+        new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
           error: normalizeHttpError(errorResponse),
-        }
-      );
+        });
 
       actions$ = hot('-a', { a: action });
 

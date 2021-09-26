@@ -7,7 +7,8 @@ import { VisibleFocusDirective } from '../visible/visible-focus.directive';
 // { selector: '[cxBlockFocus]' }
 export class BlockFocusDirective
   extends VisibleFocusDirective
-  implements OnInit {
+  implements OnInit
+{
   protected defaultConfig: BlockFocusConfig = { block: true };
 
   // @Input('cxBlockFocus')
