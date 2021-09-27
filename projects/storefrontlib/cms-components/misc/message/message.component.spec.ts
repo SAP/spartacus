@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
@@ -17,6 +17,14 @@ const mockCssClassForMessage: Record<string, boolean> = {
   'cx-message-danger': false,
 };
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
@@ -26,7 +34,7 @@ describe('MessageComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [MessageComponent],
+        declarations: [MessageComponent, MockCxIconComponent],
       }).compileComponents();
     })
   );
@@ -82,6 +90,21 @@ describe('MessageComponent', () => {
       By.css('.cx-message .cx-message-header .cx-message-text')
     ).nativeElement;
 
-    expect(text.textContent).toEqual('Test');
+    expect(text.textContent).toEqual(' Test ');
+  });
+
+  it('should show action button and trigger button action', () => {
+    spyOn(component.buttonAction, 'emit');
+    component.actionButtonText = 'Test';
+    fixture.detectChanges();
+
+    const button = el.query(
+      By.css('.cx-message .cx-action-link')
+    ).nativeElement;
+    button.click();
+
+    expect(button.textContent).toEqual(' Test ');
+    expect(button).toBeTruthy();
+    expect(component.buttonAction.emit).toHaveBeenCalled();
   });
 });

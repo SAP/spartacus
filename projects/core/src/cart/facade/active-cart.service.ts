@@ -395,6 +395,7 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
+    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
@@ -497,9 +498,21 @@ export class ActiveCartService implements OnDestroy {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
-    cartEntries.forEach((entry) => {
-      this.addEntry(entry.product.code, entry.quantity);
-    });
+    const entriesToAdd = cartEntries.map((entry) => ({
+      productCode: entry.product?.code,
+      quantity: entry.quantity,
+    }));
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) => {
+        if (cartState.value) {
+          this.multiCartService.addEntries(
+            userId,
+            getCartIdByUserId(cartState.value, userId),
+            entriesToAdd
+          );
+        }
+      });
   }
 
   /**

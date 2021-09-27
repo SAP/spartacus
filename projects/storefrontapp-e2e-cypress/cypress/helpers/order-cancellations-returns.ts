@@ -16,7 +16,7 @@ export function visitOrderDetailPage() {
   );
 
   cy.visit(`/my-account/order/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitCancelOrderPage() {
@@ -26,7 +26,7 @@ export function visitCancelOrderPage() {
   );
 
   cy.visit(`/my-account/order/cancel/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitReturnOrderPage() {
@@ -36,61 +36,66 @@ export function visitReturnOrderPage() {
   );
 
   cy.visit(`/my-account/order/return/${ORDER_CODE}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function getStubbedCancellableOrderDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}?*`,
-    cancellableOrder
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}`,
+    },
+    { body: cancellableOrder }
   );
 }
 
 export function getStubbedReturnableOrderDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}?*`,
-    returnableOrder
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}`,
+    },
+    { body: returnableOrder }
   );
 }
 
 export function confirmCancelOrder() {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${ORDER_CODE}/cancellation?*`,
-    {}
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders/${ORDER_CODE}/cancellation`,
+    },
+    { body: {} }
   );
 }
 
 export function confirmReturnOrder() {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
-    returnRequestDetails
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
+    { body: returnRequestDetails }
   );
 }
 
 export function getStubbedReturnRequestList() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
-    returnRequestList
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
+    { body: returnRequestList }
   ).as('return_request_list');
 }
 
@@ -98,17 +103,18 @@ export function visitReturnRequestListPage() {
   const alias = waitForPage('/my-account/orders', 'returnRequestListPage');
 
   cy.visit(`/my-account/orders`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function getStubbedReturnRequestDetails() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
-    returnRequestDetails
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
+    { body: returnRequestDetails }
   ).as('return_request_details');
 }
 
@@ -119,17 +125,18 @@ export function visitReturnRequestDetailsPage() {
   );
 
   cy.visit(`/my-account/return-request/${RMA}`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function cancelReturnRequest() {
-  cy.server();
-  cy.route(
-    'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
-    {}
+  cy.intercept(
+    {
+      method: 'PATCH',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
+    { body: {} }
   );
 }
 
@@ -137,23 +144,25 @@ export function getStubbedReturnRequestListAfterCancel() {
   returnRequestList.returnRequests.pop();
   returnRequestList.returnRequests.push(cancelledReturnRequest);
 
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns?*`,
-    returnRequestList
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns`,
+    },
+    { body: returnRequestList }
   ).as('return_request_list_after_cancel');
 }
 
 export function getStubbedReturnRequestDetailsAfterCancel() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orderReturns/${RMA}?*`,
-    cancelledReturnRequest
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orderReturns/${RMA}`,
+    },
+    { body: cancelledReturnRequest }
   ).as('return_request_details_after_cancel');
 }

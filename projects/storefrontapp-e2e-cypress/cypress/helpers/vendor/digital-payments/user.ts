@@ -37,7 +37,7 @@ export function checkoutShippingAddress() {
       });
     cy.findByText('Continue').click();
   });
-  cy.wait(`@${deliveryModePage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function checkoutDeliveryMode() {
@@ -50,7 +50,9 @@ export function checkoutDeliveryMode() {
     cy.wait(3000);
     cy.findByText('Continue').click();
   });
-  cy.wait(`@${PaymentDetailsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${PaymentDetailsPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function checkoutPaymentDetails() {
@@ -74,7 +76,7 @@ export function checkoutPaymentDetails() {
       });
     cy.findByText('Continue').click();
   });
-  cy.wait(`@${ReviewOrderPage}`).its('status').should('eq', 200);
+  cy.wait(`@${ReviewOrderPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function reviewAndPlaceOrder() {
@@ -99,7 +101,7 @@ export function reviewAndPlaceOrder() {
     cy.get('[formcontrolname="termsAndConditions"]').check();
     cy.findByText('Place Order').click();
   });
-  cy.wait(`@${ConfirmOrderPage}`).its('status').should('eq', 200);
+  cy.wait(`@${ConfirmOrderPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function orderConfirmation() {
