@@ -62,7 +62,7 @@ export class ImportCsvFileService {
     );
   }
 
-  protected validateEmpty(data: string, errors: ValidationErrors) {
+  protected validateEmpty(data: string, errors: ValidationErrors): void {
     if (data.toString().length === 0) {
       errors.empty = true;
       throw errors;
@@ -73,7 +73,7 @@ export class ImportCsvFileService {
     data: string[][],
     errors: ValidationErrors,
     maxEntries?: number
-  ) {
+  ): void {
     if (maxEntries && data.length > maxEntries) {
       errors.tooManyEntries = { maxEntries };
       throw errors;
@@ -84,7 +84,7 @@ export class ImportCsvFileService {
     data: string[][],
     errors: ValidationErrors,
     isDataParsable?: (data: string[][]) => boolean
-  ) {
+  ): void {
     if (isDataParsable && !isDataParsable(data)) {
       errors.notParsable = true;
       throw errors;

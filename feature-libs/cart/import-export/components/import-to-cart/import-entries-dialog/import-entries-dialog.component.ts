@@ -84,7 +84,7 @@ export class ImportEntriesDialogComponent {
       });
   }
 
-  protected populateSummary(action: ProductImportInfo) {
+  protected populateSummary(action: ProductImportInfo): void {
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,

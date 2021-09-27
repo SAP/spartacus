@@ -80,7 +80,7 @@ export class ImportToCartService {
   protected setEntriesToSavedCart(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
-  ) {
+  ): Observable<string> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
         this.multiCartService
@@ -118,7 +118,7 @@ export class ImportToCartService {
     );
   }
 
-  protected setEntriesToActiveCart(products: ProductsData) {
+  protected setEntriesToActiveCart(products: ProductsData): Observable<string> {
     this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
     return this.activeCartService.getActiveCartId();
   }

@@ -37,8 +37,8 @@ export class ExportEntriesService {
     return this.importExportConfig.cartImportExport?.export;
   }
 
-  protected get separator() {
-    return this.importExportConfig.cartImportExport.file.separator;
+  protected get separator(): string | undefined {
+    return this.importExportConfig.cartImportExport?.file.separator;
   }
 
   protected columns: ExportColumn[] = [
@@ -100,7 +100,7 @@ export class ExportEntriesService {
       );
   }
 
-  protected getActiveCartEntries() {
+  protected getActiveCartEntries(): Observable<OrderEntry[]> {
     return this.activeCartService.getEntries();
   }
 
@@ -124,7 +124,7 @@ export class ExportEntriesService {
     );
   }
 
-  protected displayExportMessage() {
+  protected displayExportMessage(): void {
     this.globalMessageService.add(
       { key: 'exportEntries.exportMessage' },
       GlobalMessageType.MSG_TYPE_INFO
@@ -147,16 +147,18 @@ export class ExportEntriesService {
     );
   }
 
-  downloadCsv(entries: string[][]) {
+  downloadCsv(entries: string[][]): void {
     if (this.exportConfig?.messageEnabled) {
       this.displayExportMessage();
     }
     setTimeout(() => {
-      this.exportCsvService.download(
-        entries,
-        this.separator,
-        this.exportConfig.fileOptions
-      );
-    }, this.exportConfig.downloadDelay ?? 0);
+      if (this.exportConfig !== undefined && this.separator !== undefined) {
+        this.exportCsvService.download(
+          entries,
+          this.separator,
+          this.exportConfig.fileOptions
+        );
+      }
+    }, this.exportConfig?.downloadDelay ?? 0);
   }
 }

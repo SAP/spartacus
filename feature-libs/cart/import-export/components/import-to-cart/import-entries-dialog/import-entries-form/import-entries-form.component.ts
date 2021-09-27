@@ -77,15 +77,17 @@ export class ImportEntriesFormComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  save() {
+  save(): void {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importCsvService
-      .loadFile(file, this.separator)
-      .subscribe((loadedFile: string[][]) => {
-        this.submitEvent.emit({
-          products: this.importToCartService.csvDataToProduct(loadedFile),
+    if (this.separator !== undefined) {
+      this.importCsvService
+        .loadFile(file, this.separator)
+        .subscribe((loadedFile: string[][]) => {
+          this.submitEvent.emit({
+            products: this.importToCartService.csvDataToProduct(loadedFile),
+          });
         });
-      });
+    }
   }
 
   protected buildForm(): FormGroup {
@@ -113,12 +115,12 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
-  protected get separator() {
-    return this.importExportConfig.cartImportExport.file.separator;
+  protected get separator(): string | undefined {
+    return this.importExportConfig.cartImportExport?.file.separator;
   }
 
-  protected get maxEntries() {
-    return this.importExportConfig.cartImportExport.import?.fileValidity
+  protected get maxEntries(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
       ?.maxEntries;
   }
 }

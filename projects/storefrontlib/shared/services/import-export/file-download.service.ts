@@ -5,7 +5,7 @@ import { ExportFileOptions } from '../../models/file';
   providedIn: 'root',
 })
 export class FileDownloadService {
-  download(fileContent: string, fileOptions: ExportFileOptions) {
+  download(fileContent: string, fileOptions: ExportFileOptions): void {
     const { fileName, type, extension } = fileOptions;
     const blob = new Blob(['\ufeff' + fileContent], {
       type,

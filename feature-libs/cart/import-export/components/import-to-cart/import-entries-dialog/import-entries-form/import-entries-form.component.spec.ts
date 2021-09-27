@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  NameSource,
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
   ImportExportConfig,
+  defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
@@ -23,28 +23,6 @@ const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
-
-const mockImportExportConfig: ImportExportConfig = {
-  cartImportExport: {
-    file: {
-      separator: ',',
-    },
-    import: {
-      fileValidity: {
-        maxSize: 1,
-        allowedTypes: [
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          'application/vnd.ms-excel',
-          'text/csv',
-          '.csv',
-        ],
-      },
-      cartNameGeneration: {
-        source: NameSource.FILE_NAME,
-      },
-    },
-  },
-};
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
@@ -107,7 +85,7 @@ describe('ImportEntriesFormComponent', () => {
         { provide: ImportToCartService, useClass: MockImportToCartService },
         { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: ImportExportConfig, useValue: mockImportExportConfig },
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
       ],
     }).compileComponents();
 
@@ -131,7 +109,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should get the file Validity', () => {
     expect(component.componentData.fileValidity).toEqual(
-      mockImportExportConfig.cartImportExport.import.fileValidity
+      defaultImportExportConfig.cartImportExport.import.fileValidity
     );
   });
 

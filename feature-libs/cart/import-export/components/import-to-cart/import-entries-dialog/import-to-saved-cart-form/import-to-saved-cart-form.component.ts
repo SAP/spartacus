@@ -64,19 +64,21 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     );
   }
 
-  save() {
+  save(): void {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importCsvService
-      .loadFile(file, this.separator)
-      .subscribe((loadedFile: string[][]) => {
-        this.submitEvent.emit({
-          products: this.importToCartService.csvDataToProduct(loadedFile),
-          savedCartInfo: {
-            name: this.form.get('name')?.value,
-            description: this.form.get('description')?.value,
-          },
+    if (this.separator !== undefined) {
+      this.importCsvService
+        .loadFile(file, this.separator)
+        .subscribe((loadedFile: string[][]) => {
+          this.submitEvent.emit({
+            products: this.importToCartService.csvDataToProduct(loadedFile),
+            savedCartInfo: {
+              name: this.form.get('name')?.value,
+              description: this.form.get('description')?.value,
+            },
+          });
         });
-      });
+    }
   }
 
   protected buildForm(): FormGroup {
@@ -138,14 +140,14 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     }
   }
 
-  protected setFieldValueByFileName(nameField: AbstractControl) {
+  protected setFieldValueByFileName(nameField: AbstractControl): void {
     const fileName = this.form
       .get('file')
       ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
     nameField.setValue(fileName);
   }
 
-  protected setFieldValueByDatetime(nameField: AbstractControl) {
+  protected setFieldValueByDatetime(nameField: AbstractControl): void {
     const date = new Date();
     const fromDateOptions =
       this.componentData?.cartNameGeneration?.fromDateOptions;

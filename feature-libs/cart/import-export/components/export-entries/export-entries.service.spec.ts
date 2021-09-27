@@ -247,7 +247,7 @@ describe('ExportEntriesService', () => {
       cartImportExport: {
         ...defaultImportExportConfig.cartImportExport,
         export: {
-          ...defaultImportExportConfig.cartImportExport.export,
+          ...defaultImportExportConfig.cartImportExport?.export,
           maxEntries: 1,
         },
       },
