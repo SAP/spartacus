@@ -13,7 +13,7 @@ import {
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
-// TODO: Remove this const in 5.0 after full switch to command to setDeliveryAddress
+// TODO: Remove this process after full switch to command to setDeliveryAddress
 /**
  * @deprecated since 4.3.0. setDeliveryAddress method now returns observable with request status (fail/success).
  */
