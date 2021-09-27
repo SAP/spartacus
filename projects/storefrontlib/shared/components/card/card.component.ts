@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 export interface CardAction {
@@ -28,6 +36,8 @@ export interface Card {
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
+
+  @ViewChild('deleteBtn') deleteBtn: ElementRef;
 
   @Output()
   deleteCard: EventEmitter<number> = new EventEmitter();
@@ -73,6 +83,7 @@ export class CardComponent implements OnInit {
   }
 
   delete(): void {
+    this.setFocusOnDelete();
     this.deleteCard.emit(1);
   }
 
@@ -86,7 +97,14 @@ export class CardComponent implements OnInit {
   }
 
   edit(): void {
+    this.setFocusOnDelete();
     this.editCard.emit(4);
+  }
+
+  setFocusOnDelete(): void {
+    setTimeout(() => {
+      this.deleteBtn?.nativeElement.focus();
+    }, 0);
   }
 
   constructor() {}
