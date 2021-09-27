@@ -222,7 +222,7 @@ function install_from_sources {
 
     sleep 15
 
-    (npm-cli-login -u user -p password -e user@password.cn -r http://localhost:4873)
+    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     local dist_packages=(
         'core'
