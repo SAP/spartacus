@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ImportService } from '@spartacus/storefront';
+import { FileReaderService } from './file-reader.service';
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
@@ -8,12 +8,12 @@ const mockFile: File = new File([mockCsvString], 'mockFile', {
   type: 'text/csv',
 });
 
-describe('ImportService', () => {
-  let service: ImportService;
+describe('FileReaderService', () => {
+  let service: FileReaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ImportService);
+    service = TestBed.inject(FileReaderService);
   });
 
   it('should be created', () => {

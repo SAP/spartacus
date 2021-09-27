@@ -15,7 +15,7 @@ import { CxDatePipe } from '@spartacus/core';
 import {
   LaunchDialogService,
   FormUtils,
-  ImportCsvService,
+  ImportCsvFileService,
   FilesFormValidators,
 } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
@@ -42,7 +42,7 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importCsvService: ImportCsvService,
+    protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig
   ) {}
@@ -80,7 +80,7 @@ export class ImportEntriesFormComponent implements OnInit {
   save() {
     const file: File = this.form.get('file')?.value?.[0];
     this.importCsvService
-      .loadCsvData(file, this.separator)
+      .loadFile(file, this.separator)
       .subscribe((loadedFile: string[][]) => {
         this.submitEvent.emit({
           products: this.importToCartService.csvDataToProduct(loadedFile),
@@ -102,7 +102,7 @@ export class ImportEntriesFormComponent implements OnInit {
         ],
         [
           (control) =>
-            this.importCsvService.validateData(control.value[0], {
+            this.importCsvService.validateFile(control.value[0], {
               separator: this.separator,
               isDataParsable: this.importToCartService.isDataParsableToProducts,
               maxEntries: this.maxEntries,

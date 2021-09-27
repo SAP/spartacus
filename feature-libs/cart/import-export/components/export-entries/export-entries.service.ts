@@ -8,7 +8,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { ExportCsvService } from '@spartacus/storefront';
+import { ExportCsvFileService } from '@spartacus/storefront';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
@@ -30,7 +30,7 @@ export class ExportEntriesService {
     protected importExportConfig: ImportExportConfig,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    protected exportCsvService: ExportCsvService
+    protected exportCsvService: ExportCsvFileService
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
@@ -152,7 +152,7 @@ export class ExportEntriesService {
       this.displayExportMessage();
     }
     setTimeout(() => {
-      this.exportCsvService.downloadCsv(
+      this.exportCsvService.download(
         entries,
         this.separator,
         this.exportConfig.fileOptions

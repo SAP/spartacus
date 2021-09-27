@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FileOptions } from '@spartacus/storefront';
-import { ExportService } from './export.service';
+import { FileDownloadService } from './file-download.service';
 
 const fileOptions: FileOptions = {
   fileName: 'data',
@@ -10,12 +10,12 @@ const fileOptions: FileOptions = {
 
 const fileContent = 'text to save';
 
-describe('ExportService', () => {
-  let service: ExportService;
+describe('FileDownloadService', () => {
+  let service: FileDownloadService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ExportService);
+    service = TestBed.inject(FileDownloadService);
   });
 
   it('should be created', () => {

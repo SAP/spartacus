@@ -13,7 +13,7 @@ import {
   FormErrorsModule,
   LaunchDialogService,
   FilesFormValidators,
-  ImportCsvService,
+  ImportCsvFileService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
@@ -73,10 +73,9 @@ class MockImportToCartService implements Partial<ImportToCartService> {
   csvDataToProduct = () => mockProducts;
 }
 
-class MockImportCsvService implements Partial<ImportCsvService> {
-  loadFile = () => of(mockCsvString);
+class MockImportCsvFileService implements Partial<ImportCsvFileService> {
   loadCsvData = () => of(mockLoadFileData);
-  validateData = () => of(null);
+  validateFile = () => of(null);
 }
 
 class MockLanguageService {
@@ -91,7 +90,7 @@ describe('ImportEntriesFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
-  let importCsvService: ImportCsvService;
+  let importCsvService: ImportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -106,7 +105,7 @@ describe('ImportEntriesFormComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
-        { provide: ImportCsvService, useClass: MockImportCsvService },
+        { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: ImportExportConfig, useValue: mockImportExportConfig },
       ],
@@ -118,10 +117,10 @@ describe('ImportEntriesFormComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
-    importCsvService = TestBed.inject(ImportCsvService);
+    importCsvService = TestBed.inject(ImportCsvFileService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
-    spyOn(importCsvService, 'validateData').and.callThrough();
+    spyOn(importCsvService, 'validateFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
     fixture.detectChanges();
   });

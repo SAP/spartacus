@@ -3,13 +3,13 @@ import { ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { InvalidFileInfo } from '../../models/file';
-import { ImportService } from './import.service';
+import { FileReaderService } from './file-reader.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportCsvService {
-  constructor(protected importService: ImportService) {}
+export class ImportCsvFileService {
+  constructor(protected fileReaderService: FileReaderService) {}
   /**
    * Processes the CSV data
    *
@@ -31,13 +31,13 @@ export class ImportCsvService {
       );
   }
 
-  loadCsvData(file: File, separator: string): Observable<string[][]> {
-    return this.importService
+  loadFile(file: File, separator: string): Observable<string[][]> {
+    return this.fileReaderService
       .loadTextFile(file)
       .pipe(map((res) => this.readCsvData(res as string, separator)));
   }
 
-  validateData(
+  validateFile(
     file: File,
     {
       separator,
@@ -50,7 +50,9 @@ export class ImportCsvService {
     }
   ): Observable<InvalidFileInfo | null> {
     const errors: InvalidFileInfo = {};
-    return (this.importService.loadTextFile(file) as Observable<string>).pipe(
+    return (
+      this.fileReaderService.loadTextFile(file) as Observable<string>
+    ).pipe(
       tap((data: string) => {
         this.validateEmpty(data, errors);
       }),

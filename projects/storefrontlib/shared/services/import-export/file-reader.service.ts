@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ImportService {
+export class FileReaderService {
   /**
    * Load text file
    *

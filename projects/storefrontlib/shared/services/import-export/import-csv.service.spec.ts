@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ImportService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ImportCsvService } from './import-csv.service';
+import { ImportCsvFileService } from './import-csv-file.service';
+import { FileReaderService } from './file-reader.service';
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
@@ -17,22 +17,24 @@ const mockFile: File = new File([mockCsvString], 'mockFile', {
 
 const separator = ',';
 
-class MockImportService {
+class MockFileReaderService {
   loadTextFile(_file: File): Observable<string | ProgressEvent<FileReader>> {
     return of('');
   }
 }
 
-describe('ImportCsvService', () => {
-  let service: ImportCsvService;
-  let importService: ImportService;
+describe('ImportCsvFileService', () => {
+  let service: ImportCsvFileService;
+  let fileReaderService: FileReaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: ImportService, useClass: MockImportService }],
+      providers: [
+        { provide: FileReaderService, useClass: MockFileReaderService },
+      ],
     });
-    service = TestBed.inject(ImportCsvService);
-    importService = TestBed.inject(ImportService);
+    service = TestBed.inject(ImportCsvFileService);
+    fileReaderService = TestBed.inject(FileReaderService);
   });
 
   it('should be created', () => {
@@ -45,10 +47,10 @@ describe('ImportCsvService', () => {
   });
 
   it('should return extracted CSV string', (done: DoneFn) => {
-    spyOn(importService, 'loadTextFile').and.callThrough();
+    spyOn(fileReaderService, 'loadTextFile').and.callThrough();
 
-    service.loadCsvData(mockFile, separator).subscribe(() => {
-      expect(importService.loadTextFile).toHaveBeenCalledWith(mockFile);
+    service.loadFile(mockFile, separator).subscribe(() => {
+      expect(fileReaderService.loadTextFile).toHaveBeenCalledWith(mockFile);
       done();
     });
   });

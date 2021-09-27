@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FileOptions } from '@spartacus/storefront';
+import { FileOptions } from '../../models/file';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExportService {
+export class FileDownloadService {
   download(fileContent: string, fileOptions: FileOptions) {
     const { fileName, type, extension } = fileOptions;
     const blob = new Blob(['\ufeff' + fileContent], {

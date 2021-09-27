@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FileOptions } from '../../models/file';
-import { ExportService } from './export.service';
+import { FileDownloadService } from './file-download.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExportCsvService {
-  constructor(protected exportService: ExportService) {}
+export class ExportCsvFileService {
+  constructor(protected fileDownloadService: FileDownloadService) {}
   /**
    * Converts array of objects into CSV data structure.
    *
@@ -14,7 +14,7 @@ export class ExportCsvService {
    * @param separator for csv data
    * @returns Processed string ready to be saved into file
    */
-  dataToCsv(objectsArray: string[][], separator: string): string {
+  convertToCsv(objectsArray: string[][], separator: string): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
     return array.reduce((csvString: string, row: string[]) => {
@@ -35,13 +35,13 @@ export class ExportCsvService {
    * @param fileOptions FileOptions
    * @returns Processed string ready to be saved into file
    */
-  downloadCsv(
+  download(
     objectsArray: string[][],
     separator: string,
     fileOptions: FileOptions
   ) {
-    this.exportService.download(
-      this.dataToCsv(objectsArray, separator),
+    this.fileDownloadService.download(
+      this.convertToCsv(objectsArray, separator),
       fileOptions
     );
   }

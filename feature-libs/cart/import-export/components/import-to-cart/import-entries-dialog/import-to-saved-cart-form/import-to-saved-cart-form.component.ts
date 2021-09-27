@@ -15,7 +15,7 @@ import { ProductsData, NameSource } from '@spartacus/cart/import-export/core';
 import {
   LaunchDialogService,
   FilesFormValidators,
-  ImportCsvService,
+  ImportCsvFileService,
 } from '@spartacus/storefront';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
@@ -50,7 +50,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importCsvService: ImportCsvService,
+    protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,
     protected datePipe: CxDatePipe
@@ -67,7 +67,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   save() {
     const file: File = this.form.get('file')?.value?.[0];
     this.importCsvService
-      .loadCsvData(file, this.separator)
+      .loadFile(file, this.separator)
       .subscribe((loadedFile: string[][]) => {
         this.submitEvent.emit({
           products: this.importToCartService.csvDataToProduct(loadedFile),
@@ -93,7 +93,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
         ],
         [
           (control) =>
-            this.importCsvService.validateData(control.value[0], {
+            this.importCsvService.validateFile(control.value[0], {
               separator: this.separator,
               isDataParsable: this.importToCartService.isDataParsableToProducts,
               maxEntries: this.maxEntries,
