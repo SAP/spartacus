@@ -20,7 +20,10 @@ export class FilesFormValidators {
         files.forEach((file: File) => {
           if (file.size > maxSize * 1000000) {
             const invalidFiles = errors.tooLarge?.invalidFiles ?? [];
-            errors.tooLarge = { maxSize, files: [...invalidFiles, file.name] };
+            errors.tooLarge = {
+              maxSize,
+              invalidFiles: [...invalidFiles, file.name],
+            };
           }
         });
       }
