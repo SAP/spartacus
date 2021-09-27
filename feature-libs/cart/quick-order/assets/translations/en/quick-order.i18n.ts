@@ -37,7 +37,8 @@ export const quickOrderList = {
   successes: {
     productAddedToCart: '{{ name }} (#{{code}}) was added to cart.',
   },
-  undoDeletion: 'Undo Deletion',
+  undo: 'UNDO',
+  productWasDeleted: 'Product "{{ name }}" moved to trash.',
 };
 
 export const quickOrderTable = {

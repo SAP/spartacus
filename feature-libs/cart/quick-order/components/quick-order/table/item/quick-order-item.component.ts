@@ -57,6 +57,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   removeEntry(): void {
     this.quickOrderService.removeEntry(this.index);
+    this.cd.detectChanges();
   }
 
   protected watchProductAdd(): Subscription {

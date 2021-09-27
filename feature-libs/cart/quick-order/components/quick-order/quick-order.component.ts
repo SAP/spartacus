@@ -25,8 +25,9 @@ import { first, map } from 'rxjs/operators';
 export class QuickOrderComponent implements OnInit {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
-  quickOrderListLimit$: Observable<number | undefined> =
-    this.component.data$.pipe(map((data) => data.quickOrderListLimit));
+  quickOrderListLimit$: Observable<
+    number | undefined
+  > = this.component.data$.pipe(map((data) => data.quickOrderListLimit));
   isCartStable$: Observable<boolean> = combineLatest([
     this.activeCartService.getActiveCartId(),
     this.activeCartService.isStable(),
@@ -62,7 +63,7 @@ export class QuickOrderComponent implements OnInit {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
-  get deletedEntries(): OrderEntry[] {
+  get deletedEntries$(): Observable<OrderEntry[]> {
     return this.quickOrderService.getDeletedEntries();
   }
 
@@ -117,6 +118,12 @@ export class QuickOrderComponent implements OnInit {
   undoDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
       this.quickOrderService.undoDeletedEntry(entry.product?.code);
+    }
+  }
+
+  clearDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.clearDeletedEntry(entry.product?.code);
     }
   }
 

@@ -1,10 +1,13 @@
-<ng-container *ngIf="deletedEntries.length">
+<ng-container *ngIf="deletedEntries$ | async as deletedEntries">
   <cx-message
     *ngFor="let deletedEntry of deletedEntries"
-    (closeMessage)="clearErrors()"
+    (closeMessage)="clearDeletion(deletedEntry)"
     (buttonAction)="undoDeletion(deletedEntry)"
-    [text]="'delted entries'"
-    [actionButtonText]="'UNDO'"
+    [text]="
+      'quickOrderList.productWasDeleted'
+        | cxTranslate: { name: deletedEntry.product?.name }
+    "
+    [actionButtonText]="'quickOrderList.undo' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
   >
   </cx-message>

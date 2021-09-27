@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   defaultQuickOrderFormConfig,
   QuickOrderAddEntryEvent,
@@ -16,24 +16,44 @@ import {
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
+import { ClearMessageTimout } from '../models/clear-message-timeout.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderService implements QuickOrderFacade {
+export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected deletedEntries: OrderEntry[] = [];
+  protected deletedEntries$: BehaviorSubject<
+    OrderEntry[]
+  > = new BehaviorSubject<OrderEntry[]>([]);
+  protected deletionClearTimeout = 5000;
+
+  private clearMessageTimeoutArray: ClearMessageTimout[] = [];
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected productSearchAdapter: ProductSearchAdapter,
     protected eventService: EventService
   ) {}
+
+  ngOnDestroy(): void {
+    (this.clearMessageTimeoutArray || []).forEach(
+      (element: ClearMessageTimout) => {
+        element.subscription?.unsubscribe();
+      }
+    );
+  }
 
   /**
    * Get entries
@@ -85,7 +105,7 @@ export class QuickOrderService implements QuickOrderFacade {
   removeEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
-      this.addDeletedEntry(entriesList[index]);
+      this.addDeletedEntry(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
@@ -157,32 +177,75 @@ export class QuickOrderService implements QuickOrderFacade {
   /**
    * Add deleted entry
    */
-  addDeletedEntry(entry: OrderEntry): void {
-    this.deletedEntries.push(entry);
+  addDeletedEntry(entry: OrderEntry, clearTimeout?: boolean): void {
+    const deletedEntries = this.deletedEntries$.getValue() || [];
+    deletedEntries.push(entry);
+
+    this.deletedEntries$.next(deletedEntries);
+
+    if (clearTimeout) {
+      const subscription: Subscription = timer(
+        this.deletionClearTimeout
+      ).subscribe(() => {
+        if (entry.product?.code) {
+          this.clearDeletedEntry(entry.product?.code);
+        }
+      });
+
+      const newClearMessageTimeout: ClearMessageTimout = {
+        productCode: entry.product?.code,
+        subscription,
+      };
+
+      this.clearMessageTimeoutArray.push(newClearMessageTimeout);
+    }
   }
 
   /**
    * Return deleted entries
    */
-  getDeletedEntries(): OrderEntry[] {
-    return this.deletedEntries;
+  getDeletedEntries(): Observable<OrderEntry[]> {
+    return this.deletedEntries$;
   }
 
   /**
    * Undo deleted entry
    */
   undoDeletedEntry(productCode: string): void {
-    console.log('undoDeletedEntry', this.deletedEntries);
-    if (this.deletedEntries) {
-      const entryIndex = this.deletedEntries.findIndex(
-        (element: OrderEntry) => element.product?.code === productCode
-      );
-      if (entryIndex !== -1) {
-        this.addEntry(this.deletedEntries[entryIndex]);
-        this.deletedEntries.splice(entryIndex, 1);
-      }
+    const deletedEntries = this.deletedEntries$.getValue() || [];
+    const entryIndex = this.getDeletedEntryIndex(productCode);
+
+    if (entryIndex !== -1) {
+      this.addEntry(deletedEntries[entryIndex]);
+      deletedEntries.splice(entryIndex, 1);
+      this.deletedEntries$.next(deletedEntries);
     }
-    console.log('undoDeletedEntry results', this.deletedEntries);
+  }
+
+  /**
+   * Clear deleted entry from the list
+   */
+  clearDeletedEntry(productCode: string): void {
+    const deletedEntries = this.deletedEntries$.getValue() || [];
+    const entryIndex = this.getDeletedEntryIndex(productCode);
+
+    if (entryIndex !== -1) {
+      deletedEntries.splice(entryIndex, 1);
+      this.deletedEntries$.next(deletedEntries);
+    }
+
+    this.getAndUnsubscribeClearMessageTimout(productCode);
+  }
+
+  /**
+   * Get deletion entry index
+   */
+  protected getDeletedEntryIndex(productCode: string): number {
+    const deletedEntries = this.deletedEntries$.getValue() || [];
+
+    return (deletedEntries || []).findIndex(
+      (element: OrderEntry) => element.product?.code === productCode
+    );
   }
 
   /**
@@ -258,5 +321,21 @@ export class QuickOrderService implements QuickOrderFacade {
     }
 
     return evt;
+  }
+
+  protected getAndUnsubscribeClearMessageTimout(productCode: string): void {
+    const clearMessageTimoutIndex = (
+      this.clearMessageTimeoutArray || []
+    ).findIndex(
+      (element: ClearMessageTimout) => element.productCode === productCode
+    );
+
+    if (clearMessageTimoutIndex !== -1) {
+      this.clearMessageTimeoutArray[
+        clearMessageTimoutIndex
+      ].subscription?.unsubscribe();
+
+      this.clearMessageTimeoutArray.splice(clearMessageTimoutIndex, 1);
+    }
   }
 }

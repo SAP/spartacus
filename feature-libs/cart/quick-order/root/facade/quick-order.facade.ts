@@ -22,6 +22,7 @@ export function quickOrderFacadeFactory() {
       'addDeletedEntry',
       'getDeletedEntries',
       'undoDeletedEntry',
+      'clearDeletedEntry',
     ],
   });
 }
@@ -89,10 +90,15 @@ export abstract class QuickOrderFacade {
   /**
    * Return deleted entries
    */
-  abstract getDeletedEntries(): OrderEntry[];
+  abstract getDeletedEntries(): Observable<OrderEntry[]>;
 
   /**
    * Undo deleted entry
    */
   abstract undoDeletedEntry(productCode: string): void;
+
+  /**
+   * Clear deleted entry from the list
+   */
+  abstract clearDeletedEntry(productCode: string): void;
 }
