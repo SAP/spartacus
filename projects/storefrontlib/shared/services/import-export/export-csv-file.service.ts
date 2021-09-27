@@ -14,7 +14,7 @@ export class ExportCsvFileService {
    * @param separator for csv data
    * @returns Processed string ready to be saved into file
    */
-  convertToCsv(objectsArray: string[][], separator: string): string {
+  convert(objectsArray: string[][], separator: string): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
     return array.reduce((csvString: string, row: string[]) => {
@@ -39,9 +39,9 @@ export class ExportCsvFileService {
     objectsArray: string[][],
     separator: string,
     fileOptions: FileOptions
-  ) {
+  ): void {
     this.fileDownloadService.download(
-      this.convertToCsv(objectsArray, separator),
+      this.convert(objectsArray, separator),
       fileOptions
     );
   }

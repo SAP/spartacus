@@ -43,17 +43,17 @@ describe('ExportCsvFileService', () => {
   });
 
   it('should convert array to csv string', () => {
-    expect(service.convertToCsv(mockEntries, separator)).toBe(mockCsvString);
+    expect(service.convert(mockEntries, separator)).toBe(mockCsvString);
   });
 
   it('should convert data and download', () => {
-    spyOn(service, 'convertToCsv').and.callThrough();
+    spyOn(service, 'convert').and.callThrough();
     spyOn(service, 'download').and.callThrough();
     spyOn(fileDownloadService, 'download').and.callThrough();
     service.download(mockEntries, separator, fileOptions);
-    expect(service.convertToCsv).toHaveBeenCalledWith(mockEntries, separator);
+    expect(service.convert).toHaveBeenCalledWith(mockEntries, separator);
     expect(fileDownloadService.download).toHaveBeenCalledWith(
-      service.convertToCsv(mockEntries, separator),
+      service.convert(mockEntries, separator),
       fileOptions
     );
   });
