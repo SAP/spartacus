@@ -99,13 +99,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     | Command<Address, unknown> = this.command?.create<Address>(
     (payload) => {
       const addressId = payload.id;
-      // TODO:#13888 Remove this process setting during removal of process for set delivery address
-      this.processStateStore.dispatch(
-        new StateUtils.EntityLoadAction(
-          PROCESS_FEATURE,
-          SET_DELIVERY_ADDRESS_PROCESS_ID
-        )
-      );
       return combineLatest([
         this.userIdService.takeUserId(),
         this.activeCartService.getActiveCartId(),
@@ -122,6 +115,13 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           ) {
             return of(); // TODO:#13888 should we throw error here? useful dev info?
           }
+          // TODO:#13888 Remove this process setting during removal of process for set delivery address
+          this.processStateStore.dispatch(
+            new StateUtils.EntityLoadAction(
+              PROCESS_FEATURE,
+              SET_DELIVERY_ADDRESS_PROCESS_ID
+            )
+          );
           return this.checkoutDeliveryConnector
             .setAddress(userId, cartId, addressId)
             .pipe(
