@@ -6,8 +6,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
   templateUrl: './message.component.html',
 })
 export class MessageComponent {
-  showBody = false;
-
   @Input()
   text: string;
 
@@ -16,6 +14,9 @@ export class MessageComponent {
 
   @Input()
   accordionText: string;
+
+  @Input()
+  showBody = false;
 
   @Input()
   type: GlobalMessageType;
