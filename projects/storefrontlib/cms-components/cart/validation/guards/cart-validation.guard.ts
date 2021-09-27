@@ -3,7 +3,6 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
   CartValidationService,
-  CartModificationList,
   SemanticPathService,
   GlobalMessageService,
   ActiveCartService,
@@ -11,7 +10,7 @@ import {
   CartModification,
   RoutingService,
 } from '@spartacus/core';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
 
 @Injectable({
@@ -30,17 +29,34 @@ export class CartValidationGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.cartValidationService.getCartValidationStatus().pipe(
-      tap(() => {
-        this.cartValidationWarningsStateService.checkForValidationResultClear$.subscribe();
-      }),
-      map((cartModificationList: CartModificationList) => {
+      withLatestFrom(this.activeCartService.getEntries()),
+      map(([cartModificationList, cartEntries]) => {
         this.updateValidationResultState(
           cartModificationList?.cartModifications
         );
 
         if (cartModificationList?.cartModifications?.length !== 0) {
+          let validationResultMessage;
+
+          if (
+            cartEntries.length === 1 &&
+            cartEntries[0].product.code ===
+              cartModificationList?.cartModifications[0].entry.product.code
+          ) {
+            validationResultMessage = {
+              key: 'validation.cartEntryRemoved',
+              params: {
+                name:
+                  cartModificationList?.cartModifications[0].entry.product.name,
+              },
+            };
+          } else {
+            validationResultMessage = {
+              key: 'validation.cartEntriesChangeDuringCheckout',
+            };
+          }
           this.globalMessageService.add(
-            { key: 'validation.cartEntriesChangeDuringCheckout' },
+            validationResultMessage,
             GlobalMessageType.MSG_TYPE_ERROR
           );
           this.activeCartService.reloadActiveCart();
