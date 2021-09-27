@@ -18,11 +18,7 @@ export class ImportCsvFileService {
    * @param separator for csv data
    * @returns Processed data containing productCode and quantity
    */
-  readCsvData(
-    csvString: string,
-    separator: string,
-    ignoreHeader = true
-  ): string[][] {
+  parse(csvString: string, separator: string, ignoreHeader = true): string[][] {
     return csvString
       .split('\n')
       .map((row) => row.split(separator).map((cell) => cell.replace(/"/g, '')))
@@ -34,7 +30,7 @@ export class ImportCsvFileService {
   loadFile(file: File, separator: string): Observable<string[][]> {
     return this.fileReaderService
       .loadTextFile(file)
-      .pipe(map((res) => this.readCsvData(res as string, separator)));
+      .pipe(map((res) => this.parse(res as string, separator)));
   }
 
   validateFile(
@@ -56,7 +52,7 @@ export class ImportCsvFileService {
       tap((data: string) => {
         this.validateEmpty(data, errors);
       }),
-      map((res) => this.readCsvData(res, separator)),
+      map((res) => this.parse(res, separator)),
       tap((data: string[][]) => {
         this.validateTooManyEntries(data, errors, maxEntries);
         this.validNotParsable(data, errors, isDataParsable);

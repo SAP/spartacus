@@ -41,9 +41,9 @@ describe('ImportCsvFileService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('readCsvData', () => {
-    service['readCsvData']('', separator);
-    expect(service['readCsvData']).toBeDefined();
+  it('parse', () => {
+    service['parse']('', separator);
+    expect(service['parse']).toBeDefined();
   });
 
   it('should return extracted CSV string', (done: DoneFn) => {
@@ -56,7 +56,7 @@ describe('ImportCsvFileService', () => {
   });
 
   it('should convert csv to data', () => {
-    const result = service.readCsvData(mockCsvString, separator);
+    const result = service.parse(mockCsvString, separator);
     expect(result).toEqual(mockLoadFileData);
   });
 });
