@@ -3,4 +3,6 @@ export const addedToCartToast = {
   entryAdded: '{{ quantity }} item added',
   continueShopping: 'Continue Shopping',
   goToCart: 'Go to Cart',
+  quantity: 'Qty',
+  price: 'Price',
 };

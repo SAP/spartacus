@@ -18,8 +18,12 @@
       ></cx-media>
       <div class="added-to-cart-toast-product">
         <h3>{{ toast.productName }}</h3>
-        <span>Qty: {{ toast.quantity }}</span>
-        <span>Price: {{ toast.unitPrice }}</span>
+        <span>
+          {{ 'addedToCartToast.quantity' | cxTranslate }}: {{ toast.quantity }}
+        </span>
+        <span>
+          {{ 'addedToCartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
+        </span>
       </div>
       <span class="continue-shopping" (click)="closeToast(toast)">
         {{ 'addedToCartToast.continueShopping' | cxTranslate }}
