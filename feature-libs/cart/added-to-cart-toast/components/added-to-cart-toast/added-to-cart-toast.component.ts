@@ -29,8 +29,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
 
   customClass?: string;
 
-  @HostBinding('className') baseClass: string;
-
   headerElement: HTMLElement | null;
 
   toastContainerClass: string;
@@ -40,6 +38,8 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   toastContainerBaseClass = 'toast-container';
 
   scrollEventUnlistener: () => void;
+
+  @HostBinding('className') baseClass: string;
 
   cartAddEntrySuccess$: Observable<CartAddEntrySuccessEvent> = this.eventService.get(
     CartAddEntrySuccessEvent
@@ -59,18 +59,30 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     protected routerService: RoutingService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.headerElement = this.winRef.document.querySelector('header');
 
-    if (!this.customClass) this.customClass = 'cx-added-cart-toast';
+    if (!this.customClass) {
+      this.customClass = 'cx-added-cart-toast';
+    }
 
     this.baseClass = `${this.customClass}`;
     this.toastContainerClass = this.toastContainerBaseClass;
 
-    if (this.addedToCartToastConfig.addedToCartToast?.timeout)
+    if (this.addedToCartToastConfig.addedToCartToast?.timeout) {
       this.timeout = this.addedToCartToastConfig.addedToCartToast?.timeout;
-    else this.timeout = 3000;
+    } else {
+      this.timeout = 3000;
+    }
 
+    this.watchCartAddEntrySuccess();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  watchCartAddEntrySuccess() {
     this.subscription.add(
       this.cartAddEntrySuccess$
         .pipe(
@@ -99,7 +111,9 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
             toastItem.baseClass = this.getToastStyles();
           });
 
-          this.scrollEventUnlistener && this.scrollEventUnlistener();
+          if (this.scrollEventUnlistener) {
+            this.scrollEventUnlistener();
+          }
 
           // wait for enter animation end
           setTimeout(() => {
@@ -114,11 +128,7 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  triggerScrollEvent() {
+  triggerScrollEvent(): void {
     this.scrollEventUnlistener = this.renderer.listen(
       this.winRef.nativeWindow,
       'scroll',
@@ -127,7 +137,9 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   }
 
   isHeaderInView(): boolean {
-    if (!this.headerElement) return false;
+    if (!this.headerElement) {
+      return false;
+    }
     const headerBounding = this.headerElement.getBoundingClientRect();
     return headerBounding.bottom >= 0;
   }
@@ -139,7 +151,9 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   }
 
   closeToast(toastItem: CartToastItem) {
-    toastItem.timeoutRef && clearTimeout(toastItem.timeoutRef);
+    if (toastItem.timeoutRef) {
+      clearTimeout(toastItem.timeoutRef);
+    }
     this._closeToast(toastItem);
   }
 
@@ -167,18 +181,26 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     toastBaseClass: string = ''
   ): string {
     let positionClasses = [this.toastContainerBaseClass];
+
     if (toastState === CART_TOAST_STATE.CLOSING) {
-      if (toastBaseClass.includes('transition-none'))
+      if (toastBaseClass.includes('transition-none')) {
         return toastBaseClass.replace('transition-none', 'close-toast');
-      else return (toastBaseClass += ' close-toast');
+      } else {
+        return (toastBaseClass += ' close-toast');
+      }
     }
 
-    if (this.isHeaderFixed()) positionClasses.push('on-fixed-header');
-    else if (this.isHeaderInView()) positionClasses.push('on-header');
-    else positionClasses.push('off-header');
+    if (this.isHeaderFixed()) {
+      positionClasses.push('on-fixed-header');
+    } else if (this.isHeaderInView()) {
+      positionClasses.push('on-header');
+    } else {
+      positionClasses.push('off-header');
+    }
 
-    if (toastState === CART_TOAST_STATE.OPENED)
+    if (toastState === CART_TOAST_STATE.OPENED) {
       positionClasses.push('transition-none');
+    }
 
     return positionClasses.join(' ');
   }
