@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileOptions } from '../../models/file';
+import { ExportFileOptions } from '../../models/file';
 import { FileDownloadService } from './file-download.service';
 
 @Injectable({
@@ -32,13 +32,13 @@ export class ExportCsvFileService {
    *
    * @param objectsArray Array of objects which should be converted to CSV.
    * @param separator for csv data
-   * @param fileOptions FileOptions
+   * @param fileOptions ExportFileOptions
    * @returns Processed string ready to be saved into file
    */
   download(
     objectsArray: string[][],
     separator: string,
-    fileOptions: FileOptions
+    fileOptions: ExportFileOptions
   ): void {
     this.fileDownloadService.download(
       this.convert(objectsArray, separator),

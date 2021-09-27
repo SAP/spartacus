@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { InvalidFileInfo } from '../../models/file';
+import { CsvFileValidationErrors } from '../../models/file';
 import { FileReaderService } from './file-reader.service';
 
 @Injectable({
@@ -44,8 +44,8 @@ export class ImportCsvFileService {
       isDataParsable?: (data: string[][]) => boolean;
       maxEntries?: number;
     }
-  ): Observable<InvalidFileInfo | null> {
-    const errors: InvalidFileInfo = {};
+  ): Observable<CsvFileValidationErrors | null> {
+    const errors: CsvFileValidationErrors = {};
     return (
       this.fileReaderService.loadTextFile(file) as Observable<string>
     ).pipe(

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { FileOptions } from '../../models/file';
+import { ExportFileOptions } from '../../models/file';
 import { ExportCsvFileService } from './export-csv-file.service';
 import { FileDownloadService } from './file-download.service';
 
 const separator = ',';
-const fileOptions: FileOptions = {
+const fileOptions: ExportFileOptions = {
   fileName: 'data',
   extension: 'csv',
   type: 'text/csv;charset=utf-8;',
@@ -21,7 +21,7 @@ const mockCsvString =
   'Sku,Quantity,Name,Price\r\n4567133,1,PSM 80 A,$12.00\r\n3881027,1,"Screwdriver BT-SD 3,6/1 Li",$26.00\r\n3794609,1,"2.4V Şarjli Tornavida, Tüp Ambalaj","$30,200.00"\r\n';
 
 class MockFileDownloadService {
-  download(_fileContent: string, _fileOptions: FileOptions) {}
+  download(_fileContent: string, _fileOptions: ExportFileOptions) {}
 }
 
 describe('ExportCsvFileService', () => {

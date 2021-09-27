@@ -1,4 +1,4 @@
-export interface FileOptions {
+export interface ExportFileOptions {
   /**
    * File name for exported file.
    */
@@ -13,7 +13,7 @@ export interface FileOptions {
   type: string;
 }
 
-export interface InvalidFileInfo {
+export interface CsvFileValidationErrors {
   tooLarge?: { maxSize: number };
   tooManyEntries?: { maxEntries: number };
   empty?: boolean;

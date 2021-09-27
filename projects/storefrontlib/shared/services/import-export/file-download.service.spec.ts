@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { FileOptions } from '@spartacus/storefront';
+import { ExportFileOptions } from '@spartacus/storefront';
 import { FileDownloadService } from './file-download.service';
 
-const fileOptions: FileOptions = {
+const fileOptions: ExportFileOptions = {
   fileName: 'data',
   extension: 'csv',
   type: 'text/csv;charset=utf-8;',

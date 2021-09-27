@@ -1,5 +1,5 @@
 import { Translatable } from '@spartacus/core';
-import { FileOptions } from '@spartacus/storefront';
+import { ExportFileOptions } from '@spartacus/storefront';
 
 export interface ExportColumn {
   /**
@@ -34,7 +34,7 @@ export interface ExportConfig {
   /**
    * Metadata for exported file.
    */
-  fileOptions: FileOptions;
+  fileOptions: ExportFileOptions;
 
   /**
    * Determines entries limit in exported CSV file.
