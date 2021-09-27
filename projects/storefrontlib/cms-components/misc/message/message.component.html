@@ -8,6 +8,18 @@
       <span class="cx-message-text">
         {{ text }}
         <button
+          *ngIf="accordionText"
+          (click)="showBody = !showBody"
+          class="cx-message-accordion-button link cx-action-link"
+          type="button"
+        >
+          {{ accordionText }}
+          <cx-icon
+            [type]="showBody ? 'CARET_UP' : 'CARET_DOWN'"
+            class="cx-message-accordion-icon"
+          ></cx-icon>
+        </button>
+        <button
           *ngIf="actionButtonText"
           (click)="buttonAction.emit()"
           class="btn btn-link cx-action-link"
@@ -22,7 +34,7 @@
       </button>
     </div>
 
-    <div class="cx-message-body">
+    <div *ngIf="showBody || !accordionText" class="cx-message-body">
       <ng-content></ng-content>
     </div>
   </div>

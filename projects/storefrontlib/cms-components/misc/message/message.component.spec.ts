@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
@@ -17,6 +17,14 @@ const mockCssClassForMessage: Record<string, boolean> = {
   'cx-message-danger': false,
 };
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
@@ -26,7 +34,7 @@ describe('MessageComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [MessageComponent],
+        declarations: [MessageComponent, MockCxIconComponent],
       }).compileComponents();
     })
   );
@@ -58,9 +66,8 @@ describe('MessageComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
-    const element = testFixture.debugElement.query(
-      By.css('cx-message')
-    ).nativeElement;
+    const element = testFixture.debugElement.query(By.css('cx-message'))
+      .nativeElement;
     expect(element.textContent).toEqual('Test');
   });
 

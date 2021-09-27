@@ -35,7 +35,14 @@
     display: flex;
 
     button {
-      margin-inline-start: 5px;
+      margin-inline-start: 10px;
+    }
+
+    .cx-message-accordion-button {
+      .cx-message-accordion-icon {
+        font-size: 17px;
+        margin-inline-start: 5px;
+      }
     }
   }
 

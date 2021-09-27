@@ -13,6 +13,12 @@ export class MessageComponent {
   actionButtonText: string;
 
   @Input()
+  accordionText: string;
+
+  @Input()
+  showBody = false;
+
+  @Input()
   type: GlobalMessageType;
 
   @Output()
