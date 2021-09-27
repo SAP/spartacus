@@ -29,10 +29,12 @@ export const quickOrderList = {
   successfullyAddedToCart: 'Successfully added to Cart.',
   errors: {
     productIsOutOfStock: '{{ name }} (#{{code}}) is out of stock.',
+    reviewErrors: 'Please review these errors',
   },
   warnings: {
     productWasReduced:
       'Quantity for {{ name }} (#{{code}}) was reduced to {{ quantityAdded}}.',
+    reviewWarnings: 'Please review these warnings',
   },
   successes: {
     productAddedToCart: '{{ name }} (#{{code}}) was added to cart.',

@@ -34,9 +34,8 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected deletedEntries$: BehaviorSubject<
-    OrderEntry[]
-  > = new BehaviorSubject<OrderEntry[]>([]);
+  protected deletedEntries$: BehaviorSubject<OrderEntry[]> =
+    new BehaviorSubject<OrderEntry[]>([]);
   protected deletionClearTimeout = 5000;
 
   private clearMessageTimeoutArray: ClearMessageTimout[] = [];

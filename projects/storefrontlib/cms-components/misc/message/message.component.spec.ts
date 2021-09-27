@@ -66,8 +66,9 @@ describe('MessageComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
-    const element = testFixture.debugElement.query(By.css('cx-message'))
-      .nativeElement;
+    const element = testFixture.debugElement.query(
+      By.css('cx-message')
+    ).nativeElement;
     expect(element.textContent).toEqual('Test');
   });
 
@@ -97,8 +98,9 @@ describe('MessageComponent', () => {
     component.actionButtonText = 'Test';
     fixture.detectChanges();
 
-    const button = el.query(By.css('.cx-message .cx-action-link'))
-      .nativeElement;
+    const button = el.query(
+      By.css('.cx-message .cx-action-link')
+    ).nativeElement;
     button.click();
 
     expect(button.textContent).toEqual(' Test ');
