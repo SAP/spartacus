@@ -74,7 +74,7 @@ class MockImportToCartService implements Partial<ImportToCartService> {
 }
 
 class MockImportCsvFileService implements Partial<ImportCsvFileService> {
-  loadCsvData = () => of(mockLoadFileData);
+  loadFile = () => of(mockLoadFileData);
   validateFile = () => of(null);
 }
 
