@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',

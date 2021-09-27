@@ -3,6 +3,8 @@ import { OrderEntry } from '../../model/order.model';
 
 /**
  * Base cart event. Most cart events should have these properties.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export abstract class CartEvent extends CxEvent {
   cartId: string;
@@ -12,6 +14,9 @@ export abstract class CartEvent extends CxEvent {
 
 // =====================================================================
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntryEvent extends CartEvent {
   /**
    * Event's type
@@ -21,6 +26,9 @@ export class CartAddEntryEvent extends CartEvent {
   quantity: number;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntrySuccessEvent extends CartEvent {
   /**
    * Event's type
@@ -33,6 +41,9 @@ export class CartAddEntrySuccessEvent extends CartEvent {
   deliveryModeChanged?: boolean;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntryFailEvent extends CartEvent {
   /**
    * Event's type
@@ -40,8 +51,12 @@ export class CartAddEntryFailEvent extends CartEvent {
   static readonly type = 'CartAddEntryFailEvent';
   productCode: string;
   quantity: number;
+  error?: unknown;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartRemoveEntryFailEvent extends CartEvent {
   /**
    * Event's type
@@ -50,6 +65,9 @@ export class CartRemoveEntryFailEvent extends CartEvent {
   entry: OrderEntry;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartRemoveEntrySuccessEvent extends CartEvent {
   /**
    * Event's type
@@ -58,6 +76,9 @@ export class CartRemoveEntrySuccessEvent extends CartEvent {
   entry: OrderEntry;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartUpdateEntrySuccessEvent extends CartEvent {
   /**
    * Event's type
@@ -67,6 +88,9 @@ export class CartUpdateEntrySuccessEvent extends CartEvent {
   entry: OrderEntry;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartUpdateEntryFailEvent extends CartEvent {
   /**
    * Event's type

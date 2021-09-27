@@ -3,6 +3,9 @@ import { CartPersistenceModule } from './cart-persistence.module';
 import { CartEventModule } from './event/cart-event.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     MultiCartStoreModule,

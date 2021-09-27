@@ -6,11 +6,17 @@ import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',

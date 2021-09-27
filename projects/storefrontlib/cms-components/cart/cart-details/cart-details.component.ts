@@ -11,6 +11,9 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',

@@ -20,6 +20,9 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

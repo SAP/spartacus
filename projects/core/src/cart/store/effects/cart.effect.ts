@@ -23,6 +23,9 @@ import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable()
 export class CartEffects {
   private contextChange$ = this.actions$.pipe(
@@ -242,15 +245,16 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> = this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    mergeMap(() => {
-      return [new CartActions.ResetCartDetails()];
-    })
-  );
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      mergeMap(() => {
+        return [new CartActions.ResetCartDetails()];
+      })
+    );
 
   @Effect()
   addEmail$: Observable<

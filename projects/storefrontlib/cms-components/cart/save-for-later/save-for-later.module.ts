@@ -9,6 +9,9 @@ import {
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { SaveForLaterComponent } from './save-for-later.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [CommonModule, I18nModule, CartSharedModule],
   providers: [

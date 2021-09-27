@@ -15,6 +15,9 @@ import { CartItemListComponent } from './cart-item-list/cart-item-list.component
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

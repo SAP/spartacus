@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Cart, OrderEntry, WishListService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-wish-list',
   templateUrl: './wish-list.component.html',

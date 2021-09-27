@@ -19,6 +19,9 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
@@ -162,7 +165,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {
-        if (item.updateable && value) {
+        if (item.updateable && value && !this.readonly) {
           if (this.selectiveCartService && this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,

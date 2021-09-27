@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartVoucherAdapter } from './cart-voucher.adapter';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

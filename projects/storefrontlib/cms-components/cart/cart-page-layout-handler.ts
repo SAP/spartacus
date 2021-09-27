@@ -4,6 +4,9 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

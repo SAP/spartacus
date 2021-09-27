@@ -20,6 +20,8 @@ import {
 
 /**
  * Registers events for the active cart
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 @Injectable({ providedIn: 'root' })
 export class CartEventBuilder {

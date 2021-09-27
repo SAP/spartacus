@@ -5,6 +5,9 @@ import { ConfigInitializerService } from '../config/config-initializer/config-in
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
   configInit: ConfigInitializerService
@@ -26,6 +29,8 @@ export function cartStatePersistenceFactory(
  * will use `current` cart instead of the one saved in browser. This meta reducer
  * sets the value on store initialization to null cart which holds active cart loading
  * until the data from storage is restored.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
   const metaReducer = (reducer: ActionReducer<any>) => (state, action) => {
@@ -44,6 +49,8 @@ export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
 /**
  * Complimentary module for cart to store cart id in browser storage.
  * This makes it possible to work on the same anonymous cart even after page refresh.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 @NgModule()
 export class CartPersistenceModule {

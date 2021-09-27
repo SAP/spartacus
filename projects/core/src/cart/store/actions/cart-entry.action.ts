@@ -5,17 +5,47 @@ import {
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_REMOVE_ENTRY = '[Cart-entry] Remove Entry';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntry extends EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
   constructor(
@@ -30,6 +60,9 @@ export class CartAddEntry extends EntityProcessesIncrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
   constructor(
@@ -49,6 +82,9 @@ export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartAddEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(
@@ -64,6 +100,9 @@ export class CartAddEntryFail extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartRemoveEntry extends EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(
@@ -73,6 +112,9 @@ export class CartRemoveEntry extends EntityProcessesIncrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor(
@@ -82,6 +124,9 @@ export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(
@@ -96,6 +141,9 @@ export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartUpdateEntry extends EntityProcessesIncrementAction {
   readonly type = CART_UPDATE_ENTRY;
   constructor(
@@ -110,6 +158,9 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
   constructor(
@@ -124,6 +175,9 @@ export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(
@@ -139,6 +193,9 @@ export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 export type CartEntryAction =
   | CartAddEntry
   | CartAddEntrySuccess

@@ -1,5 +1,7 @@
 /**
  * Identifiers of outlets inside the cart details view.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 export enum CartOutlets {
   ITEM = 'cx-cart-item',

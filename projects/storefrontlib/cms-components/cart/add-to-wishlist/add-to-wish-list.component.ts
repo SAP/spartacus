@@ -11,6 +11,9 @@ import { filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CurrentProductService } from '../../product/current-product.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-add-to-wishlist',
   templateUrl: './add-to-wish-list.component.html',
@@ -22,12 +25,12 @@ export class AddToWishListComponent {
     tap((product) => this.setStockInfo(product))
   );
 
-  wishListEntries$: Observable<
-    OrderEntry[]
-  > = this.wishListService.getWishList().pipe(
-    filter((wishlist) => Boolean(wishlist)),
-    map((wishList) => wishList.entries)
-  );
+  wishListEntries$: Observable<OrderEntry[]> = this.wishListService
+    .getWishList()
+    .pipe(
+      filter((wishlist) => Boolean(wishlist)),
+      map((wishList) => wishList.entries)
+    );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
   loading$: Observable<boolean> = this.wishListService.getWishListLoading();

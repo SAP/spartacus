@@ -17,6 +17,9 @@ import { AddToCartModule } from '../cart/index';
 import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @NgModule({
   imports: [
     AddToCartModule,

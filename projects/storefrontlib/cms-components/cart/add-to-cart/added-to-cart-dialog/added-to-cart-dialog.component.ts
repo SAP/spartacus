@@ -19,6 +19,9 @@ import {
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',

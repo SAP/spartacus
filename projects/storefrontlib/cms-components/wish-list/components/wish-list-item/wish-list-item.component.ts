@@ -7,6 +7,9 @@ import {
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-wish-list-item',
   templateUrl: './wish-list-item.component.html',

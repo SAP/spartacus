@@ -8,6 +8,9 @@ import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable()
 export class CartVoucherEffects {
   constructor(

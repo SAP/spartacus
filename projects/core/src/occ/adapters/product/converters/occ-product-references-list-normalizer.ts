@@ -9,7 +9,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccProductReferencesListNormalizer
-  implements Converter<Occ.ProductReferenceList, ProductReference[]> {
+  implements Converter<Occ.ProductReferenceList, ProductReference[]>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

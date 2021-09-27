@@ -58,18 +58,20 @@ const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
   configuration: configuration,
 };
 
-const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  cartEntryNumber: CART_ENTRY_NUMBER,
-  configuration: configuration,
-};
-const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  cartEntryNumber: '0',
-  owner: ConfiguratorModelUtils.createInitialOwner(),
-};
+const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    cartEntryNumber: CART_ENTRY_NUMBER,
+    configuration: configuration,
+  };
+const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    cartEntryNumber: '0',
+    owner: ConfiguratorModelUtils.createInitialOwner(),
+  };
 
 describe('OccConfigurationTextfieldAdapter', () => {
   let occConfiguratorVariantAdapter: OccConfiguratorTextfieldAdapter;

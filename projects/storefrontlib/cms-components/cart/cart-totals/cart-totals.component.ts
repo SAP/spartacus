@@ -3,6 +3,9 @@ import { ActiveCartService, Cart, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Component({
   selector: 'cx-cart-totals',
   templateUrl: './cart-totals.component.html',

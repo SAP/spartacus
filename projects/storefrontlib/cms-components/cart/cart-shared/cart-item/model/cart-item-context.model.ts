@@ -6,6 +6,8 @@ import { CartItemComponentOptions } from '../cart-item.component';
 
 /**
  * Context for `CartItemComponent`.
+ *
+ * @deprecated since 4.1 - use cart lib instead
  */
 @Injectable()
 export abstract class CartItemContext {

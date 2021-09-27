@@ -3,6 +3,9 @@ import { Observable } from 'rxjs';
 import { SaveCartResult } from '../../../model/cart.model';
 import { SaveCartAdapter } from './save-cart.adapter';
 
+/**
+ * @deprecated since 4.1 - use cart lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

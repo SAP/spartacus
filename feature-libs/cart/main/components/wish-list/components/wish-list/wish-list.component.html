@@ -1,0 +1,30 @@
+<ng-container *ngIf="wishList$ | async as wishList">
+  <ng-container *ngIf="wishList?.entries?.length > 0; else emptyWishList">
+    <div class="d-none d-md-block d-lg-block d-xl-block">
+      <div class="cx-item-list-header row">
+        <div class="cx-item-list-desc col-md-7 col-lg-6 col-xl-6">
+          {{ 'cartItems.description' | cxTranslate }}
+        </div>
+        <div class="cx-item-list-price col-md-3 col-lg-4 col-xl-4">
+          {{ 'cartItems.itemPrice' | cxTranslate }}
+        </div>
+        <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+          {{ 'cartItems.total' | cxTranslate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-item-list-row" *ngFor="let entry of wishList?.entries">
+      <cx-wish-list-item
+        [cartEntry]="entry"
+        [isLoading]="loading$ | async"
+        class="cx-wish-list-items"
+        (remove)="removeEntry($event)"
+      ></cx-wish-list-item>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyWishList>
+  <h2>{{ 'wishlist.empty' | cxTranslate }}</h2>
+</ng-template>
