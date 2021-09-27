@@ -82,6 +82,7 @@ export class ExpressCheckoutService {
       this.shippingAddressSet$ = combineLatest([
         this.userAddressService.getAddresses(),
         this.userAddressService.getAddressesLoadedSuccess(),
+        this.checkoutDetailsService.getDeliveryAddress(),
       ]).pipe(
         debounceTime(0),
         tap(([, addressesLoadedSuccess]) => {
@@ -91,10 +92,12 @@ export class ExpressCheckoutService {
         }),
         filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
         take(1),
-        switchMap(([addresses]) => {
+        switchMap(([addresses, , deliveryAddress]) => {
           const defaultAddress =
             addresses.find((address) => address.defaultAddress) || addresses[0];
-          if (defaultAddress && Object.keys(defaultAddress).length) {
+          if (deliveryAddress && Object.keys(deliveryAddress).length > 0) {
+            return of(true);
+          } else if (defaultAddress && Object.keys(defaultAddress).length) {
             return this.checkoutDeliveryService
               .setDeliveryAddress(defaultAddress)
               .pipe(
