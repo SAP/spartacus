@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { CsvFileValidationErrors } from '../../models/file';
 import { FileReaderService } from './file-reader.service';
 
@@ -54,9 +54,10 @@ export class ImportCsvFileService {
       }),
       map((res) => this.parse(res, separator)),
       tap((data: string[][]) => {
-        this.validateTooManyEntries(data, errors, maxEntries);
         this.validNotParsable(data, errors, isDataParsable);
+        this.validateTooManyEntries(data, errors, maxEntries);
       }),
+      catchError((errors) => of(errors)),
       map(() => (Object.keys(errors).length === 0 ? null : errors))
     );
   }
@@ -64,6 +65,7 @@ export class ImportCsvFileService {
   protected validateEmpty(data: string, errors: ValidationErrors) {
     if (data.toString().length === 0) {
       errors.empty = true;
+      throw errors;
     }
   }
 
@@ -74,6 +76,7 @@ export class ImportCsvFileService {
   ) {
     if (maxEntries && data.length > maxEntries) {
       errors.tooManyEntries = { maxEntries };
+      throw errors;
     }
   }
 
@@ -82,8 +85,9 @@ export class ImportCsvFileService {
     errors: ValidationErrors,
     isDataParsable?: (data: string[][]) => boolean
   ) {
-    if (!errors.empty && isDataParsable && !isDataParsable(data)) {
+    if (isDataParsable && !isDataParsable(data)) {
       errors.notParsable = true;
+      throw errors;
     }
   }
 }
