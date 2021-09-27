@@ -6,11 +6,16 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
   templateUrl: './message.component.html',
 })
 export class MessageComponent {
+  showBody = false;
+
   @Input()
   text: string;
 
   @Input()
   actionButtonText: string;
+
+  @Input()
+  accordionText: string;
 
   @Input()
   type: GlobalMessageType;
