@@ -1,7 +1,7 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const addedToCartTranslations: TranslationResources = {
+export const addedToCartToastTranslations: TranslationResources = {
   en,
 };
 
