@@ -109,7 +109,7 @@ export class ExpressCheckoutService {
         })
       );
     } else {
-      // TODO: Remove this branch in 5.0 when we fully switch to queries/commands based checkout
+      // TODO: Remove this branch in when we fully switch to command for setting delivery address
       this.shippingAddressSet$ = combineLatest([
         this.userAddressService.getAddresses(),
         this.userAddressService.getAddressesLoadedSuccess(),
@@ -298,10 +298,9 @@ export class ExpressCheckoutService {
                   StateUtils.LoaderState<void>
                 ]) => {
                   if (Boolean(deliveryModes.length)) {
-                    const preferredDeliveryMode =
-                      this.checkoutConfigService.getPreferredDeliveryMode(
-                        deliveryModes
-                      );
+                    const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                      deliveryModes
+                    );
                     return of([
                       preferredDeliveryMode,
                       setDeliveryModeStatus,

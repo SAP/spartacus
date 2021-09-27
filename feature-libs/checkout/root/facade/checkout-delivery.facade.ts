@@ -60,6 +60,7 @@ export abstract class CheckoutDeliveryFacade {
    */
   abstract getDeliveryAddress(): Observable<Address>;
 
+  // TODO:#13888 Remove during removal of process for set delivery address
   /**
    * Get status about successfully set Delivery Address
    *
@@ -69,6 +70,7 @@ export abstract class CheckoutDeliveryFacade {
     StateUtils.LoaderState<void>
   >;
 
+  // TODO:#13888 Remove during removal of process for set delivery address
   /**
    * Clear info about process of setting Delivery Address
    *
