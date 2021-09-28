@@ -63,13 +63,7 @@ export interface DeliveryOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-/**
- * @deprecated since 5.0, use cart lib instead
- */
-export interface Principal {
-  name?: string;
-  uid?: string;
-}
+
 
 /**
  * @deprecated since 5.0, use cart lib instead

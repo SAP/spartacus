@@ -24,3 +24,8 @@ export interface CheckoutStep {
   type: Array<CheckoutStepType>;
   disabled?: boolean;
 }
+
+export enum B2BPaymentTypeEnum {
+  ACCOUNT_PAYMENT = 'ACCOUNT',
+  CARD_PAYMENT = 'CARD',
+}

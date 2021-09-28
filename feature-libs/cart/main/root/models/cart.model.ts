@@ -7,6 +7,7 @@ import {
   PaymentDetails,
   PickupOrderEntryGroup,
   Price,
+  Principal,
   Promotion,
   PromotionOrderEntryConsumed,
 } from '@spartacus/core';
@@ -23,11 +24,6 @@ export enum PromotionLocation {
   Order = 'ORDER',
   SaveForLater = 'SAVE_FOR_LATER',
   SavedCart = 'SAVED_CART',
-}
-
-export enum B2BPaymentTypeEnum {
-  ACCOUNT_PAYMENT = 'ACCOUNT',
-  CARD_PAYMENT = 'CARD',
 }
 
 export interface Voucher {
@@ -48,11 +44,6 @@ export interface DeliveryOrderEntryGroup {
   entries?: OrderEntry[];
   quantity?: number;
   totalPriceWithTax?: Price;
-}
-
-export interface Principal {
-  name?: string;
-  uid?: string;
 }
 
 export interface CardType {
