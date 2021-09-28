@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   HostBinding,
   OnDestroy,
@@ -56,7 +57,8 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected productService: ProductService,
     protected renderer: Renderer2,
-    protected routerService: RoutingService
+    protected routerService: RoutingService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -106,10 +108,11 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
             product,
             toastContainerClass
           );
+
+          this.cd.detectChanges();
+
           // trigger enter animations with class change
-          setTimeout(() => {
-            toastItem.baseClass = this.getToastStyles();
-          });
+          toastItem.baseClass = this.getToastStyles();
 
           if (this.scrollEventUnlistener) {
             this.scrollEventUnlistener();
