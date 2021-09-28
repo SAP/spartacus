@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { ExportFileOptions } from '../../models/file';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileDownloadService {
-  download(fileContent: string, fileOptions: ExportFileOptions): void {
-    const { fileName, type, extension } = fileOptions;
-    const blob = new Blob(['\ufeff' + fileContent], {
-      type,
-    });
+  /**
+   * Triggers the browser downloading of the file from the given URL.
+   *
+   * @param {string} url URL to file.
+   * @param {string} [fileName] The optional parameter for defining filename
+   * (including the extension) when saving the file.
+   */
+  download(url: string, fileName?: string): void {
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
 
     link.setAttribute('href', url);
-    link.setAttribute('download', `${fileName}.${extension}`);
+    link.setAttribute('download', `${fileName}`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();

@@ -11,8 +11,8 @@ export class ExportCsvFileService {
    * Converts array of objects into CSV data structure.
    *
    * @param objectsArray Array of objects which should be converted to CSV.
-   * @param separator for csv data
-   * @returns Processed string ready to be saved into file
+   * @param separator Separator for CSV data.
+   * @returns Processed string ready to be saved into file.
    */
   convert(objectsArray: string[][], separator: string): string {
     const array =
@@ -28,21 +28,22 @@ export class ExportCsvFileService {
   }
 
   /**
-   * Downloads CSV file
+   * Creates and download CSV file.
    *
    * @param objectsArray Array of objects which should be converted to CSV.
-   * @param separator for csv data
-   * @param fileOptions ExportFileOptions
-   * @returns Processed string ready to be saved into file
+   * @param separator Separator for CSV data.
+   * @param fileOptions Exported file options.
    */
   download(
     objectsArray: string[][],
     separator: string,
     fileOptions: ExportFileOptions
   ): void {
-    this.fileDownloadService.download(
-      this.convert(objectsArray, separator),
-      fileOptions
-    );
+    const { fileName, type, extension } = fileOptions;
+    const fileContent = this.convert(objectsArray, separator);
+    const blob = new Blob([fileContent], { type });
+    const url = URL.createObjectURL(blob);
+
+    this.fileDownloadService.download(url, `${fileName}.${extension}`);
   }
 }

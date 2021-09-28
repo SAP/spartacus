@@ -42,7 +42,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
       fileOptions: {
         fileName: 'cart',
         extension: 'csv',
-        type: 'text/csv;charset=utf-8;',
+        type: 'text/csv',
       },
     },
   },
