@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
@@ -12,6 +13,7 @@ import {
   CommandService,
   CommandStrategy,
   CurrencySetEvent,
+  DeleteUserAddressEvent,
   DeliveryMode,
   EventService,
   FeatureConfigService,
@@ -24,11 +26,13 @@ import {
   QueryService,
   StateUtils,
   StateWithProcess,
+  UpdateUserAddressEvent,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import {
+  filter,
   map,
   pluck,
   shareReplay,
@@ -163,7 +167,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
-  // TODO:#13888 Remove optional chaining and update types in 5.0
+  // TODO:#13888 Remove optional chaining and update types in the future
   protected supportedDeliveryModesQuery: undefined | Query<DeliveryMode[]> =
     this.query?.create<DeliveryMode[]>(
       () => {
@@ -178,7 +182,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               !cartId ||
               (userId === OCC_USER_ID_ANONYMOUS &&
                 !this.activeCartService.isGuestCart()) ||
-              !this.checkoutDeliveryConnector // TODO:#13888 Remove check in 5.0 when service will be required
+              !this.checkoutDeliveryConnector // TODO:#13888 Remove check in the future when service will be required
             ) {
               return of([]); // TODO:#13888 should we throw error here? empty array?
             }
@@ -190,19 +194,39 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         );
       },
       {
-        reloadOn: [
-          DeliveryAddressSetEvent,
+        reloadOn: [LanguageSetEvent, CurrencySetEvent],
+        resetOn: [
           LogoutEvent,
           LoginEvent,
-          LanguageSetEvent,
-          // TODO:#13888 check this one?
-          CurrencySetEvent,
+          DeliveryAddressSetEvent,
+          UpdateUserAddressEvent,
+          DeleteUserAddressEvent,
+          // TODO:#13888 convert to an event
+          // TODO: test when starting the b2b checkout
+          this.actions$?.pipe(
+            ofType(CheckoutActions.SET_PAYMENT_TYPE_SUCCESS)
+          ) ?? EMPTY,
+          // TODO:#13888 remove when removing the action
+          // TODO: finish checkout and leave the order confirmation page
+          this.actions$?.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)) ??
+            EMPTY,
+          // TODO:#13888 remove when removing the action
+          this.actions$?.pipe(
+            ofType<CheckoutActions.ClearCheckoutStep>(
+              CheckoutActions.CLEAR_CHECKOUT_STEP
+            ),
+            filter((action) => action.payload === 2)
+          ) ?? EMPTY,
+          // TODO:#13888 remove when removing the action
+          this.actions$?.pipe(
+            ofType(CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES)
+          ) ?? EMPTY,
         ],
       }
     );
 
   /**
-   * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
+   * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector, Actions and FeatureConfigService.
    */
   constructor(
     checkoutStore: Store<StateWithCheckout>,
@@ -220,6 +244,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     query: QueryService,
     command: CommandService,
     checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    // TODO:#13888 remove when all actions are removed from the queries
+    actions$: Actions,
     featureConfigService: FeatureConfigService
   );
 
@@ -232,6 +258,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected query?: QueryService,
     protected command?: CommandService,
     protected checkoutDeliveryConnector?: CheckoutDeliveryConnector,
+    // TODO:#13888 remove when all actions are removed from the queries
+    protected actions$?: Actions,
     protected featureConfigService?: FeatureConfigService
   ) {}
 
@@ -239,7 +267,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get supported delivery modes
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
+    // TODO:#13888 Remove condition in the future when we fully switch to c&q
     if (
       !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
@@ -270,13 +298,13 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       );
     }
 
-    // TODO:#13888 Remove check in 5.0 when all services will be provided
+    // TODO:#13888 Remove check in the future when all services will be provided
     if (this.supportedDeliveryModesQuery) {
       return this.supportedDeliveryModesQuery
         .get()
         .pipe(map((deliveryModes) => deliveryModes ?? []));
     }
-    // TODO:#13888 Remove in 5.0 when all services will be provided
+    // TODO:#13888 Remove in the future when all services will be provided
     throw new Error(
       'Missing constructor parameters in CheckoutDeliveryService'
     );
