@@ -19,7 +19,6 @@ import {
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
-//import { AddToCartModule } from '../../cart/add-to-cart/add-to-cart.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
@@ -33,7 +32,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     CommonModule,
     RouterModule,
     MediaModule,
-    //AddToCartModule,
     ItemCounterModule,
     ListNavigationModule,
     UrlModule,

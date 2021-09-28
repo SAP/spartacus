@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   AuthRedirectService,
   AuthService,
@@ -23,7 +23,7 @@ export class CheckoutAuthGuard implements CanActivate {
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartFacade,
+    protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected userService: UserAccountFacade,

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   AuthRedirectService,
   AuthService,
@@ -23,7 +23,7 @@ class AuthServiceStub implements Partial<AuthService> {
   }
 }
 
-class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getAssignedUser(): Observable<User> {
     return of();
   }
@@ -65,7 +65,7 @@ describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let activeCartService: ActiveCartFacade;
+  let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
   let userService: UserAccountFacade;
   let globalMessageService: GlobalMessageService;
@@ -87,7 +87,7 @@ describe('CheckoutAuthGuard', () => {
           useClass: AuthServiceStub,
         },
         {
-          provide: ActiveCartFacade,
+          provide: ActiveCartService,
           useClass: ActiveCartServiceStub,
         },
         {
@@ -108,7 +108,7 @@ describe('CheckoutAuthGuard', () => {
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     userService = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);

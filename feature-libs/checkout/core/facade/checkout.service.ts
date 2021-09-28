@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -26,7 +26,7 @@ export class CheckoutService implements CheckoutFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartFacade,
+    protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
 

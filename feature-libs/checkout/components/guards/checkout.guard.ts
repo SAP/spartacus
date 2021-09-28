@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutStepType } from '@spartacus/checkout/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -20,7 +20,7 @@ export class CheckoutGuard implements CanActivate {
     protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
     protected expressCheckoutService: ExpressCheckoutService,
-    protected activeCartService: ActiveCartFacade,
+    protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService
   ) {
     this.firstStep$ = of(

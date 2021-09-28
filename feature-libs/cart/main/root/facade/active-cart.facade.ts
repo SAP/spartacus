@@ -28,7 +28,7 @@ import { CART_CORE_FEATURE } from '../feature-name';
         'getEntry',
         'addEmail',
         'getAssignedUser',
-        'isGuestCart',
+        //'isGuestCart',
         'addEntries',
         'requireLoadedCart',
       ],
@@ -115,7 +115,7 @@ export abstract class ActiveCartFacade {
   /**
    * Returns true for guest cart
    */
-  abstract isGuestCart(cart?: Cart): boolean;
+  //abstract isGuestCart(cart?: Cart): Observable<boolean>;
 
   /**
    * Add multiple entries to a cart

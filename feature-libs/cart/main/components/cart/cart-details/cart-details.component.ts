@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  ActiveCartFacade,
-  SelectiveCartFacade,
-} from '@spartacus/cart/main/root';
+import { SelectiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   AuthService,
   Cart,
@@ -28,7 +26,7 @@ export class CartDetailsComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
+    protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService
   ) {}

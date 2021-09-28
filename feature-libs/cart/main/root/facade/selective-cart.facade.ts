@@ -17,7 +17,7 @@ import { CART_CORE_FEATURE } from '../feature-name';
         'removeEntry',
         'updateEntry',
         'getEntry',
-        'isEnabled',
+        //'isEnabled',
       ],
       async: true,
     }),
@@ -43,5 +43,5 @@ export abstract class SelectiveCartFacade {
   /**
    * Indicates if selectiveCart feature is enabled based on cart configuration.
    */
-  abstract isEnabled(): boolean;
+  //abstract isEnabled(): boolean;
 }

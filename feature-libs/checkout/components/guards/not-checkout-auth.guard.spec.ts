@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { AuthService, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
@@ -18,7 +18,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
   }
 }
 
-class CartServiceStub implements Partial<ActiveCartFacade> {
+class CartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }
@@ -27,7 +27,7 @@ class CartServiceStub implements Partial<ActiveCartFacade> {
 describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
   let authService: AuthServiceStub;
-  let activeCartService: ActiveCartFacade;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe('NotCheckoutAuthGuard', () => {
         { provide: SemanticPathService, useClass: SemanticPathServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         {
-          provide: ActiveCartFacade,
+          provide: ActiveCartService,
           useClass: CartServiceStub,
         },
       ],
@@ -44,7 +44,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   describe('when user is authorized,', () => {

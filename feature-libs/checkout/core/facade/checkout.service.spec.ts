@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   Cart,
   Order,
@@ -35,7 +35,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
 
-class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }
@@ -58,7 +58,7 @@ class UserIdServiceStub implements Partial<UserIdService> {
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
-  let activeCartService: ActiveCartFacade;
+  let activeCartService: ActiveCartService;
   let userIdService: UserIdService;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -78,13 +78,13 @@ describe('CheckoutService', () => {
       ],
       providers: [
         CheckoutService,
-        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartService = TestBed.inject(ActiveCartService);
     userIdService = TestBed.inject(UserIdService);
 
     userIdService['userId'] = userId;

@@ -4,7 +4,6 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
-//import { AddToCartModule } from '../../cart/add-to-cart/add-to-cart.module';
 import { CurrentProductService } from '../current-product.service';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
@@ -21,12 +20,7 @@ describe('ProductSummaryComponent in product', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          //AddToCartModule,
-          ItemCounterModule,
-          I18nTestingModule,
-          RouterTestingModule,
-        ],
+        imports: [ItemCounterModule, I18nTestingModule, RouterTestingModule],
         declarations: [ProductSummaryComponent, OutletDirective],
         providers: [
           {

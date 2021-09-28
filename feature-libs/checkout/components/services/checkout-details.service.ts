@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
@@ -32,7 +32,7 @@ export class CheckoutDetailsService {
     protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartService
   ) {
     this.cartId$ = this.activeCartService.getActive().pipe(
       map((cartData) => {
