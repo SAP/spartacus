@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -13,7 +14,6 @@ import {
   ImportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',

@@ -11,28 +11,27 @@ import { FileReaderService } from './file-reader.service';
 export class ImportCsvFileService {
   constructor(protected fileReaderService: FileReaderService) {}
   /**
-   * Processes the CSV data
+   * Load CSV file.
    *
-   * @param csvString raw extracted data from CSV
-   * @param ignoreHeader flag allows for ignore headers row while reading
-   * @param separator for csv data
-   * @returns Processed data containing productCode and quantity
+   * @param file File we want to load as CSV.
+   * @param separator Separator for CSV data.
+   * @return {Observable<string[][]>} Imported file
    */
-  parse(csvString: string, separator: string, ignoreHeader = true): string[][] {
-    return csvString
-      .split('\n')
-      .map((row) => row.split(separator).map((cell) => cell.replace(/"/g, '')))
-      .filter(
-        (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
-      );
-  }
-
   loadFile(file: File, separator: string): Observable<string[][]> {
     return this.fileReaderService
       .loadTextFile(file)
       .pipe(map((res) => this.parse(res as string, separator)));
   }
 
+  /**
+   * Combined csv validation
+   *
+   * @param file File we want to load as CSV.
+   * @param separator Separator for CSV data.
+   * @param isDataParsable (optional) Callback for verify that structure type is proper.
+   * @param maxEntries (optional) Limitation for maximum entries count.
+   * @return {Observable<CsvFileValidationErrors | null>} Result of validation
+   */
   validateFile(
     file: File,
     {
@@ -40,7 +39,7 @@ export class ImportCsvFileService {
       isDataParsable,
       maxEntries,
     }: {
-      separator?: string;
+      separator: string;
       isDataParsable?: (data: string[][]) => boolean;
       maxEntries?: number;
     }
@@ -60,6 +59,27 @@ export class ImportCsvFileService {
       catchError((errors) => of(errors)),
       map(() => (Object.keys(errors).length === 0 ? null : errors))
     );
+  }
+
+  /**
+   * Processes the CSV data
+   *
+   * @param csvString raw extracted data from CSV
+   * @param separator for csv data
+   * @param ignoreHeader (optional) flag allows for ignore headers row while reading
+   * @returns {string[][]} Parsed file
+   */
+  protected parse(
+    csvString: string,
+    separator: string,
+    ignoreHeader = true
+  ): string[][] {
+    return csvString
+      .split('\n')
+      .map((row) => row.split(separator).map((cell) => cell.replace(/"/g, '')))
+      .filter(
+        (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
+      );
   }
 
   protected validateEmpty(data: string, errors: ValidationErrors): void {

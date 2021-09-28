@@ -6,11 +6,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  ImportConfig,
-  ProductsData,
-  ImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+import { of, Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CxDatePipe } from '@spartacus/core';
 import {
   LaunchDialogService,
@@ -18,8 +15,11 @@ import {
   ImportCsvFileService,
   FilesFormValidators,
 } from '@spartacus/storefront';
-import { Subject } from 'rxjs';
-import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
+import {
+  ImportConfig,
+  ProductsData,
+  ImportExportConfig,
+} from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -104,11 +104,14 @@ export class ImportEntriesFormComponent implements OnInit {
         ],
         [
           (control) =>
-            this.importCsvService.validateFile(control.value[0], {
-              separator: this.separator,
-              isDataParsable: this.importToCartService.isDataParsableToProducts,
-              maxEntries: this.maxEntries,
-            }),
+            this.separator !== undefined
+              ? this.importCsvService.validateFile(control.value[0], {
+                  separator: this.separator,
+                  isDataParsable:
+                    this.importToCartService.isDataParsableToProducts,
+                  maxEntries: this.maxEntries,
+                })
+              : of(null),
         ]
       )
     );

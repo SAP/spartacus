@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ExportFileOptions } from '@spartacus/storefront';
+import { ExportFileOptions } from '../../models';
 import { FileDownloadService } from './file-download.service';
 
 const fileOptions: ExportFileOptions = {
