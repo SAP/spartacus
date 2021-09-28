@@ -14,10 +14,8 @@ export class ExportCsvFileService {
    * @param separator Separator for CSV data.
    * @returns Processed string ready to be saved into file.
    */
-  convert(objectsArray: string[][], separator: string): string {
-    const array =
-      typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-    return array.reduce((csvString: string, row: string[]) => {
+  protected convert(objectsArray: string[][], separator: string): string {
+    return objectsArray.reduce((csvString: string, row: string[]) => {
       const line = row.reduce((currentLine, column) => {
         currentLine += currentLine !== '' ? separator : '';
         const cell = column.includes(separator) ? `"${column}"` : column;

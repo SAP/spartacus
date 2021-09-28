@@ -30,7 +30,7 @@ export class ExportEntriesService {
     protected importExportConfig: ImportExportConfig,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    protected exportCsvService: ExportCsvFileService
+    protected exportCsvFileService: ExportCsvFileService
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
@@ -153,7 +153,7 @@ export class ExportEntriesService {
     }
     setTimeout(() => {
       if (this.exportConfig !== undefined && this.separator !== undefined) {
-        this.exportCsvService.download(
+        this.exportCsvFileService.download(
           entries,
           this.separator,
           this.exportConfig.fileOptions
