@@ -15,6 +15,7 @@ import {
   CurrentProductService,
   ModalRef,
   ModalService,
+  ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -78,7 +79,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartFacade,
-    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
+    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>,
+    @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
   ngOnInit() {
@@ -92,8 +94,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.hasStock = true;
       this.cd.markForCheck();
     } else {
-      this.subscription = this.currentProductService
-        .getProduct()
+      this.subscription = (
+        this.productListItemContext
+          ? this.productListItemContext.product$
+          : this.currentProductService.getProduct()
+      )
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
           this.productCode = product.code ?? '';
@@ -111,6 +116,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
+    }
+
+    if (this.productListItemContext) {
+      this.showQuantity = false;
     }
   }
 

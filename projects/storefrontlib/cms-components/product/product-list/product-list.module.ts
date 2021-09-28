@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import {
   ItemCounterModule,
@@ -43,6 +44,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     InfiniteScrollModule,
     FeaturesConfigModule,
     OutletModule,
+    PageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),
@@ -50,12 +52,27 @@ import { ProductViewComponent } from './product-view/product-view.component';
       cmsComponents: {
         CMSProductListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         ProductGridComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         SearchResultsListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
       },
     }),
