@@ -5,14 +5,36 @@
         <cx-icon [type]="getIconType"></cx-icon>
       </span>
 
-      <span class="cx-message-text">{{ text }}</span>
+      <span class="cx-message-text">
+        {{ text }}
+        <button
+          *ngIf="accordionText"
+          (click)="showBody = !showBody"
+          class="cx-message-accordion-button link cx-action-link"
+          type="button"
+        >
+          {{ accordionText }}
+          <cx-icon
+            [type]="showBody ? 'CARET_UP' : 'CARET_DOWN'"
+            class="cx-message-accordion-icon"
+          ></cx-icon>
+        </button>
+        <button
+          *ngIf="actionButtonText"
+          (click)="buttonAction.emit()"
+          class="btn btn-link cx-action-link"
+          type="button"
+        >
+          {{ actionButtonText }}
+        </button>
+      </span>
 
-      <button class="close" type="button" (click)="closeMessage.emit()">
+      <button (click)="closeMessage.emit()" class="close" type="button">
         <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </button>
     </div>
 
-    <div class="cx-message-body">
+    <div *ngIf="showBody || !accordionText" class="cx-message-body">
       <ng-content></ng-content>
     </div>
   </div>

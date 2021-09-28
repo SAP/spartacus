@@ -22,6 +22,7 @@ import {
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
+  PROCESS_FEATURE,
   Query,
   QueryService,
   StateUtils,
@@ -30,8 +31,9 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { combineLatest, EMPTY, Observable, of, throwError } from 'rxjs';
 import {
+  catchError,
   filter,
   map,
   pluck,
@@ -122,9 +124,27 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
             ) {
               return of(); // TODO:#13888 should we throw error here? useful dev info?
             }
+            // TODO:#13888 Remove this process setting during removal of process for set delivery address
+            this.processStateStore.dispatch(
+              new StateUtils.EntityLoadAction(
+                PROCESS_FEATURE,
+                SET_DELIVERY_ADDRESS_PROCESS_ID
+              )
+            );
             return this.checkoutDeliveryConnector
               .setAddress(userId, cartId, addressId)
               .pipe(
+                // TODO:#13888 Remove this special error handling when there won't be process for set delivery address
+                catchError((error) => {
+                  this.processStateStore.dispatch(
+                    new StateUtils.EntityFailAction(
+                      PROCESS_FEATURE,
+                      SET_DELIVERY_ADDRESS_PROCESS_ID,
+                      error
+                    )
+                  );
+                  return throwError(error);
+                }),
                 tap(() => {
                   // TODO:#13888 Remove check in 5.0 when eventService will be required
                   this.eventService?.dispatch(
@@ -337,8 +357,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  // TODO:#13888 Remove during removal of process for set delivery address
   /**
    * Get status about successfully set Delivery Address
+   *
+   * @deprecated since 4.3.0. Use return value of setDeliveryAddress method to know if the action was successful or failed.
    */
   getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
     return this.processStateStore.pipe(
@@ -348,8 +371,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  // TODO:#13888 Remove during removal of process for set delivery address
   /**
    * Clear info about process of setting Delivery Address
+   *
+   * @deprecated since 4.3.0. Instead of the process use the return value of setDeliveryAddress method to observe it's status.
    */
   resetSetDeliveryAddressProcess(): void {
     this.checkoutStore.dispatch(
