@@ -57,6 +57,7 @@ export const SET_DELIVERY_ADDRESS = '[Checkout] Set Delivery Address';
 export const SET_DELIVERY_ADDRESS_FAIL = '[Checkout] Set Delivery Address Fail';
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
+// TODO:#13888 Remove when we will remove process for setting delivery address
 /**
  * @deprecated since 4.3.0. Set delivery address is handled with command and it's status can be tracked with return value of setDeliveryAddress method.
  */
@@ -178,6 +179,7 @@ export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+// TODO:#13888 Remove when we will remove process for setting delivery address
 /**
  * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
  */

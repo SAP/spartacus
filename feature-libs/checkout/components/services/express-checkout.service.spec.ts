@@ -151,7 +151,7 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   }
 }
 
-fdescribe('ExpressCheckoutService', () => {
+describe('ExpressCheckoutService', () => {
   let subscription: Subscription;
   let service: ExpressCheckoutService;
   let userAddressService: UserAddressService;

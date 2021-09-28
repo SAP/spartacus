@@ -68,51 +68,18 @@ export class ExpressCheckoutService {
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
     protected clearCheckoutService: ClearCheckoutFacade,
-    protected featureConfigService?: FeatureConfigService
+    protected featureConfigService?: FeatureConfigService // TODO:#13888 Remove when queries won't be behind flag
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();
   }
 
-  protected setShippingAddress() {
+  protected setShippingAddress(): void {
+    // TODO:#13888 Remove this if when we fully switch to command for setting delivery address
     if (
-      this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
+      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
-      this.shippingAddressSet$ = combineLatest([
-        this.userAddressService.getAddresses(),
-        this.userAddressService.getAddressesLoadedSuccess(),
-        this.checkoutDetailsService.getDeliveryAddress(),
-      ]).pipe(
-        debounceTime(0),
-        tap(([, addressesLoadedSuccess]) => {
-          if (!addressesLoadedSuccess) {
-            this.userAddressService.loadAddresses();
-          }
-        }),
-        filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
-        take(1),
-        switchMap(([addresses, , deliveryAddress]) => {
-          const defaultAddress =
-            addresses.find((address) => address.defaultAddress) || addresses[0];
-          if (deliveryAddress && Object.keys(deliveryAddress).length > 0) {
-            return of(true);
-          } else if (defaultAddress && Object.keys(defaultAddress).length) {
-            return this.checkoutDeliveryService
-              .setDeliveryAddress(defaultAddress)
-              .pipe(
-                switchMap(() => {
-                  return this.checkoutDetailsService.getDeliveryAddress();
-                }),
-                map((data) => !!(data && Object.keys(data).length)),
-                catchError(() => of(false))
-              );
-          }
-          return of(false);
-        })
-      );
-    } else {
-      // TODO: Remove this branch in when we fully switch to command for setting delivery address
       this.shippingAddressSet$ = combineLatest([
         this.userAddressService.getAddresses(),
         this.userAddressService.getAddressesLoadedSuccess(),
@@ -186,7 +153,40 @@ export class ExpressCheckoutService {
           }
         )
       );
+      return;
     }
+    this.shippingAddressSet$ = combineLatest([
+      this.userAddressService.getAddresses(),
+      this.userAddressService.getAddressesLoadedSuccess(),
+      this.checkoutDetailsService.getDeliveryAddress(),
+    ]).pipe(
+      debounceTime(0),
+      tap(([, addressesLoadedSuccess]) => {
+        if (!addressesLoadedSuccess) {
+          this.userAddressService.loadAddresses();
+        }
+      }),
+      filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
+      take(1),
+      switchMap(([addresses, , deliveryAddress]) => {
+        const defaultAddress =
+          addresses.find((address) => address.defaultAddress) || addresses[0];
+        if (deliveryAddress && Object.keys(deliveryAddress).length > 0) {
+          return of(true);
+        } else if (defaultAddress && Object.keys(defaultAddress).length) {
+          return this.checkoutDeliveryService
+            .setDeliveryAddress(defaultAddress)
+            .pipe(
+              switchMap(() => {
+                return this.checkoutDetailsService.getDeliveryAddress();
+              }),
+              map((data) => !!(data && Object.keys(data).length)),
+              catchError(() => of(false))
+            );
+        }
+        return of(false);
+      })
+    );
   }
 
   protected setPaymentMethod() {
