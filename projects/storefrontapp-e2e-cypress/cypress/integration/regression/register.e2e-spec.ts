@@ -17,6 +17,11 @@ describe('Register', () => {
       });
       cy.findByText(/Sign in \/ Register/i).click();
       cy.get('cx-login-register').findByText('Register').click();
+
+      // Check keyboard Accessibility
+      cy.get('cx-register form');
+      cy.tabScreenshot({ container: 'cx-register' });
+
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();
       const termsLink = `/${Cypress.env(
