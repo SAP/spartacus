@@ -1,0 +1,6 @@
+[
+  {
+    "element": "<a class=\"btn btn-block btn-secondary btn-register\" ng-reflect-router-link=\"/,login,register\" href=\"/electronics-spa/en/USD/login/register\">Register</a>",
+    "child": "Register"
+  }
+]

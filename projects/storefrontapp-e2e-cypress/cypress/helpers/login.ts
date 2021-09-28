@@ -43,9 +43,12 @@ export function registerUser() {
 }
 
 export function signOutUser() {
+  cy.intercept('GET', `**pageLabelOrId=%2Flogout**`).as('logout');
+  cy.intercept('GET', `pages?**`).as('home');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait([`@logout`,`@home`]);  
 
   cy.get(userGreetSelector).should('not.exist');
 }

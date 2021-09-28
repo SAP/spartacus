@@ -31,7 +31,6 @@ import {
   subCategoryTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
-import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 import {
   addressBookDirectoryTabbingOrder,
@@ -157,16 +156,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Footer', () => {
     it('should allow to navigate with tab key', () => {
       footerTabbingOrder(config.footer);
-    });
-  });
-
-  context('Login page', () => {
-    it('should allow to navigate with tab key (empty form)', () => {
-      loginTabbingOrder(config.login);
-    });
-
-    it('should allow to navigate with tab key (filled out form)', () => {
-      loginTabbingOrder(config.login, true);
     });
   });
 

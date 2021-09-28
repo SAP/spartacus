@@ -30,5 +30,10 @@ describe('Login', () => {
       });
       login.loginWithBadCredentials();
     });
+
+    it('should check keyboard accessibility', () => {
+      cy.tabScreenshot({ container: 'cx-login-form', scenario: 'form' });
+      cy.tabScreenshot({ container: 'cx-login-register', scenario: 'register' });
+    });
   });
 });

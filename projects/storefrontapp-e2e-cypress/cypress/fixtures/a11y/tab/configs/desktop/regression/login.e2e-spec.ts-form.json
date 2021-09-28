@@ -1,0 +1,18 @@
+[
+  {
+    "element": "<input type=\"email\" formcontrolname=\"userId\" class=\"form-control ng-dirty ng-touched ng-valid\" ng-reflect-name=\"userId\" placeholder=\"Enter email\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"password\" formcontrolname=\"password\" class=\"form-control ng-dirty ng-touched ng-valid\" ng-reflect-name=\"password\" placeholder=\"Password\">",
+    "child": ""
+  },
+  {
+    "element": "<a aria-controls=\"reset-password\" class=\"btn-link\" ng-reflect-router-link=\"/,login,forgot-password\" href=\"/electronics-spa/en/USD/login/forgot-password\">Forgot password?</a>",
+    "child": "Forgot password?"
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-block btn-primary\"> Sign In </button>",
+    "child": " Sign In "
+  }
+]

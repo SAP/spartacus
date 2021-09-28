@@ -132,13 +132,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
   ],
-  login: [
-    { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Forgot password?', type: TabbingOrderTypes.LINK },
-    { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
-    { value: 'Register', type: TabbingOrderTypes.BUTTON },
-  ],
   register: [
     { value: 'titleCode', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
