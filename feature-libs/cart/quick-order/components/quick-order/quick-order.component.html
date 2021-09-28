@@ -9,7 +9,7 @@
         | cxTranslate: { name: deletedEntry.product?.name }
     "
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
-    class="quick-order-deletions"
+    class="quick-order-deletions-message"
   >
   </cx-message>
 </ng-container>
@@ -21,9 +21,9 @@
     [accordionText]="'quickOrderList.errors.reviewErrors' | cxTranslate"
     [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
-    class="quick-order-errors"
+    class="quick-order-errors-message"
   >
-    <ul class="quick-order-errors-list">
+    <ul class="quick-order-errors">
       <li *ngFor="let error of errors" class="quick-order-error-item">
         <span>
           {{
@@ -47,9 +47,9 @@
     [accordionText]="'quickOrderList.warnings.reviewWarnings' | cxTranslate"
     [text]="'quickOrderList.warningProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_WARNING"
-    class="quick-order-warnings"
+    class="quick-order-warnings-message"
   >
-    <ul class="quick-order-warnings-list">
+    <ul class="quick-order-warnings">
       <li *ngFor="let warning of warnings" class="quick-order-warning-item">
         <span>
           {{
@@ -73,9 +73,9 @@
     (closeMessage)="clearSuccesses()"
     [text]="'quickOrderList.successfullyAddedToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
-    class="quick-order-successes"
+    class="quick-order-successes-message"
   >
-    <ul class="quick-order-successes-list">
+    <ul class="quick-order-successes">
       <li *ngFor="let entry of successes" class="quick-order-success-item">
         <span>{{
           'quickOrderList.successes.productAddedToCart'

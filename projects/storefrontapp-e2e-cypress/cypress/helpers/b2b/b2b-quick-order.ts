@@ -119,19 +119,19 @@ export function verifyQuickOrderFormIsDisabled() {
 }
 
 export function verifyQuickOrderPageShowErrorMessageOutOfStock() {
-  cy.get('.quick-order-errors')
+  cy.get('.quick-order-errors-message')
     .should('exist')
     .should('contain', 'Error proceeding to Cart');
 }
 
 export function verifyQuickOrderPageShowWarningMessageWasReduced() {
-  cy.get('.quick-order-warnings')
+  cy.get('.quick-order-warnings-message')
     .should('exist')
     .should('contain', 'Warning proceeding to Cart');
 }
 
 export function verifyQuickOrderPageShowSuccessMessageWasAdded() {
-  cy.get('.quick-order-successes')
+  cy.get('.quick-order-successes-message')
     .should('exist')
     .should('contain', 'Successfully added to Cart');
 }
@@ -139,7 +139,7 @@ export function verifyQuickOrderPageShowSuccessMessageWasAdded() {
 export function verifyQuickOrderPageShowEntryDeletionMessages(
   quantity: number
 ) {
-  cy.get('.quick-order-deletions')
+  cy.get('.quick-order-deletions-message')
     .should('exist')
     .should('contain', 'moved to trash')
     .should('have.length', quantity);

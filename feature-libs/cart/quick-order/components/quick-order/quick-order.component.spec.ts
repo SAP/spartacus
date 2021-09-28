@@ -225,7 +225,7 @@ describe('QuickOrderComponent', () => {
       fixture.detectChanges();
 
       expect(quickOrderService.addToCart).toHaveBeenCalled();
-      expect(el.query(By.css('.quick-order-warnings'))).toBeTruthy();
+      expect(el.query(By.css('.quick-order-warnings-message'))).toBeTruthy();
     });
   });
 
