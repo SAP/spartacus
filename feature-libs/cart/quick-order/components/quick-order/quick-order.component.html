@@ -9,19 +9,21 @@
         | cxTranslate: { name: deletedEntry.product?.name }
     "
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+    class="quick-order-deletions"
   >
   </cx-message>
 </ng-container>
 
 <ng-container *ngIf="errors$ | async as errors">
   <cx-message
-    *ngIf="errors.length > 0"
+    *ngIf="errors.length"
     (closeMessage)="clearErrors()"
     [accordionText]="'quickOrderList.errors.reviewErrors' | cxTranslate"
     [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
+    class="quick-order-errors"
   >
-    <ul class="quick-order-errors">
+    <ul class="quick-order-errors-list">
       <li *ngFor="let error of errors" class="quick-order-error-item">
         <span>
           {{
@@ -40,13 +42,14 @@
 
 <ng-container *ngIf="warnings$ | async as warnings">
   <cx-message
-    *ngIf="warnings.length > 0"
+    *ngIf="warnings.length"
     (closeMessage)="clearWarnings()"
     [accordionText]="'quickOrderList.warnings.reviewWarnings' | cxTranslate"
     [text]="'quickOrderList.warningProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_WARNING"
+    class="quick-order-warnings"
   >
-    <ul class="quick-order-warnings">
+    <ul class="quick-order-warnings-list">
       <li *ngFor="let warning of warnings" class="quick-order-warning-item">
         <span>
           {{
@@ -66,12 +69,13 @@
 
 <ng-container *ngIf="successes$ | async as successes">
   <cx-message
-    *ngIf="successes.length > 0"
+    *ngIf="successes.length"
     (closeMessage)="clearSuccesses()"
     [text]="'quickOrderList.successfullyAddedToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+    class="quick-order-successes"
   >
-    <ul class="quick-order-successes">
+    <ul class="quick-order-successes-list">
       <li *ngFor="let entry of successes" class="quick-order-success-item">
         <span>{{
           'quickOrderList.successes.productAddedToCart'

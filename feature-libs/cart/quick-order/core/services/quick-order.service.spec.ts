@@ -12,8 +12,8 @@ import {
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, of, timer } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -30,6 +30,7 @@ const mockProduct2: Product = {
     value: 1,
   },
 };
+const mockEmptyEntry: OrderEntry = {};
 const mockEntry1: OrderEntry = {
   product: mockProduct1,
   quantity: 1,
@@ -213,6 +214,7 @@ describe('QuickOrderService', () => {
   });
 
   it('should remove entry', (done) => {
+    spyOn(service, 'addDeletedEntry').and.callThrough();
     service.loadEntries(mockEntries);
     service.removeEntry(0);
 
@@ -221,6 +223,7 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((entries) => {
         expect(entries).toEqual([mockEntry2]);
+        expect(service.addDeletedEntry).toHaveBeenCalledWith(mockEntry1, true);
         done();
       });
   });
@@ -265,6 +268,30 @@ describe('QuickOrderService', () => {
       });
   });
 
+  it('should add product to the quick order list by increasing current existing product quantity', (done) => {
+    service.addProduct(mockProduct1);
+    service.addProduct(mockProduct1);
+
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([
+          {
+            product: mockProduct1,
+            quantity: 2,
+            basePrice: {
+              value: 1,
+            },
+            totalPrice: {
+              value: 1,
+            },
+          },
+        ]);
+        done();
+      });
+  });
+
   it('should set added product', (done) => {
     service.setProductAdded(mockProduct1Code);
     service
@@ -282,6 +309,76 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toBeNull();
+      });
+    done();
+  });
+
+  it('should add deleted entry', () => {
+    spyOn(service, 'addDeletedEntry').and.callThrough();
+    service.addDeletedEntry(mockEntry1);
+
+    expect(service.addDeletedEntry).toHaveBeenCalledWith(mockEntry1);
+  });
+
+  it('should add deleted entry and after 5s removed it', (done) => {
+    spyOn(service, 'addDeletedEntry').and.callThrough();
+    service.addDeletedEntry(mockEntry1);
+
+    timer(5000)
+      .pipe(
+        take(1),
+        switchMap(() => service.getDeletedEntries())
+      )
+      .subscribe((result) => {
+        expect(result).toEqual([]);
+      });
+    done();
+  });
+
+  it('should not add deleted entry', (done) => {
+    service.addDeletedEntry(mockEmptyEntry);
+
+    service
+      .getDeletedEntries()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual([]);
+      });
+    done();
+  });
+
+  it('should return deleted entries', (done) => {
+    service.addDeletedEntry(mockEntry1);
+
+    service
+      .getDeletedEntries()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual([mockEntry1]);
+      });
+    done();
+  });
+
+  it('should undo deleted entry', (done) => {
+    service.addDeletedEntry(mockEntry1);
+    service.undoDeletedEntry(mockProduct1Code);
+    service
+      .getDeletedEntries()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual([]);
+      });
+    done();
+  });
+
+  it('should clear deleted entry', (done) => {
+    service.addDeletedEntry(mockEntry1);
+    service.clearDeletedEntry(mockProduct1Code);
+    service
+      .getDeletedEntries()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual([]);
       });
     done();
   });

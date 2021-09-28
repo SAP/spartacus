@@ -178,25 +178,28 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   addDeletedEntry(entry: OrderEntry, clearTimeout?: boolean): void {
     const deletedEntries = this.deletedEntries$.getValue() || [];
-    deletedEntries.push(entry);
 
-    this.deletedEntries$.next(deletedEntries);
+    if (entry.product?.code) {
+      deletedEntries.push(entry);
 
-    if (clearTimeout) {
-      const subscription: Subscription = timer(
-        this.deletionClearTimeout
-      ).subscribe(() => {
-        if (entry.product?.code) {
-          this.clearDeletedEntry(entry.product?.code);
-        }
-      });
+      this.deletedEntries$.next(deletedEntries);
 
-      const newClearMessageTimeout: ClearMessageTimout = {
-        productCode: entry.product?.code,
-        subscription,
-      };
+      if (clearTimeout) {
+        const subscription: Subscription = timer(
+          this.deletionClearTimeout
+        ).subscribe(() => {
+          if (entry.product?.code) {
+            this.clearDeletedEntry(entry.product?.code);
+          }
+        });
 
-      this.clearMessageTimeoutArray.push(newClearMessageTimeout);
+        const newClearMessageTimeout: ClearMessageTimout = {
+          productCode: entry.product?.code,
+          subscription,
+        };
+
+        this.clearMessageTimeoutArray.push(newClearMessageTimeout);
+      }
     }
   }
 
