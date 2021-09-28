@@ -55,7 +55,8 @@ describe('CheckoutDeliveryService', () => {
   }
 
   class MockCheckoutDeliveryConnector
-    implements Partial<CheckoutDeliveryConnector> {
+    implements Partial<CheckoutDeliveryConnector>
+  {
     setAddress() {
       return of(true);
     }

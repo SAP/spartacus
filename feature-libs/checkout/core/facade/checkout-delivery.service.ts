@@ -94,89 +94,88 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   );
 
   // TODO:#13888 Remove optional chaining and update types in 5.0
-  protected setDeliveryAddressCommand:
-    | undefined
-    | Command<Address, unknown> = this.command?.create<Address>(
-    (payload) => {
-      const addressId = payload.id;
-      return combineLatest([
-        this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
-      ]).pipe(
-        take(1),
-        switchMap(([userId, cartId]) => {
-          if (
-            !userId ||
-            !cartId ||
-            !addressId ||
-            !this.checkoutDeliveryConnector || // TODO:#13888 Remove check in 5.0 when service will be required
-            (userId === OCC_USER_ID_ANONYMOUS &&
-              !this.activeCartService.isGuestCart())
-          ) {
-            return of(); // TODO:#13888 should we throw error here? useful dev info?
-          }
-          // TODO:#13888 Remove this process setting during removal of process for set delivery address
-          this.processStateStore.dispatch(
-            new StateUtils.EntityLoadAction(
-              PROCESS_FEATURE,
-              SET_DELIVERY_ADDRESS_PROCESS_ID
-            )
-          );
-          return this.checkoutDeliveryConnector
-            .setAddress(userId, cartId, addressId)
-            .pipe(
-              // TODO:#13888 Remove this special error handling when there won't be process for set delivery address
-              catchError((error) => {
-                this.processStateStore.dispatch(
-                  new StateUtils.EntityFailAction(
-                    PROCESS_FEATURE,
-                    SET_DELIVERY_ADDRESS_PROCESS_ID,
-                    error
-                  )
-                );
-                return throwError(error);
-              }),
-              tap(() => {
-                // TODO:#13888 Remove check in 5.0 when eventService will be required
-                this.eventService?.dispatch(
-                  {
-                    userId,
-                    cartId,
-                    address: payload,
-                  },
-                  DeliveryAddressSetEvent
-                );
-                // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.SetDeliveryAddressSuccess(payload)
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ClearCheckoutDeliveryMode({
-                    userId,
-                    cartId,
-                  })
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ClearSupportedDeliveryModes()
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.LoadSupportedDeliveryModes({
-                    userId,
-                    cartId,
-                  })
-                );
-              })
+  protected setDeliveryAddressCommand: undefined | Command<Address, unknown> =
+    this.command?.create<Address>(
+      (payload) => {
+        const addressId = payload.id;
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              !addressId ||
+              !this.checkoutDeliveryConnector || // TODO:#13888 Remove check in 5.0 when service will be required
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              return of(); // TODO:#13888 should we throw error here? useful dev info?
+            }
+            // TODO:#13888 Remove this process setting during removal of process for set delivery address
+            this.processStateStore.dispatch(
+              new StateUtils.EntityLoadAction(
+                PROCESS_FEATURE,
+                SET_DELIVERY_ADDRESS_PROCESS_ID
+              )
             );
-        })
-      );
-    },
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+            return this.checkoutDeliveryConnector
+              .setAddress(userId, cartId, addressId)
+              .pipe(
+                // TODO:#13888 Remove this special error handling when there won't be process for set delivery address
+                catchError((error) => {
+                  this.processStateStore.dispatch(
+                    new StateUtils.EntityFailAction(
+                      PROCESS_FEATURE,
+                      SET_DELIVERY_ADDRESS_PROCESS_ID,
+                      error
+                    )
+                  );
+                  return throwError(error);
+                }),
+                tap(() => {
+                  // TODO:#13888 Remove check in 5.0 when eventService will be required
+                  this.eventService?.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      address: payload,
+                    },
+                    DeliveryAddressSetEvent
+                  );
+                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryMode({
+                      userId,
+                      cartId,
+                    })
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearSupportedDeliveryModes()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+                  );
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.LoadSupportedDeliveryModes({
+                      userId,
+                      cartId,
+                    })
+                  );
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   /**
    * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
