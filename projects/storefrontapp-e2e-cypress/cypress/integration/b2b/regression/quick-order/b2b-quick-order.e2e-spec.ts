@@ -44,6 +44,23 @@ context('B2B - Quick Order', () => {
         quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.removeFirstRow();
         quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+      });
+
+      it('should close deletion message after 5s after removal', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        cy.wait(5000);
+        quickOrder.verifyQuickOrderPageHasNotDeletionMessage();
+      });
+
+      it('should remove 5 products and get 5 deletion messages', () => {
+        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
+        quickOrder.removeManyRows(5);
+        quickOrder.verifyQuickOrderListQuantity(5);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(5);
       });
 
       it('should clear the list', () => {

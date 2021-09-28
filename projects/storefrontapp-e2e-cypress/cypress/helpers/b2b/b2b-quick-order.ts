@@ -99,6 +99,16 @@ export function removeFirstRow() {
     .find('.cx-quick-order-table-item-action .cx-action-link')
     .click();
 }
+export function removeManyRows(quantity: number = 1) {
+  const array = Array.from(Array(quantity).keys());
+
+  for (let i = 0; i < array.length; i++) {
+    cy.get(`cx-quick-order .cx-quick-order-table-row`)
+      .first()
+      .find('.cx-quick-order-table-item-action .cx-action-link')
+      .click();
+  }
+}
 
 export function addToCart() {
   cy.get(`.quick-order-footer .add-button`).click();
@@ -109,21 +119,34 @@ export function verifyQuickOrderFormIsDisabled() {
 }
 
 export function verifyQuickOrderPageShowErrorMessageOutOfStock() {
-  cy.get('cx-message .quick-order-errors')
+  cy.get('.quick-order-errors')
     .should('exist')
-    .should('contain', 'is out of stock');
+    .should('contain', 'Error proceeding to Cart');
 }
 
 export function verifyQuickOrderPageShowWarningMessageWasReduced() {
-  cy.get('cx-message .quick-order-warnings')
+  cy.get('.quick-order-warnings')
     .should('exist')
-    .should('contain', 'was reduced to');
+    .should('contain', 'Warning proceeding to Cart');
 }
 
 export function verifyQuickOrderPageShowSuccessMessageWasAdded() {
-  cy.get('cx-message .quick-order-successes')
+  cy.get('.quick-order-successes')
     .should('exist')
-    .should('contain', 'was added to cart');
+    .should('contain', 'Successfully added to Cart');
+}
+
+export function verifyQuickOrderPageShowEntryDeletionMessages(
+  quantity: number
+) {
+  cy.get('.quick-order-deletions')
+    .should('exist')
+    .should('contain', 'moved to trash')
+    .should('have.length', quantity);
+}
+
+export function verifyQuickOrderPageHasNotDeletionMessage() {
+  cy.get('.quick-order-deletions').should('not.exist');
 }
 
 export function verifyEmptyListButtonIsHidden() {
