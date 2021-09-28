@@ -19,8 +19,7 @@ export const environment: Environment = {
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
-  b2b: true,
-  // b2b: buildProcess.env.CX_B2B ?? false,
+  b2b: buildProcess.env.CX_B2B ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
 };
