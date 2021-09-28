@@ -20,8 +20,8 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
 import { CxEvent } from '../../event/cx-event';
+import { EventService } from '../../event/event.service';
 
 export type QueryNotifier = Observable<any> | Type<CxEvent>;
 
@@ -31,9 +31,9 @@ export interface QueryState<T> {
   data: T | undefined;
 }
 
-export interface Query<T, P extends any[] = []> {
-  get(...params: P): Observable<T | undefined>;
-  getState(...params: P): Observable<QueryState<T>>;
+export interface Query<RESULT, PARAMS extends any[] = []> {
+  get(...params: PARAMS): Observable<RESULT | undefined>;
+  getState(...params: PARAMS): Observable<QueryState<RESULT>>;
 }
 
 @Injectable({

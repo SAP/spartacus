@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CheckoutPaymentConnector } from '..';
+import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,

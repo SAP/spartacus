@@ -11,11 +11,16 @@ import {
   Command,
   CommandService,
   CommandStrategy,
+  CurrencySetEvent,
   DeliveryMode,
   EventService,
   FeatureConfigService,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
+  Query,
   QueryService,
   StateUtils,
   StateWithProcess,
@@ -24,6 +29,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
+  map,
   pluck,
   shareReplay,
   switchMap,
@@ -157,6 +163,44 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
+  // TODO:#13888 Remove optional chaining and update types in 5.0
+  protected supportedDeliveryModesQuery: undefined | Query<DeliveryMode[]> =
+    this.query?.create<DeliveryMode[]>(
+      () => {
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart()) ||
+              !this.checkoutDeliveryConnector // TODO:#13888 Remove check in 5.0 when service will be required
+            ) {
+              return of([]); // TODO:#13888 should we throw error here? empty array?
+            }
+            return this.checkoutDeliveryConnector.getSupportedModes(
+              userId,
+              cartId
+            );
+          })
+        );
+      },
+      {
+        reloadOn: [
+          DeliveryAddressSetEvent,
+          LogoutEvent,
+          LoginEvent,
+          LanguageSetEvent,
+          // TODO:#13888 check this one?
+          CurrencySetEvent,
+        ],
+      }
+    );
+
   /**
    * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector and FeatureConfigService.
    */
@@ -195,26 +239,46 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get supported delivery modes
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getSupportedDeliveryModes),
-      withLatestFrom(
-        this.processStateStore.pipe(
-          select(
-            ProcessSelectors.getProcessStateFactory(
-              SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
+    if (
+      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
+    ) {
+      return this.checkoutStore.pipe(
+        select(CheckoutSelectors.getSupportedDeliveryModes),
+        withLatestFrom(
+          this.processStateStore.pipe(
+            select(
+              ProcessSelectors.getProcessStateFactory(
+                SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+              )
             )
           )
-        )
-      ),
-      tap(([, loadingState]) => {
-        if (
-          !(loadingState.loading || loadingState.success || loadingState.error)
-        ) {
-          this.loadSupportedDeliveryModes();
-        }
-      }),
-      pluck(0),
-      shareReplay({ bufferSize: 1, refCount: true })
+        ),
+        tap(([, loadingState]) => {
+          if (
+            !(
+              loadingState.loading ||
+              loadingState.success ||
+              loadingState.error
+            )
+          ) {
+            this.loadSupportedDeliveryModes();
+          }
+        }),
+        pluck(0),
+        shareReplay({ bufferSize: 1, refCount: true })
+      );
+    }
+
+    // TODO:#13888 Remove check in 5.0 when all services will be provided
+    if (this.supportedDeliveryModesQuery) {
+      return this.supportedDeliveryModesQuery
+        .get()
+        .pipe(map((deliveryModes) => deliveryModes ?? []));
+    }
+    // TODO:#13888 Remove in 5.0 when all services will be provided
+    throw new Error(
+      'Missing constructor parameters in CheckoutDeliveryService'
     );
   }
 

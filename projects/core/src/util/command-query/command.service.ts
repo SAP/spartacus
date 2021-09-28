@@ -9,8 +9,8 @@ import {
   tap,
 } from 'rxjs/operators';
 
-export abstract class Command<P = undefined, R = unknown> {
-  abstract execute(params: P): Observable<R>;
+export abstract class Command<PARAMS = undefined, RESULT = unknown> {
+  abstract execute(params: PARAMS): Observable<RESULT>;
 }
 
 export enum CommandStrategy {
