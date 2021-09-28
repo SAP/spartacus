@@ -7,7 +7,7 @@ const separator = ',';
 const fileOptions: ExportFileOptions = {
   fileName: 'data',
   extension: 'csv',
-  type: 'text/csv;charset=utf-8;',
+  type: 'text/csv;',
 };
 
 const mockEntries = [
@@ -43,18 +43,28 @@ describe('ExportCsvFileService', () => {
   });
 
   it('should convert array to csv string', () => {
-    expect(service.convert(mockEntries, separator)).toBe(mockCsvString);
+    expect(service['convert'](mockEntries, separator)).toBe(mockCsvString);
   });
 
   it('should convert data and download', () => {
-    spyOn(service, 'convert').and.callThrough();
-    spyOn(service, 'download').and.callThrough();
+    const fakeUrl =
+      'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
+    spyOn<any>(service, 'convert').and.callThrough();
+    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
     spyOn(fileDownloadService, 'download').and.callThrough();
+
     service.download(mockEntries, separator, fileOptions);
-    expect(service.convert).toHaveBeenCalledWith(mockEntries, separator);
+
+    expect(service['convert']).toHaveBeenCalledWith(mockEntries, separator);
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+    expect(URL.createObjectURL).toHaveBeenCalledWith(
+      new Blob([mockCsvString], {
+        type: fileOptions.type,
+      })
+    );
     expect(fileDownloadService.download).toHaveBeenCalledWith(
-      service.convert(mockEntries, separator),
-      fileOptions
+      fakeUrl,
+      'data.csv'
     );
   });
 });

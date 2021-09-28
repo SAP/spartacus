@@ -55,8 +55,8 @@ describe('ImportCsvFileService', () => {
     });
   });
 
-  it('should convert csv to data', () => {
-    const result = service.parse(mockCsvString, separator);
+  it('should parse csv data', () => {
+    const result = service['parse'](mockCsvString, separator);
     expect(result).toEqual(mockLoadFileData);
   });
 });
