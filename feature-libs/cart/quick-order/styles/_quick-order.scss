@@ -18,20 +18,6 @@ cx-quick-order {
     width: 100%;
   }
 
-  .quick-order-undo-body {
-    display: flex;
-    justify-content: flex-end;
-
-    .undo-button {
-      margin-bottom: 0 !important;
-
-      @media (max-width: 767px) {
-        margin-top: 20px;
-        width: 100%;
-      }
-    }
-  }
-
   .quick-order-footer {
     justify-content: flex-end;
     margin-top: 40px;

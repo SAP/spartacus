@@ -1,16 +1,11 @@
 cx-quick-order-form {
   .quick-order-form-container {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .quick-order-form-content {
     display: flex;
     position: relative;
   }
 
   .quick-order-form-input {
+    margin-inline-end: 15px;
     position: relative;
     width: 300px;
 

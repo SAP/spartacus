@@ -103,17 +103,6 @@
         [isDisabled]="entries.length >= quickOrderListLimit"
         [isLoading]="!(isCartStable$ | async)"
       >
-        <!-- <div class="col-xs-12 col-md-4 col-lg-4 quick-order-undo-body">
-          <button
-            *ngIf="isUndoDeletionEnable()"
-            (click)="undoDeletion()"
-            [attr.aria-label]="'Undo Entry Deletion'"
-            class="btn btn-primary undo-button"
-            type="button"
-          >
-            {{ 'quickOrderList.undoDeletion' | cxTranslate }}
-          </button>
-        </div> -->
       </cx-quick-order-form>
     </div>
 
