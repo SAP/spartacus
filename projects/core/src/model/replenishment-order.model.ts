@@ -3,11 +3,10 @@ import {
   DeliveryOrderEntryGroup,
   PaymentDetails,
   PaymentType,
-  Principal,
   PromotionResult,
   Voucher,
 } from './cart.model';
-import { PaginationModel, SortModel } from './misc.model';
+import { PaginationModel, Principal, SortModel } from './misc.model';
 import { DeliveryMode, OrderEntry, PickupOrderEntryGroup } from './order.model';
 import { CostCenter } from './org-unit.model';
 import { Price } from './product.model';

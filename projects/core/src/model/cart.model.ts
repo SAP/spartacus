@@ -1,5 +1,5 @@
 import { Address } from './address.model';
-import { Currency } from './misc.model';
+import { Currency, Principal } from './misc.model';
 import {
   DeliveryMode,
   OrderEntry,
