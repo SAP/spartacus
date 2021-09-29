@@ -11,13 +11,12 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  FormErrorsModule,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
-  SpinnerModule,
-} from '@spartacus/storefront';
+} from '@spartacus/order/components';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
