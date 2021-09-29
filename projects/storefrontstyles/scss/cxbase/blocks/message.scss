@@ -28,12 +28,28 @@
     padding-top: 0;
     position: relative;
     text-align: var(--cx-text-align, center);
-    top: 8px;
+  }
+
+  &-text {
+    align-items: center;
+    display: flex;
+
+    button {
+      margin-inline-start: 10px;
+    }
+
+    .cx-message-accordion-button {
+      .cx-message-accordion-icon {
+        font-size: 17px;
+        margin-inline-start: 5px;
+      }
+    }
   }
 
   &-body {
     font-size: var(--cx-font-size, 0.8125rem);
     font-weight: var(--cx-font-weight-normal);
+    padding: 0 12px;
   }
 
   &-icon {

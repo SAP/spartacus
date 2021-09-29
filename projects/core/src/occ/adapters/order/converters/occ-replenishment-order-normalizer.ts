@@ -10,7 +10,8 @@ import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-p
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
-  implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {
+  implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder>
+{
   constructor(
     private converter: ConverterService,
     private entryPromotionService?: OrderEntryPromotionsService

@@ -26,7 +26,8 @@ class MockConfiguratorCartService {
   removeCartBoundConfigurations() {}
 }
 
-let mockConfiguratorCartService: MockConfiguratorCartService = new MockConfiguratorCartService();
+let mockConfiguratorCartService: MockConfiguratorCartService =
+  new MockConfiguratorCartService();
 
 describe('RulebasedConfiguratorEventListener', () => {
   let orderPlacedEvent: ReplaySubject<any> | undefined;

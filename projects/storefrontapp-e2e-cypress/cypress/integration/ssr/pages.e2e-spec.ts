@@ -3,7 +3,7 @@ describe('SSR', () => {
   const pdpUrl = '/product/3965240/np-fv-70';
 
   beforeEach(() => {
-    cy.intercept({ method: 'GET', url: '*.js' }, {});
+    cy.intercept({ method: 'GET', url: '*.js' }, { body: '' });
   });
 
   function seoChecks() {

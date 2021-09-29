@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts
+// projects/storefrontlib/layout/breakpoint/breakpoint.service.ts
 export const BREAKPOINT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: BREAKPOINT_SERVICE,

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "4.0.0",
+  "version": "4.1.0-next.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -54,6 +54,7 @@
       "@spartacus/cdc",
       "@spartacus/tracking",
       "@spartacus/cart",
+      "@spartacus/order",
       "@spartacus/digital-payments",
       "@spartacus/setup"
     ]

@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { waitForProductPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -12,13 +12,13 @@ import * as merchandisingCarousel from '../../../../helpers/vendor/cds/merchandi
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
 function testPDPPage(productId: string): void {
-  const productPage = waitForPage('ProductPage', 'getProductPage');
+  const productPage = waitForProductPage(productId, 'getProductPage');
 
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`
   );
 
-  cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
     strategyRequestAlias,
@@ -34,7 +34,6 @@ context('Merchandising Carousel - Product page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });

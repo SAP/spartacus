@@ -137,5 +137,16 @@ describe('RenderingCache with cacheSize', () => {
       expect(renderingCache.get('a')).toBeTruthy();
       expect(renderingCache.get('b')).toBeFalsy();
     });
+
+    it('should not drop oldest element, when setting a new value for existing key', () => {
+      renderingCache.store('a', null, 'a');
+      renderingCache.store('b', null, 'b');
+      renderingCache.store('c', null, 'c1');
+      renderingCache.store('c', null, 'c2');
+      renderingCache.store('c', null, 'c3');
+      expect(renderingCache.get('a')).toBeFalsy();
+      expect(renderingCache.get('b')).toBeTruthy();
+      expect(renderingCache.get('c')).toBeTruthy();
+    });
   });
 });

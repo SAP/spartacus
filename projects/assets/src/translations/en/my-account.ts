@@ -1,4 +1,7 @@
 export const myAccount = {
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
+   */
   orderDetails: {
     orderId: 'Order #',
     orderNumber: 'Order Number',
@@ -99,6 +102,9 @@ export const myAccount = {
         'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
     },
   },
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
+   */
   orderHistory: {
     orderHistory: 'Order history',
     orderId: 'Order #',
@@ -227,12 +233,18 @@ export const myAccount = {
       byNameDesc: 'Name (descending)',
     },
   },
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
+   */
   AccountOrderHistoryTabContainer: {
     tabs: {
       AccountOrderHistoryComponent: 'ALL ORDERS ({{param}})',
       OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
   },
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
+   */
   returnRequestList: {
     returnRequestId: 'Return #',
     orderId: 'Order #',
@@ -254,6 +266,9 @@ export const myAccount = {
     statusDisplay_TAX_REVERSAL_FAILED: 'Tax Reversal Failed',
     statusDisplay_COMPLETED: 'Completed',
   },
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/order/assets instead
+   */
   returnRequest: {
     returnRequestId: 'Return Request #',
     orderCode: 'For Order #',
@@ -267,8 +282,7 @@ export const myAccount = {
     subtotal: 'Subtotal',
     deliveryCode: 'Delivery cost',
     estimatedRefund: 'Estimated refund',
-    note:
-      'The totals are estimated and may not include applicable taxes or other charges.',
+    note: 'The totals are estimated and may not include applicable taxes or other charges.',
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
   },
   wishlist: {
