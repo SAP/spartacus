@@ -65,13 +65,13 @@ export class QueryService implements OnDestroy {
     );
 
     const loadTrigger$ = this.getTriggersStream([
+      retryInterruptedLoad$,
       state$.pipe(
         filter(
           ({ data, loading, error }) => data === undefined && !loading && !error
         )
       ),
       ...(options?.reloadOn ?? []),
-      retryInterruptedLoad$,
     ]);
 
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
