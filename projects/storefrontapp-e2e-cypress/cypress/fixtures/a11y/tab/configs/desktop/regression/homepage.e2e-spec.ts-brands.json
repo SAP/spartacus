@@ -1,0 +1,70 @@
+[
+  {
+    "element": "<span aria-label=\"Brands\" tabindex=\"0\"> Brands <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Brands <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/all/c/brands\" ng-reflect-query-params=\"[object Object]\" class=\"all\" href=\"/electronics-spa/en/USD/Brands/all/c/brands\"> Shop all Brands &gt; <!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Shop all Brands &gt; <!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Canon/c/brand_10\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Canon/c/brand_10\"> Canon <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Canon <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Sony/c/brand_5\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Sony/c/brand_5\"> Sony <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Sony <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Kodak/c/brand_88\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Kodak/c/brand_88\"> Kodak <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Kodak <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Samsung/c/brand_26\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Samsung/c/brand_26\"> Samsung <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Samsung <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Toshiba/c/brand_2\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Toshiba/c/brand_2\"> Toshiba <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Toshiba <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Fujifilm/c/brand_75\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Fujifilm/c/brand_75\"> Fujifilm <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Fujifilm <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Kingston/c/brand_18\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Kingston/c/brand_18\"> Kingston <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Kingston <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/ICIDU/c/brand_2171\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/ICIDU/c/brand_2171\"> Icidu <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Icidu <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/TDK/c/brand_251\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/TDK/c/brand_251\"> TDK <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " TDK <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Brands/Sweex/c/brand_702\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Brands/Sweex/c/brand_702\"> Sweex <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Sweex <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<span aria-label=\"Digital Cameras\" tabindex=\"0\"> Digital Cameras <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Digital Cameras <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Film-C\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Film-Cameras/c/574\"> Film Cameras <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Film Cameras <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Hand-h\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Hand-held-Camcorders/c/584\"> Camcorders <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Camcorders <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Webcam\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Webcams/c/577\"> Webcams <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Webcams <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<span aria-label=\"Accessories\" tabindex=\"0\"> Accessories <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Accessories <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  }
+]

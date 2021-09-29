@@ -1,0 +1,34 @@
+[
+  {
+    "element": "<a role=\"link\" href=\"http://www.cx.sap.com/products/commerce\" target=\"_blank\" rel=\"noopener\"> About SAP Commerce Cloud <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " About SAP Commerce Cloud <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/faq\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/faq\"> Frequently Asked Questions <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Frequently Asked Questions <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" href=\"http://www.cx.sap.com\" target=\"_blank\" rel=\"noopener\"> Visit SAP <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Visit SAP <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/contact\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/contact\"> Contact Us <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Contact Us <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" href=\"http://www.agile-commerce.com/\" target=\"_blank\" rel=\"noopener\"> Agile Commerce Blog <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Agile Commerce Blog <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" href=\"http://www.linkedin.com/groups/5063400\" target=\"_blank\" rel=\"noopener\"> Linked In <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Linked In <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" href=\"http://www.facebook.com/sapcx/\" target=\"_blank\" rel=\"noopener\"> Facebook <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Facebook <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" href=\"http://www.twitter.com/SAP_CX\" target=\"_blank\" rel=\"noopener\"> Twitter <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Twitter <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  }
+]

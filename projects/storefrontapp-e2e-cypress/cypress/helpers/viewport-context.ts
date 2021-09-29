@@ -49,3 +49,17 @@ export function viewportContext(
     );
   });
 }
+
+/**
+ * Gets the current viewport name.
+ *
+ * @param callback returns viewport name.
+ */
+export function getViewport(callback: (viewport: string) => unknown) {
+  return cy.window().then((window) => {
+    const viewport: Viewport = viewportConfigs.find(
+      (viewport: Viewport) => viewport.width === window.innerWidth
+    );
+    return callback(viewport.viewport);
+  });
+}
