@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   AuthGuard,
   CmsConfig,
@@ -13,7 +14,6 @@ import {
   FormErrorsModule,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
-  OrderDetailsModule,
   OrderDetailsService,
   OrderDetailTotalsComponent,
   SpinnerModule,
@@ -25,7 +25,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
 
 @NgModule({
   imports: [
-    OrderDetailsModule,
+    CartSharedModule,
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
