@@ -146,24 +146,17 @@ describe('QueryService', () => {
       it('should emit undefined on reset trigger', (done) => {
         const data = query.getState();
         const states: QueryState<string>[] = [];
-        data.pipe(take(5), skip(2)).subscribe((state) => {
+        data.pipe(take(4), skip(2)).subscribe((state) => {
           states.push(state);
-          if (states.length === 3) {
+          if (states.length === 2) {
             expect(states[0]).toEqual(
-              jasmine.objectContaining({
-                loading: false,
-                error: false,
-                data: undefined,
-              })
-            );
-            expect(states[1]).toEqual(
               jasmine.objectContaining({
                 loading: true,
                 error: false,
                 data: undefined,
               })
             );
-            expect(states[2]).toEqual(
+            expect(states[1]).toEqual(
               jasmine.objectContaining({
                 loading: false,
                 error: false,

@@ -72,12 +72,18 @@ export class QueryService implements OnDestroy {
         )
       ),
       ...(options?.reloadOn ?? []),
+      ...(options?.resetOn ?? []),
     ]);
 
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
 
     const load$ = loadTrigger$.pipe(
-      tap(() => state$.next({ ...state$.value, loading: true })),
+      tap(() => {
+        if (state$.value.loading) {
+          return;
+        }
+        state$.next({ ...state$.value, loading: true });
+      }),
       switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
@@ -101,7 +107,7 @@ export class QueryService implements OnDestroy {
             state$.next({
               data: undefined,
               error: false,
-              loading: false,
+              loading: true,
             });
           }
         })
