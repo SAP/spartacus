@@ -58,12 +58,8 @@
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
-      <div class="col-md-6">
-        <button
-          #deleteBtn
-          class="btn btn-block btn-primary"
-          (click)="delete()"
-        >
+      <div class="col-md-6" [cxFocus]="{ autofocus: true }">
+        <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
@@ -76,7 +72,7 @@
             *ngSwitchCase="'delete'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="delete()"
-            (keydown.enter)="delete()"
+            (keydown.enter)="delete($event)"
             tabindex="0"
             >{{ action.name }}</a
           >
@@ -100,7 +96,7 @@
             *ngSwitchCase="'edit'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="edit()"
-            (keydown.enter)="edit()"
+            (keydown.enter)="edit($event)"
             tabindex="0"
             >{{ action.name }}</a
           >
