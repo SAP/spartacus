@@ -63,8 +63,6 @@ export interface DeliveryOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-
-
 /**
  * @deprecated since 5.0, use cart lib instead
  */
