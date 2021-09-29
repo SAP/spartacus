@@ -31,7 +31,6 @@ import {
   subCategoryTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
-import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 import {
   addressBookDirectoryTabbingOrder,
   addressBookFormTabbingOrder,
@@ -279,30 +278,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
-  });
-
-  context('Header - Desktop (logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerDesktopLoggedIn, false, true);
-    });
-  });
-
-  context('Header - Mobile (logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerMobileLoggedIn, true, true);
-    });
-  });
-
-  context('My Account - Desktop', () => {
-    it('should allow to navigate with tab key', () => {
-      myAccountTabbingOrder(config.myAccount);
-    });
-  });
-
-  context('My Account - Mobile', () => {
-    it('should allow to navigate with tab key', () => {
-      myAccountTabbingOrder(config.myAccount, true);
-    });
   });
 
   describe('Checkout', () => {

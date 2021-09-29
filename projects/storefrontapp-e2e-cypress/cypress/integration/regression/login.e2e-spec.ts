@@ -32,8 +32,35 @@ describe('Login', () => {
     });
 
     it('should check keyboard accessibility', () => {
-      cy.tabScreenshot({ container: 'cx-login-form', scenario: 'form' });
-      cy.tabScreenshot({ container: 'cx-login-register', scenario: 'register' });
+      cy.tabScreenshot({ container: 'main', scenario: 'form' });
+
+      login.loginUser();
+      cy.get('cx-navigation-ui.accNavComponent').contains('My Account');
+
+      // TODO: Replace with mobile testing when keyboard is fixed for mobile.
+      cy.onDesktop(() => {
+        cy.tabScreenshot({ container: 'header', scenario: 'header' });
+
+        cy.get('cx-navigation-ui.accNavComponent')
+          .contains('My Account')
+          .click();
+        cy.get('cx-navigation-ui .is-open .wrapper').should('be.visible');
+        cy.tabScreenshot({
+          container: 'cx-navigation-ui',
+          scenario: 'my-account',
+        });
+      });
+
+      // Mobile testing part
+      // cy.onMobile(() => clickHamburger());
+      // cy.tabScreenshot({ container: 'header', scenario: 'header' });
+
+      // cy.get('cx-navigation-ui.accNavComponent').contains('My Account').click();
+      // cy.get('cx-navigation-ui .is-open .wrapper').should('be.visible');
+      // cy.tabScreenshot({
+      //   container: 'cx-navigation-ui',
+      //   scenario: 'my-account',
+      // });
     });
   });
 });

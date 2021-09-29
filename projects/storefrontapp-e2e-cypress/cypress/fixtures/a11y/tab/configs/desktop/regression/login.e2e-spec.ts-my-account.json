@@ -1,0 +1,66 @@
+[
+  {
+    "element": "<span aria-label=\"My Account\" tabindex=\"0\"> My Account <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " My Account <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/orders\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/orders\"> Order History <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Order History <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/wishlist\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/wishlist\"> Wish List <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Wish List <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/saved-carts\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/saved-carts\"> Saved Carts <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Saved Carts <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/address-book\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/address-book\"> Address Book <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Address Book <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/payment-details\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/payment-details\"> Payment Details <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Payment Details <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/update-profile\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/update-profile\"> Personal Details <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Personal Details <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/update-password\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/update-password\"> Password <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Password <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/update-email\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/update-email\"> Email Address <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Email Address <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/consents\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/consents\"> Consent Management <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Consent Management <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/close-account\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/close-account\"> Close Account <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Close Account <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/my-interests\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/my-interests\"> My Interests <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " My Interests <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/notification-prefe\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/notification-preference\"> Notification Preference <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Notification Preference <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/coupons\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/coupons\"> My Coupons <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " My Coupons <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/my-account/quick-order\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/my-account/quick-order\"> Quick Order <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Quick Order <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/logout\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/logout\"> Sign Out <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Sign Out <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  }
+]
