@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
@@ -59,7 +59,7 @@ describe('CheckoutDetailsService', () => {
   let checkoutService: CheckoutFacade;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let checkoutPaymentService: CheckoutPaymentFacade;
-  let activeCartService: ActiveCartFacade;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,7 +78,7 @@ describe('CheckoutDetailsService', () => {
           useClass: MockCheckoutPaymentService,
         },
         {
-          provide: ActiveCartFacade,
+          provide: ActiveCartService,
           useClass: MockActiveCartService,
         },
       ],
@@ -88,7 +88,7 @@ describe('CheckoutDetailsService', () => {
     checkoutService = TestBed.inject(CheckoutFacade);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {

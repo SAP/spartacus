@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -25,7 +25,7 @@ const testEmail = 'john@acme.com';
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
-  let activeCartService: ActiveCartFacade;
+  let activeCartService: ActiveCartService;
   let authRedirectService: AuthRedirectService;
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
@@ -37,7 +37,7 @@ describe('CheckoutLoginComponent', () => {
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CheckoutLoginComponent],
         providers: [
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
+          { provide: ActiveCartService, useClass: MockActiveCartService },
           {
             provide: AuthRedirectService,
             useClass: MockRedirectAfterAuthService,
@@ -50,7 +50,7 @@ describe('CheckoutLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartService = TestBed.inject(ActiveCartService);
     authRedirectService = TestBed.inject(AuthRedirectService);
   });
 

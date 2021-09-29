@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutStepType } from '@spartacus/checkout/root';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -52,7 +52,7 @@ describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutStepService: CheckoutStepService;
-  let cartService: ActiveCartFacade;
+  let cartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,7 +61,7 @@ describe(`CheckoutGuard`, () => {
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: ActiveCartFacade, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockCartService },
         {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
@@ -73,7 +73,7 @@ describe(`CheckoutGuard`, () => {
     guard = TestBed.inject(CheckoutGuard);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
-    cartService = TestBed.inject(ActiveCartFacade);
+    cartService = TestBed.inject(ActiveCartService);
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, (done) => {
