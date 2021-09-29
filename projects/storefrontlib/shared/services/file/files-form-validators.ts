@@ -10,7 +10,7 @@ export class FilesFormValidators {
    *
    * @param {number} maxSize Max size [MB]
    * @returns Uses 'tooLarge' validator error with maxSize property
-   * @memberof FilesFormValidators
+   * @memberOf FilesFormValidators
    */
   maxSize(maxSize?: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

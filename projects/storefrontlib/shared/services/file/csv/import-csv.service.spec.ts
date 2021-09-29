@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+import { FileReaderService } from '../file-reader.service';
 import { ImportCsvFileService } from './import-csv-file.service';
-import { FileReaderService } from './file-reader.service';
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';

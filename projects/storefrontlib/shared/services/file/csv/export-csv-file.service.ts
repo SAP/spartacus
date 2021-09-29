@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ExportFileOptions } from '../../models/file';
-import { FileDownloadService } from './file-download.service';
+import { ExportFileOptions } from '../export-file-options';
+import { FileDownloadService } from '../file-download.service';
 
 @Injectable({
   providedIn: 'root',

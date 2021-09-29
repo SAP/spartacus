@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { CsvFileValidationErrors } from '../../models/file';
-import { FileReaderService } from './file-reader.service';
+import { FileReaderService } from '../file-reader.service';
+import { CsvFileValidationErrors } from './csv-file-validation-errors';
 
 @Injectable({
   providedIn: 'root',

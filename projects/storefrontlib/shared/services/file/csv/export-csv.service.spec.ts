@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ExportFileOptions } from '../../models/file';
+import { ExportFileOptions } from '../export-file-options';
+import { FileDownloadService } from '../file-download.service';
 import { ExportCsvFileService } from './export-csv-file.service';
-import { FileDownloadService } from './file-download.service';
 
 const separator = ',';
 const fileOptions: ExportFileOptions = {
