@@ -13,6 +13,7 @@ import {
   FormErrorsModule,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
+  OrderDetailsModule,
   OrderDetailsService,
   OrderDetailTotalsComponent,
   SpinnerModule,
@@ -24,6 +25,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
 
 @NgModule({
   imports: [
+    OrderDetailsModule,
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
