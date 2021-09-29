@@ -17,7 +17,8 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeDropDownForm = new FormControl('');
   selectionValue: Configurator.Value;
 

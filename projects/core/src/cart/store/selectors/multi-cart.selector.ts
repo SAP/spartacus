@@ -118,21 +118,14 @@ export const getCartEntrySelectorFactory = (
 /**
  * @deprecated since 4.1 - use cart lib instead
  */
-export const getActiveCartId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
+export const getActiveCartId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.active);
 
 /**
  * @deprecated since 4.1 - use cart lib instead
  */
-export const getWishListId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state.wishList
-);
+export const getWishListId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.wishList);
 
 /**
  * @deprecated since 4.1 - use cart lib instead

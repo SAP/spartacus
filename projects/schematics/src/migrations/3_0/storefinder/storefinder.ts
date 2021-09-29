@@ -44,8 +44,9 @@ export function migrate(): Rule {
 
     const projectName = getDefaultProjectNameFromWorkspace(tree);
     const angularJson = getAngularJsonFile(tree);
-    const mainPath = (angularJson.projects[projectName]?.architect?.build
-      ?.options as any)?.main;
+    const mainPath = (
+      angularJson.projects[projectName]?.architect?.build?.options as any
+    )?.main;
     if (!mainPath) {
       throw new SchematicsException(`No main path specified in angular.json.`);
     }
