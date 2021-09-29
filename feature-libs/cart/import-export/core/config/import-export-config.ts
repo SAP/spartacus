@@ -11,7 +11,7 @@ export abstract class ImportExportConfig {
   cartImportExport?: {
     file: { separator: string };
     import?: ImportConfig;
-    export?: ExportConfig;
+    export: ExportConfig;
   };
 }
 

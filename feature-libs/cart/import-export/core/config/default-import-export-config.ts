@@ -9,8 +9,8 @@ export const defaultImportExportConfig: ImportExportConfig = {
     import: {
       fileValidity: {
         maxSize: 1,
-        maxLines: 100,
-        allowedExtensions: [
+        maxEntries: 100,
+        allowedTypes: [
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/vnd.ms-excel',
           'text/csv',
@@ -38,8 +38,12 @@ export const defaultImportExportConfig: ImportExportConfig = {
       ],
       messageEnabled: true,
       downloadDelay: 1000,
-      fileName: 'cart',
       maxEntries: 1000,
+      fileOptions: {
+        fileName: 'cart',
+        extension: 'csv',
+        type: 'text/csv',
+      },
     },
   },
 };

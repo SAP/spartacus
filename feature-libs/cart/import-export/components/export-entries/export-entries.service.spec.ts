@@ -11,11 +11,11 @@ import {
   TranslationService,
   GlobalMessageService,
 } from '@spartacus/core';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
+import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { ExportEntriesService } from './export-entries.service';
 import createSpy = jasmine.createSpy;
 
@@ -247,7 +247,7 @@ describe('ExportEntriesService', () => {
       cartImportExport: {
         ...defaultImportExportConfig.cartImportExport,
         export: {
-          ...defaultImportExportConfig.cartImportExport.export,
+          ...defaultImportExportConfig.cartImportExport?.export,
           maxEntries: 1,
         },
       },

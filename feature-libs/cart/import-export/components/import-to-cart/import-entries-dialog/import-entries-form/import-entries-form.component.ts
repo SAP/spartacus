@@ -6,17 +6,20 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of, Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { CxDatePipe } from '@spartacus/core';
+import {
+  LaunchDialogService,
+  FormUtils,
+  ImportCsvFileService,
+  FilesFormValidators,
+} from '@spartacus/storefront';
 import {
   ImportConfig,
-  ImportCsvService,
-  FilesFormValidators,
   ProductsData,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { CxDatePipe } from '@spartacus/core';
-import { LaunchDialogService, FormUtils } from '@spartacus/storefront';
-import { Subject } from 'rxjs';
-import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -39,7 +42,7 @@ export class ImportEntriesFormComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportCsvService,
+    protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig
   ) {}
@@ -74,13 +77,17 @@ export class ImportEntriesFormComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  save() {
+  save(): void {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
-      this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(loadedFile),
-      });
-    });
+    if (this.separator !== undefined) {
+      this.importCsvService
+        .loadFile(file, this.separator)
+        .subscribe((loadedFile: string[][]) => {
+          this.submitEvent.emit({
+            products: this.importToCartService.csvDataToProduct(loadedFile),
+          });
+        });
+    }
   }
 
   protected buildForm(): FormGroup {
@@ -96,13 +103,27 @@ export class ImportEntriesFormComponent implements OnInit {
           ),
         ],
         [
-          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
-          this.filesFormValidators
-            .parsableFile(this.importToCartService.isDataParsableToProducts)
-            .bind(this.filesFormValidators),
+          (control) =>
+            this.separator !== undefined
+              ? this.importCsvService.validateFile(control.value[0], {
+                  separator: this.separator,
+                  isDataParsable:
+                    this.importToCartService.isDataParsableToProducts,
+                  maxEntries: this.maxEntries,
+                })
+              : of(null),
         ]
       )
     );
     return form;
+  }
+
+  protected get separator(): string | undefined {
+    return this.importExportConfig.cartImportExport?.file.separator;
+  }
+
+  protected get maxEntries(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxEntries;
   }
 }

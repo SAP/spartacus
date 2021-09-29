@@ -10,15 +10,15 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { of } from 'rxjs';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  ImportCsvService,
+  LaunchDialogService,
   FilesFormValidators,
-  ProductsData,
-  NameSource,
-} from '@spartacus/cart/import-export/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+  ImportCsvFileService,
+} from '@spartacus/storefront';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { ProductsData, NameSource } from '@spartacus/cart/import-export/core';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 import { ImportToCartService } from '../../import-to-cart.service';
 
@@ -51,7 +51,7 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected importService: ImportCsvService,
+    protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,
     protected datePipe: CxDatePipe
@@ -59,23 +59,27 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     super(
       launchDialogService,
       importToCartService,
-      importService,
+      importCsvService,
       filesFormValidators,
       importExportConfig
     );
   }
 
-  save() {
+  save(): void {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
-      this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(loadedFile),
-        savedCartInfo: {
-          name: this.form.get('name')?.value,
-          description: this.form.get('description')?.value,
-        },
-      });
-    });
+    if (this.separator !== undefined) {
+      this.importCsvService
+        .loadFile(file, this.separator)
+        .subscribe((loadedFile: string[][]) => {
+          this.submitEvent.emit({
+            products: this.importToCartService.csvDataToProduct(loadedFile),
+            savedCartInfo: {
+              name: this.form.get('name')?.value,
+              description: this.form.get('description')?.value,
+            },
+          });
+        });
+    }
   }
 
   protected buildForm(): FormGroup {
@@ -91,13 +95,15 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
           ),
         ],
         [
-          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
-          this.filesFormValidators
-            .maxLines(this.componentData?.fileValidity?.maxLines)
-            .bind(this.filesFormValidators),
-          this.filesFormValidators
-            .parsableFile(this.importToCartService.isDataParsableToProducts)
-            .bind(this.filesFormValidators),
+          (control) =>
+            this.separator !== undefined
+              ? this.importCsvService.validateFile(control.value[0], {
+                  separator: this.separator,
+                  isDataParsable:
+                    this.importToCartService.isDataParsableToProducts,
+                  maxEntries: this.maxEntries,
+                })
+              : of(null),
         ]
       )
     );
@@ -138,14 +144,14 @@ export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
     }
   }
 
-  protected setFieldValueByFileName(nameField: AbstractControl) {
+  protected setFieldValueByFileName(nameField: AbstractControl): void {
     const fileName = this.form
       .get('file')
       ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
     nameField.setValue(fileName);
   }
 
-  protected setFieldValueByDatetime(nameField: AbstractControl) {
+  protected setFieldValueByDatetime(nameField: AbstractControl): void {
     const date = new Date();
     const fromDateOptions =
       this.componentData?.cartNameGeneration?.fromDateOptions;

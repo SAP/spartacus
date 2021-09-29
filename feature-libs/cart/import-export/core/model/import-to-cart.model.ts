@@ -3,18 +3,11 @@ export type ProductsData = {
   quantity: number;
 }[];
 
-export interface InvalidFileInfo {
-  tooLarge?: { maxSize: number };
-  tooManyLines?: { maxLines: number };
-  empty?: boolean;
-  notParsable?: boolean;
-}
-
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  maxLines?: number;
-  allowedExtensions?: string[];
+  maxEntries?: number;
+  allowedTypes?: string[];
 }
 
 export enum ProductImportStatus {

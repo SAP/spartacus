@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
@@ -8,8 +10,6 @@ import {
   PriceType,
 } from '@spartacus/core';
 import { ExportEntriesService } from './export-entries.service';
-import { BehaviorSubject, of } from 'rxjs';
-import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
 
