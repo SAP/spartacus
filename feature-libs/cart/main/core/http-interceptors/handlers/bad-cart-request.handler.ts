@@ -20,7 +20,10 @@ export class BadCartRequestHandler extends HttpErrorHandler {
   }
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {
-    return this.getErrors(errorResponse).some(isCartNotFoundError);
+    return (
+      super.hasMatch(errorResponse) &&
+      this.getErrors(errorResponse).some(isCartNotFoundError)
+    );
   }
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorHandler,
   HttpResponseStatus,
 } from '@spartacus/core';
 import { BadCartRequestHandler } from './bad-cart-request.handler';
@@ -90,10 +91,17 @@ describe('BadCartRequestHandler', () => {
   });
 
   it('should match cart not found error', () => {
+    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
     expect(service.hasMatch(MockCartNotFoundResponse)).toBe(true);
   });
 
+  it('should not have a match when super.hasMatch() is false', () => {
+    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
+    expect(service.hasMatch(MockCartNotFoundResponse)).toBe(false);
+  });
+
   it('should NOT match cart not found error for selectiive cart', () => {
+    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
     expect(service.hasMatch(MockCartNotFoundResponseForSelectiveCart)).toBe(
       false
     );
