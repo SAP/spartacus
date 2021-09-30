@@ -1,5 +1,7 @@
 export const exportEntries = {
   exportToCsv: 'Export to CSV',
+  exportMessage:
+    'CSV file will download automatically to your device, if it does not please check your browser settings',
   columnNames: {
     code: 'Code',
     quantity: 'Quantity',
@@ -27,9 +29,8 @@ export const importEntriesDialog = {
   upload: 'Upload',
   close: 'Close',
   summary: {
-    info:
-      'Do not close or refresh this window while products are being imported.',
-    loaded: 'Products has been loaded to new cart "{{ cartName }}".',
+    info: 'Do not close or refresh this window while products are being imported.',
+    loaded: 'Products has been loaded to cart {{ cartName }}',
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',

@@ -1,16 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportCsvService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
-import { BehaviorSubject } from 'rxjs';
-import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
 
@@ -74,8 +73,7 @@ const entry: OrderEntry = {
       stockLevel: 365,
       stockLevelStatus: 'inStock',
     },
-    url:
-      '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
+    url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
     slug: 'pc-service-set-professional',
     nameHtml: 'PC Service Set Professional',
   },
@@ -89,22 +87,26 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
-const csvOutput = '"3803058","2"';
+const transitionalArray = [
+  ['SKU', 'quantity'],
+  ['3803058', '2'],
+];
 
 const entries$ = new BehaviorSubject([entry]);
 
 class MockExportEntriesService {
-  getEntries = createSpy('getEntries').and.returnValue(entries$.asObservable());
-  exportEntries = createSpy('getEntries').and.returnValue([entry]);
-}
-class MockExportService {
-  dataToCsv = createSpy('dataToCsv').and.returnValue(csvOutput);
+  getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
+    of(transitionalArray)
+  );
+  downloadCsv = createSpy('downloadCsvSpy').and.returnValue(
+    of(transitionalArray)
+  );
 }
 
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
-  let exportService: ExportCsvService;
+
   let exportEntriesService: ExportEntriesService;
 
   beforeEach(
@@ -120,10 +122,6 @@ describe('ExportEntriesComponent', () => {
             provide: ExportEntriesService,
             useClass: MockExportEntriesService,
           },
-          {
-            provide: ExportCsvService,
-            useClass: MockExportService,
-          },
         ],
         declarations: [ExportEntriesComponent],
       }).compileComponents();
@@ -134,7 +132,6 @@ describe('ExportEntriesComponent', () => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
     component = fixture.componentInstance;
 
-    exportService = TestBed.inject(ExportCsvService);
     exportEntriesService = TestBed.inject(ExportEntriesService);
   });
 
@@ -147,17 +144,17 @@ describe('ExportEntriesComponent', () => {
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportToCsv').and.callThrough();
-    const downloadCsvSpy = spyOn(component, 'downloadCsv');
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
 
     expect(btn.nativeElement).toBeTruthy();
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportToCsvSpy).toHaveBeenCalledWith();
-      expect(downloadCsvSpy).toHaveBeenCalledWith(csvOutput);
-      expect(exportEntriesService.exportEntries).toHaveBeenCalledWith();
-      expect(exportService.dataToCsv).toHaveBeenCalledWith([entry] as any);
+      expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
+      expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
+      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(
+        transitionalArray
+      );
     });
   });
 

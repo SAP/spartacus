@@ -108,18 +108,22 @@ export class ActiveCartService implements OnDestroy {
 
     // Stream for getting the cart value
     const activeCartValue$ = this.cartSelector$.pipe(
-      map((cartEntity: ProcessesLoaderState<Cart>): {
-        cart: Cart;
-        isStable: boolean;
-        loaded: boolean;
-      } => {
-        return {
-          cart: cartEntity.value,
-          isStable: !cartEntity.loading && cartEntity.processesCount === 0,
-          loaded:
-            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
-        };
-      }),
+      map(
+        (
+          cartEntity: ProcessesLoaderState<Cart>
+        ): {
+          cart: Cart;
+          isStable: boolean;
+          loaded: boolean;
+        } => {
+          return {
+            cart: cartEntity.value,
+            isStable: !cartEntity.loading && cartEntity.processesCount === 0,
+            loaded:
+              (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+          };
+        }
+      ),
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
@@ -391,6 +395,7 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
+    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
@@ -493,9 +498,21 @@ export class ActiveCartService implements OnDestroy {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
-    cartEntries.forEach((entry) => {
-      this.addEntry(entry.product.code, entry.quantity);
-    });
+    const entriesToAdd = cartEntries.map((entry) => ({
+      productCode: entry.product?.code,
+      quantity: entry.quantity,
+    }));
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) => {
+        if (cartState.value) {
+          this.multiCartService.addEntries(
+            userId,
+            getCartIdByUserId(cartState.value, userId),
+            entriesToAdd
+          );
+        }
+      });
   }
 
   /**

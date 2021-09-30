@@ -38,7 +38,8 @@ export class ProductPageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver,
-    PageRobotsResolver {
+    PageRobotsResolver
+{
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,

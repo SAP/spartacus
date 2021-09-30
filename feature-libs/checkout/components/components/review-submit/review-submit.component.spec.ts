@@ -27,7 +27,7 @@ import {
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 

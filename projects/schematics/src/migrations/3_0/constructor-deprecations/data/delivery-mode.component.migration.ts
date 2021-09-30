@@ -14,7 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const DELIVERY_MODE_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/delivery-mode/delivery-mode.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/delivery-mode/delivery-mode.component.ts
   class: DELIVERY_MODE_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -1,21 +1,14 @@
-import { CmsComponent } from '@spartacus/core';
-
 export type ProductsData = {
   productCode: string;
   quantity: number;
 }[];
 
-export type InvalidFileInfo = {
-  tooLarge?: { maxSize: number };
-  empty?: boolean;
-  notParsable?: boolean;
-};
-
-export type FileValidity = {
+export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  allowedExtensions?: string[];
-};
+  maxEntries?: number;
+  allowedTypes?: string[];
+}
 
 export enum ProductImportStatus {
   SUCCESS = 'success',
@@ -25,39 +18,44 @@ export enum ProductImportStatus {
   UNKNOWN_ERROR = 'unknownError',
 }
 
-export type ProductImportInfo = {
+export interface ProductImportInfo {
   productCode: string;
   statusCode: ProductImportStatus;
   productName?: string;
   quantity?: number;
   quantityAdded?: number;
-};
+}
 
-export type ProductImportSummary = {
+export interface ProductImportSummary {
   loading: boolean;
-  cartName: string;
+  cartName: string | undefined;
   count: number;
   total: number;
   successesCount: number;
   warningMessages: ProductImportInfo[];
   errorMessages: ProductImportInfo[];
-};
+}
 
 export enum NameSource {
   FILE_NAME = 'fileName',
   DATE_TIME = 'dateTime',
 }
 
-export type CartNameGeneration = {
+export interface CartNameGeneration {
   source?: NameSource;
   fromDateOptions?: {
     prefix?: string;
     suffix?: string;
     mask?: string;
   };
-};
+}
 
-export interface CmsImportEntriesComponent extends CmsComponent {
+export interface ImportConfig {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
+}
+
+export enum ImportCartRoutes {
+  SAVED_CARTS = 'savedCarts',
+  CART = 'cart',
 }

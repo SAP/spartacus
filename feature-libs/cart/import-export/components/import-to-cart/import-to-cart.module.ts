@@ -15,10 +15,10 @@ import {
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
-import { defaultImportEntriesLayoutConfig } from './default-import-to-cart.config';
+import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
+import { ImportToSavedCartFormComponent } from './import-entries-dialog/import-to-saved-cart-form/import-to-saved-cart-form.component';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
-import { NameSource } from '@spartacus/cart/import-export/core';
 
 @NgModule({
   imports: [
@@ -34,20 +34,6 @@ import { NameSource } from '@spartacus/cart/import-export/core';
       cmsComponents: {
         ImportProductsComponent: {
           component: ImportEntriesComponent,
-          data: {
-            fileValidity: {
-              maxSize: 1,
-              allowedExtensions: [
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'application/vnd.ms-excel',
-                'text/csv',
-                '.csv',
-              ],
-            },
-            cartNameGeneration: {
-              source: NameSource.FILE_NAME,
-            },
-          },
         },
       },
     }),
@@ -57,12 +43,14 @@ import { NameSource } from '@spartacus/cart/import-export/core';
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
+    ImportToSavedCartFormComponent,
   ],
   exports: [
     ImportEntriesComponent,
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
+    ImportToSavedCartFormComponent,
   ],
   providers: [provideConfig(defaultImportEntriesLayoutConfig)],
 })

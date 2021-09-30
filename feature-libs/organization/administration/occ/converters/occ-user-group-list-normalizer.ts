@@ -14,7 +14,8 @@ import {
   providedIn: 'root',
 })
 export class OccUserGroupListNormalizer
-  implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>> {
+  implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

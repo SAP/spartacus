@@ -8,7 +8,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_CONFIG_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts
+  // projects/storefrontlib/cms-components/checkout/services/checkout-config.service.ts
   class: CHECKOUT_CONFIG_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

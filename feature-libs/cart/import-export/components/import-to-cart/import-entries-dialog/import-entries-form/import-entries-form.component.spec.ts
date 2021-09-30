@@ -1,24 +1,21 @@
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import {
-  NameSource,
-  FilesFormValidators,
-  ImportCsvService,
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
-  CmsImportEntriesComponent,
+  ImportExportConfig,
+  defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
-  CmsComponentData,
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
+  FilesFormValidators,
+  ImportCsvFileService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -26,21 +23,6 @@ const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
-
-const mockCmsComponentData: CmsImportEntriesComponent = {
-  fileValidity: {
-    maxSize: 1,
-    allowedExtensions: [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel',
-      'text/csv',
-      '.csv',
-    ],
-  },
-  cartNameGeneration: {
-    source: NameSource.FILE_NAME,
-  },
-};
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
@@ -59,14 +41,6 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-const cmsComponentDataSubject = new BehaviorSubject<CmsImportEntriesComponent>(
-  mockCmsComponentData
-);
-
-const MockCmsComponentData = <CmsComponentData<CmsImportEntriesComponent>>{
-  data$: cmsComponentDataSubject.asObservable(),
-};
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
@@ -77,9 +51,9 @@ class MockImportToCartService implements Partial<ImportToCartService> {
   csvDataToProduct = () => mockProducts;
 }
 
-class MockImportCsvService implements Partial<ImportCsvService> {
-  loadFile = () => of(mockCsvString);
-  loadCsvData = () => of(mockLoadFileData);
+class MockImportCsvFileService implements Partial<ImportCsvFileService> {
+  loadFile = () => of(mockLoadFileData);
+  validateFile = () => of(null);
 }
 
 class MockLanguageService {
@@ -94,7 +68,7 @@ describe('ImportEntriesFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
-  let el: DebugElement;
+  let importCsvService: ImportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -109,23 +83,23 @@ describe('ImportEntriesFormComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
-        { provide: ImportCsvService, useClass: MockImportCsvService },
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImportEntriesFormComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
+    importCsvService = TestBed.inject(ImportCsvFileService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(importCsvService, 'validateFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(filesFormValidators, 'parsableFile').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -134,7 +108,9 @@ describe('ImportEntriesFormComponent', () => {
   });
 
   it('should get the file Validity', () => {
-    expect(component.fileValidity).toEqual(mockCmsComponentData.fileValidity);
+    expect(component.componentData.fileValidity).toEqual(
+      defaultImportExportConfig.cartImportExport.import.fileValidity
+    );
   });
 
   it('should close dialog on close method', () => {
@@ -149,125 +125,20 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should build the form', () => {
     expect(component.form?.get('file')?.value).toBeDefined();
-    expect(component.form?.get('name')?.value).toBeDefined();
-    expect(component.form?.get('description')?.value).toBeDefined();
   });
 
   it('should validate maximum size and parsable file while building form', () => {
     expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
   });
 
   it('should trigger submit event when save method is called', () => {
     component.form.get('file')?.setValue([mockFile]);
     const mockSubmitData = {
       products: mockProducts,
-      name: '',
-      description: '',
     };
     spyOn(component.submitEvent, 'emit');
     component.save();
 
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
-  });
-
-  describe('updateCartName', () => {
-    it('should call updateCartName on event change', () => {
-      spyOn(component, 'updateCartName').and.callThrough();
-      el.query(By.css('cx-file-upload')).triggerEventHandler('update', null);
-
-      expect(component.updateCartName).toHaveBeenCalled();
-    });
-
-    const testData = [
-      {
-        testName: 'should update cart name based on the file name',
-        cartNameGeneration: {
-          source: NameSource.FILE_NAME,
-        },
-        resultMask: /^(mockFile)$/,
-      },
-      {
-        testName: 'should update cart name based on the date',
-        cartNameGeneration: {
-          source: NameSource.DATE_TIME,
-          fromDateOptions: {
-            mask: 'yyyy/MM/dd_hh:mm',
-          },
-        },
-        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
-      },
-      {
-        testName: 'should update cart name based on the date with prefix',
-        cartNameGeneration: {
-          source: NameSource.DATE_TIME,
-          fromDateOptions: {
-            prefix: 'cart_',
-            mask: 'yyyy/MM/dd_hh:mm',
-          },
-        },
-        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
-      },
-      {
-        testName: 'should update cart name based on the date with suffix',
-        cartNameGeneration: {
-          source: NameSource.DATE_TIME,
-          fromDateOptions: {
-            suffix: '_cart',
-            mask: 'yyyy/MM/dd_hh:mm',
-          },
-        },
-        resultMask: /^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
-      },
-      {
-        testName:
-          'should update cart name based on the date with prefix and suffix',
-        cartNameGeneration: {
-          source: NameSource.DATE_TIME,
-          fromDateOptions: {
-            prefix: 'cart_',
-            suffix: '_cart',
-            mask: 'yyyy/MM/dd_hh:mm',
-          },
-        },
-        resultMask: /^(cart)[_]\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[_]([01]?[0-9]|2[0-3]):[0-5][0-9][_](cart)$/,
-      },
-      {
-        testName: 'should not update cart name if it was already filled',
-        cartNameGeneration: {
-          source: NameSource.FILE_NAME,
-        },
-        alreadyFilledName: 'alreadyFilledName',
-        resultMask: /^(alreadyFilledName)$/,
-      },
-      {
-        testName: 'should not update cart name if it is not enabled',
-        cartNameGeneration: {},
-        resultMask: /^$/,
-      },
-    ];
-
-    testData.forEach(
-      ({ testName, cartNameGeneration, resultMask, alreadyFilledName }) => {
-        it(testName, () => {
-          cmsComponentDataSubject.next({
-            ...cmsComponentDataSubject.value,
-            cartNameGeneration,
-          });
-          component.ngOnInit();
-
-          if (alreadyFilledName) {
-            component.form.get('name')?.setValue(alreadyFilledName);
-          }
-          component.form.get('file')?.setValue([mockFile]);
-          el.query(By.css('cx-file-upload')).triggerEventHandler(
-            'update',
-            null
-          );
-
-          expect(component.form.get('name')?.value).toMatch(resultMask);
-        });
-      }
-    );
   });
 });

@@ -15,9 +15,12 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
+import {
+  FormErrorsModule,
+  LaunchDialogService,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -229,10 +232,14 @@ describe('SavedCartFormDialogComponent', () => {
     spyOn(savedCartService, 'restoreSavedCart');
     spyOn(savedCartService, 'cloneSavedCart');
 
+    component?.form?.get('cloneName')?.setValue(mockCart.name);
     component.isCloneSavedCart = true;
 
     component.restoreSavedCart(mockCartId);
-    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(
+      mockCartId,
+      mockCart.name
+    );
     expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
   });
 

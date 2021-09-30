@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   ActiveCartService,
-  Cart,
   I18nTestingModule,
   ImageType,
   OrderEntry,
@@ -10,13 +9,15 @@ import {
   RouterState,
   PriceType,
   TranslationService,
+  GlobalMessageService,
 } from '@spartacus/core';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
+import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { ExportEntriesService } from './export-entries.service';
+import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
   basePrice: {
@@ -78,8 +79,7 @@ const entry: OrderEntry = {
       stockLevel: 365,
       stockLevelStatus: 'inStock',
     },
-    url:
-      '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
+    url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
     slug: 'pc-service-set-professional',
     nameHtml: 'PC Service Set Professional',
   },
@@ -94,27 +94,37 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
+const routerStateSubject = new BehaviorSubject<RouterState>({
+  state: {
+    semanticRoute: 'savedCartsDetails',
+  },
+} as RouterState);
+
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState(): Observable<RouterState> {
-    return of();
-  }
+  getRouterState = createSpy('getRouterState').and.returnValue(
+    routerStateSubject.asObservable()
+  );
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getEntries(): Observable<OrderEntry[]> {
-    return of([]);
-  }
+  getEntries = createSpy('getEntries').and.returnValue(of([entry, entry]));
 }
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
-  getCartDetails(): Observable<Cart> {
-    return of({});
-  }
+  getCartDetails = createSpy('getCartDetails').and.returnValue(
+    of({ entries: [entry, entry] })
+  );
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 describe('ExportEntriesService', () => {
   let service: ExportEntriesService;
   let translationService: TranslationService;
+  let savedCartDetailsService: SavedCartDetailsService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -122,47 +132,87 @@ describe('ExportEntriesService', () => {
       providers: [
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
     service = TestBed.inject(ExportEntriesService);
     translationService = TestBed.inject(TranslationService);
+    savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should translate headings and export entries to specific format', () => {
-    spyOn(service, 'getEntries').and.returnValue(of([entry]));
-    spyOn(translationService, 'translate').and.callThrough();
+  describe('getResolvedEntries', () => {
+    it('should translate headings and export entries to specific format', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      spyOn(translationService, 'translate').and.callThrough();
 
-    const entries = service.exportEntries();
+      let result: string[][] = [];
+      service.getResolvedEntries().subscribe((data) => (result = data));
 
-    const headings = [
-      'exportEntries.columnNames.code',
-      'exportEntries.columnNames.quantity',
-      'exportEntries.columnNames.name',
-      'exportEntries.columnNames.price',
-    ];
+      const headings = [
+        'exportEntries.columnNames.code',
+        'exportEntries.columnNames.quantity',
+        'exportEntries.columnNames.name',
+        'exportEntries.columnNames.price',
+      ];
 
-    const values = [
-      entry.product?.code,
-      entry.quantity?.toString(),
-      entry.product?.name,
-      entry.totalPrice?.formattedValue,
-    ];
+      const values = [
+        entry.product?.code,
+        entry.quantity?.toString(),
+        entry.product?.name,
+        entry.totalPrice?.formattedValue,
+      ];
 
-    expect(entries).toEqual([
-      Object.assign({}, headings),
-      Object.assign({}, values),
-    ]);
-    expect(translationService.translate).toHaveBeenCalledTimes(4);
+      expect(result.length).toEqual(3);
+      expect(result).toEqual([[...headings], values, values]);
+      expect(translationService.translate).toHaveBeenCalledTimes(4);
+    });
+
+    it('should resolve data from saved cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'savedCartsDetails',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(savedCartDetailsService.getCartDetails).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from active cart', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'cart',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
+
+    it('should resolve data from other page', () => {
+      routerStateSubject.next({
+        state: {
+          semanticRoute: 'otherPage',
+        },
+      } as RouterState);
+      service.getResolvedEntries().subscribe();
+      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+    });
   });
 
   describe('resolveValue', () => {
@@ -177,7 +227,12 @@ describe('ExportEntriesService', () => {
         output: 'PC Service Set Professional',
       },
       { key: 'returnableQuantity', output: '0' },
+      {
+        key: 'product.stock',
+        output: `{'stockLevel':365,'stockLevelStatus':'inStock'}`,
+      },
       { key: 'notExistingKey', output: '' },
+      { key: 'notExistingKey.notExistingKey', output: '' },
     ];
 
     testData.forEach(({ key, output }) => {
@@ -185,5 +240,24 @@ describe('ExportEntriesService', () => {
         expect(service['resolveValue'](key, entry)).toBe(output);
       });
     });
+  });
+
+  it(`should adjust maxEntries limit`, () => {
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport?.export,
+          maxEntries: 1,
+        },
+      },
+    };
+
+    let result: string[][] = [];
+    service
+      .getResolvedEntries()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+    expect(result.length).toEqual(2);
   });
 });

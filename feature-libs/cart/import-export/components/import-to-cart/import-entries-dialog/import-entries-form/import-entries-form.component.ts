@@ -5,29 +5,21 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  CmsImportEntriesComponent,
-  FileValidity,
-  ImportCsvService,
-  FilesFormValidators,
-  ProductsData,
-  NameSource,
-  CartNameGeneration,
-} from '@spartacus/cart/import-export/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of, Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  CmsComponentData,
   LaunchDialogService,
   FormUtils,
+  ImportCsvFileService,
+  FilesFormValidators,
 } from '@spartacus/storefront';
-import { Subject } from 'rxjs';
-import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
+import {
+  ImportConfig,
+  ProductsData,
+  ImportExportConfig,
+} from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
@@ -38,46 +30,26 @@ import { ImportToCartService } from '../../import-to-cart.service';
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  fileValidity?: FileValidity;
-  cartNameGeneration?: CartNameGeneration;
-  descriptionMaxLength: number = 250;
-  nameMaxLength: number = 50;
+  componentData?: ImportConfig;
   loadedFile: string[][] | null;
-
-  componentData$ = this.componentData.data$;
   formSubmitSubject$ = new Subject();
 
   @Output()
   submitEvent = new EventEmitter<{
     products: ProductsData;
-    name: string;
-    description: string;
   }>();
-
-  get descriptionsCharacterLeft(): number {
-    return (
-      this.descriptionMaxLength -
-      (this.form.get('description')?.value?.length || 0)
-    );
-  }
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService,
-    protected datePipe: CxDatePipe,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>,
-    protected importService: ImportCsvService,
-    protected filesFormValidators: FilesFormValidators
+    protected importCsvService: ImportCsvFileService,
+    protected filesFormValidators: FilesFormValidators,
+    protected importExportConfig: ImportExportConfig
   ) {}
 
   ngOnInit() {
-    this.componentData$
-      .pipe(take(1))
-      .subscribe((data: CmsImportEntriesComponent) => {
-        this.fileValidity = data.fileValidity;
-        this.cartNameGeneration = data.cartNameGeneration;
-        this.form = this.buildForm();
-      });
+    this.componentData = this.importExportConfig.cartImportExport?.import;
+    this.form = this.buildForm();
 
     this.formSubmitSubject$
       .pipe(
@@ -105,15 +77,17 @@ export class ImportEntriesFormComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  save() {
+  save(): void {
     const file: File = this.form.get('file')?.value?.[0];
-    this.importService.loadCsvData(file).subscribe((loadedFile: string[][]) => {
-      this.submitEvent.emit({
-        products: this.importToCartService.csvDataToProduct(loadedFile),
-        name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
-      });
-    });
+    if (this.separator !== undefined) {
+      this.importCsvService
+        .loadFile(file, this.separator)
+        .subscribe((loadedFile: string[][]) => {
+          this.submitEvent.emit({
+            products: this.importToCartService.csvDataToProduct(loadedFile),
+          });
+        });
+    }
   }
 
   protected buildForm(): FormGroup {
@@ -124,64 +98,32 @@ export class ImportEntriesFormComponent implements OnInit {
         '',
         [
           Validators.required,
-          this.filesFormValidators.maxSize(this.fileValidity?.maxSize),
+          this.filesFormValidators.maxSize(
+            this.componentData?.fileValidity?.maxSize
+          ),
         ],
         [
-          this.filesFormValidators.emptyFile.bind(this.filesFormValidators),
-          this.filesFormValidators
-            .parsableFile(this.importToCartService.isDataParsableToProducts)
-            .bind(this.filesFormValidators),
+          (control) =>
+            this.separator !== undefined
+              ? this.importCsvService.validateFile(control.value[0], {
+                  separator: this.separator,
+                  isDataParsable:
+                    this.importToCartService.isDataParsableToProducts,
+                  maxEntries: this.maxEntries,
+                })
+              : of(null),
         ]
       )
-    );
-    form.setControl(
-      'name',
-      new FormControl('', [
-        Validators.required,
-        Validators.maxLength(this.nameMaxLength),
-      ])
-    );
-    form.setControl(
-      'description',
-      new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     return form;
   }
 
-  updateCartName(): void {
-    const nameField = this.form.get('name');
-    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
-      switch (this.cartNameGeneration.source) {
-        case NameSource.FILE_NAME: {
-          this.setFieldValueByFileName(nameField);
-          break;
-        }
-        case NameSource.DATE_TIME: {
-          this.setFieldValueByDatetime(nameField);
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    }
+  protected get separator(): string | undefined {
+    return this.importExportConfig.cartImportExport?.file.separator;
   }
 
-  protected setFieldValueByFileName(nameField: AbstractControl) {
-    const fileName = this.form
-      .get('file')
-      ?.value?.[0]?.name?.replace(/\.[^/.]+$/, '');
-    nameField.setValue(fileName);
-  }
-
-  protected setFieldValueByDatetime(nameField: AbstractControl) {
-    const date = new Date();
-    const mask = this.cartNameGeneration?.fromDateOptions?.mask;
-    const prefix = this.cartNameGeneration?.fromDateOptions?.prefix;
-    const suffix = this.cartNameGeneration?.fromDateOptions?.suffix;
-    const dateString = mask
-      ? this.datePipe.transform(date, mask)
-      : this.datePipe.transform(date);
-    nameField.setValue(`${prefix ?? ''}${dateString}${suffix ?? ''}`);
+  protected get maxEntries(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxEntries;
   }
 }

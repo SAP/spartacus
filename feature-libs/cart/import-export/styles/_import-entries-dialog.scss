@@ -23,11 +23,12 @@ cx-import-entries-dialog {
         }
       }
 
-      cx-import-entries-form {
+      cx-import-entries-form,
+      cx-import-to-saved-cart-form {
         @extend .modal-body;
         background-color: var(--cx-color-inverse);
         .cx-import-entries-subtitle {
-          font-weight: bold;
+          font-weight: var(--cx-font-weight-bold);
           margin-bottom: 0.5rem;
         }
         .cx-import-entries-row {
@@ -45,17 +46,17 @@ cx-import-entries-dialog {
             }
 
             .cx-saved-cart-value {
-              font-weight: bold;
+              font-weight: var(--cx-font-weight-bold);
               word-break: break-word;
             }
           }
 
           .cx-import-entries-label {
-            font-weight: bold;
+            font-weight: var(--cx-font-weight-bold);
           }
 
           .cx-import-entries-label-optional {
-            font-weight: normal;
+            font-weight: var(--cx-font-weight-normal);
           }
 
           .cx-import-entries-input-hint {

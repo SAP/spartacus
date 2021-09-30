@@ -2,53 +2,31 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-  CmsComponentData,
-} from '@spartacus/storefront';
-import {
-  CmsImportEntriesComponent,
-  FileValidity,
-} from '@spartacus/cart/import-export/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-import-entries',
   templateUrl: './import-entries-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesComponent implements OnDestroy {
-  private subscription = new Subscription();
+export class ImportEntriesComponent {
+  protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
-
-  componentData$ = this.componentData.data$;
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService,
-    protected componentData: CmsComponentData<CmsImportEntriesComponent>
+    protected launchDialogService: LaunchDialogService
   ) {}
 
-  openDialog(fileValidity: FileValidity): void {
-    const dialog = this.launchDialogService.openDialog(
+  openDialog(): void {
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      this.vcr,
-      fileValidity
+      this.vcr
     );
-
-    if (dialog) {
-      this.subscription.add(dialog.pipe(take(1)).subscribe());
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

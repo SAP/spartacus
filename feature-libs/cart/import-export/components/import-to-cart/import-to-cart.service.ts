@@ -1,19 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import {
-  ProductImportInfo,
-  ProductImportStatus,
-  ProductsData,
-} from '@spartacus/cart/import-export/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import {
-  Cart,
-  CartActions,
-  MultiCartService,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -24,20 +11,74 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import {
+  ActiveCartService,
+  Cart,
+  CartActions,
+  MultiCartService,
+  OrderEntry,
+  RoutingService,
+  StateUtils,
+  UserIdService,
+} from '@spartacus/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
+  ProductImportInfo,
+  ProductImportStatus,
+  ProductsData,
+  ImportCartRoutes,
+} from '@spartacus/cart/import-export/core';
 
 @Injectable()
 export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
+    protected routingService: RoutingService,
+    protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject
   ) {}
 
   loadProductsToCart(
     products: ProductsData,
-    savedCartInfo: { name: string; description?: string }
+    savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
+    return this.setEntries(products, savedCartInfo).pipe(
+      switchMap((cartId: string) => this.getResults(cartId)),
+      take(products.length)
+    );
+  }
+
+  get placement$(): Observable<string | undefined> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((route) => route.state?.semanticRoute));
+  }
+
+  protected setEntries(
+    products: ProductsData,
+    savedCartInfo?: { name: string; description: string }
+  ): Observable<string> {
+    return this.placement$.pipe(
+      switchMap((placement) => {
+        switch (placement) {
+          case ImportCartRoutes.SAVED_CARTS: {
+            return this.setEntriesToSavedCart(products, savedCartInfo);
+          }
+          case ImportCartRoutes.CART:
+          default: {
+            return this.setEntriesToActiveCart(products);
+          }
+        }
+      })
+    );
+  }
+
+  protected setEntriesToSavedCart(
+    products: ProductsData,
+    savedCartInfo?: { name: string; description: string }
+  ): Observable<string> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
         this.multiCartService
@@ -54,12 +95,10 @@ export class ImportToCartService {
                 cartData.value?.code as string
             ),
             tap((cartId: string) => {
-              // TODO: #13393
-              // for active cart use: getCartIdByUserId(cartData, userId)
               this.savedCartService.saveCart({
                 cartId,
-                saveCartName: savedCartInfo.name,
-                saveCartDescription: savedCartInfo.description,
+                saveCartName: savedCartInfo?.name,
+                saveCartDescription: savedCartInfo?.description,
               });
               this.savedCartService.loadSavedCarts();
             }),
@@ -71,11 +110,23 @@ export class ImportToCartService {
             ),
             tap((cartId: string) =>
               this.multiCartService.addEntries(userId, cartId, products)
-            ),
-            switchMap((cartId: string) => this.getResults(cartId)),
-            take(products.length)
+            )
           )
       )
+    );
+  }
+
+  protected setEntriesToActiveCart(products: ProductsData): Observable<string> {
+    this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
+    return this.activeCartService.getActiveCartId();
+  }
+
+  protected mapProductsToOrderEntries(products: ProductsData): OrderEntry[] {
+    return products.map(
+      (product: { productCode: string; quantity: number }) => ({
+        product: { code: product.productCode },
+        quantity: product.quantity,
+      })
     );
   }
 
@@ -86,7 +137,7 @@ export class ImportToCartService {
     }));
   }
 
-  isDataParsableToProducts(data: string[][]): Boolean {
+  isDataParsableToProducts(data: string[][]): boolean {
     const patternRegex = new RegExp(/(?:\s|^)\d+(?=\s|$)/);
     return data.length > 0 && data.every((row) => patternRegex.test(row[1]));
   }
@@ -95,6 +146,20 @@ export class ImportToCartService {
    * Emits `ProductImportInfo` on every added product success or failure
    */
   protected getResults(cartId: string): Observable<ProductImportInfo> {
+    return this.placement$.pipe(
+      switchMap((placement) => {
+        switch (placement) {
+          case ImportCartRoutes.CART:
+          case ImportCartRoutes.SAVED_CARTS:
+          default: {
+            return this.getCartResults(cartId);
+          }
+        }
+      })
+    );
+  }
+
+  protected getCartResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,

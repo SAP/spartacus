@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -10,9 +11,9 @@ import {
   ProductImportStatus,
   ProductImportInfo,
   ProductsData,
+  ImportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -28,7 +29,7 @@ export class ImportEntriesDialogComponent {
     focusOnEscape: true,
   };
 
-  formState: Boolean = true;
+  formState: boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
     loading: false,
     cartName: '',
@@ -38,6 +39,9 @@ export class ImportEntriesDialogComponent {
     warningMessages: [],
     errorMessages: [],
   });
+
+  placement$ = this.importToCartService.placement$;
+  Placement = ImportCartRoutes;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -49,26 +53,24 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts({
-    name,
-    description,
     products,
+    savedCartInfo,
   }: {
-    name: string;
-    description: string;
     products: ProductsData;
+    savedCartInfo?: {
+      name: string;
+      description: string;
+    };
   }): void {
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
       loading: true,
       total: products.length,
-      cartName: name,
+      cartName: savedCartInfo?.name,
     });
     this.importToCartService
-      .loadProductsToCart(products, {
-        name,
-        description,
-      })
+      .loadProductsToCart(products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({
@@ -82,7 +84,7 @@ export class ImportEntriesDialogComponent {
       });
   }
 
-  protected populateSummary(action: ProductImportInfo) {
+  protected populateSummary(action: ProductImportInfo): void {
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
