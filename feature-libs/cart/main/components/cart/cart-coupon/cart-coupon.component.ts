@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  ActiveCartService,
-  CartVoucherService,
-} from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  Cart,
+  CartVoucherFacade,
+} from '@spartacus/cart/main/root';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -32,10 +32,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   couponBoxIsActive = false;
 
   constructor(
-    protected cartVoucherService: CartVoucherService,
+    protected cartVoucherService: CartVoucherFacade,
     protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   ngOnInit() {

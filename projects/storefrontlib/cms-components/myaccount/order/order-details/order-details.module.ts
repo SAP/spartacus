@@ -18,7 +18,6 @@ import {
   OrderOverviewModule,
   SpinnerModule,
 } from '../../../../shared/index';
-import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
@@ -43,7 +42,7 @@ const moduleComponents = [
  */
 @NgModule({
   imports: [
-    CartSharedModule,
+    //CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,

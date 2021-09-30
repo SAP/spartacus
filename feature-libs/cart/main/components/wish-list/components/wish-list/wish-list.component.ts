@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { WishListService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, WishListFacade } from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -12,7 +11,7 @@ export class WishListComponent {
   wishList$: Observable<Cart> = this.wishListService.getWishList();
   loading$: Observable<boolean> = this.wishListService.getWishListLoading();
 
-  constructor(protected wishListService: WishListService) {}
+  constructor(protected wishListService: WishListFacade) {}
 
   removeEntry(item: OrderEntry) {
     this.wishListService.removeEntry(item);

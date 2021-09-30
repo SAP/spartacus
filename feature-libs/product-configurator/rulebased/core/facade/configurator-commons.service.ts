@@ -1,6 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -20,7 +20,7 @@ export class ConfiguratorCommonsService {
     protected store: Store<StateWithConfigurator>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: ConfiguratorUtilsService
   ) {}
 

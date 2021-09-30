@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { CART_CORE_FEATURE, CART_FEATURE } from './feature-name';
 
 export function defaultCartComponentsConfig() {
@@ -26,6 +30,9 @@ export function defaultCartComponentsConfig() {
 
 @NgModule({
   imports: [],
-  providers: [provideDefaultConfigFactory(defaultCartComponentsConfig)],
+  providers: [
+    provideDefaultConfigFactory(defaultCartComponentsConfig),
+    provideDefaultConfig(defaultCartRoutingConfig),
+  ],
 })
 export class CartRootModule {}

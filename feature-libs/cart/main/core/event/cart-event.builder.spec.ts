@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
+  ActiveCartFacade,
   Cart,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -14,7 +15,6 @@ import {
 import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ActiveCartService } from '../facade/active-cart.service';
 import { CartActions } from '../store/actions';
 import { CartEventBuilder } from './cart-event.builder';
 
@@ -35,7 +35,7 @@ const MOCK_ACTIVE_CART: Cart = {
   guid: MOCK_ACTIVE_CART_ID,
   code: MOCK_ID,
 };
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = () => of(MOCK_ACTIVE_CART);
   getActiveCartId = () => getActiveCartIdSubject;
 }
@@ -53,7 +53,7 @@ const MOCK_ACTIVE_CART_EVENT = Object.freeze({
 describe('CartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   getActiveCartIdSubject = new BehaviorSubject<string>(MOCK_ACTIVE_CART_ID);
 
   beforeEach(() => {
@@ -63,7 +63,7 @@ describe('CartEventBuilder', () => {
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
       ],
@@ -72,7 +72,7 @@ describe('CartEventBuilder', () => {
     TestBed.inject(CartEventBuilder); // register events
 
     eventService = TestBed.inject(EventService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   function testActionToEventMapping<A, E>({

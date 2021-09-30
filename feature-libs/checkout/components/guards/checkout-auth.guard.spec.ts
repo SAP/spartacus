@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
   AuthRedirectService,
   AuthService,
   B2BUserRole,

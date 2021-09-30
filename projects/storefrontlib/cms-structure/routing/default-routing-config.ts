@@ -3,7 +3,6 @@ import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
   notFound: { paths: ['not-found'] },
-  cart: { paths: ['cart'] },
 
   // semantic links for login related pages
   login: {

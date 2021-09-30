@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { SelectiveCartService } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
-import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  Cart,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import { AuthService, OrderEntry, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -22,7 +23,7 @@ export class CartDetailsComponent implements OnInit {
   selectiveCartEnabled: boolean;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,

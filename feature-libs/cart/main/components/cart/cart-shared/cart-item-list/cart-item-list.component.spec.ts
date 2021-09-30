@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ActiveCartService,
-  MultiCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  MultiCartFacade,
+  PromotionLocation,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   ConsignmentEntry,
   FeatureConfigService,
@@ -32,7 +32,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   updateEntry(
     _userId: string,
     _cartId: string,
@@ -110,8 +110,8 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
-  let activeCartService: ActiveCartService;
-  let multiCartService: MultiCartService;
+  let activeCartService: ActiveCartFacade;
+  let multiCartService: MultiCartFacade;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -130,9 +130,9 @@ describe('CartItemListComponent', () => {
         ],
         declarations: [CartItemListComponent, MockCartItemComponent],
         providers: [
-          { provide: ActiveCartService, useClass: MockActiveCartService },
-          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-          { provide: MultiCartService, useClass: MockMultiCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
+          { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
+          { provide: MultiCartFacade, useClass: MockMultiCartService },
           { provide: UserIdService, useClass: MockUserIdService },
           {
             provide: FeatureConfigService,
@@ -145,8 +145,8 @@ describe('CartItemListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
-    activeCartService = TestBed.inject(ActiveCartService);
-    multiCartService = TestBed.inject(MultiCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
+    multiCartService = TestBed.inject(MultiCartFacade);
 
     component = fixture.componentInstance;
     component.items = [mockItem0, mockItem1];

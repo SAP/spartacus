@@ -9,8 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { WishListService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, WishListFacade } from '@spartacus/cart/main/root';
 import {
   AuthService,
   I18nTestingModule,
@@ -102,7 +101,7 @@ class MockUrlPipe implements PipeTransform {
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
-  let wishListService: WishListService;
+  let wishListService: WishListFacade;
   let el: DebugElement;
 
   beforeEach(
@@ -112,7 +111,7 @@ describe('AddToWishListComponent', () => {
         declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
-          { provide: WishListService, useClass: MockWishListService },
+          { provide: WishListFacade, useClass: MockWishListService },
           {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
@@ -130,7 +129,7 @@ describe('AddToWishListComponent', () => {
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.inject(WishListService);
+    wishListService = TestBed.inject(WishListFacade);
 
     el = fixture.debugElement;
     fixture.detectChanges();

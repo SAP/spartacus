@@ -1,8 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
@@ -61,7 +60,7 @@ describe('CartTotalsComponent', () => {
         ],
         providers: [
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
         ],

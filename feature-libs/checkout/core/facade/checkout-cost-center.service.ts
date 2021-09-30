@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
@@ -12,7 +13,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 

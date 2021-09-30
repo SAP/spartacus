@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PaymentType } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
 import {
   B2BPaymentTypeEnum,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   ProcessSelectors,
   StateWithProcess,
   UserIdService,
@@ -32,7 +31,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 

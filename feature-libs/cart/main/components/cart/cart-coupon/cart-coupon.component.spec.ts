@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
-  ActiveCartService,
-  CartVoucherService,
-} from '@spartacus/cart/main/core';
-import { Cart, Voucher } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  Cart,
+  CartVoucherFacade,
+  Voucher,
+} from '@spartacus/cart/main/root';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
@@ -80,8 +81,8 @@ describe('CartCouponComponent', () => {
         ],
         declarations: [CartCouponComponent, MockAppliedCouponsComponent],
         providers: [
-          { provide: ActiveCartService, useValue: mockActiveCartService },
-          { provide: CartVoucherService, useValue: mockCartVoucherService },
+          { provide: ActiveCartFacade, useValue: mockActiveCartService },
+          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
           {
             provide: CustomerCouponService,
             useValue: mockCustomerCouponService,

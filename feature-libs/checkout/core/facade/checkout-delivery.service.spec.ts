@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   Address,
   DeliveryMode,
   PROCESS_FEATURE,

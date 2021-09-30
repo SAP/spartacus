@@ -1,22 +1,22 @@
-import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   CheckoutStepService,
   PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/components';
 import {
-  UserPaymentService,
-  GlobalMessageService,
-  TranslationService,
-  ActiveCartService,
-  PaymentDetails,
-} from '@spartacus/core';
-import {
-  CheckoutService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CheckoutService,
 } from '@spartacus/checkout/core';
+import {
+  GlobalMessageService,
+  PaymentDetails,
+  TranslationService,
+  UserPaymentService,
+} from '@spartacus/core';
+import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
   selector: 'cx-payment-method',

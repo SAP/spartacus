@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WishListService } from '@spartacus/cart/main/core';
+import { WishListFacade } from '@spartacus/cart/main/root';
 import {
   AuthService,
   isNotNullable,
@@ -21,12 +21,12 @@ export class AddToWishListComponent {
     tap((product) => this.setStockInfo(product))
   );
 
-  wishListEntries$: Observable<
-    OrderEntry[]
-  > = this.wishListService.getWishList().pipe(
-    filter((wishlist) => Boolean(wishlist)),
-    map((wishList) => wishList.entries)
-  );
+  wishListEntries$: Observable<OrderEntry[]> = this.wishListService
+    .getWishList()
+    .pipe(
+      filter((wishlist) => Boolean(wishlist)),
+      map((wishList) => wishList.entries)
+    );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
   loading$: Observable<boolean> = this.wishListService.getWishListLoading();
@@ -35,7 +35,7 @@ export class AddToWishListComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
-    protected wishListService: WishListService,
+    protected wishListService: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
   ) {}

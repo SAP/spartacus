@@ -2,8 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   CmsComponent,
   CmsMiniCartComponent,
@@ -80,7 +79,7 @@ describe('MiniCartComponent', () => {
         declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
         providers: [
           { provide: CmsComponentData, useValue: MockCmsComponentData },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
         ],
       }).compileComponents();
     })

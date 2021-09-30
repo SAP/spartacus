@@ -37,6 +37,9 @@ export class MultiCartStatePersistenceService implements OnDestroy {
 
   protected getCartState(): Observable<{ active: string }> {
     return this.store.pipe(
+      // Since getCartState() may be called while the module is lazy loded
+      // The cart state slice may not exist yet in the first store emissions.
+      filter((store) => !!store.cart),
       select(MultiCartSelectors.getMultiCartState),
       filter((state) => !!state),
       distinctUntilKeyChanged('active'),

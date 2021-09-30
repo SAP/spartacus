@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  ActiveCartService,
-  AuthRedirectService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
+import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';

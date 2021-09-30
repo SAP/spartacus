@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
-import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  Cart,
+  PromotionLocation,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import { CmsParagraphComponent, CmsService, OrderEntry } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -23,8 +24,8 @@ export class SaveForLaterComponent implements OnInit {
 
   constructor(
     protected cmsService: CmsService,
-    protected cartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService
+    protected cartService: ActiveCartFacade,
+    protected selectiveCartService: SelectiveCartFacade
   ) {}
 
   ngOnInit() {

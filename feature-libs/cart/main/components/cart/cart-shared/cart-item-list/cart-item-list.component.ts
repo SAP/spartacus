@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ActiveCartService,
-  MultiCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  MultiCartFacade,
+  PromotionLocation,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -62,10 +62,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
+    protected activeCartService: ActiveCartFacade,
+    protected selectiveCartService: SelectiveCartFacade,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -160,7 +160,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {
-        if (item.updateable && value) {
+        if (item.updateable && value && !this.readonly) {
           if (this.selectiveCartService && this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,

@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+  ActiveCartFacade,
+  Cart,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   CmsService,
   FeaturesConfigModule,
@@ -55,8 +55,8 @@ describe('SaveForLaterComponent', () => {
         imports: [FeaturesConfigModule, I18nTestingModule],
         providers: [
           { provide: CmsService, useValue: mockCmsService },
-          { provide: ActiveCartService, useValue: mockActiveCartService },
-          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+          { provide: ActiveCartFacade, useValue: mockActiveCartService },
+          { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         ],
       }).compileComponents();
     })
