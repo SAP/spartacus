@@ -30,10 +30,10 @@
     display: inline-flex;
 
     input {
-      border-width: 0 1px;
       border: solid 1px var(--cx-color-light);
-      max-height: 46px;
+      border-width: 0 1px;
       padding: 12px 9px;
+      max-height: 48px;
       width: 46%;
 
       &:focus {

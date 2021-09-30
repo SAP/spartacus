@@ -119,10 +119,11 @@ describe('ConfigUtilsService', () => {
       values: [{ valueCode: 'b' }, { name: 'blue', valueCode: 'a' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
     if (attribute.values) {
       expect(values.length).toBe(2);
       expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
@@ -142,10 +143,11 @@ describe('ConfigUtilsService', () => {
       values: [{ name: 'blue', valueCode: 'a' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
     expect(values.length).toBe(1);
   });
 

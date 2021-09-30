@@ -21,7 +21,7 @@ function testBrandPage(
     `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`
   );
 
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
     strategyRequestAlias,
@@ -37,7 +37,6 @@ context('Merchandising Carousel - Brand page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });
