@@ -11,7 +11,6 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     parallelOptions: {
@@ -24,16 +23,17 @@ module.exports = function (config) {
         random: false,
       },
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
-    coverageIstanbulReporter: {
+    reporters: ['progress', 'kjhtml', 'dots'],
+    coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/core'),
-      reports: ['lcov', 'cobertura', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      thresholds: {
-        statements: 80,
-        lines: 80,
-        branches: 60,
-        functions: 80,
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
+      check: {
+        global: {
+          statements: 90,
+          lines: 90,
+          branches: 80,
+          functions: 90,
+        },
       },
     },
     port: 9876,

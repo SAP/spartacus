@@ -28,7 +28,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-  placedOrder: void | Observable<ComponentRef<any>>;
+  placedOrder: void | Observable<ComponentRef<any> | undefined>;
 
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
@@ -91,7 +91,9 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
                 this.launchDialogService.clear(
                   LAUNCH_CALLER.PLACE_ORDER_SPINNER
                 );
-                component.destroy();
+                if (component) {
+                  component.destroy();
+                }
               })
               .unsubscribe();
             this.checkoutService.clearPlaceOrderState();
