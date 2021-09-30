@@ -57,7 +57,7 @@ export class QueryService implements OnDestroy {
       loading: false,
     });
 
-    // if query will be unsubscribed when data is loaded, we will end up with loading flag set to true
+    // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
     const retryInterruptedLoad$ = iif(
       () => state$.value.loading,
@@ -65,7 +65,7 @@ export class QueryService implements OnDestroy {
     );
 
     const loadTrigger$ = this.getTriggersStream([
-      retryInterruptedLoad$,
+      retryInterruptedLoad$, // we need to evaluate retryInterruptedLoad$ before other triggers in order to avoid other triggers changing state$ value
       state$.pipe(
         filter(
           ({ data, loading, error }) => data === undefined && !loading && !error
