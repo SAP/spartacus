@@ -15,15 +15,16 @@ export function configureProductWithVariants() {
 }
 
 export function addVariantOfSameProductToCart() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/products/${
-      products[1].code
-    }/reviews*`
-  ).as('getProductPage');
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${products[1].code}/reviews`,
+  }).as('getProductPageReviews');
   cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();
-  cy.wait('@getProductPage').its('status').should('eq', 200);
+  cy.wait('@getProductPageReviews')
+    .its('response.statusCode')
+    .should('eq', 200);
 
   addCheapProductToCart(products[1]);
 }
