@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -22,7 +27,7 @@ import { first, map } from 'rxjs/operators';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit {
+export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<number | undefined> =
@@ -49,6 +54,10 @@ export class QuickOrderComponent implements OnInit {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();
     this.quickOrderStatePersistenceService.initSync();
+  }
+
+  ngOnDestroy(): void {
+    this.quickOrderService.clearTimeoutSubscriptions();
   }
 
   get errors$(): Observable<QuickOrderAddEntryEvent[]> {

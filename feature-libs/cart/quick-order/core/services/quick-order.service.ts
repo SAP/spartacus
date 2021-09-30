@@ -24,11 +24,9 @@ import {
   timer,
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
-import { ClearMessageTimout } from '../models/clear-message-timeout.model';
+import { ClearMessageTimouts } from '../models/clear-message-timeouts.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
@@ -38,7 +36,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     new BehaviorSubject<OrderEntry[]>([]);
   protected deletionClearTimeout = 5000;
 
-  private clearMessageTimeoutArray: ClearMessageTimout[] = [];
+  private clearMessageTimeouts: ClearMessageTimouts = {};
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -47,11 +45,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    (this.clearMessageTimeoutArray || []).forEach(
-      (element: ClearMessageTimout) => {
-        element.subscription?.unsubscribe();
-      }
-    );
+    this.clearTimeoutSubscriptions();
   }
 
   /**
@@ -176,7 +170,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Add deleted entry
    */
-  addDeletedEntry(entry: OrderEntry, clearTimeout?: boolean): void {
+  addDeletedEntry(entry: OrderEntry, clearTimeout: boolean = true): void {
     const deletedEntries = this.deletedEntries$.getValue() || [];
 
     if (entry.product?.code) {
@@ -193,12 +187,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
           }
         });
 
-        const newClearMessageTimeout: ClearMessageTimout = {
-          productCode: entry.product?.code,
-          subscription,
-        };
-
-        this.clearMessageTimeoutArray.push(newClearMessageTimeout);
+        this.clearMessageTimeouts[entry.product?.code] = subscription;
       }
     }
   }
@@ -237,6 +226,15 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     }
 
     this.getAndUnsubscribeClearMessageTimout(productCode);
+  }
+
+  /**
+   * Clear all deleted entry timeout subscriptions
+   */
+  clearTimeoutSubscriptions(): void {
+    Object.values(this.clearMessageTimeouts).forEach(
+      (subscription: Subscription) => subscription.unsubscribe()
+    );
   }
 
   /**
@@ -326,18 +324,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   protected getAndUnsubscribeClearMessageTimout(productCode: string): void {
-    const clearMessageTimoutIndex = (
-      this.clearMessageTimeoutArray || []
-    ).findIndex(
-      (element: ClearMessageTimout) => element.productCode === productCode
-    );
+    const clearMessageTimout = this.clearMessageTimeouts[productCode];
 
-    if (clearMessageTimoutIndex !== -1) {
-      this.clearMessageTimeoutArray[
-        clearMessageTimoutIndex
-      ].subscription?.unsubscribe();
-
-      this.clearMessageTimeoutArray.splice(clearMessageTimoutIndex, 1);
+    if (clearMessageTimout) {
+      clearMessageTimout.unsubscribe();
+      delete this.clearMessageTimeouts[productCode];
     }
   }
 }

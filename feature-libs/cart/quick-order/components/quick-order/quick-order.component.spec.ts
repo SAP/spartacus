@@ -68,6 +68,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getDeletedEntries(): Observable<OrderEntry[]> {
     return mockDeletedEntries$;
   }
+  clearTimeoutSubscriptions(): void {}
 }
 
 class MockQuickOrderStatePersistenceService
@@ -182,6 +183,13 @@ describe('QuickOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call service method clearTimeoutSubscriptions on component destroy', () => {
+    spyOn(quickOrderService, 'clearTimeoutSubscriptions').and.callThrough();
+    component.ngOnDestroy();
+
+    expect(quickOrderService.clearTimeoutSubscriptions).toHaveBeenCalled();
   });
 
   it('should trigger clear the list method from the service', () => {
