@@ -1,21 +1,19 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
-import { take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ReplaySubject, Subscription } from 'rxjs';
+import { take, tap, withLatestFrom } from 'rxjs/operators';
 import { RoutingService, CartModification } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationWarningsStateService implements OnInit, OnDestroy {
-  constructor(protected routingService: RoutingService) {}
+export class CartValidationWarningsStateService implements OnDestroy {
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
   private subscription = new Subscription();
-  shouldCloseStream$ = new Subject<boolean>();
   cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
 
-  ngOnInit(): void {
+  constructor(protected routingService: RoutingService) {
     this.routingService
       .getRouterState()
       .pipe(take(1))
@@ -27,7 +25,6 @@ export class CartValidationWarningsStateService implements OnInit, OnDestroy {
 
   checkForValidationResultClear$ = this.routingService.getRouterState().pipe(
     withLatestFrom(this.cartValidationResult$),
-    takeUntil(this.shouldCloseStream$),
     tap(([routerState, cartModifications]) => {
       if (
         this.navigationIdCount + this.NAVIGATION_SKIPS <=
@@ -36,7 +33,6 @@ export class CartValidationWarningsStateService implements OnInit, OnDestroy {
       ) {
         this.cartValidationResult$.next([]);
         this.navigationIdCount = routerState.navigationId;
-        this.shouldCloseStream$.next(true);
       }
     })
   );
