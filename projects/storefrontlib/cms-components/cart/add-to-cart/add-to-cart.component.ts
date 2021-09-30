@@ -14,6 +14,7 @@ import {
   isNotNullable,
   Product,
 } from '@spartacus/core';
+import { AddedToCartToastConfig } from 'feature-libs/cart/added-to-cart-toast/added-to-cart-toast-config';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -64,6 +65,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
     activeCartService: ActiveCartService,
+    addedToCartToastConfig?: AddedToCartToastConfig,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     component?: CmsComponentData<CmsAddToCartComponent>
   );
@@ -83,6 +85,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
+    @Optional() protected addedToCartToastConfig?: AddedToCartToastConfig,
     @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
   ) {}
 
@@ -150,7 +153,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((entries) => {
         this.numberOfEntriesBeforeAdd = entries.length;
-        this.openModal();
+        if (
+          this.addedToCartToastConfig &&
+          !this.addedToCartToastConfig.addedToCartToast?.enabled
+        ) {
+          this.openModal();
+        }
         this.activeCartService.addEntry(this.productCode, quantity);
       });
   }
