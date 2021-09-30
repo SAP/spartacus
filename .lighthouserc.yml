@@ -10,31 +10,31 @@ ci:
     preset: lighthouse:recommended
     assertions:
       bootup-time:
-        - error
+        - warn
         - minScore: 0.44
       button-name: 'warn'
       color-contrast: 'warn'
       csp-xss: 'warn'
       cumulative-layout-shift:
-        - error
+        - warn
         - minScore: 0.03 
         # - minScore: 0.02 
       errors-in-console: 'warn'
       first-contentful-paint:
-        - error
+        - warn
         - minScore: 0.3
       first-meaningful-paint: 'warn'
       font-display: 'warn'
       image-alt: 'warn'
       image-size-responsive: 'warn'
       interactive:
-        - error
+        - warn
         - minScore: 0.04
       largest-contentful-paint: 'warn'
       legacy-javascript: 'warn'
       link-name: 'warn'
       mainthread-work-breakdown:
-        - error
+        - warn
         - minScore: 0.14
       maskable-icon: 'warn'
       max-potential-fid: 'warn'
@@ -43,28 +43,25 @@ ci:
       non-composited-animations: 'warn'
       offscreen-images: 'warn'
       render-blocking-resources:
-        - error
+        - warn
         - maxLength: 2
       robots-txt: 'warn'
       server-response-time: 'warn'
       service-worker: 'warn'
       speed-index:
-        - error
+        - warn
         - minScore: 0.1
       tap-targets: 'warn'
       themed-omnibox: 'warn'
       total-byte-weight:
-        - error
+        - warn
         - minScore: 0.55
       unminified-javascript: 'warn'
       unsized-images: 'warn'
       unused-css-rules:
-        - error
+        - warn
         - maxLength: 7
         - minScore: 0.19
-        # - minScore: 0.19
-        # - minScore: 0.14
-        # - minScore: 0.21
       unused-javascript: 'warn'
       uses-optimized-images: 'warn'
       uses-rel-preconnect: 'warn'
