@@ -13,7 +13,7 @@ import { KeyboardFocusModule } from '../../../../storefrontlib/layout/a11y/keybo
     IconModule,
     TruncateTextPopoverModule,
     KeyboardFocusModule,
-    FeaturesConfigModule
+    FeaturesConfigModule,
   ],
   declarations: [CardComponent],
   exports: [CardComponent],
