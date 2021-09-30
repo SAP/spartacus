@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 import {
   CmsQuickOrderComponent,
-  DeletedEntriesObject,
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
 import {
+  DeletedEntriesObject,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';

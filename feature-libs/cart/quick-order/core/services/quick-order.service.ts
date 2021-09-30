@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   defaultQuickOrderFormConfig,
+  DeletedEntriesObject,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -25,7 +26,6 @@ import {
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 import { ClearMessageTimouts } from '../models/clear-message-timeouts.model';
-import { DeletedEntriesObject } from '../models/deleted-entries-object.model';
 
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
