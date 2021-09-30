@@ -1,31 +1,35 @@
 import { Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { EventService, I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkipLink, SkipLinkConfig } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkComponent } from './skip-link.component';
 
 const mockSkipLinks: SkipLink[] = [
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 1',
     key: 'Key1',
   },
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 2',
     key: 'Key2',
   },
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 3',
     key: 'Key3',
   },
 ];
+
+const mockNavigateEvent = {
+  url: '/test',
+};
 
 @Directive({
   selector: '[cxFocus]',
@@ -40,9 +44,16 @@ class MockSkipLinkService {
   };
 }
 
-describe('SkipLinkComponent', () => {
+class MockEventService implements Partial<EventService> {
+  get(_event: any): Observable<any> {
+    return of();
+  }
+}
+
+fdescribe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
   let fixture: ComponentFixture<SkipLinkComponent>;
+  let eventService: EventService;
 
   beforeEach(
     waitForAsync(() => {
@@ -55,6 +66,7 @@ describe('SkipLinkComponent', () => {
             useValue: { skipLinks: [mockSkipLinks] },
           },
           { provide: SkipLinkService, useClass: MockSkipLinkService },
+          { provide: EventService, useClass: MockEventService },
         ],
       }).compileComponents();
     })
@@ -63,6 +75,7 @@ describe('SkipLinkComponent', () => {
   beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);
     skipLinkComponent = fixture.componentInstance;
+    eventService = TestBed.inject(EventService);
 
     fixture.detectChanges(); // run async pipe on skipLinks$
     await fixture.whenStable(); // wait for async emmision of skipLinks$
@@ -98,5 +111,12 @@ describe('SkipLinkComponent', () => {
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1]);
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2]);
     expect(spyComponent).toHaveBeenCalledTimes(3);
+  });
+
+  it('should focus on the host (skiplinkcomponent) when navigating through pages', () => {
+    spyOn(eventService, 'get').and.returnValue(of(mockNavigateEvent));
+
+    expect(skipLinkComponent.host?.focus).toHaveBeenCalled();
+    expect(skipLinkComponent.host?.blur).toHaveBeenCalled();
   });
 });
