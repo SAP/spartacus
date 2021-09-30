@@ -21,6 +21,7 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
+import { DeletedEntriesObject } from '../../core/models/deleted-entries-object.model';
 
 @Component({
   selector: 'cx-quick-order',
@@ -71,7 +72,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
-  get deletedEntries$(): Observable<OrderEntry[]> {
+  get deletedEntries$(): Observable<DeletedEntriesObject> {
     return this.quickOrderService.getDeletedEntries();
   }
 

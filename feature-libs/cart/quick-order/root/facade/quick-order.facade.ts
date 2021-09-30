@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
+import { DeletedEntriesObject } from '../../core/models/deleted-entries-object.model';
 
 export function quickOrderFacadeFactory() {
   return facadeFactory({
@@ -91,7 +92,7 @@ export abstract class QuickOrderFacade {
   /**
    * Return deleted entries
    */
-  abstract getDeletedEntries(): Observable<OrderEntry[]>;
+  abstract getDeletedEntries(): Observable<DeletedEntriesObject>;
 
   /**
    * Undo deleted entry

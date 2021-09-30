@@ -25,6 +25,7 @@ import {
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 import { ClearMessageTimouts } from '../models/clear-message-timeouts.model';
+import { DeletedEntriesObject } from '../models/deleted-entries-object.model';
 
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
@@ -32,9 +33,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected deletedEntries$: BehaviorSubject<OrderEntry[]> =
-    new BehaviorSubject<OrderEntry[]>([]);
-  protected deletionClearTimeout = 5000;
+  protected deletedEntries$: BehaviorSubject<DeletedEntriesObject> =
+    new BehaviorSubject<DeletedEntriesObject>({});
+  protected deletionClearTimeout = 10000;
 
   private clearMessageTimeouts: ClearMessageTimouts = {};
 
@@ -171,10 +172,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Add deleted entry
    */
   addDeletedEntry(entry: OrderEntry, clearTimeout: boolean = true): void {
-    const deletedEntries = this.deletedEntries$.getValue() || [];
+    const deletedEntries = this.deletedEntries$.getValue() || {};
+    const productCode = entry.product?.code;
 
-    if (entry.product?.code) {
-      deletedEntries.push(entry);
+    if (productCode) {
+      deletedEntries[productCode] = entry;
 
       this.deletedEntries$.next(deletedEntries);
 
@@ -182,12 +184,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
         const subscription: Subscription = timer(
           this.deletionClearTimeout
         ).subscribe(() => {
-          if (entry.product?.code) {
-            this.clearDeletedEntry(entry.product?.code);
+          if (productCode) {
+            this.clearDeletedEntry(productCode);
           }
         });
-
-        this.clearMessageTimeouts[entry.product?.code] = subscription;
+        this.clearMessageTimeouts[productCode] = subscription;
       }
     }
   }
@@ -195,7 +196,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Return deleted entries
    */
-  getDeletedEntries(): Observable<OrderEntry[]> {
+  getDeletedEntries(): Observable<DeletedEntriesObject> {
     return this.deletedEntries$;
   }
 
@@ -203,29 +204,14 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Undo deleted entry
    */
   undoDeletedEntry(productCode: string): void {
-    const deletedEntries = this.deletedEntries$.getValue() || [];
-    const entryIndex = this.getDeletedEntryIndex(productCode);
-
-    if (entryIndex !== -1) {
-      this.addEntry(deletedEntries[entryIndex]);
-      deletedEntries.splice(entryIndex, 1);
-      this.deletedEntries$.next(deletedEntries);
-    }
+    this.cleanUpDeletedEntry(productCode, true);
   }
 
   /**
    * Clear deleted entry from the list
    */
   clearDeletedEntry(productCode: string): void {
-    const deletedEntries = this.deletedEntries$.getValue() || [];
-    const entryIndex = this.getDeletedEntryIndex(productCode);
-
-    if (entryIndex !== -1) {
-      deletedEntries.splice(entryIndex, 1);
-      this.deletedEntries$.next(deletedEntries);
-    }
-
-    this.getAndUnsubscribeClearMessageTimout(productCode);
+    this.cleanUpDeletedEntry(productCode);
   }
 
   /**
@@ -238,14 +224,34 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Get deletion entry index
+   * Remove deleted entry and optionally add it back to entries
    */
-  protected getDeletedEntryIndex(productCode: string): number {
-    const deletedEntries = this.deletedEntries$.getValue() || [];
+  protected cleanUpDeletedEntry(
+    productCode: string,
+    addEntry: boolean = false
+  ): void {
+    const deletedEntries = this.deletedEntries$.getValue() || {};
+    const entry = deletedEntries[productCode];
 
-    return (deletedEntries || []).findIndex(
-      (element: OrderEntry) => element.product?.code === productCode
-    );
+    if (entry) {
+      delete deletedEntries[productCode];
+      this.deletedEntries$.next(deletedEntries);
+    }
+
+    if (addEntry) {
+      this.addEntry(entry);
+    }
+
+    this.getAndUnsubscribeClearMessageTimout(productCode);
+  }
+
+  /**
+   * Get deletion entry
+   */
+  protected getDeletedEntry(productCode: string): OrderEntry {
+    const deletedEntries = this.deletedEntries$.getValue() || {};
+
+    return deletedEntries[productCode];
   }
 
   /**

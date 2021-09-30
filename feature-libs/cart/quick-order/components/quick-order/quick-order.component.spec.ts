@@ -21,6 +21,7 @@ import {
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
+import { DeletedEntriesObject } from '../../core/models/deleted-entries-object.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
 import { QuickOrderComponent } from './quick-order.component';
 
@@ -51,7 +52,9 @@ const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
-const mockDeletedEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry2]);
+const mockDeletedEntries$ = new BehaviorSubject<DeletedEntriesObject>({
+  mockProduct2: mockEntry2,
+});
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
@@ -65,7 +68,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
   undoDeletedEntry(_productCode: string): void {}
   clearDeletedEntry(_productCode: string): void {}
-  getDeletedEntries(): Observable<OrderEntry[]> {
+  getDeletedEntries(): Observable<DeletedEntriesObject> {
     return mockDeletedEntries$;
   }
   clearTimeoutSubscriptions(): void {}

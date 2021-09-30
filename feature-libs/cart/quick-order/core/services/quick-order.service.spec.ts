@@ -337,7 +337,7 @@ describe('QuickOrderService', () => {
         switchMap(() => service.getDeletedEntries())
       )
       .subscribe((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual({});
       });
     done();
   });
@@ -349,7 +349,7 @@ describe('QuickOrderService', () => {
       .getDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual({});
       });
     done();
   });
@@ -361,7 +361,8 @@ describe('QuickOrderService', () => {
       .getDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual([mockEntry1]);
+        console.log('****', result);
+        expect(result).toEqual({ mockCode1: mockEntry1 });
       });
     done();
   });
@@ -373,7 +374,7 @@ describe('QuickOrderService', () => {
       .getDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual({});
       });
     done();
   });
@@ -385,7 +386,7 @@ describe('QuickOrderService', () => {
       .getDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual({});
       });
     done();
   });
