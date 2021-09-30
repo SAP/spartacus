@@ -1,4 +1,4 @@
-import { Images } from 'projects/core/src/model';
+import { Images } from '@spartacus/core';
 
 export interface CartToastItem {
   productName: string;
