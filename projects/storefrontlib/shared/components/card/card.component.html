@@ -58,7 +58,7 @@
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
-      <div class="col-md-6" [cxFocus]="{ autofocus: true }">
+      <div class="col-md-6" [cxFocus]="{ autofocus: autoFocusEnabled }">
         <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
@@ -67,12 +67,12 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div [ngSwitch]="action.event">
+        <div *cxFeatureLevel="'!4.2'" [ngSwitch]="action.event">
           <a
             *ngSwitchCase="'delete'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="delete()"
-            (keydown.enter)="delete($event)"
+            (keydown.enter)="delete()"
             tabindex="0"
             >{{ action.name }}</a
           >
@@ -96,9 +96,46 @@
             *ngSwitchCase="'edit'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="edit()"
-            (keydown.enter)="edit($event)"
+            (keydown.enter)="edit()"
             tabindex="0"
             >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchDefault
+            href="{{ action.link }}"
+            class="card-link btn-link cx-action-link"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+        </div>
+        <div *cxFeatureLevel="'4.2'" [ngSwitch]="action.event">
+          <button
+            *ngSwitchCase="'delete'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="delete()"
+            (keydown.enter)="delete($event)"
+            >{{ action.name }}</button
+          >
+          <button
+            *ngSwitchCase="'default'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="setDefault()"
+            (keydown.enter)="setDefault()"
+            >{{ action.name }}</button
+          >
+          <button
+            *ngSwitchCase="'send'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="send()"
+            (keydown.enter)="send()"
+            >{{ action.name }}</button
+          >
+          <button
+            *ngSwitchCase="'edit'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="edit()"
+            (keydown.enter)="edit($event)"
+            >{{ action.name }}</button
           >
           <a
             *ngSwitchDefault
