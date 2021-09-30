@@ -66,9 +66,7 @@ export class ImportToCartService {
           case ImportCartRoutes.SAVED_CARTS: {
             return this.setEntriesToSavedCart(products, savedCartInfo);
           }
-          case ImportCartRoutes.CART: {
-            return this.setEntriesToActiveCart(products);
-          }
+          case ImportCartRoutes.CART:
           default: {
             return this.setEntriesToActiveCart(products);
           }
@@ -148,6 +146,20 @@ export class ImportToCartService {
    * Emits `ProductImportInfo` on every added product success or failure
    */
   protected getResults(cartId: string): Observable<ProductImportInfo> {
+    return this.placement$.pipe(
+      switchMap((placement) => {
+        switch (placement) {
+          case ImportCartRoutes.CART:
+          case ImportCartRoutes.SAVED_CARTS:
+          default: {
+            return this.getCartResults(cartId);
+          }
+        }
+      })
+    );
+  }
+
+  protected getCartResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,

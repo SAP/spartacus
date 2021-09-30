@@ -80,9 +80,7 @@ export class ExportEntriesService {
           case ExportCartRoutes.SAVED_CART_DETAILS: {
             return this.getSavedCartEntries();
           }
-          case ExportCartRoutes.CART: {
-            return this.getActiveCartEntries();
-          }
+          case ExportCartRoutes.CART:
           default: {
             return this.getActiveCartEntries();
           }
