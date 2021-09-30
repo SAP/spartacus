@@ -57,17 +57,9 @@ describe('CartValidationWarningsStateService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set navigation count step on init', () => {
-    expect(service.navigationIdCount).toEqual(0);
-    routerStateSubject.next({ navigationId: 1 });
-    service.ngOnInit();
-    expect(service.navigationIdCount).toEqual(1);
-  });
-
   it('should clear validation data after configured number of routing steps', () => {
     service.cartValidationResult$.next([]);
     routerStateSubject.next({ navigationId: 1 });
-    service.ngOnInit();
 
     routerStateSubject.next({ navigationId: 5 });
     service.cartValidationResult$.next(mockData);
