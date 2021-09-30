@@ -6,7 +6,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MultiCartService, RouterState, RoutingService } from '@spartacus/core';
+import { MultiCartFacade } from '@spartacus/cart/main/root';
+import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 
@@ -20,7 +21,7 @@ import { catchError, switchMap, take } from 'rxjs/operators';
 export class CheckoutCartInterceptor implements HttpInterceptor {
   constructor(
     protected routingService: RoutingService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {}
 
   intercept(

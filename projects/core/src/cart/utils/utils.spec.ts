@@ -1,4 +1,5 @@
 import { Cart } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
 import {
   getCartIdByUserId,
   getWishlistName,
@@ -6,7 +7,6 @@ import {
   isSelectiveCart,
   isTempCartId,
 } from './utils';
-import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {

@@ -9,11 +9,11 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  AddToCartModule,
   ItemCounterModule,
   MediaModule,
   StarRatingModule,
 } from '@spartacus/storefront';
+import { AddToCartModule } from '../cart/add-to-cart/add-to-cart.module';
 import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 

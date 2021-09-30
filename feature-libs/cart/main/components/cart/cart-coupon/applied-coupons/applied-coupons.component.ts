@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CartVoucherService } from '@spartacus/cart/main/core';
+import { CartVoucherFacade } from '@spartacus/cart/main/root';
 import { Voucher } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+
 @Component({
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
@@ -17,7 +18,7 @@ export class AppliedCouponsComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor(protected cartVoucherService: CartVoucherService) {}
+  constructor(protected cartVoucherService: CartVoucherFacade) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];

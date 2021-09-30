@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
-import { CartItemComponentOptions } from '../cart-item.component';
 import { CartItemContextSource } from './cart-item-context-source.model';
+import { CartItemComponentOptions } from './cart-item-context.model';
 
 describe('CartItemContextSource', () => {
   let contextSource: CartItemContextSource;

@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   Cart,
   FeaturesConfig,
@@ -39,7 +39,7 @@ class MockModalDirective implements Partial<ModalDirective> {
   @Input() cxModal;
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}
 
   getEntries(): Observable<OrderEntry[]> {
@@ -107,7 +107,7 @@ describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let mockModalService: MockModalService;
 
   beforeEach(
@@ -135,7 +135,7 @@ describe('AddedToCartDialogComponent', () => {
             useClass: MockModalService,
           },
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -158,7 +158,7 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     mockModalService = TestBed.inject(ModalService);
 
     spyOn(activeCartService, 'updateEntry').and.callThrough();

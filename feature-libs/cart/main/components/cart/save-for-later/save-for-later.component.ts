@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ActiveCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
+  ActiveCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   Cart,
   CmsParagraphComponent,
@@ -28,8 +28,8 @@ export class SaveForLaterComponent implements OnInit {
 
   constructor(
     protected cmsService: CmsService,
-    protected cartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService
+    protected cartService: ActiveCartFacade,
+    protected selectiveCartService: SelectiveCartFacade
   ) {}
 
   ngOnInit() {

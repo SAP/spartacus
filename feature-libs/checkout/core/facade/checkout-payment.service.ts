@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   CardType,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,

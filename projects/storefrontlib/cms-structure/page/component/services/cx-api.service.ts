@@ -1,6 +1,5 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
 import {
-  ActiveCartService,
   AuthService,
   BaseSiteService,
   CmsService,
@@ -16,7 +15,6 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
-  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
@@ -37,8 +35,6 @@ export class CxApiService {
   constructor(
     // auth
     @Optional() public auth: AuthService,
-    // cart
-    @Optional() public cart: ActiveCartService,
     // cms
     @Optional() public cms: CmsService,
     @Optional() public pageMeta: PageMetaService,
@@ -72,7 +68,6 @@ export class CxApiService {
     public userNotificationPreferenceService: UserNotificationPreferenceService,
     @Optional()
     public userInterestsService: UserInterestsService,
-    @Optional() public selectiveCartService: SelectiveCartService,
     // framework
     public ngZone: NgZone
   ) {}

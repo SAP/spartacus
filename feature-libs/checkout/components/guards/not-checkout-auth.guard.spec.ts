@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActiveCartService,
-  AuthService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/main/core';
+import { AuthService, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 

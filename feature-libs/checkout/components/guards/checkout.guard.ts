@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import { CheckoutStepType } from '@spartacus/checkout/root';
-import { ActiveCartService, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';

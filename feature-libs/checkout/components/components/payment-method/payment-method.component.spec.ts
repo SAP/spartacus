@@ -2,13 +2,13 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartService } from '@spartacus/cart/main/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   GlobalMessageService,
   GlobalMessageType,

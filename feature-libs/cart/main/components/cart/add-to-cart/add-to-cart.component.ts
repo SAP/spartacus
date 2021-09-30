@@ -8,21 +8,19 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ModalRef,
   ModalService,
+  ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
-/**
- * @deprecated since 4.1 - use cart lib instead
- */
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
@@ -61,7 +59,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
+    activeCartService: ActiveCartFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     component?: CmsComponentData<CmsAddToCartComponent>
   );
@@ -73,15 +71,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
+    activeCartService: ActiveCartFacade
   );
 
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartService,
-    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>
+    protected activeCartService: ActiveCartFacade,
+    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>,
+    @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
   ngOnInit() {
@@ -95,8 +94,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.hasStock = true;
       this.cd.markForCheck();
     } else {
-      this.subscription = this.currentProductService
-        .getProduct()
+      this.subscription = (
+        this.productListItemContext
+          ? this.productListItemContext.product$
+          : this.currentProductService.getProduct()
+      )
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
           this.productCode = product.code ?? '';
@@ -114,6 +116,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
+    }
+
+    if (this.productListItemContext) {
+      this.showQuantity = false;
     }
   }
 

@@ -190,21 +190,6 @@ describe('ProductListItemComponent in product-list', () => {
     );
   });
 
-  it('should display add to cart component', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).not.toBeNull();
-  });
-
-  it('should not display add to cart component when product is out of stock', () => {
-    component.product.stock.stockLevelStatus = 'outOfStock';
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).toBeNull();
-  });
-
   it('should have defined instance of list item context', () => {
     expect(component['productListItemContextSource']).toBeDefined();
   });

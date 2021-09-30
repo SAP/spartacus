@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WishListService } from '@spartacus/cart/main/core';
+import { WishListFacade } from '@spartacus/cart/main/root';
 import {
   AuthService,
   isNotNullable,
@@ -35,7 +35,7 @@ export class AddToWishListComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
-    protected wishListService: WishListService,
+    protected wishListService: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
   ) {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   BasePageMetaResolver,
   Cart,
   PageDescriptionResolver,
@@ -32,7 +32,7 @@ export class CheckoutPageMetaResolver
 
   constructor(
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected basePageMetaResolver: BasePageMetaResolver
   ) {
     super();

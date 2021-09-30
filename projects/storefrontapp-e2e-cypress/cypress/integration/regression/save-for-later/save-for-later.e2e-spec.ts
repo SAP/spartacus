@@ -1,7 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
-import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { waitForPage } from '../../../helpers/checkout-flow';
+import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import {
   addProductToCart,
   ItemList,
@@ -15,7 +15,7 @@ import {
 } from '../../../helpers/save-for-later';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Save for later', () => {
+context.skip('Save for later', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
-import { Converter } from '../../../util/converter.service';
 import { CartModification } from '../../../model/cart.model';
+import { Converter } from '../../../util/converter.service';
 
 /**
  * @deprecated since 4.1 - use cart lib instead

@@ -1,6 +1,6 @@
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
-import { ConfigInitializerService } from '@spartacus/core';
+import { ConfigInitializerService, MODULE_INITIALIZER } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
@@ -45,24 +45,20 @@ export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
  * Complimentary module for cart to store cart id in browser storage.
  * This makes it possible to work on the same anonymous cart even after page refresh.
  */
-@NgModule()
-export class CartPersistenceModule {
-  static forRoot(): ModuleWithProviders<CartPersistenceModule> {
-    return {
-      ngModule: CartPersistenceModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: cartStatePersistenceFactory,
-          deps: [MultiCartStatePersistenceService, ConfigInitializerService],
-          multi: true,
-        },
-        {
-          provide: META_REDUCERS,
-          useFactory: uninitializeActiveCartMetaReducerFactory,
-          multi: true,
-        },
-      ],
-    };
-  }
-}
+@NgModule({
+  imports: [],
+  providers: [
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: cartStatePersistenceFactory,
+      deps: [MultiCartStatePersistenceService, ConfigInitializerService],
+      multi: true,
+    },
+    {
+      provide: META_REDUCERS,
+      useFactory: uninitializeActiveCartMetaReducerFactory,
+      multi: true,
+    },
+  ],
+})
+export class CartPersistenceModule {}

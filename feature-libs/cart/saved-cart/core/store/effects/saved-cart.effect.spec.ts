@@ -2,8 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   Cart,
   CartActions,
   GlobalMessageService,
@@ -50,7 +50,7 @@ class MockSavedCartConnector implements Partial<SavedCartConnector> {
 }
 
 const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = () => activeCart$.asObservable();
 }
 
@@ -74,7 +74,7 @@ describe('SavedCart Effects', () => {
           useClass: MockSavedCartConnector,
         },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
         {

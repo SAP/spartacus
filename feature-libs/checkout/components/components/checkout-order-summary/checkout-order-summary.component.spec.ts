@@ -1,15 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ActiveCartService,
-  Cart,
-  CartVoucherService,
-  I18nTestingModule,
-} from '@spartacus/core';
-import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
-  PromotionsComponent,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/components';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
+import { Cart, I18nTestingModule } from '@spartacus/core';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
@@ -41,8 +37,8 @@ describe('CheckoutOrderSummaryComponent', () => {
           MockFeatureLevelDirective,
         ],
         providers: [
-          { provide: ActiveCartService, useValue: mockActiveCartService },
-          { provide: CartVoucherService, useValue: {} },
+          { provide: ActiveCartFacade, useValue: mockActiveCartService },
+          { provide: CartVoucherFacade, useValue: {} },
         ],
       }).compileComponents();
     })

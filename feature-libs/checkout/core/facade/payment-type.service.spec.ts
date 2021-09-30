@@ -1,12 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  PaymentType,
-  PROCESS_FEATURE,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { PaymentType, PROCESS_FEATURE, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
@@ -21,7 +17,7 @@ const cart = {
   purchaseOrderNumber: 'testNumber',
 };
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
   cart;
   getActiveCartId() {
     return of(cart.code);
@@ -52,7 +48,7 @@ describe('PaymentTypeService', () => {
       ],
       providers: [
         PaymentTypeService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });

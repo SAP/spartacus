@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
@@ -22,5 +22,5 @@ export class MiniCartComponent {
     map((cart) => cart.totalPrice.formattedValue)
   );
 
-  constructor(protected activeCartService: ActiveCartService) {}
+  constructor(protected activeCartService: ActiveCartFacade) {}
 }

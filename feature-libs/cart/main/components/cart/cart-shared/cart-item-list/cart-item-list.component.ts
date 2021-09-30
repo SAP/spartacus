@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ActiveCartService,
-  MultiCartService,
-  SelectiveCartService,
-} from '@spartacus/cart/main/core';
+  ActiveCartFacade,
+  MultiCartFacade,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   ConsignmentEntry,
   OrderEntry,
@@ -66,10 +66,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
+    protected activeCartService: ActiveCartFacade,
+    protected selectiveCartService: SelectiveCartFacade,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {}
 
   ngOnInit(): void {
