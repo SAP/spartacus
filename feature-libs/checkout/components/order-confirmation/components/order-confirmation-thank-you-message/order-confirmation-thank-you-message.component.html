@@ -1,24 +1,24 @@
 <ng-container *ngIf="order$ | async as order">
-  <div class="cx-page-header" aria-live="polite" aria-atomic="true">
-    <h1 class="cx-page-title">
-      {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
-      {{
-        (isReplenishmentOrderType$ | async)
-          ? order.replenishmentOrderCode
-          : order.code
-      }}
-    </h1>
-  </div>
+  <div aria-live="polite">
+    <div class="cx-page-header">
+      <h1 class="cx-page-title">
+        {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
+        {{
+          (isReplenishmentOrderType$ | async)
+            ? order.replenishmentOrderCode
+            : order.code
+        }}
+      </h1>
+    </div>
 
-  <div
-    class="cx-order-confirmation-message"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
-    <p>
-      {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
-    </p>
+    <div class="cx-order-confirmation-message">
+      <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
+      <p>
+        {{
+          'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate
+        }}
+      </p>
+    </div>
   </div>
 
   <div *ngIf="isGuestCustomer">
