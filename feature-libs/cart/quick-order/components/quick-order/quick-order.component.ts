@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   CmsQuickOrderComponent,
+  DeletedEntriesObject,
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
 import {
@@ -21,7 +22,6 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { DeletedEntriesObject } from '../../core/models/deleted-entries-object.model';
 
 @Component({
   selector: 'cx-quick-order',

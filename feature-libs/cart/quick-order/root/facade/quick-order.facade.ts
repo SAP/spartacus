@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
-import { DeletedEntriesObject } from '../../core/models/deleted-entries-object.model';
+import { DeletedEntriesObject } from '@spartacus/cart/quick-order/core';
 
 export function quickOrderFacadeFactory() {
   return facadeFactory({
