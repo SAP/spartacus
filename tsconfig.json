@@ -60,6 +60,15 @@
       "@spartacus/cart/quick-order/root": [
         "feature-libs/cart/quick-order/root/public_api"
       ],
+      "@spartacus/cart/added-to-cart-toast": [
+        "feature-libs/cart/added-to-cart-toast/public_api"
+      ],
+      "@spartacus/cart/added-to-cart-toast/root": [
+        "feature-libs/cart/added-to-cart-toast/root/public_api"
+      ],
+      "@spartacus/cart/added-to-cart-toast/assets": [
+        "feature-libs/cart/added-to-cart-toast/assets/public_api"
+      ],
       "@spartacus/checkout/assets": ["feature-libs/checkout/assets/public_api"],
       "@spartacus/checkout/components": [
         "feature-libs/checkout/components/public_api"
