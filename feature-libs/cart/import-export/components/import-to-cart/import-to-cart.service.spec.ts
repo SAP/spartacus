@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import {
   ActiveCartService,
   Cart,
@@ -11,7 +11,7 @@ import {
   UserIdService,
   RouterState,
 } from '@spartacus/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { ProductImportStatus, ProductsData } from '../../core/model';
 import { ImportToCartService } from './import-to-cart.service';
 

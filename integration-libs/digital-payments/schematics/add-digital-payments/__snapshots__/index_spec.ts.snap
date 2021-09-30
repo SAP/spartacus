@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { DigitalPaymentsModule, dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    DigitalPaymentsModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: dpTranslations,
+      chunks: dpTranslationChunksConfig,
+    },
+  })]
+})
+export class DigitalPaymentsFeatureModule { }
+"
+`;

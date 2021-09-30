@@ -8,6 +8,7 @@ import semver from 'semver';
 const featureLibsFolders: string[] = [
   'asm',
   'cart',
+  'order',
   'checkout',
   'organization',
   'product',
@@ -19,7 +20,7 @@ const featureLibsFolders: string[] = [
   'user',
 ];
 
-const integrationLibsFolders: string[] = ['cdc', 'cds'];
+const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments'];
 
 const commands = [
   'publish',
@@ -27,9 +28,11 @@ const commands = [
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
+  'build order/schematics',
   'build checkout/schematics',
   'build cdc/schematics',
   'build cds/schematics',
+  'build digital-payments/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -160,9 +163,11 @@ async function executeCommand(command: Command): Promise<void> {
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
+    case 'build order/schematics':
     case 'build checkout/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
+    case 'build digital-payments/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':

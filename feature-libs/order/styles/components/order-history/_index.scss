@@ -1,0 +1,35 @@
+@import './amend-order-actions';
+@import './amend-order-items';
+@import './order-history';
+@import './replenishment-order-history';
+@import './order-return-request-list';
+@import './return-request-items';
+@import './return-request-overview';
+@import './return-request-totals';
+@import './cancel-order';
+@import './consignment-tracking';
+
+$order-history-allowlist: cx-amend-order-actions, cx-amend-order-items,
+  cx-cancel-order, cx-consignment-tracking, cx-tracking-events, cx-order-history,
+  cx-order-return-request-list, cx-replenishment-order-history,
+  cx-return-request-items, cx-return-request-overview, cx-return-request-totals !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $order-history-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $order-history-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

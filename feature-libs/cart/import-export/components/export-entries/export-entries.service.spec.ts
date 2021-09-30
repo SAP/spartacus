@@ -11,13 +11,12 @@ import {
   TranslationService,
   GlobalMessageService,
 } from '@spartacus/core';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
+import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { ExportEntriesService } from './export-entries.service';
-
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
@@ -80,8 +79,7 @@ const entry: OrderEntry = {
       stockLevel: 365,
       stockLevelStatus: 'inStock',
     },
-    url:
-      '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
+    url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
     slug: 'pc-service-set-professional',
     nameHtml: 'PC Service Set Professional',
   },
@@ -109,12 +107,12 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getEntries = createSpy('getEntries').and.returnValue(of([entry]));
+  getEntries = createSpy('getEntries').and.returnValue(of([entry, entry]));
 }
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails = createSpy('getCartDetails').and.returnValue(
-    of({ entries: [entry] })
+    of({ entries: [entry, entry] })
   );
 }
 
@@ -164,7 +162,7 @@ describe('ExportEntriesService', () => {
       } as RouterState);
       spyOn(translationService, 'translate').and.callThrough();
 
-      let result;
+      let result: string[][] = [];
       service.getResolvedEntries().subscribe((data) => (result = data));
 
       const headings = [
@@ -181,7 +179,8 @@ describe('ExportEntriesService', () => {
         entry.totalPrice?.formattedValue,
       ];
 
-      expect(result).toEqual([[...headings], values]);
+      expect(result.length).toEqual(3);
+      expect(result).toEqual([[...headings], values, values]);
       expect(translationService.translate).toHaveBeenCalledTimes(4);
     });
 
@@ -228,7 +227,12 @@ describe('ExportEntriesService', () => {
         output: 'PC Service Set Professional',
       },
       { key: 'returnableQuantity', output: '0' },
+      {
+        key: 'product.stock',
+        output: `{'stockLevel':365,'stockLevelStatus':'inStock'}`,
+      },
       { key: 'notExistingKey', output: '' },
+      { key: 'notExistingKey.notExistingKey', output: '' },
     ];
 
     testData.forEach(({ key, output }) => {
@@ -236,5 +240,24 @@ describe('ExportEntriesService', () => {
         expect(service['resolveValue'](key, entry)).toBe(output);
       });
     });
+  });
+
+  it(`should adjust maxEntries limit`, () => {
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport?.export,
+          maxEntries: 1,
+        },
+      },
+    };
+
+    let result: string[][] = [];
+    service
+      .getResolvedEntries()
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+    expect(result.length).toEqual(2);
   });
 });

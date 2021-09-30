@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_DETAILS_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-details/cart-details.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-details/cart-details.component.ts
   class: CART_DETAILS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

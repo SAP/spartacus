@@ -20,7 +20,6 @@ context('Product search product type flow', () => {
     describe('Product search', () => {
       it('should be able to search with specific product type', () => {
         const category = 'sony';
-        cy.server();
 
         createProductQuery(
           QUERY_ALIAS.SONY,
@@ -51,21 +50,25 @@ context('Product search product type flow', () => {
           `${category}{enter}`
         );
 
-        cy.wait(`@${QUERY_ALIAS.SONY}`).its('status').should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.SONY}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
         // Filter by brand
         clickFacet('Brand');
 
-        cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`).its('status').should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.BRAND_PAGE}`, `"${category}"`);
 
         clearSelectedFacet();
 
         cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
@@ -74,7 +77,7 @@ context('Product search product type flow', () => {
         clickFacet('Price');
 
         cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(
@@ -85,7 +88,7 @@ context('Product search product type flow', () => {
         clearSelectedFacet();
 
         cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(
@@ -97,7 +100,7 @@ context('Product search product type flow', () => {
         clickFacet('Category');
 
         cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(
@@ -108,7 +111,7 @@ context('Product search product type flow', () => {
         clearSelectedFacet();
 
         cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(
@@ -118,14 +121,16 @@ context('Product search product type flow', () => {
 
         clickFacet('Color');
 
-        cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`).its('status').should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.COLOR_FILTER}`, `"${category}"`);
 
         clearSelectedFacet();
 
         cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('status')
+          .its('response.statusCode')
           .should('eq', 200);
 
         assertNumberOfProducts(

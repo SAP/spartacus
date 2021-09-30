@@ -33,7 +33,11 @@ export class SavedCartConnector {
     );
   }
 
-  cloneSavedCart(userId: string, cartId: string): Observable<Cart> {
-    return this.adapter.cloneSavedCart(userId, cartId);
+  cloneSavedCart(
+    userId: string,
+    cartId: string,
+    saveCartName?: string
+  ): Observable<Cart> {
+    return this.adapter.cloneSavedCart(userId, cartId, saveCartName);
   }
 }

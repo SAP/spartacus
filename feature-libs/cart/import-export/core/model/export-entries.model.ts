@@ -1,4 +1,5 @@
 import { Translatable } from '@spartacus/core';
+import { ExportFileOptions } from '@spartacus/storefront';
 
 export interface ExportColumn {
   /**
@@ -31,9 +32,14 @@ export interface ExportConfig {
   downloadDelay?: number;
 
   /**
-   * File name for exported file.
+   * Metadata for exported file.
    */
-  fileName?: string;
+  fileOptions: ExportFileOptions;
+
+  /**
+   * Determines entries limit in exported CSV file.
+   */
+  maxEntries?: number;
 }
 
 export enum ExportCartRoutes {

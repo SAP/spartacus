@@ -1,18 +1,17 @@
 import {
-  FORGOT_PASSWORD_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
-  FORM_BUILDER,
-  SPARTACUS_CORE,
   ANGULAR_FORMS,
-  ROUTING_SERVICE,
-  USER_SERVICE,
   AUTH_CONFIG_SERVICE,
+  FORGOT_PASSWORD_COMPONENT,
+  FORM_BUILDER,
+  ROUTING_SERVICE,
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  USER_SERVICE,
 } from '../../../../shared/constants';
-
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORGOT_PASSWORD_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.component.ts
+  // projects/storefrontlib/cms-components/myaccount/forgot-password/forgot-password.component.ts
   class: FORGOT_PASSWORD_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

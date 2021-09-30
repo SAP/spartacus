@@ -19,6 +19,7 @@ export const common = {
     menu: 'Menu',
     reset: 'Reset',
     search: 'Search',
+    add: 'Add',
     selectFile: 'Select file',
   },
   pageMetaResolver: {
@@ -170,6 +171,7 @@ export const common = {
       empty: 'File should not be empty',
       invalidExtension: 'File extension is not valid',
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
       notParsable: 'File is not parsable',
     },
   },
