@@ -108,7 +108,6 @@
     "@angular/pwa": "^12.0.5",
     "@angular/router": "^12.0.5",
     "@angular/service-worker": "^12.0.5",
-    "@lhci/cli": "^0.8.1",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
