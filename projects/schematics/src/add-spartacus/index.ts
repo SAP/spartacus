@@ -8,11 +8,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import {
-  ANGULAR_HTTP,
-  SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+import { ANGULAR_HTTP, SPARTACUS_STOREFRONTLIB } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -22,10 +18,7 @@ import {
   LibraryOptions,
   prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
-import {
-  addModuleImport,
-  ensureModuleExists,
-} from '../shared/utils/new-module-utils';
+import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -295,12 +288,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
 
-      ensureModuleExists({
-        name: SPARTACUS_ROUTING_MODULE,
-        path: 'app',
-        module: 'app',
-        project: options.project,
-      }),
       setupStoreModules(options.project),
 
       scaffoldStructure(options),
