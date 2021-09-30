@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+npm install -g @lhci/cli@0.8.x
+
 export SPA_ENV='lighthouse'
 
 echo " --> Building Spartacus libraries"

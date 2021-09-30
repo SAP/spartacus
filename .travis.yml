@@ -2,8 +2,6 @@ dist: bionic
 language: node_js
 node_js:
   - 12.16.1
-before_install:
-  - npm install -g @lhci/cli@0.8.x
 cache: yarn
 git:
   depth: false
