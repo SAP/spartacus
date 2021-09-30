@@ -79,10 +79,9 @@ export class QueryService implements OnDestroy {
 
     const load$ = loadTrigger$.pipe(
       tap(() => {
-        if (state$.value.loading) {
-          return;
+        if (!state$.value.loading) {
+          state$.next({ ...state$.value, loading: true });
         }
-        state$.next({ ...state$.value, loading: true });
       }),
       switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {

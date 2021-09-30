@@ -5,7 +5,7 @@ import { defer, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { CxEvent, EventService } from '@spartacus/core';
 
-class TestingEvent extends CxEvent {
+class ReloadEvent extends CxEvent {
   static readonly type = 'TestingEvent';
 }
 
@@ -50,7 +50,7 @@ describe('QueryService', () => {
             return loadingStream$.pipe(take(1));
           }),
         {
-          reloadOn: [TestingEvent],
+          reloadOn: [ReloadEvent],
           resetOn: [resetTrigger$.asObservable()],
         }
       );
@@ -139,7 +139,7 @@ describe('QueryService', () => {
           }
         });
         loadingStream$.next('test-value');
-        eventService.dispatch(new TestingEvent());
+        eventService.dispatch(new ReloadEvent());
         loadingStream$.next('test-value-2');
       });
 
