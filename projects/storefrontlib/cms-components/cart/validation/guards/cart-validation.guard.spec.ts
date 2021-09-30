@@ -74,7 +74,7 @@ class MockRoutingService {
   }
 }
 
-fdescribe(`CartValidationGuard`, () => {
+describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
   let activeCartService: ActiveCartService;
