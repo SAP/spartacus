@@ -87,7 +87,7 @@ export abstract class QuickOrderFacade {
   /**
    * Add deleted entry
    */
-  abstract addDeletedEntry(entry: OrderEntry, clearTimeout: boolean): void;
+  abstract addDeletedEntry(entry: OrderEntry, clearTimeout?: boolean): void;
 
   /**
    * Return deleted entries
