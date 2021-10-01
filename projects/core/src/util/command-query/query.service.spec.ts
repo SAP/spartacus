@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Query, QueryService, QueryState } from './query.service';
 import { defer, of, Subject } from 'rxjs';
-import { skip, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { CxEvent, EventService } from '@spartacus/core';
 
 class ReloadEvent extends CxEvent {
@@ -35,17 +35,14 @@ describe('QueryService', () => {
     let query: Query<string>;
     let loadingStream$: Subject<string>;
     let resetTrigger$: Subject<boolean>;
-    let loadingStreamAccessed: boolean;
     let loaderFactoryCalls: number;
 
     beforeEach(() => {
-      loadingStreamAccessed = false;
       resetTrigger$ = new Subject<boolean>();
       loaderFactoryCalls = 0;
       query = service.create(
         () =>
           defer(() => {
-            loadingStreamAccessed = true;
             loaderFactoryCalls++;
             return loadingStream$.pipe(take(1));
           }),
@@ -57,148 +54,408 @@ describe('QueryService', () => {
       loadingStream$ = new Subject<string>();
     });
 
-    it('should not load if not accessed', () => {
+    it('should not load if not subscribed', () => {
       const data = query.get();
       expect(data).toBeDefined();
-      expect(loadingStreamAccessed).toBeFalsy();
+      expect(loaderFactoryCalls).toBe(0);
     });
 
-    it('should load if first accessed', () => {
-      const data = query.get();
-      data.pipe(take(1)).subscribe();
-      expect(data).toBeDefined();
-      expect(loadingStreamAccessed).toBeTruthy();
-    });
+    it('should load on subscription', (done) => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+      data.pipe(take(2)).subscribe((state) => {
+        emissions.push(state);
 
-    describe('getState', () => {
-      it('should emit loading state on first emission', (done) => {
-        const data = query.getState();
-        data.pipe(take(1)).subscribe((state) => {
-          expect(state).toEqual(
-            jasmine.objectContaining({
+        if (emissions.length === 2) {
+          expect(loaderFactoryCalls).toBe(1);
+          expect(emissions).toEqual([
+            // first emission should already present loading state
+            {
               loading: true,
               error: false,
               data: undefined,
-            })
-          );
-          done();
-        });
-      });
-
-      it('should emit value returned by the loaderFactory', (done) => {
-        const data = query.getState();
-        data.pipe(take(2), skip(1)).subscribe((state) => {
-          expect(state).toEqual(
-            jasmine.objectContaining({
+            },
+            {
               loading: false,
               error: false,
-              data: 'test-value',
-            })
-          );
+              data: 'value',
+            },
+          ]);
           done();
-        });
-        loadingStream$.next('test-value');
+        }
       });
 
-      it('should emit error state thrown by the loaderFactory', (done) => {
-        const data = query.getState();
-        data.pipe(take(2), skip(1)).subscribe((state) => {
-          expect(state).toEqual(
-            jasmine.objectContaining({
-              loading: false,
+      loadingStream$.next('value');
+    });
+
+    it('should return state from previous subscription after resubscription', (done) => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+      data.pipe(take(2)).subscribe((state) => {
+        emissions.push(state);
+      });
+
+      loadingStream$.next('value');
+
+      data.pipe(take(1)).subscribe((state) => {
+        emissions.push(state);
+
+        if (emissions.length === 3) {
+          expect(emissions).toEqual([
+            {
+              loading: true,
+              error: false,
               data: undefined,
-            })
-          );
-          expect((state.error as Error).message).toEqual('test-error');
+            },
+            {
+              loading: false,
+              error: false,
+              data: 'value',
+            },
+            // unsubscribe happened (0 subscribers)
+            // subscribe happened once again
+            {
+              loading: false,
+              error: false,
+              data: 'value',
+            },
+          ]);
           done();
-        });
-        loadingStream$.error(new Error('test-error'));
+        }
+      });
+    });
+
+    it('should load once again if it was cancelled by unsubscribe', (done) => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+      data.pipe(take(1)).subscribe((state) => {
+        emissions.push(state);
       });
 
-      it('should emit new value after reload trigger', (done) => {
-        const data = query.getState();
-        const states: QueryState<string>[] = [];
-        data.pipe(take(4), skip(2)).subscribe((state) => {
-          states.push(state);
-          if (states.length === 2) {
-            expect(states[0]).toEqual(
-              jasmine.objectContaining({
-                loading: true,
-                error: false,
-                data: 'test-value',
-              })
-            );
-            expect(states[1]).toEqual(
-              jasmine.objectContaining({
-                loading: false,
-                error: false,
-                data: 'test-value-2',
-              })
-            );
-            done();
-          }
-        });
-        loadingStream$.next('test-value');
-        eventService.dispatch(new ReloadEvent());
-        loadingStream$.next('test-value-2');
+      loadingStream$.next('value');
+
+      data.pipe(take(2)).subscribe((state) => {
+        emissions.push(state);
+
+        if (emissions.length === 3) {
+          expect(loaderFactoryCalls).toBe(2);
+          expect(emissions).toEqual([
+            {
+              loading: true,
+              error: false,
+              data: undefined,
+            },
+            // unsubscribe happened (0 subscribers)
+            // subscribe happened once again
+            {
+              loading: true,
+              error: false,
+              data: undefined,
+            },
+            {
+              loading: false,
+              error: false,
+              data: 'new-value',
+            },
+          ]);
+          done();
+        }
       });
 
-      it('should emit undefined on reset trigger', (done) => {
-        const data = query.getState();
-        const states: QueryState<string>[] = [];
-        data.pipe(take(4), skip(2)).subscribe((state) => {
-          states.push(state);
-          if (states.length === 2) {
-            expect(states[0]).toEqual(
-              jasmine.objectContaining({
-                loading: true,
-                error: false,
-                data: undefined,
-              })
-            );
-            expect(states[1]).toEqual(
-              jasmine.objectContaining({
-                loading: false,
-                error: false,
-                data: 'test-value-2',
-              })
-            );
-            done();
-          }
-        });
-        loadingStream$.next('test-value');
-        resetTrigger$.next(true);
-        loadingStream$.next('test-value-2');
+      loadingStream$.next('new-value');
+    });
+
+    it('should clear value on error', (done) => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+
+      data.pipe(take(4)).subscribe((state) => {
+        emissions.push(state);
+
+        if (emissions.length === 4) {
+          expect(emissions).toEqual([
+            {
+              loading: true,
+              error: false,
+              data: undefined,
+            },
+            {
+              loading: false,
+              error: false,
+              data: 'value',
+            },
+            // reload trigger happened
+            {
+              loading: true,
+              error: false,
+              data: 'value',
+            },
+            // loaderFactory throws error
+            {
+              loading: false,
+              error: jasmine.any(Error),
+              data: undefined,
+            },
+          ]);
+          done();
+        }
       });
 
-      it('should not call multiple times loaderFactory on multiple subscriptions', () => {
-        const data = query.getState();
-        data.pipe(take(2)).subscribe();
-        data.pipe(take(2)).subscribe();
-        loadingStream$.next('test-value');
-        expect(loaderFactoryCalls).toEqual(1);
+      loadingStream$.next('value');
+      eventService.dispatch(new ReloadEvent());
+      loadingStream$.error(new Error('error'));
+    });
+
+    it('should clear error on successful emission', (done) => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+
+      data.pipe(take(4)).subscribe((state) => {
+        emissions.push(state);
+
+        if (emissions.length === 4) {
+          expect(emissions).toEqual([
+            {
+              loading: true,
+              error: false,
+              data: undefined,
+            },
+            // loaderFactory throws error
+            {
+              loading: false,
+              error: jasmine.any(Error),
+              data: undefined,
+            },
+            // reload trigger happened
+            {
+              loading: true,
+              error: jasmine.any(Error),
+              data: undefined,
+            },
+            // loaderFactory returns value
+            {
+              loading: false,
+              error: false,
+              data: 'value',
+            },
+          ]);
+          done();
+        }
       });
-      it('should call loaderFactory when the query was unsubscribed during previous loading', () => {
-        const data = query.getState();
-        data.pipe(take(1)).subscribe();
-        data.pipe(take(1)).subscribe();
-        expect(loaderFactoryCalls).toEqual(2);
-      });
+
+      loadingStream$.error(new Error('error'));
+      loadingStream$ = new Subject<string>();
+      eventService.dispatch(new ReloadEvent());
+      loadingStream$.next('value');
+    });
+
+    it('should not call multiple times loaderFactory on multiple subscriptions', () => {
+      const data = query.getState();
+      data.pipe(take(2)).subscribe();
+      data.pipe(take(2)).subscribe();
+      loadingStream$.next('test-value');
+      expect(loaderFactoryCalls).toEqual(1);
     });
 
     describe('get', () => {
       it('should return value property from getState', (done) => {
         const data = query.get();
-        const states: (string | undefined)[] = [];
-        data.pipe(take(2)).subscribe((state) => {
-          states.push(state);
-          if (states.length === 2) {
-            expect(states[0]).toEqual(undefined);
-            expect(states[1]).toEqual('test-value');
+        const emissions: (string | undefined)[] = [];
+        data.pipe(take(3)).subscribe((state) => {
+          emissions.push(state);
+          if (emissions.length === 3) {
+            // should not emit same values multiple times
+            expect(emissions).toEqual([undefined, 'value', 'different-value']);
             done();
           }
         });
-        loadingStream$.next('test-value');
+        loadingStream$.next('value');
+        eventService.dispatch(new ReloadEvent());
+        loadingStream$.next('value');
+        eventService.dispatch(new ReloadEvent());
+        loadingStream$.next('different-value');
+      });
+    });
+
+    describe('reload trigger', () => {
+      it('should reload data immediately when there are active query subscriptions', (done) => {
+        const data = query.getState();
+        const emissions: QueryState<string>[] = [];
+
+        data.pipe(take(4)).subscribe((state) => {
+          emissions.push(state);
+
+          if (emissions.length === 4) {
+            expect(loaderFactoryCalls).toBe(2);
+            expect(emissions).toEqual([
+              {
+                loading: true,
+                error: false,
+                data: undefined,
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'value',
+              },
+              // reload trigger happened
+              {
+                loading: true,
+                error: false,
+                data: 'value', // value is not cleared on reload!
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'new-value',
+              },
+            ]);
+            done();
+          }
+        });
+
+        loadingStream$.next('value');
+        eventService.dispatch(new ReloadEvent());
+        loadingStream$.next('new-value');
+      });
+
+      it('should reload data after resubscription when there was 0 subscribers during emission', (done) => {
+        const data = query.getState();
+        const emissions: QueryState<string>[] = [];
+
+        data.pipe(take(2)).subscribe((state) => {
+          emissions.push(state);
+        });
+
+        loadingStream$.next('value');
+        eventService.dispatch(new ReloadEvent());
+
+        data.pipe(take(2)).subscribe((state) => {
+          emissions.push(state);
+
+          if (emissions.length === 4) {
+            expect(loaderFactoryCalls).toBe(2);
+            expect(emissions).toEqual([
+              {
+                loading: true,
+                error: false,
+                data: undefined,
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'value',
+              },
+              // unsubscribe happened (0 subscribers)
+              // reload trigger happened
+              // subscribe happened once again
+              {
+                loading: true,
+                error: false,
+                data: 'value',
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'new-value',
+              },
+            ]);
+            done();
+          }
+        });
+
+        loadingStream$.next('new-value');
+      });
+    });
+
+    describe('reset trigger', () => {
+      it('should clear state and reload data immediately when there are active query subscriptions', (done) => {
+        const data = query.getState();
+        const emissions: QueryState<string>[] = [];
+
+        data.pipe(take(4)).subscribe((state) => {
+          emissions.push(state);
+
+          if (emissions.length === 4) {
+            expect(loaderFactoryCalls).toBe(2);
+            expect(emissions).toEqual([
+              {
+                loading: true,
+                error: false,
+                data: undefined,
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'value',
+              },
+              // reset trigger happened
+              {
+                loading: true,
+                error: false,
+                data: undefined, // value needs to be cleared on reset!
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'new-value',
+              },
+            ]);
+            done();
+          }
+        });
+
+        loadingStream$.next('value');
+        resetTrigger$.next(true);
+        loadingStream$.next('new-value');
+      });
+
+      it('should clear state instantly and reload data after resubscription when there was 0 subscribers during emission', (done) => {
+        const data = query.getState();
+        const emissions: QueryState<string>[] = [];
+
+        data.pipe(take(2)).subscribe((state) => {
+          emissions.push(state);
+        });
+
+        loadingStream$.next('value');
+        resetTrigger$.next(true);
+
+        data.pipe(take(2)).subscribe((state) => {
+          emissions.push(state);
+
+          if (emissions.length === 4) {
+            expect(loaderFactoryCalls).toBe(2);
+            expect(emissions).toEqual([
+              {
+                loading: true,
+                error: false,
+                data: undefined,
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'value',
+              },
+              // unsubscribe happened (0 subscribers)
+              // reset trigger happened
+              // subscribe happened once again
+              {
+                loading: true,
+                error: false,
+                data: undefined,
+              },
+              {
+                loading: false,
+                error: false,
+                data: 'new-value',
+              },
+            ]);
+            done();
+          }
+        });
+
+        loadingStream$.next('new-value');
       });
     });
   });
