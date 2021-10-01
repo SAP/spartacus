@@ -99,7 +99,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   removeEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
-      this.addDeletedEntry(entriesList[index], true);
+      this.addDeletedEntry(entriesList[index]);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
