@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Cart } from '@spartacus/core';
+import { Component, Input, Optional } from '@angular/core';
+import { Cart, Order } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-order-summary',
@@ -8,4 +9,10 @@ import { Cart } from '@spartacus/core';
 export class OrderSummaryComponent {
   @Input()
   cart: Cart;
+
+  constructor(@Optional() protected outlet?: OutletContextData<Cart | Order>) {
+    if (outlet) {
+      this.cart = outlet.context;
+    }
+  }
 }

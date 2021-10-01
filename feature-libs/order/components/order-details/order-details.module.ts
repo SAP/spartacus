@@ -14,6 +14,7 @@ import {
   CardModule,
   OrderDetailsServiceTransitionalToken,
   OrderOverviewModule,
+  OutletModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -48,6 +49,7 @@ const moduleComponents = [
     UrlModule,
     SpinnerModule,
     RouterModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

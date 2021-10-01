@@ -12,6 +12,7 @@ import {
   CardModule,
   FormErrorsModule,
   OrderOverviewModule,
+  OutletModule,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
@@ -43,6 +44,7 @@ const orderConfirmationComponents = [
     FeaturesConfigModule,
     FormErrorsModule,
     OrderOverviewModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
