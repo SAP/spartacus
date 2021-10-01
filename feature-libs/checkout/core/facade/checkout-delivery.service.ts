@@ -266,6 +266,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     checkoutDeliveryConnector: CheckoutDeliveryConnector,
     // TODO:#13888 remove when all actions are removed from the queries
     actions$: Actions,
+    // TODO:#13888 remove after the deprecation is done
     featureConfigService: FeatureConfigService
   );
 
@@ -318,11 +319,19 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       );
     }
 
-    // TODO:#13888 Remove check in the future when all services will be provided
+    // TODO:#13888 Remove the check in the future when all services will be provided
     if (this.supportedDeliveryModesQuery) {
-      return this.supportedDeliveryModesQuery
-        .get()
-        .pipe(map((deliveryModes) => deliveryModes ?? []));
+      return this.supportedDeliveryModesQuery.getState().pipe(
+        // TODO: check if we need to do error handling here. This mimics the behaviour from delivery-mode.component.ts' ngOnInit().
+        tap((deliveryModesState) => {
+          if (deliveryModesState.error && !deliveryModesState.loading) {
+            this.loadSupportedDeliveryModes();
+          }
+        }),
+        // TODO: if we decide we don't need the error handling anymore, remove this map
+        map((deliveryModesState) => deliveryModesState.data),
+        map((deliveryModes) => deliveryModes ?? [])
+      );
     }
     // TODO:#13888 Remove in the future when all services will be provided
     throw new Error(
@@ -481,6 +490,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
 
   /**
    * Load supported delivery modes
+   *
+   * @deprecated since 4.3.0. Use getSupportedDeliveryModes() which makes sure the data is loaded
    */
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
