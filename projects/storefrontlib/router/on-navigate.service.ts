@@ -55,6 +55,7 @@ export class OnNavigateService {
           const currentRoute = event[1];
 
           if (currentRoute.position) {
+            // allow the pages to be repainted before scrolling to proper position
             setTimeout(() =>
               this.viewportScroller.scrollToPosition(currentRoute.position)
             );
