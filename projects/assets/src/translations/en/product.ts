@@ -74,6 +74,7 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
   },
   addToWishList: {

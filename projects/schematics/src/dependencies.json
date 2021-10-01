@@ -249,6 +249,14 @@
     "@spartacus/storefront": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/epd-visualization": {
+    "@angular-devkit/schematics": "^12.0.5",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/assets": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0"
+  },
   "storefrontapp": {
     "@angular/animations": "^12.0.5",
     "@angular/common": "^12.0.5",

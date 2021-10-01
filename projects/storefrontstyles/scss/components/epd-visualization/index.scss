@@ -1,0 +1,10 @@
+@import './spare-parts/index';
+@import './viewer/index';
+
+$epd-visualization-components-allowlist: cx-visual-viewer,
+cx-visual-viewer-toolbar-button,
+cx-spare-parts-tab,
+cx-spare-parts-layout,
+cx-spare-parts-filter,
+cx-spare-parts-list,
+cx-animation-slider !default;

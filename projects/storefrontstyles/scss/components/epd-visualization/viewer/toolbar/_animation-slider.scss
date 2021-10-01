@@ -1,0 +1,96 @@
+%cx-animation-slider {
+  $handleSize: 32px !default;
+  $handlePointerSize: 8px !default;
+  $barDimension: 7px !default;
+
+  .sliderVBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 1em;
+  }
+
+  .slider {
+    width: 10em;
+    margin-bottom: auto;
+    margin-top: auto;
+
+    .cx-animation-slider {
+      margin: 0;
+      display: inline-block;
+      position: relative;
+      height: $barDimension;
+      width: 100%;
+      vertical-align: middle;
+      user-select: none;
+      touch-action: pan-y;
+
+      &[disabled] {
+        cursor: default;
+        opacity: $btn-disabled-opacity;
+        color: $btn-link-disabled-color;
+
+        .cx-animation-slider-pointer {
+          cursor: default;
+          background-color: var(--cx-color-inverse);
+        }
+      }
+
+      .cx-animation-slider-span {
+        white-space: nowrap;
+        position: absolute;
+        display: inline-block;
+      }
+
+      .cx-animation-slider-bar-wrapper {
+        left: 0;
+        box-sizing: border-box;
+        margin-top: -$handleSize / 2;
+        padding-top: $handleSize / 2;
+        width: 100%;
+        height: $handleSize;
+        z-index: 1;
+      }
+
+      .cx-animation-slider-bar {
+        left: 0;
+        width: 100%;
+        z-index: 1;
+        background: var(--cx-color-inverse);
+        height: $barDimension;
+        border-color: var(--cx-text-color);
+        border-width: 2px;
+        border-style: solid;
+        border-radius: $barDimension / 2;
+      }
+
+      .cx-animation-slider-pointer {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        top: -$barDimension;
+        background-color: var(--cx-color-inverse);
+        border-color: var(--cx-text-color);
+        border-width: 2px;
+        border-style: solid;
+        z-index: 3;
+        border-radius: $handleSize / 2;
+
+        &:after {
+          content: '';
+          width: $handlePointerSize;
+          height: $handlePointerSize;
+          position: absolute;
+          top: $handleSize / 2 - $handlePointerSize / 2;
+          left: $handleSize / 2 - $handlePointerSize / 2;
+          border-radius: $handlePointerSize / 2;
+          background: var(--cx-color-inverse);
+        }
+      }
+
+      .cx-animation-slider-pointer:after {
+        display: none;
+      }
+    }
+  }
+}

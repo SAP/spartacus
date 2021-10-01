@@ -16,8 +16,9 @@
     "build:cds": "yarn --cwd integration-libs/cds run build:schematics && ng build cds --configuration production",
     "build:checkout": "yarn --cwd feature-libs/checkout run build:schematics && ng build checkout --configuration production",
     "build:digital-payments": "yarn --cwd integration-libs/digital-payments run build:schematics && ng build digital-payments --configuration production",
+    "build:epd-visualization": "yarn --cwd integration-libs/epd-visualization run build:schematics && ng build epd-visualization --configuration production",
     "build:order": "yarn --cwd feature-libs/order run build:schematics && ng build order --configuration production",
-    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && yarn build:schematics && yarn build:user && yarn build:cart && yarn build:order && yarn build:checkout && yarn build:asm && yarn build:tracking  && concurrently --kill-others-on-fail -m 4 yarn:build:organization yarn:build:product yarn:build:product-configurator yarn:build:storefinder yarn:build:smartedit yarn:build:qualtrics yarn:build:assets yarn:build:incubator yarn:build:cdc yarn:build:cds yarn:build:setup yarn:build:digital-payments",
+    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && yarn build:schematics && yarn build:user && yarn build:cart && yarn build:order && yarn build:checkout && yarn build:asm && yarn build:tracking  && concurrently --kill-others-on-fail -m 4 yarn:build:organization yarn:build:product yarn:build:product-configurator yarn:build:storefinder yarn:build:smartedit yarn:build:qualtrics yarn:build:assets yarn:build:incubator yarn:build:cdc yarn:build:cds yarn:build:setup yarn:build:digital-payments yarn:build:epd-visualization",
     "build:incubator": "ng build incubator --configuration production",
     "build:organization": "yarn --cwd feature-libs/organization run build:schematics && ng build organization --configuration production",
     "build:product": "yarn --cwd feature-libs/product run build:schematics && ng build product --configuration production",
@@ -45,6 +46,7 @@
     "e2e:run:ci:product-configuration": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:product-configurator-vc",
     "e2e:run:ci:cdc": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc",
     "e2e:run:ci:digital-payments": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:digital-payments",
+    "e2e:run:ci:epd-visualization": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx @compodoc/compodoc@1.1.13 -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
@@ -54,10 +56,11 @@
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve",
+    "start:local": "env-cmd --no-override -e local,b2c,$SPA_ENV ng serve --configuration development",
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve --configuration production",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "ng test",
-    "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test smartedit --code-coverage\" \"ng test asm --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test product-configurator --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\" \"ng test checkout --code-coverage\" \"ng test order --code-coverage\" \"ng test digital-payments --code-coverage\"",
+    "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test smartedit --code-coverage\" \"ng test asm --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test product-configurator --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\" \"ng test checkout --code-coverage\" \"ng test order --code-coverage\" \"ng test digital-payments --code-coverage\"  \"ng test epd-visualization --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
     "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ng run storefrontapp:serve-ssr",
     "serve:ssr": "node dist/storefrontapp-server/main.js",
@@ -78,6 +81,7 @@
     "release:cds:with-changelog": "cd integration-libs/cds && release-it && cd ../..",
     "release:checkout:with-changelog": "cd feature-libs/checkout && release-it && cd ../..",
     "release:digital-payments:with-changelog": "cd integration-libs/digital-payments && release-it && cd ../..",
+    "release:epd-visualization:with-changelog": "cd integration-libs/epd-visualization && release-it && cd ../..",
     "release:schematics:with-changelog": "cd projects/schematics && release-it && cd ../..",
     "release:incubator:with-changelog": "cd projects/incubator && release-it && cd ../..",
     "release:setup:with-changelog": "cd core-libs/setup && release-it && cd ../..",
@@ -210,6 +214,7 @@
     "ts-morph": "^9.1.0",
     "ts-node": "~8.3.0",
     "typescript": "^4.2.4",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "@sapui5/ts-types-esm": "~1.94.0"
   }
 }

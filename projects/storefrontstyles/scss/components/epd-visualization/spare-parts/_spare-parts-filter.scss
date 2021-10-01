@@ -1,0 +1,38 @@
+%cx-spare-parts-filter {
+  display: block;
+  margin: 0 0 1rem 0;
+
+  .form-control {
+    background-color: var(--cx-color-inverse);
+
+    &:focus {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  .form-control[type=text] {
+    &:focus {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+
+    input {
+      padding: 0 46px 0 1em;
+    }
+
+    cx-icon {
+      position: absolute;
+      top: 17px;
+      right: 17px;
+      cursor: pointer;
+    }
+  }
+
+  .disabled-action {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

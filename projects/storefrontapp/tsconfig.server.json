@@ -5,6 +5,9 @@
     "baseUrl": ".",
     "types": ["node"],
     "esModuleInterop": true,
+    "types": ["@sapui5/ts-types-esm"],
+    "allowUmdGlobalAccess": true,
+    "skipLibCheck": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
@@ -17,6 +20,21 @@
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
+      "@spartacus/cart/quick-order/assets": [
+        "../../feature-libs/cart/quick-order/assets/public_api"
+      ],
+      "@spartacus/cart/quick-order/components": [
+        "../../feature-libs/cart/quick-order/components/public_api"
+      ],
+      "@spartacus/cart/quick-order/core": [
+        "../../feature-libs/cart/quick-order/core/public_api"
+      ],
+      "@spartacus/cart/quick-order": [
+        "../../feature-libs/cart/quick-order/public_api"
+      ],
+      "@spartacus/cart/quick-order/root": [
+        "../../feature-libs/cart/quick-order/root/public_api"
+      ],
       "@spartacus/cart/saved-cart/assets": [
         "../../feature-libs/cart/saved-cart/assets/public_api"
       ],
@@ -34,21 +52,6 @@
       ],
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
-      ],
-      "@spartacus/cart/quick-order": [
-        "../../feature-libs/cart/quick-order/public_api"
-      ],
-      "@spartacus/cart/quick-order/assets": [
-        "../../feature-libs/cart/quick-order/assets/public_api"
-      ],
-      "@spartacus/cart/quick-order/components": [
-        "../../feature-libs/cart/quick-order/components/public_api"
-      ],
-      "@spartacus/cart/quick-order/core": [
-        "../../feature-libs/cart/quick-order/core/public_api"
-      ],
-      "@spartacus/cart/quick-order/root": [
-        "../../feature-libs/cart/quick-order/root/public_api"
       ],
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"
@@ -250,6 +253,9 @@
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
+      ],
+      "@spartacus/epd-visualization": [
+        "../../integration-libs/epd-visualization/public_api"
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],

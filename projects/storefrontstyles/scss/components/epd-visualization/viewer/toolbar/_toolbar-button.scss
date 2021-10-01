@@ -1,0 +1,36 @@
+%cx-visual-viewer-toolbar-button {
+  display: inline-block;
+  border-radius: 0.25em;
+
+  .buttonVBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5em;
+    width: 5em;
+  }
+
+  .btn {
+    max-height: none;
+    height: auto;
+    padding: inherit;
+
+    &:focus,
+    &.focus {
+      box-shadow: none;
+    }
+  }
+
+  .btn-link {
+    text-decoration: none !important;
+    font-size: $font-size-base;
+
+    .buttonText {
+      margin-top: 10px;
+    }
+  }
+
+  .checked {
+    background-color: var(--cx-color-background);
+  }
+}

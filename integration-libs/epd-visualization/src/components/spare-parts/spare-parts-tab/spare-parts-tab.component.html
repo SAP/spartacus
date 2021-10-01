@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <cx-visual-viewer [(selectedProductCodes)]="selectedProductCodes">
+  </cx-visual-viewer>
+
+  <div class="spare-parts-list-container">
+    <cx-spare-parts-filter></cx-spare-parts-filter>
+
+    <cx-spare-parts-list [(selectedProductCodes)]="selectedProductCodes">
+    </cx-spare-parts-list>
+  </div>
+</div>

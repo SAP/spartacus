@@ -1,0 +1,18 @@
+%cx-spare-parts-tab {
+  .container-fluid {
+    padding: 0 2em;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    cx-visual-viewer {
+      width: calc(60% - 1em);
+      height: 50em;
+    }
+
+    .spare-parts-list-container {
+      width: calc(40% - 1em);
+    }
+  }
+}

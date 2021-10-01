@@ -1,0 +1,32 @@
+<div class="form-group search-wrapper">
+  <input
+    #queryInput
+    type="text"
+    [(ngModel)]="value"
+    class="form-control"
+    placeholder="{{
+      'spareParts.sparePartsFilter.input.placeholder' | cxTranslate
+    }}"
+  />
+
+  <cx-icon
+    [type]="iconTypes.SEARCH"
+    [attr.aria-label]="
+      'spareParts.sparePartsFilter.searchButton.label' | cxTranslate
+    "
+    class="search"
+    [hidden]="value.length > 0"
+  ></cx-icon>
+
+  <cx-icon
+    [type]="iconTypes.RESET"
+    [attr.aria-label]="
+      'spareParts.sparePartsFilter.resetButton.label' | cxTranslate
+    "
+    (mousedown)="clear()"
+    (keydown.enter)="clear()"
+    [hidden]="value.length == 0"
+    class="reset"
+    tabindex="0"
+  ></cx-icon>
+</div>

@@ -1,0 +1,91 @@
+<div class="scene-type-symbol scene-type-3d"></div>
+
+<div class="bottom">
+  <div [hidden]="!viewportReady" class="toolbar">
+    <div class="toolbarHBox">
+      <div class="toolbarButtonsHBox">
+        <cx-visual-viewer-toolbar-button
+          iconLibraryClass="fas"
+          iconClass="fa-home"
+          text="{{ 'viewer.visualViewer.toolbar.homeButton.label' | cxTranslate }}"
+          (click)="activateHomeView()"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem"
+          iconLibraryClass="fas"
+          iconClass="fa-sync-alt"
+          text="{{ 'viewer.visualViewer.toolbar.rotateButton.label' | cxTranslate }}"
+          [hidden]="is2D"
+          (click)="setNavigationMode(NavigationMode.Turntable)"
+          [checked]="navigationMode === NavigationMode.Turntable"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem"
+          iconLibraryClass="fas"
+          iconClass="fa-arrows-alt"
+          text="{{ 'viewer.visualViewer.toolbar.panButton.label' | cxTranslate }}"
+          (click)="setNavigationMode(NavigationMode.Pan)"
+          [checked]="navigationMode === NavigationMode.Pan"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem"
+          iconLibraryClass="fas"
+          iconClass="fa-search"
+          text="{{ 'viewer.visualViewer.toolbar.zoomButton.label' | cxTranslate }}"
+          (click)="setNavigationMode(NavigationMode.Zoom)"
+          [checked]="navigationMode === NavigationMode.Zoom"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem"
+          iconLibraryClass="fas"
+          [hidden]="is2D"
+          [disabled]="!isolateModeEnabled && selectedProductCodes.length === 0"
+          iconClass="fa-search-location"
+          text="{{ 'viewer.visualViewer.toolbar.isolateButton.label' | cxTranslate }}"
+          (click)="toggleIsolateMode()"
+          [checked]="isolateModeEnabled"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem playPauseButton"
+          iconLibraryClass="fas"
+          iconClass="fa-play"
+          text="{{ 'viewer.visualViewer.toolbar.playButton.label' | cxTranslate }}"
+          [hidden]="is2D || animationPlaying"
+          [disabled]="isolateModeEnabled"
+          (click)="playAnimation()"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem playPauseButton"
+          iconLibraryClass="fas"
+          iconClass="fa-pause"
+          text="{{ 'viewer.visualViewer.toolbar.pauseButton.label' | cxTranslate }}"
+          [hidden]="is2D || !animationPlaying"
+          [disabled]="isolateModeEnabled"
+          (click)="stopAnimation()"
+        ></cx-visual-viewer-toolbar-button>
+
+        <cx-visual-viewer-toolbar-button
+          class="toolbarItem"
+          iconLibraryClass="fas"
+          iconClass="fa-highlighter"
+          text="{{ 'viewer.visualViewer.toolbar.hotspotsButton.label' | cxTranslate }}"
+          [checked]="showAllHotspotsEnabled"
+          [hidden]="!is2D"
+          (click)="setShowAllHotspots(!showAllHotspotsEnabled)"
+        ></cx-visual-viewer-toolbar-button>
+      </div>
+
+      <cx-animation-slider
+        [hidden]="is2D"
+        [disabled]="isolateModeEnabled"
+        [(value)]="animationPosition"
+      ></cx-animation-slider>
+    </div>
+  </div>
+</div>
