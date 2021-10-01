@@ -266,7 +266,7 @@ describe('QuickOrderComponent', () => {
       );
     });
 
-    it('should not trigger undoDeletedEntry from service', () => {
+    it('should not trigger undoDeletedEntry from service for empty entry', () => {
       spyOn(quickOrderService, 'undoDeletedEntry').and.callThrough();
 
       component.undoDeletion(mockEmptyEntry);
