@@ -1,7 +1,12 @@
 import { ViewportScroller } from '@angular/common';
-import { Injectable } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentRef,
+  Injectable,
+  Injector,
+} from '@angular/core';
 import { Router, Scroll } from '@angular/router';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
 
@@ -11,10 +16,15 @@ import { OnNavigateConfig } from './config';
 export class OnNavigateService {
   protected subscription: Subscription;
 
+  get hostComponent(): ComponentRef<any> {
+    return this.injector.get(ApplicationRef)?.components?.[0];
+  }
+
   constructor(
     protected config: OnNavigateConfig,
     protected router: Router,
-    protected viewportScroller: ViewportScroller
+    protected viewportScroller: ViewportScroller,
+    protected injector: Injector
   ) {}
 
   /**
@@ -28,50 +38,45 @@ export class OnNavigateService {
 
   /**
    * Resets view back to the original position when performing a back navigation and to the top when performing a front navigation
+   * and sets the focus back to the top of the page before skiplinks for any type of navigation
    * @param enable Enable or disable this feature
    */
   setResetViewOnNavigate(enable: boolean): void {
     this.subscription?.unsubscribe();
 
     if (enable) {
-      this.subscription = combineLatest([
-        this.isDataLoaded(),
-        this.router.events.pipe(
+      this.subscription = this.router.events
+        .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
           pairwise()
-        ),
-      ]).subscribe(([dataLoaded, event]) => {
-        const previousRoute = event[0];
-        const currentRoute = event[1];
+        )
+        .subscribe((event) => {
+          const previousRoute = event[0];
+          const currentRoute = event[1];
 
-        if (currentRoute.position && dataLoaded) {
-          this.viewportScroller.scrollToPosition(currentRoute.position);
-        } else {
-          if (
-            this.config.enableResetViewOnNavigate?.ignoreQueryString &&
-            this.isPathEqual(previousRoute, currentRoute)
-          ) {
-            return;
+          if (currentRoute.position) {
+            // allow the pages to be repainted before scrolling to proper position
+            setTimeout(() =>
+              this.viewportScroller.scrollToPosition(currentRoute.position)
+            );
+          } else {
+            if (
+              this.config.enableResetViewOnNavigate?.ignoreQueryString &&
+              this.isPathEqual(previousRoute, currentRoute)
+            ) {
+              return;
+            }
+
+            if (this.isChildRoute(currentRoute)) {
+              return;
+            }
+
+            this.viewportScroller.scrollToPosition([0, 0]);
           }
 
-          if (this.isChildRoute(currentRoute)) {
-            return;
-          }
-
-          this.viewportScroller.scrollToPosition([0, 0]);
-        }
-      });
+          this.hostComponent?.location?.nativeElement.focus();
+        });
     }
-  }
-
-  /**
-   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
-   * You can observe any data in this method.
-   *
-   * Defaults to true.
-   */
-  protected isDataLoaded(): Observable<boolean> {
-    return of(true);
   }
 
   /**

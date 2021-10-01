@@ -1,9 +1,9 @@
 import { ViewportScroller } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ApplicationRef, Component, Injector } from '@angular/core';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NavigationEnd, Router, Scroll } from '@angular/router';
 import { OnNavigateConfig } from '@spartacus/storefront';
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
 
 const mockOnNavigateConfig: OnNavigateConfig = {
@@ -14,21 +14,24 @@ const mockOnNavigateConfig: OnNavigateConfig = {
   },
 };
 
+@Component({
+  template: ` <cx-storefront tabindex="0"></cx-storefront> `,
+})
+class MockComponent {}
+
+const mockComponentRef = {
+  location: { nativeElement: { ...MockComponent, focus: (): void => {} } },
+};
+
+class MockInjector implements Partial<Injector> {
+  get(_token: any): ApplicationRef {
+    return { components: [mockComponentRef] } as any;
+  }
+}
+
 const mockEvents$ = new Subject<Scroll>();
 class MockRouter implements Partial<Router> {
   events = mockEvents$.asObservable();
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-class CustomOnNavigateService extends OnNavigateService {
-  collectData() {
-    return of(true);
-  }
-  protected isDataLoaded() {
-    return this.collectData();
-  }
 }
 
 class MockViewPortScroller implements Partial<ViewportScroller> {
@@ -58,7 +61,6 @@ describe('OnNavigateService', () => {
       imports: [],
       providers: [
         OnNavigateService,
-        CustomOnNavigateService,
         {
           provide: OnNavigateConfig,
           useValue: mockOnNavigateConfig,
@@ -70,6 +72,10 @@ describe('OnNavigateService', () => {
         {
           provide: ViewportScroller,
           useClass: MockViewPortScroller,
+        },
+        {
+          provide: Injector,
+          useClass: MockInjector,
         },
       ],
     }).compileComponents();
@@ -143,15 +149,17 @@ describe('OnNavigateService', () => {
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     });
 
-    it('should scroll to a position on navigation when scroll contains position (backward navigation)', () => {
+    it('should scroll to a position on navigation when scroll contains position (backward navigation)', fakeAsync(() => {
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent([1000, 500]);
 
+      tick();
+
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000, 500,
       ]);
-    });
+    }));
 
     it('should NOT scroll when on navigation is disabled', () => {
       service.setResetViewOnNavigate(false);
@@ -160,22 +168,18 @@ describe('OnNavigateService', () => {
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
     });
-  });
 
-  describe('custom service', () => {
-    it('should invoke custom data collector', () => {
-      const customService = TestBed.inject(CustomOnNavigateService);
-      spyOn(customService, 'collectData').and.callThrough();
+    it('should trigger focus on any navigation', () => {
+      spyOn(mockComponentRef.location.nativeElement, 'focus').and.callThrough();
+      service.setResetViewOnNavigate(true);
 
-      customService.setResetViewOnNavigate(true);
+      emitPairScrollEvent(null);
+
+      expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
 
       emitPairScrollEvent([1000, 500]);
 
-      expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
-        1000, 500,
-      ]);
-
-      expect(customService.collectData).toHaveBeenCalled();
+      expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
     });
   });
 });
