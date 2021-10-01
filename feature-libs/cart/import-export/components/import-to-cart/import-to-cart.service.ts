@@ -46,7 +46,7 @@ export class ImportToCartService {
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
-    return this.setEntries(products, savedCartInfo).pipe(
+    return this.addEntries(products, savedCartInfo).pipe(
       switchMap((cartId: string) => this.getResults(cartId)),
       take(products.length)
     );
@@ -58,7 +58,7 @@ export class ImportToCartService {
       .pipe(map((route) => route.state?.semanticRoute));
   }
 
-  protected setEntries(
+  protected addEntries(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
@@ -66,21 +66,21 @@ export class ImportToCartService {
       switchMap((placement) => {
         switch (placement) {
           case ImportCartRoutes.SAVED_CARTS: {
-            return this.setEntriesToNewSavedCart(products, savedCartInfo);
+            return this.addEntriesToNewSavedCart(products, savedCartInfo);
           }
           case ImportCartRoutes.SAVED_CART_DETAILS: {
-            return this.setEntriesToCart(products);
+            return this.addEntriesToSavedCart(products);
           }
           case ImportCartRoutes.CART:
           default: {
-            return this.setEntriesToActiveCart(products);
+            return this.addEntriesToActiveCart(products);
           }
         }
       })
     );
   }
 
-  protected setEntriesToNewSavedCart(
+  protected addEntriesToNewSavedCart(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
@@ -121,7 +121,7 @@ export class ImportToCartService {
     );
   }
 
-  protected setEntriesToCart(products: ProductsData): Observable<string> {
+  protected addEntriesToSavedCart(products: ProductsData): Observable<string> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.savedCartDetailsService.getSavedCartId(),
@@ -133,7 +133,7 @@ export class ImportToCartService {
     );
   }
 
-  protected setEntriesToActiveCart(products: ProductsData): Observable<string> {
+  protected addEntriesToActiveCart(products: ProductsData): Observable<string> {
     this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
     return this.activeCartService.getActiveCartId();
   }
