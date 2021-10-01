@@ -100,9 +100,7 @@ export function removeFirstRow() {
     .click();
 }
 export function removeManyRows(quantity: number = 1) {
-  const array = Array.from(Array(quantity).keys());
-
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < quantity; i++) {
     cy.get(`cx-quick-order .cx-quick-order-table-row`)
       .first()
       .find('.cx-quick-order-table-item-action .cx-action-link')
