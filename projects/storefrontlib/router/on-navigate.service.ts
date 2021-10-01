@@ -38,6 +38,7 @@ export class OnNavigateService {
 
   /**
    * Resets view back to the original position when performing a back navigation and to the top when performing a front navigation
+   * and sets the focus back to the top of the page before skiplinks for any type of navigation
    * @param enable Enable or disable this feature
    */
   setResetViewOnNavigate(enable: boolean): void {
