@@ -1,4 +1,5 @@
 import { ViewportScroller } from '@angular/common';
+import { ApplicationRef, Component, Injector } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NavigationEnd, Router, Scroll } from '@angular/router';
 import { OnNavigateConfig } from '@spartacus/storefront';
@@ -12,6 +13,21 @@ const mockOnNavigateConfig: OnNavigateConfig = {
     ignoreRoutes: [],
   },
 };
+
+@Component({
+  template: ` <cx-storefront tabindex="-1"></cx-storefront> `,
+})
+class MockComponent {}
+
+const mockComponentRef = {
+  location: { nativeElement: { ...MockComponent, focus: (): void => {} } },
+};
+
+class MockInjector implements Partial<Injector> {
+  get(_token: any): ApplicationRef {
+    return { components: [mockComponentRef] } as any;
+  }
+}
 
 const mockEvents$ = new Subject<Scroll>();
 class MockRouter implements Partial<Router> {
@@ -35,7 +51,7 @@ function emitPairScrollEvent(
   );
 }
 
-fdescribe('OnNavigateService', () => {
+describe('OnNavigateService', () => {
   let service: OnNavigateService;
   let config: OnNavigateConfig;
   let viewportScroller: ViewportScroller;
@@ -56,6 +72,10 @@ fdescribe('OnNavigateService', () => {
         {
           provide: ViewportScroller,
           useClass: MockViewPortScroller,
+        },
+        {
+          provide: Injector,
+          useClass: MockInjector,
         },
       ],
     }).compileComponents();
@@ -147,6 +167,19 @@ fdescribe('OnNavigateService', () => {
       emitPairScrollEvent(null);
 
       expect(viewportScroller.scrollToPosition).not.toHaveBeenCalled();
+    });
+
+    it('should trigger focus on any navigation', () => {
+      spyOn(mockComponentRef.location.nativeElement, 'focus').and.callThrough();
+      service.setResetViewOnNavigate(true);
+
+      emitPairScrollEvent(null);
+
+      expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
+
+      emitPairScrollEvent([1000, 500]);
+
+      expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
     });
   });
 });
