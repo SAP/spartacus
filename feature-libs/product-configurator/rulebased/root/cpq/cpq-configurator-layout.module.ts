@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
+import { LayoutConfig } from 'projects/storefrontlib/layout';
 
 /**
  *  Contains the layout configuration for the CPQ configurator pages. This configuration is
@@ -9,7 +10,7 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
  */
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<LayoutConfig>{
       layoutSlots: {
         CpqConfigurationTemplate: {
           header: {
