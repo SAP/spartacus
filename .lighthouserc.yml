@@ -68,5 +68,3 @@ ci:
       uses-webp-images: 'warn'
       valid-source-maps: 'warn'
       uses-text-compression: 'warn'
-  upload:
-    target: 'temporary-public-storage'
