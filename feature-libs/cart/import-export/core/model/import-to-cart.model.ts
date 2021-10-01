@@ -57,5 +57,6 @@ export interface ImportConfig {
 
 export enum ImportCartRoutes {
   SAVED_CARTS = 'savedCarts',
+  SAVED_CART_DETAILS = 'savedCartsDetails',
   CART = 'cart',
 }
