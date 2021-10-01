@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '../models/cart.model';
 import { facadeFactory, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
