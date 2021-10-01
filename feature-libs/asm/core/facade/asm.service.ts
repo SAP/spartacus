@@ -41,7 +41,7 @@ export class AsmService {
   /**
    * Returns the customer search result loading status.
    */
-  getCustomerSearchResultsLoading(): Observable<boolean> {
+  getCustomerSearchResultsLoadingRenamed(): Observable<boolean> {
     return this.store.pipe(
       select(AsmSelectors.getCustomerSearchResultsLoading)
     );
@@ -59,5 +59,9 @@ export class AsmService {
    */
   getAsmUiState(): Observable<AsmUi> {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
+  }
+
+  newPublicMethod(): void {
+    console.log('called AsmService.newPublicMethod');
   }
 }

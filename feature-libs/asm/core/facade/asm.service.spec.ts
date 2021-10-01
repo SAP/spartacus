@@ -70,7 +70,7 @@ describe('AsmService', () => {
   it('should return search result loading status', () => {
     let result: boolean;
     service
-      .getCustomerSearchResultsLoading()
+      .getCustomerSearchResultsLoadingRenamed()
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
