@@ -20,7 +20,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
-import { ImportToSavedCartFormComponent } from './import-to-saved-cart-form.component';
+import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form.component';
 
 const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
@@ -65,9 +65,9 @@ class MockLanguageService {
   }
 }
 
-describe('ImportToSavedCartFormComponent', () => {
-  let component: ImportToSavedCartFormComponent;
-  let fixture: ComponentFixture<ImportToSavedCartFormComponent>;
+describe('ImportToNewSavedCartFormComponent', () => {
+  let component: ImportToNewSavedCartFormComponent;
+  let fixture: ComponentFixture<ImportToNewSavedCartFormComponent>;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
   let importCsvService: ImportCsvFileService;
@@ -82,7 +82,7 @@ describe('ImportToSavedCartFormComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
       ],
-      declarations: [ImportToSavedCartFormComponent],
+      declarations: [ImportToNewSavedCartFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
@@ -92,7 +92,7 @@ describe('ImportToSavedCartFormComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImportToSavedCartFormComponent);
+    fixture = TestBed.createComponent(ImportToNewSavedCartFormComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 

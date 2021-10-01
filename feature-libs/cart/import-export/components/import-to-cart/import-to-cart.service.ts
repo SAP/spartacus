@@ -64,7 +64,7 @@ export class ImportToCartService {
       switchMap((placement) => {
         switch (placement) {
           case ImportCartRoutes.SAVED_CARTS: {
-            return this.setEntriesToSavedCart(products, savedCartInfo);
+            return this.setEntriesToNewSavedCart(products, savedCartInfo);
           }
           case ImportCartRoutes.CART:
           default: {
@@ -75,7 +75,7 @@ export class ImportToCartService {
     );
   }
 
-  protected setEntriesToSavedCart(
+  protected setEntriesToNewSavedCart(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {

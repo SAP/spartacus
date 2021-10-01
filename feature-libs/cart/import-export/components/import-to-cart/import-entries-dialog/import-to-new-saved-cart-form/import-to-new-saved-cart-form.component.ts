@@ -23,12 +23,12 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
 import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
-  selector: 'cx-import-to-saved-cart-form',
-  templateUrl: './import-to-saved-cart-form.component.html',
+  selector: 'cx-import-to-new-saved-cart-form',
+  templateUrl: './import-to-new-saved-cart-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
 })
-export class ImportToSavedCartFormComponent extends ImportEntriesFormComponent {
+export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
