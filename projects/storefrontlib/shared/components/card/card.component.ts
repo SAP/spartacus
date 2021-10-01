@@ -30,7 +30,7 @@ export interface Card {
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  readonly autoFocusEnabled = this.featureConfig.isLevel('4.2');
+  readonly autoFocusEnabled = this.featureConfig?.isLevel('4.2');
 
   @Output()
   deleteCard: EventEmitter<number> = new EventEmitter();
@@ -75,8 +75,7 @@ export class CardComponent implements OnInit {
     this.cancelCard.emit(5);
   }
 
-  delete(event?: Event): void {
-    event?.preventDefault();
+  delete(): void {
     this.deleteCard.emit(1);
   }
 
@@ -89,12 +88,11 @@ export class CardComponent implements OnInit {
     this.sendCard.emit(3);
   }
 
-  edit(event?: Event): void {
-    event?.preventDefault();
+  edit(): void {
     this.editCard.emit(4);
   }
 
-  constructor(protected featureConfig: FeatureConfigService) {}
+  constructor(protected featureConfig?: FeatureConfigService) {}
 
   ngOnInit() {}
 }

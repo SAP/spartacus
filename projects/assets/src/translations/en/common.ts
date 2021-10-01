@@ -21,9 +21,6 @@ export const common = {
     search: 'Search',
     add: 'Add',
   },
-  aria: {
-    actionCancelled: 'Action cancelled, nothing changed',
-  },
   pageMetaResolver: {
     category: {
       title: '{{count}} result for {{query}}',

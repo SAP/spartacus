@@ -7,7 +7,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'common',
     'spinner',
     'searchBox',
-    'aria',
     'navigation',
     'sorting',
     'httpHandlers',
