@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { BREAKPOINT } from '../../../config';
 
+/**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

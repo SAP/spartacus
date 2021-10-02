@@ -77,7 +77,7 @@
           >
             {{ 'cartItems.quantity' | cxTranslate }}
           </div>
-          <div class="cx-value">
+          <div class="cx-value" [class.readonly-value]="readonly">
             <cx-item-counter
               [control]="quantityControl"
               [readonly]="
