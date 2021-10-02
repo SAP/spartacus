@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Cart } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Cart, I18nTestingModule, Order } from '@spartacus/core';
+import { I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 

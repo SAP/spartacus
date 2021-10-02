@@ -1,11 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
-  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
 import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';

@@ -1,4 +1,5 @@
-import { Cart, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { StateUtils } from '@spartacus/core';
 
 export const MULTI_CART_FEATURE = 'cart';
 export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';

@@ -1,4 +1,5 @@
-import { Cart, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { StateUtils } from '@spartacus/core';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';

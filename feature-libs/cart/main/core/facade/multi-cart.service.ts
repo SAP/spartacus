@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart, OrderEntry, StateUtils, UserIdService } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { OrderEntry, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';

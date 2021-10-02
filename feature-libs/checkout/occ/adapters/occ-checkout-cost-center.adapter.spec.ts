@@ -3,12 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  Cart,
-  ConverterService,
-  OccConfig,
-  OccEndpoints,
-} from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 
 const MockOccModuleConfig: OccConfig = {

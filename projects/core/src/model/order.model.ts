@@ -2,11 +2,10 @@ import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
   PaymentDetails,
-  Principal,
   PromotionResult,
   Voucher,
 } from './cart.model';
-import { PaginationModel, SortModel } from './misc.model';
+import { PaginationModel, Principal, SortModel } from './misc.model';
 import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';

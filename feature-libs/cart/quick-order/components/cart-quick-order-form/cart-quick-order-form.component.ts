@@ -7,11 +7,11 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartFacade,
+  Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/main/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,

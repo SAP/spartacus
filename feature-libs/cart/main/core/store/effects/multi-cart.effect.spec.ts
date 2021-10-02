@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   EMAIL_PATTERN,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,

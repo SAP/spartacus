@@ -5,8 +5,8 @@ import {
   Router,
 } from '@angular/router';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { AuthActions, Cart, ConsentService } from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { AuthActions, ConsentService } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
 
 @Component({
   selector: 'cx-order-summary',

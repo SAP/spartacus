@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   BasePageMetaResolver,
-  Cart,
   PageDescriptionResolver,
   PageMetaResolver,
   PageRobotsMeta,
