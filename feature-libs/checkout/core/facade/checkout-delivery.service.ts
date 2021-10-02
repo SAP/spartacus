@@ -222,12 +222,12 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           UpdateUserAddressEvent,
           DeleteUserAddressEvent,
           // TODO:#13888 convert to an event
-          // TODO: test when starting the b2b checkout
+          // TODO:test: when starting the b2b checkout
           this.actions$?.pipe(
             ofType(CheckoutActions.SET_PAYMENT_TYPE_SUCCESS)
           ) ?? EMPTY,
           // TODO:#13888 remove when removing the action
-          // TODO: finish checkout and leave the order confirmation page
+          // TODO:test: finish checkout and leave the order confirmation page
           this.actions$?.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)) ??
             EMPTY,
           // TODO:#13888 remove when removing the action
@@ -248,13 +248,14 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector, Actions and FeatureConfigService.
    */
+  // TODO:#13888 remove when all the deprecations are done
   constructor(
     checkoutStore: Store<StateWithCheckout>,
     processStateStore: Store<StateWithProcess<void>>,
     activeCartService: ActiveCartService,
     userIdService: UserIdService
   );
-
+  // TODO:#13888 remove when all the deprecations are done
   constructor(
     checkoutStore: Store<StateWithCheckout>,
     processStateStore: Store<StateWithProcess<void>>,
@@ -264,12 +265,9 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     query: QueryService,
     command: CommandService,
     checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    // TODO:#13888 remove when all actions are removed from the queries
     actions$: Actions,
-    // TODO:#13888 remove after the deprecation is done
     featureConfigService: FeatureConfigService
   );
-
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -281,6 +279,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutDeliveryConnector?: CheckoutDeliveryConnector,
     // TODO:#13888 remove when all actions are removed from the queries
     protected actions$?: Actions,
+    // TODO:#13888 remove when all the deprecations are done
     protected featureConfigService?: FeatureConfigService
   ) {}
 
@@ -288,7 +287,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get supported delivery modes
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    // TODO:#13888 Remove condition in the future when we fully switch to c&q
+    // TODO:#13888 Remove the whole `if` block in the future when we fully switch to c&q
     if (
       !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
@@ -319,7 +318,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       );
     }
 
-    // TODO:#13888 Remove the check in the future when all services will be provided
+    // TODO:#13888 Remove this check in the future when all services will be provided
     if (this.supportedDeliveryModesQuery) {
       return this.supportedDeliveryModesQuery.getState().pipe(
         // TODO: check if we need to do error handling here. This mimics the behaviour from delivery-mode.component.ts' ngOnInit().
@@ -328,7 +327,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
             this.loadSupportedDeliveryModes();
           }
         }),
-        // TODO: if we decide we don't need the error handling anymore, remove this map
+        // TODO: remove this map if we decide we don't need the error handling from above
         map((deliveryModesState) => deliveryModesState.data),
         map((deliveryModes) => deliveryModes ?? [])
       );

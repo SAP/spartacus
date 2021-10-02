@@ -62,7 +62,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       );
 
-    // TODO:#13888 remove the whole `if` block
+    // TODO:#13888 remove the whole `if` block, as this is now handled in the CheckoutDeliveryService#supportedDeliveryModesQuery
     if (
       !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
     ) {
