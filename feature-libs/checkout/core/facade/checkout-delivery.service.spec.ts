@@ -1,5 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Address,
@@ -12,14 +14,14 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
-import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
+import { Observable, of, throwError } from 'rxjs';
+import { take } from 'rxjs/operators';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
+import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
-import { take } from 'rxjs/operators';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
@@ -79,6 +81,7 @@ describe('CheckoutDeliveryService', () => {
   }
 
   describe('based on store', () => {
+    let actions$: Observable<Action>;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
@@ -100,6 +103,7 @@ describe('CheckoutDeliveryService', () => {
             provide: CheckoutDeliveryConnector,
             useClass: MockCheckoutDeliveryConnector,
           },
+          provideMockActions(() => actions$),
         ],
       });
 
@@ -107,6 +111,7 @@ describe('CheckoutDeliveryService', () => {
       activeCartService = TestBed.inject(ActiveCartService);
       userIdService = TestBed.inject(UserIdService);
       store = TestBed.inject(Store);
+      actions$ = TestBed.inject(Actions);
 
       userIdService['userId'] = userId;
       activeCartService['cart'] = cart;
@@ -424,6 +429,7 @@ describe('CheckoutDeliveryService', () => {
 
   describe('with commands and queries enabled', () => {
     let checkoutDeliveryConnector: CheckoutDeliveryConnector;
+    let actions$: Observable<Action>;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
@@ -451,6 +457,7 @@ describe('CheckoutDeliveryService', () => {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
           },
+          provideMockActions(() => actions$),
         ],
       });
 
@@ -459,6 +466,7 @@ describe('CheckoutDeliveryService', () => {
       userIdService = TestBed.inject(UserIdService);
       checkoutDeliveryConnector = TestBed.inject(CheckoutDeliveryConnector);
       store = TestBed.inject(Store);
+      actions$ = TestBed.inject(Actions);
 
       userIdService['userId'] = userId;
       activeCartService['cart'] = cart;
