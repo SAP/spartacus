@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -7,7 +7,48 @@ import {
   CurrentProductService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { ThumbnailsGroup } from '../image-zoom-thumbnails/image-zoom-thumbnails.model';
 import { ImageZoomViewComponent } from './image-zoom-view.component';
+
+const firstImage = {
+  zoom: {
+    url: 'zoom-1.jpg',
+  },
+  thumbnail: {
+    url: 'thumb-1.jpg',
+  },
+};
+const secondImage = {
+  zoom: {
+    url: 'zoom-2.jpg',
+  },
+  thumbnail: {
+    url: 'thumb-2.jpg',
+  },
+};
+
+const mockDataWithOnePicture: Product = {
+  name: 'mockProduct2',
+  images: {
+    PRIMARY: firstImage,
+    GALLERY: [firstImage],
+  },
+};
+
+const mockDataWithMultiplePictures: Product = {
+  name: 'mockProduct1',
+  images: {
+    PRIMARY: firstImage,
+    GALLERY: [firstImage, secondImage],
+  },
+};
+
+const mockDataWithoutPrimaryPictures: Product = {
+  name: 'mockProduct1',
+  images: {
+    GALLERY: [firstImage, secondImage],
+  },
+};
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
@@ -32,7 +73,7 @@ class MockBreakpointService {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container: any;
+  @Input() container;
 }
 
 @Component({
@@ -40,7 +81,7 @@ class MockMediaComponent {
   template: '',
 })
 class MockProductThumbnailsComponent {
-  @Input() thumbs$: any;
+  @Input() thumbs$;
 }
 
 @Component({
@@ -48,15 +89,15 @@ class MockProductThumbnailsComponent {
   template: '',
 })
 class MockIconComponent {
-  @Input() type: any;
+  @Input() type;
 }
 
 describe('ImageZoomViewComponent', () => {
-  let component: ImageZoomViewComponent;
+  let imageZoomViewComponent: ImageZoomViewComponent;
   let fixture: ComponentFixture<ImageZoomViewComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         ImageZoomViewComponent,
@@ -69,13 +110,93 @@ describe('ImageZoomViewComponent', () => {
         { provide: BreakpointService, useClass: MockBreakpointService },
       ],
     }).compileComponents();
-    fixture = TestBed.createComponent(ImageZoomViewComponent);
-    component = fixture.componentInstance;
 
-    currentProductService = TestBed.inject(CurrentProductService);
+    currentProductService = TestBed.get(CurrentProductService);
   }));
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  describe('with multiple pictures', () => {
+    beforeEach(() => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWithMultiplePictures)
+      );
+      fixture = TestBed.createComponent(ImageZoomViewComponent);
+      imageZoomViewComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should have mainImage$', () => {
+      let result: any;
+      imageZoomViewComponent.mainImage$
+        .subscribe((value) => (result = value))
+        .unsubscribe();
+      expect(result.zoom.url).toEqual('zoom-1.jpg');
+    });
+
+    it('should have 2 thumbnails', async(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      imageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    }));
+
+    it('should have thumb with url in first product', async(() => {
+      let thumbs: Observable<ThumbnailsGroup>[];
+      imageZoomViewComponent.thumbnails$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
   });
-})
+
+  describe('with one pictures', () => {
+    beforeEach(() => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWithOnePicture)
+      );
+      fixture = TestBed.createComponent(ImageZoomViewComponent);
+      imageZoomViewComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(imageZoomViewComponent).toBeTruthy();
+    });
+
+    it('should have mainImage$', () => {
+      let result: any;
+      imageZoomViewComponent.mainImage$
+        .subscribe((value) => (result = value))
+        .unsubscribe();
+      expect(result.zoom.url).toEqual('zoom-1.jpg');
+    });
+
+    it('should not have thumbnails in case there is only one GALLERY image', async(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      imageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
+  });
+
+  describe('without pictures', () => {
+    beforeEach(() => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWithoutPrimaryPictures)
+      );
+
+      fixture = TestBed.createComponent(ImageZoomViewComponent);
+      imageZoomViewComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(imageZoomViewComponent).toBeTruthy();
+    });
+
+    it('should have mainImage$', () => {
+      let result: any;
+      imageZoomViewComponent.mainImage$
+        .subscribe((value) => (result = value))
+        .unsubscribe();
+      expect(result).toEqual({});
+    });
+  });
+});

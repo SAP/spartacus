@@ -31,4 +31,20 @@ describe('ImageZoomDialogComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('close', () => {
+    it('should call close dialog with the close reason', () => {
+      spyOn(launchDialogService, 'closeDialog');
+
+      component.close();
+
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');
+
+      component.close('cross clicked');
+
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'cross clicked'
+      );
+    });
+  });
 });

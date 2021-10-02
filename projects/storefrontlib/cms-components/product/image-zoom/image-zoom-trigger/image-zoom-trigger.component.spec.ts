@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImageZoomTriggerComponent } from './image-zoom-trigger.component';
 
@@ -54,5 +54,47 @@ describe('ImageZoomTriggerComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('expandImage', () => {
+    beforeEach(() => {
+      spyOn(launchDialogService, 'launch').and.returnValue(
+        of(testDialogComponent)
+      );
+    });
+
+    it('should call launchDialogService launch', () => {
+      component.expandImage();
+
+      expect(launchDialogService.launch).toHaveBeenCalledWith(
+        LAUNCH_CALLER.IMAGE_ZOOM,
+        component['vcr']
+      );
+    });
+
+    it('should call LaunchDialogService clear on close', () => {
+      spyOn(launchDialogService, 'clear');
+
+      component.expandImage();
+
+      expect(launchDialogService.clear).toHaveBeenCalledWith(
+        LAUNCH_CALLER.IMAGE_ZOOM
+      );
+    });
+
+    it('should destroy component on close', () => {
+      spyOn(testDialogComponent, 'destroy');
+
+      component.expandImage();
+
+      expect(testDialogComponent.destroy).toHaveBeenCalled();
+    });
+
+    it('should pass index of zoom image to dialog', () => {
+      component.galleryIndex = 2;
+      component.expandImage();
+
+      expect(testDialogComponent.instance.galleryItem).toEqual(2);
+    });
   });
 });
