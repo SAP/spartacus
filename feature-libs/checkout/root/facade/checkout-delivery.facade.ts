@@ -115,7 +115,10 @@ export abstract class CheckoutDeliveryFacade {
 
   /**
    * Load supported delivery modes
+   *
+   * @deprecated since 4.3.0. Use getSupportedDeliveryModes() which makes sure the data is loaded
    */
+  // TODO:#13888 - remove in the future major release
   abstract loadSupportedDeliveryModes(): void;
 
   /**
