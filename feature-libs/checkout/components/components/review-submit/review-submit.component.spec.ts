@@ -4,6 +4,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  Cart,
+  PaymentType,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
@@ -13,15 +18,12 @@ import {
 } from '@spartacus/checkout/root';
 import {
   Address,
-  Cart,
   CostCenter,
   Country,
   DeliveryMode,
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
-  PaymentType,
-  PromotionLocation,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';

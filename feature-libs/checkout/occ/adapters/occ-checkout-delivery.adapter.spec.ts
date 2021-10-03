@@ -3,18 +3,18 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
+import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/core';
 import {
   Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-  Cart,
   ConverterService,
   Occ,
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
-import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/core';
 
 const userId = '123';
 const cartId = '456';

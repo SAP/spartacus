@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  Cart,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
@@ -11,7 +12,7 @@ import {
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
 } from '@spartacus/cart/main/root';
-import { Cart, createFrom, EventService } from '@spartacus/core';
+import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CartActions } from '../store/actions';

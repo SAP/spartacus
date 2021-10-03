@@ -4,11 +4,8 @@ import {
   CartEntryAdapter,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/main/core';
-import {
-  CartModification,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/main/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

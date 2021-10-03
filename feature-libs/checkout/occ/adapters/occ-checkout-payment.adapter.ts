@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CardType } from '@spartacus/cart/main/root';
 import {
   CARD_TYPE_NORMALIZER,
   CheckoutPaymentAdapter,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/core';
 import {
-  CardType,
   ConverterService,
   HttpParamsURIEncoder,
   Occ,

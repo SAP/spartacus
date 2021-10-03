@@ -1,12 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  Cart,
-  SaveCartResult,
-  SiteContextActions,
-  UserIdService,
-} from '@spartacus/core';
+import { Cart, SaveCartResult } from '@spartacus/cart/main/root';
+import { SiteContextActions, UserIdService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CartConnector } from '../../connectors';

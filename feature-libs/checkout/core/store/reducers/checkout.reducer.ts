@@ -1,6 +1,6 @@
+import { Cart } from '@spartacus/cart/main/root';
 import {
   Address,
-  Cart,
   DeliveryMode,
   Order,
   ReplenishmentOrder,

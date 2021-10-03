@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SelectiveCartService } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { Cart } from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -1,5 +1,6 @@
 import { Component, Input, Optional } from '@angular/core';
-import { Cart, Order } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { Order } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 
 @Component({

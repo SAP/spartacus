@@ -3,8 +3,12 @@ import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
 } from '@spartacus/cart/main/components';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
-import { Cart, I18nTestingModule } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  Cart,
+  CartVoucherFacade,
+} from '@spartacus/cart/main/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';

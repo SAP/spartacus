@@ -4,9 +4,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   BaseOccUrlProperties,
-  Cart,
   ConverterService,
   DynamicAttributes,
   InterceptorUtil,

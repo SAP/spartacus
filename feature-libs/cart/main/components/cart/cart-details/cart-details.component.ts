@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SelectiveCartService } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  AuthService,
+  ActiveCartFacade,
   Cart,
-  OrderEntry,
   PromotionLocation,
-  RoutingService,
-} from '@spartacus/core';
+} from '@spartacus/cart/main/root';
+import { AuthService, OrderEntry, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 

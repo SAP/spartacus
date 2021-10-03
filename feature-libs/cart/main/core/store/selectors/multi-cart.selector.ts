@@ -3,7 +3,8 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { OrderEntry, StateUtils } from '@spartacus/core';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,

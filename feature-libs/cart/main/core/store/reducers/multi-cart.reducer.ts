@@ -1,4 +1,5 @@
-import { Cart, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { StateUtils } from '@spartacus/core';
 import { CartActions } from '../actions/index';
 
 export const activeCartInitialState = null;

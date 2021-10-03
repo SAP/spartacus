@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cart } from '@spartacus/cart/main/root';
 import { CheckoutCostCenterAdapter } from '@spartacus/checkout/core';
 import {
-  Cart,
   CART_NORMALIZER,
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-
 @Injectable()
 export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
   constructor(

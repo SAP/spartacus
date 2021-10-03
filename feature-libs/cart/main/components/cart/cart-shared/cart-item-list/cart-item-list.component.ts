@@ -9,14 +9,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   MultiCartFacade,
+  PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
-import {
-  ConsignmentEntry,
-  OrderEntry,
-  PromotionLocation,
-  UserIdService,
-} from '@spartacus/core';
+import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';

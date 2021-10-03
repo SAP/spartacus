@@ -1,6 +1,7 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

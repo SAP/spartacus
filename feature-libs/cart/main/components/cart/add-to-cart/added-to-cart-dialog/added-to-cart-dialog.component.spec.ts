@@ -10,14 +10,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  ActiveCartFacade,
   Cart,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
-  PromotionLocation,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -31,7 +33,6 @@ import { ModalService } from 'projects/storefrontlib/shared/components/modal/mod
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-
 @Directive({
   selector: '[cxModal]',
 })

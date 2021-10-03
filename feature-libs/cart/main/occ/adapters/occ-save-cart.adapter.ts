@@ -4,12 +4,8 @@ import {
   SaveCartAdapter,
   SAVE_CART_NORMALIZER,
 } from '@spartacus/cart/main/core';
-import {
-  ConverterService,
-  Occ,
-  OccEndpointsService,
-  SaveCartResult,
-} from '@spartacus/core';
+import { SaveCartResult } from '@spartacus/cart/main/root';
+import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 /**

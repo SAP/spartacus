@@ -2,14 +2,17 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
 import {
+  ActiveCartFacade,
   Cart,
+  CartVoucherFacade,
+  Voucher,
+} from '@spartacus/cart/main/root';
+import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeaturesConfigModule,
   I18nTestingModule,
-  Voucher,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';

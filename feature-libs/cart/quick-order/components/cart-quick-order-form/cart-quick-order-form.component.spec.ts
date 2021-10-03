@@ -3,11 +3,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/main/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,

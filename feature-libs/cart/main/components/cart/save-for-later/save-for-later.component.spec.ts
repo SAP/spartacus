@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartFacade,
+  Cart,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
-  Cart,
   CmsService,
   FeaturesConfigModule,
   I18nTestingModule,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
-  Cart,
   normalizeHttpError,
   OCC_CART_ID_CURRENT,
   SiteContextActions,

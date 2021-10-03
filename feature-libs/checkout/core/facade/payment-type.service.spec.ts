@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { PaymentType, PROCESS_FEATURE, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
+import { PROCESS_FEATURE, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';

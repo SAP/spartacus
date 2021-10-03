@@ -4,16 +4,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartSuccessEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  PromotionLocation,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';

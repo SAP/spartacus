@@ -8,7 +8,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/main/core';
-import { AuthService, Cart, RoutingService } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';

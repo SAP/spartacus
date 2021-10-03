@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,

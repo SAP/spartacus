@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
 import {
+  ActiveCartFacade,
   Cart,
+  CartVoucherFacade,
+} from '@spartacus/cart/main/root';
+import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
