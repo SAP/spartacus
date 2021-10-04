@@ -52,7 +52,7 @@ const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
-const mockDeletedEntries$ = new BehaviorSubject<DeletedEntriesObject>({
+const mockSoftDeletedEntries$ = new BehaviorSubject<DeletedEntriesObject>({
   mockProduct2: mockEntry2,
 });
 
@@ -66,10 +66,10 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
       map(([entries]) => [entries, []])
     );
   }
-  undoDeletedEntry(_productCode: string): void {}
-  clearDeletedEntry(_productCode: string): void {}
-  getDeletedEntries(): Observable<DeletedEntriesObject> {
-    return mockDeletedEntries$;
+  restoreSoftDeletedEntry(_productCode: string): void {}
+  hardDeletedEntry(_productCode: string): void {}
+  getSoftDeletedEntries(): Observable<DeletedEntriesObject> {
+    return mockSoftDeletedEntries$;
   }
   clearTimeoutSubscriptions(): void {}
 }
@@ -257,38 +257,38 @@ describe('QuickOrderComponent', () => {
   });
 
   describe('on undoDeletion method', () => {
-    it('should trigger undoDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'undoDeletedEntry').and.callThrough();
+    it('should trigger restoreSoftDeletedEntry from service', () => {
+      spyOn(quickOrderService, 'restoreSoftDeletedEntry').and.callThrough();
 
       component.undoDeletion(mockEntry);
-      expect(quickOrderService.undoDeletedEntry).toHaveBeenCalledWith(
+      expect(quickOrderService.restoreSoftDeletedEntry).toHaveBeenCalledWith(
         mockEntry.product?.code
       );
     });
 
-    it('should not trigger undoDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'undoDeletedEntry').and.callThrough();
+    it('should not trigger restoreSoftDeletedEntry from service', () => {
+      spyOn(quickOrderService, 'restoreSoftDeletedEntry').and.callThrough();
 
       component.undoDeletion(mockEmptyEntry);
-      expect(quickOrderService.undoDeletedEntry).not.toHaveBeenCalled();
+      expect(quickOrderService.restoreSoftDeletedEntry).not.toHaveBeenCalled();
     });
   });
 
   describe('on clearDeletion method', () => {
-    it('should trigger clearDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'clearDeletedEntry').and.callThrough();
+    it('should trigger hardDeletedEntry from service', () => {
+      spyOn(quickOrderService, 'hardDeletedEntry').and.callThrough();
 
       component.clearDeletion(mockEntry);
-      expect(quickOrderService.clearDeletedEntry).toHaveBeenCalledWith(
+      expect(quickOrderService.hardDeletedEntry).toHaveBeenCalledWith(
         mockEntry.product?.code
       );
     });
 
-    it('should not trigger clearDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'clearDeletedEntry').and.callThrough();
+    it('should not trigger hardDeletedEntry from service', () => {
+      spyOn(quickOrderService, 'hardDeletedEntry').and.callThrough();
 
       component.clearDeletion(mockEmptyEntry);
-      expect(quickOrderService.clearDeletedEntry).not.toHaveBeenCalled();
+      expect(quickOrderService.hardDeletedEntry).not.toHaveBeenCalled();
     });
   });
 });

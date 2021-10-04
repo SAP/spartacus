@@ -127,6 +127,16 @@ context('B2B - Quick Order', () => {
         quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
         quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
       });
+
+      it('should delete entry and after that restore it', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        quickOrder.restoreDeletedEntry();
+        quickOrder.verifyQuickOrderListQuantity(2);
+        quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
+      });
     });
 
     describe('Cart Page', () => {

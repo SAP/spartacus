@@ -221,16 +221,14 @@ describe('QuickOrderService', () => {
   });
 
   it('should remove entry', (done) => {
-    spyOn(service, 'addDeletedEntry').and.callThrough();
-    service.loadEntries(mockEntries);
-    service.removeEntry(0);
+    service.loadEntries([mockEntry1, mockEntry2]);
+    service.softRemoveEntry(0);
 
     service
       .getEntries()
       .pipe(take(1))
       .subscribe((entries) => {
         expect(entries).toEqual([mockEntry2]);
-        expect(service.addDeletedEntry).toHaveBeenCalledWith(mockEntry1, true);
         done();
       });
   });
@@ -320,21 +318,14 @@ describe('QuickOrderService', () => {
     done();
   });
 
-  it('should add deleted entry', () => {
-    spyOn(service, 'addDeletedEntry').and.callThrough();
-    service.addDeletedEntry(mockEntry1);
-
-    expect(service.addDeletedEntry).toHaveBeenCalledWith(mockEntry1);
-  });
-
   it('should add deleted entry and after 5s removed it', (done) => {
-    spyOn(service, 'addDeletedEntry').and.callThrough();
-    service.addDeletedEntry(mockEntry1);
+    service.loadEntries(mockEntries);
+    service.softRemoveEntry(0);
 
     timer(5000)
       .pipe(
         take(1),
-        switchMap(() => service.getDeletedEntries())
+        switchMap(() => service.getSoftDeletedEntries())
       )
       .subscribe((result) => {
         expect(result).toEqual({});
@@ -343,10 +334,11 @@ describe('QuickOrderService', () => {
   });
 
   it('should not add deleted entry', (done) => {
-    service.addDeletedEntry(mockEmptyEntry);
+    service.loadEntries([mockEmptyEntry]);
+    service.softRemoveEntry(0);
 
     service
-      .getDeletedEntries()
+      .getSoftDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
@@ -355,23 +347,26 @@ describe('QuickOrderService', () => {
   });
 
   it('should return deleted entries', (done) => {
-    service.addDeletedEntry(mockEntry1);
+    service.loadEntries([mockEntry1]);
+    service.softRemoveEntry(0);
 
     service
-      .getDeletedEntries()
+      .getSoftDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        console.log('****', result);
         expect(result).toEqual({ mockCode1: mockEntry1 });
       });
     done();
   });
 
   it('should undo deleted entry', (done) => {
-    service.addDeletedEntry(mockEntry1);
-    service.undoDeletedEntry(mockProduct1Code);
+    service.loadEntries([mockEntry1]);
+    service.softRemoveEntry(0);
+
+    service.restoreSoftDeletedEntry(mockProduct1Code);
+
     service
-      .getDeletedEntries()
+      .getSoftDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
@@ -380,10 +375,11 @@ describe('QuickOrderService', () => {
   });
 
   it('should clear deleted entry', (done) => {
-    service.addDeletedEntry(mockEntry1);
-    service.clearDeletedEntry(mockProduct1Code);
+    service.loadEntries([mockEntry1]);
+    service.softRemoveEntry(0);
+    service.hardDeletedEntry(mockProduct1Code);
     service
-      .getDeletedEntries()
+      .getSoftDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});

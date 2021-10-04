@@ -25,7 +25,10 @@ import {
   timer,
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
-import { ClearMessageTimouts } from '../models/clear-message-timeouts.model';
+
+interface ClearMessageTimouts {
+  [key: string]: Subscription;
+}
 
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
@@ -33,11 +36,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected deletedEntries$: BehaviorSubject<DeletedEntriesObject> =
+  protected softDeletedEntries$: BehaviorSubject<DeletedEntriesObject> =
     new BehaviorSubject<DeletedEntriesObject>({});
-  protected deletionClearTimeout = 10000;
+  protected deletionClearTimeout = 5000;
 
-  private clearMessageTimeouts: ClearMessageTimouts = {};
+  private clearTimeouts: ClearMessageTimouts = {};
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -96,10 +99,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Remove single entry from the list
    */
-  removeEntry(index: number): void {
+  softRemoveEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
-      this.addDeletedEntry(entriesList[index], true);
+      this.addSoftEntryDeletion(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
@@ -169,87 +172,86 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Add deleted entry
+   * Return soft deleted entries
    */
-  addDeletedEntry(entry: OrderEntry, clearTimeout: boolean = true): void {
-    const deletedEntries = this.deletedEntries$.getValue() || {};
-    const productCode = entry.product?.code;
-
-    if (productCode) {
-      deletedEntries[productCode] = entry;
-
-      this.deletedEntries$.next(deletedEntries);
-
-      if (clearTimeout) {
-        const subscription: Subscription = timer(
-          this.deletionClearTimeout
-        ).subscribe(() => {
-          if (productCode) {
-            this.clearDeletedEntry(productCode);
-          }
-        });
-        this.clearMessageTimeouts[productCode] = subscription;
-      }
-    }
+  getSoftDeletedEntries(): Observable<DeletedEntriesObject> {
+    return this.softDeletedEntries$;
   }
 
   /**
-   * Return deleted entries
+   * Restore soft deleted entry
    */
-  getDeletedEntries(): Observable<DeletedEntriesObject> {
-    return this.deletedEntries$;
-  }
+  restoreSoftDeletedEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
 
-  /**
-   * Undo deleted entry
-   */
-  undoDeletedEntry(productCode: string): void {
-    this.cleanUpDeletedEntry(productCode, true);
+    this.cleanUpDeletedEntry(productCode, entry);
+    this.addEntry(entry);
   }
 
   /**
    * Clear deleted entry from the list
    */
-  clearDeletedEntry(productCode: string): void {
-    this.cleanUpDeletedEntry(productCode);
+  hardDeletedEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
+
+    this.cleanUpDeletedEntry(productCode, entry);
   }
 
   /**
    * Clear all deleted entry timeout subscriptions
    */
   clearTimeoutSubscriptions(): void {
-    Object.values(this.clearMessageTimeouts).forEach(
-      (subscription: Subscription) => subscription.unsubscribe()
+    Object.values(this.clearTimeouts).forEach((subscription: Subscription) =>
+      subscription.unsubscribe()
     );
+  }
+
+  /**
+   * Add soft deleted entry to the cached list
+   */
+  protected addSoftEntryDeletion(
+    entry: OrderEntry,
+    clearTimeout: boolean = true
+  ): void {
+    const deletedEntries = this.softDeletedEntries$.getValue();
+    const productCode = entry.product?.code;
+
+    if (productCode) {
+      deletedEntries[productCode] = entry;
+
+      this.softDeletedEntries$.next(deletedEntries);
+
+      if (clearTimeout) {
+        const subscription: Subscription = timer(
+          this.deletionClearTimeout
+        ).subscribe(() => {
+          this.hardDeletedEntry(productCode);
+        });
+
+        this.clearTimeouts[productCode] = subscription;
+      }
+    }
   }
 
   /**
    * Remove deleted entry and optionally add it back to entries
    */
-  protected cleanUpDeletedEntry(
-    productCode: string,
-    addEntry: boolean = false
-  ): void {
-    const deletedEntries = this.deletedEntries$.getValue() || {};
-    const entry = deletedEntries[productCode];
+  protected cleanUpDeletedEntry(productCode: string, entry: OrderEntry): void {
+    const deletedEntries = this.softDeletedEntries$.getValue();
 
     if (entry) {
       delete deletedEntries[productCode];
-      this.deletedEntries$.next(deletedEntries);
+      this.softDeletedEntries$.next(deletedEntries);
     }
 
-    if (addEntry) {
-      this.addEntry(entry);
-    }
-
-    this.getAndUnsubscribeClearMessageTimout(productCode);
+    this.removeClearTimout(productCode);
   }
 
   /**
-   * Get deletion entry
+   * Get soft deletion entry
    */
-  protected getDeletedEntry(productCode: string): OrderEntry {
-    const deletedEntries = this.deletedEntries$.getValue() || {};
+  protected getSoftDeletedEntry(productCode: string): OrderEntry {
+    const deletedEntries = this.softDeletedEntries$.getValue();
 
     return deletedEntries[productCode];
   }
@@ -329,12 +331,12 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     return evt;
   }
 
-  protected getAndUnsubscribeClearMessageTimout(productCode: string): void {
-    const clearMessageTimout = this.clearMessageTimeouts[productCode];
+  protected removeClearTimout(productCode: string): void {
+    const clearMessageTimout = this.clearTimeouts[productCode];
 
     if (clearMessageTimout) {
       clearMessageTimout.unsubscribe();
-      delete this.clearMessageTimeouts[productCode];
+      delete this.clearTimeouts[productCode];
     }
   }
 }

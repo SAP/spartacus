@@ -16,14 +16,13 @@ export function quickOrderFacadeFactory() {
       'getEntries',
       'getProductAdded',
       'loadEntries',
-      'removeEntry',
+      'softRemoveEntry',
       'search',
       'setProductAdded',
       'updateEntryQuantity',
-      'addDeletedEntry',
-      'getDeletedEntries',
-      'undoDeletedEntry',
-      'clearDeletedEntry',
+      'getSoftDeletedEntries',
+      'restoreSoftDeletedEntry',
+      'hardDeletedEntry',
       'clearTimeoutSubscriptions',
     ],
   });
@@ -62,7 +61,7 @@ export abstract class QuickOrderFacade {
   /**
    * Remove single entry from the list
    */
-  abstract removeEntry(index: number): void;
+  abstract softRemoveEntry(index: number): void;
 
   /**
    * Add product to the quick order list
@@ -85,24 +84,19 @@ export abstract class QuickOrderFacade {
   abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
 
   /**
-   * Add deleted entry
+   * Return soft deleted entries
    */
-  abstract addDeletedEntry(entry: OrderEntry, clearTimeout: boolean): void;
+  abstract getSoftDeletedEntries(): Observable<DeletedEntriesObject>;
 
   /**
-   * Return deleted entries
+   * Restore soft deleted entry
    */
-  abstract getDeletedEntries(): Observable<DeletedEntriesObject>;
-
-  /**
-   * Undo deleted entry
-   */
-  abstract undoDeletedEntry(productCode: string): void;
+  abstract restoreSoftDeletedEntry(productCode: string): void;
 
   /**
    * Clear deleted entry from the list
    */
-  abstract clearDeletedEntry(productCode: string): void;
+  abstract hardDeletedEntry(productCode: string): void;
 
   /**
    * Clear all deleted entry timeout subscriptions

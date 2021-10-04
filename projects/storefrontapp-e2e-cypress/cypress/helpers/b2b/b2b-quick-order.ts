@@ -99,6 +99,7 @@ export function removeFirstRow() {
     .find('.cx-quick-order-table-item-action .cx-action-link')
     .click();
 }
+
 export function removeManyRows(quantity: number = 1) {
   const array = Array.from(Array(quantity).keys());
 
@@ -108,6 +109,12 @@ export function removeManyRows(quantity: number = 1) {
       .find('.cx-quick-order-table-item-action .cx-action-link')
       .click();
   }
+}
+
+export function restoreDeletedEntry() {
+  cy.get('.quick-order-deletions-message .cx-message-text button')
+    .should('exist')
+    .click();
 }
 
 export function addToCart() {
@@ -143,6 +150,10 @@ export function verifyQuickOrderPageShowEntryDeletionMessages(
     .should('exist')
     .should('contain', 'moved to trash')
     .should('have.length', quantity);
+}
+
+export function verifyQuickOrderPageDoNotShowEntryDeletionMessages() {
+  cy.get('.quick-order-deletions-message').should('not.exist');
 }
 
 export function verifyQuickOrderPageHasNotDeletionMessage() {

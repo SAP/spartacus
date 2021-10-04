@@ -72,8 +72,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
-  get deletedEntries$(): Observable<DeletedEntriesObject> {
-    return this.quickOrderService.getDeletedEntries();
+  get softDeletedEntries$(): Observable<DeletedEntriesObject> {
+    return this.quickOrderService.getSoftDeletedEntries();
   }
 
   clear(): void {
@@ -126,13 +126,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   undoDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
-      this.quickOrderService.undoDeletedEntry(entry.product?.code);
+      this.quickOrderService.restoreSoftDeletedEntry(entry.product?.code);
     }
   }
 
   clearDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
-      this.quickOrderService.clearDeletedEntry(entry.product?.code);
+      this.quickOrderService.hardDeletedEntry(entry.product?.code);
     }
   }
 

@@ -1,4 +1,4 @@
-<ng-container *ngIf="deletedEntries$ | async as deletedEntries">
+<ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
   <cx-message
     *ngFor="let deletedEntry of deletedEntries | keyvalue"
     (buttonAction)="undoDeletion(deletedEntry.value)"
