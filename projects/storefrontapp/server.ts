@@ -4,6 +4,7 @@ import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
+import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import 'zone.js/node';
@@ -16,13 +17,14 @@ const express = require('express');
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
   timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  reuseCurrentRendering: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
-  const server = express();
+  const server: Express = express();
   const distFolder = join(process.cwd(), 'dist/storefrontapp');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'

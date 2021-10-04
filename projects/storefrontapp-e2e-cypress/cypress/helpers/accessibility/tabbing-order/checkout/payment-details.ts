@@ -10,16 +10,16 @@ import { TabElement } from '../../tabbing-order.model';
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
-  cy.server();
-
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cardtypes*`
-  ).as('cardTypes');
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cardtypes*`,
+  }).as('cardTypes');
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/countries?type=BILLING*`
-  ).as('countries');
+    )}/countries?type=BILLING*`,
+  }).as('countries');
 
   const paymentPage = waitForPage(
     '/checkout/payment-details',
@@ -27,7 +27,7 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   );
 
   cy.visit('/checkout/payment-details');
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@cardTypes');
   cy.wait('@countries');
