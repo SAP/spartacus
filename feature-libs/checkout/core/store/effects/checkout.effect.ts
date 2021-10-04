@@ -11,15 +11,8 @@ import {
   withdrawOn,
 } from '@spartacus/core';
 import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root';
-import { from, Observable, of } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -191,45 +184,6 @@ export class CheckoutEffects {
         cartId: payload.cartId,
       });
     })
-  );
-
-  @Effect()
-  clearCheckoutDeliveryMode$: Observable<
-    | CheckoutActions.ClearCheckoutDeliveryModeFail
-    | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
-    map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
-    filter((payload) => Boolean(payload.cartId)),
-    concatMap((payload) => {
-      return this.checkoutConnector
-        .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
-        .pipe(
-          mergeMap(() => [
-            new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
-              ...payload,
-            }),
-            new CartActions.LoadCart({
-              cartId: payload.cartId,
-              userId: payload.userId,
-            }),
-          ]),
-          catchError((error) =>
-            from([
-              new CheckoutActions.ClearCheckoutDeliveryModeFail({
-                ...payload,
-                error: normalizeHttpError(error),
-              }),
-              new CartActions.LoadCart({
-                cartId: payload.cartId,
-                userId: payload.userId,
-              }),
-            ])
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
   );
 
   @Effect()

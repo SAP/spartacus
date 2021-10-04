@@ -148,7 +148,7 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE: {
+    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS: {
       return {
         ...state,
         deliveryMode: {

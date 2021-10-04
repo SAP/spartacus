@@ -83,7 +83,7 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Clear selected delivery mode setup in last checkout process
    */
-  abstract clearCheckoutDeliveryMode(): void;
+  abstract clearCheckoutDeliveryMode(): Observable<unknown>;
 
   /**
    * Clear address and delivery mode already setup in last checkout process

@@ -31,6 +31,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
 import {
+  catchError,
   filter,
   map,
   switchMap,
@@ -129,12 +130,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                   this.checkoutStore.dispatch(
                     new CheckoutActions.SetDeliveryAddressSuccess(payload)
                   );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearCheckoutDeliveryMode({
-                      userId,
-                      cartId,
-                    })
-                  );
+                  this.clearCheckoutDeliveryMode();
                 })
               );
           })
@@ -273,6 +269,60 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
+  protected clearDeliveryModeCommand: Command<void, unknown> =
+    this.command.create<void>(
+      () => {
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutConnector
+              .clearCheckoutDeliveryMode(userId, cartId)
+              .pipe(
+                tap(() => {
+                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+                      cartId,
+                      userId,
+                    })
+                  );
+                  this.checkoutStore.dispatch(
+                    new CartActions.LoadCart({
+                      cartId,
+                      userId,
+                    })
+                  );
+                }),
+                catchError((err) => {
+                  // TODO: Why we do it?
+                  this.checkoutStore.dispatch(
+                    new CartActions.LoadCart({
+                      cartId,
+                      userId,
+                    })
+                  );
+                  throw err;
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -372,26 +422,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Clear selected delivery mode setup in last checkout process
    */
-  clearCheckoutDeliveryMode(): void {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-
-    let cartId;
-    this.activeCartService
-      .getActiveCartId()
-      .subscribe((activeCartId) => (cartId = activeCartId))
-      .unsubscribe();
-    if (userId && cartId) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.ClearCheckoutDeliveryMode({
-          userId,
-          cartId,
-        })
-      );
-    }
+  clearCheckoutDeliveryMode(): Observable<unknown> {
+    return this.clearDeliveryModeCommand.execute();
   }
 
   /**

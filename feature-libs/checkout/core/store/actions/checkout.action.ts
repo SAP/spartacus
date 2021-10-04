@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import {
   Address,
-  MULTI_CART_DATA,
   Order,
   PaymentDetails,
   PROCESS_FEATURE,
@@ -18,12 +17,8 @@ import {
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Clear Checkout Delivery Address Success';
 
-export const CLEAR_CHECKOUT_DELIVERY_MODE =
-  '[Checkout] Clear Checkout Delivery Mode';
 export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
   '[Checkout] Clear Checkout Delivery Mode Success';
-export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
-  '[Checkout] Clear Checkout Delivery Mode Fail';
 
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
@@ -219,26 +214,9 @@ export class ClearCheckoutDeliveryAddressSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS;
   constructor() {}
 }
-
-export class ClearCheckoutDeliveryMode extends StateUtils.EntityProcessesIncrementAction {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_MODE;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class ClearCheckoutDeliveryModeSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class ClearCheckoutDeliveryModeFail extends StateUtils.EntityProcessesDecrementAction {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
 export class SetCostCenter extends StateUtils.EntityLoadAction {
@@ -287,8 +265,6 @@ export type CheckoutAction =
   | ClearCheckoutStep
   | ClearCheckoutData
   | ClearCheckoutDeliveryAddressSuccess
-  | ClearCheckoutDeliveryMode
-  | ClearCheckoutDeliveryModeFail
   | ClearCheckoutDeliveryModeSuccess
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
