@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -13,7 +14,6 @@ import {
   ImportCartRoutes,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -29,7 +29,7 @@ export class ImportEntriesDialogComponent {
     focusOnEscape: true,
   };
 
-  formState: Boolean = true;
+  formState: boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
     loading: false,
     cartName: '',
@@ -84,7 +84,7 @@ export class ImportEntriesDialogComponent {
       });
   }
 
-  protected populateSummary(action: ProductImportInfo) {
+  protected populateSummary(action: ProductImportInfo): void {
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,

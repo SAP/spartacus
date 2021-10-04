@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts
+// projects/storefrontlib/cms-components/checkout/guards/checkout-auth.guard.ts
 export const CHECKOUT_AUTH_GUARD_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_AUTH_GUARD,

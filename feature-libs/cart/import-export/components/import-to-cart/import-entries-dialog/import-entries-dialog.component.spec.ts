@@ -6,16 +6,18 @@ import {
   ProductsData,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
+import {
+  LaunchDialogService,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportToCartService } from '../import-to-cart.service';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
 
 const mockFileValidity = {
   maxSize: 1,
-  allowedExtensions: [
+  allowedTypes: [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'application/vnd.ms-excel',
     'text/csv',

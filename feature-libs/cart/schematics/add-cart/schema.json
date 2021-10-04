@@ -20,16 +20,26 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Import-Export", "Saved-Cart"],
+        "enum": ["Saved-Cart", "Quick-Order", "Import-Export"],
         "type": "string"
       },
-      "default": ["Import-Export", "Saved-Cart"],
+      "default": ["Saved-Cart", "Quick-Order", "Import-Export"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
         "items": [
-          { "value": "Import-Export", "label": "Import/Export" },
-          { "value": "Saved-Cart", "label": "Saved Cart" }
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          }
         ]
       }
     }

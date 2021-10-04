@@ -164,7 +164,7 @@ context('ASM e2e Test', () => {
       it('Customer should not be able to login when there is an active CS agent session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
         agentLogin();
         login(customer.email, customer.password);
@@ -185,26 +185,26 @@ context('ASM e2e Test', () => {
 
 function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
-  cy.server();
-  cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
+  cy.intercept({ method: 'POST', path: `/authorizationserver/oauth/token` }).as(
+    aliasName
+  );
   return `@${aliasName}`;
 }
 export function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
-  cy.server();
-  cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
-    aliasName
-  );
+  cy.intercept({
+    method: 'GET',
+    path: `/assistedservicewebservices/customers/search?*`,
+  }).as(aliasName);
   return `@${aliasName}`;
 }
 
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
-  ).as(aliasName);
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`,
+  }).as(aliasName);
   return `@${aliasName}`;
 }
 
@@ -219,7 +219,7 @@ export function agentLogin(): void {
     cy.get('button[type="submit"]').click();
   });
 
-  cy.wait(authRequest).its('status').should('eq', 200);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
 }
@@ -233,12 +233,14 @@ function startCustomerEmulation(): void {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
   });
-  cy.wait(customerSearchRequestAlias).its('status').should('eq', 200);
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('status').should('eq', 200);
+  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
@@ -251,7 +253,7 @@ function loginCustomerInStorefront() {
   const authRequest = listenForAuthenticationRequest();
 
   login(customer.email, customer.password);
-  cy.wait(authRequest).its('status').should('eq', 200);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }
 
 function agentSignOut() {
@@ -277,22 +279,22 @@ function clickHambergerMenu() {
 }
 
 export function deleteFirstAddress() {
-  cy.server();
-  cy.route(
-    'DELETE',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'DELETE',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/addresses/*?lang=en&curr=USD`
-  ).as('deleteAddress');
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    )}/users/*/addresses/*?lang=en&curr=USD`,
+  }).as('deleteAddress');
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/addresses?lang=en&curr=USD`
-  ).as('fetchAddresses');
+    )}/users/*/addresses?lang=en&curr=USD`,
+  }).as('fetchAddresses');
 
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();
   cy.get('.cx-card-delete button.btn-primary').click();
-  cy.wait('@deleteAddress').its('status').should('eq', 200);
-  cy.wait('@fetchAddresses').its('status').should('eq', 200);
+  cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
+  cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
 }

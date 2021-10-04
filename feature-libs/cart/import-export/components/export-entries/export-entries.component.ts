@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ExportEntriesService } from './export-entries.service';
+
 @Component({
   selector: 'cx-export-entries',
   templateUrl: './export-entries.component.html',
@@ -10,7 +11,7 @@ export class ExportEntriesComponent {
 
   entries$ = this.exportEntriesService.getResolvedEntries();
 
-  exportToCsv(entries: string[][]) {
+  exportToCsv(entries: string[][]): void {
     this.exportEntriesService.downloadCsv(entries);
   }
 }

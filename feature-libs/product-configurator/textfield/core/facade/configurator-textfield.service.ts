@@ -109,13 +109,14 @@ export class ConfiguratorTextfieldService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              productCode: productCode,
-              configuration: configuration,
-              quantity: 1,
-            };
+            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cartState.value),
+                productCode: productCode,
+                configuration: configuration,
+                quantity: 1,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
             );
@@ -141,12 +142,13 @@ export class ConfiguratorTextfieldService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              cartEntryNumber: cartEntryNumber,
-              configuration: configuration,
-            };
+            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cartState.value),
+                cartEntryNumber: cartEntryNumber,
+                configuration: configuration,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
                 updateCartParameters

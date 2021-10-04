@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  NameSource,
-  FilesFormValidators,
-  ImportCsvService,
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
-  CmsImportEntriesComponent,
+  ImportExportConfig,
+  defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
   LaunchDialogService,
+  FilesFormValidators,
+  ImportCsvFileService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImportToCartService } from '../../import-to-cart.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
@@ -23,21 +23,6 @@ const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
   ['232133', '2', 'mockProduct2', '$5.00'],
 ];
-
-const mockCmsComponentData: CmsImportEntriesComponent = {
-  fileValidity: {
-    maxSize: 1,
-    allowedExtensions: [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel',
-      'text/csv',
-      '.csv',
-    ],
-  },
-  cartNameGeneration: {
-    source: NameSource.FILE_NAME,
-  },
-};
 
 const mockCsvString =
   'Sku,Quantity,Name,Price\n693923,1,mockProduct1,$4.00\n232133,2,"mockProduct2",$5.00';
@@ -56,13 +41,8 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-const cmsComponentDataSubject = new BehaviorSubject<CmsImportEntriesComponent>(
-  mockCmsComponentData
-);
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
-  data$ = cmsComponentDataSubject.asObservable();
 }
 
 class MockImportToCartService implements Partial<ImportToCartService> {
@@ -71,9 +51,9 @@ class MockImportToCartService implements Partial<ImportToCartService> {
   csvDataToProduct = () => mockProducts;
 }
 
-class MockImportCsvService implements Partial<ImportCsvService> {
-  loadFile = () => of(mockCsvString);
-  loadCsvData = () => of(mockLoadFileData);
+class MockImportCsvFileService implements Partial<ImportCsvFileService> {
+  loadFile = () => of(mockLoadFileData);
+  validateFile = () => of(null);
 }
 
 class MockLanguageService {
@@ -88,6 +68,7 @@ describe('ImportEntriesFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let importToCartService: ImportToCartService;
   let filesFormValidators: FilesFormValidators;
+  let importCsvService: ImportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,8 +83,9 @@ describe('ImportEntriesFormComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ImportToCartService, useClass: MockImportToCartService },
-        { provide: ImportCsvService, useClass: MockImportCsvService },
+        { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
       ],
     }).compileComponents();
 
@@ -113,10 +95,11 @@ describe('ImportEntriesFormComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     importToCartService = TestBed.inject(ImportToCartService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
+    importCsvService = TestBed.inject(ImportCsvFileService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(importCsvService, 'validateFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
-    spyOn(filesFormValidators, 'parsableFile').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -126,7 +109,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should get the file Validity', () => {
     expect(component.componentData.fileValidity).toEqual(
-      mockCmsComponentData.fileValidity
+      defaultImportExportConfig.cartImportExport.import.fileValidity
     );
   });
 
@@ -146,7 +129,6 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should validate maximum size and parsable file while building form', () => {
     expect(filesFormValidators.maxSize).toHaveBeenCalled();
-    expect(filesFormValidators.parsableFile).toHaveBeenCalled();
   });
 
   it('should trigger submit event when save method is called', () => {

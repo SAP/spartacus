@@ -24,7 +24,7 @@ cx-import-entries-dialog {
       }
 
       cx-import-entries-form,
-      cx-import-to-saved-cart-form {
+      cx-import-to-new-saved-cart-form {
         @extend .modal-body;
         background-color: var(--cx-color-inverse);
         .cx-import-entries-subtitle {

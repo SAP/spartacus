@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
@@ -8,8 +10,6 @@ import {
   PriceType,
 } from '@spartacus/core';
 import { ExportEntriesService } from './export-entries.service';
-import { BehaviorSubject, of } from 'rxjs';
-import { StoreModule } from '@ngrx/store';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
 
@@ -73,8 +73,7 @@ const entry: OrderEntry = {
       stockLevel: 365,
       stockLevelStatus: 'inStock',
     },
-    url:
-      '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
+    url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/PC-Service-Set-Professional/p/3803058',
     slug: 'pc-service-set-professional',
     nameHtml: 'PC Service Set Professional',
   },
@@ -97,6 +96,9 @@ const entries$ = new BehaviorSubject([entry]);
 
 class MockExportEntriesService {
   getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
+    of(transitionalArray)
+  );
+  downloadCsv = createSpy('downloadCsvSpy').and.returnValue(
     of(transitionalArray)
   );
 }

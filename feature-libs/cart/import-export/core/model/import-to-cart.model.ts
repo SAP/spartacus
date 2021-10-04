@@ -1,20 +1,13 @@
-import { CmsComponent } from '@spartacus/core';
-
 export type ProductsData = {
   productCode: string;
   quantity: number;
 }[];
 
-export interface InvalidFileInfo {
-  tooLarge?: { maxSize: number };
-  empty?: boolean;
-  notParsable?: boolean;
-}
-
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  allowedExtensions?: string[];
+  maxEntries?: number;
+  allowedTypes?: string[];
 }
 
 export enum ProductImportStatus {
@@ -57,12 +50,13 @@ export interface CartNameGeneration {
   };
 }
 
-export interface CmsImportEntriesComponent extends CmsComponent {
+export interface ImportConfig {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
 }
 
 export enum ImportCartRoutes {
   SAVED_CARTS = 'savedCarts',
+  SAVED_CART_DETAILS = 'savedCartsDetails',
   CART = 'cart',
 }
