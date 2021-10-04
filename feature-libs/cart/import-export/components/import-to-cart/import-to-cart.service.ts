@@ -27,7 +27,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductsData,
-  ImportCartRoutes,
+  CartTypes,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable()
@@ -43,41 +43,33 @@ export class ImportToCartService {
   ) {}
 
   loadProductsToCart(
+    cartType: CartTypes,
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
-    return this.addEntries(products, savedCartInfo).pipe(
-      switchMap((cartId: string) => this.getResults(cartId)),
+    return this.addEntries(cartType, products, savedCartInfo).pipe(
+      switchMap((cartId: string) => this.getResults(cartType, cartId)),
       take(products.length)
     );
   }
 
-  get placement$(): Observable<string | undefined> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map((route) => route.state?.semanticRoute));
-  }
-
   protected addEntries(
+    cartType: CartTypes,
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
-    return this.placement$.pipe(
-      switchMap((placement) => {
-        switch (placement) {
-          case ImportCartRoutes.SAVED_CARTS: {
-            return this.addEntriesToNewSavedCart(products, savedCartInfo);
-          }
-          case ImportCartRoutes.SAVED_CART_DETAILS: {
-            return this.addEntriesToSavedCart(products);
-          }
-          case ImportCartRoutes.CART:
-          default: {
-            return this.addEntriesToActiveCart(products);
-          }
-        }
-      })
-    );
+    switch (cartType) {
+      case CartTypes.NEW_SAVED_CART: {
+        return this.addEntriesToNewSavedCart(products, savedCartInfo);
+      }
+      case CartTypes.EXISTING_SAVED_CART: {
+        return this.addEntriesToSavedCart(products);
+      }
+      case CartTypes.ACTIVE_CART:
+      default: {
+        return this.addEntriesToActiveCart(products);
+      }
+    }
   }
 
   protected addEntriesToNewSavedCart(
@@ -162,19 +154,18 @@ export class ImportToCartService {
   /**
    * Emits `ProductImportInfo` on every added product success or failure
    */
-  protected getResults(cartId: string): Observable<ProductImportInfo> {
-    return this.placement$.pipe(
-      switchMap((placement) => {
-        switch (placement) {
-          case ImportCartRoutes.CART:
-          case ImportCartRoutes.SAVED_CARTS:
-          case ImportCartRoutes.SAVED_CART_DETAILS:
-          default: {
-            return this.getCartResults(cartId);
-          }
-        }
-      })
-    );
+  protected getResults(
+    cartType: CartTypes,
+    cartId: string
+  ): Observable<ProductImportInfo> {
+    switch (cartType) {
+      case CartTypes.ACTIVE_CART:
+      case CartTypes.NEW_SAVED_CART:
+      case CartTypes.EXISTING_SAVED_CART:
+      default: {
+        return this.getCartResults(cartId);
+      }
+    }
   }
 
   protected getCartResults(cartId: string): Observable<ProductImportInfo> {

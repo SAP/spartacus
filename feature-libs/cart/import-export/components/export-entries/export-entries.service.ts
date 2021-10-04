@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import {
   ActiveCartService,
   Cart,
   OrderEntry,
-  RoutingService,
   TranslationService,
   GlobalMessageService,
   GlobalMessageType,
@@ -15,7 +14,7 @@ import {
   ImportExportConfig,
   ExportColumn,
   ExportConfig,
-  ExportCartRoutes,
+  CartTypes,
 } from '@spartacus/cart/import-export/core';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 
@@ -24,7 +23,6 @@ import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 })
 export class ExportEntriesService {
   constructor(
-    protected routingService: RoutingService,
     protected activeCartService: ActiveCartService,
     protected savedCartDetailsService: SavedCartDetailsService,
     protected importExportConfig: ImportExportConfig,
@@ -32,6 +30,9 @@ export class ExportEntriesService {
     protected globalMessageService: GlobalMessageService,
     protected exportCsvFileService: ExportCsvFileService
   ) {}
+
+  @Input()
+  cartType: string;
 
   protected get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;
@@ -67,27 +68,16 @@ export class ExportEntriesService {
       : values?.toString() ?? '';
   }
 
-  protected get placement$(): Observable<string | undefined> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map((route) => route.state?.semanticRoute));
-  }
-
   protected getEntries(): Observable<OrderEntry[]> {
-    return this.placement$.pipe(
-      switchMap((placement) => {
-        switch (placement) {
-          case ExportCartRoutes.SAVED_CART_DETAILS: {
-            return this.getSavedCartEntries();
-          }
-          case ExportCartRoutes.CART:
-          default: {
-            return this.getActiveCartEntries();
-          }
-        }
-      }),
-      filter((entries) => entries?.length > 0)
-    );
+    switch (this.cartType) {
+      case CartTypes.EXISTING_SAVED_CART: {
+        return this.getSavedCartEntries();
+      }
+      case CartTypes.ACTIVE_CART:
+      default: {
+        return this.getActiveCartEntries();
+      }
+    }
   }
 
   protected getSavedCartEntries(): Observable<OrderEntry[]> {

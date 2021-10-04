@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
@@ -6,6 +7,8 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
+import { ExportEntriesModule } from '../export-entries';
+import { ImportToCartModule } from '../import-to-cart';
 import { CombinedImportExportComponent } from './combined-import-export.component';
 
 @NgModule({
@@ -20,6 +23,9 @@ import { CombinedImportExportComponent } from './combined-import-export.componen
     }),
     I18nModule,
     UrlModule,
+    ImportToCartModule,
+    ExportEntriesModule,
+    CommonModule,
   ],
   exports: [CombinedImportExportComponent],
   declarations: [CombinedImportExportComponent],

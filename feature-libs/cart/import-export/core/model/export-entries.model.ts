@@ -41,8 +41,3 @@ export interface ExportConfig {
    */
   maxEntries?: number;
 }
-
-export enum ExportCartRoutes {
-  SAVED_CART_DETAILS = 'savedCartsDetails',
-  CART = 'cart',
-}

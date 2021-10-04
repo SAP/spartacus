@@ -1,14 +1,4 @@
-<ng-container
-  [cxComponentWrapper]="{
-    flexType: 'ExportOrderEntriesComponent',
-    typeCode: 'CMSFlexComponent',
-    uid: 'ExportOrderEntriesComponent'
-  }"
-></ng-container>
-<ng-container
-  [cxComponentWrapper]="{
-    flexType: 'ImportProductsComponent',
-    typeCode: 'CMSFlexComponent',
-    uid: 'ImportProductsComponent'
-  }"
-></ng-container>
+<ng-container *ngIf="cartType$ | async as cartType">
+  <cx-import-entries [cartType]="cartType"></cx-import-entries>
+  <cx-export-entries [cartType]="cartType"></cx-export-entries>
+</ng-container>

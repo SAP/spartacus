@@ -54,9 +54,3 @@ export interface ImportConfig {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
 }
-
-export enum ImportCartRoutes {
-  SAVED_CARTS = 'savedCarts',
-  SAVED_CART_DETAILS = 'savedCartsDetails',
-  CART = 'cart',
-}
