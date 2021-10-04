@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { PageComponentModule } from '@spartacus/storefront';
-import { CombinedImportExportComponent } from './combined-import-export.component';
+import { ImportExportComponent } from './import-export.component';
 
-describe('CombinedImportExportComponent', () => {
-  let component: CombinedImportExportComponent;
-  let fixture: ComponentFixture<CombinedImportExportComponent>;
+describe('ImportExportComponent', () => {
+  let component: ImportExportComponent;
+  let fixture: ComponentFixture<ImportExportComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), PageComponentModule],
-      declarations: [CombinedImportExportComponent],
+      declarations: [ImportExportComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CombinedImportExportComponent);
+    fixture = TestBed.createComponent(ImportExportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

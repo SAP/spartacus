@@ -1,0 +1,12 @@
+<ng-container *ngIf="data$ | async as data">
+  <ng-container *ngIf="route$ | async as route">
+    <cx-import-entries
+      *ngIf="shouldDisplayButton(data.importButtonDisplayPages, route)"
+      [cartType]="getCartType(data.routesCartMapping, route)"
+    ></cx-import-entries>
+    <cx-export-entries
+      *ngIf="shouldDisplayButton(data.exportButtonDisplayPages, route)"
+      [cartType]="getCartType(data.routesCartMapping, route)"
+    ></cx-export-entries>
+  </ng-container>
+</ng-container>
