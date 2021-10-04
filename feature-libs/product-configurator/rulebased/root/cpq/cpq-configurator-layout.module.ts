@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { LayoutConfig } from 'projects/storefrontlib/layout';
-import { CpqConfiguratorPageLayouHandler } from './cpq-configurator-page-layout-handler';
+import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 /**
  *  Contains the layout configuration for the CPQ configurator pages. This configuration is
@@ -55,7 +55,7 @@ import { CpqConfiguratorPageLayouHandler } from './cpq-configurator-page-layout-
 
     {
       provide: PAGE_LAYOUT_HANDLER,
-      useExisting: CpqConfiguratorPageLayouHandler,
+      useExisting: CpqConfiguratorPageLayoutHandler,
       multi: true,
     },
   ],

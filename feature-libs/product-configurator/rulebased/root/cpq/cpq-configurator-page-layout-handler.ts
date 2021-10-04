@@ -9,7 +9,7 @@ import { map, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CpqConfiguratorPageLayouHandler implements PageLayoutHandler {
+export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
