@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   AuthActions,
   CartActions,
@@ -10,7 +11,6 @@ import {
   UserActions,
   withdrawOn,
 } from '@spartacus/core';
-import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
