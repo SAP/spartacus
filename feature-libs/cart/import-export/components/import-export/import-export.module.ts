@@ -7,7 +7,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
-import { CartTypes } from 'f@spartacus/cart/import-export/core';
+import { CartTypes } from '@spartacus/cart/import-export/core';
 import { ExportEntriesModule } from '../export-entries';
 import { ImportToCartModule } from '../import-to-cart';
 import { ImportExportComponent } from './import-export.component';
@@ -40,4 +40,4 @@ import { ImportExportComponent } from './import-export.component';
   exports: [ImportExportComponent],
   declarations: [ImportExportComponent],
 })
-export class ImportExportModule {}
+export class ImportExportComponentModule {}
