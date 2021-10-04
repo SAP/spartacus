@@ -55,11 +55,20 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
     if (!this.readonly) {
+      console.log('--', value);
       // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
-      value
+      /*value
         ? this.form.disable({ emitEvent: false })
-        : this.form.enable({ emitEvent: false });
+        : this.form.enable({ emitEvent: false });*/
+
+      if (value) {
+        console.log('disable');
+        this.form.disable({ emitEvent: false });
+      } else {
+        console.log('enable');
+        this.form.enable({ emitEvent: false });
+      }
     }
   }
 
@@ -69,31 +78,35 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     @Optional() protected outlet?: OutletContextData<any>
-  ) {
-    if (outlet?.context?.readonly) {
-      this.readonly = outlet.context.readonly;
-    }
-    if (outlet?.context?.hasHeader) {
-      this.hasHeader = outlet.context.hasHeader;
-    }
-    if (outlet?.context?.options) {
-      this.options = outlet.context.options;
-    }
-    if (outlet?.context?.cartId) {
-      this.cartId = outlet.context.cartId;
-    }
-    if (outlet?.context?.items) {
-      this.items = outlet.context.items;
-    }
-    if (outlet?.context?.promotionLocation) {
-      this.promotionLocation = outlet.context.promotionLocation;
-    }
-    if (outlet?.context?.cartIsLoading) {
-      this.setLoading = outlet.context.cartIsLoading;
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.subscription.add(
+      this.outlet?.context$.subscribe((context) => {
+        if (context.readonly !== undefined) {
+          this.readonly = context.readonly;
+        }
+        if (context.hasHeader !== undefined) {
+          this.hasHeader = context.hasHeader;
+        }
+        if (context.options !== undefined) {
+          this.options = context.options;
+        }
+        if (context.cartId !== undefined) {
+          this.cartId = context.cartId;
+        }
+        if (context.items !== undefined) {
+          this.items = context.items;
+        }
+        if (context.promotionLocation !== undefined) {
+          this.promotionLocation = context.promotionLocation;
+        }
+        if (context.cartIsLoading !== undefined) {
+          this.setLoading = context.cartIsLoading;
+        }
+      })
+    );
+
     this.subscription.add(
       this.userIdService
         ?.getUserId()
