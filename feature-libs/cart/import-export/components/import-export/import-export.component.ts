@@ -14,7 +14,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportExportComponent {
-  data$ = this.cmsComponent.data$;
+  cmsComponentData$ = this.cmsComponent.data$;
 
   constructor(
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,

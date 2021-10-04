@@ -1,4 +1,4 @@
-<ng-container *ngIf="data$ | async as data">
+<ng-container *ngIf="cmsComponentData$ | async as data">
   <ng-container *ngIf="route$ | async as route">
     <cx-import-entries
       *ngIf="shouldDisplayButton(data.importButtonDisplayPages, route)"
