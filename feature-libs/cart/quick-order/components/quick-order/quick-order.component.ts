@@ -9,7 +9,6 @@ import {
   QuickOrderStatePersistenceService,
 } from '@spartacus/cart/quick-order/core';
 import {
-  DeletedEntriesObject,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -72,7 +71,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
-  get softDeletedEntries$(): Observable<DeletedEntriesObject> {
+  get softDeletedEntries$(): Observable<Record<string, OrderEntry>> {
     return this.quickOrderService.getSoftDeletedEntries();
   }
 

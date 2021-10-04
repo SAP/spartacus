@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { facadeFactory, OrderEntry, Product } from '@spartacus/core';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 import { QuickOrderAddEntryEvent } from '../models/quick-order.model';
-import { DeletedEntriesObject } from '../models/deleted-entries-object.model';
 
 export function quickOrderFacadeFactory() {
   return facadeFactory({
@@ -16,7 +15,7 @@ export function quickOrderFacadeFactory() {
       'getEntries',
       'getProductAdded',
       'loadEntries',
-      'softRemoveEntry',
+      'softDeleteEntry',
       'search',
       'setProductAdded',
       'updateEntryQuantity',
@@ -59,9 +58,14 @@ export abstract class QuickOrderFacade {
   abstract updateEntryQuantity(entryIndex: number, quantity: number): void;
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
    */
-  abstract softRemoveEntry(index: number): void;
+  abstract softDeleteEntry(index: number): void;
+
+  /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
+   */
+  abstract removeEntry(index: number): void;
 
   /**
    * Add product to the quick order list
@@ -86,7 +90,7 @@ export abstract class QuickOrderFacade {
   /**
    * Return soft deleted entries
    */
-  abstract getSoftDeletedEntries(): Observable<DeletedEntriesObject>;
+  abstract getSoftDeletedEntries(): Observable<Record<string, OrderEntry>>;
 
   /**
    * Restore soft deleted entry

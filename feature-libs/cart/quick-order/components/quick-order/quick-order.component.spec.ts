@@ -2,7 +2,6 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  DeletedEntriesObject,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -52,9 +51,11 @@ const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
 };
 
 const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
-const mockSoftDeletedEntries$ = new BehaviorSubject<DeletedEntriesObject>({
-  mockProduct2: mockEntry2,
-});
+const mockSoftDeletedEntries$ = new BehaviorSubject<Record<string, OrderEntry>>(
+  {
+    mockProduct2: mockEntry2,
+  }
+);
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
@@ -68,7 +69,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
   restoreSoftDeletedEntry(_productCode: string): void {}
   hardDeletedEntry(_productCode: string): void {}
-  getSoftDeletedEntries(): Observable<DeletedEntriesObject> {
+  getSoftDeletedEntries(): Observable<Record<string, OrderEntry>> {
     return mockSoftDeletedEntries$;
   }
   clearTimeoutSubscriptions(): void {}

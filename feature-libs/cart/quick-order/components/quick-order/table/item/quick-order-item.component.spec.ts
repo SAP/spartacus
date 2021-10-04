@@ -15,7 +15,7 @@ const mockEntry: OrderEntry = {
 };
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
-  softRemoveEntry(_index: number): void {}
+  softDeleteEntry(_index: number): void {}
   updateEntryQuantity(_index: number, _quantity: number): void {}
   setProductAdded(code: string): void {
     mockCodeSubject.next(code);
@@ -91,11 +91,11 @@ describe('QuickOrderItemComponent', () => {
     expect(component.quantityControl).toBeTruthy();
   });
 
-  it('should remove entry', () => {
-    spyOn(quickOrderService, 'softRemoveEntry');
-    component.softRemoveEntry();
+  it('should delete entry', () => {
+    spyOn(quickOrderService, 'softDeleteEntry');
+    component.softDeleteEntry();
 
-    expect(quickOrderService.softRemoveEntry).toHaveBeenCalledWith(mockIndex);
+    expect(quickOrderService.softDeleteEntry).toHaveBeenCalledWith(mockIndex);
   });
 
   it('should update entry on quantity change', () => {

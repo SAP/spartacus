@@ -55,8 +55,8 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     this.subscription.add(this.watchProductAdd());
   }
 
-  softRemoveEntry(): void {
-    this.quickOrderService.softRemoveEntry(this.index);
+  softDeleteEntry(): void {
+    this.quickOrderService.softDeleteEntry(this.index);
     this.cd.detectChanges();
   }
 

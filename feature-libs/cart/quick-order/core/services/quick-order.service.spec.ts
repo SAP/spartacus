@@ -220,9 +220,9 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should remove entry', (done) => {
+  it('should delete entry', (done) => {
     service.loadEntries([mockEntry1, mockEntry2]);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
 
     service
       .getEntries()
@@ -318,9 +318,9 @@ describe('QuickOrderService', () => {
     done();
   });
 
-  it('should add deleted entry and after 5s removed it', (done) => {
+  it('should add deleted entry and after 5s delete it', (done) => {
     service.loadEntries(mockEntries);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
 
     timer(5000)
       .pipe(
@@ -335,7 +335,7 @@ describe('QuickOrderService', () => {
 
   it('should not add deleted entry', (done) => {
     service.loadEntries([mockEmptyEntry]);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
 
     service
       .getSoftDeletedEntries()
@@ -348,7 +348,7 @@ describe('QuickOrderService', () => {
 
   it('should return deleted entries', (done) => {
     service.loadEntries([mockEntry1]);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
 
     service
       .getSoftDeletedEntries()
@@ -361,7 +361,7 @@ describe('QuickOrderService', () => {
 
   it('should undo deleted entry', (done) => {
     service.loadEntries([mockEntry1]);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
 
     service.restoreSoftDeletedEntry(mockProduct1Code);
 
@@ -376,7 +376,7 @@ describe('QuickOrderService', () => {
 
   it('should clear deleted entry', (done) => {
     service.loadEntries([mockEntry1]);
-    service.softRemoveEntry(0);
+    service.softDeleteEntry(0);
     service.hardDeletedEntry(mockProduct1Code);
     service
       .getSoftDeletedEntries()

@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   defaultQuickOrderFormConfig,
-  DeletedEntriesObject,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -26,21 +25,17 @@ import {
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
-interface ClearMessageTimouts {
-  [key: string]: Subscription;
-}
-
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
-  protected softDeletedEntries$: BehaviorSubject<DeletedEntriesObject> =
-    new BehaviorSubject<DeletedEntriesObject>({});
+  protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
+    new BehaviorSubject<Record<string, OrderEntry>>({});
   protected deletionClearTimeout = 5000;
 
-  private clearTimeouts: ClearMessageTimouts = {};
+  private clearTimeouts: Record<string, Subscription> = {};
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -97,15 +92,22 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
    */
-  softRemoveEntry(index: number): void {
+  softDeleteEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
       this.addSoftEntryDeletion(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
+  }
+
+  /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
+   */
+  removeEntry(index: number): void {
+    this.softDeleteEntry(index);
   }
 
   /**
@@ -174,7 +176,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Return soft deleted entries
    */
-  getSoftDeletedEntries(): Observable<DeletedEntriesObject> {
+  getSoftDeletedEntries(): Observable<Record<string, OrderEntry>> {
     return this.softDeletedEntries$;
   }
 
@@ -244,7 +246,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       this.softDeletedEntries$.next(deletedEntries);
     }
 
-    this.removeClearTimout(productCode);
+    this.deleteClearTimout(productCode);
   }
 
   /**
@@ -331,7 +333,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     return evt;
   }
 
-  protected removeClearTimout(productCode: string): void {
+  protected deleteClearTimout(productCode: string): void {
     const clearMessageTimout = this.clearTimeouts[productCode];
 
     if (clearMessageTimout) {
