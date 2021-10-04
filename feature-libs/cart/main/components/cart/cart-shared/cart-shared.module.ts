@@ -40,6 +40,10 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
       id: 'cx-order-summary',
       component: OrderSummaryComponent,
     }),
+    provideOutlet({
+      id: 'cx-cart-item-list',
+      component: CartItemListComponent,
+    }),
   ],
   declarations: [
     CartItemComponent,

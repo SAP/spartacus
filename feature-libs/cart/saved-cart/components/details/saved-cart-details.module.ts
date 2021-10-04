@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  AddToCartModule,
-  CartSharedModule,
-} from '@spartacus/cart/main/components';
+//import { AddToCartModule } from '@spartacus/cart/main/components';
 import {
   AuthGuard,
   CmsConfig,
@@ -16,6 +13,7 @@ import {
   CardModule,
   IconModule,
   MediaModule,
+  OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
@@ -24,16 +22,16 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
     I18nModule,
     UrlModule,
     RouterModule,
     CardModule,
     MediaModule,
-    AddToCartModule,
+    //AddToCartModule,
     IconModule,
     SpinnerModule,
+    OutletModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {

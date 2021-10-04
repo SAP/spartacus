@@ -12,7 +12,7 @@ export class OrderSummaryComponent {
   cart: Cart;
 
   constructor(@Optional() protected outlet?: OutletContextData<Cart | Order>) {
-    if (outlet) {
+    if (outlet?.context) {
       this.cart = outlet.context;
     }
   }

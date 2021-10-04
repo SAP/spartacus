@@ -25,7 +25,6 @@ export function registerOutletsFactory(
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService<ComponentFactory<Type<any>>>
 ) {
-  console.log('providedOutletOptions', providedOutletOptions);
   const result = () => {
     (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(

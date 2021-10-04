@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -13,6 +14,7 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
@@ -65,8 +67,31 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartFacade
-  ) {}
+    protected multiCartService: MultiCartFacade,
+    @Optional() protected outlet?: OutletContextData<any>
+  ) {
+    if (outlet?.context?.readonly) {
+      this.readonly = outlet.context.readonly;
+    }
+    if (outlet?.context?.hasHeader) {
+      this.hasHeader = outlet.context.hasHeader;
+    }
+    if (outlet?.context?.options) {
+      this.options = outlet.context.options;
+    }
+    if (outlet?.context?.cartId) {
+      this.cartId = outlet.context.cartId;
+    }
+    if (outlet?.context?.items) {
+      this.items = outlet.context.items;
+    }
+    if (outlet?.context?.promotionLocation) {
+      this.promotionLocation = outlet.context.promotionLocation;
+    }
+    if (outlet?.context?.cartIsLoading) {
+      this.setLoading = outlet.context.cartIsLoading;
+    }
+  }
 
   ngOnInit(): void {
     this.subscription.add(
