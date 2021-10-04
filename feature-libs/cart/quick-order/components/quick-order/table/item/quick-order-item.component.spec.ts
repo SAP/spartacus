@@ -93,7 +93,7 @@ describe('QuickOrderItemComponent', () => {
 
   it('should delete entry', () => {
     spyOn(quickOrderService, 'softDeleteEntry');
-    component.softDeleteEntry();
+    component.removeEntry();
 
     expect(quickOrderService.softDeleteEntry).toHaveBeenCalledWith(mockIndex);
   });

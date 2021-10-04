@@ -131,7 +131,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   clearDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
-      this.quickOrderService.hardDeletedEntry(entry.product?.code);
+      this.quickOrderService.hardDeleteEntry(entry.product?.code);
     }
   }
 

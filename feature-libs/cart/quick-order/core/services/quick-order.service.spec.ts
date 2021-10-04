@@ -377,7 +377,7 @@ describe('QuickOrderService', () => {
   it('should clear deleted entry', (done) => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
-    service.hardDeletedEntry(mockProduct1Code);
+    service.hardDeleteEntry(mockProduct1Code);
     service
       .getSoftDeletedEntries()
       .pipe(take(1))

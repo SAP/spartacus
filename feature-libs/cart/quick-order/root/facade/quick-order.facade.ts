@@ -21,7 +21,7 @@ export function quickOrderFacadeFactory() {
       'updateEntryQuantity',
       'getSoftDeletedEntries',
       'restoreSoftDeletedEntry',
-      'hardDeletedEntry',
+      'hardDeleteEntry',
       'clearTimeoutSubscriptions',
     ],
   });
@@ -100,7 +100,7 @@ export abstract class QuickOrderFacade {
   /**
    * Clear deleted entry from the list
    */
-  abstract hardDeletedEntry(productCode: string): void;
+  abstract hardDeleteEntry(productCode: string): void;
 
   /**
    * Clear all deleted entry timeout subscriptions

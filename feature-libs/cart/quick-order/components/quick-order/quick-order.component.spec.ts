@@ -68,7 +68,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     );
   }
   restoreSoftDeletedEntry(_productCode: string): void {}
-  hardDeletedEntry(_productCode: string): void {}
+  hardDeleteEntry(_productCode: string): void {}
   getSoftDeletedEntries(): Observable<Record<string, OrderEntry>> {
     return mockSoftDeletedEntries$;
   }
@@ -276,20 +276,20 @@ describe('QuickOrderComponent', () => {
   });
 
   describe('on clearDeletion method', () => {
-    it('should trigger hardDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'hardDeletedEntry').and.callThrough();
+    it('should trigger hardDeleteEntry from service', () => {
+      spyOn(quickOrderService, 'hardDeleteEntry').and.callThrough();
 
       component.clearDeletion(mockEntry);
-      expect(quickOrderService.hardDeletedEntry).toHaveBeenCalledWith(
+      expect(quickOrderService.hardDeleteEntry).toHaveBeenCalledWith(
         mockEntry.product?.code
       );
     });
 
-    it('should not trigger hardDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'hardDeletedEntry').and.callThrough();
+    it('should not trigger hardDeleteEntry from service', () => {
+      spyOn(quickOrderService, 'hardDeleteEntry').and.callThrough();
 
       component.clearDeletion(mockEmptyEntry);
-      expect(quickOrderService.hardDeletedEntry).not.toHaveBeenCalled();
+      expect(quickOrderService.hardDeleteEntry).not.toHaveBeenCalled();
     });
   });
 });
