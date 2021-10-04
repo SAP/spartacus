@@ -3,6 +3,7 @@ import {
   Address,
   DeliveryMode,
   facadeFactory,
+  QueryState,
   StateUtils,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -16,16 +17,13 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'getSupportedDeliveryModes',
+        'getSupportedDeliveryModesState',
         'getSelectedDeliveryMode',
         'getSelectedDeliveryModeCode',
         'getDeliveryAddress',
         'getSetDeliveryModeProcess',
         'resetSetDeliveryModeProcess',
-        'resetLoadSupportedDeliveryModesProcess',
-        'getLoadSupportedDeliveryModeProcess',
-        'clearCheckoutDeliveryModes',
         'createAndSetAddress',
-        'loadSupportedDeliveryModes',
         'setDeliveryMode',
         'setDeliveryAddress',
         'clearCheckoutDeliveryAddress',
@@ -40,6 +38,10 @@ export abstract class CheckoutDeliveryFacade {
    * Get supported delivery modes
    */
   abstract getSupportedDeliveryModes(): Observable<DeliveryMode[]>;
+
+  abstract getSupportedDeliveryModesState(): Observable<
+    QueryState<DeliveryMode[]>
+  >;
 
   /**
    * Get selected delivery mode
@@ -71,35 +73,10 @@ export abstract class CheckoutDeliveryFacade {
   abstract resetSetDeliveryModeProcess(): void;
 
   /**
-   * Clear info about process of setting Supported Delivery Modes
-   */
-  abstract resetLoadSupportedDeliveryModesProcess(): void;
-
-  /**
-   * Get status about of set supported Delivery Modes process
-   */
-  abstract getLoadSupportedDeliveryModeProcess(): Observable<
-    StateUtils.LoaderState<void>
-  >;
-
-  /**
-   * Clear supported delivery modes loaded in last checkout process
-   */
-  abstract clearCheckoutDeliveryModes(): void;
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
   abstract createAndSetAddress(address: Address): Observable<unknown>;
-
-  /**
-   * Load supported delivery modes
-   *
-   * @deprecated since 4.3.0. Use getSupportedDeliveryModes() which makes sure the data is loaded
-   */
-  // TODO:#13888 - remove in the future major release
-  abstract loadSupportedDeliveryModes(): void;
 
   /**
    * Set delivery mode

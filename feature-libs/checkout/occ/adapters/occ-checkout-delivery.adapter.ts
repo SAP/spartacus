@@ -98,12 +98,11 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       );
   }
 
-  // TODO: Change return type to Observable<unknown> in 5.0
   public setAddress(
     userId: string,
     cartId: string,
     addressId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.http
       .put(this.getSetDeliveryAddressEndpoint(userId, cartId, addressId), {})
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
@@ -133,6 +132,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
         pluck('deliveryModes'),
         map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)

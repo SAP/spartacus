@@ -36,62 +36,25 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  loadSupportedDeliveryModes$: Observable<
-    | CheckoutActions.LoadSupportedDeliveryModesSuccess
-    | CheckoutActions.LoadSupportedDeliveryModesFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutDeliveryConnector
-        .getSupportedModes(payload.userId, payload.cartId)
-        .pipe(
-          map((data) => {
-            return new CheckoutActions.LoadSupportedDeliveryModesSuccess(data);
-          }),
-          catchError((error) =>
-            of(
-              new CheckoutActions.LoadSupportedDeliveryModesFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     | CheckoutActions.CheckoutClearMiscsData
-    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
-      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
       new CheckoutActions.ResetLoadPaymentTypesProcess(),
       new CheckoutActions.CheckoutClearMiscsData(),
     ])
   );
 
   @Effect()
-  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> =
-    this.actions$.pipe(
-      ofType(SiteContextActions.CURRENCY_CHANGE),
-      map(() => new CheckoutActions.ClearSupportedDeliveryModes())
-    );
-
-  @Effect()
   clearCheckoutDataOnLogout$: Observable<
     | CheckoutActions.ClearCheckoutData
-    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     mergeMap(() => [
       new CheckoutActions.ClearCheckoutData(),
-      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
       new CheckoutActions.ResetLoadPaymentTypesProcess(),
     ])
   );

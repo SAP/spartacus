@@ -6,17 +6,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutDeliveryFacade,
-  COMMANDS_AND_QUERIES_BASED_CHECKOUT,
-} from '@spartacus/checkout/root';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import { DeliveryMode, FeatureConfigService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
-  takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
@@ -46,8 +42,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    // TODO:#13888 remove after the deprecation is done
-    protected featureConfigService?: FeatureConfigService
+    protected featureConfigService: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -61,21 +56,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
           }
         )
       );
-
-    // TODO:#13888 remove the whole `if` block, as this is now handled in the CheckoutDeliveryService#supportedDeliveryModesQuery
-    if (
-      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      // Reload delivery modes on error
-      this.checkoutDeliveryService
-        .getLoadSupportedDeliveryModeProcess()
-        .pipe(takeWhile((state) => state?.success === false))
-        .subscribe((state) => {
-          if (state.error && !state.loading) {
-            this.checkoutDeliveryService.loadSupportedDeliveryModes();
-          }
-        });
-    }
 
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(

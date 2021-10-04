@@ -1,6 +1,5 @@
 import {
   Address,
-  DeliveryMode,
   Order,
   ORDER_TYPE,
   PaymentDetails,
@@ -13,8 +12,6 @@ export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
 export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
-export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
-  'setSupportedDeliveryMode';
 export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
 export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
 export const SET_COST_CENTER_PROCESS_ID = 'setCostCenter';
@@ -31,7 +28,6 @@ export interface CheckoutStepsState {
   };
   address: Address;
   deliveryMode: {
-    supported: { [code: string]: DeliveryMode };
     selected: string;
   };
   paymentDetails: PaymentDetails;

@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import {
   Address,
-  DeliveryMode,
   MULTI_CART_DATA,
   Order,
   PaymentDetails,
@@ -15,7 +14,6 @@ import {
   SET_COST_CENTER_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
-  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS =
@@ -34,15 +32,6 @@ export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
 
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
-
-export const LOAD_SUPPORTED_DELIVERY_MODES =
-  '[Checkout] Load Supported Delivery Modes';
-export const LOAD_SUPPORTED_DELIVERY_MODES_FAIL =
-  '[Checkout] Load Supported Delivery Modes Fail';
-export const LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS =
-  '[Checkout] Load Supported Delivery Modes Success';
-export const CLEAR_SUPPORTED_DELIVERY_MODES =
-  '[Checkout] Clear Supported Delivery Modes';
 
 export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
 export const SET_DELIVERY_MODE_FAIL = '[Checkout] Set Delivery Mode Fail';
@@ -98,34 +87,6 @@ export const RESET_SET_COST_CENTER_PROCESS =
 export class SetDeliveryAddressSuccess {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
   constructor(public payload: Address) {}
-}
-
-export class LoadSupportedDeliveryModes extends StateUtils.EntityLoadAction {
-  readonly type = LOAD_SUPPORTED_DELIVERY_MODES;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class LoadSupportedDeliveryModesFail extends StateUtils.EntityFailAction {
-  readonly type = LOAD_SUPPORTED_DELIVERY_MODES_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class LoadSupportedDeliveryModesSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
-  constructor(public payload: DeliveryMode[]) {
-    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class ResetLoadSupportedDeliveryModesProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type = RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
-  }
 }
 
 export class SetDeliveryMode extends StateUtils.EntityLoadAction {
@@ -254,10 +215,6 @@ export class ClearPlaceOrder extends StateUtils.EntityLoaderResetAction {
   }
 }
 
-export class ClearSupportedDeliveryModes implements Action {
-  readonly type = CLEAR_SUPPORTED_DELIVERY_MODES;
-}
-
 export class ClearCheckoutStep implements Action {
   readonly type = CLEAR_CHECKOUT_STEP;
   constructor(public payload: number) {}
@@ -360,14 +317,10 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 
 export type CheckoutAction =
   | SetDeliveryAddressSuccess
-  | LoadSupportedDeliveryModes
-  | LoadSupportedDeliveryModesFail
-  | LoadSupportedDeliveryModesSuccess
   | SetDeliveryMode
   | SetDeliveryModeFail
   | SetDeliveryModeSuccess
   | ResetSetDeliveryModeProcess
-  | ClearSupportedDeliveryModes
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess

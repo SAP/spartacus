@@ -3,7 +3,6 @@ import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
-  COMMANDS_AND_QUERIES_BASED_CHECKOUT,
   DeliveryAddressSetEvent,
 } from '@spartacus/checkout/root';
 import {
@@ -24,18 +23,17 @@ import {
   ProcessSelectors,
   Query,
   QueryService,
+  QueryState,
   StateUtils,
   StateWithProcess,
   UpdateUserAddressEvent,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
 import {
   filter,
   map,
-  pluck,
-  shareReplay,
   switchMap,
   take,
   tap,
@@ -45,13 +43,15 @@ import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-deliv
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_MODE_PROCESS_ID,
-  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
+  protected retrySupportedDeliveryModes$: Subject<boolean> =
+    new Subject<boolean>();
+
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.command.create<Address>(
       (payload) => {
@@ -138,18 +138,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                       cartId,
                     })
                   );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearSupportedDeliveryModes()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-                  );
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.LoadSupportedDeliveryModes({
-                      userId,
-                      cartId,
-                    })
-                  );
                 })
               );
           })
@@ -160,9 +148,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
-  // TODO:#13888 Remove optional chaining and update types in the future
-  protected supportedDeliveryModesQuery: undefined | Query<DeliveryMode[]> =
-    this.query?.create<DeliveryMode[]>(
+  protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
+    this.query.create<DeliveryMode[]>(
       () => {
         return combineLatest([
           this.userIdService.takeUserId(),
@@ -174,10 +161,9 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               !userId ||
               !cartId ||
               (userId === OCC_USER_ID_ANONYMOUS &&
-                !this.activeCartService.isGuestCart()) ||
-              !this.checkoutDeliveryConnector // TODO:#13888 Remove check in the future when service will be required
+                !this.activeCartService.isGuestCart())
             ) {
-              return of([]); // TODO:#13888 should we throw error here? empty array?
+              throw new Error('Checkout conditions not met');
             }
             return this.checkoutDeliveryConnector.getSupportedModes(
               userId,
@@ -194,6 +180,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           DeliveryAddressSetEvent,
           UpdateUserAddressEvent,
           DeleteUserAddressEvent,
+          this.retrySupportedDeliveryModes$.asObservable(),
           // TODO:#13888 convert to an event
           // TODO:test: when starting the b2b checkout
           this.actions$?.pipe(
@@ -209,10 +196,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               CheckoutActions.CLEAR_CHECKOUT_STEP
             ),
             filter((action) => action.payload === 2)
-          ) ?? EMPTY,
-          // TODO:#13888 remove when removing the action
-          this.actions$?.pipe(
-            ofType(CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES)
           ) ?? EMPTY,
         ],
       }
@@ -235,54 +218,20 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get supported delivery modes
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    // TODO:#13888 Remove the whole `if` block in the future when we fully switch to c&q
-    if (
-      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      return this.checkoutStore.pipe(
-        select(CheckoutSelectors.getSupportedDeliveryModes),
-        withLatestFrom(
-          this.processStateStore.pipe(
-            select(
-              ProcessSelectors.getProcessStateFactory(
-                SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
-              )
-            )
-          )
-        ),
-        tap(([, loadingState]) => {
-          if (
-            !(
-              loadingState.loading ||
-              loadingState.success ||
-              loadingState.error
-            )
-          ) {
-            this.loadSupportedDeliveryModes();
-          }
-        }),
-        pluck(0),
-        shareReplay({ bufferSize: 1, refCount: true })
-      );
-    }
+    return this.getSupportedDeliveryModesState().pipe(
+      map((deliveryModesState) => deliveryModesState.data ?? [])
+    );
+  }
 
-    // TODO:#13888 Remove this check in the future when all services will be provided
-    if (this.supportedDeliveryModesQuery) {
-      return this.supportedDeliveryModesQuery.getState().pipe(
-        // TODO: check if we need to do error handling here. This mimics the behaviour from delivery-mode.component.ts' ngOnInit().
-        tap((deliveryModesState) => {
-          if (deliveryModesState.error && !deliveryModesState.loading) {
-            this.loadSupportedDeliveryModes();
-          }
-        }),
-        // TODO: remove this map if we decide we don't need the error handling from above
-        map((deliveryModesState) => deliveryModesState.data),
-        map((deliveryModes) => deliveryModes ?? [])
-      );
-    }
-    // TODO:#13888 Remove in the future when all services will be provided
-    throw new Error(
-      'Missing constructor parameters in CheckoutDeliveryService'
+  getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
+    return this.supportedDeliveryModesQuery.getState().pipe(
+      // TODO: check if we need to do error handling here. This mimics the behaviour from delivery-mode.component.ts' ngOnInit().
+      tap((deliveryModesState) => {
+        if (deliveryModesState.error && !deliveryModesState.loading) {
+          this.retrySupportedDeliveryModes$.next();
+          // TODO: Add fancy exponential back-off retry query as example of how not to do infinite loop
+        }
+      })
     );
   }
 
@@ -290,8 +239,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get selected delivery mode
    */
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined | null> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getSelectedDeliveryMode)
+    return this.getSupportedDeliveryModes().pipe(
+      withLatestFrom(this.getSelectedDeliveryModeCode()),
+      map(([deliveryModes, selected]) =>
+        deliveryModes.find((deliveryMode) => deliveryMode.code === selected)
+      )
     );
   }
 
@@ -334,73 +286,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Clear info about process of setting Supported Delivery Modes
-   */
-  resetLoadSupportedDeliveryModesProcess(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-    );
-  }
-
-  /**
-   * Get status about of set supported Delivery Modes process
-   */
-  getLoadSupportedDeliveryModeProcess(): Observable<
-    StateUtils.LoaderState<void>
-  > {
-    return this.processStateStore.pipe(
-      select(
-        ProcessSelectors.getProcessStateFactory(
-          SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
-        )
-      )
-    );
-  }
-
-  /**
-   * Clear supported delivery modes loaded in last checkout process
-   */
-  clearCheckoutDeliveryModes(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearSupportedDeliveryModes()
-    );
-  }
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
   createAndSetAddress(address: Address): Observable<unknown> {
     return this.createDeliveryAddressCommand.execute(address);
-  }
-
-  /**
-   * Load supported delivery modes
-   *
-   * @deprecated since 4.3.0. Use getSupportedDeliveryModes() which makes sure the data is loaded
-   */
-  loadSupportedDeliveryModes(): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.LoadSupportedDeliveryModes({
-            userId,
-            cartId,
-          })
-        );
-      }
-    }
   }
 
   /**
@@ -496,7 +386,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   clearCheckoutDeliveryDetails(): void {
     this.clearCheckoutDeliveryAddress();
     this.clearCheckoutDeliveryMode();
-    this.clearCheckoutDeliveryModes();
   }
 
   protected actionAllowed(): boolean {

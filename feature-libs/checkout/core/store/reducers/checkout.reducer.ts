@@ -1,10 +1,4 @@
-import {
-  Address,
-  Cart,
-  DeliveryMode,
-  Order,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { Address, Cart, Order, ReplenishmentOrder } from '@spartacus/core';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
@@ -12,7 +6,6 @@ export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
   address: {},
   deliveryMode: {
-    supported: {},
     selected: '',
   },
   paymentDetails: {},
@@ -55,33 +48,6 @@ export function reducer(
       return {
         ...state,
         address,
-      };
-    }
-
-    case CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
-      const supportedModes = action.payload;
-      if (!supportedModes) {
-        return state;
-      }
-
-      const supported = supportedModes.reduce(
-        (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
-          return {
-            ...modes,
-            [mode.code as string]: mode,
-          };
-        },
-        {
-          ...state.deliveryMode.supported,
-        }
-      );
-
-      return {
-        ...state,
-        deliveryMode: {
-          ...state.deliveryMode,
-          supported,
-        },
       };
     }
 
@@ -145,8 +111,6 @@ export function reducer(
           return {
             ...state,
             deliveryMode: {
-              ...state.deliveryMode,
-              supported: {},
               selected: '',
             },
           };
@@ -163,16 +127,6 @@ export function reducer(
       return state;
     }
 
-    case CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES:
-    case CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA: {
-      return {
-        ...state,
-        deliveryMode: {
-          ...state.deliveryMode,
-          supported: {},
-        },
-      };
-    }
     case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
       return {
         ...state,
@@ -198,7 +152,6 @@ export function reducer(
       return {
         ...state,
         deliveryMode: {
-          ...state.deliveryMode,
           selected: '',
         },
       };

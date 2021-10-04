@@ -8,6 +8,7 @@ import {
   DeliveryMode,
   FeatureConfigService,
   PaymentDetails,
+  QueryState,
   StateUtils,
   UserAddressService,
   UserPaymentService,
@@ -161,92 +162,72 @@ export class ExpressCheckoutService {
   protected setDeliveryMode() {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
-      this.checkoutDeliveryService.getSupportedDeliveryModes(),
+      this.checkoutDeliveryService.getSupportedDeliveryModesState(),
       this.checkoutDeliveryService.getSetDeliveryModeProcess(),
-      this.checkoutDeliveryService.getLoadSupportedDeliveryModeProcess(),
     ]).pipe(
       debounceTime(0),
       switchMap(
         ([
           addressSet,
-          supportedDeliveryModes,
+          supportedDeliveryModesState,
           setDeliveryModeStatusFlag,
-          loadSupportedDeliveryModeStatus,
-        ]: [
-          boolean,
-          DeliveryMode[],
-          StateUtils.LoaderState<void>,
-          StateUtils.LoaderState<void>
         ]) => {
           if (addressSet) {
             return of([
-              supportedDeliveryModes,
+              supportedDeliveryModesState,
               setDeliveryModeStatusFlag,
-              loadSupportedDeliveryModeStatus,
+            ] as [
+              QueryState<DeliveryMode[]>,
+              StateUtils.LoaderState<void>
             ]).pipe(
               filter(
-                ([, , supportedDeliveryModeStatus]: any) =>
-                  supportedDeliveryModeStatus.success ?? false
+                ([supportedDeliveryModesState]) =>
+                  !supportedDeliveryModesState.loading &&
+                  !!supportedDeliveryModesState.data?.length
               ),
-              switchMap(
-                ([deliveryModes, setDeliveryModeStatus, ,]: [
-                  DeliveryMode[],
-                  StateUtils.LoaderState<void>,
-                  StateUtils.LoaderState<void>
-                ]) => {
-                  if (Boolean(deliveryModes.length)) {
-                    const preferredDeliveryMode =
-                      this.checkoutConfigService.getPreferredDeliveryMode(
-                        deliveryModes
-                      );
-                    return of([
-                      preferredDeliveryMode,
-                      setDeliveryModeStatus,
-                    ]).pipe(
-                      tap(([deliveryMode, deliveryModeLoadingStatus]: any) => {
-                        if (
-                          deliveryMode &&
-                          !(
-                            deliveryModeLoadingStatus.success ||
-                            deliveryModeLoadingStatus.error ||
-                            deliveryModeLoadingStatus.loading
-                          )
-                        ) {
-                          this.checkoutDeliveryService.setDeliveryMode(
-                            deliveryMode
-                          );
-                        }
-                      }),
-                      filter(
-                        ([, deliveryModeLoadingStatus]: [
-                          string,
-                          StateUtils.LoaderState<void>
-                        ]) => {
-                          return (
-                            ((deliveryModeLoadingStatus.success ||
-                              deliveryModeLoadingStatus.error) &&
-                              !deliveryModeLoadingStatus.loading) ??
-                            false
-                          );
-                        }
-                      ),
-                      switchMap(
-                        ([, deliveryModeLoadingStatus]: [
-                          string,
-                          StateUtils.LoaderState<void>
-                        ]) => {
-                          if (deliveryModeLoadingStatus.success) {
-                            return this.checkoutDetailsService.getSelectedDeliveryModeCode();
-                          }
-                          return of(false);
-                        }
-                      ),
-                      map((data) => Boolean(data))
+              switchMap(([deliveryModesState, setDeliveryModeStatus]) => {
+                if (!!deliveryModesState.data?.length) {
+                  const preferredDeliveryMode =
+                    this.checkoutConfigService.getPreferredDeliveryMode(
+                      deliveryModesState.data
                     );
-                  }
-                  return of(false);
+                  return of([preferredDeliveryMode, setDeliveryModeStatus] as [
+                    string | undefined,
+                    StateUtils.LoaderState<void>
+                  ]).pipe(
+                    tap(([deliveryMode, deliveryModeLoadingStatus]) => {
+                      if (
+                        deliveryMode &&
+                        !(
+                          deliveryModeLoadingStatus.success ||
+                          deliveryModeLoadingStatus.error ||
+                          deliveryModeLoadingStatus.loading
+                        )
+                      ) {
+                        this.checkoutDeliveryService.setDeliveryMode(
+                          deliveryMode
+                        );
+                      }
+                    }),
+                    filter(([, deliveryModeLoadingStatus]) => {
+                      return (
+                        ((deliveryModeLoadingStatus.success ||
+                          deliveryModeLoadingStatus.error) &&
+                          !deliveryModeLoadingStatus.loading) ??
+                        false
+                      );
+                    }),
+                    switchMap(([, deliveryModeLoadingStatus]) => {
+                      if (deliveryModeLoadingStatus.success) {
+                        return this.checkoutDetailsService.getSelectedDeliveryModeCode();
+                      }
+                      return of(false);
+                    }),
+                    map((data) => Boolean(data))
+                  );
                 }
-              )
+                return of(false);
+              })
             );
           } else {
             return of(false);

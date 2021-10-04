@@ -7,7 +7,6 @@ import {
   checkoutShippingSteps,
   CheckoutStep,
   CheckoutStepType,
-  COMMANDS_AND_QUERIES_BASED_CHECKOUT,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -27,7 +26,7 @@ import {
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -50,8 +49,7 @@ export class ReviewSubmitComponent {
     protected paymentTypeService: PaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected userCostCenterService: UserCostCenterService,
-    // TODO:#13888 remove after the deprecation is done
-    protected featureConfigService?: FeatureConfigService
+    protected featureConfigService: FeatureConfigService
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -71,26 +69,7 @@ export class ReviewSubmitComponent {
   }
 
   get deliveryMode$(): Observable<DeliveryMode | null | undefined> {
-    // TODO:#13888 remove the whole `if` block
-    if (
-      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
-        tap((selected: DeliveryMode | null | undefined) => {
-          if (selected === null) {
-            this.checkoutDeliveryService.loadSupportedDeliveryModes();
-          }
-        })
-      );
-    }
-    return this.checkoutDeliveryService.getSupportedDeliveryModes().pipe(
-      withLatestFrom(
-        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
-      ),
-      map(([deliveryModes, selected]) =>
-        deliveryModes.find((deliveryMode) => deliveryMode.code === selected)
-      )
-    );
+    return this.checkoutDeliveryService.getSelectedDeliveryMode();
   }
 
   get paymentDetails$(): Observable<PaymentDetails> {

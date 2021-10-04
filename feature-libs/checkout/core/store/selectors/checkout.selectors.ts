@@ -5,7 +5,6 @@ import {
 } from '@ngrx/store';
 import {
   Address,
-  DeliveryMode,
   Order,
   PaymentDetails,
   ReplenishmentOrder,
@@ -52,40 +51,15 @@ export const getDeliveryAddress: MemoizedSelector<StateWithCheckout, Address> =
 export const getDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   {
-    supported: { [code: string]: DeliveryMode };
     selected: string;
   }
 > = createSelector(getCheckoutSteps, getDeliveryModeSelector);
-
-export const getSupportedDeliveryModes: MemoizedSelector<
-  StateWithCheckout,
-  DeliveryMode[]
-> = createSelector(getDeliveryMode, (deliveryMode) => {
-  return (
-    deliveryMode &&
-    Object.keys(deliveryMode.supported).map(
-      (code) => deliveryMode.supported[code]
-    )
-  );
-});
 
 export const getSelectedDeliveryModeCode: MemoizedSelector<
   StateWithCheckout,
   string
 > = createSelector(getDeliveryMode, (deliveryMode) => {
   return deliveryMode && deliveryMode.selected;
-});
-
-export const getSelectedDeliveryMode: MemoizedSelector<
-  StateWithCheckout,
-  DeliveryMode | undefined | null
-> = createSelector(getDeliveryMode, (deliveryMode) => {
-  if (deliveryMode.selected !== '') {
-    if (Object.keys(deliveryMode.supported).length === 0) {
-      return null;
-    }
-    return deliveryMode.supported[deliveryMode.selected];
-  }
 });
 
 export const getPaymentDetails: MemoizedSelector<
