@@ -30,11 +30,11 @@ export class ImportExportComponent {
   getCartType(
     routesCartMapping: Map<string, CartTypes>,
     semanticRoute: string
-  ) {
+  ): CartTypes {
     return routesCartMapping.get(semanticRoute);
   }
 
-  shouldDisplayButton(displayPages: string[], semanticRoute: string) {
+  shouldDisplayButton(displayPages: string[], semanticRoute: string): boolean {
     return displayPages.includes(semanticRoute);
   }
 }
