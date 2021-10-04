@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import {
@@ -30,9 +30,6 @@ export class ExportEntriesService {
     protected globalMessageService: GlobalMessageService,
     protected exportCsvFileService: ExportCsvFileService
   ) {}
-
-  @Input()
-  cartType: string;
 
   protected get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;
@@ -68,8 +65,8 @@ export class ExportEntriesService {
       : values?.toString() ?? '';
   }
 
-  protected getEntries(): Observable<OrderEntry[]> {
-    switch (this.cartType) {
+  protected getEntries(cartType: CartTypes): Observable<OrderEntry[]> {
+    switch (cartType) {
       case CartTypes.EXISTING_SAVED_CART: {
         return this.getSavedCartEntries();
       }
@@ -92,8 +89,8 @@ export class ExportEntriesService {
     return this.activeCartService.getEntries();
   }
 
-  protected getResolvedValues(): Observable<string[][]> {
-    return this.getEntries().pipe(
+  protected getResolvedValues(cartType: CartTypes): Observable<string[][]> {
+    return this.getEntries(cartType).pipe(
       map((entries) =>
         entries.map((entry) =>
           this.columns.map((column) => this.resolveValue(column.value, entry))
@@ -125,8 +122,8 @@ export class ExportEntriesService {
       : data;
   }
 
-  getResolvedEntries(): Observable<string[][]> {
-    return this.getResolvedValues().pipe(
+  getResolvedEntries(cartType: CartTypes): Observable<string[][]> {
+    return this.getResolvedValues(cartType).pipe(
       map((values) => this.limitValues(values)),
       withLatestFrom(this.getTranslatedColumnHeaders()),
       map(([values, headers]) => {

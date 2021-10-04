@@ -12,16 +12,29 @@ import { CartTypes } from '@spartacus/cart/import-export/core';
 export class CombinedImportExportComponent {
   constructor(protected routingService: RoutingService) {}
 
-  get cartType$(): Observable<CartTypes> {
-    return this.routingService.getRouterState().pipe(
-      map((route) => route.state?.semanticRoute as string),
-      map((semanticRoute) => this.routesCartMapping.get(semanticRoute))
-    );
-  }
-
+  protected importButtonDisplayPages = ['savedCarts', 'savedCartsDetails'];
+  protected exportButtonDisplayPages = ['savedCartsDetails', 'cart'];
   protected routesCartMapping = new Map<string, CartTypes>([
     ['savedCarts', CartTypes.NEW_SAVED_CART],
     ['savedCartsDetails', CartTypes.EXISTING_SAVED_CART],
     ['cart', CartTypes.ACTIVE_CART],
   ]);
+
+  get route$(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((route) => route.state?.semanticRoute as string));
+  }
+
+  getCartType(semanticRoute: string) {
+    return this.routesCartMapping.get(semanticRoute);
+  }
+
+  shouldDisplayImportButton(semanticRoute: string) {
+    return this.importButtonDisplayPages.includes(semanticRoute);
+  }
+
+  shouldDisplayExportButton(semanticRoute: string) {
+    return this.exportButtonDisplayPages.includes(semanticRoute);
+  }
 }
