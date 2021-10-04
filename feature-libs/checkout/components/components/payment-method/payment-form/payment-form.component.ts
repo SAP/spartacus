@@ -4,12 +4,12 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CheckoutDeliveryFacade,
-  CheckoutPaymentFacade,
+  CheckoutPaymentFacade
 } from '@spartacus/checkout/root';
 import {
   Address,
@@ -21,14 +21,14 @@ import {
   Region,
   StateUtils,
   UserAddressService,
-  UserPaymentService,
+  UserPaymentService
 } from '@spartacus/core';
 import {
   Card,
   ICON_TYPE,
   ModalRef,
   ModalService,
-  SuggestedAddressDialogComponent,
+  SuggestedAddressDialogComponent
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -117,14 +117,7 @@ export class PaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
-      // TODO: Remove with 5.0, as the card types are now automatically loaded
-      tap((cardTypes) => {
-        if (Object.keys(cardTypes).length === 0) {
-          this.checkoutPaymentService.loadSupportedCardTypes();
-        }
-      })
-    );
+    this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.loading$ =

@@ -12,7 +12,7 @@ import {
   QueryService,
   StateUtils,
   StateWithProcess,
-  UserIdService,
+  UserIdService
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,60 +20,34 @@ import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
-  StateWithCheckout,
+  StateWithCheckout
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
-  // TODO: Cleanup in 5.0 when QueryService will be guaranteed to be required
-  protected cardTypesQuery: undefined | Query<CardType[]> = this.query?.create(
+  protected cardTypesQuery: Query<CardType[]> = this.query.create(
     () => this.checkoutPaymentConnector?.getCardTypes() ?? of([]),
     {
       reloadOn: [LanguageSetEvent],
     }
   );
-
-  /**
-   * @deprecated since 4.3.0. Provide additionally QueryService and CheckoutPaymentConnector.
-   */
-  constructor(
-    checkoutStore: Store<StateWithCheckout>,
-    processStateStore: Store<StateWithProcess<void>>,
-    activeCartService: ActiveCartService,
-    userIdService: UserIdService
-  );
-
-  constructor(
-    checkoutStore: Store<StateWithCheckout>,
-    processStateStore: Store<StateWithProcess<void>>,
-    activeCartService: ActiveCartService,
-    userIdService: UserIdService,
-    query: QueryService,
-    checkoutPaymentConnector: CheckoutPaymentConnector
-  );
-
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected query?: QueryService, // TODO: Make this required in 5.0
-    protected checkoutPaymentConnector?: CheckoutPaymentConnector // TODO: Make this required in 5.0
+    protected query: QueryService,
+    protected checkoutPaymentConnector: CheckoutPaymentConnector
   ) {}
 
   /**
    * Get card types
    */
   getCardTypes(): Observable<CardType[]> {
-    // TODO: Cleanup this function in 5.0, when query will be guaranteed to be required
-    const emptyArray: CardType[] = [];
-    // Hack to prevent double load of card types (by both old and new mechanism), remove with cleanup
-    (emptyArray as any)['preventLoad'] = true;
     return (
-      this.cardTypesQuery?.get() ??
-      this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes))
-    ).pipe(map((cardTypes) => cardTypes ?? emptyArray));
+      this.cardTypesQuery.get()
+    ).pipe(map((cardTypes) => cardTypes ?? []));
   }
 
   /**
@@ -103,15 +77,6 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     this.checkoutStore.dispatch(
       new CheckoutActions.ResetSetPaymentDetailsProcess()
     );
-  }
-
-  // TODO: Remove in 5.0 when QueryService will be guaranteed to be required
-  /**
-   * Load the supported card types
-   * @deprecated since 4.3.0. CardTypes are automatically loaded when `getCardTypes` is subscribed to.
-   */
-  loadSupportedCardTypes(): void {
-    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
   }
 
   /**

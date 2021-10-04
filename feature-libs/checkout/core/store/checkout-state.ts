@@ -1,13 +1,11 @@
 import {
-  Address,
-  CardType,
-  DeliveryMode,
+  Address, DeliveryMode,
   Order,
   ORDER_TYPE,
   PaymentDetails,
   PaymentType,
   ReplenishmentOrder,
-  StateUtils,
+  StateUtils
 } from '@spartacus/core';
 
 export const CHECKOUT_FEATURE = 'checkout';
@@ -28,14 +26,6 @@ export const PLACED_ORDER_PROCESS_ID = 'placeOrder';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
-}
-
-// TODO: Remove this interface in 5.0 after full switch to query for card types
-/**
- * @deprecated since 4.3.0. Card types are now handled with Query in CheckoutPaymentService.
- */
-export interface CardTypesState {
-  entities: { [code: string]: CardType };
 }
 
 export interface CheckoutStepsState {
@@ -63,8 +53,6 @@ export interface OrderTypesState {
 
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
-  // TODO: Remove this part of the state in 5.0 after full switch to query for card types
-  cardTypes: CardTypesState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }
