@@ -61,8 +61,8 @@ describe('ProductReferenceService', () => {
   });
 
   it('should be able to get product references', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(mockProductReferences)
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(mockProductReferences)
     );
 
     let result: ProductReference[];

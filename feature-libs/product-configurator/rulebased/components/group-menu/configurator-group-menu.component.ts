@@ -31,30 +31,33 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
 
-  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
 
-  configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configCommonsService
-        .getConfiguration(routerData.owner)
-        .pipe(
-          map((configuration) => ({ routerData, configuration })),
-          //We need to ensure that the navigation to conflict groups or
-          //groups with mandatory attributes already has taken place, as this happens
-          //in an onInit of another component.
-          //otherwise we risk that this component is completely initialized too early,
-          //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
-          filter(
-            (cont) =>
-              (cont.configuration.complete && cont.configuration.consistent) ||
-              cont.configuration.interactionState.issueNavigationDone ||
-              !cont.routerData.resolveIssues
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(
+            map((configuration) => ({ routerData, configuration })),
+            //We need to ensure that the navigation to conflict groups or
+            //groups with mandatory attributes already has taken place, as this happens
+            //in an onInit of another component.
+            //otherwise we risk that this component is completely initialized too early,
+            //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+            filter(
+              (cont) =>
+                (cont.configuration.complete &&
+                  cont.configuration.consistent) ||
+                cont.configuration.interactionState.issueNavigationDone ||
+                !cont.routerData.resolveIssues
+            )
           )
-        )
 
-        .pipe(map((cont) => cont.configuration))
-    )
-  );
+          .pipe(map((cont) => cont.configuration))
+      )
+    );
 
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
@@ -64,34 +67,32 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Current parent group. Undefined for top level groups
    */
-  displayedParentGroup$: Observable<
-    Configurator.Group | undefined
-  > = this.configuration$.pipe(
-    switchMap((configuration) =>
-      this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
-    ),
-    switchMap((parentGroup) => {
-      return parentGroup
-        ? this.getCondensedParentGroup(parentGroup)
-        : of(parentGroup);
-    })
-  );
+  displayedParentGroup$: Observable<Configurator.Group | undefined> =
+    this.configuration$.pipe(
+      switchMap((configuration) =>
+        this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
+      ),
+      switchMap((parentGroup) => {
+        return parentGroup
+          ? this.getCondensedParentGroup(parentGroup)
+          : of(parentGroup);
+      })
+    );
 
-  displayedGroups$: Observable<
-    Configurator.Group[]
-  > = this.displayedParentGroup$.pipe(
-    switchMap((parentGroup) => {
-      return this.configuration$.pipe(
-        map((configuration) => {
-          if (parentGroup) {
-            return this.condenseGroups(parentGroup.subGroups);
-          } else {
-            return this.condenseGroups(configuration.groups);
-          }
-        })
-      );
-    })
-  );
+  displayedGroups$: Observable<Configurator.Group[]> =
+    this.displayedParentGroup$.pipe(
+      switchMap((parentGroup) => {
+        return this.configuration$.pipe(
+          map((configuration) => {
+            if (parentGroup) {
+              return this.condenseGroups(parentGroup.subGroups);
+            } else {
+              return this.condenseGroups(configuration.groups);
+            }
+          })
+        );
+      })
+    );
 
   iconTypes = ICON_TYPE;
   ERROR = ' ERROR';
