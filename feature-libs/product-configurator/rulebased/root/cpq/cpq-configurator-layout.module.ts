@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
+import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 /**
  *  Contains the layout configuration for the CPQ configurator pages. This configuration is
@@ -9,15 +11,15 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
  */
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<LayoutConfig>{
       layoutSlots: {
         CpqConfigurationTemplate: {
           header: {
             md: {
-              slots: ['PreHeader', 'SiteLogo', 'MiniCart'],
+              slots: ['SiteLogo', 'MiniCart'],
             },
             xs: {
-              slots: ['PreHeader', 'SiteLogo', 'MiniCart'],
+              slots: ['SiteLogo', 'MiniCart'],
             },
           },
 
@@ -49,6 +51,12 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
         },
       },
     }),
+
+    {
+      provide: PAGE_LAYOUT_HANDLER,
+      useExisting: CpqConfiguratorPageLayoutHandler,
+      multi: true,
+    },
   ],
 })
 export class CpqConfiguratorLayoutModule {}
