@@ -55,20 +55,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
     if (!this.readonly) {
-      console.log('--', value);
       // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
-      /*value
+      value
         ? this.form.disable({ emitEvent: false })
-        : this.form.enable({ emitEvent: false });*/
-
-      if (value) {
-        console.log('disable');
-        this.form.disable({ emitEvent: false });
-      } else {
-        console.log('enable');
-        this.form.enable({ emitEvent: false });
-      }
+        : this.form.enable({ emitEvent: false });
     }
   }
 
@@ -83,6 +74,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.outlet?.context$.subscribe((context) => {
+        console.log('context: ', context);
         if (context.readonly !== undefined) {
           this.readonly = context.readonly;
         }
