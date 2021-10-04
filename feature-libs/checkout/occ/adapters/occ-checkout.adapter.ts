@@ -98,6 +98,20 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     );
   }
 
+  getCheckoutDetails(userId: string, cartId: string): Observable<any> {
+    return this.http
+      .get<any>(
+        this.occEndpoints.buildUrl('getCheckoutDetails', {
+          urlParams: {
+            userId,
+            cartId,
+          },
+        })
+      )
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+    // TODO: Normalizer for checkout details
+  }
+
   clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string

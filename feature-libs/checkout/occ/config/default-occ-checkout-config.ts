@@ -27,6 +27,8 @@ export const defaultOccCheckoutConfig: OccConfig = {
           'users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl',
         createPaymentDetails:
           'users/${userId}/carts/${cartId}/payment/sop/response',
+        getCheckoutDetails:
+          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)',
         loadCheckoutDetails:
           'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)',
         /* eslint-enable */

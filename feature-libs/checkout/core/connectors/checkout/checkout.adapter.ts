@@ -28,6 +28,14 @@ export abstract class CheckoutAdapter {
   ): Observable<CheckoutDetails>;
 
   /**
+   * Abstract method used to get checkout details
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract getCheckoutDetails(userId: string, cartId: string): Observable<any>;
+
+  /**
    * Abstract method used to clear checkout delivery address
    *
    * @param userId

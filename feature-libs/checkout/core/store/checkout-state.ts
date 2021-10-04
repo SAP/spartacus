@@ -1,5 +1,4 @@
 import {
-  Address,
   Order,
   ORDER_TYPE,
   PaymentDetails,
@@ -25,7 +24,6 @@ export interface CheckoutStepsState {
     po?: string;
     costCenter?: string;
   };
-  address: Address;
   deliveryMode: {
     selected: string;
   };

@@ -3,6 +3,8 @@ import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
+  CheckoutQueryFacade,
+  DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
 } from '@spartacus/checkout/root';
 import {
@@ -126,10 +128,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                     },
                     DeliveryAddressSetEvent
                   );
-                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.SetDeliveryAddressSuccess(payload)
-                  );
                   this.clearCheckoutDeliveryMode();
                 })
               );
@@ -162,9 +160,12 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               .clearCheckoutDeliveryAddress(userId, cartId)
               .pipe(
                 tap(() => {
-                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                    },
+                    DeliveryAddressClearedEvent
                   );
                 })
               );
@@ -334,7 +335,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
     protected checkoutConnector: CheckoutConnector,
     protected actions$: Actions,
-    protected featureConfigService: FeatureConfigService
+    protected featureConfigService: FeatureConfigService,
+    protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
   /**
@@ -383,8 +385,9 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get delivery address
    */
   getDeliveryAddress(): Observable<Address> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getDeliveryAddress)
+    return this.checkoutQuery.getCheckoutDetails().pipe(
+      tap((state) => console.log(state)),
+      map((checkoutDetails) => checkoutDetails?.deliveryAddress)
     );
   }
 
@@ -432,17 +435,5 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   clearCheckoutDeliveryDetails(): void {
     this.clearCheckoutDeliveryAddress();
     this.clearCheckoutDeliveryMode();
-  }
-
-  protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-    return (
-      (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
-    );
   }
 }

@@ -42,6 +42,10 @@ export interface CheckoutOccEndpoints {
    */
   loadCheckoutDetails?: string | OccEndpoint;
   /**
+   * Get checkout details
+   */
+  getCheckoutDetails?: string | OccEndpoint;
+  /**
    * Endpoint for create delivery address
    */
   createDeliveryAddress?: string | OccEndpoint;

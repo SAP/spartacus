@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import {
-  Address,
   Order,
   PaymentDetails,
   PROCESS_FEATURE,
@@ -14,14 +13,8 @@ import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
-export const CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS =
-  '[Checkout] Clear Checkout Delivery Address Success';
-
 export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
   '[Checkout] Clear Checkout Delivery Mode Success';
-
-export const SET_DELIVERY_ADDRESS_SUCCESS =
-  '[Checkout] Set Delivery Address Success';
 
 export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
 
@@ -69,11 +62,6 @@ export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
 export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
-
-export class SetDeliveryAddressSuccess {
-  readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
-  constructor(public payload: Address) {}
-}
 
 export class SetDeliveryModeSuccess {
   readonly type = SET_DELIVERY_MODE_SUCCESS;
@@ -209,11 +197,6 @@ export class LoadCheckoutDetailsSuccess extends StateUtils.LoaderSuccessAction {
 export class CheckoutClearMiscsData implements Action {
   readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
-
-export class ClearCheckoutDeliveryAddressSuccess implements Action {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS;
-  constructor() {}
-}
 export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {}
@@ -250,7 +233,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | SetDeliveryAddressSuccess
   | SetDeliveryModeSuccess
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
@@ -264,7 +246,6 @@ export type CheckoutAction =
   | PlaceOrderSuccess
   | ClearCheckoutStep
   | ClearCheckoutData
-  | ClearCheckoutDeliveryAddressSuccess
   | ClearCheckoutDeliveryModeSuccess
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail

@@ -1,10 +1,9 @@
-import { Address, Cart, Order, ReplenishmentOrder } from '@spartacus/core';
+import { Cart, Order, ReplenishmentOrder } from '@spartacus/core';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
-  address: {},
   deliveryMode: {
     selected: '',
   },
@@ -39,15 +38,6 @@ export function reducer(
           ...state.poNumber,
           costCenter: action.payload,
         },
-      };
-    }
-
-    case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
-      const address: Address = action.payload;
-
-      return {
-        ...state,
-        address,
       };
     }
 
@@ -100,13 +90,6 @@ export function reducer(
     case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
       switch (stepNumber) {
-        case 1: {
-          return {
-            ...state,
-            address: {},
-          };
-        }
-
         case 2: {
           return {
             ...state,
@@ -130,7 +113,6 @@ export function reducer(
     case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
       return {
         ...state,
-        address: action.payload.deliveryAddress,
         deliveryMode: {
           ...state.deliveryMode,
           selected:
@@ -138,13 +120,6 @@ export function reducer(
             (action.payload.deliveryMode.code as string),
         },
         paymentDetails: action.payload.paymentInfo,
-      };
-    }
-
-    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS: {
-      return {
-        ...state,
-        address: {},
       };
     }
 

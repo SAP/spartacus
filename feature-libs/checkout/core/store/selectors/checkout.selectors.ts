@@ -4,7 +4,6 @@ import {
   MemoizedSelector,
 } from '@ngrx/store';
 import {
-  Address,
   Order,
   PaymentDetails,
   ReplenishmentOrder,
@@ -17,7 +16,6 @@ import {
   StateWithCheckout,
 } from '../checkout-state';
 
-const getDeliveryAddressSelector = (state: CheckoutStepsState) => state.address;
 const getDeliveryModeSelector = (state: CheckoutStepsState) =>
   state.deliveryMode;
 const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
@@ -44,9 +42,6 @@ export const getCheckoutSteps: MemoizedSelector<
 > = createSelector(getCheckoutStepsState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
-
-export const getDeliveryAddress: MemoizedSelector<StateWithCheckout, Address> =
-  createSelector(getCheckoutSteps, getDeliveryAddressSelector);
 
 export const getDeliveryMode: MemoizedSelector<
   StateWithCheckout,
