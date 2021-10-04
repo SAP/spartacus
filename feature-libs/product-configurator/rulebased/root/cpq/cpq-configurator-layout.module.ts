@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
-import { LayoutConfig } from 'projects/storefrontlib/layout';
+import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 /**
