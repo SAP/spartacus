@@ -88,6 +88,12 @@ export class UserPaymentMethodsEffects {
     })
   );
 
+  constructor(
+    private actions$: Actions,
+    private userPaymentMethodConnector: UserPaymentConnector,
+    private messageService: GlobalMessageService
+  ) {}
+
   /**
    * Show global confirmation message with provided text
    */
@@ -97,10 +103,4 @@ export class UserPaymentMethodsEffects {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
-
-  constructor(
-    private actions$: Actions,
-    private userPaymentMethodConnector: UserPaymentConnector,
-    private messageService: GlobalMessageService
-  ) {}
 }
