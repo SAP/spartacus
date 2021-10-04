@@ -12,7 +12,6 @@ import {
   CHECKOUT_DETAILS,
   PLACED_ORDER_PROCESS_ID,
   SET_COST_CENTER_PROCESS_ID,
-  SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
@@ -33,11 +32,7 @@ export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
 
-export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
-export const SET_DELIVERY_MODE_FAIL = '[Checkout] Set Delivery Mode Fail';
 export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
-export const RESET_SET_DELIVERY_MODE_PROCESS =
-  '[Checkout] Reset Set Delivery Mode Process';
 
 export const SET_SUPPORTED_DELIVERY_MODES =
   '[Checkout] Set Supported Delivery Modes';
@@ -89,34 +84,9 @@ export class SetDeliveryAddressSuccess {
   constructor(public payload: Address) {}
 }
 
-export class SetDeliveryMode extends StateUtils.EntityLoadAction {
-  readonly type = SET_DELIVERY_MODE;
-  constructor(
-    public payload: { userId: string; cartId: string; selectedModeId: string }
-  ) {
-    super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class SetDeliveryModeFail extends StateUtils.EntityFailAction {
-  readonly type = SET_DELIVERY_MODE_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID, payload);
-  }
-}
-
-export class SetDeliveryModeSuccess extends StateUtils.EntitySuccessAction {
+export class SetDeliveryModeSuccess {
   readonly type = SET_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: string) {
-    super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
-  }
-}
-
-export class ResetSetDeliveryModeProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type = RESET_SET_DELIVERY_MODE_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
-  }
+  constructor(public payload: string) {}
 }
 
 export class CreatePaymentDetails extends StateUtils.EntityLoadAction {
@@ -317,10 +287,7 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 
 export type CheckoutAction =
   | SetDeliveryAddressSuccess
-  | SetDeliveryMode
-  | SetDeliveryModeFail
   | SetDeliveryModeSuccess
-  | ResetSetDeliveryModeProcess
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess

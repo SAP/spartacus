@@ -5,10 +5,8 @@ import {
   ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
-  DeliveryMode,
   FeatureConfigService,
   PaymentDetails,
-  QueryState,
   StateUtils,
   UserAddressService,
   UserPaymentService,
@@ -163,75 +161,48 @@ export class ExpressCheckoutService {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
       this.checkoutDeliveryService.getSupportedDeliveryModesState(),
-      this.checkoutDeliveryService.getSetDeliveryModeProcess(),
+      this.checkoutDeliveryService.getSelectedDeliveryMode(),
     ]).pipe(
       debounceTime(0),
       switchMap(
-        ([
-          addressSet,
-          supportedDeliveryModesState,
-          setDeliveryModeStatusFlag,
-        ]) => {
-          if (addressSet) {
-            return of([
-              supportedDeliveryModesState,
-              setDeliveryModeStatusFlag,
-            ] as [
-              QueryState<DeliveryMode[]>,
-              StateUtils.LoaderState<void>
-            ]).pipe(
-              filter(
-                ([supportedDeliveryModesState]) =>
-                  !supportedDeliveryModesState.loading &&
-                  !!supportedDeliveryModesState.data?.length
-              ),
-              switchMap(([deliveryModesState, setDeliveryModeStatus]) => {
-                if (!!deliveryModesState.data?.length) {
-                  const preferredDeliveryMode =
-                    this.checkoutConfigService.getPreferredDeliveryMode(
-                      deliveryModesState.data
-                    );
-                  return of([preferredDeliveryMode, setDeliveryModeStatus] as [
-                    string | undefined,
-                    StateUtils.LoaderState<void>
-                  ]).pipe(
-                    tap(([deliveryMode, deliveryModeLoadingStatus]) => {
-                      if (
-                        deliveryMode &&
-                        !(
-                          deliveryModeLoadingStatus.success ||
-                          deliveryModeLoadingStatus.error ||
-                          deliveryModeLoadingStatus.loading
-                        )
-                      ) {
-                        this.checkoutDeliveryService.setDeliveryMode(
-                          deliveryMode
-                        );
-                      }
-                    }),
-                    filter(([, deliveryModeLoadingStatus]) => {
-                      return (
-                        ((deliveryModeLoadingStatus.success ||
-                          deliveryModeLoadingStatus.error) &&
-                          !deliveryModeLoadingStatus.loading) ??
-                        false
-                      );
-                    }),
-                    switchMap(([, deliveryModeLoadingStatus]) => {
-                      if (deliveryModeLoadingStatus.success) {
-                        return this.checkoutDetailsService.getSelectedDeliveryModeCode();
-                      }
-                      return of(false);
-                    }),
-                    map((data) => Boolean(data))
-                  );
-                }
-                return of(false);
-              })
-            );
-          } else {
+        ([addressSet, supportedDeliveryModesState, selectedDeliveryMode]) => {
+          if (!addressSet) {
             return of(false);
           }
+          return of([supportedDeliveryModesState]).pipe(
+            filter(
+              ([supportedDeliveryModesState]) =>
+                !supportedDeliveryModesState.loading &&
+                !!supportedDeliveryModesState.data?.length
+            ),
+            switchMap(([deliveryModesState]) => {
+              if (!deliveryModesState.data?.length) {
+                return of(false);
+              }
+              const preferredDeliveryMode =
+                this.checkoutConfigService.getPreferredDeliveryMode(
+                  deliveryModesState.data
+                );
+              return of([preferredDeliveryMode]).pipe(
+                switchMap(([deliveryMode]) => {
+                  if (!deliveryMode) {
+                    return of(false);
+                  } else if (!selectedDeliveryMode) {
+                    return this.checkoutDeliveryService
+                      .setDeliveryMode(deliveryMode)
+                      .pipe(
+                        switchMap(() =>
+                          this.checkoutDeliveryService.getSelectedDeliveryMode()
+                        ),
+                        map((deliveryMode) => !!deliveryMode)
+                      );
+                  } else {
+                    return of(true);
+                  }
+                })
+              );
+            })
+          );
         }
       )
     );

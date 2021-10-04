@@ -8,6 +8,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  CartActions,
   Command,
   CommandService,
   CommandStrategy,
@@ -20,11 +21,9 @@ import {
   LoginEvent,
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
-  ProcessSelectors,
   Query,
   QueryService,
   QueryState,
-  StateUtils,
   StateWithProcess,
   UpdateUserAddressEvent,
   UserActions,
@@ -41,10 +40,7 @@ import {
 } from 'rxjs/operators';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
-import {
-  SET_DELIVERY_MODE_PROCESS_ID,
-  StateWithCheckout,
-} from '../store/checkout-state';
+import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
@@ -201,6 +197,46 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
+  protected setDeliveryModeCommand: Command<string, unknown> =
+    this.command.create<string>(
+      (deliveryModeId) =>
+        combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              !deliveryModeId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutDeliveryConnector
+              .setMode(userId, cartId, deliveryModeId)
+              .pipe(
+                tap(() => {
+                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetDeliveryModeSuccess(deliveryModeId)
+                  );
+                  this.checkoutStore.dispatch(
+                    new CartActions.LoadCart({
+                      userId,
+                      cartId,
+                    })
+                  );
+                })
+              );
+          })
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -266,26 +302,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Get status about of set Delivery Mode process
-   */
-  getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
-    return this.processStateStore.pipe(
-      select(
-        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID)
-      )
-    );
-  }
-
-  /**
-   * Clear info about process of setting Delivery Mode
-   */
-  resetSetDeliveryModeProcess(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ResetSetDeliveryModeProcess()
-    );
-  }
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
@@ -297,29 +313,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Set delivery mode
    * @param mode : The delivery mode to be set
    */
-  setDeliveryMode(mode: string): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetDeliveryMode({
-            userId,
-            cartId,
-            selectedModeId: mode,
-          })
-        );
-      }
-    }
+  setDeliveryMode(mode: string): Observable<unknown> {
+    return this.setDeliveryModeCommand.execute(mode);
   }
 
   /**

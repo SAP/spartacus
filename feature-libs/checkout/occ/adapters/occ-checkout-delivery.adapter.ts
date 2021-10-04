@@ -113,10 +113,9 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string,
     deliveryModeId: string
   ): Observable<any> {
-    return this.http.put(
-      this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId),
-      {}
-    );
+    return this.http
+      .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   public getMode(userId: string, cartId: string): Observable<any> {

@@ -4,7 +4,6 @@ import {
   DeliveryMode,
   facadeFactory,
   QueryState,
-  StateUtils,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
@@ -21,8 +20,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSelectedDeliveryMode',
         'getSelectedDeliveryModeCode',
         'getDeliveryAddress',
-        'getSetDeliveryModeProcess',
-        'resetSetDeliveryModeProcess',
         'createAndSetAddress',
         'setDeliveryMode',
         'setDeliveryAddress',
@@ -61,18 +58,6 @@ export abstract class CheckoutDeliveryFacade {
   abstract getDeliveryAddress(): Observable<Address>;
 
   /**
-   * Get status about of set Delivery Mode process
-   */
-  abstract getSetDeliveryModeProcess(): Observable<
-    StateUtils.LoaderState<void>
-  >;
-
-  /**
-   * Clear info about process of setting Delivery Mode
-   */
-  abstract resetSetDeliveryModeProcess(): void;
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
@@ -82,7 +67,7 @@ export abstract class CheckoutDeliveryFacade {
    * Set delivery mode
    * @param mode : The delivery mode to be set
    */
-  abstract setDeliveryMode(mode: string): void;
+  abstract setDeliveryMode(mode: string): Observable<unknown>;
 
   /**
    * Set delivery address

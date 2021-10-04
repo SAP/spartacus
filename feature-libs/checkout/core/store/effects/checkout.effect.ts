@@ -21,7 +21,6 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
-import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
@@ -63,39 +62,6 @@ export class CheckoutEffects {
   clearCheckoutDataOnLogin$: Observable<CheckoutActions.ClearCheckoutData> = this.actions$.pipe(
     ofType(AuthActions.LOGIN),
     map(() => new CheckoutActions.ClearCheckoutData())
-  );
-
-  @Effect()
-  setDeliveryMode$: Observable<
-    | CheckoutActions.SetDeliveryModeSuccess
-    | CheckoutActions.SetDeliveryModeFail
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.SET_DELIVERY_MODE),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutDeliveryConnector
-        .setMode(payload.userId, payload.cartId, payload.selectedModeId)
-        .pipe(
-          mergeMap(() => {
-            return [
-              new CheckoutActions.SetDeliveryModeSuccess(
-                payload.selectedModeId
-              ),
-              new CartActions.LoadCart({
-                userId: payload.userId,
-                cartId: payload.cartId,
-              }),
-            ];
-          }),
-          catchError((error) =>
-            of(
-              new CheckoutActions.SetDeliveryModeFail(normalizeHttpError(error))
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -326,7 +292,6 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
     private checkoutConnector: CheckoutConnector
