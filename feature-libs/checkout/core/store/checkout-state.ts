@@ -1,21 +1,17 @@
 import {
-  Address, DeliveryMode,
+  Address,
+  DeliveryMode,
   Order,
   ORDER_TYPE,
   PaymentDetails,
   PaymentType,
   ReplenishmentOrder,
-  StateUtils
+  StateUtils,
 } from '@spartacus/core';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
-// TODO:#13888 Remove this process after full switch to command to setDeliveryAddress
-/**
- * @deprecated since 4.3.0. setDeliveryAddress method now returns observable with request status (fail/success).
- */
-export const SET_DELIVERY_ADDRESS_PROCESS_ID = 'setDeliveryAddress';
 export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
   'setSupportedDeliveryMode';

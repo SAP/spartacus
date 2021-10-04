@@ -49,7 +49,6 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS:
     case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address: Address = action.payload;
 

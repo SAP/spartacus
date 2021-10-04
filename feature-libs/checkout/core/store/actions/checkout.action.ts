@@ -13,7 +13,6 @@ import {
   CHECKOUT_DETAILS,
   PLACED_ORDER_PROCESS_ID,
   SET_COST_CENTER_PROCESS_ID,
-  SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
@@ -33,36 +32,8 @@ export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
 export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
   '[Checkout] Clear Checkout Delivery Mode Fail';
 
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export const ADD_DELIVERY_ADDRESS_SUCCESS =
-  '[Checkout] Add Delivery Address Success';
-
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
- */
-export const SET_DELIVERY_ADDRESS = '[Checkout] Set Delivery Address';
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
- */
-export const SET_DELIVERY_ADDRESS_FAIL = '[Checkout] Set Delivery Address Fail';
 export const SET_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Set Delivery Address Success';
-// TODO:#13888 Remove when we will remove process for setting delivery address
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command and it's status can be tracked with return value of setDeliveryAddress method.
- */
-export const RESET_SET_DELIVERY_ADDRESS_PROCESS =
-  '[Checkout] Reset Set Delivery Address Process';
 
 export const LOAD_SUPPORTED_DELIVERY_MODES =
   '[Checkout] Load Supported Delivery Modes';
@@ -124,70 +95,9 @@ export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
 
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export class AddDeliveryAddress implements Action {
-  readonly type = ADD_DELIVERY_ADDRESS;
-  constructor(
-    public payload: { userId: string; cartId: string; address: Address }
-  ) {}
-}
-
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export class AddDeliveryAddressFail implements Action {
-  readonly type = ADD_DELIVERY_ADDRESS_FAIL;
-  constructor(public payload: any) {}
-}
-
-/**
- * @deprecated since 4.3.0. Add delivery address is handled with command in CheckoutDeliveryService.
- */
-export class AddDeliveryAddressSuccess implements Action {
-  readonly type = ADD_DELIVERY_ADDRESS_SUCCESS;
-  constructor(public payload: Address) {}
-}
-
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
- */
-export class SetDeliveryAddress extends StateUtils.EntityLoadAction {
-  readonly type = SET_DELIVERY_ADDRESS;
-  constructor(
-    public payload: { userId: string; cartId: string; address: Address }
-  ) {
-    super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
-  }
-}
-
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
- */
-export class SetDeliveryAddressFail extends StateUtils.EntityFailAction {
-  readonly type = SET_DELIVERY_ADDRESS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID, payload);
-  }
-}
-
-export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
+export class SetDeliveryAddressSuccess {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
-  constructor(public payload: Address) {
-    super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
-  }
-}
-
-// TODO:#13888 Remove when we will remove process for setting delivery address
-/**
- * @deprecated since 4.3.0. Set delivery address is handled with command in CheckoutDeliveryService.
- */
-export class ResetSetDeliveryAddressProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type = RESET_SET_DELIVERY_ADDRESS_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
-  }
+  constructor(public payload: Address) {}
 }
 
 export class LoadSupportedDeliveryModes extends StateUtils.EntityLoadAction {
@@ -449,13 +359,7 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | AddDeliveryAddress
-  | AddDeliveryAddressFail
-  | AddDeliveryAddressSuccess
-  | SetDeliveryAddress
-  | SetDeliveryAddressFail
   | SetDeliveryAddressSuccess
-  | ResetSetDeliveryAddressProcess
   | LoadSupportedDeliveryModes
   | LoadSupportedDeliveryModesFail
   | LoadSupportedDeliveryModesSuccess

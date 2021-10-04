@@ -19,8 +19,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSelectedDeliveryMode',
         'getSelectedDeliveryModeCode',
         'getDeliveryAddress',
-        'getSetDeliveryAddressProcess',
-        'resetSetDeliveryAddressProcess',
         'getSetDeliveryModeProcess',
         'resetSetDeliveryModeProcess',
         'resetLoadSupportedDeliveryModesProcess',
@@ -59,24 +57,6 @@ export abstract class CheckoutDeliveryFacade {
    * Get delivery address
    */
   abstract getDeliveryAddress(): Observable<Address>;
-
-  // TODO:#13888 Remove during removal of process for set delivery address
-  /**
-   * Get status about successfully set Delivery Address
-   *
-   * @deprecated since 4.3.0. Use return value of setDeliveryAddress method to know if the action was successful or failed.
-   */
-  abstract getSetDeliveryAddressProcess(): Observable<
-    StateUtils.LoaderState<void>
-  >;
-
-  // TODO:#13888 Remove during removal of process for set delivery address
-  /**
-   * Clear info about process of setting Delivery Address
-   *
-   * @deprecated since 4.3.0. Instead of the process use the return value of setDeliveryAddress method to observe it's status.
-   */
-  abstract resetSetDeliveryAddressProcess(): void;
 
   /**
    * Get status about of set Delivery Mode process

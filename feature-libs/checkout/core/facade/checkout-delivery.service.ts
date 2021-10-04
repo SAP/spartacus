@@ -22,7 +22,6 @@ import {
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
-  PROCESS_FEATURE,
   Query,
   QueryService,
   StateUtils,
@@ -31,9 +30,8 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, of, throwError } from 'rxjs';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import {
-  catchError,
   filter,
   map,
   pluck,
@@ -46,7 +44,6 @@ import {
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
 import {
-  SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
   StateWithCheckout,
@@ -55,57 +52,53 @@ import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
-  // TODO:#13888 Remove optional chaining and update types in 5.0
-  protected createDeliveryAddressCommand:
-    | undefined
-    | Command<Address, unknown> = this.command?.create<Address>(
-    (payload) => {
-      return combineLatest([
-        this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
-      ]).pipe(
-        take(1),
-        switchMap(([userId, cartId]) => {
-          if (
-            !userId ||
-            !cartId ||
-            (userId === OCC_USER_ID_ANONYMOUS &&
-              !this.activeCartService.isGuestCart()) ||
-            !this.checkoutDeliveryConnector // TODO:#13888 Remove check in 5.0 when service will be required
-          ) {
-            return of(); // TODO:#13888 should we throw error here? useful dev info?
-          }
-          return this.checkoutDeliveryConnector
-            .createAddress(userId, cartId, payload)
-            .pipe(
-              tap(() => {
-                if (userId !== OCC_USER_ID_ANONYMOUS) {
-                  this.checkoutStore.dispatch(
-                    new UserActions.LoadUserAddresses(userId)
-                  );
-                }
-              }),
-              switchMap((address) => {
-                address['titleCode'] = payload.titleCode;
-                if (payload.region?.isocodeShort) {
-                  Object.assign(address.region, {
-                    isocodeShort: payload.region.isocodeShort,
-                  });
-                }
-                return this.setDeliveryAddress(address);
-              })
-            );
-        })
-      );
-    },
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+  protected createDeliveryAddressCommand: Command<Address, unknown> =
+    this.command.create<Address>(
+      (payload) => {
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutDeliveryConnector
+              .createAddress(userId, cartId, payload)
+              .pipe(
+                tap(() => {
+                  if (userId !== OCC_USER_ID_ANONYMOUS) {
+                    this.checkoutStore.dispatch(
+                      new UserActions.LoadUserAddresses(userId)
+                    );
+                  }
+                }),
+                switchMap((address) => {
+                  address['titleCode'] = payload.titleCode;
+                  if (payload.region?.isocodeShort) {
+                    Object.assign(address.region, {
+                      isocodeShort: payload.region.isocodeShort,
+                    });
+                  }
+                  return this.setDeliveryAddress(address);
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
-  // TODO:#13888 Remove optional chaining and update types in 5.0
-  protected setDeliveryAddressCommand: undefined | Command<Address, unknown> =
-    this.command?.create<Address>(
+  protected setDeliveryAddressCommand: Command<Address, unknown> =
+    this.command.create<Address>(
       (payload) => {
         const addressId = payload.id;
         return combineLatest([
@@ -118,36 +111,16 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               !userId ||
               !cartId ||
               !addressId ||
-              !this.checkoutDeliveryConnector || // TODO:#13888 Remove check in 5.0 when service will be required
               (userId === OCC_USER_ID_ANONYMOUS &&
                 !this.activeCartService.isGuestCart())
             ) {
-              return of(); // TODO:#13888 should we throw error here? useful dev info?
+              throw new Error('Checkout conditions not met');
             }
-            // TODO:#13888 Remove this process setting during removal of process for set delivery address
-            this.processStateStore.dispatch(
-              new StateUtils.EntityLoadAction(
-                PROCESS_FEATURE,
-                SET_DELIVERY_ADDRESS_PROCESS_ID
-              )
-            );
             return this.checkoutDeliveryConnector
               .setAddress(userId, cartId, addressId)
               .pipe(
-                // TODO:#13888 Remove this special error handling when there won't be process for set delivery address
-                catchError((error) => {
-                  this.processStateStore.dispatch(
-                    new StateUtils.EntityFailAction(
-                      PROCESS_FEATURE,
-                      SET_DELIVERY_ADDRESS_PROCESS_ID,
-                      error
-                    )
-                  );
-                  return throwError(error);
-                }),
                 tap(() => {
-                  // TODO:#13888 Remove check in 5.0 when eventService will be required
-                  this.eventService?.dispatch(
+                  this.eventService.dispatch(
                     {
                       userId,
                       cartId,
@@ -245,42 +218,17 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
-  /**
-   * @deprecated since 4.3.0. Provide additionally EventService, QueryService, CommandService, CheckoutDeliveryConnector, Actions and FeatureConfigService.
-   */
-  // TODO:#13888 remove when all the deprecations are done
-  constructor(
-    checkoutStore: Store<StateWithCheckout>,
-    processStateStore: Store<StateWithProcess<void>>,
-    activeCartService: ActiveCartService,
-    userIdService: UserIdService
-  );
-  // TODO:#13888 remove when all the deprecations are done
-  constructor(
-    checkoutStore: Store<StateWithCheckout>,
-    processStateStore: Store<StateWithProcess<void>>,
-    activeCartService: ActiveCartService,
-    userIdService: UserIdService,
-    eventService: EventService,
-    query: QueryService,
-    command: CommandService,
-    checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    actions$: Actions,
-    featureConfigService: FeatureConfigService
-  );
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected eventService?: EventService,
-    protected query?: QueryService,
-    protected command?: CommandService,
-    protected checkoutDeliveryConnector?: CheckoutDeliveryConnector,
-    // TODO:#13888 remove when all actions are removed from the queries
-    protected actions$?: Actions,
-    // TODO:#13888 remove when all the deprecations are done
-    protected featureConfigService?: FeatureConfigService
+    protected eventService: EventService,
+    protected query: QueryService,
+    protected command: CommandService,
+    protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    protected actions$: Actions,
+    protected featureConfigService: FeatureConfigService
   ) {}
 
   /**
@@ -365,32 +313,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
-  // TODO:#13888 Remove during removal of process for set delivery address
-  /**
-   * Get status about successfully set Delivery Address
-   *
-   * @deprecated since 4.3.0. Use return value of setDeliveryAddress method to know if the action was successful or failed.
-   */
-  getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
-    return this.processStateStore.pipe(
-      select(
-        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID)
-      )
-    );
-  }
-
-  // TODO:#13888 Remove during removal of process for set delivery address
-  /**
-   * Clear info about process of setting Delivery Address
-   *
-   * @deprecated since 4.3.0. Instead of the process use the return value of setDeliveryAddress method to observe it's status.
-   */
-  resetSetDeliveryAddressProcess(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ResetSetDeliveryAddressProcess()
-    );
-  }
-
   /**
    * Get status about of set Delivery Mode process
    */
@@ -449,42 +371,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * @param address : the Address to be created and set
    */
   createAndSetAddress(address: Address): Observable<unknown> {
-    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
-    if (
-      this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      if (this.createDeliveryAddressCommand) {
-        // TODO:#13888 Remove check in 5.0 when all services will be provided
-        return this.createDeliveryAddressCommand.execute(address);
-      }
-      throw new Error(
-        'Missing constructor parameters in CheckoutDeliveryService'
-      );
-    }
-    // TODO:#13888 Remove this code in 5.0 when all services for command will be required
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.AddDeliveryAddress({
-            userId,
-            cartId,
-            address: address,
-          })
-        );
-      }
-    }
-    return of(undefined);
+    return this.createDeliveryAddressCommand.execute(address);
   }
 
   /**
@@ -550,42 +437,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * @param address : The address to be set
    */
   setDeliveryAddress(address: Address): Observable<unknown> {
-    // TODO:#13888 Remove condition in 5.0 when fully switching to commands
-    if (
-      this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      if (this.setDeliveryAddressCommand) {
-        // TODO:#13888 Remove check in 5.0 when all services will be provided
-        return this.setDeliveryAddressCommand.execute(address);
-      }
-      throw new Error(
-        'Missing constructor parameters in CheckoutDeliveryService'
-      );
-    }
-    // TODO:#13888 Remove this code in 5.0 when all services for command will be required
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (cartId && userId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetDeliveryAddress({
-            userId,
-            cartId,
-            address: address,
-          })
-        );
-      }
-    }
-    return of(undefined);
+    return this.setDeliveryAddressCommand.execute(address);
   }
 
   /**

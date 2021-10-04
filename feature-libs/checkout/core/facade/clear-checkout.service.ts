@@ -16,7 +16,6 @@ export class ClearCheckoutService implements ClearCheckoutFacade {
    * Use it to clear checkout state
    */
   resetCheckoutProcesses(): void {
-    this.checkoutDeliveryFacade.resetSetDeliveryAddressProcess();
     this.checkoutDeliveryFacade.resetSetDeliveryModeProcess();
     this.checkoutPaymentFacade.resetSetPaymentDetailsProcess();
   }

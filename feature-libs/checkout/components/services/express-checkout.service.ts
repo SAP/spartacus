@@ -3,10 +3,8 @@ import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
   ClearCheckoutFacade,
-  COMMANDS_AND_QUERIES_BASED_CHECKOUT,
 } from '@spartacus/checkout/root';
 import {
-  Address,
   DeliveryMode,
   FeatureConfigService,
   PaymentDetails,
@@ -35,31 +33,6 @@ export class ExpressCheckoutService {
   private deliveryModeSet$: Observable<boolean>;
   private paymentMethodSet$: Observable<boolean>;
 
-  /**
-   * @deprecated since 4.3.0. Provide also FeatureConfigService.
-   */
-  constructor(
-    userAddressService: UserAddressService,
-    userPaymentService: UserPaymentService,
-    checkoutDeliveryService: CheckoutDeliveryFacade,
-    checkoutPaymentService: CheckoutPaymentFacade,
-    checkoutDetailsService: CheckoutDetailsService,
-    checkoutConfigService: CheckoutConfigService,
-    clearCheckoutService: ClearCheckoutFacade
-  );
-
-  constructor(
-    userAddressService: UserAddressService,
-    userPaymentService: UserPaymentService,
-    checkoutDeliveryService: CheckoutDeliveryFacade,
-    checkoutPaymentService: CheckoutPaymentFacade,
-    checkoutDetailsService: CheckoutDetailsService,
-    checkoutConfigService: CheckoutConfigService,
-    clearCheckoutService: ClearCheckoutFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
@@ -68,7 +41,7 @@ export class ExpressCheckoutService {
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
     protected clearCheckoutService: ClearCheckoutFacade,
-    protected featureConfigService?: FeatureConfigService // TODO:#13888 Remove when queries won't be behind flag
+    protected featureConfigService: FeatureConfigService
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -76,85 +49,6 @@ export class ExpressCheckoutService {
   }
 
   protected setShippingAddress(): void {
-    // TODO:#13888 Remove this if when we fully switch to command for setting delivery address
-    if (
-      !this.featureConfigService?.isEnabled(COMMANDS_AND_QUERIES_BASED_CHECKOUT)
-    ) {
-      this.shippingAddressSet$ = combineLatest([
-        this.userAddressService.getAddresses(),
-        this.userAddressService.getAddressesLoadedSuccess(),
-        this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
-      ]).pipe(
-        debounceTime(0),
-        tap(
-          ([, addressesLoadedSuccess]: [
-            Address[],
-            boolean,
-            StateUtils.LoaderState<void>
-          ]) => {
-            if (!addressesLoadedSuccess) {
-              this.userAddressService.loadAddresses();
-            }
-          }
-        ),
-        filter(
-          ([, addressesLoadedSuccess]: [
-            Address[],
-            boolean,
-            StateUtils.LoaderState<void>
-          ]) => addressesLoadedSuccess
-        ),
-        switchMap(
-          ([addresses, , setDeliveryAddressProcess]: [
-            Address[],
-            boolean,
-            StateUtils.LoaderState<void>
-          ]) => {
-            const defaultAddress =
-              addresses.find((address) => address.defaultAddress) ||
-              addresses[0];
-            if (defaultAddress && Object.keys(defaultAddress).length) {
-              if (
-                !(
-                  setDeliveryAddressProcess.success ||
-                  setDeliveryAddressProcess.error ||
-                  setDeliveryAddressProcess.loading
-                )
-              ) {
-                this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-              }
-              return of(setDeliveryAddressProcess).pipe(
-                filter(
-                  (
-                    setDeliveryAddressProcessState: StateUtils.LoaderState<void>
-                  ) => {
-                    return (
-                      ((setDeliveryAddressProcessState.success ||
-                        setDeliveryAddressProcessState.error) &&
-                        !setDeliveryAddressProcessState.loading) ??
-                      false
-                    );
-                  }
-                ),
-                switchMap(
-                  (
-                    setDeliveryAddressProcessState: StateUtils.LoaderState<void>
-                  ) => {
-                    if (setDeliveryAddressProcessState.success) {
-                      return this.checkoutDetailsService.getDeliveryAddress();
-                    }
-                    return of(false);
-                  }
-                ),
-                map((data) => Boolean(data && Object.keys(data).length))
-              );
-            }
-            return of(false);
-          }
-        )
-      );
-      return;
-    }
     this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
