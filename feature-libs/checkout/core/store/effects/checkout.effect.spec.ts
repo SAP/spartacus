@@ -113,111 +113,17 @@ describe('Checkout effect', () => {
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
 
-  describe('addDeliveryAddress$', () => {
-    it('should add delivery address to cart for login user', () => {
-      const action = new CheckoutActions.AddDeliveryAddress({
-        userId: userId,
-        cartId: cartId,
-        address: address,
-      });
-
-      const completion1 = new UserActions.LoadUserAddresses(userId);
-      const completion2 = new CheckoutActions.SetDeliveryAddress({
-        userId: userId,
-        cartId: cartId,
-        address: address,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
-
-      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
-    });
-
-    it('should add delivery address to cart for guest user', () => {
-      const action = new CheckoutActions.AddDeliveryAddress({
-        userId: 'anonymous',
-        cartId: cartId,
-        address: address,
-      });
-
-      const completion = new CheckoutActions.SetDeliveryAddress({
-        userId: 'anonymous',
-        cartId: cartId,
-        address: address,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
-    });
-  });
-
-  describe('setDeliveryAddress$', () => {
-    it('should set delivery address to cart', () => {
-      const action = new CheckoutActions.SetDeliveryAddress({
-        userId: userId,
-        cartId: cartId,
-        address: address,
-      });
-      const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new CheckoutActions.ClearCheckoutDeliveryMode({
-        userId,
-        cartId,
-      });
-      const completion3 = new CheckoutActions.ClearSupportedDeliveryModes();
-      const completion4 =
-        new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
-      const completion5 = new CheckoutActions.LoadSupportedDeliveryModes({
-        userId,
-        cartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcdef)', {
-        b: completion,
-        c: completion2,
-        d: completion3,
-        e: completion4,
-        f: completion5,
-      });
-
-      expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
-    });
-  });
-
-  describe('loadSupportedDeliveryModes$', () => {
-    it('should load all supported delivery modes from cart', () => {
-      const action = new CheckoutActions.LoadSupportedDeliveryModes({
-        userId: userId,
-        cartId: cartId,
-      });
-      const completion = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
-        modes
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.loadSupportedDeliveryModes$).toBeObservable(expected);
-    });
-  });
-
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new SiteContextActions.LanguageChange({
         previous: 'previous',
         current: 'current',
       });
-      const completion1 =
-        new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
       const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
       const completion3 = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: completion1,
+      const expected = cold('-(cd)', {
         c: completion2,
         d: completion3,
       });
@@ -228,35 +134,15 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('clearDeliveryModesOnCurrencyChange$', () => {
-    it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new SiteContextActions.CurrencyChange({
-        previous: 'previous',
-        current: 'current',
-      });
-      const completion = new CheckoutActions.ClearSupportedDeliveryModes();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.clearDeliveryModesOnCurrencyChange$).toBeObservable(
-        expected
-      );
-    });
-  });
-
   describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
       const action = new AuthActions.Logout();
       const completion1 = new CheckoutActions.ClearCheckoutData();
-      const completion2 =
-        new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
       const completion3 = new CheckoutActions.ResetLoadPaymentTypesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bd)', {
         b: completion1,
-        c: completion2,
         d: completion3,
       });
 
@@ -273,31 +159,6 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.clearCheckoutDataOnLogin$).toBeObservable(expected);
-    });
-  });
-
-  describe('setDeliveryMode$', () => {
-    it('should set delivery mode for cart', () => {
-      const action = new CheckoutActions.SetDeliveryMode({
-        userId: userId,
-        cartId: cartId,
-        selectedModeId: 'testSelectedModeId',
-      });
-      const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
-        'testSelectedModeId'
-      );
-      const loadCart = new CartActions.LoadCart({
-        userId,
-        cartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: setDeliveryModeSuccess,
-        c: loadCart,
-      });
-
-      expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
   });
 

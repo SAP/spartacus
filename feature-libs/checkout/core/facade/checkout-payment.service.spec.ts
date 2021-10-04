@@ -97,14 +97,6 @@ describe('CheckoutPaymentService', () => {
   ));
 
   it('should be able to get the card types', () => {
-    // TODO: Remove store dispatch in 5.0
-    store.dispatch(
-      new CheckoutActions.LoadCardTypesSuccess([
-        { code: 'visa', name: 'visa' },
-        { code: 'masterCard', name: 'masterCard' },
-      ])
-    );
-
     let cardTypes: CardType[];
     service.getCardTypes().subscribe((data) => {
       cardTypes = data;
@@ -128,14 +120,6 @@ describe('CheckoutPaymentService', () => {
       })
       .unsubscribe();
     expect(tempPaymentDetails).toEqual(paymentDetails);
-  });
-
-  // TODO: Remove test in 5.0
-  it('should be able to load supported cart types', () => {
-    service.loadSupportedCardTypes();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.LoadCardTypes()
-    );
   });
 
   it('should be able to create payment details', () => {

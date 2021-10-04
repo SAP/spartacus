@@ -1,6 +1,5 @@
 import {
   Address,
-  DeliveryMode,
   MULTI_CART_DATA,
   Order,
   PaymentDetails,
@@ -11,10 +10,7 @@ import { CheckoutActions } from '../actions/index';
 import {
   PLACED_ORDER_PROCESS_ID,
   SET_COST_CENTER_PROCESS_ID,
-  SET_DELIVERY_ADDRESS_PROCESS_ID,
-  SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
-  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
 const userId = 'testUserId';
@@ -39,204 +35,18 @@ const address: Address = {
   country: { isocode: 'CA' },
 };
 
-const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
-
 describe('Checkout Actions', () => {
-  describe('AddDeliveryAddress', () => {
-    it('should create the action', () => {
-      const payload = {
-        userId,
-        cartId,
-        address,
-      };
-
-      const action = new CheckoutActions.AddDeliveryAddress(payload);
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.ADD_DELIVERY_ADDRESS,
-        payload,
-      });
-    });
-  });
-
-  describe('AddDeliveryAddressFail', () => {
-    it('should create the action', () => {
-      const error = 'anError';
-      const action = new CheckoutActions.AddDeliveryAddressFail(error);
-
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL,
-        payload: error,
-      });
-    });
-  });
-
-  describe('AddDeliveryAddressSuccess', () => {
-    it('should create the action', () => {
-      const action = new CheckoutActions.AddDeliveryAddressSuccess(address);
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS,
-        payload: address,
-      });
-    });
-  });
-
-  describe('SetDeliveryAddress', () => {
-    it('should create the action', () => {
-      const payload = {
-        userId,
-        cartId,
-        address,
-      };
-
-      const action = new CheckoutActions.SetDeliveryAddress(payload);
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.SET_DELIVERY_ADDRESS,
-        payload,
-        meta: StateUtils.entityLoadMeta(
-          PROCESS_FEATURE,
-          SET_DELIVERY_ADDRESS_PROCESS_ID
-        ),
-      });
-    });
-  });
-
-  describe('SetDeliveryAddressFail', () => {
-    it('should create the action', () => {
-      const error = 'anError';
-      const action = new CheckoutActions.SetDeliveryAddressFail(error);
-
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.SET_DELIVERY_ADDRESS_FAIL,
-        payload: error,
-        meta: StateUtils.entityFailMeta(
-          PROCESS_FEATURE,
-          SET_DELIVERY_ADDRESS_PROCESS_ID,
-          error
-        ),
-      });
-    });
-  });
-
   describe('SetDeliveryAddressSuccess', () => {
     it('should create the action', () => {
       const action = new CheckoutActions.SetDeliveryAddressSuccess(address);
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS,
         payload: address,
-        meta: StateUtils.entitySuccessMeta(
-          PROCESS_FEATURE,
-          SET_DELIVERY_ADDRESS_PROCESS_ID
-        ),
-      });
-    });
-  });
-
-  describe('ResetSetDeliveryAddressProcess', () => {
-    it('should create the action', () => {
-      const action = new CheckoutActions.ResetSetDeliveryAddressProcess();
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS,
-        meta: StateUtils.entityResetMeta(
-          PROCESS_FEATURE,
-          SET_DELIVERY_ADDRESS_PROCESS_ID
-        ),
-      });
-    });
-  });
-
-  describe('Load Supported Delivery Modes from Cart', () => {
-    describe('LoadSupportedDeliveryModes', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId,
-          cartId,
-        };
-
-        const action = new CheckoutActions.LoadSupportedDeliveryModes(payload);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES,
-          payload,
-          meta: StateUtils.entityLoadMeta(
-            PROCESS_FEATURE,
-            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('LoadSupportedDeliveryModesFail', () => {
-      it('should create the action', () => {
-        const error = 'anError';
-        const action = new CheckoutActions.LoadSupportedDeliveryModesFail(
-          error
-        );
-
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
-          payload: error,
-          meta: StateUtils.entityFailMeta(
-            PROCESS_FEATURE,
-            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('LoadSupportedDeliveryModesSuccess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
-          modes
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
-          payload: modes,
-          meta: StateUtils.entitySuccessMeta(
-            PROCESS_FEATURE,
-            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
       });
     });
   });
 
   describe('Set Delivery Mode for Cart', () => {
-    describe('SetDeliveryMode', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId,
-          cartId,
-          selectedModeId: selectedModeId,
-        };
-
-        const action = new CheckoutActions.SetDeliveryMode(payload);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.SET_DELIVERY_MODE,
-          payload,
-          meta: StateUtils.entityLoadMeta(
-            PROCESS_FEATURE,
-            SET_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('SetDeliveryModeFail', () => {
-      it('should create the action', () => {
-        const error = 'anError';
-        const action = new CheckoutActions.SetDeliveryModeFail(error);
-
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.SET_DELIVERY_MODE_FAIL,
-          payload: error,
-          meta: StateUtils.entityFailMeta(
-            PROCESS_FEATURE,
-            SET_DELIVERY_MODE_PROCESS_ID,
-            error
-          ),
-        });
-      });
-    });
-
     describe('SetDeliveryModeSuccess', () => {
       it('should create the action', () => {
         const action = new CheckoutActions.SetDeliveryModeSuccess(
@@ -245,23 +55,6 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE_SUCCESS,
           payload: selectedModeId,
-          meta: StateUtils.entitySuccessMeta(
-            PROCESS_FEATURE,
-            SET_DELIVERY_MODE_PROCESS_ID
-          ),
-        });
-      });
-    });
-
-    describe('ResetSetDeliveryModeProcess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ResetSetDeliveryModeProcess();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS,
-          meta: StateUtils.entityResetMeta(
-            PROCESS_FEATURE,
-            SET_DELIVERY_MODE_PROCESS_ID
-          ),
         });
       });
     });
@@ -544,15 +337,6 @@ describe('Checkout Actions', () => {
         type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
         payload: { userId, cartId },
         meta: StateUtils.entityProcessesDecrementMeta(MULTI_CART_DATA, cartId),
-      });
-    });
-  });
-
-  describe('Clear Supported Delivery Modes Data', () => {
-    it('should create the action', () => {
-      const action = new CheckoutActions.ClearSupportedDeliveryModes();
-      expect({ ...action }).toEqual({
-        type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
       });
     });
   });

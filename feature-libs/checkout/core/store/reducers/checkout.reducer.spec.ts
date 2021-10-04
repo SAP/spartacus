@@ -1,6 +1,5 @@
 import {
   Address,
-  DeliveryMode,
   Order,
   PaymentDetails,
   ReplenishmentOrder,
@@ -60,14 +59,6 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const addDeliveryAddressAction =
-        new CheckoutActions.AddDeliveryAddressSuccess(address);
-      const addDeliveryAddressState = fromCheckout.reducer(
-        initialState,
-        addDeliveryAddressAction
-      );
-      expect(addDeliveryAddressState.address).toEqual(address);
-
       const setDeliveryAddressAction =
         new CheckoutActions.SetDeliveryAddressSuccess(address);
       const setDeliveryAddressState = fromCheckout.reducer(
@@ -75,25 +66,6 @@ describe('Checkout reducer', () => {
         setDeliveryAddressAction
       );
       expect(setDeliveryAddressState.address).toEqual(address);
-    });
-  });
-
-  describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
-    it('should load all supported delivery modes from cart', () => {
-      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
-
-      const entities = {
-        code1: modes[0],
-        code2: modes[1],
-      };
-
-      const { initialState } = fromCheckout;
-
-      const action = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
-        modes
-      );
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.deliveryMode.supported).toEqual(entities);
     });
   });
 
@@ -224,16 +196,6 @@ describe('Checkout reducer', () => {
       const action = new CheckoutActions.ClearCheckoutStep(4);
       const state = fromCheckout.reducer(initialState, action);
       expect(state).toEqual(initialState);
-    });
-  });
-
-  describe('CLEAR_SUPPORTED_DELIVERY_MODES action', () => {
-    it('should clear supported delivery modes', () => {
-      const { initialState } = fromCheckout;
-
-      const action = new CheckoutActions.ClearSupportedDeliveryModes();
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.deliveryMode).toEqual(initialState.deliveryMode);
     });
   });
 
