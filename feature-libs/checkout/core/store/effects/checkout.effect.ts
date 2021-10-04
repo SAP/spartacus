@@ -10,6 +10,7 @@ import {
   UserActions,
   withdrawOn,
 } from '@spartacus/core';
+import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -193,33 +194,6 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  clearCheckoutDeliveryAddress$: Observable<
-    | CheckoutActions.ClearCheckoutDeliveryAddressFail
-    | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
-    map(
-      (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
-    ),
-    filter((payload) => Boolean(payload.cartId)),
-    switchMap((payload) => {
-      return this.checkoutConnector
-        .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
-        .pipe(
-          map(() => new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()),
-          catchError((error) =>
-            of(
-              new CheckoutActions.ClearCheckoutDeliveryAddressFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
   clearCheckoutDeliveryMode$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
@@ -262,7 +236,6 @@ export class CheckoutEffects {
   setCostCenter$: Observable<
     | CheckoutActions.SetCostCenterSuccess
     | CheckoutActions.SetCostCenterFail
-    | CheckoutActions.ClearCheckoutDeliveryAddress
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_COST_CENTER),
@@ -271,17 +244,16 @@ export class CheckoutEffects {
       return this.checkoutCostCenterConnector
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(
-          mergeMap((_data) => [
-            new CartActions.LoadCart({
-              cartId: payload.cartId,
-              userId: payload.userId,
-            }),
-            new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
-            new CheckoutActions.ClearCheckoutDeliveryAddress({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            }),
-          ]),
+          mergeMap((_data) => {
+            this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
+            return [
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+              new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
+            ];
+          }),
           catchError((error) =>
             of(new CheckoutActions.SetCostCenterFail(normalizeHttpError(error)))
           )
@@ -294,6 +266,7 @@ export class CheckoutEffects {
     private actions$: Actions,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    private checkoutConnector: CheckoutConnector
+    private checkoutConnector: CheckoutConnector,
+    private checkoutDeliveryService: CheckoutDeliveryFacade
   ) {}
 }

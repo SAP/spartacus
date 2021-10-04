@@ -15,7 +15,6 @@ export abstract class CheckoutDeliveryAdapter {
     address: Address
   ): Observable<Address>;
 
-  // TODO: Change return type to Observable<unknown> in 5.0
   /**
    * Abstract method used to set address for delivery
    *
@@ -27,7 +26,7 @@ export abstract class CheckoutDeliveryAdapter {
     userId: string,
     cartId: string,
     addressId: string
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   /**
    * Abstract method used to set delivery mode on cart
@@ -40,7 +39,7 @@ export abstract class CheckoutDeliveryAdapter {
     userId: string,
     cartId: string,
     deliveryModeId: string
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   /**
    * Abstract method used to get current delivery mode from cart

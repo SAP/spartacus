@@ -4,6 +4,7 @@ import { CheckoutAdapter, CheckoutDetails } from '@spartacus/checkout/core';
 import {
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   Occ,
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
@@ -11,7 +12,8 @@ import {
   ORDER_NORMALIZER,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
@@ -99,15 +101,18 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
   clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string
-  ): Observable<any> {
-    return this.http.delete<any>(
-      this.getRemoveDeliveryAddressEndpoint(userId, cartId)
-    );
+  ): Observable<unknown> {
+    return this.http
+      .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
-  clearCheckoutDeliveryMode(userId: string, cartId: string): Observable<any> {
-    return this.http.delete<any>(
-      this.getClearDeliveryModeEndpoint(userId, cartId)
-    );
+  clearCheckoutDeliveryMode(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.http
+      .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

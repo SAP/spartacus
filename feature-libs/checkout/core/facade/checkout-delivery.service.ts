@@ -38,6 +38,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
@@ -133,6 +134,41 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                       userId,
                       cartId,
                     })
+                  );
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
+  protected clearDeliveryAddressCommand: Command<void, unknown> =
+    this.command.create<void>(
+      () => {
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.getActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutConnector
+              .clearCheckoutDeliveryAddress(userId, cartId)
+              .pipe(
+                tap(() => {
+                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()
                   );
                 })
               );
@@ -246,6 +282,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected query: QueryService,
     protected command: CommandService,
     protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    protected checkoutConnector: CheckoutConnector,
     protected actions$: Actions,
     protected featureConfigService: FeatureConfigService
   ) {}
@@ -328,26 +365,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Clear address already setup in last checkout process
    */
-  clearCheckoutDeliveryAddress(): void {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-
-    let cartId;
-    this.activeCartService
-      .getActiveCartId()
-      .subscribe((activeCartId) => (cartId = activeCartId))
-      .unsubscribe();
-    if (userId && cartId) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.ClearCheckoutDeliveryAddress({
-          userId,
-          cartId,
-        })
-      );
-    }
+  clearCheckoutDeliveryAddress(): Observable<unknown> {
+    return this.clearDeliveryAddressCommand.execute();
   }
 
   /**

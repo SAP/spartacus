@@ -15,12 +15,8 @@ import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
-export const CLEAR_CHECKOUT_DELIVERY_ADDRESS =
-  '[Checkout] Clear Checkout Delivery Address';
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Clear Checkout Delivery Address Success';
-export const CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL =
-  '[Checkout] Clear Checkout Delivery Address Fail';
 
 export const CLEAR_CHECKOUT_DELIVERY_MODE =
   '[Checkout] Clear Checkout Delivery Mode';
@@ -219,19 +215,9 @@ export class CheckoutClearMiscsData implements Action {
   readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
 
-export class ClearCheckoutDeliveryAddress implements Action {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
-}
-
 export class ClearCheckoutDeliveryAddressSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS;
   constructor() {}
-}
-
-export class ClearCheckoutDeliveryAddressFail implements Action {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL;
-  constructor(public payload: any) {}
 }
 
 export class ClearCheckoutDeliveryMode extends StateUtils.EntityProcessesIncrementAction {
@@ -300,8 +286,6 @@ export type CheckoutAction =
   | PlaceOrderSuccess
   | ClearCheckoutStep
   | ClearCheckoutData
-  | ClearCheckoutDeliveryAddress
-  | ClearCheckoutDeliveryAddressFail
   | ClearCheckoutDeliveryAddressSuccess
   | ClearCheckoutDeliveryMode
   | ClearCheckoutDeliveryModeFail

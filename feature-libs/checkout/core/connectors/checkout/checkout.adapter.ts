@@ -36,7 +36,7 @@ export abstract class CheckoutAdapter {
   abstract clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   /**
    * Abstract method used to clear checkout delivery mode
@@ -47,5 +47,5 @@ export abstract class CheckoutAdapter {
   abstract clearCheckoutDeliveryMode(
     userId: string,
     cartId: string
-  ): Observable<any>;
+  ): Observable<unknown>;
 }

@@ -15,12 +15,11 @@ export class CheckoutDeliveryConnector {
     return this.adapter.createAddress(userId, cartId, address);
   }
 
-  // TODO: Change return type to Observable<unknown> in 5.0
   public setAddress(
     userId: string,
     cartId: string,
     addressId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.adapter.setAddress(userId, cartId, addressId);
   }
 
@@ -28,7 +27,7 @@ export class CheckoutDeliveryConnector {
     userId: string,
     cartId: string,
     deliveryModeId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.adapter.setMode(userId, cartId, deliveryModeId);
   }
 

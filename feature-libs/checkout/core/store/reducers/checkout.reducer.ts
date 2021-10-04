@@ -141,7 +141,7 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS: {
+    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS: {
       return {
         ...state,
         address: {},

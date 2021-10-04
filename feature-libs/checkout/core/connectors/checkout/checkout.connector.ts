@@ -26,14 +26,14 @@ export class CheckoutConnector {
   public clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.adapter.clearCheckoutDeliveryAddress(userId, cartId);
   }
 
   public clearCheckoutDeliveryMode(
     userId: string,
     cartId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.adapter.clearCheckoutDeliveryMode(userId, cartId);
   }
 }
