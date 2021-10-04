@@ -1,0 +1,114 @@
+:root {
+  --cx-added-to-cart-toast-width: 375px;
+  --cx-added-to-cart-toast-desktop-header-offset: 192px;
+  --cx-added-to-cart-toast-tablet-header-offset: 77px;
+  --cx-added-to-cart-toast-mobile-header-offset: 57px;
+  --cx-added-to-cart-toast-background: var(--cx-color-inverse);
+  --cx-added-to-cart-toast-translateY: -100%;
+}
+
+cx-added-to-cart-toast {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  .toast-container {
+    position: absolute;
+    border: 1px solid var(--cx-color-dark);
+    background: var(--cx-added-to-cart-toast-background);
+    width: 100%;
+    transition: transform 0.5s ease;
+    transform: translateY(var(--cx-added-to-cart-toast-translateY));
+    pointer-events: auto;
+
+    .added-to-cart-toast-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      padding: 12px 0;
+      color: var(--cx-color-inverse);
+      background: var(--cx-color-secondary);
+    }
+
+    h3 {
+      font-weight: 600;
+    }
+
+    .added-to-cart-toast-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px 13px;
+
+      .cx-product-image {
+        margin: 0 10px 0 0;
+      }
+
+      .added-to-cart-toast-product {
+        span {
+          display: block;
+        }
+      }
+
+      .continue-shopping {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--cx-color-primary);
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      width: var(--cx-added-to-cart-toast-width);
+    }
+  }
+
+  > .on-header,
+  .on-fixed-header {
+    --cx-added-to-cart-toast-translateY: var(
+      --cx-added-to-cart-toast-mobile-header-offset
+    );
+
+    @include media-breakpoint-up(md) {
+      --cx-added-to-cart-toast-translateY: var(
+        --cx-added-to-cart-toast-tablet-header-offset
+      );
+    }
+
+    @include media-breakpoint-up(lg) {
+      --cx-added-to-cart-toast-translateY: var(
+        --cx-added-to-cart-toast-desktop-header-offset
+      );
+    }
+  }
+
+  > .on-fixed-header,
+  .off-header {
+    position: fixed;
+  }
+
+  > .off-header {
+    --cx-added-to-cart-toast-translateY: 0;
+  }
+
+  > .transition-none {
+    transition: none;
+  }
+
+  > .close-toast {
+    --cx-added-to-cart-toast-translateY: -100%;
+  }
+}
