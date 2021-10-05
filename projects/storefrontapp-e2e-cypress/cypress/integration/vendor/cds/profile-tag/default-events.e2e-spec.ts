@@ -16,7 +16,6 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 describe('Profile-tag events', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -95,13 +94,22 @@ describe('Profile-tag events', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
       cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').first().click();
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+=======
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+        )}/users/anonymous/carts/*`,
+      }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
       cy.window().then((win) => {
         expect(
@@ -125,7 +133,11 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a product detail page view event when viewing a product', () => {
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
     cy.intercept('GET', `**reviews*`).as('lastRequest');
+=======
+    cy.intercept({ method: 'GET', path: `**reviews*` }).as('lastRequest');
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
     const productPrice = 8.2;
@@ -224,7 +236,13 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
     cy.intercept('GET', `**/products/search**`).as('lastRequest');
+=======
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
@@ -253,8 +271,14 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
     cy.intercept('GET', `**/products/search**`).as('lastRequest');
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
+=======
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -272,7 +296,13 @@ describe('Profile-tag events', () => {
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
     cy.intercept('GET', `**/products/search**`).as('lastRequest2'); //waiting for the same request a 2nd time doesn't work
+=======
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest2'
+    ); //waiting for the same request a 2nd time doesn't work
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -289,7 +319,13 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
     cy.intercept('GET', `**/products/search**`).as('lastRequest');
+=======
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
+>>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -334,7 +370,7 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
@@ -347,7 +383,6 @@ describe('Profile-tag events', () => {
 // and the next will then have consent granted
 describe('Consent Changed', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -420,10 +455,13 @@ describe('Consent Changed', () => {
 
 function goToProductPage(): Cypress.Chainable<number> {
   const productPagePath = 'ProductPage';
-  const productPage = checkoutFlow.waitForPage(
+  const productPage = checkoutFlow.waitForProductPage(
     productPagePath,
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
-  return cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  return cy
+    .wait(`@${productPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }

@@ -81,7 +81,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 }

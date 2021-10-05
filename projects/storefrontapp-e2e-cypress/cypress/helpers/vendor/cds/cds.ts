@@ -5,9 +5,11 @@ export const strategyRequestAlias = 'strategyProductsApiRequest';
 export const cdsHelper = {
   setUpMocks(alias: string): void {
     cy.intercept(
-      'GET',
-      '/strategy/*/strategies/*/products**',
-      merchandisingCarousel.STRATEGY_RESPONSE
+      {
+        method: 'GET',
+        path: '/strategy/*/strategies/*/products**',
+      },
+      { body: merchandisingCarousel.STRATEGY_RESPONSE }
     ).as(alias);
   },
   allowInsecureCookies(): void {

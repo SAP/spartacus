@@ -10,7 +10,10 @@ describe('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
     cdsHelper.setUpMocks(strategyRequestAlias);
-    cy.intercept('POST', '**/users/current/loginnotification*').as(loginAlias);
+    cy.intercept({
+      method: 'POST',
+      path: '**/users/current/loginnotification**',
+    }).as(loginAlias);
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,

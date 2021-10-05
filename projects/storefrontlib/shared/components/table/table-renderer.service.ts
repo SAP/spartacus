@@ -53,9 +53,8 @@ export class TableRendererService {
       return;
     }
     this.outletRefs.set(outletRef, true);
-    const template = this.componentFactoryResolver.resolveComponentFactory(
-      renderer
-    );
+    const template =
+      this.componentFactoryResolver.resolveComponentFactory(renderer);
     this.outletService.add(outletRef, <any>template);
   }
 

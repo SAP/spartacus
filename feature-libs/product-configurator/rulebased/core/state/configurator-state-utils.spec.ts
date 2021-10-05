@@ -36,13 +36,8 @@ describe('ConfiguratorStateUtils', () => {
       id: SUB_GROUP_ID,
       subGroups: [],
     };
-    const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
-      false,
-      1,
-      0,
-      2,
-      2
-    );
+    const attributeSupplements: Configurator.AttributeSupplement[] =
+      ConfiguratorTestUtils.createListOfAttributeSupplements(false, 1, 0, 2, 2);
     it('should tell that a group needs to be enriched with pricing data in case group ID matches supplement key', () => {
       expect(
         ConfiguratorStateUtils['isTargetGroup'](
@@ -160,12 +155,8 @@ describe('ConfiguratorStateUtils', () => {
     });
 
     it('should throw an error if groups are present but attribute supplements are empty', () => {
-      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
-        1,
-        0,
-        3,
-        3
-      );
+      const groups: Configurator.Group[] =
+        ConfiguratorTestUtils.createListOfGroups(1, 0, 3, 3);
       const attributeSupplements: Configurator.AttributeSupplement[] = [];
       expect(() =>
         ConfiguratorStateUtils.mergeGroupsWithSupplements(
@@ -176,19 +167,16 @@ describe('ConfiguratorStateUtils', () => {
     });
 
     it('should update value prices for simple product', () => {
-      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
-        1,
-        0,
-        3,
-        3
-      );
-      const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
-        false,
-        1,
-        0,
-        1,
-        3
-      );
+      const groups: Configurator.Group[] =
+        ConfiguratorTestUtils.createListOfGroups(1, 0, 3, 3);
+      const attributeSupplements: Configurator.AttributeSupplement[] =
+        ConfiguratorTestUtils.createListOfAttributeSupplements(
+          false,
+          1,
+          0,
+          1,
+          3
+        );
       const mergedGroups = ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
         attributeSupplements
@@ -232,19 +220,16 @@ describe('ConfiguratorStateUtils', () => {
     });
 
     it('should update value prices for complex product', () => {
-      const groups: Configurator.Group[] = ConfiguratorTestUtils.createListOfGroups(
-        3,
-        3,
-        3,
-        3
-      );
-      const attributeSupplements: Configurator.AttributeSupplement[] = ConfiguratorTestUtils.createListOfAttributeSupplements(
-        true,
-        1,
-        3,
-        1,
-        3
-      );
+      const groups: Configurator.Group[] =
+        ConfiguratorTestUtils.createListOfGroups(3, 3, 3, 3);
+      const attributeSupplements: Configurator.AttributeSupplement[] =
+        ConfiguratorTestUtils.createListOfAttributeSupplements(
+          true,
+          1,
+          3,
+          1,
+          3
+        );
       const mergedGroups = ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
         attributeSupplements

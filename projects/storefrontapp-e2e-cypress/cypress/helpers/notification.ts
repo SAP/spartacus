@@ -176,8 +176,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
 }
 
 export function stubForPaginableMyInterests(jsonfile: string, url: string) {
-  cy.server();
-  cy.route('GET', url, `fixture:${jsonfile}`);
+  cy.intercept({ method: 'GET', path: url }, { fixture: jsonfile });
 }
 
 export function verifyPagingAndSorting() {
