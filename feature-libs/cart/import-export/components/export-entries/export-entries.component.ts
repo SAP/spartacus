@@ -4,9 +4,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { AbstractImportExportService } from 'feature-libs/cart/import-export/core/services';
 import { Observable } from 'rxjs';
 import { ExportEntriesService } from './export-entries.service';
+import { AbstractImportExportService } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-export-entries',
