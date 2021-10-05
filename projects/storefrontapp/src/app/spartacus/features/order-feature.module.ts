@@ -5,6 +5,7 @@ import {
   orderTranslations,
 } from '@spartacus/order/assets';
 import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+import { CART_FEATURE } from 'feature-libs/cart/main/root';
 
 @NgModule({
   imports: [OrderRootModule],
@@ -13,6 +14,7 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
       featureModules: {
         [ORDER_FEATURE]: {
           module: () => import('@spartacus/order').then((m) => m.OrderModule),
+          dependencies: [CART_FEATURE],
         },
       },
     }),

@@ -2,7 +2,6 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
   Consignment,
   FeaturesConfig,
@@ -113,23 +112,6 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 @Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input()
-  readonly = false;
-  @Input()
-  hasHeader = true;
-  @Input()
-  items = [];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Order;
-}
-
-@Component({
   selector: 'cx-consignment-tracking',
   template: '',
 })
@@ -173,7 +155,6 @@ describe('OrderDetailItemsComponent', () => {
         ],
         declarations: [
           OrderDetailItemsComponent,
-          MockCartItemListComponent,
           MockConsignmentTrackingComponent,
           OrderConsignedEntriesComponent,
         ],

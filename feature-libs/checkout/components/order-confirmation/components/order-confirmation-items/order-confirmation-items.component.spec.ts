@@ -1,27 +1,16 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { PromotionLocation } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
-  OrderEntry,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
 import createSpy = jasmine.createSpy;
-
-@Component({ selector: 'cx-cart-item-list', template: '' })
-class MockReviewSubmitComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-}
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -46,10 +35,7 @@ describe('OrderConfirmationItemsComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
-        declarations: [
-          OrderConfirmationItemsComponent,
-          MockReviewSubmitComponent,
-        ],
+        declarations: [OrderConfirmationItemsComponent],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
@@ -71,12 +57,5 @@ describe('OrderConfirmationItemsComponent', () => {
   it('should create', () => {
     component.ngOnInit();
     expect(component).toBeTruthy();
-  });
-
-  it('should display items', () => {
-    const items = () => fixture.debugElement.query(By.css('cx-cart-item-list'));
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(items()).toBeTruthy();
   });
 });
