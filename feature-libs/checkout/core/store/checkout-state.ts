@@ -10,7 +10,6 @@ import {
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
-export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
 export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
 export const SET_COST_CENTER_PROCESS_ID = 'setCostCenter';
 export const PLACED_ORDER_PROCESS_ID = 'placeOrder';

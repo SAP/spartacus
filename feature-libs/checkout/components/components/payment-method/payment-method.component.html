@@ -64,6 +64,7 @@
         (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
         [setAsDefaultField]="!isGuestCheckout"
+        [loading]="paymentSavingInProgress$ | async"
       ></cx-payment-form>
     </ng-template>
   </ng-container>

@@ -18,6 +18,10 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
+import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from 'feature-libs/cart/saved-cart/root';
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -53,6 +57,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         DeliveryAddressClearedEvent,
         DeliveryModeSetEvent,
         DeliveryModeClearedEvent,
+        SaveCartSuccessEvent,
+        RestoreSavedCartSuccessEvent,
       ],
     }
   );

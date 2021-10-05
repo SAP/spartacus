@@ -19,7 +19,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
-  StateUtils,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -48,11 +47,13 @@ export class PaymentFormComponent implements OnInit {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address | undefined>;
   countries$: Observable<Country[]>;
-  loading$: Observable<StateUtils.LoaderState<void>>;
   sameAsShippingAddress = true;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   showSameAsShippingAddressCheckbox$: Observable<boolean>;
+
+  @Input()
+  loading: boolean;
 
   @Input()
   setAsDefaultField: boolean;
@@ -120,8 +121,6 @@ export class PaymentFormComponent implements OnInit {
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
-    this.loading$ =
-      this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.showSameAsShippingAddressCheckbox$ = combineLatest([
       this.countries$,

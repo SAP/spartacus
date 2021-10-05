@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  CardType,
-  facadeFactory,
-  PaymentDetails,
-  StateUtils,
-} from '@spartacus/core';
+import { CardType, facadeFactory, PaymentDetails } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
@@ -17,11 +12,8 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       methods: [
         'getCardTypes',
         'getPaymentDetails',
-        'getSetPaymentDetailsResultProcess',
-        'resetSetPaymentDetailsProcess',
         'createPaymentDetails',
         'setPaymentDetails',
-        'paymentProcessSuccess',
       ],
       async: true,
     }),
@@ -38,18 +30,6 @@ export abstract class CheckoutPaymentFacade {
   abstract getPaymentDetails(): Observable<PaymentDetails>;
 
   /**
-   * Get status about set Payment Details process
-   */
-  abstract getSetPaymentDetailsResultProcess(): Observable<
-    StateUtils.LoaderState<void>
-  >;
-
-  /**
-   * Clear info about process of setting Payment Details
-   */
-  abstract resetSetPaymentDetailsProcess(): void;
-
-  /**
    * Create payment details using the given paymentDetails param
    * @param paymentDetails: the PaymentDetails to be created
    */
@@ -64,9 +44,4 @@ export abstract class CheckoutPaymentFacade {
   abstract setPaymentDetails(
     paymentDetails: PaymentDetails
   ): Observable<unknown>;
-
-  /**
-   * Sets payment loading to true without having the flicker issue (GH-3102)
-   */
-  abstract paymentProcessSuccess(): void;
 }

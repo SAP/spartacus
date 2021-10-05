@@ -10,7 +10,6 @@ import {
   CHECKOUT_DETAILS,
   PLACED_ORDER_PROCESS_ID,
   SET_COST_CENTER_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
@@ -18,8 +17,6 @@ export const CREATE_PAYMENT_DETAILS_SUCCESS =
 
 export const SET_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Set Payment Details Success';
-export const RESET_SET_PAYMENT_DETAILS_PROCESS =
-  '[Checkout] Reset Set Payment Details Process';
 
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
@@ -36,7 +33,6 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS =
   '[Checkout] Load Checkout Details Success';
 
 export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
-export const PAYMENT_PROCESS_SUCCESS = '[Checkout] Payment Process Success';
 
 export const SET_COST_CENTER = '[Checkout] Set Cost Center';
 export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
@@ -49,25 +45,9 @@ export class CreatePaymentDetailsSuccess implements Action {
   constructor(public payload: PaymentDetails) {}
 }
 
-export class PaymentProcessSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = PAYMENT_PROCESS_SUCCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class SetPaymentDetailsSuccess extends StateUtils.EntitySuccessAction {
+export class SetPaymentDetailsSuccess implements Action {
   readonly type = SET_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: PaymentDetails) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetAction {
-  readonly type = RESET_SET_PAYMENT_DETAILS_PROCESS;
-  constructor() {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
+  constructor(public payload: PaymentDetails) {}
 }
 
 export class PlaceOrder extends StateUtils.EntityLoadAction {
@@ -167,7 +147,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 export type CheckoutAction =
   | CreatePaymentDetailsSuccess
   | SetPaymentDetailsSuccess
-  | ResetSetPaymentDetailsProcess
   | PlaceOrder
   | PlaceOrderFail
   | PlaceOrderSuccess

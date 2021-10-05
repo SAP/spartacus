@@ -20,7 +20,13 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -37,6 +43,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   selectedMethod$: Observable<PaymentDetails>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
+  paymentSavingInProgress$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  subscriptions: Subscription = new Subscription();
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -136,7 +145,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             );
             if (defaultPaymentMethod) {
               selectedMethod = defaultPaymentMethod.payment;
-              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+              this.selectPaymentMethod(selectedMethod);
             }
           }
           return paymentMethods.map((payment) => ({
@@ -158,7 +167,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    this.checkoutPaymentService.setPaymentDetails(paymentDetails);
+    this.paymentSavingInProgress$.next(true);
+    this.subscriptions.add(
+      this.checkoutPaymentService.setPaymentDetails(paymentDetails).subscribe({
+        complete: () => this.paymentSavingInProgress$.next(false),
+      })
+    );
   }
 
   showNewPaymentForm(): void {
@@ -178,12 +192,18 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress || this.deliveryAddress;
-    this.checkoutPaymentService.createPaymentDetails(details);
+    this.paymentSavingInProgress$.next(true);
+    this.subscriptions.add(
+      this.checkoutPaymentService.createPaymentDetails(details).subscribe({
+        complete: () => this.paymentSavingInProgress$.next(false),
+      })
+    );
     this.shouldRedirect = true;
   }
 
   ngOnDestroy(): void {
-    this.checkoutPaymentService.paymentProcessSuccess();
+    this.subscriptions.unsubscribe();
+    this.paymentSavingInProgress$.next(false);
   }
 
   protected getCardIcon(code: string): string {

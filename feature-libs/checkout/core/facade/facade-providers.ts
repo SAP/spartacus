@@ -5,7 +5,6 @@ import {
   CheckoutFacade,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-  ClearCheckoutFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
@@ -13,7 +12,6 @@ import { CheckoutDeliveryService } from './checkout-delivery.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
 import { CheckoutQueryService } from './checkout-query.service';
 import { CheckoutService } from './checkout.service';
-import { ClearCheckoutService } from './clear-checkout.service';
 import { PaymentTypeService } from './payment-type.service';
 
 export const facadeProviders: Provider[] = [
@@ -41,11 +39,6 @@ export const facadeProviders: Provider[] = [
   {
     provide: CheckoutCostCenterFacade,
     useExisting: CheckoutCostCenterService,
-  },
-  ClearCheckoutService,
-  {
-    provide: ClearCheckoutFacade,
-    useExisting: ClearCheckoutService,
   },
   CheckoutQueryService,
   {
