@@ -12,8 +12,8 @@ import {
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, of, timer } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { Observable, of, queueScheduler } from 'rxjs';
+import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -299,6 +299,7 @@ describe('QuickOrderService', () => {
 
   it('should set added product', (done) => {
     service.setProductAdded(mockProduct1Code);
+
     service
       .getProductAdded()
       .pipe(take(1))
@@ -308,23 +309,17 @@ describe('QuickOrderService', () => {
     done();
   });
 
-  it('should get added product', (done) => {
-    service
-      .getProductAdded()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBeNull();
-      });
-    done();
-  });
-
   it('should add deleted entry and after 5s delete it', (done) => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
 
-    timer(5000)
+    service
+      .getSoftDeletedEntries()
       .pipe(
-        take(1),
+        tap((softDeletedEntries) => {
+          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
+        }),
+        delay(5000),
         switchMap(() => service.getSoftDeletedEntries())
       )
       .subscribe((result) => {
@@ -342,8 +337,8 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
+        done();
       });
-    done();
   });
 
   it('should return deleted entries', (done) => {
@@ -363,12 +358,19 @@ describe('QuickOrderService', () => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
 
-    service.restoreSoftDeletedEntry(mockProduct1Code);
-
     service
       .getSoftDeletedEntries()
-      .pipe(take(1))
+      .pipe(
+        observeOn(queueScheduler),
+        take(1),
+        tap((softDeletedEntries) => {
+          console.log('1', JSON.stringify(softDeletedEntries));
+          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
+        }),
+        tap(() => service.restoreSoftDeletedEntry(mockProduct1Code))
+      )
       .subscribe((result) => {
+        console.log('2', JSON.stringify(result));
         expect(result).toEqual({});
         done();
       });
