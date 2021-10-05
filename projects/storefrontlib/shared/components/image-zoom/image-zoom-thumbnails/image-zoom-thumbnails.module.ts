@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CarouselModule, MediaModule } from '@spartacus/storefront';
+import { CarouselModule, MediaModule } from '../../../../shared/components/index';
 import { ImageZoomThumbnailsComponent } from './image-zoom-thumbnails.component';
 
 @NgModule({
