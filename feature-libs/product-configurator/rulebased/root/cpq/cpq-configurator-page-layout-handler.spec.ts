@@ -36,7 +36,7 @@ const sectionHeader = 'header';
 const sectionContent = 'content';
 
 describe('CpqConfiguratorPageLayoutHandler', () => {
-  let serviceUnderTest: CpqConfiguratorPageLayoutHandler;
+  let classUnderTest: CpqConfiguratorPageLayoutHandler;
 
   beforeEach(
     waitForAsync(() => {
@@ -51,20 +51,20 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     })
   );
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
+    classUnderTest = TestBed.inject(
       CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
     );
   });
 
   it('should create service', () => {
-    expect(serviceUnderTest).toBeDefined();
+    expect(classUnderTest).toBeDefined();
   });
 
   it('should not touch slots for section different than header', () => {
     let slots$ = cold('-a', {
       a: contentSlots,
     });
-    const handledSlots$ = serviceUnderTest.handle(
+    const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
       sectionContent
@@ -80,7 +80,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     let slots$ = cold('-a-a', {
       a: headerSlots,
     });
-    const handledSlots$ = serviceUnderTest.handle(
+    const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
       sectionHeader
@@ -100,7 +100,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     let slots$ = cold('-aaa', {
       a: headerSlots,
     });
-    const handledSlots$ = serviceUnderTest.handle(
+    const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
       sectionHeader
@@ -116,7 +116,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     let slots$ = cold('-a-a', {
       a: headerSlots,
     });
-    const handledSlots$ = serviceUnderTest.handle(
+    const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateOther,
       sectionHeader
