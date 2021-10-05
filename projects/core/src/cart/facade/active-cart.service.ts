@@ -174,6 +174,15 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
+  takeActiveCartId(): Observable<string> {
+    return this.isStable().pipe(
+      filter((isStable) => isStable),
+      switchMap(() => {
+        return this.getActiveCartId().pipe(take(1));
+      })
+    );
+  }
+
   /**
    * Returns cart entries
    */

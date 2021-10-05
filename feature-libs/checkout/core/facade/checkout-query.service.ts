@@ -25,7 +25,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     () => {
       return combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
+        this.activeCartService.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) => {
