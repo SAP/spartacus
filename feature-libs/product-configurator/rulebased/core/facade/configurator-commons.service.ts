@@ -6,7 +6,15 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  startWith,
+  switchMap,
+  switchMapTo,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -16,6 +24,33 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
+  ghostAttribute: Configurator.Attribute = {
+    name: 'attr',
+    label: 'Ghost attribute',
+    description: 'Ghost attribute',
+    uiType: Configurator.UiType.STRING,
+  };
+  ghostGroup: Configurator.Group = {
+    id: '1',
+    description: 'Ghost group',
+    name: 'Ghost group',
+    subGroups: [],
+    attributes: [this.ghostAttribute],
+    complete: true,
+    consistent: true,
+  };
+  ghost: Configurator.Configuration = {
+    configId: 'ghost',
+    groups: [this.ghostGroup],
+    flatGroups: [this.ghostGroup],
+    interactionState: {},
+    owner: {
+      type: CommonConfigurator.OwnerType.PRODUCT,
+      key: '',
+      id: '',
+      configuratorType: '',
+    },
+  };
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -67,11 +102,13 @@ export class ConfiguratorCommonsService {
   getConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    this.ghost.owner = owner;
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
         this.configuratorUtils.isConfigurationCreated(configuration)
-      )
+      ),
+      startWith(this.ghost)
     );
   }
 
@@ -229,11 +266,16 @@ export class ConfiguratorCommonsService {
         }
       });
   }
+  timeout(ms: any) {
+    //pass a time in milliseconds to this function
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     this.removeObsoleteProductBoundConfiguration(owner);
+    this.ghost.owner = owner;
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -241,6 +283,7 @@ export class ConfiguratorCommonsService {
         )
       ),
       tap((configurationState) => {
+        console.log('CHHI in tap');
         if (
           (configurationState.value === undefined ||
             !this.configuratorUtils.isConfigurationCreated(
@@ -249,9 +292,13 @@ export class ConfiguratorCommonsService {
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
-          );
+          this.timeout(5000).then(() => {
+            console.log('CHHI have waited');
+            this.store.dispatch(
+              new ConfiguratorActions.CreateConfiguration(owner)
+            );
+            console.log('CHHI create triggered');
+          });
         }
       }),
       filter(
@@ -264,7 +311,9 @@ export class ConfiguratorCommonsService {
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
         this.configuratorUtils.getConfigurationFromState(configurationState)
-      )
+      ),
+      startWith(this.ghost),
+      tap((config) => console.log('CHHI config emitted: ' + config.configId))
     );
   }
 
