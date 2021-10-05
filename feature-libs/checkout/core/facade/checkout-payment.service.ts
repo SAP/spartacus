@@ -78,6 +78,42 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
       }
     );
 
+  protected setPaymentMethodCommand: Command<PaymentDetails, unknown> =
+    this.command.create<PaymentDetails>(
+      (payload) => {
+        const paymentDetailsId = payload?.id;
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartService.takeActiveCartId(),
+        ]).pipe(
+          take(1),
+          switchMap(([userId, cartId]) => {
+            if (
+              !userId ||
+              !cartId ||
+              !paymentDetailsId ||
+              (userId === OCC_USER_ID_ANONYMOUS &&
+                !this.activeCartService.isGuestCart())
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutPaymentConnector
+              .set(userId, cartId, paymentDetailsId)
+              .pipe(
+                tap(() => {
+                  this.checkoutStore.dispatch(
+                    new CheckoutActions.SetPaymentDetailsSuccess(payload)
+                  );
+                })
+              );
+          })
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -136,29 +172,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    * Set payment details
    * @param paymentDetails : the PaymentDetails to be set
    */
-  setPaymentDetails(paymentDetails: PaymentDetails): void {
-    if (this.actionAllowed()) {
-      let userId: string | undefined;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId: string | undefined;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId,
-            paymentDetails: paymentDetails,
-          })
-        );
-      }
-    }
+  setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
+    return this.setPaymentMethodCommand.execute(paymentDetails);
   }
 
   /**

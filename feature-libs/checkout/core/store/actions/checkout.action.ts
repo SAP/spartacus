@@ -16,8 +16,6 @@ import {
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Create Payment Details Success';
 
-export const SET_PAYMENT_DETAILS = '[Checkout] Set Payment Details';
-export const SET_PAYMENT_DETAILS_FAIL = '[Checkout] Set Payment Details Fail';
 export const SET_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Set Payment Details Success';
 export const RESET_SET_PAYMENT_DETAILS_PROCESS =
@@ -55,26 +53,6 @@ export class PaymentProcessSuccess extends StateUtils.EntitySuccessAction {
   readonly type = PAYMENT_PROCESS_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class SetPaymentDetails extends StateUtils.EntityLoadAction {
-  readonly type = SET_PAYMENT_DETAILS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      paymentDetails: PaymentDetails;
-    }
-  ) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class SetPaymentDetailsFail extends StateUtils.EntityFailAction {
-  readonly type = SET_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID, payload);
   }
 }
 
@@ -188,8 +166,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 
 export type CheckoutAction =
   | CreatePaymentDetailsSuccess
-  | SetPaymentDetails
-  | SetPaymentDetailsFail
   | SetPaymentDetailsSuccess
   | ResetSetPaymentDetailsProcess
   | PlaceOrder

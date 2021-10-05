@@ -26,7 +26,7 @@ export abstract class CheckoutPaymentAdapter {
     userId: string,
     cartId: string,
     paymentDetailsId: string
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   /**
    * Abstract method used to get available cart types

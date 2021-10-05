@@ -121,11 +121,13 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     userId: string,
     cartId: string,
     paymentDetailsId: string
-  ): Observable<any> {
-    return this.http.put(
-      this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
-      {}
-    );
+  ): Observable<unknown> {
+    return this.http
+      .put(
+        this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
+        {}
+      )
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   loadCardTypes(): Observable<CardType[]> {

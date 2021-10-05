@@ -19,7 +19,7 @@ export class CheckoutPaymentConnector {
     userId: string,
     cartId: string,
     paymentDetailsId: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     return this.adapter.set(userId, cartId, paymentDetailsId);
   }
 
