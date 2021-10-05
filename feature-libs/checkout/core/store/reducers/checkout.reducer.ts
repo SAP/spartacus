@@ -46,18 +46,6 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
-      const paymentDetails = action.payload;
-      if (paymentDetails['hasError']) {
-        return {
-          ...state,
-          paymentDetails,
-        };
-      }
-
-      return state;
-    }
-
     case CheckoutActions.PLACE_ORDER_SUCCESS:
     case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
       const orderDetails: Order | ReplenishmentOrder = action.payload;

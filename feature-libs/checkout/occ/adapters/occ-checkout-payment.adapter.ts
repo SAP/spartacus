@@ -107,7 +107,10 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               userId,
               cartId,
               fromPaymentProvider
-            ).pipe(this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER));
+            ).pipe(
+              catchError((error) => throwError(normalizeHttpError(error))),
+              this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER)
+            );
           })
         );
       })

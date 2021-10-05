@@ -13,9 +13,6 @@ import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
-export const CREATE_PAYMENT_DETAILS = '[Checkout] Create Payment Details';
-export const CREATE_PAYMENT_DETAILS_FAIL =
-  '[Checkout] Create Payment Details Fail';
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Create Payment Details Success';
 
@@ -48,26 +45,6 @@ export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
 export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
-
-export class CreatePaymentDetails extends StateUtils.EntityLoadAction {
-  readonly type = CREATE_PAYMENT_DETAILS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      paymentDetails: PaymentDetails;
-    }
-  ) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
-
-export class CreatePaymentDetailsFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
-  }
-}
 
 export class CreatePaymentDetailsSuccess implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
@@ -210,8 +187,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | CreatePaymentDetails
-  | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess
   | SetPaymentDetails
   | SetPaymentDetailsFail

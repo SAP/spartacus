@@ -3,7 +3,7 @@ import {
   CardType,
   facadeFactory,
   PaymentDetails,
-  StateUtils
+  StateUtils,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
@@ -53,7 +53,9 @@ export abstract class CheckoutPaymentFacade {
    * Create payment details using the given paymentDetails param
    * @param paymentDetails: the PaymentDetails to be created
    */
-  abstract createPaymentDetails(paymentDetails: PaymentDetails): void;
+  abstract createPaymentDetails(
+    paymentDetails: PaymentDetails
+  ): Observable<unknown>;
 
   /**
    * Set payment details
