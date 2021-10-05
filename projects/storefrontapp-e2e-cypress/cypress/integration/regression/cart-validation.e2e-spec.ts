@@ -8,11 +8,7 @@ import {
   PRODUCT_2,
 } from '../../sample-data/cart-validation';
 import { removeCartItem } from '../../helpers/cart';
-import {
-  checkProductAvailabilityMessage,
-  checkReducedQuantity,
-  validateStock,
-} from '../../helpers/cart-validation';
+import * as cartValidation from '../../helpers/cart-validation';
 
 context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -40,29 +36,29 @@ context('Cart validation', () => {
         addProductToCart(PRODUCT_1);
         addProductToCart(PRODUCT_2);
 
-        validateStock(lowStockResponse);
+        cartValidation.validateStock(lowStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
 
-        checkProductAvailabilityMessage();
+        cartValidation.checkProductAvailabilityMessage();
 
         cy.get('cx-cart-item-list cx-cart-item-validation-warning div').should(
           'have.length',
           2
         );
 
-        checkReducedQuantity(PRODUCT_1);
-        checkReducedQuantity(PRODUCT_2);
+        cartValidation.checkReducedQuantity(PRODUCT_1);
+        cartValidation.checkReducedQuantity(PRODUCT_2);
       });
 
       it('should display information about removed product from cart due to out of stock', () => {
-        validateStock(outOfStockResponse);
+        cartValidation.validateStock(outOfStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
 
-        checkProductAvailabilityMessage();
+        cartValidation.checkProductAvailabilityMessage();
 
         cy.get('cx-cart-details')
           .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
@@ -75,7 +71,7 @@ context('Cart validation', () => {
       it('should display information about only product in cart being removed due to out of stock', () => {
         removeCartItem(PRODUCT_2);
 
-        validateStock(outOfStockResponse);
+        cartValidation.validateStock(outOfStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
