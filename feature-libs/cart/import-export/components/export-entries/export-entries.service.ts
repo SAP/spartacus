@@ -67,6 +67,7 @@ export class ExportEntriesService {
 
   protected getEntries(cartType: CartTypes): Observable<OrderEntry[]> {
     switch (cartType) {
+      // TODO: case CartTypes.QUICK_ORDER #12885
       case CartTypes.SAVED_CART: {
         return this.getSavedCartEntries();
       }

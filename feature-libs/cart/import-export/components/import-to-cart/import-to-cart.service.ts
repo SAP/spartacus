@@ -59,6 +59,7 @@ export class ImportToCartService {
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
     switch (cartType) {
+      // TODO: case CartTypes.QUICK_ORDER #12885
       case CartTypes.NEW_SAVED_CART: {
         return this.addEntriesToNewSavedCart(products, savedCartInfo);
       }
@@ -159,6 +160,7 @@ export class ImportToCartService {
     cartId: string
   ): Observable<ProductImportInfo> {
     switch (cartType) {
+      // TODO: case CartTypes.QUICK_ORDER #12885
       case CartTypes.ACTIVE_CART:
       case CartTypes.NEW_SAVED_CART:
       case CartTypes.SAVED_CART:
