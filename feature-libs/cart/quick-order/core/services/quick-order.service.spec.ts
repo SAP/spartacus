@@ -370,8 +370,8 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
+        done();
       });
-    done();
   });
 
   it('should clear deleted entry', (done) => {
