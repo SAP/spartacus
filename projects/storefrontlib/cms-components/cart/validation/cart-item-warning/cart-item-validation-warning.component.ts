@@ -16,15 +16,16 @@ export class CartItemValidationWarningComponent {
   iconTypes = ICON_TYPE;
   isVisible = true;
 
-  cartModification$ = this.cartValidationWarningsStateService.cartValidationResult$.pipe(
-    map((modificationList: CartModification[]) =>
-      modificationList.find(
-        (modification) =>
-          modification.statusCode === CartValidationStatusCode.LOW_STOCK &&
-          modification.entry.product.code === this.code
+  cartModification$ =
+    this.cartValidationWarningsStateService.cartValidationResult$.pipe(
+      map((modificationList: CartModification[]) =>
+        modificationList.find(
+          (modification) =>
+            modification.statusCode === CartValidationStatusCode.LOW_STOCK &&
+            modification.entry.product.code === this.code
+        )
       )
-    )
-  );
+    );
 
   constructor(
     protected cartValidationWarningsStateService: CartValidationWarningsStateService

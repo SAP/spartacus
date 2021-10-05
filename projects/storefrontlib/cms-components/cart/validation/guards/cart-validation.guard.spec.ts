@@ -58,7 +58,8 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   getEntries = () => mockEntriesSubject.asObservable();
 }
 class MockCartValidationWarningsStateService
-  implements Partial<CartValidationWarningsStateService> {
+  implements Partial<CartValidationWarningsStateService>
+{
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
