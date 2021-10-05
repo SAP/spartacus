@@ -18,7 +18,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSupportedDeliveryModes',
         'getSupportedDeliveryModesState',
         'getSelectedDeliveryMode',
-        'getSelectedDeliveryModeCode',
         'getDeliveryAddress',
         'createAndSetAddress',
         'setDeliveryMode',
@@ -43,19 +42,12 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  abstract getSelectedDeliveryMode(): Observable<
-    DeliveryMode | undefined | null
-  >;
-
-  /**
-   * Get selected delivery mode code
-   */
-  abstract getSelectedDeliveryModeCode(): Observable<string>;
+  abstract getSelectedDeliveryMode(): Observable<DeliveryMode | undefined>;
 
   /**
    * Get delivery address
    */
-  abstract getDeliveryAddress(): Observable<Address>;
+  abstract getDeliveryAddress(): Observable<Address | undefined>;
 
   /**
    * Create and set a delivery address using the address param

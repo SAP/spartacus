@@ -1,0 +1,35 @@
+# Checkout
+
+## TODO
+
+- check feature config service in constructors
+- adapter normalize error for delivery mode query PR
+- error handling for delivery mode query PR for query
+- getSelectedDeliveryMode was not working in supported delivery modes PR (basically code from review-submit component)
+- put TODO to remove actions from setDeliveryAddressCommand after supported delivery modes query merged
+- express checkout needs supported delivery modes query state (new method in service needed) - do in supported delivery mode processes PR
+- check all e2e tests (express checkout fails since we changed delivery mode processes)
+- unify combineLatest with userId and cartId for all c&q in checkout services
+- move clear delivery address/mode methods from checkout-connector to checkout-delivery connector
+- why we LoadCart on failed clearDeliveryMode call
+- clearCheckoutDeliveryMode actually incremented/decremented cart process
+- type for whole checkout state
+- normalizer for checkout details
+- JaloError retry for super query (add retry for it)
+
+  ```json
+  {
+    "errors": [
+      {
+        "message": "item 8796098958229 no longer valid (was removed): object no longer valid",
+        "type": "JaloObjectNoLongerValidError"
+      }
+    ]
+  }
+  ```
+
+- switch all commands and queries from getActiveCartId -> takeActiveCartId
+
+# Next session
+
+- extend super query to delivery mode

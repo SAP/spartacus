@@ -6,7 +6,6 @@ import {
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
-  Address,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
 } from '@spartacus/core';
@@ -53,20 +52,6 @@ export class CheckoutDetailsService {
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
       skipWhile((loaded) => !loaded)
-    );
-  }
-
-  getDeliveryAddress(): Observable<Address> {
-    return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
-    );
-  }
-
-  getSelectedDeliveryModeCode(): Observable<string> {
-    return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() =>
-        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
-      )
     );
   }
 

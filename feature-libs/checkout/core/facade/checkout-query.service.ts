@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   CheckoutQueryFacade,
+  CheckoutState,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
+  DeliveryModeClearedEvent,
+  DeliveryModeSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -21,7 +24,7 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
-  protected checkoutQuery$ = this.query.create<any>(
+  protected checkoutQuery$ = this.query.create<CheckoutState>(
     () => {
       return combineLatest([
         this.userIdService.takeUserId(),
@@ -48,6 +51,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         LogoutEvent,
         LoginEvent,
         DeliveryAddressClearedEvent,
+        DeliveryModeSetEvent,
+        DeliveryModeClearedEvent,
       ],
     }
   );
@@ -59,11 +64,11 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     protected checkoutConnector: CheckoutConnector
   ) {}
 
-  getCheckoutDetails(): Observable<any> {
+  getCheckoutDetails(): Observable<CheckoutState | undefined> {
     return this.checkoutQuery$.get();
   }
 
-  getCheckoutDetailsState(): Observable<QueryState<any>> {
+  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
     return this.checkoutQuery$.getState();
   }
 }

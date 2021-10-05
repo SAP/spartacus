@@ -13,20 +13,6 @@ import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
 } from '../checkout-state';
 
-export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
-  '[Checkout] Clear Checkout Delivery Mode Success';
-
-export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
-
-export const SET_SUPPORTED_DELIVERY_MODES =
-  '[Checkout] Set Supported Delivery Modes';
-export const SET_SUPPORTED_DELIVERY_MODES_FAIL =
-  '[Checkout] Set Supported Delivery Modes Fail';
-export const SET_SUPPORTED_DELIVERY_MODES_SUCCESS =
-  '[Checkout] Set Supported Delivery Modes Success';
-export const RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS =
-  '[Checkout] Reset Set Supported Delivery Modes Process';
-
 export const CREATE_PAYMENT_DETAILS = '[Checkout] Create Payment Details';
 export const CREATE_PAYMENT_DETAILS_FAIL =
   '[Checkout] Create Payment Details Fail';
@@ -62,11 +48,6 @@ export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
 export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
-
-export class SetDeliveryModeSuccess {
-  readonly type = SET_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: string) {}
-}
 
 export class CreatePaymentDetails extends StateUtils.EntityLoadAction {
   readonly type = CREATE_PAYMENT_DETAILS;
@@ -197,10 +178,6 @@ export class LoadCheckoutDetailsSuccess extends StateUtils.LoaderSuccessAction {
 export class CheckoutClearMiscsData implements Action {
   readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
-export class ClearCheckoutDeliveryModeSuccess implements Action {
-  readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
-}
 
 export class SetCostCenter extends StateUtils.EntityLoadAction {
   readonly type = SET_COST_CENTER;
@@ -233,7 +210,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | SetDeliveryModeSuccess
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess
@@ -246,7 +222,6 @@ export type CheckoutAction =
   | PlaceOrderSuccess
   | ClearCheckoutStep
   | ClearCheckoutData
-  | ClearCheckoutDeliveryModeSuccess
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
   | LoadCheckoutDetailsSuccess

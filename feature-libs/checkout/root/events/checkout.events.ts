@@ -37,9 +37,27 @@ export class DeliveryAddressSetEvent extends CheckoutEvent {
   address: Address;
 }
 
+export class DeliveryModeSetEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeliveryModeSetEvent';
+  /**
+   * Delivery mode code.
+   */
+  deliveryModeCode: string;
+}
+
 export class DeliveryAddressClearedEvent extends CheckoutEvent {
   /**
    * Event's type
    */
   static readonly type = 'DeliveryAddressClearedEvent';
+}
+
+export class DeliveryModeClearedEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeliveryModeClearedEvent';
 }

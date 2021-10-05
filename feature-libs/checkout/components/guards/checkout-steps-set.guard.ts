@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import {
   CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
   CheckoutStep,
   CheckoutStepType,
   PaymentTypeFacade,
@@ -28,6 +29,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected checkoutDetailsService: CheckoutDetailsService,
     protected routingConfigService: RoutingConfigService,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected router: Router
   ) {}
 
@@ -121,7 +123,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.checkoutDetailsService.getDeliveryAddress(),
+      this.checkoutDeliveryService.getDeliveryAddress(),
       this.checkoutCostCenterService.getCostCenter(),
     ]).pipe(
       map(([deliveryAddress, costCenter]) => {
@@ -153,13 +155,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isDeliveryModeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDetailsService
-      .getSelectedDeliveryModeCode()
-      .pipe(
-        map((mode: string) =>
-          mode && mode.length ? true : this.getUrl(step.routeName)
-        )
-      );
+    return this.checkoutDeliveryService
+      .getSelectedDeliveryMode()
+      .pipe(map((mode) => (mode ? true : this.getUrl(step.routeName))));
   }
 
   protected isPaymentDetailsSet(

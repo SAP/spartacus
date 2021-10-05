@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
   CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
+  DeliveryModeClearedEvent,
+  DeliveryModeSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -32,20 +34,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
@@ -232,7 +225,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
 
   protected setDeliveryModeCommand: Command<string, unknown> =
     this.command.create<string>(
-      (deliveryModeId) =>
+      (deliveryModeCode) =>
         combineLatest([
           this.userIdService.takeUserId(),
           this.activeCartService.getActiveCartId(),
@@ -241,19 +234,23 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
             if (
               !userId ||
               !cartId ||
-              !deliveryModeId ||
+              !deliveryModeCode ||
               (userId === OCC_USER_ID_ANONYMOUS &&
                 !this.activeCartService.isGuestCart())
             ) {
               throw new Error('Checkout conditions not met');
             }
             return this.checkoutDeliveryConnector
-              .setMode(userId, cartId, deliveryModeId)
+              .setMode(userId, cartId, deliveryModeCode)
               .pipe(
                 tap(() => {
-                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.SetDeliveryModeSuccess(deliveryModeId)
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      deliveryModeCode,
+                    },
+                    DeliveryModeSetEvent
                   );
                   this.checkoutStore.dispatch(
                     new CartActions.LoadCart({
@@ -291,12 +288,12 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               .clearCheckoutDeliveryMode(userId, cartId)
               .pipe(
                 tap(() => {
-                  // TODO:#13888 Remove this one dispatch when we will have query for checkout addresses
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
-                      cartId,
+                  this.eventService.dispatch(
+                    {
                       userId,
-                    })
+                      cartId,
+                    },
+                    DeliveryModeClearedEvent
                   );
                   this.checkoutStore.dispatch(
                     new CartActions.LoadCart({
@@ -363,31 +360,20 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined | null> {
-    return this.getSupportedDeliveryModes().pipe(
-      withLatestFrom(this.getSelectedDeliveryModeCode()),
-      map(([deliveryModes, selected]) =>
-        deliveryModes.find((deliveryMode) => deliveryMode.code === selected)
-      )
-    );
-  }
-
-  /**
-   * Get selected delivery mode code
-   */
-  getSelectedDeliveryModeCode(): Observable<string> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getSelectedDeliveryModeCode)
+  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
+    return this.checkoutQuery.getCheckoutDetailsState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data?.deliveryMode)
     );
   }
 
   /**
    * Get delivery address
    */
-  getDeliveryAddress(): Observable<Address> {
-    return this.checkoutQuery.getCheckoutDetails().pipe(
-      tap((state) => console.log(state)),
-      map((checkoutDetails) => checkoutDetails?.deliveryAddress)
+  getDeliveryAddress(): Observable<Address | undefined> {
+    return this.checkoutQuery.getCheckoutDetailsState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data?.deliveryAddress)
     );
   }
 

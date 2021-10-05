@@ -16,8 +16,6 @@ import {
   StateWithCheckout,
 } from '../checkout-state';
 
-const getDeliveryModeSelector = (state: CheckoutStepsState) =>
-  state.deliveryMode;
 const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
   state.paymentDetails;
 const getOrderDetailsSelector = (state: CheckoutStepsState) =>
@@ -42,20 +40,6 @@ export const getCheckoutSteps: MemoizedSelector<
 > = createSelector(getCheckoutStepsState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
-
-export const getDeliveryMode: MemoizedSelector<
-  StateWithCheckout,
-  {
-    selected: string;
-  }
-> = createSelector(getCheckoutSteps, getDeliveryModeSelector);
-
-export const getSelectedDeliveryModeCode: MemoizedSelector<
-  StateWithCheckout,
-  string
-> = createSelector(getDeliveryMode, (deliveryMode) => {
-  return deliveryMode && deliveryMode.selected;
-});
 
 export const getPaymentDetails: MemoizedSelector<
   StateWithCheckout,

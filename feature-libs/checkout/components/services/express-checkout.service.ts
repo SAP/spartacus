@@ -51,7 +51,7 @@ export class ExpressCheckoutService {
     this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
-      this.checkoutDetailsService.getDeliveryAddress(),
+      this.checkoutDeliveryService.getDeliveryAddress(),
     ]).pipe(
       debounceTime(0),
       tap(([, addressesLoadedSuccess]) => {
@@ -71,7 +71,7 @@ export class ExpressCheckoutService {
             .setDeliveryAddress(defaultAddress)
             .pipe(
               switchMap(() => {
-                return this.checkoutDetailsService.getDeliveryAddress();
+                return this.checkoutDeliveryService.getDeliveryAddress();
               }),
               map((data) => !!(data && Object.keys(data).length)),
               catchError(() => of(false))

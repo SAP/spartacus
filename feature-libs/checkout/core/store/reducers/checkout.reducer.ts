@@ -4,9 +4,6 @@ import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
-  deliveryMode: {
-    selected: '',
-  },
   paymentDetails: {},
   orderDetails: {},
 };
@@ -37,18 +34,6 @@ export function reducer(
         poNumber: {
           ...state.poNumber,
           costCenter: action.payload,
-        },
-      };
-    }
-
-    case CheckoutActions.SET_DELIVERY_MODE_SUCCESS: {
-      const selected = action.payload;
-
-      return {
-        ...state,
-        deliveryMode: {
-          ...state.deliveryMode,
-          selected,
         },
       };
     }
@@ -90,15 +75,6 @@ export function reducer(
     case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
       switch (stepNumber) {
-        case 2: {
-          return {
-            ...state,
-            deliveryMode: {
-              selected: '',
-            },
-          };
-        }
-
         case 3: {
           return {
             ...state,
@@ -113,22 +89,7 @@ export function reducer(
     case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
       return {
         ...state,
-        deliveryMode: {
-          ...state.deliveryMode,
-          selected:
-            action.payload.deliveryMode &&
-            (action.payload.deliveryMode.code as string),
-        },
         paymentDetails: action.payload.paymentInfo,
-      };
-    }
-
-    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS: {
-      return {
-        ...state,
-        deliveryMode: {
-          selected: '',
-        },
       };
     }
   }

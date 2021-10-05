@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import {
+  Address,
+  DeliveryMode,
+  facadeFactory,
+  QueryState,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
+
+export interface CheckoutState {
+  deliveryAddress?: Address;
+  deliveryMode?: DeliveryMode;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +23,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
     }),
 })
 export abstract class CheckoutQueryFacade {
-  abstract getCheckoutDetails(): Observable<any>;
+  abstract getCheckoutDetails(): Observable<CheckoutState | undefined>;
 
-  abstract getCheckoutDetailsState(): Observable<QueryState<any>>;
+  abstract getCheckoutDetailsState(): Observable<QueryState<CheckoutState>>;
 }

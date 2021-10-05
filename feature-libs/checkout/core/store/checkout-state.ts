@@ -24,9 +24,6 @@ export interface CheckoutStepsState {
     po?: string;
     costCenter?: string;
   };
-  deliveryMode: {
-    selected: string;
-  };
   paymentDetails: PaymentDetails;
   orderDetails: Order | ReplenishmentOrder;
 }
