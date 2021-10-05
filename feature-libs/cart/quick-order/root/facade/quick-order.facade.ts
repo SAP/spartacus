@@ -9,16 +9,20 @@ export function quickOrderFacadeFactory() {
     facade: QuickOrderFacade,
     feature: CART_QUICK_ORDER_CORE_FEATURE,
     methods: [
-      'getEntries',
-      'search',
-      'clearList',
-      'loadEntries',
-      'updateEntryQuantity',
-      'removeEntry',
       'addProduct',
-      'getProductAdded',
-      'setProductAdded',
       'addToCart',
+      'clearList',
+      'getEntries',
+      'getProductAdded',
+      'loadEntries',
+      'softDeleteEntry',
+      'search',
+      'setProductAdded',
+      'updateEntryQuantity',
+      'getSoftDeletedEntries',
+      'restoreSoftDeletedEntry',
+      'hardDeleteEntry',
+      'clearDeletedEntries',
     ],
   });
 }
@@ -54,7 +58,12 @@ export abstract class QuickOrderFacade {
   abstract updateEntryQuantity(entryIndex: number, quantity: number): void;
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
+   */
+  abstract softDeleteEntry(index: number): void;
+
+  /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
    */
   abstract removeEntry(index: number): void;
 
@@ -77,4 +86,24 @@ export abstract class QuickOrderFacade {
    * Adding to cart all products from the list
    */
   abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
+
+  /**
+   * Return soft deleted entries
+   */
+  abstract getSoftDeletedEntries(): Observable<Record<string, OrderEntry>>;
+
+  /**
+   * Restore soft deleted entry
+   */
+  abstract restoreSoftDeletedEntry(productCode: string): void;
+
+  /**
+   * Clear deleted entry from the list
+   */
+  abstract hardDeleteEntry(productCode: string): void;
+
+  /**
+   * Clear all deleted entries and timeout subscriptions
+   */
+  abstract clearDeletedEntries(): void;
 }
