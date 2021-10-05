@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CartTypes } from '@spartacus/cart/import-export/core';
+import { AbstractImportExportService } from 'feature-libs/cart/import-export/core/services';
 import { Observable } from 'rxjs';
 import { ExportEntriesService } from './export-entries.service';
 
@@ -17,12 +17,12 @@ export class ExportEntriesComponent implements OnInit {
   entries$: Observable<string[][]>;
 
   @Input()
-  cartType: CartTypes;
+  service: AbstractImportExportService;
 
   constructor(protected exportEntriesService: ExportEntriesService) {}
 
   ngOnInit() {
-    this.entries$ = this.exportEntriesService.getResolvedEntries(this.cartType);
+    this.entries$ = this.exportEntriesService.getResolvedEntries(this.service);
   }
 
   exportToCsv(entries: string[][]): void {

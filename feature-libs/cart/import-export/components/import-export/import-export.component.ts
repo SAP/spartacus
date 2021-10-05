@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  CmsImportExportComponent,
+  AbstractImportExportService,
+  ImportExportActiveCartService,
+  ImportExportNewSavedCartService,
+  ImportExportQuickOrderService,
+  ImportExportSavedCartService,
+} from '@spartacus/cart/import-export/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CartTypes,
-  CmsImportExportComponent,
-} from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-export',
@@ -20,9 +24,20 @@ export class ImportExportComponent {
       .pipe(map((route) => route.state?.semanticRoute as string));
   }
 
+  protected routesCartMapping = {
+    cart: this.activeCartService,
+    savedCarts: this.newSavedCartService,
+    savedCartsDetails: this.savedCartService,
+    quickOrder: this.quickOrderService,
+  };
+
   constructor(
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected activeCartService: ImportExportActiveCartService,
+    protected newSavedCartService: ImportExportNewSavedCartService,
+    protected savedCartService: ImportExportSavedCartService,
+    protected quickOrderService: ImportExportQuickOrderService
   ) {}
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([
@@ -39,8 +54,6 @@ export class ImportExportComponent {
     map(([route, data]) => data.exportButtonDisplayRoutes.includes(route))
   );
 
-  cartType$: Observable<CartTypes | undefined> = combineLatest([
-    this.route$,
-    this.cmsComponent.data$,
-  ]).pipe(map(([route, data]) => data.routesCartMapping[route]));
+  service$: Observable<AbstractImportExportService | undefined> =
+    this.route$.pipe(map((route) => this.routesCartMapping[route]));
 }

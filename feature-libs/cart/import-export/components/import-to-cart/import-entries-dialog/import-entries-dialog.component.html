@@ -26,15 +26,15 @@
     </div>
 
     <!-- Modal Body -->
-    <ng-container *ngIf="cartType$ | async as cartType">
+    <ng-container *ngIf="service$ | async as service">
       <ng-container *ngIf="formState; else importSummary" [ngSwitch]="cartType">
         <cx-import-to-new-saved-cart-form
-          *ngSwitchCase="CartTypes.NEW_SAVED_CART"
-          (submitEvent)="importProducts(cartType, $event)"
+          *ngIf="isNewCartForm(service)"
+          (submitEvent)="importProducts(service, $event, cartId)"
         ></cx-import-to-new-saved-cart-form>
 
         <cx-import-entries-form
-          (submitEvent)="importProducts(cartType, $event)"
+          (submitEvent)="importProducts(service, $event, cartId)"
           *ngSwitchDefault
         ></cx-import-entries-form>
       </ng-container>

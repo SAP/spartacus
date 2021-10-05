@@ -11,7 +11,8 @@ import {
   ProductImportStatus,
   ProductImportInfo,
   ProductsData,
-  CartTypes,
+  AbstractImportExportService,
+  ImportExportNewSavedCartService,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
 
@@ -40,20 +41,23 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  cartType$ = this.launchDialogService.data$;
-  CartTypes = CartTypes;
+  service$ = this.launchDialogService.data$;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportToCartService
   ) {}
 
+  isNewCartForm(service: AbstractImportExportService) {
+    return service instanceof ImportExportNewSavedCartService;
+  }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
   importProducts(
-    cartType: CartTypes,
+    service: AbstractImportExportService,
     {
       products,
       savedCartInfo,
@@ -73,7 +77,7 @@ export class ImportEntriesDialogComponent {
       cartName: savedCartInfo?.name,
     });
     this.importToCartService
-      .loadProductsToCart(cartType, products, savedCartInfo)
+      .loadProductsToCart(service, products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({
