@@ -44,7 +44,8 @@ const mockData = [
 const dataReplaySubject = new ReplaySubject<CartModification[]>();
 
 class MockCartValidationWarningsStateService
-  implements Partial<CartValidationWarningsStateService> {
+  implements Partial<CartValidationWarningsStateService>
+{
   cartValidationResult$ = dataReplaySubject;
 }
 

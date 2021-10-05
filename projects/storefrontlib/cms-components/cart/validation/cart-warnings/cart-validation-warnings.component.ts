@@ -13,21 +13,22 @@ export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;
   visibleWarnings: { [key: string]: boolean } = {};
 
-  cartModifications$ = this.cartValidationWarningsStateService.cartValidationResult$.pipe(
-    map((modificationList: CartModification[]) => {
-      const result = modificationList.filter(
-        (modification) =>
-          modification.statusCode === CartValidationStatusCode.NO_STOCK
-      );
+  cartModifications$ =
+    this.cartValidationWarningsStateService.cartValidationResult$.pipe(
+      map((modificationList: CartModification[]) => {
+        const result = modificationList.filter(
+          (modification) =>
+            modification.statusCode === CartValidationStatusCode.NO_STOCK
+        );
 
-      result.forEach((modification) => {
-        if (modification.entry?.product?.code) {
-          this.visibleWarnings[modification.entry.product.code] = true;
-        }
-      });
-      return result;
-    })
-  );
+        result.forEach((modification) => {
+          if (modification.entry?.product?.code) {
+            this.visibleWarnings[modification.entry.product.code] = true;
+          }
+        });
+        return result;
+      })
+    );
 
   constructor(
     protected cartValidationWarningsStateService: CartValidationWarningsStateService
