@@ -47,7 +47,6 @@ export class ExpressCheckoutService {
     this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
-      this.checkoutDeliveryService.getDeliveryAddress(),
     ]).pipe(
       debounceTime(0),
       tap(([, addressesLoadedSuccess]) => {
@@ -57,12 +56,10 @@ export class ExpressCheckoutService {
       }),
       filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
       take(1),
-      switchMap(([addresses, , deliveryAddress]) => {
+      switchMap(([addresses]) => {
         const defaultAddress =
           addresses.find((address) => address.defaultAddress) || addresses[0];
-        if (deliveryAddress && Object.keys(deliveryAddress).length > 0) {
-          return of(true);
-        } else if (defaultAddress && Object.keys(defaultAddress).length) {
+        if (defaultAddress && Object.keys(defaultAddress).length) {
           return this.checkoutDeliveryService
             .setDeliveryAddress(defaultAddress)
             .pipe(
@@ -82,7 +79,6 @@ export class ExpressCheckoutService {
     this.paymentMethodSet$ = combineLatest([
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
-      this.checkoutPaymentService.getPaymentDetails(),
     ]).pipe(
       debounceTime(0),
       tap(([, paymentMethodsLoadedSuccess]) => {
@@ -91,14 +87,11 @@ export class ExpressCheckoutService {
         }
       }),
       filter(([, success]) => success),
-      switchMap(([payments, , paymentDetails]) => {
+      switchMap(([payments]) => {
         const defaultPayment =
           payments.find((address) => address.defaultPayment) || payments[0];
         if (!defaultPayment || Object.keys(defaultPayment).length === 0) {
           return of(false);
-        }
-        if (paymentDetails) {
-          return of(true);
         }
         return this.checkoutPaymentService
           .setPaymentDetails(defaultPayment)
@@ -118,50 +111,44 @@ export class ExpressCheckoutService {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
       this.checkoutDeliveryService.getSupportedDeliveryModesState(),
-      this.checkoutDeliveryService.getSelectedDeliveryMode(),
     ]).pipe(
       debounceTime(0),
-      switchMap(
-        ([addressSet, supportedDeliveryModesState, selectedDeliveryMode]) => {
-          if (!addressSet) {
-            return of(false);
-          }
-          return of([supportedDeliveryModesState]).pipe(
-            filter(
-              ([supportedDeliveryModesState]) =>
-                !supportedDeliveryModesState.loading &&
-                !!supportedDeliveryModesState.data?.length
-            ),
-            switchMap(([deliveryModesState]) => {
-              if (!deliveryModesState.data?.length) {
-                return of(false);
-              }
-              const preferredDeliveryMode =
-                this.checkoutConfigService.getPreferredDeliveryMode(
-                  deliveryModesState.data
-                );
-              return of([preferredDeliveryMode]).pipe(
-                switchMap(([deliveryMode]) => {
-                  if (!deliveryMode) {
-                    return of(false);
-                  } else if (!selectedDeliveryMode) {
-                    return this.checkoutDeliveryService
-                      .setDeliveryMode(deliveryMode)
-                      .pipe(
-                        switchMap(() =>
-                          this.checkoutDeliveryService.getSelectedDeliveryMode()
-                        ),
-                        map((deliveryMode) => !!deliveryMode)
-                      );
-                  } else {
-                    return of(true);
-                  }
-                })
-              );
-            })
-          );
+      switchMap(([addressSet, supportedDeliveryModesState]) => {
+        if (!addressSet) {
+          return of(false);
         }
-      )
+        return of([supportedDeliveryModesState]).pipe(
+          filter(
+            ([supportedDeliveryModesState]) =>
+              !supportedDeliveryModesState.loading &&
+              !!supportedDeliveryModesState.data?.length
+          ),
+          switchMap(([deliveryModesState]) => {
+            if (!deliveryModesState.data?.length) {
+              return of(false);
+            }
+            const preferredDeliveryMode =
+              this.checkoutConfigService.getPreferredDeliveryMode(
+                deliveryModesState.data
+              );
+            return of([preferredDeliveryMode]).pipe(
+              switchMap(([deliveryMode]) => {
+                if (!deliveryMode) {
+                  return of(false);
+                }
+                return this.checkoutDeliveryService
+                  .setDeliveryMode(deliveryMode)
+                  .pipe(
+                    switchMap(() =>
+                      this.checkoutDeliveryService.getSelectedDeliveryMode()
+                    ),
+                    map((deliveryMode) => !!deliveryMode)
+                  );
+              })
+            );
+          })
+        );
+      })
     );
   }
 

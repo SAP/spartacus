@@ -11,4 +11,3 @@ export const effects: any[] = [
 export * from './checkout.effect';
 export * from './payment-types.effect';
 export * from './replenishment-order.effect';
-

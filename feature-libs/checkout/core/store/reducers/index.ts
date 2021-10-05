@@ -4,7 +4,7 @@ import { StateUtils } from '@spartacus/core';
 import {
   CheckoutState,
   CheckoutStepsState,
-  CHECKOUT_DETAILS
+  CHECKOUT_DETAILS,
 } from '../checkout-state';
 import * as fromCheckout from './checkout.reducer';
 import * as fromOrderTypes from './order-types.reducer';
