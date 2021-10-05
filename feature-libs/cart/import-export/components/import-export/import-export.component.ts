@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -14,27 +14,33 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportExportComponent {
-  cmsComponentData$ = this.cmsComponent.data$;
+  protected get route$(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((route) => route.state?.semanticRoute as string));
+  }
 
   constructor(
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
     protected routingService: RoutingService
   ) {}
 
-  get route$(): Observable<string> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map((route) => route.state?.semanticRoute as string));
-  }
+  shouldDisplayImport$: Observable<boolean> = combineLatest([
+    this.route$,
+    this.cmsComponent.data$,
+  ]).pipe(
+    map(([route, data]) => data.importButtonDisplayRoutes.includes(route))
+  );
 
-  getCartType(
-    routesCartMapping: { [route: string]: CartTypes },
-    semanticRoute: string
-  ): CartTypes {
-    return routesCartMapping[semanticRoute];
-  }
+  shouldDisplayExport$: Observable<boolean> = combineLatest([
+    this.route$,
+    this.cmsComponent.data$,
+  ]).pipe(
+    map(([route, data]) => data.exportButtonDisplayRoutes.includes(route))
+  );
 
-  shouldDisplayButton(displayPages: string[], semanticRoute: string): boolean {
-    return displayPages.includes(semanticRoute);
-  }
+  cartType$: Observable<CartTypes | undefined> = combineLatest([
+    this.route$,
+    this.cmsComponent.data$,
+  ]).pipe(map(([route, data]) => data.routesCartMapping[route]));
 }
