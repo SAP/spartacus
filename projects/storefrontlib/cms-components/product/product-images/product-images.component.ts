@@ -75,13 +75,13 @@ export class ProductImagesComponent {
 
   /**
    * Return an array of CarouselItems for the product thumbnails.
-   * In case there are less then 2 thumbs, we return null.
+   * In case there are less then 1 thumb, we return null.
    */
   private createThumbs(product: Product): Observable<any>[] {
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2 
+      product.images.GALLERY.length < 1
     ) {
       return [];
     }

@@ -28,7 +28,9 @@ export class ImageZoomThumbnailsComponent {
 
   openImage(image: ImageGroup): void {
     this.mainMediaContainer.next(image);
-    this.productImage.emit({ image, index: image.zoom?.galleryIndex });
+    if (image.zoom?.galleryIndex) {
+      this.productImage.emit({ image, index: image.zoom.galleryIndex });
+    }
   }
 
   isActive(thumbnail: ImageGroup): Observable<boolean> {

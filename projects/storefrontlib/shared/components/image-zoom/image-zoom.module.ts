@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideConfig, I18nModule } from '@spartacus/core';
-import {
-  CarouselModule,
-  IconModule,
-  KeyboardFocusModule,
-  MediaModule,
-} from '@spartacus/storefront';
+import { CarouselModule, MediaModule } from '../../../shared/components/index';
+
+import { IconModule } from '../../../cms-components/misc/icon/index';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/index';
+
 import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './image-zoom-dialog/image-zoom-dialog.component';
 import { ImageZoomThumbnailsModule } from './image-zoom-thumbnails/image-zoom-thumbnails.module';
