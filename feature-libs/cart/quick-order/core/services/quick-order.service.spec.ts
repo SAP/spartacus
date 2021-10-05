@@ -134,10 +134,10 @@ describe('QuickOrderService', () => {
   });
 
   it('should clear timeout subscriptions on service destroy', () => {
-    spyOn(service, 'clearTimeoutSubscriptions').and.callThrough();
+    spyOn(service, 'clearDeletedEntries').and.callThrough();
     service.ngOnDestroy();
 
-    expect(service.clearTimeoutSubscriptions).toHaveBeenCalled();
+    expect(service.clearDeletedEntries).toHaveBeenCalled();
   });
 
   it('should return an empty list of entries', (done) => {

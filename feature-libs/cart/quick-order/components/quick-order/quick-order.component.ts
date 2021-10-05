@@ -57,7 +57,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.quickOrderService.clearTimeoutSubscriptions();
+    this.quickOrderService.clearDeletedEntries();
   }
 
   get errors$(): Observable<QuickOrderAddEntryEvent[]> {

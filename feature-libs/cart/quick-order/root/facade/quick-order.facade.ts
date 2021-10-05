@@ -22,7 +22,7 @@ export function quickOrderFacadeFactory() {
       'getSoftDeletedEntries',
       'restoreSoftDeletedEntry',
       'hardDeleteEntry',
-      'clearTimeoutSubscriptions',
+      'clearDeletedEntries',
     ],
   });
 }
@@ -103,7 +103,7 @@ export abstract class QuickOrderFacade {
   abstract hardDeleteEntry(productCode: string): void;
 
   /**
-   * Clear all deleted entry timeout subscriptions
+   * Clear all deleted entries and timeout subscriptions
    */
-  abstract clearTimeoutSubscriptions(): void;
+  abstract clearDeletedEntries(): void;
 }

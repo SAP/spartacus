@@ -33,7 +33,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   >([]);
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
-  protected hardDeleteTimeout = 5000;
+  protected hardDeleteTimeout = 50000;
 
   private clearDeleteTimeouts: Record<string, Subscription> = {};
 
@@ -44,7 +44,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.clearTimeoutSubscriptions();
+    this.clearDeletedEntries();
   }
 
   /**
@@ -206,9 +206,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Clear all deleted entry timeout subscriptions
+   * Clear all deleted entries and timeout subscriptions
    */
-  clearTimeoutSubscriptions(): void {
+  clearDeletedEntries(): void {
     Object.values(this.clearDeleteTimeouts).forEach(
       (subscription: Subscription) => subscription.unsubscribe()
     );
