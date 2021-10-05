@@ -54,12 +54,12 @@ describe('Profile-tag events', () => {
 
     it('should send a CartModified event on modifying the cart', () => {
       goToProductPage();
-      cy.intercept(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+      }).as('getRefreshedCart');
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.wait(500);
@@ -94,19 +94,10 @@ describe('Profile-tag events', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
       cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').first().click();
-      cy.intercept(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-=======
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
@@ -133,11 +124,7 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a product detail page view event when viewing a product', () => {
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
-    cy.intercept('GET', `**reviews*`).as('lastRequest');
-=======
     cy.intercept({ method: 'GET', path: `**reviews*` }).as('lastRequest');
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
     const productPrice = 8.2;
@@ -236,13 +223,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
-    cy.intercept('GET', `**/products/search**`).as('lastRequest');
-=======
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
@@ -271,15 +254,10 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
-    cy.intercept('GET', `**/products/search**`).as('lastRequest');
-    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
-=======
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
-
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -296,13 +274,9 @@ describe('Profile-tag events', () => {
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
-    cy.intercept('GET', `**/products/search**`).as('lastRequest2'); //waiting for the same request a 2nd time doesn't work
-=======
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
     ); //waiting for the same request a 2nd time doesn't work
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -319,13 +293,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.e2e-spec.ts
-    cy.intercept('GET', `**/products/search**`).as('lastRequest');
-=======
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events-spec.ts
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')

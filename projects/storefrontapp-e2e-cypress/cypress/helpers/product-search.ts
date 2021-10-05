@@ -268,12 +268,6 @@ export function createProductQuery(
   pageSize: number,
   currentPage: string = ''
 ): void {
-<<<<<<< HEAD
-  cy.intercept(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
-  ).as(alias);
-=======
   cy.intercept({
     method: 'GET',
     pathname: `${searchUrlPrefix}`,
@@ -285,7 +279,6 @@ export function createProductQuery(
       currentPage: currentPage ?? undefined,
     },
   }).as(alias);
->>>>>>> develop
 }
 
 export function createProductFacetQuery(
