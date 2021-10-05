@@ -20,7 +20,6 @@ import {
   DeleteUserAddressEvent,
   DeliveryMode,
   EventService,
-  FeatureConfigService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -28,7 +27,6 @@ import {
   Query,
   QueryService,
   QueryState,
-  StateWithProcess,
   UpdateUserAddressEvent,
   UserActions,
   UserIdService,
@@ -212,13 +210,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           // TODO:test: finish checkout and leave the order confirmation page
           this.actions$?.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)) ??
             EMPTY,
-          // TODO:#13888 remove when removing the action
-          this.actions$?.pipe(
-            ofType<CheckoutActions.ClearCheckoutStep>(
-              CheckoutActions.CLEAR_CHECKOUT_STEP
-            ),
-            filter((action) => action.payload === 2)
-          ) ?? EMPTY,
         ],
       }
     );
@@ -323,7 +314,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
 
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
-    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected eventService: EventService,
@@ -332,7 +322,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
     protected checkoutConnector: CheckoutConnector,
     protected actions$: Actions,
-    protected featureConfigService: FeatureConfigService,
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
