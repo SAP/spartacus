@@ -8,6 +8,11 @@ import {
   PRODUCT_2,
 } from '../../sample-data/cart-validation';
 import { removeCartItem } from '../../helpers/cart';
+import {
+  checkProductAvailabilityMessage,
+  checkReducedQuantity,
+  validateStock,
+} from '../../helpers/cart-validation';
 
 context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -35,60 +40,29 @@ context('Cart validation', () => {
         addProductToCart(PRODUCT_1);
         addProductToCart(PRODUCT_2);
 
-        cy.intercept(
-          {
-            method: 'POST',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/users/current/carts/*/validate`,
-          },
-          lowStockResponse
-        ).as('validate');
+        validateStock(lowStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
 
-        cy.get('cx-global-message').should(
-          'contain',
-          `During checkout availability of entries in your cart has changed. Please review your cart.`
-        );
+        checkProductAvailabilityMessage();
 
         cy.get('cx-cart-item-list cx-cart-item-validation-warning div').should(
           'have.length',
           2
         );
-        cy.get('cx-cart-item-list')
-          .contains('cx-cart-item-validation-warning span', PRODUCT_1.name)
-          .should(
-            'contain',
-            `quantity has reduced to 1 due to insufficient stock.`
-          );
-        cy.get('cx-cart-item-list')
-          .contains('cx-cart-item-validation-warning span', PRODUCT_2.name)
-          .should(
-            'contain',
-            `quantity has reduced to 1 due to insufficient stock.`
-          );
+
+        checkReducedQuantity(PRODUCT_1);
+        checkReducedQuantity(PRODUCT_2);
       });
 
       it('should display information about removed product from cart due to out of stock', () => {
-        cy.intercept(
-          {
-            method: 'POST',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/users/current/carts/*/validate`,
-          },
-          outOfStockResponse
-        ).as('validate');
+        validateStock(outOfStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
 
-        cy.get('cx-global-message').should(
-          'contain',
-          `During checkout availability of entries in your cart has changed. Please review your cart.`
-        );
+        checkProductAvailabilityMessage();
 
         cy.get('cx-cart-details')
           .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
@@ -101,15 +75,7 @@ context('Cart validation', () => {
       it('should display information about only product in cart being removed due to out of stock', () => {
         removeCartItem(PRODUCT_2);
 
-        cy.intercept(
-          {
-            method: 'POST',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/users/current/carts/*/validate`,
-          },
-          outOfStockResponse
-        ).as('validate');
+        validateStock(outOfStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
         cy.wait(`@validate`);
