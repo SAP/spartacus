@@ -23,9 +23,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getPlaceOrderError',
         'clearPlaceOrderState',
         'clearCheckoutData',
-        'clearCheckoutStep',
-        'loadCheckoutDetails',
-        'getCheckoutDetailsLoaded',
         'isLoading',
         'getOrderDetails',
         'setOrderType',
@@ -72,23 +69,6 @@ export abstract class CheckoutFacade {
    * Clear checkout data
    */
   abstract clearCheckoutData(): void;
-
-  /**
-   * Clear checkout step
-   * @param stepNumber : the step number to be cleared
-   */
-  abstract clearCheckoutStep(stepNumber: number): void;
-
-  /**
-   * Load checkout details data
-   * @param cartId : string Cart ID of loaded cart
-   */
-  abstract loadCheckoutDetails(cartId: string): void;
-
-  /**
-   * Get status of checkout details loaded
-   */
-  abstract getCheckoutDetailsLoaded(): Observable<boolean>;
 
   /**
    * Check if checkout details are stable (no longer loading)

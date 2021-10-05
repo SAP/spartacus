@@ -1,4 +1,4 @@
-import { Address, CxEvent } from '@spartacus/core';
+import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
 
 /**
  * An abstract event for all the checkout events.
@@ -60,4 +60,26 @@ export class DeliveryModeClearedEvent extends CheckoutEvent {
    * Event's type
    */
   static readonly type = 'DeliveryModeClearedEvent';
+}
+
+export class PaymentDetailsSetEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'PaymentDetailsSetEvent';
+  /**
+   * Payment details id
+   */
+  paymentDetailsId: string;
+}
+
+export class PaymentDetailsCreatedEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'PaymentDetailsCreatedEvent';
+  /**
+   * Payment details
+   */
+  paymentDetails: PaymentDetails;
 }

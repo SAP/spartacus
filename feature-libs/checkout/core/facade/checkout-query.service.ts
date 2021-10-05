@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -6,9 +11,12 @@ import {
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
+  PaymentDetailsCreatedEvent,
+  PaymentDetailsSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
+  CartActions,
   CurrencySetEvent,
   LanguageSetEvent,
   LoginEvent,
@@ -18,13 +26,10 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import {
-  RestoreSavedCartSuccessEvent,
-  SaveCartSuccessEvent,
-} from 'feature-libs/cart/saved-cart/root';
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
+import { CheckoutActions } from '../store/actions/index';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
@@ -59,6 +64,10 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         DeliveryModeClearedEvent,
         SaveCartSuccessEvent,
         RestoreSavedCartSuccessEvent,
+        PaymentDetailsCreatedEvent,
+        PaymentDetailsSetEvent,
+        this.actions$.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)),
+        this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
       ],
     }
   );
@@ -67,7 +76,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,
-    protected checkoutConnector: CheckoutConnector
+    protected checkoutConnector: CheckoutConnector,
+    protected actions$: Actions
   ) {}
 
   getCheckoutDetails(): Observable<CheckoutState | undefined> {

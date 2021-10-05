@@ -72,7 +72,7 @@ export class ReviewSubmitComponent {
     return this.checkoutDeliveryService.getSelectedDeliveryMode();
   }
 
-  get paymentDetails$(): Observable<PaymentDetails> {
+  get paymentDetails$(): Observable<PaymentDetails | undefined> {
     return this.checkoutPaymentService.getPaymentDetails();
   }
 

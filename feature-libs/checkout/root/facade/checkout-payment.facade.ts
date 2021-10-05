@@ -27,7 +27,7 @@ export abstract class CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  abstract getPaymentDetails(): Observable<PaymentDetails>;
+  abstract getPaymentDetails(): Observable<PaymentDetails | undefined>;
 
   /**
    * Create payment details using the given paymentDetails param

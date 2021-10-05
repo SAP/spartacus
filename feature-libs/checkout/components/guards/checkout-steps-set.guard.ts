@@ -9,6 +9,7 @@ import {
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
   PaymentTypeFacade,
@@ -16,7 +17,6 @@ import {
 import { RoutingConfigService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
@@ -26,10 +26,10 @@ export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
     protected paymentTypeService: PaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDetailsService: CheckoutDetailsService,
     protected routingConfigService: RoutingConfigService,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected router: Router
   ) {}
 
@@ -163,7 +163,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isPaymentDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDetailsService
+    return this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
         map((paymentDetails) =>

@@ -3,6 +3,7 @@ import {
   Address,
   DeliveryMode,
   facadeFactory,
+  PaymentDetails,
   QueryState,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -11,6 +12,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 export interface CheckoutState {
   deliveryAddress?: Address;
   deliveryMode?: DeliveryMode;
+  paymentInfo?: PaymentDetails;
 }
 
 @Injectable({

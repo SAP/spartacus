@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
+import { Store } from '@ngrx/store';
+import {
+  CheckoutPaymentFacade,
+  CheckoutQueryFacade,
+  PaymentDetailsCreatedEvent,
+  PaymentDetailsSetEvent,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   CardType,
@@ -8,21 +13,19 @@ import {
   CommandService,
   CommandStrategy,
   CurrencySetEvent,
+  EventService,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   Query,
   QueryService,
-  StateWithProcess,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
-import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
@@ -55,8 +58,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
               .create(userId, cartId, payload)
               .pipe(
                 tap((response) => {
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.CreatePaymentDetailsSuccess(response)
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      paymentDetails: response,
+                    },
+                    PaymentDetailsCreatedEvent
                   );
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.checkoutStore.dispatch(
@@ -96,8 +104,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
               .set(userId, cartId, paymentDetailsId)
               .pipe(
                 tap(() => {
-                  this.checkoutStore.dispatch(
-                    new CheckoutActions.SetPaymentDetailsSuccess(payload)
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      paymentDetailsId,
+                    },
+                    PaymentDetailsSetEvent
                   );
                 })
               );
@@ -111,12 +124,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
 
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
-    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,
     protected command: CommandService,
-    protected checkoutPaymentConnector: CheckoutPaymentConnector
+    protected eventService: EventService,
+    protected checkoutPaymentConnector: CheckoutPaymentConnector,
+    protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
   /**
@@ -129,8 +143,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
+  getPaymentDetails(): Observable<PaymentDetails | undefined> {
+    return this.checkoutQuery.getCheckoutDetailsState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data?.paymentInfo)
+    );
   }
 
   /**

@@ -19,7 +19,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
-import { CheckoutDetailsService } from './checkout-details.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +33,6 @@ export class ExpressCheckoutService {
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
     protected featureConfigService: FeatureConfigService
   ) {

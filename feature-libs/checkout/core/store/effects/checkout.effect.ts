@@ -13,7 +13,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -78,45 +77,6 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  loadCheckoutDetails$: Observable<
-    | CheckoutActions.LoadCheckoutDetailsSuccess
-    | CheckoutActions.LoadCheckoutDetailsFail
-  > = this.actions$.pipe(
-    ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
-    map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutConnector
-        .loadCheckoutDetails(payload.userId, payload.cartId)
-        .pipe(
-          map(
-            (data: CheckoutDetails) =>
-              new CheckoutActions.LoadCheckoutDetailsSuccess(data)
-          ),
-          catchError((error) =>
-            of(
-              new CheckoutActions.LoadCheckoutDetailsFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    }),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  reloadDetailsOnMergeCart$: Observable<CheckoutActions.LoadCheckoutDetails> = this.actions$.pipe(
-    ofType(CartActions.MERGE_CART_SUCCESS),
-    map((action: CartActions.MergeCartSuccess) => action.payload),
-    map((payload) => {
-      return new CheckoutActions.LoadCheckoutDetails({
-        userId: payload.userId,
-        cartId: payload.cartId,
-      });
-    })
   );
 
   @Effect()

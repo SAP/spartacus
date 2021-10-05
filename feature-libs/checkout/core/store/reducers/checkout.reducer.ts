@@ -4,7 +4,6 @@ import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
-  paymentDetails: {},
   orderDetails: {},
 };
 
@@ -12,7 +11,6 @@ export function reducer(
   state = initialState,
   action:
     | CheckoutActions.CheckoutAction
-    | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.ReplenishmentOrderActions
 ): CheckoutStepsState {
@@ -38,14 +36,6 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS:
-    case CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        paymentDetails: action.payload,
-      };
-    }
-
     case CheckoutActions.PLACE_ORDER_SUCCESS:
     case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
       const orderDetails: Order | ReplenishmentOrder = action.payload;
@@ -58,27 +48,6 @@ export function reducer(
 
     case CheckoutActions.CLEAR_CHECKOUT_DATA: {
       return initialState;
-    }
-
-    case CheckoutActions.CLEAR_CHECKOUT_STEP: {
-      const stepNumber = action.payload;
-      switch (stepNumber) {
-        case 3: {
-          return {
-            ...state,
-            paymentDetails: {},
-          };
-        }
-      }
-
-      return state;
-    }
-
-    case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        paymentDetails: action.payload.paymentInfo,
-      };
     }
   }
 

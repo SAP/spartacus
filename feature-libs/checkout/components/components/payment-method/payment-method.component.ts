@@ -92,7 +92,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
                 this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
               }
             });
-            this.checkoutService.clearCheckoutStep(3);
+            // TODO: this.checkoutService.clearCheckoutStep(3);
           } else if (this.shouldRedirect) {
             this.next();
           }

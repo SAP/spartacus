@@ -4,9 +4,9 @@ import {
   CheckoutStepService,
   PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/components';
-import { CheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -51,7 +51,7 @@ export class DpPaymentMethodComponent
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,

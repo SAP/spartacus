@@ -1,7 +1,6 @@
 import {
   Order,
   ORDER_TYPE,
-  PaymentDetails,
   PaymentType,
   ReplenishmentOrder,
   StateUtils,
@@ -23,7 +22,6 @@ export interface CheckoutStepsState {
     po?: string;
     costCenter?: string;
   };
-  paymentDetails: PaymentDetails;
   orderDetails: Order | ReplenishmentOrder;
 }
 
