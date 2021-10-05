@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import {
   CmsPageGuard,
   HamburgerMenuModule,
+  LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-routing-config';
@@ -30,7 +31,7 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
   ],
   providers: [
     provideDefaultConfig(defaultCpqInteractiveRoutingConfig),
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<LayoutConfig>{
       layoutSlots: {
         CpqConfigurationTemplate: {
           header: {
