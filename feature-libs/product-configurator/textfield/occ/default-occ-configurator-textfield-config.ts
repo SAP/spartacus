@@ -13,7 +13,8 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
 
           readTextfieldConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
-
+          readTextfieldConfigurationForOrderEntry:
+            'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/configurator/textfield',
           updateTextfieldConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
         },
