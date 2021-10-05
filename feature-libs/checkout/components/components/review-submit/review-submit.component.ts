@@ -64,11 +64,11 @@ export class ReviewSubmitComponent {
     return this.checkoutStepService.steps$;
   }
 
-  get deliveryAddress$(): Observable<Address> {
+  get deliveryAddress$(): Observable<Address | undefined> {
     return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
-  get deliveryMode$(): Observable<DeliveryMode | null | undefined> {
+  get deliveryMode$(): Observable<DeliveryMode | undefined> {
     return this.checkoutDeliveryService.getSelectedDeliveryMode();
   }
 
@@ -78,7 +78,7 @@ export class ReviewSubmitComponent {
 
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
-      switchMap((address: Address) =>
+      switchMap((address: Address | undefined) =>
         this.userAddressService.getCountry(address?.country?.isocode as string)
       ),
       tap((country: Country) => {

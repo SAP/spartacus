@@ -41,7 +41,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
   protected shouldRedirect: boolean;
-  protected deliveryAddress: Address;
+  protected deliveryAddress: Address | undefined;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -68,7 +68,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryService
       .getDeliveryAddress()
       .pipe(take(1))
-      .subscribe((address: Address) => {
+      .subscribe((address) => {
         this.deliveryAddress = address;
       });
 
