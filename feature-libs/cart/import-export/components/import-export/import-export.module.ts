@@ -20,12 +20,21 @@ import { ImportExportComponent } from './import-export.component';
         ImportExportComponent: {
           component: ImportExportComponent,
           data: {
-            importButtonDisplayRoutes: ['savedCarts', 'savedCartsDetails'],
-            exportButtonDisplayRoutes: ['savedCartsDetails', 'cart'],
+            importButtonDisplayRoutes: [
+              'savedCarts',
+              'savedCartsDetails',
+              'quickOrder',
+            ],
+            exportButtonDisplayRoutes: [
+              'savedCartsDetails',
+              'cart',
+              'quickOrder',
+            ],
             routesCartMapping: {
               savedCarts: CartTypes.NEW_SAVED_CART,
               savedCartsDetails: CartTypes.SAVED_CART,
               cart: CartTypes.ACTIVE_CART,
+              quickOrder: CartTypes.QUICK_ORDER,
             },
           },
         },

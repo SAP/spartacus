@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  provideConfig,
-} from '@spartacus/core';
+import { I18nModule, provideConfig } from '@spartacus/core';
 import { ImportEntriesComponent } from './import-entries/import-entries-component';
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,13 +25,6 @@ import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-en
     KeyboardFocusModule,
     FileUploadModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ImportProductsComponent: {
-          component: ImportEntriesComponent,
-        },
-      },
-    }),
   ],
   declarations: [
     ImportEntriesComponent,
