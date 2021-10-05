@@ -364,13 +364,11 @@ describe('QuickOrderService', () => {
         observeOn(queueScheduler),
         take(1),
         tap((softDeletedEntries) => {
-          console.log('1', JSON.stringify(softDeletedEntries));
           expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
         }),
         tap(() => service.restoreSoftDeletedEntry(mockProduct1Code))
       )
       .subscribe((result) => {
-        console.log('2', JSON.stringify(result));
         expect(result).toEqual({});
         done();
       });
