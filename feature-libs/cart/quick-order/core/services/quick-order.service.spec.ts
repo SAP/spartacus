@@ -355,8 +355,8 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({ mockCode1: mockEntry1 });
+        done();
       });
-    done();
   });
 
   it('should undo deleted entry', (done) => {
@@ -370,8 +370,8 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
+        done();
       });
-    done();
   });
 
   it('should clear deleted entry', (done) => {
@@ -383,7 +383,7 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
+        done();
       });
-    done();
   });
 });

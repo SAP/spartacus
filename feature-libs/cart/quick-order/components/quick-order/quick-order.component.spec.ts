@@ -267,7 +267,7 @@ describe('QuickOrderComponent', () => {
       );
     });
 
-    it('should not trigger restoreSoftDeletedEntry from service', () => {
+    it('should not trigger restoreSoftDeletedEntry from service on empty entry', () => {
       spyOn(quickOrderService, 'restoreSoftDeletedEntry').and.callThrough();
 
       component.undoDeletion(mockEmptyEntry);
@@ -285,7 +285,7 @@ describe('QuickOrderComponent', () => {
       );
     });
 
-    it('should not trigger hardDeleteEntry from service', () => {
+    it('should not trigger hardDeleteEntry from service on empty entry', () => {
       spyOn(quickOrderService, 'hardDeleteEntry').and.callThrough();
 
       component.clearDeletion(mockEmptyEntry);
