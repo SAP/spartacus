@@ -62,7 +62,7 @@ export class ImportToCartService {
       case CartTypes.NEW_SAVED_CART: {
         return this.addEntriesToNewSavedCart(products, savedCartInfo);
       }
-      case CartTypes.EXISTING_SAVED_CART: {
+      case CartTypes.SAVED_CART: {
         return this.addEntriesToSavedCart(products);
       }
       case CartTypes.ACTIVE_CART:
@@ -161,7 +161,7 @@ export class ImportToCartService {
     switch (cartType) {
       case CartTypes.ACTIVE_CART:
       case CartTypes.NEW_SAVED_CART:
-      case CartTypes.EXISTING_SAVED_CART:
+      case CartTypes.SAVED_CART:
       default: {
         return this.getCartResults(cartId);
       }

@@ -24,7 +24,7 @@ import { ImportExportComponent } from './import-export.component';
             exportButtonDisplayPages: ['savedCartsDetails', 'cart'],
             routesCartMapping: new Map<string, CartTypes>([
               ['savedCarts', CartTypes.NEW_SAVED_CART],
-              ['savedCartsDetails', CartTypes.EXISTING_SAVED_CART],
+              ['savedCartsDetails', CartTypes.SAVED_CART],
               ['cart', CartTypes.ACTIVE_CART],
             ]),
           },

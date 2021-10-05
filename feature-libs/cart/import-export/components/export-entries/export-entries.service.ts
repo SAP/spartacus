@@ -67,7 +67,7 @@ export class ExportEntriesService {
 
   protected getEntries(cartType: CartTypes): Observable<OrderEntry[]> {
     switch (cartType) {
-      case CartTypes.EXISTING_SAVED_CART: {
+      case CartTypes.SAVED_CART: {
         return this.getSavedCartEntries();
       }
       case CartTypes.ACTIVE_CART:
