@@ -1,11 +1,11 @@
 <ng-container *ngIf="cmsComponentData$ | async as data">
   <ng-container *ngIf="route$ | async as route">
     <cx-import-entries
-      *ngIf="shouldDisplayButton(data.importButtonDisplayPages, route)"
+      *ngIf="shouldDisplayButton(data.importButtonDisplayRoutes, route)"
       [cartType]="getCartType(data.routesCartMapping, route)"
     ></cx-import-entries>
     <cx-export-entries
-      *ngIf="shouldDisplayButton(data.exportButtonDisplayPages, route)"
+      *ngIf="shouldDisplayButton(data.exportButtonDisplayRoutes, route)"
       [cartType]="getCartType(data.routesCartMapping, route)"
     ></cx-export-entries>
   </ng-container>

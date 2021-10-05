@@ -20,13 +20,13 @@ import { ImportExportComponent } from './import-export.component';
         ImportExportComponent: {
           component: ImportExportComponent,
           data: {
-            importButtonDisplayPages: ['savedCarts', 'savedCartsDetails'],
-            exportButtonDisplayPages: ['savedCartsDetails', 'cart'],
-            routesCartMapping: new Map<string, CartTypes>([
-              ['savedCarts', CartTypes.NEW_SAVED_CART],
-              ['savedCartsDetails', CartTypes.SAVED_CART],
-              ['cart', CartTypes.ACTIVE_CART],
-            ]),
+            importButtonDisplayRoutes: ['savedCarts', 'savedCartsDetails'],
+            exportButtonDisplayRoutes: ['savedCartsDetails', 'cart'],
+            routesCartMapping: {
+              savedCarts: CartTypes.NEW_SAVED_CART,
+              savedCartsDetails: CartTypes.SAVED_CART,
+              cart: CartTypes.ACTIVE_CART,
+            },
           },
         },
       },

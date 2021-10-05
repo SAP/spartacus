@@ -7,7 +7,7 @@ export enum CartTypes {
 }
 
 export interface CmsImportExportComponent extends CmsComponent {
-  importButtonDisplayPages: string[];
-  exportButtonDisplayPages: string[];
-  routesCartMapping: Map<string, CartTypes>;
+  importButtonDisplayRoutes: string[];
+  exportButtonDisplayRoutes: string[];
+  routesCartMapping: { [route: string]: CartTypes };
 }
