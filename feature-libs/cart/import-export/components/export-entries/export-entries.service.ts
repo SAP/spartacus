@@ -10,6 +10,7 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { ExportCsvFileService } from '@spartacus/storefront';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ImportExportConfig,
   ExportColumn,
@@ -28,7 +29,8 @@ export class ExportEntriesService {
     protected importExportConfig: ImportExportConfig,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    protected exportCsvFileService: ExportCsvFileService
+    protected exportCsvFileService: ExportCsvFileService,
+    protected quickOrderFacade: QuickOrderFacade
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
@@ -67,7 +69,9 @@ export class ExportEntriesService {
 
   protected getEntries(cartType: CartTypes): Observable<OrderEntry[]> {
     switch (cartType) {
-      // TODO: case CartTypes.QUICK_ORDER #12885
+      case CartTypes.QUICK_ORDER: {
+        return this.getQuickOrderEntries();
+      }
       case CartTypes.SAVED_CART: {
         return this.getSavedCartEntries();
       }
@@ -76,6 +80,10 @@ export class ExportEntriesService {
         return this.getActiveCartEntries();
       }
     }
+  }
+
+  protected getQuickOrderEntries(): Observable<OrderEntry[]> {
+    return this.quickOrderFacade.getEntries();
   }
 
   protected getSavedCartEntries(): Observable<OrderEntry[]> {
