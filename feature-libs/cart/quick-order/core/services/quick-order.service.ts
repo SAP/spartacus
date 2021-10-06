@@ -1,35 +1,51 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
+  defaultQuickOrderFormConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   EventService,
+  HttpErrorModel,
   OrderEntry,
   Product,
-  ProductAdapter,
-  CartAddEntryFailEvent,
-  HttpErrorModel,
+  ProductSearchAdapter,
+  ProductSearchPage,
+  SearchConfig,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class QuickOrderService implements QuickOrderFacade {
+@Injectable()
+export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
+  protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
+    new BehaviorSubject<Record<string, OrderEntry>>({});
+  protected hardDeleteTimeout = 50000;
+
+  private clearDeleteTimeouts: Record<string, Subscription> = {};
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter,
+    protected productSearchAdapter: ProductSearchAdapter,
     protected eventService: EventService
   ) {}
+
+  ngOnDestroy(): void {
+    this.clearDeletedEntries();
+  }
 
   /**
    * Get entries
@@ -39,10 +55,16 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Search product using sku
+   * Search product using query
    */
-  search(productCode: string): Observable<Product> {
-    return this.productAdapter.load(productCode);
+  search(query: string, maxProducts?: number): Observable<Product[]> {
+    const searchConfig: SearchConfig = {
+      pageSize:
+        maxProducts || defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
+    };
+    return this.productSearchAdapter
+      .search(query, searchConfig)
+      .pipe(map((searchPage: ProductSearchPage) => searchPage.products || []));
   }
 
   /**
@@ -70,14 +92,22 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
    */
-  removeEntry(index: number): void {
+  softDeleteEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
+      this.addSoftEntryDeletion(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
+  }
+
+  /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
+   */
+  removeEntry(index: number): void {
+    this.softDeleteEntry(index);
   }
 
   /**
@@ -141,6 +171,86 @@ export class QuickOrderService implements QuickOrderFacade {
       map(() => [entries, events] as [OrderEntry[], QuickOrderAddEntryEvent[]]),
       tap(() => subscription.unsubscribe())
     );
+  }
+
+  /**
+   * Return soft deleted entries
+   */
+  getSoftDeletedEntries(): Observable<Record<string, OrderEntry>> {
+    return this.softDeletedEntries$;
+  }
+
+  /**
+   * Restore soft deleted entry
+   */
+  restoreSoftDeletedEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
+
+    this.addEntry(entry);
+    this.hardDeleteEntry(productCode);
+  }
+
+  /**
+   * Clear deleted entry from the list
+   */
+  hardDeleteEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
+    const deletedEntries = this.softDeletedEntries$.getValue();
+
+    if (entry) {
+      delete deletedEntries[productCode];
+      this.softDeletedEntries$.next(deletedEntries);
+    }
+
+    this.clearDeleteTimeout(productCode);
+  }
+
+  /**
+   * Clear all deleted entries and timeout subscriptions
+   */
+  clearDeletedEntries(): void {
+    Object.values(this.clearDeleteTimeouts).forEach(
+      (subscription: Subscription) => subscription.unsubscribe()
+    );
+
+    this.softDeletedEntries$.next({});
+    this.clearDeleteTimeouts = {};
+  }
+
+  /**
+   * Add soft deleted entry to the cached list
+   */
+  protected addSoftEntryDeletion(
+    entry: OrderEntry,
+    clearTimeout: boolean = true
+  ): void {
+    const deletedEntries = this.softDeletedEntries$.getValue();
+    const productCode = entry.product?.code;
+
+    if (productCode) {
+      deletedEntries[productCode] = entry;
+
+      this.softDeletedEntries$.next(deletedEntries);
+
+      if (clearTimeout) {
+        const subscription: Subscription = timer(
+          this.hardDeleteTimeout
+        ).subscribe(() => {
+          this.hardDeleteEntry(productCode);
+        });
+
+        this.clearDeleteTimeouts[productCode] = subscription;
+      }
+    }
+  }
+
+  /**
+   * Get soft deletion entry
+   */
+  protected getSoftDeletedEntry(productCode: string): OrderEntry {
+    const deletedEntries = this.softDeletedEntries$.getValue();
+
+    return deletedEntries[productCode];
   }
 
   /**
@@ -216,5 +326,14 @@ export class QuickOrderService implements QuickOrderFacade {
     }
 
     return evt;
+  }
+
+  protected clearDeleteTimeout(productCode: string): void {
+    const clearMessageTimout = this.clearDeleteTimeouts[productCode];
+
+    if (clearMessageTimout) {
+      clearMessageTimout.unsubscribe();
+      delete this.clearDeleteTimeouts[productCode];
+    }
   }
 }
