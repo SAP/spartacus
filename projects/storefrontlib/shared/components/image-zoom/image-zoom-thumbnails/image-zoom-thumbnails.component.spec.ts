@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 import { ImageZoomThumbnailsComponent } from './image-zoom-thumbnails.component';
 
 const firstImage = {
@@ -94,24 +92,6 @@ describe('ImageZoomThumbnailsComponent', () => {
         .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toBeFalsy();
-    });
-  });
-
-  describe('UI test)', () => {
-    it('should not render cx-carousel for one GALLERY image', () => {
-      imageZoomThumbnailsComponent.thumbs$ = of([]);
-      fixture.detectChanges();
-
-      const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-      expect(carousel).toBeNull();
-    });
-
-    it('should have 2 rendered templates for two GALLERY images', () => {
-      imageZoomThumbnailsComponent.thumbs$ = of([firstImage, secondImage]);
-      fixture.detectChanges();
-
-      const el = fixture.debugElement.queryAll(By.css('cx-carousel cx-media'));
-      expect(el.length).toEqual(2);
     });
   });
 });

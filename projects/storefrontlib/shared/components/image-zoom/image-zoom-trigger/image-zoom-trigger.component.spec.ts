@@ -6,6 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImageZoomTriggerComponent } from './image-zoom-trigger.component';
@@ -34,6 +35,9 @@ describe('ImageZoomTriggerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule
+      ],
       providers: [
         {
           provide: LaunchDialogService,
@@ -64,7 +68,7 @@ describe('ImageZoomTriggerComponent', () => {
     });
 
     it('should call launchDialogService launch', () => {
-      component.expandImage();
+      component.triggerZoom();
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
         LAUNCH_CALLER.IMAGE_ZOOM,
@@ -75,7 +79,7 @@ describe('ImageZoomTriggerComponent', () => {
     it('should call LaunchDialogService clear on close', () => {
       spyOn(launchDialogService, 'clear');
 
-      component.expandImage();
+      component.triggerZoom();
 
       expect(launchDialogService.clear).toHaveBeenCalledWith(
         LAUNCH_CALLER.IMAGE_ZOOM
@@ -85,16 +89,9 @@ describe('ImageZoomTriggerComponent', () => {
     it('should destroy component on close', () => {
       spyOn(testDialogComponent, 'destroy');
 
-      component.expandImage();
+      component.triggerZoom();
 
       expect(testDialogComponent.destroy).toHaveBeenCalled();
-    });
-
-    it('should pass index of zoom image to dialog', () => {
-      component.galleryIndex = 2;
-      component.expandImage();
-
-      expect(testDialogComponent.instance.galleryItem).toEqual(2);
     });
   });
 });
