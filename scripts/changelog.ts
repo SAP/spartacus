@@ -363,9 +363,9 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/order':
       config.library = '@spartacus/order';
       break;
-    case 'digital-payments':
-    case '@spartacus/digital-payments':
-      config.library = '@spartacus/digital-payments';
+    case 'asm':
+    case '@@spartacus/asm':
+      config.library = '@spartacus/asm';
       break;
     default:
       config.library = undefined;
