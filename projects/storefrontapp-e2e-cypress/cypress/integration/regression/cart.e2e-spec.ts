@@ -206,23 +206,29 @@ describe('Cart', () => {
         });
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        cy.route(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts?*`
-        ).as('cart');
+          )}/users/current/carts`,
+        }).as('cart');
         cart.clickAddToCart();
         cart.checkAddedToCartDialog();
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
 
         // cleanup
-        cy.route(
-          'GET',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts/*?fields=*&lang=en&curr=USD`
-        ).as('refresh_cart');
+          )}/users/current/carts/*`,
+          query: {
+            lang: 'en',
+            curr: 'USD',
+            fields: '*',
+          },
+        }).as('refresh_cart');
         cart.removeCartItem(cart.products[0]);
         cart.validateEmptyCart();
       });
@@ -254,21 +260,24 @@ describe('Cart', () => {
 
       // will fail right now, as this is not fixed yet
       it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
-        cy.server();
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        cy.route({
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/anonymous/carts/*/entries*`,
-          method: 'POST',
-          status: 400,
-          response: {
-            error: {},
+        cy.intercept(
+          {
+            method: 'POST',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/anonymous/carts/*/entries`,
           },
-        }).as('addEntry');
+          {
+            body: {
+              error: {},
+            },
+            statusCode: 400,
+          }
+        ).as('addEntry');
         cart.clickAddToCart();
-        cy.wait('@addEntry').its('status').should('eq', 200);
+        cy.wait('@addEntry').its('response.statusCode').should('eq', 400);
         cy.get('cx-added-to-cart-dialog .modal-header').should(
           'not.contain',
           'Item(s) added to your cart'

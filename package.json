@@ -7,6 +7,7 @@
     "node": ">=12 <17"
   },
   "scripts": {
+    "build:analyze": "yarn build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --configuration production",
     "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
     "build:user": "yarn --cwd feature-libs/user run build:schematics && ng build user --configuration production",

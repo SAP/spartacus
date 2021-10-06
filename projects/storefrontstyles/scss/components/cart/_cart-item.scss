@@ -112,6 +112,20 @@
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
+
+    @include forVersion(4.2) {
+      @include media-breakpoint-down(sm) {
+        .readonly-value {
+          display: flex;
+          justify-content: space-between;
+
+          &::before {
+            content: '';
+            width: 105px;
+          }
+        }
+      }
+    }
   }
 
   .cx-total {
@@ -122,6 +136,17 @@
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
+    }
+  }
+
+  @include forVersion(4.2) {
+    .cx-price,
+    .cx-quantity,
+    .cx-total {
+      @include media-breakpoint-down(sm) {
+        width: 250px;
+        justify-content: space-between;
+      }
     }
   }
 

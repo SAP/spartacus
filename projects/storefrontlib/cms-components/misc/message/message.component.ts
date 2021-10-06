@@ -10,10 +10,22 @@ export class MessageComponent {
   text: string;
 
   @Input()
+  actionButtonText: string;
+
+  @Input()
+  accordionText: string;
+
+  @Input()
+  showBody = false;
+
+  @Input()
   type: GlobalMessageType;
 
   @Output()
   closeMessage: EventEmitter<void> = new EventEmitter();
+
+  @Output()
+  buttonAction: EventEmitter<void> = new EventEmitter();
 
   iconTypes = ICON_TYPE;
 
