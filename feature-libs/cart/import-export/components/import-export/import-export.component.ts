@@ -24,12 +24,12 @@ export class ImportExportComponent {
       .pipe(map((route) => route.state?.semanticRoute as string));
   }
 
-  protected routesCartMapping = {
-    cart: this.activeCartService,
-    savedCarts: this.newSavedCartService,
-    savedCartsDetails: this.savedCartService,
-    quickOrder: this.quickOrderService,
-  };
+  protected routesCartMapping = new Map<string, ImportExportContext>([
+    ['cart', this.activeCartService],
+    ['savedCarts', this.newSavedCartService],
+    ['savedCartsDetails', this.savedCartService],
+    ['quickOrder', this.quickOrderService],
+  ]);
 
   constructor(
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
@@ -55,6 +55,6 @@ export class ImportExportComponent {
   );
 
   service$: Observable<ImportExportContext | undefined> = this.route$.pipe(
-    map((route) => this.routesCartMapping[route])
+    map((route) => this.routesCartMapping.get(route))
   );
 }
