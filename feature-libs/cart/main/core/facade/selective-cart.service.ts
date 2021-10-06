@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
@@ -43,7 +42,6 @@ export class SelectiveCartService {
     protected userService: UserService,
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService,
-    protected cartConfigService: CartConfigService,
     protected userIdService: UserIdService
   ) {
     combineLatest([
@@ -171,12 +169,6 @@ export class SelectiveCartService {
     return this.multiCartService.getEntry(this.cartId, productCode);
   }
 
-  /**
-   * Indicates if selectiveCart feature is enabled based on cart configuration.
-   */
-  isEnabled(): boolean {
-    return this.cartConfigService.isSelectiveCartEnabled();
-  }
   /**
    * Indicates if given cart is empty.
    * Returns true is cart is undefined, null or is an empty object.
