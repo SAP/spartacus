@@ -16,7 +16,6 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 describe('Profile-tag events', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -58,12 +57,12 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-cart-item cx-item-counter').getByText('+').click();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+        )}/users/anonymous/carts/*`,
+      }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
       cy.window().then((win) => {
         expect(
@@ -93,12 +92,12 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+        )}/users/anonymous/carts/*`,
+      }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
       cy.window().then((win) => {
         expect(
@@ -122,7 +121,7 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a product detail page view event when viewing a product', () => {
-    cy.route('GET', `**reviews*`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**reviews*` }).as('lastRequest');
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
     const productPrice = 8.2;
@@ -221,7 +220,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
@@ -250,7 +251,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -269,7 +272,9 @@ describe('Profile-tag events', () => {
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 10);
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
-    cy.route('GET', `**/products/search**`).as('lastRequest2'); //waiting for the same request a 2nd time doesn't work
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest2'
+    ); //waiting for the same request a 2nd time doesn't work
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -286,7 +291,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -321,7 +328,7 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
@@ -334,7 +341,6 @@ describe('Profile-tag events', () => {
 // and the next will then have consent granted
 describe('Consent Changed', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -407,10 +413,13 @@ describe('Consent Changed', () => {
 
 function goToProductPage(): Cypress.Chainable<number> {
   const productPagePath = 'ProductPage';
-  const productPage = checkoutFlow.waitForPage(
+  const productPage = checkoutFlow.waitForProductPage(
     productPagePath,
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
-  return cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  return cy
+    .wait(`@${productPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
