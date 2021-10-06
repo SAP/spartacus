@@ -108,7 +108,7 @@ export abstract class ActiveCartFacade {
   abstract getAssignedUser(): Observable<User>;
 
   /**
-   * Returns true for guest cart
+   * Returns observable of true for guest cart
    */
   abstract isGuestCart(cart?: Cart): Observable<boolean>;
 
