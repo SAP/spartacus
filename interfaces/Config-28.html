@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/direction/config/direction.config.ts</code>
+            <code>projects/storefrontlib/src/shared/components/media/media.config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/DirectionConfig.html" target="_self" >DirectionConfig</a></code>
+                        <code><a href="../injectables/MediaConfig.html" target="_self" >MediaConfig</a></code>
             </p>
 
 
@@ -85,32 +85,44 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import { Direction } from &#x27;./direction.model&#x27;;
+import { ImageLoadingStrategy, MediaFormatSize } from &#x27;./media.model&#x27;;
 
 /**
- * The direction config provides an easy way to configure &quot;ltr&quot; versus &quot;rtl&quot; direction
- * for the storefront. The direction can be configured to detect the direction by language.
- *
- * The following configuration detects rtl languages by isoCode for Arabic and Hebrew:
- *
- * &#x60;&#x60;&#x60;typescript
- * direction: {
- *   detect: true,
- *   default: DirectionMode.LTR,
- *   rtlLanguages: [&#x27;ar&#x27;, &#x27;he&#x27;]
- * }
- * &#x60;&#x60;&#x60;
+ * Provides configuration specific to Media, such as images. This is used to optimize
+ * rendering of the media, SEO and performance.
  */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class DirectionConfig {
-  direction?: Direction;
+export abstract class MediaConfig {
+  /**
+   * Media _format_ configuration holds the size of the media&#x27;s assigned to
+   * a format.
+   */
+  mediaFormats?: {
+    /**
+     * Represents the media format code, that is the key to distinguish different
+     * media in a container.
+     */
+    [format: string]: MediaFormatSize;
+  };
+
+  /**
+   * Indicates how the browser should load the image. There&#x27;s only one
+   * global strategy for all media cross media in Spartacus.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img for more
+   * information.
+   *
+   * If the &#x60;lazy&#x60; strategy is in place, the &#x60;loading&#x3D;&quot;lazy&quot;&#x60; attribute is added to the
+   * img element.
+   */
+  imageLoadingStrategy?: ImageLoadingStrategy;
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends DirectionConfig {}
+  interface Config extends MediaConfig {}
 }
 </code></pre>
     </div>

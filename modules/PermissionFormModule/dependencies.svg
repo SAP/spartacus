@@ -14,51 +14,51 @@
 <title>cluster_PermissionFormModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-342.39 1164,-342.39 1164,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_PermissionFormModule_declarations</title>
-<polygon fill="none" stroke="black" points="705,-152.39 705,-204.39 895,-204.39 895,-152.39 705,-152.39"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_PermissionFormModule_exports</title>
-<polygon fill="none" stroke="black" points="352,-282.39 352,-334.39 546,-334.39 546,-282.39 352,-282.39"/>
+<polygon fill="none" stroke="black" points="625,-282.39 625,-334.39 819,-334.39 819,-282.39 625,-282.39"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PermissionFormModule_imports</title>
+<polygon fill="none" stroke="black" points="496,-152.39 496,-204.39 1084,-204.39 1084,-152.39 496,-152.39"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PermissionFormModule_declarations</title>
+<polygon fill="none" stroke="black" points="298,-152.39 298,-204.39 488,-204.39 488,-152.39 298,-152.39"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_PermissionFormModule_PermissionFormComponent_providers</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-139.39 1156,-139.39 1156,-40.8 16,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_PermissionFormModule_imports</title>
-<polygon fill="none" stroke="black" points="109,-152.39 109,-204.39 697,-204.39 697,-152.39 109,-152.39"/>
-</g>
 <!-- PermissionFormComponent -->
 <g id="node1" class="node">
 <title>PermissionFormComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="886.89,-196.39 713.11,-196.39 713.11,-160.39 886.89,-160.39 886.89,-196.39"/>
-<text text-anchor="middle" x="800" y="-174.19" font-family="Times,serif" font-size="14.00">PermissionFormComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="479.89,-196.39 306.11,-196.39 306.11,-160.39 479.89,-160.39 479.89,-196.39"/>
+<text text-anchor="middle" x="393" y="-174.19" font-family="Times,serif" font-size="14.00">PermissionFormComponent</text>
 </g>
 <!-- PermissionFormModule -->
 <g id="node2" class="node">
 <title>PermissionFormModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="525.1,-261.39 522.1,-265.39 501.1,-265.39 498.1,-261.39 372.9,-261.39 372.9,-225.39 525.1,-225.39 525.1,-261.39"/>
-<text text-anchor="middle" x="449" y="-239.19" font-family="Times,serif" font-size="14.00">PermissionFormModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="798.1,-261.39 795.1,-265.39 774.1,-265.39 771.1,-261.39 645.9,-261.39 645.9,-225.39 798.1,-225.39 798.1,-261.39"/>
+<text text-anchor="middle" x="722" y="-239.19" font-family="Times,serif" font-size="14.00">PermissionFormModule</text>
 </g>
 <!-- PermissionFormComponent&#45;&gt;PermissionFormModule -->
 <g id="edge1" class="edge">
 <title>PermissionFormComponent&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M800,-196.67C800,-217.71 800,-249.39 800,-249.39 800,-249.39 535.16,-249.39 535.16,-249.39"/>
-<polygon fill="black" stroke="black" points="535.16,-245.89 525.16,-249.39 535.16,-252.89 535.16,-245.89"/>
+<path fill="none" stroke="black" d="M393,-196.67C393,-217.71 393,-249.39 393,-249.39 393,-249.39 635.69,-249.39 635.69,-249.39"/>
+<polygon fill="black" stroke="black" points="635.69,-252.89 645.69,-249.39 635.69,-245.89 635.69,-252.89"/>
 </g>
 <!-- PermissionFormComponent  -->
 <g id="node10" class="node">
 <title>PermissionFormComponent </title>
-<polygon fill="#fb8072" stroke="black" points="537.89,-326.39 360.11,-326.39 360.11,-290.39 537.89,-290.39 537.89,-326.39"/>
-<text text-anchor="middle" x="449" y="-304.19" font-family="Times,serif" font-size="14.00">PermissionFormComponent </text>
+<polygon fill="#fb8072" stroke="black" points="810.89,-326.39 633.11,-326.39 633.11,-290.39 810.89,-290.39 810.89,-326.39"/>
+<text text-anchor="middle" x="722" y="-304.19" font-family="Times,serif" font-size="14.00">PermissionFormComponent </text>
 </g>
 <!-- PermissionFormModule&#45;&gt;PermissionFormComponent  -->
 <g id="edge9" class="edge">
 <title>PermissionFormModule&#45;&gt;PermissionFormComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M449,-261.5C449,-261.5 449,-280.38 449,-280.38"/>
-<polygon fill="black" stroke="black" points="445.5,-280.38 449,-290.38 452.5,-280.38 445.5,-280.38"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M722,-261.5C722,-261.5 722,-280.38 722,-280.38"/>
+<polygon fill="black" stroke="black" points="718.5,-280.38 722,-290.38 725.5,-280.38 718.5,-280.38"/>
 </g>
 <!-- {
  &#160;&#160;&#160;provide: ItemService, useExisting: PermissionItemService,
@@ -79,8 +79,8 @@
 <title>{
  &#160;&#160;&#160;provide: ItemService, useExisting: PermissionItemService,
 }&#45;&gt;PermissionFormComponent</title>
-<path fill="none" stroke="black" d="M828.98,-130.11C828.98,-130.11 828.98,-150.36 828.98,-150.36"/>
-<polygon fill="black" stroke="black" points="825.48,-150.36 828.98,-160.36 832.48,-150.36 825.48,-150.36"/>
+<path fill="none" stroke="black" d="M680.05,-112.99C680.05,-128.58 680.05,-146.39 680.05,-146.39 680.05,-146.39 421.98,-146.39 421.98,-146.39 421.98,-146.39 421.98,-150.15 421.98,-150.15"/>
+<polygon fill="black" stroke="black" points="418.48,-150.15 421.98,-160.15 425.48,-150.15 418.48,-150.15"/>
 </g>
 <!-- {
  &#160;&#160;&#160;provide: CurrentItemService, useExisting: CurrentPermissionService,
@@ -101,68 +101,68 @@
 <title>{
  &#160;&#160;&#160;provide: CurrentItemService, useExisting: CurrentPermissionService,
 }&#45;&gt;PermissionFormComponent</title>
-<path fill="none" stroke="black" d="M592.04,-107.6C592.04,-124.12 592.04,-146.39 592.04,-146.39 592.04,-146.39 771.02,-146.39 771.02,-146.39 771.02,-146.39 771.02,-150.15 771.02,-150.15"/>
-<polygon fill="black" stroke="black" points="767.52,-150.15 771.02,-160.15 774.52,-150.15 767.52,-150.15"/>
+<path fill="none" stroke="black" d="M364.02,-131.14C364.02,-131.14 364.02,-150.38 364.02,-150.38"/>
+<polygon fill="black" stroke="black" points="360.52,-150.38 364.02,-160.38 367.52,-150.38 360.52,-150.38"/>
 </g>
 <!-- FormErrorsModule -->
 <g id="node5" class="node">
 <title>FormErrorsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="689.36,-196.39 686.36,-200.39 665.36,-200.39 662.36,-196.39 564.64,-196.39 564.64,-160.39 689.36,-160.39 689.36,-196.39"/>
-<text text-anchor="middle" x="627" y="-174.19" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1076.36,-196.39 1073.36,-200.39 1052.36,-200.39 1049.36,-196.39 951.64,-196.39 951.64,-160.39 1076.36,-160.39 1076.36,-196.39"/>
+<text text-anchor="middle" x="1014" y="-174.19" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
 </g>
 <!-- FormErrorsModule&#45;&gt;PermissionFormModule -->
 <g id="edge4" class="edge">
 <title>FormErrorsModule&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M627,-196.41C627,-213.76 627,-237.39 627,-237.39 627,-237.39 535.26,-237.39 535.26,-237.39"/>
-<polygon fill="black" stroke="black" points="535.26,-233.89 525.26,-237.39 535.26,-240.89 535.26,-233.89"/>
+<path fill="none" stroke="black" d="M1014,-196.67C1014,-217.71 1014,-249.39 1014,-249.39 1014,-249.39 808.34,-249.39 808.34,-249.39"/>
+<polygon fill="black" stroke="black" points="808.34,-245.89 798.34,-249.39 808.34,-252.89 808.34,-245.89"/>
 </g>
 <!-- FormModule -->
 <g id="node6" class="node">
 <title>FormModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="546.88,-196.39 543.88,-200.39 522.88,-200.39 519.88,-196.39 457.12,-196.39 457.12,-160.39 546.88,-160.39 546.88,-196.39"/>
-<text text-anchor="middle" x="502" y="-174.19" font-family="Times,serif" font-size="14.00">FormModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="933.88,-196.39 930.88,-200.39 909.88,-200.39 906.88,-196.39 844.12,-196.39 844.12,-160.39 933.88,-160.39 933.88,-196.39"/>
+<text text-anchor="middle" x="889" y="-174.19" font-family="Times,serif" font-size="14.00">FormModule</text>
 </g>
 <!-- FormModule&#45;&gt;PermissionFormModule -->
 <g id="edge5" class="edge">
 <title>FormModule&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M491.05,-196.5C491.05,-196.5 491.05,-215.38 491.05,-215.38"/>
-<polygon fill="black" stroke="black" points="487.55,-215.38 491.05,-225.38 494.55,-215.38 487.55,-215.38"/>
+<path fill="none" stroke="black" d="M889,-196.41C889,-213.76 889,-237.39 889,-237.39 889,-237.39 808.17,-237.39 808.17,-237.39"/>
+<polygon fill="black" stroke="black" points="808.17,-233.89 798.17,-237.39 808.17,-240.89 808.17,-233.89"/>
 </g>
 <!-- I18nModule -->
 <g id="node7" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="438.71,-196.39 435.71,-200.39 414.71,-200.39 411.71,-196.39 353.29,-196.39 353.29,-160.39 438.71,-160.39 438.71,-196.39"/>
-<text text-anchor="middle" x="396" y="-174.19" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="825.71,-196.39 822.71,-200.39 801.71,-200.39 798.71,-196.39 740.29,-196.39 740.29,-160.39 825.71,-160.39 825.71,-196.39"/>
+<text text-anchor="middle" x="783" y="-174.19" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;PermissionFormModule -->
 <g id="edge6" class="edge">
 <title>I18nModule&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M405.78,-196.5C405.78,-196.5 405.78,-215.38 405.78,-215.38"/>
-<polygon fill="black" stroke="black" points="402.28,-215.38 405.78,-225.38 409.28,-215.38 402.28,-215.38"/>
+<path fill="none" stroke="black" d="M769.22,-196.5C769.22,-196.5 769.22,-215.38 769.22,-215.38"/>
+<polygon fill="black" stroke="black" points="765.72,-215.38 769.22,-225.38 772.72,-215.38 765.72,-215.38"/>
 </g>
 <!-- ItemActiveModule -->
 <g id="node8" class="node">
 <title>ItemActiveModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="335.02,-196.39 332.02,-200.39 311.02,-200.39 308.02,-196.39 212.98,-196.39 212.98,-160.39 335.02,-160.39 335.02,-196.39"/>
-<text text-anchor="middle" x="274" y="-174.19" font-family="Times,serif" font-size="14.00">ItemActiveModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="722.02,-196.39 719.02,-200.39 698.02,-200.39 695.02,-196.39 599.98,-196.39 599.98,-160.39 722.02,-160.39 722.02,-196.39"/>
+<text text-anchor="middle" x="661" y="-174.19" font-family="Times,serif" font-size="14.00">ItemActiveModule</text>
 </g>
 <!-- ItemActiveModule&#45;&gt;PermissionFormModule -->
 <g id="edge7" class="edge">
 <title>ItemActiveModule&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M274,-196.41C274,-213.76 274,-237.39 274,-237.39 274,-237.39 362.75,-237.39 362.75,-237.39"/>
-<polygon fill="black" stroke="black" points="362.75,-240.89 372.75,-237.39 362.75,-233.89 362.75,-240.89"/>
+<path fill="none" stroke="black" d="M684.11,-196.5C684.11,-196.5 684.11,-215.38 684.11,-215.38"/>
+<polygon fill="black" stroke="black" points="680.61,-215.38 684.11,-225.38 687.61,-215.38 680.61,-215.38"/>
 </g>
 <!-- UrlModule -->
 <g id="node9" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="195.21,-196.39 192.21,-200.39 171.21,-200.39 168.21,-196.39 116.79,-196.39 116.79,-160.39 195.21,-160.39 195.21,-196.39"/>
-<text text-anchor="middle" x="156" y="-174.19" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="582.21,-196.39 579.21,-200.39 558.21,-200.39 555.21,-196.39 503.79,-196.39 503.79,-160.39 582.21,-160.39 582.21,-196.39"/>
+<text text-anchor="middle" x="543" y="-174.19" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;PermissionFormModule -->
 <g id="edge8" class="edge">
 <title>UrlModule&#45;&gt;PermissionFormModule</title>
-<path fill="none" stroke="black" d="M156,-196.67C156,-217.71 156,-249.39 156,-249.39 156,-249.39 362.78,-249.39 362.78,-249.39"/>
-<polygon fill="black" stroke="black" points="362.78,-252.89 372.78,-249.39 362.78,-245.89 362.78,-252.89"/>
+<path fill="none" stroke="black" d="M543,-196.41C543,-213.76 543,-237.39 543,-237.39 543,-237.39 635.83,-237.39 635.83,-237.39"/>
+<polygon fill="black" stroke="black" points="635.83,-240.89 645.83,-237.39 635.83,-233.89 635.83,-240.89"/>
 </g>
 </g>
 </svg>

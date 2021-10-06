@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/tms/core/config/tms-config.ts</code>
+            <code>projects/core/src/state/config/state-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/TmsConfig.html" target="_self" >TmsConfig</a></code>
+                        <code><a href="../injectables/StateConfig.html" target="_self" >StateConfig</a></code>
             </p>
 
 
@@ -83,50 +83,38 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractType, Injectable, Type } from &#x27;@angular/core&#x27;;
-import { Config, CxEvent } from &#x27;@spartacus/core&#x27;;
-import { TmsCollector } from &#x27;../model/tms.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
 
-/**
- * Collector configuration
- */
-export interface TmsCollectorConfig {
-  /** Should be enabled in development mode only */
-  debug?: boolean;
-  /**
-   * The name for the data layer object.
-   */
-  dataLayerProperty?: string;
-  /**
-   * Events to send to the configured TMS.
-   */
-  events?: AbstractType&lt;CxEvent&gt;[];
-  /**
-   * The collector service implementation.
-   */
-  collector?: Type&lt;TmsCollector&gt;;
+export enum StorageSyncType {
+  NO_STORAGE &#x3D; &#x27;NO_STORAGE&#x27;,
+  LOCAL_STORAGE &#x3D; &#x27;LOCAL_STORAGE&#x27;,
+  SESSION_STORAGE &#x3D; &#x27;SESSION_STORAGE&#x27;,
 }
 
-export interface TmsCollectors {
-  [tms: string]: TmsCollectorConfig | undefined;
+export enum StateTransferType {
+  TRANSFER_STATE &#x3D; &#x27;SSR&#x27;,
 }
 
-/**
- * TMS configuration
- */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class TmsConfig {
-  /**
-   * Tag manager config
-   */
-  tagManager?: TmsCollectors;
+export abstract class StateConfig {
+  state?: {
+    ssrTransfer?: {
+      keys?: {
+        /**
+         * A set of state keys that should be transferred from server.
+         */
+        [key: string]: StateTransferType;
+      };
+    };
+  };
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends TmsConfig {}
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends StateConfig {}
 }
 </code></pre>
     </div>

@@ -14,13 +14,13 @@
 <title>cluster_SavedCartListModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 690,-230.8 690,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_SavedCartListModule_exports</title>
-<polygon fill="none" stroke="black" points="223,-170.8 223,-222.8 403,-222.8 403,-170.8 223,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_SavedCartListModule_declarations</title>
 <polygon fill="none" stroke="black" points="504,-40.8 504,-92.8 682,-92.8 682,-40.8 504,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_SavedCartListModule_exports</title>
+<polygon fill="none" stroke="black" points="223,-170.8 223,-222.8 403,-222.8 403,-170.8 223,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_SavedCartListModule_imports</title>

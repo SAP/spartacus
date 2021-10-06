@@ -14,13 +14,13 @@
 <title>cluster_FormErrorsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 296,-230.8 296,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_FormErrorsModule_exports</title>
-<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 235,-222.8 235,-170.8 69,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_FormErrorsModule_declarations</title>
 <polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 288,-92.8 288,-40.8 126,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FormErrorsModule_exports</title>
+<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 235,-222.8 235,-170.8 69,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_FormErrorsModule_imports</title>

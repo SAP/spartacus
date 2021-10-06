@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/media/media.config.ts</code>
+            <code>projects/core/src/routing/configurable-routes/config/routing-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/MediaConfig.html" target="_self" >MediaConfig</a></code>
+                        <code><a href="../injectables/RoutingConfig.html" target="_self" >RoutingConfig</a></code>
             </p>
 
 
@@ -84,45 +84,47 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
-import { ImageLoadingStrategy, MediaFormatSize } from &#x27;./media.model&#x27;;
+import { Config } from &#x27;../../../config/config-tokens&#x27;;
+import { RoutesConfig } from &#x27;../routes-config&#x27;;
 
-/**
- * Provides configuration specific to Media, such as images. This is used to optimize
- * rendering of the media, SEO and performance.
- */
+export const enum RouteLoadStrategy {
+  /**
+   * Don&#x27;t reload the data on navigation if it was loaded before
+   */
+  ONCE &#x3D; &#x27;once&#x27;,
+  /**
+   * Always reload the data on navigation
+   */
+  ALWAYS &#x3D; &#x27;always&#x27;,
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class MediaConfig {
-  /**
-   * Media _format_ configuration holds the size of the media&#x27;s assigned to
-   * a format.
-   */
-  mediaFormats?: {
-    /**
-     * Represents the media format code, that is the key to distinguish different
-     * media in a container.
-     */
-    [format: string]: MediaFormatSize;
-  };
-
-  /**
-   * Indicates how the browser should load the image. There&#x27;s only one
-   * global strategy for all media cross media in Spartacus.
-   *
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img for more
-   * information.
-   *
-   * If the &#x60;lazy&#x60; strategy is in place, the &#x60;loading&#x3D;&quot;lazy&quot;&#x60; attribute is added to the
-   * img element.
-   */
-  imageLoadingStrategy?: ImageLoadingStrategy;
+export abstract class RoutingConfig {
+  routing?: RoutingConfigDefinition;
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends MediaConfig {}
+export interface RoutingConfigDefinition {
+  /**
+   * Configuration of semantic routes. Key is route&#x27;s name. Value is the config specific to this route.
+   */
+  routes?: RoutesConfig;
+
+  /**
+   * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag &#x60;protected: false&#x60;
+   */
+  protected?: boolean;
+
+  /**
+   * Global load strategy which is used as a fallback for loading data on each navigation
+   */
+  loadStrategy?: RouteLoadStrategy;
+}
+
+declare module &#x27;../../../config/config-tokens&#x27; {
+  interface Config extends RoutingConfig {}
 }
 </code></pre>
     </div>

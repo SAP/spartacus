@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/site-context/config/site-context-config.ts</code>
+            <code>projects/core/src/features-config/config/features-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/SiteContextConfig.html" target="_self" >SiteContextConfig</a></code>
+                        <code><a href="../injectables/FeaturesConfig.html" target="_self" >FeaturesConfig</a></code>
             </p>
 
 
@@ -90,15 +90,15 @@ import { Config } from &#x27;../../config/config-tokens&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class SiteContextConfig {
-  context?: {
-    urlParameters?: string[];
-    [contextName: string]: string[] | undefined;
+export abstract class FeaturesConfig {
+  features?: {
+    level?: string;
+    [featureToggle: string]: string | boolean | undefined;
   };
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends SiteContextConfig {}
+  interface Config extends FeaturesConfig {}
 }
 </code></pre>
     </div>

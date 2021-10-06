@@ -14,10 +14,6 @@
 <title>cluster_LinkModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 302,-230.8 302,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_LinkModule_exports</title>
-<polygon fill="none" stroke="black" points="86,-170.8 86,-222.8 214,-222.8 214,-170.8 86,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_LinkModule_imports</title>
 <polygon fill="none" stroke="black" points="148,-40.8 148,-92.8 294,-92.8 294,-40.8 148,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_LinkModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 140,-92.8 140,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_LinkModule_exports</title>
+<polygon fill="none" stroke="black" points="86,-170.8 86,-222.8 214,-222.8 214,-170.8 86,-170.8"/>
 </g>
 <!-- LinkComponent -->
 <g id="node1" class="node">

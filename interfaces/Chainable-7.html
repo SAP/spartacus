@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-payment-done.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-payment-method-added.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requirePaymentDone" 
+                                        <a href="#requirePaymentMethodAdded" 
 >
-                                            requirePaymentDone
+                                            requirePaymentMethodAdded
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requirePaymentDone"></a>
-                                        <span class="name "><b>requirePaymentDone</b>
-                                            <a href="#requirePaymentDone">
+                                        <a name="requirePaymentMethodAdded"></a>
+                                        <span class="name "><b>requirePaymentMethodAdded</b>
+                                            <a href="#requirePaymentMethodAdded">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requirePaymentDone:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requirePaymentMethodAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,9 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Adds a payment method to a cart.
-Returns payment method object.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.requirePaymentDone(token, cartId);</code></pre></div></div>
+                                    <div class="io-description"><p>Adds a payment method to the given cart of the current user.</p>
+<div><pre class="line-numbers"><code class="language-none">cy.requirePaymentMethodAdded(cartId);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -144,108 +143,68 @@ Returns payment method object.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
-
-declare global {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Adds a payment method to a cart.
-       * Returns payment method object.
+       * Adds a payment method to the given cart of the current user.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requirePaymentDone(token, cartId);
+        cy.requirePaymentMethodAdded(cartId);
         &#x60;&#x60;&#x60;
        */
-      requirePaymentDone: (token: {}, cartId?: string) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requirePaymentMethodAdded: (cartId?: string) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
     }
   }
 }
-Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (token, cartId) &#x3D;&gt; {
+
+Cypress.Commands.add(&#x27;requirePaymentMethodAdded&#x27;, (cartId) &#x3D;&gt; {
   const cartCode &#x3D; cartId || &#x27;current&#x27;;
-  function getResponseUrl() {
-    return cy.request({
-      method: &#x27;GET&#x27;,
-      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-        &#x27;OCC_PREFIX&#x27;
-      )}/${Cypress.env(
-        &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/${cartCode}/payment/sop/request?responseUrl&#x3D;sampleUrl&#x60;,
-      form: false,
-      headers: {
-        Authorization: &#x60;bearer ${token.access_token}&#x60;,
-      },
-    });
+
+  function addPaymentMethod() {
+    return cy
+      .request({
+        method: &#x27;POST&#x27;,
+        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+          &#x27;OCC_PREFIX&#x27;
+        )}/${Cypress.env(
+          &#x27;BASE_SITE&#x27;
+        )}/users/current/carts/${cartCode}/paymentdetails&#x60;,
+        headers: {
+          Authorization: &#x60;bearer ${
+            JSON.parse(localStorage.getItem(&#x27;spartacus⚿⚿auth&#x27;)).token
+              .access_token
+          }&#x60;,
+        },
+        body: {
+          accountHolderName: &#x27;Cypress User&#x27;,
+          cardNumber: &#x27;4111111111111111&#x27;,
+          cardType: { code: &#x27;visa&#x27; },
+          expiryMonth: &#x27;01&#x27;,
+          expiryYear: &#x27;2099&#x27;,
+          defaultPayment: true,
+          saved: true,
+          billingAddress: {
+            firstName: &#x27;Cypress&#x27;,
+            lastName: &#x27;User&#x27;,
+            titleCode: &#x27;mr&#x27;,
+            line1: &#x27;100 Fifth Avenue&#x27;,
+            line2: &#x27;&#x27;,
+            town: &#x27;New York&#x27;,
+            postalCode: &#x27;10001&#x27;,
+            country: { isocode: &#x27;US&#x27; },
+          },
+        },
+      })
+      .then((response) &#x3D;&gt; {
+        expect(response.status).to.eq(201);
+      });
   }
 
-  function doVerification(data) {
-    data &#x3D; prepareCardData(data);
-    return cy.request({
-      method: &#x27;POST&#x27;,
-      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/acceleratorservices/sop-mock/process&#x60;,
-      body: data,
-      form: true,
-      headers: {
-        Authorization: &#x60;bearer ${token.access_token}&#x60;,
-      },
-    });
-  }
-
-  function doPayment(data, subId, subIdSign) {
-    // prepare request body
-    data &#x3D; prepareCardData(data);
-    data.decision &#x3D; &#x27;ACCEPT&#x27;;
-    data.paySubscriptionCreateReply_subscriptionID &#x3D; subId;
-    data.paySubscriptionCreateReply_subscriptionIDPublicSignature &#x3D; subIdSign;
-    data.defaultPayment &#x3D; false;
-    data.savePaymentInfo &#x3D; true;
-    data.reasonCode &#x3D; &#x27;100&#x27;;
-
-    return cy.request({
-      method: &#x27;POST&#x27;,
-      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-        &#x27;OCC_PREFIX&#x27;
-      )}/${Cypress.env(
-        &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/${cartCode}/payment/sop/response&#x60;,
-      body: data,
-      form: true,
-      headers: {
-        Authorization: &#x60;bearer ${token.access_token}&#x60;,
-      },
-    });
-  }
-
-  function convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function (result, item) {
-      const key &#x3D; item.key;
-      result[key] &#x3D; item.value;
-      return result;
-    }, {});
-  }
-
-  function prepareCardData(data) {
-    data.card_cardType &#x3D; user.payment.card;
-    data.card_accountNumber &#x3D; user.payment.number;
-    data.card_expirationMonth &#x3D; user.payment.expires.month;
-    data.card_expirationYear &#x3D; user.payment.expires.year;
-    data.card_nameOnCard &#x3D; &#x60;${user.firstName} ${user.lastName}&#x60;;
-    data.card_cvNumber &#x3D; user.payment.cvv;
-    return data;
-  }
-
-  getResponseUrl().then((resp) &#x3D;&gt; {
-    doVerification(convertToMap(resp.body.parameters.entry)).then((respV) &#x3D;&gt; {
-      const sidRe &#x3D; /name&#x3D;&quot;paySubscriptionCreateReply_subscriptionID&quot; value&#x3D;&quot;(.+)&quot;/gm;
-      const sid &#x3D; sidRe.exec(respV.body)[1];
-      const sidSigRe &#x3D; /name&#x3D;&quot;paySubscriptionCreateReply_subscriptionIDPublicSignature&quot; value&#x3D;&quot;(.+)&quot;/gm;
-      const sidSig &#x3D; sidSigRe.exec(respV.body)[1];
-      doPayment(convertToMap(resp.body.parameters.entry), sid, sidSig);
-    });
-  });
+  addPaymentMethod().then((resp) &#x3D;&gt; cy.wrap(resp));
 });
 </code></pre>
     </div>

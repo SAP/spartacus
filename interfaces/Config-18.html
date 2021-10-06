@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/personalization/root/config/personalization-config.ts</code>
+            <code>projects/core/src/site-context/config/site-context-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/PersonalizationConfig.html" target="_self" >PersonalizationConfig</a></code>
+                        <code><a href="../injectables/SiteContextConfig.html" target="_self" >SiteContextConfig</a></code>
             </p>
 
 
@@ -84,28 +84,21 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class PersonalizationConfig {
-  personalization?: {
-    enabled?: boolean;
-    httpHeaderName?: {
-      id: string;
-      timestamp: string;
-    };
-    context?: {
-      slotPosition: string;
-      componentId: string;
-    };
+export abstract class SiteContextConfig {
+  context?: {
+    urlParameters?: string[];
+    [contextName: string]: string[] | undefined;
   };
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends PersonalizationConfig {}
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends SiteContextConfig {}
 }
 </code></pre>
     </div>

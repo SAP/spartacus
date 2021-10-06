@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/i18n/config/i18n-config.ts</code>
+            <code>projects/core/src/cms/config/cms-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/I18nConfig.html" target="_self" >I18nConfig</a></code>
+                        <code><a href="../injectables/CmsConfig.html" target="_self" >CmsConfig</a></code>
             </p>
 
 
@@ -83,61 +83,134 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, StaticProvider } from &#x27;@angular/core&#x27;;
+import { Route } from &#x27;@angular/router&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
-import { TranslationResources } from &#x27;../translation-resources&#x27;;
+import { CmsComponent } from &#x27;../../model/cms.model&#x27;;
+import { OccConfig } from &#x27;../../occ/config/occ-config&#x27;;
+
+export interface StandardCmsComponentConfig {
+  CMSSiteContextComponent?: CmsComponentMapping;
+  CMSLinkComponent?: CmsComponentMapping;
+  SimpleResponsiveBannerComponent?: CmsComponentMapping;
+  SimpleBannerComponent?: CmsComponentMapping;
+  BannerComponent?: CmsComponentMapping;
+  CMSParagraphComponent?: CmsComponentMapping;
+  BreadcrumbComponent?: CmsComponentMapping;
+  NavigationComponent?: CmsComponentMapping;
+  FooterNavigationComponent?: CmsComponentMapping;
+  CategoryNavigationComponent?: CmsComponentMapping;
+  ProductAddToCartComponent?: CmsComponentMapping;
+  MiniCartComponent?: CmsComponentMapping;
+  ProductCarouselComponent?: CmsComponentMapping;
+  SearchBoxComponent?: CmsComponentMapping;
+  ProductReferencesComponent?: CmsComponentMapping;
+  CMSTabParagraphComponent?: CmsComponentMapping;
+  LoginComponent?: CmsComponentMapping;
+}
+
+export interface JspIncludeCmsComponentConfig {
+  AccountAddressBookComponent?: CmsComponentMapping;
+  ForgotPasswordComponent?: CmsComponentMapping;
+  ResetPasswordComponent?: CmsComponentMapping;
+  ProductDetailsTabComponent?: CmsComponentMapping;
+  ProductSpecsTabComponent?: CmsComponentMapping;
+  ProductReviewsTabComponent?: CmsComponentMapping;
+}
+
+export const JSP_INCLUDE_CMS_COMPONENT_TYPE &#x3D; &#x27;JspIncludeComponent&#x27;;
+export const CMS_FLEX_COMPONENT_TYPE &#x3D; &#x27;CMSFlexComponent&#x27;;
+
+/**
+ * Configuration of the CMS component&#x27;s child routes
+ */
+export interface CmsComponentChildRoutesConfig {
+  /**
+   * Route &#x60;data&#x60; property to apply on the parent (host) route of the CMS child routes.
+   */
+  parent?: Pick&lt;Route, &#x27;data&#x27;&gt;;
+
+  /**
+   * Child routes defined by the existence of the CMS component on the page.
+   */
+  children?: Route[];
+}
+
+export interface CmsComponentMapping&lt;T &#x3D; CmsComponent&gt; {
+  component?: any;
+  /**
+   * Configurable component providers for cms components.
+   *
+   * Component services are designed to be non-singleton services and are scoped
+   * to the component injection tree. The advantage of these services is that they can
+   * resolve services injected to the component injection tree. However, these services
+   * cannot be extended with the native Angular DI system.
+   *
+   * The configurable component providers mitigate this downside, by allowing you to provide
+   * component providers through services.
+   */
+  providers?: StaticProvider[];
+  childRoutes?: Route[] | CmsComponentChildRoutesConfig;
+  disableSSR?: boolean;
+  i18nKeys?: string[];
+  guards?: any[];
+
+  /**
+   * The component data can be statically configured. The data can be used for various reasons:
+   * - Improve performance with an initial data that doesn&#x27;t require API response
+   * - Introduce UI properties that are not available on the API
+   * - Build ghost design based on the initial data that is used prior to the backend data is loaded
+   */
+  data?: T;
+
+  /**
+   * DeferLoading can be specified globally, but also per component.
+   * Some components require direct loading while it&#x27;s not initially
+   * in the viewport.
+   */
+  deferLoading?: DeferLoadingStrategy;
+}
+
+/** Strategy to control the loading strategy of DOM elements. */
+export enum DeferLoadingStrategy {
+  /** Defers loading of DOM elements until element is near/in the users view port */
+  DEFER &#x3D; &#x27;DEFERRED-LOADING&#x27;,
+  /** Renders the DOM instantly without being concerned with the view port */
+  INSTANT &#x3D; &#x27;INSTANT-LOADING&#x27;,
+}
+
+export interface CMSComponentConfig
+  extends StandardCmsComponentConfig,
+    JspIncludeCmsComponentConfig {
+  [componentType: string]: CmsComponentMapping | undefined;
+}
+
+export interface FeatureModuleConfig {
+  /**
+   * Lazy resolved feature module
+   */
+  module?: () &#x3D;&gt; Promise&lt;any&gt;;
+  /**
+   * Lazy resolved dependency modules or features referenced by name
+   */
+  dependencies?: ((() &#x3D;&gt; Promise&lt;any&gt;) | string)[];
+  /**
+   * Cms components covered by this feature
+   */
+  cmsComponents?: string[];
+}
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class I18nConfig {
-  i18n?: {
-    /**
-     * When there are missing translation resources for the active language, the fallback language will be used.
-     */
-    fallbackLang?: string | false;
-
-    /**
-     * Configuration for lazy loading of translation files.
-     * For eager loading of translations please use config option &#x60;i18n.resources&#x60;
-     */
-
-    backend?: {
-      /**
-       * The path to JSON translations. It should contain placeholders:
-       * - &#x60;{{lng}}&#x60; for language
-       * - &#x60;{{ns}}&#x60; for the name of chunk.
-       *
-       * Example:
-       * &#x60;assets/i18n-assets/{{lng}}/{{ns}}.json&#x60;
-       */
-
-      loadPath?: string;
-    };
-
-    /**
-     * Reference to translation resources that are eagerly bundled with JS app.
-     * For lazy loading of translations please use config option &#x60;i18n.backend&#x60; instead.
-     */
-    resources?: TranslationResources;
-
-    /**
-     * Logs i18n events (like loading translation resources) to the console. Don&#x27;t use in production!
-     */
-    debug?: boolean;
-
-    /**
-     * Mapping that assigns keys&#x27; namespaces to specific chunks. The main purpose of chunks is to lazy load them.
-     */
-    chunks?: {
-      [chunk: string]: string[];
-    };
-  };
+export abstract class CmsConfig extends OccConfig {
+  featureModules?: { [featureName: string]: FeatureModuleConfig | string };
+  cmsComponents?: CMSComponentConfig;
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends I18nConfig {}
+  interface Config extends CmsConfig {}
 }
 </code></pre>
     </div>

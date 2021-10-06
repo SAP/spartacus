@@ -14,71 +14,71 @@
 <title>cluster_ConfiguratorAttributeNumericInputFieldModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 628,-230.8 628,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ConfiguratorAttributeNumericInputFieldModule_imports</title>
-<polygon fill="none" stroke="black" points="352,-40.8 352,-92.8 620,-92.8 620,-40.8 352,-40.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorAttributeNumericInputFieldModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 344,-92.8 344,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="292,-40.8 292,-92.8 620,-92.8 620,-40.8 292,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ConfiguratorAttributeNumericInputFieldModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 284,-92.8 284,-40.8 16,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeNumericInputFieldModule_exports</title>
-<polygon fill="none" stroke="black" points="269,-170.8 269,-222.8 599,-222.8 599,-170.8 269,-170.8"/>
+<polygon fill="none" stroke="black" points="68,-170.8 68,-222.8 398,-222.8 398,-170.8 68,-170.8"/>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldComponent -->
 <g id="node1" class="node">
 <title>ConfiguratorAttributeNumericInputFieldComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="336,-84.8 24,-84.8 24,-48.8 336,-48.8 336,-84.8"/>
-<text text-anchor="middle" x="180" y="-62.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="612,-84.8 300,-84.8 300,-48.8 612,-48.8 612,-84.8"/>
+<text text-anchor="middle" x="456" y="-62.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldComponent</text>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldModule -->
 <g id="node2" class="node">
 <title>ConfiguratorAttributeNumericInputFieldModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="578.72,-149.8 575.72,-153.8 554.72,-153.8 551.72,-149.8 289.28,-149.8 289.28,-113.8 578.72,-113.8 578.72,-149.8"/>
-<text text-anchor="middle" x="434" y="-127.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="377.72,-149.8 374.72,-153.8 353.72,-153.8 350.72,-149.8 88.28,-149.8 88.28,-113.8 377.72,-113.8 377.72,-149.8"/>
+<text text-anchor="middle" x="233" y="-127.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldModule</text>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldComponent&#45;&gt;ConfiguratorAttributeNumericInputFieldModule -->
 <g id="edge1" class="edge">
 <title>ConfiguratorAttributeNumericInputFieldComponent&#45;&gt;ConfiguratorAttributeNumericInputFieldModule</title>
-<path fill="none" stroke="black" d="M312.45,-84.91C312.45,-84.91 312.45,-103.79 312.45,-103.79"/>
-<polygon fill="black" stroke="black" points="308.95,-103.79 312.45,-113.79 315.95,-103.79 308.95,-103.79"/>
+<path fill="none" stroke="black" d="M339.05,-84.91C339.05,-84.91 339.05,-103.79 339.05,-103.79"/>
+<polygon fill="black" stroke="black" points="335.55,-103.79 339.05,-113.79 342.55,-103.79 335.55,-103.79"/>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldComponent  -->
 <g id="node5" class="node">
 <title>ConfiguratorAttributeNumericInputFieldComponent </title>
-<polygon fill="#fb8072" stroke="black" points="591.5,-214.8 276.5,-214.8 276.5,-178.8 591.5,-178.8 591.5,-214.8"/>
-<text text-anchor="middle" x="434" y="-192.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldComponent </text>
+<polygon fill="#fb8072" stroke="black" points="390.5,-214.8 75.5,-214.8 75.5,-178.8 390.5,-178.8 390.5,-214.8"/>
+<text text-anchor="middle" x="233" y="-192.6" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeNumericInputFieldComponent </text>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldModule&#45;&gt;ConfiguratorAttributeNumericInputFieldComponent  -->
 <g id="edge4" class="edge">
 <title>ConfiguratorAttributeNumericInputFieldModule&#45;&gt;ConfiguratorAttributeNumericInputFieldComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M434,-149.91C434,-149.91 434,-168.79 434,-168.79"/>
-<polygon fill="black" stroke="black" points="430.5,-168.79 434,-178.79 437.5,-168.79 430.5,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M233,-149.91C233,-149.91 233,-168.79 233,-168.79"/>
+<polygon fill="black" stroke="black" points="229.5,-168.79 233,-178.79 236.5,-168.79 229.5,-168.79"/>
 </g>
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="611.71,-84.8 608.71,-88.8 587.71,-88.8 584.71,-84.8 526.29,-84.8 526.29,-48.8 611.71,-48.8 611.71,-84.8"/>
-<text text-anchor="middle" x="569" y="-62.6" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="275.71,-84.8 272.71,-88.8 251.71,-88.8 248.71,-84.8 190.29,-84.8 190.29,-48.8 275.71,-48.8 275.71,-84.8"/>
+<text text-anchor="middle" x="233" y="-62.6" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ConfiguratorAttributeNumericInputFieldModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;ConfiguratorAttributeNumericInputFieldModule</title>
-<path fill="none" stroke="black" d="M552.63,-84.91C552.63,-84.91 552.63,-103.79 552.63,-103.79"/>
-<polygon fill="black" stroke="black" points="549.13,-103.79 552.63,-113.79 556.13,-103.79 549.13,-103.79"/>
+<path fill="none" stroke="black" d="M233,-84.91C233,-84.91 233,-103.79 233,-103.79"/>
+<polygon fill="black" stroke="black" points="229.5,-103.79 233,-113.79 236.5,-103.79 229.5,-103.79"/>
 </g>
 <!-- KeyboardFocusModule -->
 <g id="node4" class="node">
 <title>KeyboardFocusModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="508.19,-84.8 505.19,-88.8 484.19,-88.8 481.19,-84.8 359.81,-84.8 359.81,-48.8 508.19,-48.8 508.19,-84.8"/>
-<text text-anchor="middle" x="434" y="-62.6" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="172.19,-84.8 169.19,-88.8 148.19,-88.8 145.19,-84.8 23.81,-84.8 23.81,-48.8 172.19,-48.8 172.19,-84.8"/>
+<text text-anchor="middle" x="98" y="-62.6" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
 </g>
 <!-- KeyboardFocusModule&#45;&gt;ConfiguratorAttributeNumericInputFieldModule -->
 <g id="edge3" class="edge">
 <title>KeyboardFocusModule&#45;&gt;ConfiguratorAttributeNumericInputFieldModule</title>
-<path fill="none" stroke="black" d="M434,-84.91C434,-84.91 434,-103.79 434,-103.79"/>
-<polygon fill="black" stroke="black" points="430.5,-103.79 434,-113.79 437.5,-103.79 430.5,-103.79"/>
+<path fill="none" stroke="black" d="M130.12,-84.91C130.12,-84.91 130.12,-103.79 130.12,-103.79"/>
+<polygon fill="black" stroke="black" points="126.62,-103.79 130.12,-113.79 133.62,-103.79 126.62,-103.79"/>
 </g>
 </g>
 </svg>

@@ -64,216 +64,96 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/storefinder/occ/model/occ-storefinder-endpoints.model.ts</code>
+            <code>feature-libs/checkout/occ/model/occ-checkout-endpoints.model.ts</code>
         </p>
 
 
 
-
-        <section>
-            <h3 id="index">Index</h3>
-            <table class="table table-sm table-bordered index-table">
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Properties</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#store" 
->
-                                            store
-                                        </a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#stores" 
->
-                                            stores
-                                        </a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#storescounts" 
->
-                                            storescounts
-                                        </a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-
-
-            <section>
-                <h3 id="inputs">Properties</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="store"></a>
-                                        <span class="name "><b>store</b>
-                                            <a href="#store">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>store:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/CheckoutOccEndpoints.html" target="_self" >CheckoutOccEndpoints</a></code>
+            </p>
 
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Get a store location</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="stores"></a>
-                                        <span class="name "><b>stores</b>
-                                            <a href="#stores">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>stores:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Get a list of store locations</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="storescounts"></a>
-                                        <span class="name "><b>storescounts</b>
-                                            <a href="#storescounts">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>storescounts:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Gets a store location count per country and regions</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OccEndpoint } from &#x27;@spartacus/core&#x27;;
 
+export interface CheckoutOccEndpoints {
+  /**
+   * Endpoint for set delivery address to cart
+   */
+  setDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for place order
+   */
+  placeOrder?: string | OccEndpoint;
+  /**
+   * Returns a list of the available payment types.
+   */
+  paymentTypes?: string | OccEndpoint;
+  /**
+   * Sets the cost center for the checkout cart.
+   */
+  setCartCostCenter?: string | OccEndpoint;
+  /**
+   * Sets the payment type for the checkout cart
+   */
+  setCartPaymentType?: string | OccEndpoint;
+  /**
+   * Get a list of supported payment card types.
+   */
+  cardTypes?: string | OccEndpoint;
+  /**
+   * Sets credit card payment details for the cart.
+   */
+  setCartPaymentDetails?: string | OccEndpoint;
+  /**
+   *  Get information needed for create subscription
+   */
+  paymentProviderSubInfo?: string | OccEndpoint;
+  /**
+   * Handles response from payment provider and create payment details
+   */
+  createPaymentDetails?: string | OccEndpoint;
+  /**
+   *  Get a cart with a given identifier.
+   */
+  loadCheckoutDetails?: string | OccEndpoint;
+  /**
+   * Endpoint for create delivery address
+   */
+  createDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for delete deliver address
+   */
+  removeDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for get the delivery mode selected for the cart.
+   */
+  deliveryMode?: string | OccEndpoint;
+  /**
+   * Endpoint for sets the delivery mode for a cart.
+   */
+  setDeliveryMode?: string | OccEndpoint;
+  /**
+   * Endpoint for deletes the delivery mode from the cart.
+   */
+  clearDeliveryMode?: string | OccEndpoint;
+  /**
+   *Endpoint for get all delivery modes for the current store and delivery address.
+   */
+  deliveryModes?: string | OccEndpoint;
+}
+
 declare module &#x27;@spartacus/core&#x27; {
-  interface OccEndpoints {
-    /**
-     * Get a store location
-     *
-     * @member {string} [page]
-     */
-    store?: string | OccEndpoint;
-    /**
-     * Get a list of store locations
-     *
-     * @member {string} [page]
-     */
-    stores?: string | OccEndpoint;
-    /**
-     * Gets a store location count per country and regions
-     *
-     * @member {string} [page]
-     */
-    storescounts?: string | OccEndpoint;
-  }
+  interface OccEndpoints extends CheckoutOccEndpoints {}
 }
 </code></pre>
     </div>

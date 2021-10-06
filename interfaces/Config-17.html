@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/state/config/state-config.ts</code>
+            <code>projects/core/src/occ/config/occ-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/StateConfig.html" target="_self" >StateConfig</a></code>
+                        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfig</a></code>
             </p>
 
 
@@ -85,36 +85,43 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
+import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
+import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
 
-export enum StorageSyncType {
-  NO_STORAGE &#x3D; &#x27;NO_STORAGE&#x27;,
-  LOCAL_STORAGE &#x3D; &#x27;LOCAL_STORAGE&#x27;,
-  SESSION_STORAGE &#x3D; &#x27;SESSION_STORAGE&#x27;,
-}
+export interface BackendConfig {
+  occ?: {
+    baseUrl?: string;
+    prefix?: string;
+    /**
+     * Indicates whether or not cross-site Access-Control requests should be made
+     * using credentials such as cookies, authorization headers or TLS client certificates
+     */
+    useWithCredentials?: boolean;
 
-export enum StateTransferType {
-  TRANSFER_STATE &#x3D; &#x27;SSR&#x27;,
+    endpoints?: OccEndpoints;
+  };
+  media?: {
+    /**
+     * Media URLs are typically relative, so that the host can be configured.
+     * Configurable media baseURLs are useful for SEO, multi-site,
+     * switching environments, etc.
+     */
+    baseUrl?: string;
+  };
+  loadingScopes?: LoadingScopes;
 }
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class StateConfig {
-  state?: {
-    ssrTransfer?: {
-      keys?: {
-        /**
-         * A set of state keys that should be transferred from server.
-         */
-        [key: string]: StateTransferType;
-      };
-    };
-  };
+export abstract class OccConfig extends SiteContextConfig {
+  backend?: BackendConfig;
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends StateConfig {}
+  interface Config extends OccConfig {}
 }
 </code></pre>
     </div>

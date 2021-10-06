@@ -64,11 +64,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/common/core/model/product-configurator.config.ts</code>
+            <code>feature-libs/product-configurator/rulebased/components/config/augmented-config.model.ts</code>
         </p>
 
 
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/ProductConfiguratorUISettingsConfig.html" target="_self" >ProductConfiguratorUISettingsConfig</a></code>
+            </p>
 
 
 
@@ -77,14 +83,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import &#x27;@spartacus/product-configurator/common&#x27;;
+import { ProductConfiguratorMessageConfig } from &#x27;./configurator-message.config&#x27;;
+import { ProductConfiguratorUISettingsConfig } from &#x27;./configurator-ui-settings.config&#x27;;
 
-export interface ProductConfiguratorConfig {}
-
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config {
-    productConfigurator?: ProductConfiguratorConfig;
-  }
+declare module &#x27;@spartacus/product-configurator/common&#x27; {
+  interface ProductConfiguratorConfig
+    extends ProductConfiguratorUISettingsConfig,
+      ProductConfiguratorMessageConfig {}
 }
 </code></pre>
     </div>
