@@ -1,8 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   EMAIL_PATTERN,
+  getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
@@ -42,7 +43,7 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartService implements OnDestroy {
+export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
@@ -242,7 +243,7 @@ export class ActiveCartService implements OnDestroy {
           active: true,
         },
       });
-    } else if (this.isGuestCart()) {
+    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
       this.guestCartMerge(cartId);
     } else if (
       userId !== previousUserId &&
@@ -310,7 +311,9 @@ export class ActiveCartService implements OnDestroy {
    */
   protected requireLoadedCartForGuestMerge() {
     return this.requireLoadedCart(
-      this.cartSelector$.pipe(filter(() => !this.isGuestCart()))
+      this.cartSelector$.pipe(
+        filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+      )
     );
   }
 
@@ -473,21 +476,31 @@ export class ActiveCartService implements OnDestroy {
     return this.getActive().pipe(map((cart) => cart.user));
   }
 
-  // TODO: Make cart required param in 4.0 and drop the subscribe/unsubscribe.
+  // TODO: Make cart required param in 4.0
   /**
-   * Returns true for guest cart
+   * Returns observable of true for guest cart
    */
-  isGuestCart(cart?: Cart): boolean {
-    if (!cart) {
-      this.activeCart$
-        .subscribe((activeCart) => (cart = activeCart))
-        .unsubscribe();
+  isGuestCart(cart?: Cart): Observable<boolean> {
+    if (cart) {
+      const cartUser = cart?.user;
+      return of(
+        Boolean(
+          cartUser &&
+            (cartUser.name === OCC_USER_ID_GUEST ||
+              this.isEmail(cartUser.uid?.split('|').slice(1).join('|')))
+        )
+      );
     }
-    const cartUser = cart?.user;
-    return (
-      cartUser &&
-      (cartUser.name === OCC_USER_ID_GUEST ||
-        this.isEmail(cartUser.uid.split('|').slice(1).join('|')))
+
+    return this.activeCart$.pipe(
+      map((activeCart) => {
+        const cartUser = activeCart?.user;
+        return Boolean(
+          cartUser &&
+            (cartUser.name === OCC_USER_ID_GUEST ||
+              this.isEmail(cartUser.uid?.split('|').slice(1).join('|')))
+        );
+      })
     );
   }
 
@@ -505,7 +518,7 @@ export class ActiveCartService implements OnDestroy {
   /**
    * Indicates if given string is matching email pattern
    */
-  protected isEmail(str: string): boolean {
+  protected isEmail(str?: string): boolean {
     if (str) {
       return str.match(EMAIL_PATTERN) ? true : false;
     }

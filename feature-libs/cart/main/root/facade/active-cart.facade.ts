@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../models/cart.model';
 import { facadeFactory, OrderEntry, StateUtils, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
+import { Cart } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ import { CART_CORE_FEATURE } from '../feature-name';
         'getEntry',
         'addEmail',
         'getAssignedUser',
-        //'isGuestCart',
+        'isGuestCart',
         'addEntries',
         'requireLoadedCart',
       ],
@@ -110,7 +110,7 @@ export abstract class ActiveCartFacade {
   /**
    * Returns true for guest cart
    */
-  //abstract isGuestCart(cart?: Cart): Observable<boolean>;
+  abstract isGuestCart(cart?: Cart): Observable<boolean>;
 
   /**
    * Add multiple entries to a cart

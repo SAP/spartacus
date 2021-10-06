@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   Order,
   ORDER_TYPE,
@@ -35,9 +34,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return true;
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+  isGuestCart(): Observable<boolean> {
+    return of(true);
   }
 
   getActiveCartId(): Observable<string> {
@@ -58,7 +57,7 @@ class UserIdServiceStub implements Partial<UserIdService> {
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let userIdService: UserIdService;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -78,17 +77,17 @@ describe('CheckoutService', () => {
       ],
       providers: [
         CheckoutService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();

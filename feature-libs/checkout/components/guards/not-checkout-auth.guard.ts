@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { AuthService, SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import {
+  AuthService,
+  getLastValueSync,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,7 +15,7 @@ import { map } from 'rxjs/operators';
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
     protected authService: AuthService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}
@@ -21,7 +25,7 @@ export class NotCheckoutAuthGuard implements CanActivate {
       map((isLoggedIn) => {
         if (isLoggedIn) {
           return this.router.parseUrl(this.semanticPathService.get('home'));
-        } else if (this.activeCartService.isGuestCart()) {
+        } else if (getLastValueSync(this.activeCartFacade.isGuestCart())) {
           return this.router.parseUrl(this.semanticPathService.get('cart'));
         }
         return !isLoggedIn;

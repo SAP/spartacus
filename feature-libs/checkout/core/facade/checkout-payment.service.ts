@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { CardType } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, CardType } from '@spartacus/cart/main/root';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   ProcessSelectors,
@@ -24,7 +24,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 
@@ -84,7 +84,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -114,7 +114,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         .unsubscribe();
 
       let cartId: string | undefined;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -138,14 +138,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   }
 
   protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
+    const userId = getLastValueSync(this.userIdService.getUserId());
+
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
+      Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     );
   }
 }
