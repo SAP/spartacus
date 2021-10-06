@@ -10,8 +10,9 @@ import { ImportExportContext } from './import-export.context';
   providedIn: 'root',
 })
 export class QuickOrderImportExportContext implements ImportExportContext {
+  readonly type = CartTypes.QUICK_ORDER;
+
   constructor(protected quickOrderService: QuickOrderFacade) {}
-  type = CartTypes.QUICK_ORDER;
 
   getEntries(): Observable<OrderEntry[]> {
     return this.quickOrderService.getEntries();

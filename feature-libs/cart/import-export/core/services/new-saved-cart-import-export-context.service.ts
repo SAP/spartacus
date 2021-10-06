@@ -30,6 +30,8 @@ export class NewSavedCartImportExportContext
   extends CartImportExportContext
   implements ImportExportContext
 {
+  readonly type = CartTypes.NEW_SAVED_CART;
+
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
@@ -38,7 +40,6 @@ export class NewSavedCartImportExportContext
   ) {
     super(actionsSubject);
   }
-  type = CartTypes.NEW_SAVED_CART;
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);

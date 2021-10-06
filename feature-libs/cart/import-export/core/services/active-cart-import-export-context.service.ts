@@ -14,13 +14,14 @@ export class ActiveCartImportExportContext
   extends CartImportExportContext
   implements ImportExportContext
 {
+  readonly type = CartTypes.ACTIVE_CART;
+
   constructor(
     protected actionsSubject: ActionsSubject,
     protected activeCartService: ActiveCartService
   ) {
     super(actionsSubject);
   }
-  type = CartTypes.ACTIVE_CART;
 
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartService.getEntries();

@@ -22,6 +22,8 @@ export class SavedCartImportExportContext
   extends CartImportExportContext
   implements ImportExportContext
 {
+  readonly type = CartTypes.SAVED_CART;
+
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
@@ -31,7 +33,6 @@ export class SavedCartImportExportContext
   ) {
     super(actionsSubject);
   }
-  type = CartTypes.SAVED_CART;
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
