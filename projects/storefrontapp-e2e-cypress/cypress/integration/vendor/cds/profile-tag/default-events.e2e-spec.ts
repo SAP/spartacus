@@ -58,7 +58,7 @@ describe('Profile-tag events', () => {
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
+        )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
@@ -333,10 +333,7 @@ describe('Profile-tag events', () => {
   });
 
   it('should not send a Navigated event when merchandising banner is clicked', () => {
-    const categoryPage = checkoutFlow.waitForPage(
-      'CategoryPage',
-      'getCategory'
-    );
+    const categoryPage = checkoutFlow.waitForCategoryPage('578', 'getCategory');
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();

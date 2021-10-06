@@ -72,6 +72,23 @@ export function waitForProductPage(product: string, alias: string): string {
   return alias;
 }
 
+export function waitForCategoryPage(
+  categoryCode: string,
+  alias: string
+): string {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages`,
+    query: {
+      pageType: 'CategoryPage',
+      code: categoryCode,
+    },
+  }).as(alias);
+  return alias;
+}
+
 /**
  * Visits the homepage and waits for corresponding xhr call
  * @param queryStringParams Query string params
