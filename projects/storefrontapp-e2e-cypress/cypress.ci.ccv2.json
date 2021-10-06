@@ -1,12 +1,12 @@
 {
-  "defaultCommandTimeout": 15000,
+  "defaultCommandTimeout": 45000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 15000,
+  "requestTimeout": 45000,
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
   "video": true,
   "retries": {
-    "runMode": 2
+    "runMode": 3
   },
   "videoUploadOnPasses": false,
   "env": {
