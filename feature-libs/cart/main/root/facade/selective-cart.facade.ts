@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../models/cart.model';
 import { facadeFactory, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
+import { Cart } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,6 @@ import { CART_CORE_FEATURE } from '../feature-name';
         'removeEntry',
         'updateEntry',
         'getEntry',
-        //'isEnabled',
       ],
       async: true,
     }),
@@ -40,9 +39,4 @@ export abstract class SelectiveCartFacade {
   abstract updateEntry(entryNumber: number, quantity: number): void;
 
   abstract getEntry(productCode: string): Observable<OrderEntry>;
-
-  /**
-   * Indicates if selectiveCart feature is enabled based on cart configuration.
-   */
-  //abstract isEnabled(): boolean;
 }

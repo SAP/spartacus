@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SelectiveCartService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   Cart,
   PromotionLocation,
+  SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
   AuthService,
@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CartConfigService } from '../..';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
@@ -75,17 +76,17 @@ describe('CartDetailsComponent', () => {
   let fixture: ComponentFixture<CartDetailsComponent>;
   let activeCartService: ActiveCartFacade;
 
-  const mockSelectiveCartService = jasmine.createSpyObj(
-    'SelectiveCartService',
-    [
-      'getCart',
-      'removeEntry',
-      'getEntries',
-      'isStable',
-      'addEntry',
-      'isEnabled',
-    ]
-  );
+  const mockSelectiveCartFacade = jasmine.createSpyObj('SelectiveCartFacade', [
+    'getCart',
+    'removeEntry',
+    'getEntries',
+    'isStable',
+    'addEntry',
+  ]);
+
+  const mockCartConfig = jasmine.createSpyObj('CartConfigService', [
+    'isSelectiveCartEnabled',
+  ]);
 
   const mockAuthService = jasmine.createSpyObj('AuthService', [
     'isUserLoggedIn',
@@ -108,18 +109,22 @@ describe('CartDetailsComponent', () => {
           MockCartCouponComponent,
         ],
         providers: [
-          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+          { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
           { provide: AuthService, useValue: mockAuthService },
           { provide: RoutingService, useValue: mockRoutingService },
           {
             provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
+          {
+            provide: CartConfigService,
+            useValue: mockCartConfig,
+          },
         ],
       }).compileComponents();
 
-      mockSelectiveCartService.isEnabled.and.returnValue(true);
-      mockSelectiveCartService.isStable.and.returnValue(of(true));
+      mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
+      mockSelectiveCartFacade.isStable.and.returnValue(of(true));
     })
   );
 
@@ -141,14 +146,14 @@ describe('CartDetailsComponent', () => {
       },
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
-    mockSelectiveCartService.addEntry.and.callThrough();
+    mockSelectiveCartFacade.addEntry.and.callThrough();
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
     spyOn(activeCartService, 'isStable').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
-    expect(mockSelectiveCartService.addEntry).toHaveBeenCalledWith(
+    expect(mockSelectiveCartFacade.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
       mockItem.quantity
     );
@@ -168,7 +173,7 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should not show save for later when selective cart is disabled', () => {
-    mockSelectiveCartService.isEnabled.and.returnValue(of(false));
+    mockCartConfig.isSelectiveCartEnabled.and.returnValue(of(false));
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('button'));
     expect(el).toBe(null);

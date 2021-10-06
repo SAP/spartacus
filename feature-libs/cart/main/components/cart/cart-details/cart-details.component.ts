@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SelectiveCartService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   Cart,
   PromotionLocation,
+  SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import { AuthService, OrderEntry, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
+import { CartConfigService } from '../../services/cart-config.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -24,9 +25,10 @@ export class CartDetailsComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartService,
+    protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected cartConfig: CartConfigService
   ) {}
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
-    this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
+    this.selectiveCartEnabled = this.cartConfig.isSelectiveCartEnabled();
 
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
