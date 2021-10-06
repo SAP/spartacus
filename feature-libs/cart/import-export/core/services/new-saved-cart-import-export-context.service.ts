@@ -7,6 +7,7 @@ import {
   map,
   observeOn,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 import {
@@ -18,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { CartTypes } from '../model/import-export.model';
-import { ProductsData } from '../model/import-to-cart.model';
+import { ProductImportInfo, ProductsData } from '../model/import-to-cart.model';
 import { CartImportExportContext } from './cart-import-export.context';
 import { ImportExportContext } from './import-export.context';
 
@@ -41,6 +42,16 @@ export class NewSavedCartImportExportContext
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
+  }
+
+  addEntries(
+    products: ProductsData,
+    savedCartInfo?: { name: string; description: string }
+  ): Observable<ProductImportInfo> {
+    return this.add(products, savedCartInfo).pipe(
+      switchMap((cartId: string) => this.getResults(cartId)),
+      take(products.length)
+    );
   }
 
   protected add(
