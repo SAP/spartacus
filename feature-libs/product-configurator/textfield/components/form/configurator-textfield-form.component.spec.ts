@@ -22,6 +22,7 @@ import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-for
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';
+const ORDER_ENTRY_KEY = '00100/3';
 const ATTRIBUTE_NAME = 'AttributeName';
 const ROUTE_CONFIGURATION = 'configureTEXTFIELD';
 const mockRouterState: any = {
@@ -53,6 +54,11 @@ class MockConfiguratorTextfieldService {
   }
   updateConfiguration(): void {}
   readConfigurationForCartEntry(): Observable<ConfiguratorTextfield.Configuration> {
+    return cold('-p', {
+      p: productConfig,
+    });
+  }
+  readConfigurationForOrderEntry(): Observable<ConfiguratorTextfield.Configuration> {
     return cold('-p', {
       p: productConfig,
     });
@@ -122,6 +128,22 @@ describe('TextfieldFormComponent', () => {
       params: {
         ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
         entityKey: CART_ENTRY_KEY,
+      },
+      semanticRoute: ROUTE_CONFIGURATION,
+    };
+
+    expect(component.configuration$).toBeObservable(
+      cold('--p', {
+        p: productConfig,
+      })
+    );
+  });
+
+  it('should know textfield configuration after init when starting from order entry', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
+        entityKey: ORDER_ENTRY_KEY,
       },
       semanticRoute: ROUTE_CONFIGURATION,
     };

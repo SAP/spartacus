@@ -13,8 +13,9 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   templateUrl: './configurator-textfield-form.component.html',
 })
 export class ConfiguratorTextfieldFormComponent {
-  configuration$: Observable<ConfiguratorTextfield.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
+  configuration$: Observable<ConfiguratorTextfield.Configuration> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
       switchMap((routerData) => {
         switch (routerData.owner.type) {
           case CommonConfigurator.OwnerType.PRODUCT:
@@ -26,7 +27,9 @@ export class ConfiguratorTextfieldFormComponent {
               routerData.owner
             );
           case CommonConfigurator.OwnerType.ORDER_ENTRY:
-            throw new Error('Order history integration not yet implemented');
+            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
+              routerData.owner
+            );
         }
       })
     );
