@@ -2,20 +2,27 @@ import { isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CartActions } from '@spartacus/core';
 import {
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/import-export/core';
-import { AbstractImportExportService } from './abstract-import-export.service';
+  ProductsData,
+} from '../model/import-to-cart.model';
 
-export abstract class AbstractImportExportCartService extends AbstractImportExportService {
-  protected constructor(protected actionsSubject: ActionsSubject) {
-    super();
+export abstract class CartImportExportContext {
+  protected constructor(protected actionsSubject: ActionsSubject) {}
+
+  addEntries(products: ProductsData): Observable<ProductImportInfo> {
+    return this._addEntries(products).pipe(
+      switchMap((cartId: string) => this.getResults(cartId)),
+      take(products.length)
+    );
   }
 
-  getResults(cartId: string): Observable<ProductImportInfo> {
+  protected abstract _addEntries(products: ProductsData): Observable<string>;
+
+  protected getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,

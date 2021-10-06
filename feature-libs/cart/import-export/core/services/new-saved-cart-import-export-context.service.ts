@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable, of, queueScheduler } from 'rxjs';
 import {
-  Cart,
-  MultiCartService,
-  OrderEntry,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
-import { ProductsData } from '@spartacus/cart/import-export/core';
-import {
   delayWhen,
   filter,
   map,
@@ -17,13 +9,26 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { AbstractImportExportCartService } from './abstract-import-export-cart.service';
+import {
+  Cart,
+  MultiCartService,
+  OrderEntry,
+  StateUtils,
+  UserIdService,
+} from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { CartTypes } from '../model/import-export.model';
+import { ProductsData } from '../model/import-to-cart.model';
+import { CartImportExportContext } from './cart-import-export.context';
+import { ImportExportContext } from './import-export.context';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportExportNewSavedCartService extends AbstractImportExportCartService {
+export class NewSavedCartImportExportContext
+  extends CartImportExportContext
+  implements ImportExportContext
+{
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
@@ -32,12 +37,13 @@ export class ImportExportNewSavedCartService extends AbstractImportExportCartSer
   ) {
     super(actionsSubject);
   }
+  type: CartTypes.NEW_SAVED_CART;
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
 
-  addEntries(
+  protected _addEntries(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {

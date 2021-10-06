@@ -7,12 +7,12 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import {
-  ProductImportSummary,
-  ProductImportStatus,
+  ImportExportContext,
   ProductImportInfo,
+  ProductImportStatus,
+  ProductImportSummary,
   ProductsData,
-  AbstractImportExportService,
-  ImportExportNewSavedCartService,
+  CartTypes,
 } from '@spartacus/cart/import-export/core';
 import { ImportToCartService } from '../import-to-cart.service';
 
@@ -48,8 +48,8 @@ export class ImportEntriesDialogComponent {
     protected importToCartService: ImportToCartService
   ) {}
 
-  isNewCartForm(service: AbstractImportExportService) {
-    return service instanceof ImportExportNewSavedCartService;
+  isNewCartForm(service: ImportExportContext) {
+    return service.type === CartTypes.NEW_SAVED_CART;
   }
 
   close(reason: string): void {
@@ -57,7 +57,7 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts(
-    service: AbstractImportExportService,
+    service: ImportExportContext,
     {
       products,
       savedCartInfo,
@@ -76,8 +76,8 @@ export class ImportEntriesDialogComponent {
       total: products.length,
       cartName: savedCartInfo?.name,
     });
-    this.importToCartService
-      .loadProductsToCart(service, products, savedCartInfo)
+    service
+      .addEntries(products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({

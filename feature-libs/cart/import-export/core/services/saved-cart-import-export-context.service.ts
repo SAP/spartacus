@@ -9,14 +9,19 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { ProductsData } from '@spartacus/cart/import-export/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { AbstractImportExportCartService } from './abstract-import-export-cart.service';
+import { ProductsData } from '../model/import-to-cart.model';
+import { CartTypes } from '../model/import-export.model';
+import { ImportExportContext } from './import-export.context';
+import { CartImportExportContext } from './cart-import-export.context';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportExportSavedCartService extends AbstractImportExportCartService {
+export class SavedCartImportExportContext
+  extends CartImportExportContext
+  implements ImportExportContext
+{
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
@@ -26,6 +31,7 @@ export class ImportExportSavedCartService extends AbstractImportExportCartServic
   ) {
     super(actionsSubject);
   }
+  type: CartTypes.SAVED_CART;
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
@@ -39,7 +45,7 @@ export class ImportExportSavedCartService extends AbstractImportExportCartServic
     );
   }
 
-  addEntries(products: ProductsData, _savedCartInfo: any): Observable<string> {
+  protected _addEntries(products: ProductsData): Observable<string> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.savedCartId$,

@@ -12,7 +12,6 @@ import {
   ImportExportConfig,
   ExportColumn,
   ExportConfig,
-  AbstractImportExportService,
 } from '@spartacus/cart/import-export/core';
 
 @Injectable({
@@ -61,18 +60,16 @@ export class ExportEntriesService {
   }
 
   protected getResolvedValues(
-    service: AbstractImportExportService
+    entries$: Observable<OrderEntry[]>
   ): Observable<string[][]> {
-    return service
-      .getEntries()
-      .pipe(
-        filter((entries) => entries?.length > 0),
-        map((entries) =>
-          entries?.map((entry) =>
-            this.columns.map((column) => this.resolveValue(column.value, entry))
-          )
+    return entries$.pipe(
+      filter((entries) => entries?.length > 0),
+      map((entries) =>
+        entries?.map((entry) =>
+          this.columns.map((column) => this.resolveValue(column.value, entry))
         )
-      );
+      )
+    );
   }
 
   protected getTranslatedColumnHeaders(): Observable<string[]> {
@@ -99,9 +96,9 @@ export class ExportEntriesService {
   }
 
   getResolvedEntries(
-    service: AbstractImportExportService
+    entries$: Observable<OrderEntry[]>
   ): Observable<string[][]> {
-    return this.getResolvedValues(service).pipe(
+    return this.getResolvedValues(entries$).pipe(
       map((values) => this.limitValues(values)),
       withLatestFrom(this.getTranslatedColumnHeaders()),
       map(([values, headers]) => {

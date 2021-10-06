@@ -1,26 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
-import {
-  ProductImportInfo,
-  ProductsData,
-  AbstractImportExportService,
-} from '@spartacus/cart/import-export/core';
+import { ProductsData } from '@spartacus/cart/import-export/core';
 
 @Injectable()
 export class ImportToCartService {
   constructor() {}
-
-  loadProductsToCart(
-    service: AbstractImportExportService,
-    products: ProductsData,
-    savedCartInfo?: { name: string; description: string }
-  ): Observable<ProductImportInfo> {
-    return service.addEntries(products, savedCartInfo).pipe(
-      switchMap((cartId: string) => service.getResults(cartId)),
-      take(products.length)
-    );
-  }
 
   csvDataToProduct(csvData: string[][]): ProductsData {
     return csvData.map((row: string[]) => ({
