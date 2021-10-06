@@ -3,6 +3,6 @@
   [service]="service$ | async"
 ></cx-import-entries>
 <cx-export-entries
-  *ngIf="shouldDisplayExport$ | async"
+  *ngIf="(shouldDisplayExport$ | async) && (entries$ | async)"
   [service]="service$ | async"
 ></cx-export-entries>

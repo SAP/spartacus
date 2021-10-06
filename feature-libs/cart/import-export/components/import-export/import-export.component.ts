@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
@@ -57,4 +57,6 @@ export class ImportExportComponent {
   service$: Observable<ImportExportContext | undefined> = this.route$.pipe(
     map((route) => this.routesCartMapping.get(route))
   );
+
+  entries$ = this.service$.pipe(switchMap((service) => service.getEntries()));
 }

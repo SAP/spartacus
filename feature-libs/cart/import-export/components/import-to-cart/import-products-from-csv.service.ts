@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProductsData } from '@spartacus/cart/import-export/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ImportProductsFromCsvService {
   constructor() {}
 
