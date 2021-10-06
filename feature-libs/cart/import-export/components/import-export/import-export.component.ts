@@ -40,11 +40,11 @@ export class ImportExportComponent {
     protected quickOrderService: QuickOrderImportExportContext
   ) {}
 
-  service$: Observable<ImportExportContext | undefined> = this.route$.pipe(
+  context$: Observable<ImportExportContext | undefined> = this.route$.pipe(
     map((route) => this.routesCartMapping.get(route))
   );
 
-  entries$: Observable<OrderEntry[]> = this.service$.pipe(
+  entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap((service) => service.getEntries() as Observable<OrderEntry[]>)
   );
 

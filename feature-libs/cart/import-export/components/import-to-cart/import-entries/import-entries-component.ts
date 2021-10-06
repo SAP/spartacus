@@ -19,7 +19,7 @@ export class ImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  service: ImportExportContext;
+  context: ImportExportContext;
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 
@@ -27,7 +27,7 @@ export class ImportEntriesComponent {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      this.service
+      { context: this.context }
     );
   }
 }

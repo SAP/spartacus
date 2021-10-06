@@ -26,15 +26,15 @@
     </div>
 
     <!-- Modal Body -->
-    <ng-container *ngIf="service$ | async as service">
+    <ng-container *ngIf="context$ | async as context">
       <ng-container *ngIf="formState; else importSummary">
         <cx-import-to-new-saved-cart-form
-          *ngIf="isNewCartForm(service); else reducedForm"
-          (submitEvent)="importProducts(service, $event)"
+          *ngIf="isNewCartForm(context); else reducedForm"
+          (submitEvent)="importProducts(context, $event)"
         ></cx-import-to-new-saved-cart-form>
         <ng-template #reducedForm>
           <cx-import-entries-form
-            (submitEvent)="importProducts(service, $event)"
+            (submitEvent)="importProducts(context, $event)"
           ></cx-import-entries-form>
         </ng-template>
       </ng-container>

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, pluck } from 'rxjs/operators';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -41,15 +41,16 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  service$ = this.launchDialogService.data$;
+  context$: Observable<ImportExportContext> =
+    this.launchDialogService.data$.pipe(pluck('context'));
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importToCartService: ImportProductsFromCsvService
   ) {}
 
-  isNewCartForm(service: ImportExportContext) {
-    return service.type === CartTypes.NEW_SAVED_CART;
+  isNewCartForm(context: ImportExportContext) {
+    return context.type === CartTypes.NEW_SAVED_CART;
   }
 
   close(reason: string): void {
@@ -57,7 +58,7 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts(
-    service: ImportExportContext,
+    context: ImportExportContext,
     {
       products,
       savedCartInfo,
@@ -76,7 +77,7 @@ export class ImportEntriesDialogComponent {
       total: products.length,
       cartName: savedCartInfo?.name,
     });
-    service
+    context
       .addEntries(products, savedCartInfo)
       .pipe(
         finalize(() => {
