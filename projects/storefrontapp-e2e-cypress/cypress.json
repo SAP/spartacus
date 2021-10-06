@@ -1,9 +1,9 @@
 {
   "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 45000,
+  "requestTimeout": 15000,
   "retries": {
-    "runMode": 3
+    "runMode": 2
   },
   "videoUploadOnPasses": false,
   "env": {
