@@ -8,12 +8,12 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 
 @Injectable()
 export class CpqConfiguratorNormalizer
-  implements Converter<Cpq.Configuration, Configurator.Configuration> {
+  implements Converter<Cpq.Configuration, Configurator.Configuration>
+{
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
-  ) {
-  }
+  ) {}
 
   convert(
     source: Cpq.Configuration,
@@ -205,12 +205,19 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  protected convertValueDisplay(sourceValue: Cpq.Value,
-                                sourceAttribute: Cpq.Attribute, value: Configurator.Value): void {
-    sourceValue?.selected && sourceAttribute?.displayAs === Cpq.DisplayAs.DROPDOWN && sourceValue.paV_ID === 0 ? this.translation
-      .translate('configurator.attribute.dropDownSelectMsg')
-      .pipe(take(1))
-      .subscribe((generalText) => (value.valueDisplay = generalText)) : value.valueDisplay;
+  protected convertValueDisplay(
+    sourceValue: Cpq.Value,
+    sourceAttribute: Cpq.Attribute,
+    value: Configurator.Value
+  ): void {
+    sourceAttribute?.displayAs === Cpq.DisplayAs.DROPDOWN &&
+    sourceValue?.selected &&
+    sourceValue.paV_ID === 0
+      ? this.translation
+          .translate('configurator.attribute.dropDownSelectMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text))
+      : value.valueDisplay;
   }
 
   protected convertValue(

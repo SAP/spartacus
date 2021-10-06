@@ -174,7 +174,7 @@ class MockTranslationService {
   translate(key: string, options: any): Observable<string> {
     if (key.endsWith('incomplete')) {
       return of(TEST_MESSAGE + options.attribute);
-    } else if(key.indexOf('dropDownSelectMsg') >= 0 ) {
+    } else if (key.indexOf('dropDownSelectMsg') >= 0) {
       return of('Please select');
     } else {
       return of('General');
@@ -1034,7 +1034,11 @@ describe('CpqConfiguratorNormalizer', () => {
 
   describe('convert value display', () => {
     it('should convert value display - contain cpq value display for radio-buttons', () => {
-      const cpqValue: Cpq.Value = { paV_ID: 0, valueDisplay: 'Blue' ,selected: false };
+      const cpqValue: Cpq.Value = {
+        paV_ID: 0,
+        valueDisplay: 'Blue',
+        selected: false,
+      };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1059,7 +1063,11 @@ describe('CpqConfiguratorNormalizer', () => {
     });
 
     it('should convert value display - contain drop-down select message', () => {
-      const cpqValue: Cpq.Value = { paV_ID: 0, valueDisplay: 'No option selected', selected: false };
+      const cpqValue: Cpq.Value = {
+        paV_ID: 0,
+        valueDisplay: 'No option selected',
+        selected: false,
+      };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1084,7 +1092,11 @@ describe('CpqConfiguratorNormalizer', () => {
     });
 
     it('should convert value display - contain cpq value display for drop-down list', () => {
-      const cpqValue: Cpq.Value = { paV_ID: 1, valueDisplay: 'Blue' , selected: false };
+      const cpqValue: Cpq.Value = {
+        paV_ID: 1,
+        valueDisplay: 'Blue',
+        selected: false,
+      };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
