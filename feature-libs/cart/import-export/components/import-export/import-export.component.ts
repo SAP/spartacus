@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
+import { OrderEntry, RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
   CmsImportExportComponent,
@@ -40,6 +40,14 @@ export class ImportExportComponent {
     protected quickOrderService: QuickOrderImportExportContext
   ) {}
 
+  service$: Observable<ImportExportContext | undefined> = this.route$.pipe(
+    map((route) => this.routesCartMapping.get(route))
+  );
+
+  entries$: Observable<OrderEntry[]> = this.service$.pipe(
+    switchMap((service) => service.getEntries() as Observable<OrderEntry[]>)
+  );
+
   shouldDisplayImport$: Observable<boolean> = combineLatest([
     this.route$,
     this.cmsComponent.data$,
@@ -50,13 +58,11 @@ export class ImportExportComponent {
   shouldDisplayExport$: Observable<boolean> = combineLatest([
     this.route$,
     this.cmsComponent.data$,
+    this.entries$,
   ]).pipe(
-    map(([route, data]) => data.exportButtonDisplayRoutes.includes(route))
+    map(
+      ([route, data, entries]) =>
+        data.exportButtonDisplayRoutes.includes(route) && entries.length > 0
+    )
   );
-
-  service$: Observable<ImportExportContext | undefined> = this.route$.pipe(
-    map((route) => this.routesCartMapping.get(route))
-  );
-
-  entries$ = this.service$.pipe(switchMap((service) => service.getEntries()));
 }

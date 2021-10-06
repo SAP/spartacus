@@ -4,8 +4,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ImportExportContext } from '@spartacus/cart/import-export/core';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
@@ -14,20 +14,18 @@ import { ExportProductsToCsvService } from './export-products-to-csv.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportEntriesComponent implements OnInit {
-  entries$: Observable<string[][]>;
+  csv$: Observable<string[][]>;
 
   @Input()
-  service: ImportExportContext;
+  entries: OrderEntry[];
 
   constructor(protected exportEntriesService: ExportProductsToCsvService) {}
 
   ngOnInit() {
-    this.entries$ = this.exportEntriesService.getResolvedEntries(
-      this.service.getEntries()
-    );
+    this.csv$ = this.exportEntriesService.getResolvedEntries(this.entries);
   }
 
-  exportToCsv(entries: string[][]): void {
-    this.exportEntriesService.downloadCsv(entries);
+  downloadCsv(csvData: string[][]): void {
+    this.exportEntriesService.downloadCsv(csvData);
   }
 }

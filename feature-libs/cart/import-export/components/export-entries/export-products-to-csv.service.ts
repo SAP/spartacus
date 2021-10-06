@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   OrderEntry,
   TranslationService,
@@ -59,16 +59,9 @@ export class ExportProductsToCsvService {
       : values?.toString() ?? '';
   }
 
-  protected getResolvedValues(
-    entries$: Observable<OrderEntry[]>
-  ): Observable<string[][]> {
-    return entries$.pipe(
-      filter((entries) => entries?.length > 0),
-      map((entries) =>
-        entries?.map((entry) =>
-          this.columns.map((column) => this.resolveValue(column.value, entry))
-        )
-      )
+  protected resolveValues(entries: OrderEntry[]): string[][] {
+    return entries.map((entry) =>
+      this.columns.map((column) => this.resolveValue(column.value, entry))
     );
   }
 
@@ -95,13 +88,10 @@ export class ExportProductsToCsvService {
       : data;
   }
 
-  getResolvedEntries(
-    entries$: Observable<OrderEntry[]>
-  ): Observable<string[][]> {
-    return this.getResolvedValues(entries$).pipe(
-      map((values) => this.limitValues(values)),
-      withLatestFrom(this.getTranslatedColumnHeaders()),
-      map(([values, headers]) => {
+  getResolvedEntries(entries: OrderEntry[]): Observable<string[][]> {
+    const values = this.limitValues(this.resolveValues(entries));
+    return this.getTranslatedColumnHeaders().pipe(
+      map((headers) => {
         return [headers, ...values];
       })
     );
