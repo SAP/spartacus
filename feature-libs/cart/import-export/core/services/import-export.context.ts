@@ -4,7 +4,7 @@ import { CartTypes } from '../model/import-export.model';
 import { ProductImportInfo, ProductsData } from '../model/import-to-cart.model';
 
 export interface ImportExportContext {
-  type: CartTypes | null;
+  type: CartTypes;
 
   getEntries(): Observable<OrderEntry[]>;
 

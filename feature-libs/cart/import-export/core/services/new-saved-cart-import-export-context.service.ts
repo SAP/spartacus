@@ -37,13 +37,13 @@ export class NewSavedCartImportExportContext
   ) {
     super(actionsSubject);
   }
-  type: CartTypes.NEW_SAVED_CART;
+  type = CartTypes.NEW_SAVED_CART;
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
 
-  protected _addEntries(
+  protected add(
     products: ProductsData,
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {

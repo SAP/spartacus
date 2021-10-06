@@ -31,7 +31,7 @@ export class SavedCartImportExportContext
   ) {
     super(actionsSubject);
   }
-  type: CartTypes.SAVED_CART;
+  type = CartTypes.SAVED_CART;
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
@@ -45,7 +45,7 @@ export class SavedCartImportExportContext
     );
   }
 
-  protected _addEntries(products: ProductsData): Observable<string> {
+  protected add(products: ProductsData): Observable<string> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.savedCartId$,

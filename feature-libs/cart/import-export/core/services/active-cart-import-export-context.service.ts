@@ -20,13 +20,13 @@ export class ActiveCartImportExportContext
   ) {
     super(actionsSubject);
   }
-  type: CartTypes.ACTIVE_CART;
+  type = CartTypes.ACTIVE_CART;
 
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartService.getEntries();
   }
 
-  protected _addEntries(products: ProductsData): Observable<string> {
+  protected add(products: ProductsData): Observable<string> {
     this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
     return this.activeCartService.getActiveCartId();
   }
