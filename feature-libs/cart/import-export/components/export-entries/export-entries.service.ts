@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import {
   ActiveCartService,
   Cart,
@@ -100,8 +100,9 @@ export class ExportEntriesService {
 
   protected getResolvedValues(cartType: CartTypes): Observable<string[][]> {
     return this.getEntries(cartType).pipe(
+      filter((entries) => entries?.length > 0),
       map((entries) =>
-        entries.map((entry) =>
+        entries?.map((entry) =>
           this.columns.map((column) => this.resolveValue(column.value, entry))
         )
       )

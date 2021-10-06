@@ -21,6 +21,7 @@ import { ImportExportComponent } from './import-export.component';
           component: ImportExportComponent,
           data: {
             importButtonDisplayRoutes: [
+              'cart',
               'savedCarts',
               'savedCartsDetails',
               'quickOrder',
