@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ImportExportContext } from '@spartacus/cart/import-export/core';
-import { ExportEntriesService } from './export-entries.service';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
   selector: 'cx-export-entries',
@@ -19,7 +19,7 @@ export class ExportEntriesComponent implements OnInit {
   @Input()
   service: ImportExportContext;
 
-  constructor(protected exportEntriesService: ExportEntriesService) {}
+  constructor(protected exportEntriesService: ExportProductsToCsvService) {}
 
   ngOnInit() {
     this.entries$ = this.exportEntriesService.getResolvedEntries(

@@ -20,7 +20,7 @@ import {
   ProductsData,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { ImportToCartService } from '../../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -41,7 +41,7 @@ export class ImportEntriesFormComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService,
+    protected importToCartService: ImportProductsFromCsvService,
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductsData } from '@spartacus/cart/import-export/core';
 
 @Injectable()
-export class ImportToCartService {
+export class ImportProductsFromCsvService {
   constructor() {}
 
   csvDataToProduct(csvData: string[][]): ProductsData {

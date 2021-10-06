@@ -16,7 +16,7 @@ import {
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
-import { ExportEntriesService } from './export-entries.service';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
@@ -120,8 +120,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-describe('ExportEntriesService', () => {
-  let service: ExportEntriesService;
+describe('ExportProductsToCsvService', () => {
+  let service: ExportProductsToCsvService;
   let translationService: TranslationService;
   let savedCartDetailsService: SavedCartDetailsService;
   let activeCartService: ActiveCartService;
@@ -143,7 +143,7 @@ describe('ExportEntriesService', () => {
         },
       ],
     });
-    service = TestBed.inject(ExportEntriesService);
+    service = TestBed.inject(ExportProductsToCsvService);
     translationService = TestBed.inject(TranslationService);
     savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
     activeCartService = TestBed.inject(ActiveCartService);

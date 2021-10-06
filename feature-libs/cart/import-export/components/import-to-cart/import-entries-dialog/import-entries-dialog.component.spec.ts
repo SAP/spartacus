@@ -12,7 +12,7 @@ import {
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ImportToCartService } from '../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../import-products-from-csv.service';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
 
 const mockFileValidity = {
@@ -49,7 +49,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockImportToCartService implements Partial<ImportToCartService> {
+class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
   loadProductsToCart = () => loadProducts$.asObservable();
   isDataParsable = () => true;
 }
@@ -64,7 +64,7 @@ describe('ImportEntriesDialogComponent', () => {
   let component: ImportEntriesDialogComponent;
   let fixture: ComponentFixture<ImportEntriesDialogComponent>;
   let launchDialogService: LaunchDialogService;
-  let importToCartService: ImportToCartService;
+  let importToCartService: ImportProductsFromCsvService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,7 +79,10 @@ describe('ImportEntriesDialogComponent', () => {
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: ImportToCartService, useClass: MockImportToCartService },
+        {
+          provide: ImportProductsFromCsvService,
+          useClass: MockImportToCartService,
+        },
       ],
     }).compileComponents();
 
@@ -87,7 +90,7 @@ describe('ImportEntriesDialogComponent', () => {
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    importToCartService = TestBed.inject(ImportToCartService);
+    importToCartService = TestBed.inject(ImportProductsFromCsvService);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
     fixture.detectChanges();

@@ -9,7 +9,7 @@ import {
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportEntriesService } from './export-entries.service';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import { ExportEntriesComponent } from './export-entries.component';
 import createSpy = jasmine.createSpy;
 
@@ -107,7 +107,7 @@ describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
 
-  let exportEntriesService: ExportEntriesService;
+  let exportEntriesService: ExportProductsToCsvService;
 
   beforeEach(
     waitForAsync(() => {
@@ -119,7 +119,7 @@ describe('ExportEntriesComponent', () => {
         ],
         providers: [
           {
-            provide: ExportEntriesService,
+            provide: ExportProductsToCsvService,
             useClass: MockExportEntriesService,
           },
         ],
@@ -132,7 +132,7 @@ describe('ExportEntriesComponent', () => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
     component = fixture.componentInstance;
 
-    exportEntriesService = TestBed.inject(ExportEntriesService);
+    exportEntriesService = TestBed.inject(ExportProductsToCsvService);
   });
 
   it('should create', () => {
