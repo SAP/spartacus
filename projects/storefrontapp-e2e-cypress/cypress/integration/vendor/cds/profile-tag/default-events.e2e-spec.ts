@@ -424,9 +424,9 @@ describe('Consent Changed', () => {
 });
 
 function goToProductPage(): Cypress.Chainable<number> {
-  const productPagePath = 'ProductPage';
+  const productCode = '280916';
   const productPage = checkoutFlow.waitForProductPage(
-    productPagePath,
+    productCode,
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
