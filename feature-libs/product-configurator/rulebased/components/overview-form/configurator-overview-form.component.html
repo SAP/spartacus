@@ -1,0 +1,72 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
+    <ng-container
+      *ngTemplateOutlet="
+        groups;
+        context: {
+          overviewGroups: configuration.overview.groups,
+          level: 1
+        }
+      "
+    ></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #noAttributes>
+  <div class="cx-no-attribute-value-pairs">
+    <!-- We currently do not support filtering on overview page so this should never be displayed -->
+    <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
+    <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
+  </div>
+</ng-template>
+
+<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+  <ng-container *ngFor="let group of overviewGroups">
+    <div
+      class="cx-group"
+      [class.topLevel]="level === 1"
+      [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
+    >
+      <h2>
+        <span>{{ group.groupDescription }}</span>
+      </h2>
+
+      <div
+        *ngFor="let attributeOverview of group.attributes; let i = index"
+        class="cx-attribute-value-pair"
+        [ngClass]="getStyleClasses(group.attributes, i)"
+      >
+        <ng-container [ngSwitch]="attributeOverview?.type">
+          <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
+            <cx-configurator-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-overview-attribute>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
+            <cx-configurator-cpq-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-cpq-overview-attribute>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <cx-configurator-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-overview-attribute>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <ng-container *ngIf="group.subGroups?.length > 0">
+      <ng-container
+        *ngTemplateOutlet="
+          groups;
+          context: { overviewGroups: group.subGroups, level: level + 1 }
+        "
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>

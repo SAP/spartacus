@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, using } from 'rxjs';
+import { Observable, of, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
@@ -23,42 +23,43 @@ import { MerchandisingCarouselModel } from './model/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
+  protected lastEventModelId: string;
+
   constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
+    protected componentData: CmsComponentData<CmsMerchandisingCarouselComponent>,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
     protected el: ElementRef
-  ) {}
+  ) {
+    this.lastEventModelId = '';
+  }
 
-  private fetchProducts$: Observable<
-    MerchandisingCarouselModel
-  > = this.componentData.data$.pipe(
-    filter((data) => Boolean(data)),
-    distinctUntilKeyChanged('strategy'),
-    switchMap((data) =>
-      this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
-        data
-      )
-    ),
-    tap((data) => {
-      if (typeof data.backgroundColor === 'string') {
-        this.el.nativeElement.style.setProperty(
-          '--cx-color-background',
-          data.backgroundColor
-        );
-      }
-      if (typeof data.textColor === 'string') {
-        this.el.nativeElement.style.setProperty(
-          '--cx-color-text',
-          data.textColor
-        );
-      }
-    }),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+  private fetchProducts$: Observable<MerchandisingCarouselModel> =
+    this.componentData.data$.pipe(
+      filter((data) => Boolean(data)),
+      distinctUntilKeyChanged('strategy'),
+      switchMap((data) =>
+        this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
+          data
+        )
+      ),
+      tap((data) => {
+        if (typeof data.backgroundColor === 'string') {
+          this.el.nativeElement.style.setProperty(
+            '--cx-color-background',
+            data.backgroundColor
+          );
+        }
+        if (typeof data.textColor === 'string') {
+          this.el.nativeElement.style.setProperty(
+            '--cx-color-text',
+            data.textColor
+          );
+        }
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
     take(1),
@@ -77,11 +78,19 @@ export class MerchandisingCarouselComponent {
             })
             .pipe(
               filter((carouselIsVisible) => carouselIsVisible),
-              switchMap((_) =>
-                this.merchandisingCarouselComponentService.sendCarouselViewEvent(
-                  this.fetchProducts$
-                )
-              )
+              switchMap((_) => {
+                return this.merchandisingCarouselComponentService
+                  .sendCarouselViewEvent(
+                    this.lastEventModelId,
+                    this.fetchProducts$
+                  )
+                  .pipe(
+                    tap((model) => {
+                      this.lastEventModelId = model.id;
+                    }),
+                    switchMapTo(of())
+                  );
+              })
             )
         )
       )

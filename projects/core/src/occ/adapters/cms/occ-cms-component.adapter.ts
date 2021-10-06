@@ -10,13 +10,15 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
@@ -59,52 +61,20 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       );
   }
 
-  findComponentsByIdsLegacy(
-    ids: string[],
-    pageContext: PageContext,
-    fields = 'DEFAULT',
-    currentPage = 0,
-    pageSize = ids.length,
-    sort?: string
-  ): Observable<CmsComponent[]> {
-    const idList: Occ.ComponentIDList = { idList: ids };
-
-    const requestParams = {
-      ...this.getContextParams(pageContext),
-      ...this.getPaginationParams(currentPage, pageSize, sort),
-    };
-
-    return this.http
-      .post<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields),
-        idList,
-        {
-          headers: this.headers,
-        }
-      )
-      .pipe(
-        pluck('component'),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-      );
-  }
-
   protected getComponentEndPoint(id: string, pageContext: PageContext): string {
-    return this.occEndpoints.getUrl(
-      'component',
-      { id },
-      this.getContextParams(pageContext)
-    );
+    return this.occEndpoints.buildUrl('component', {
+      urlParams: { id },
+      queryParams: this.getContextParams(pageContext),
+    });
   }
 
   protected getComponentsEndpoint(requestParams: any, fields: string): string {
-    return this.occEndpoints.getUrl(
-      'components',
-      {},
-      { fields, ...requestParams }
-    );
+    return this.occEndpoints.buildUrl('components', {
+      queryParams: { fields, ...requestParams },
+    });
   }
 
-  private getPaginationParams(
+  protected getPaginationParams(
     currentPage?: number,
     pageSize?: number,
     sort?: string
@@ -123,9 +93,9 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  private getContextParams(
-    pageContext: PageContext
-  ): { [key: string]: string } {
+  protected getContextParams(pageContext: PageContext): {
+    [key: string]: string;
+  } {
     let requestParams = {};
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {

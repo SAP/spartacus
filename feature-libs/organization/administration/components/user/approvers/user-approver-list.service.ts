@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
+import {
+  B2BUserService,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserApproverListService extends OrganizationSubListService<
-  B2BUser
-> {
+export class UserApproverListService extends SubListService<B2BUser> {
   protected tableType = OrganizationTableType.USER_APPROVERS;
   protected _domainType = OrganizationTableType.USER_GROUP;
 
@@ -33,15 +34,23 @@ export class UserApproverListService extends OrganizationSubListService<
    * @override
    * Assign approver to the user.
    */
-  assign(userCode: string, unitId: string) {
-    this.userService.assignApprover(userCode, unitId);
+  assign(
+    userCode: string,
+    approverId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    this.userService.assignApprover(userCode, approverId);
+    return this.userService.getLoadingStatus(approverId);
   }
 
   /**
    * @override
    * Unassign the approver from the user.
    */
-  unassign(userCode: string, unitId: string) {
-    this.userService.unassignApprover(userCode, unitId);
+  unassign(
+    userCode: string,
+    approverId: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
+    this.userService.unassignApprover(userCode, approverId);
+    return this.userService.getLoadingStatus(approverId);
   }
 }

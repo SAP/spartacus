@@ -15,6 +15,7 @@ import {
   B2B_USER_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
+  B2B_USER_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 
@@ -33,9 +34,10 @@ const userGroupId = 'userGroupId';
 const params: SearchConfig = { sort: 'code' };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { userId }) => (url === 'b2bUser' ? `${url}/${userId}` : url)
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { userId } }) =>
+      url === 'b2bUser' ? `${url}/${userId}` : url
   );
 }
 
@@ -63,6 +65,7 @@ describe('OccB2BUserAdapter', () => {
       HttpTestingController as Type<HttpTestingController>
     );
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -106,6 +109,10 @@ describe('OccB2BUserAdapter', () => {
   describe('create B2BUser', () => {
     it('should create B2BUser', () => {
       service.create(userId, orgCustomer).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        orgCustomer,
+        B2B_USER_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
@@ -124,6 +131,10 @@ describe('OccB2BUserAdapter', () => {
   describe('update B2BUser', () => {
     it('should update B2BUser', () => {
       service.update(userId, orgCustomerId, orgCustomer).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        orgCustomer,
+        B2B_USER_SERIALIZER
+      );
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PATCH' &&

@@ -1,0 +1,34 @@
+<label
+  id="{{ createAttributeUiKey('label', attribute.name) }}"
+  [class.cx-required-icon]="attribute.required"
+  [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
+  [attr.aria-label]="
+    !attribute.required
+      ? attribute.label
+      : ('configurator.attribute.requiredAttribute'
+        | cxTranslate: { param: attribute.label })
+  "
+  >{{ attribute.label }}</label
+>
+<div *ngIf="attribute.hasConflicts" class="cx-conflict-msg">
+  <cx-icon
+    *ngIf="isAttributeGroup(groupType)"
+    [type]="iconTypes.WARNING"
+  ></cx-icon>
+  <div class="cx-conflict-msg">
+    {{ getConflictMessageKey(groupType) | cxTranslate }}
+  </div>
+</div>
+<div
+  *ngIf="showRequiredMessageForDomainAttribute$ | async"
+  class="cx-required-error-msg"
+>
+  <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+  {{ getRequiredMessageKey() | cxTranslate }}
+</div>
+<img
+  *ngIf="hasImage"
+  class="cx-attribute-img"
+  src="{{ image?.url }}"
+  alt="{{ image?.altText }}"
+/>

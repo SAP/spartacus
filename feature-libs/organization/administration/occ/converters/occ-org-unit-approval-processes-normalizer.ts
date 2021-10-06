@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Converter, Occ, B2BApprovalProcess } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccOrgUnitApprovalProcessNormalizer
-  implements Converter<Occ.B2BApprovalProcessList, B2BApprovalProcess[]> {
+  implements Converter<Occ.B2BApprovalProcessList, B2BApprovalProcess[]>
+{
   constructor() {}
 
   convert(

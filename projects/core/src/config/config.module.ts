@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfig, provideConfigFactory } from './config-providers';
+import { Config } from './config-tokens';
 import { ConfigurationService } from './services/configuration.service';
 
 @NgModule({})
@@ -15,7 +16,7 @@ export class ConfigModule {
    *
    * @param config Config object to merge with the global configuration
    */
-  static withConfig(config: object): ModuleWithProviders<ConfigModule> {
+  static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)],
@@ -45,7 +46,7 @@ export class ConfigModule {
    *
    * @param config
    */
-  static forRoot(config: any = {}): ModuleWithProviders<ConfigModule> {
+  static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)],

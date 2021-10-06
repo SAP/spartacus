@@ -17,8 +17,8 @@ const costCenter = {
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
     (url, { costCenterCode }) =>
       url === 'costCenter' ? url + costCenterCode : url
   );

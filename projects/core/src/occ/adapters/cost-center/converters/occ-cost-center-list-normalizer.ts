@@ -8,9 +8,12 @@ import {
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccCostCenterListNormalizer
-  implements Converter<Occ.CostCentersList, EntitiesModel<CostCenter>> {
+  implements Converter<Occ.CostCentersList, EntitiesModel<CostCenter>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
@@ -18,13 +21,12 @@ export class OccCostCenterListNormalizer
     target?: EntitiesModel<CostCenter>
   ): EntitiesModel<CostCenter> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.costCenters.map((costCenter) => ({
-          ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.costCenters.map((costCenter) => ({
+      ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
+    }));
+
     return target;
   }
 }

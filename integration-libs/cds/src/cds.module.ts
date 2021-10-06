@@ -18,7 +18,7 @@ import { TrackingModule } from './profiletag/tracking/tracking.module';
   imports: [ProfileTagModule, TrackingModule, MerchandisingModule.forRoot()],
 })
 export class CdsModule {
-  static forRoot(config: CdsConfig): ModuleWithProviders<CdsModule> {
+  static forRoot(config?: CdsConfig): ModuleWithProviders<CdsModule> {
     return {
       ngModule: CdsModule,
       providers: [

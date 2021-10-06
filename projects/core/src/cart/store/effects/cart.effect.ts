@@ -12,12 +12,11 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { withdrawOn } from '../../../util/withdraw-on';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
@@ -112,7 +111,7 @@ export class CartEffects {
               return of(
                 new CartActions.LoadCartFail({
                   ...payload,
-                  error: makeErrorSerializable(error),
+                  error: normalizeHttpError(error),
                 })
               );
             })
@@ -166,7 +165,7 @@ export class CartEffects {
             of(
               new CartActions.CreateCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -217,15 +216,12 @@ export class CartEffects {
 
   // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
-  refreshWithoutProcesses$: Observable<
-    CartActions.LoadCart
-  > = this.actions$.pipe(
+  refreshWithoutProcesses$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -234,7 +230,6 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) => action.payload
     ),
     map(
@@ -247,17 +242,16 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable<
-    CartActions.ResetCartDetails
-  > = this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    mergeMap(() => {
-      return [new CartActions.ResetCartDetails()];
-    })
-  );
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      mergeMap(() => {
+        return [new CartActions.ResetCartDetails()];
+      })
+    );
 
   @Effect()
   addEmail$: Observable<
@@ -286,7 +280,7 @@ export class CartEffects {
             from([
               new CartActions.AddEmailToCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 userId: payload.userId,
@@ -316,7 +310,7 @@ export class CartEffects {
           from([
             new CartActions.DeleteCartFail({
               ...payload,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
             // Error might happen in higher backend layer and cart could still be removed.
             // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.

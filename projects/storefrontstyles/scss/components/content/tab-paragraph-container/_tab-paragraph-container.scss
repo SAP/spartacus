@@ -161,7 +161,7 @@ $useTabsOnPDP: false !default;
   margin: auto;
 
   @include media-breakpoint-down(xl) {
-    max-width: 1140px;
+    max-width: var(--cx-page-width-max);
   }
   // make a small header with links
   display: grid;
@@ -194,5 +194,9 @@ $useTabsOnPDP: false !default;
     @extend %pdpTabs !optional;
   } @else {
     @extend %pdpFlat !optional;
+  }
+
+  .active {
+    background-color: var(--cx-color-inverse);
   }
 }

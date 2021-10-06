@@ -8,6 +8,7 @@ import createSpy = jasmine.createSpy;
 const mockLanguages = ['l', 'a', 'n', 'g'];
 const mockCurrencies = ['c', 'u', 'r', 'r'];
 const mockBaseSite = { uid: 'test-uid' };
+const mockBaseSites = [{ uid: 'test-uid' }];
 
 class MockSiteAdapter implements SiteAdapter {
   loadCurrencies = createSpy('SiteAdapter.loadCurrencies').and.callFake(() =>
@@ -22,12 +23,16 @@ class MockSiteAdapter implements SiteAdapter {
     of([])
   );
 
-  loadRegions = createSpy(
-    'SiteAdapter.loadRegions'
-  ).and.callFake((countryCode) => of(`loadRegions-${countryCode}`));
+  loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(
+    (countryCode) => of(`loadRegions-${countryCode}`)
+  );
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
     of(mockBaseSite)
+  );
+
+  loadBaseSites = createSpy('SiteAdapter.loadBaseSites').and.callFake(() =>
+    of(mockBaseSites)
   );
 }
 
@@ -80,8 +85,15 @@ describe('SiteConnector', () => {
 
   it('getBaseSite should call adapter', () => {
     let result;
-    service.getBaseSite().subscribe((res) => (result = res));
+    service.getBaseSite('testSiteId').subscribe((res) => (result = res));
     expect(result).toBe(mockBaseSite);
-    expect(adapter.loadBaseSite).toHaveBeenCalled();
+    expect(adapter.loadBaseSite).toHaveBeenCalledWith('testSiteId');
+  });
+
+  it('getBaseSites should call adapter', () => {
+    let result;
+    service.getBaseSites().subscribe((res) => (result = res));
+    expect(result).toBe(mockBaseSites);
+    expect(adapter.loadBaseSites).toHaveBeenCalled();
   });
 });

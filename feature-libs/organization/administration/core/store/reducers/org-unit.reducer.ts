@@ -12,8 +12,12 @@ export function orgUnitEntitiesReducer(
   switch (action.type) {
     case OrgUnitActions.LOAD_ORG_UNIT_SUCCESS:
     case OrgUnitActions.CREATE_ORG_UNIT_SUCCESS:
-    case OrgUnitActions.UPDATE_ORG_UNIT_SUCCESS:
       return action.payload;
+    case OrgUnitActions.UPDATE_ORG_UNIT_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
   }
   return state;
 }

@@ -75,14 +75,12 @@ export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
   cy.window().then((win) => {
-    const savedState = JSON.parse(
-      win.localStorage.getItem('spartacus-local-data')
-    );
-    cy.requireProductAddedToCart(savedState.auth).then((resp) => {
-      cy.requireShippingAddressAdded(user.address, savedState.auth);
-      cy.requireShippingMethodSelected(savedState.auth);
-      cy.requirePaymentDone(savedState.auth);
-      cy.requirePlacedOrder(savedState.auth, resp.cartId);
+    const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
+    cy.requireProductAddedToCart(savedState.token).then((resp) => {
+      cy.requireShippingAddressAdded(user.address, savedState.token);
+      cy.requireShippingMethodSelected(savedState.token);
+      cy.requirePaymentDone(savedState.token);
+      cy.requirePlacedOrder(savedState.token, resp.cartId);
     });
   });
 }
@@ -97,11 +95,11 @@ export function addressBookNextStep() {
 
   cy.get('cx-shipping-address .btn-primary').click();
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
+  cy.get('cx-delivery-mode input').first().click({
     force: true,
   });
 
@@ -112,7 +110,7 @@ export function deliveryModeNextStep() {
 
   cy.get('cx-delivery-mode .btn-primary').click();
 
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
@@ -124,18 +122,13 @@ export function paymentDetailsNextStep() {
 
   cy.get('cx-payment-method .btn-primary').click();
 
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
-}
-
-export function createRoute(request: string, alias: string): void {
-  cy.route(request).as(alias);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    cy.server();
-    createRoute(request, alias);
+    cy.intercept(request).as(alias);
   });
 
   afterEach(() => {
@@ -154,7 +147,15 @@ export function siteContextChange(
   label: string
 ): void {
   if (pagePath !== null) {
+    let page = waitForPage(pagePath, 'pageForSitContextChange');
+    if (
+      pagePath.startsWith('/product') ||
+      pagePath.startsWith('/Open-Catalogue')
+    ) {
+      page = waitForPage('', 'pageForSitContextChange');
+    }
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+    cy.wait(`@${page}`).its('response.statusCode').should('eq', 200);
   }
 
   let contextParam: string;
@@ -172,11 +173,16 @@ export function siteContextChange(
       throw new Error(`Unsupported context label : ${label}`);
     }
   }
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`);
 
-  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
+  cy.intercept({
+    method: 'GET',
+    query: {
+      [contextParam]: selectedOption,
+    },
+  }).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext').its('status').should('eq', 200);
+  cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(

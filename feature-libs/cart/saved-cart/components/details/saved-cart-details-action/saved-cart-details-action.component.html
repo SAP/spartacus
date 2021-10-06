@@ -1,0 +1,22 @@
+<ng-container *ngIf="savedCart$ | async as cart">
+  <div class="cx-saved-cart-restore-btns row">
+    <div class="col-xs-12 col-md-5 col-lg-4">
+      <button
+        #element
+        class="btn btn-block btn-action"
+        (click)="openDialog(cart, savedCartFormType.DELETE)"
+      >
+        {{ 'savedCartDetails.deleteSavedCart' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-5 col-lg-4">
+      <button
+        #element
+        class="btn btn-block btn-primary"
+        (click)="openDialog(cart, savedCartFormType.RESTORE)"
+      >
+        {{ 'savedCartList.makeCartActive' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

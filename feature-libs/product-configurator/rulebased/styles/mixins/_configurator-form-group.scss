@@ -1,0 +1,33 @@
+@mixin cx-configurator-form-group {
+  .form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+
+    @include media-breakpoint-up(md) {
+      select {
+        width: 80%;
+      }
+    }
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+
+      select {
+        width: 100%;
+      }
+    }
+
+    .cx-value-price {
+      @include media-breakpoint-up(md) {
+        width: 20%;
+      }
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<ng-container *ngIf="container$ | async as container">
+  <ng-container *ngIf="!container.routerData.displayOnly">
+    <div class="cx-add-to-cart-btn-container">
+      <button
+        class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
+        (click)="onAddToCart(container.configuration, container.routerData)"
+      >
+        {{
+          getButtonResourceKey(container.routerData, container.configuration)
+            | cxTranslate
+        }}
+      </button>
+    </div>
+  </ng-container>
+</ng-container>

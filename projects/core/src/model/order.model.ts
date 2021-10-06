@@ -19,6 +19,7 @@ export interface DeliveryMode {
 }
 
 export interface OrderEntry {
+  orderCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;
@@ -31,6 +32,7 @@ export interface OrderEntry {
   returnableQuantity?: number;
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
+  promotions?: PromotionResult[];
 }
 
 export interface CancelOrReturnRequestEntryInput {
@@ -147,7 +149,6 @@ export interface Order {
   orderDiscounts?: Price;
   orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
-  permissionResults?: any[]; //OrderApprovalPermissionResult[];
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;

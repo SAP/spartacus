@@ -4,11 +4,14 @@
   @each $color, $value in $theme-colors {
     --cx-color-#{$color}: #{$value};
   }
+  --cx-page-width-max: 1140px;
 
   --cx-font-weight-light: 300;
   --cx-font-weight-normal: 400;
   --cx-font-weight-semi: 600;
   --cx-font-weight-bold: 700;
+
+  --cx-text-transform: capitalize;
 
   --cx-direction: #{$direction};
 

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
   CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
 } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
@@ -20,13 +19,18 @@ import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 
+/**
+ * @deprecated since 4.2 - use OrderFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in OrderService's constructor,
+ * need to update it in 5.0 migration doc.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserOrderService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService,
+    protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
 
@@ -43,7 +47,7 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderDetails({
           userId,
@@ -93,8 +97,8 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.authService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         let replenishmentOrderCode: string;
 
         this.routingService
@@ -115,8 +119,11 @@ export class UserOrderService {
             replenishmentOrderCode,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
@@ -139,7 +146,7 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.LoadConsignmentTracking({
           userId,
@@ -164,7 +171,7 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrder({
           userId,

@@ -1,0 +1,17 @@
+%cx-store-finder {
+  line-height: var(--cx-line-height, 1.2222222222);
+
+  .cx-store-finder-wrapper {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .cx-pagination {
+    .pagination {
+      a.page-link:hover {
+        color: #fff;
+        font-weight: normal;
+      }
+    }
+  }
+}

@@ -2,17 +2,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
 import {
-  combineLatest,
-  defer,
-  merge,
-  Observable,
-  of,
-  SchedulerLike,
-  using,
-} from 'rxjs';
-import {
-  auditTime,
   debounceTime,
   delay,
   distinctUntilChanged,
@@ -24,9 +15,11 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { withdrawOn } from '../../util/withdraw-on';
+import { uniteLatest } from '../../util/rxjs/unite-latest';
+import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
@@ -43,7 +36,8 @@ export class ProductLoadingService {
     protected store: Store<StateWithProduct>,
     protected loadingScopes: LoadingScopesService,
     protected actions$: Actions,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
+    protected eventService: EventService
   ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
@@ -68,10 +62,9 @@ export class ProductLoadingService {
     }
 
     if (scopes.length > 1) {
-      this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
+      this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
         scopes.map((scope) => this.products[productCode][scope])
       ).pipe(
-        auditTime(0),
         map((productParts) =>
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
@@ -148,8 +141,8 @@ export class ProductLoadingService {
   protected getProductReloadTriggers(
     productCode: string,
     scope: string
-  ): Observable<boolean>[] {
-    const triggers = [];
+  ): Observable<unknown>[] {
+    const triggers: Observable<unknown>[] = [];
 
     // max age trigger add
     const maxAge = this.loadingScopes.getMaxAge('product', scope);
@@ -180,7 +173,11 @@ export class ProductLoadingService {
       triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
-    return triggers;
+    const reloadTriggers$ = this.loadingScopes
+      .getReloadTriggers('product', scope)
+      .map(this.eventService.get);
+
+    return triggers.concat(reloadTriggers$);
   }
 
   /**
@@ -194,8 +191,8 @@ export class ProductLoadingService {
    * @param maxAge max age
    */
   private getMaxAgeTrigger(
-    loadStart$: Observable<any>,
-    loadFinish$: Observable<any>,
+    loadStart$: Observable<ProductActions.ProductAction>,
+    loadFinish$: Observable<ProductActions.ProductAction>,
     maxAge: number,
     scheduler?: SchedulerLike
   ): Observable<boolean> {

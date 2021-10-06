@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitListComponent } from './unit-list.component';
 import { IconModule } from '@spartacus/storefront';
-import { OrganizationListModule } from '../../shared/organization-list/organization-list.module';
+import { ListModule } from '../../shared/list/list.module';
 import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.componen
     UrlModule,
     I18nModule,
     IconModule,
-    OrganizationListModule,
+    ListModule,
   ],
   declarations: [UnitListComponent, ToggleLinkCellComponent],
 })

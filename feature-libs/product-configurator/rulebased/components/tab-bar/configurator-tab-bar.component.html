@@ -1,0 +1,34 @@
+<ng-container *ngIf="routerData$ | async as routerData">
+  <ng-container *ngIf="!routerData.displayOnly">
+    <a
+      tabindex="0"
+      [class.active]="!(isOverviewPage$ | async)"
+      [routerLink]="
+        {
+          cxRoute: 'configure' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type
+          }
+        } | cxUrl
+      "
+      role="link"
+      >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+    >
+    <a
+      tabindex="0"
+      [class.active]="isOverviewPage$ | async"
+      [routerLink]="
+        {
+          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type
+          }
+        } | cxUrl
+      "
+      role="link"
+      >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+    >
+  </ng-container>
+</ng-container>

@@ -1,0 +1,42 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="cx-value-container">
+    <div class="cx-thumbnail">
+      <cx-media
+        [container]="getProductPrimaryImage(product)"
+        format="product"
+      ></cx-media>
+    </div>
+    <div class="cx-value-info">
+      <div>
+        {{ attributeOverview.value }}
+      </div>
+      <span class="cx-code" *ngIf="attributeOverview?.productCode">
+        {{ 'configurator.attribute.id' | cxTranslate }}:
+        {{ attributeOverview.productCode }}</span
+      >
+      <div *ngIf="displayQuantity()" class="cx-quantity">
+        <span class="cx-identifier">{{
+          'configurator.attribute.quantity' | cxTranslate
+        }}</span>
+        <span class="cx-item">{{
+          attributeOverview.quantity | cxNumeric
+        }}</span>
+      </div>
+      <div *ngIf="displayPrice()" class="cx-price">
+        <span class="cx-identifier">{{
+          'configurator.overviewForm.itemPrice' | cxTranslate
+        }}</span>
+        <span class="cx-item">{{
+          attributeOverview.valuePrice?.formattedValue
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-attribute-price-container">
+    <span class="cx-attribute-label">{{ attributeOverview.attribute }}</span>
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+  </div>
+</ng-container>

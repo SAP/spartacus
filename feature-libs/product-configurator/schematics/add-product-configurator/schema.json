@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ProductConfiguratorSchematics",
+  "title": "Product Configurator Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the product configurator features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "VC-Configurator",
+          "CPQ-Configurator",
+          "Textfield-Configurator"
+        ],
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "Which product configurator features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "VC-Configurator",
+            "label": "Variant Configurator"
+          },
+          {
+            "value": "CPQ-Configurator",
+            "label": "CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "Textfield-Configurator",
+            "label": "Textfield Configurator"
+          }
+        ]
+      }
+    }
+  },
+  "required": []
+}

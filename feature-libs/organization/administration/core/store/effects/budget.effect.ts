@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
+import { EntitiesModel, normalizeHttpError, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { BudgetActions, OrganizationActions } from '../actions/index';
-import { normalizeListPage } from '../../utils/serializer';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { HttpErrorResponse } from '@angular/common/http';
-import { isValidUser } from '../../utils/check-user';
 
 @Injectable()
 export class BudgetEffects {
@@ -19,7 +17,6 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, budgetCode }) => {
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
@@ -45,11 +42,13 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {
-          const { values, page } = normalizeListPage(budgets, 'code');
+          const { values, page } = StateUtils.normalizeListPage(
+            budgets,
+            'code'
+          );
           return [
             new BudgetActions.LoadBudgetSuccess(values),
             new BudgetActions.LoadBudgetsSuccess({
@@ -78,7 +77,6 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
         switchMap((data) => [
@@ -106,7 +104,6 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)

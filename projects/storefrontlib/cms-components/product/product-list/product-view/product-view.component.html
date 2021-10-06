@@ -1,0 +1,22 @@
+<button
+  class="btn cx-product-layout"
+  [ngClass]="buttonClass"
+  (click)="changeMode()"
+  tabindex="0"
+  attr.aria-label="{{
+    viewMode === iconTypes.GRID
+      ? ('productView.gridView' | cxTranslate)
+      : viewMode === iconTypes.LIST
+      ? ('productView.listView' | cxTranslate)
+      : null
+  }}"
+>
+  <cx-icon
+    *ngIf="viewMode === iconTypes.GRID"
+    [type]="iconTypes.GRID"
+  ></cx-icon>
+  <cx-icon
+    *ngIf="viewMode === iconTypes.LIST"
+    [type]="iconTypes.LIST"
+  ></cx-icon>
+</button>

@@ -53,7 +53,7 @@ describe('OccUserAddressAdapter', () => {
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -70,10 +70,10 @@ describe('OccUserAddressAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'addressVerification',
         {
-          userId: username,
+          urlParams: { userId: username },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -90,10 +90,10 @@ describe('OccUserAddressAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'addressVerification',
         {
-          userId: 'anonymous',
+          urlParams: { userId: 'anonymous' },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -139,8 +139,8 @@ describe('OccUserAddressAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addresses', {
-        userId: username,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addresses', {
+        urlParams: { userId: username },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

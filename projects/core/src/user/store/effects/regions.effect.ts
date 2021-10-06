@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { StateUtils } from '../../../state/utils/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 
@@ -27,7 +27,7 @@ export class RegionsEffects {
             })
         ),
         catchError((error) =>
-          of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
         )
       );
     })

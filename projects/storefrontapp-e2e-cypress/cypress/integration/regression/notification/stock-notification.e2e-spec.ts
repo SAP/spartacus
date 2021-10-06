@@ -5,7 +5,7 @@ describe('Stock Notification for Guest', () => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
-  it('should login first when guest want to subcribe notification', () => {
+  it('should login first when guest want to subscribe notification', () => {
     notification.verifyStockNotificationAsGuest();
   });
 });
@@ -16,10 +16,19 @@ describe('Stock Notification for Customer', () => {
     cy.requireLoggedIn();
     cy.visit('/');
   });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   it('should navigate to notification preference page through product detail page', () => {
     notification.verifyStockNotificationWithoutChannel();
   });
-  it('should subcribe/unsubscribe notification', () => {
+  it('should subscribe/unsubscribe notification', () => {
     notification.verifyStockNotification();
   });
 });

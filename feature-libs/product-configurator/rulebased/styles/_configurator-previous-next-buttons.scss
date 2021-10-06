@@ -1,0 +1,41 @@
+%cx-configurator-previous-next-buttons {
+  display: none;
+
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding-inline-start: 16px;
+    padding-inline-end: 16px;
+    padding-block-start: 16px;
+    padding-block-end: 16px;
+
+    @include media-breakpoint-down(sm) {
+      padding-block-start: 20px;
+      padding-block-end: 20px;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+    }
+
+    .btn-action,
+    .btn-secondary {
+      inline-size: 25%;
+
+      @include media-breakpoint-down(sm) {
+        inline-size: 45%;
+      }
+    }
+
+    .btn-action {
+      &.disabled,
+      &:disabled {
+        &:hover {
+          @extend .btn-outline-text !optional;
+          border-width: 2px;
+          border-style: solid;
+        }
+      }
+    }
+  }
+}

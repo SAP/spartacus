@@ -4,7 +4,6 @@ import {
   SearchConfig,
   StateUtils,
 } from '@spartacus/core';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   BUDGET_ENTITIES,
   COST_CENTER_ASSIGNED_BUDGETS,
@@ -79,7 +78,7 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(COST_CENTER_LIST, serializeSearchConfig(payload.params));
+    super(COST_CENTER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -88,7 +87,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       COST_CENTER_LIST,
-      serializeSearchConfig(payload.params),
+      StateUtils.serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -102,7 +101,7 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(COST_CENTER_LIST, serializeSearchConfig(payload.params));
+    super(COST_CENTER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -165,7 +164,7 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeSearchConfig(payload.params, payload.costCenterCode)
+      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }
@@ -181,7 +180,7 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeSearchConfig(payload.params, payload.costCenterCode),
+      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode),
       payload.error
     );
   }
@@ -198,7 +197,7 @@ export class LoadAssignedBudgetsSuccess extends StateUtils.EntitySuccessAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeSearchConfig(payload.params, payload.costCenterCode)
+      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }

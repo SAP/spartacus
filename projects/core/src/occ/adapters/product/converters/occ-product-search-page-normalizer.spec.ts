@@ -136,6 +136,12 @@ describe('OccProductSearchPageNormalizer', () => {
       expect(result.facets[0].name).toEqual('useful-facet');
     });
 
+    it('should handle empty facets', () => {
+      mockPlpWithUselessFacets.facets = null;
+      const result = normalizer.convert(mockPlpWithUselessFacets);
+      expect(result).toEqual(mockPlpWithUselessFacets as any);
+    });
+
     it('should not remove useless facet facet list if pagination is not used', () => {
       const result = normalizer.convert(mockPlpWithoutPagination);
       expect(result.facets.length).toEqual(2);

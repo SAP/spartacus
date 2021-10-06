@@ -4,7 +4,7 @@ import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
@@ -42,7 +42,7 @@ export class CartVoucherEffects {
             from([
               new CartActions.CartAddVoucherFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
@@ -80,7 +80,7 @@ export class CartVoucherEffects {
           catchError((error) =>
             from([
               new CartActions.CartRemoveVoucherFail({
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
                 cartId: payload.cartId,
                 userId: payload.userId,
                 voucherId: payload.voucherId,

@@ -1,0 +1,147 @@
+<div class="cx-order-type-card">
+  <div class="cx-label-container">
+    <h5 class="cx-order-replenishment-header">
+      {{ 'checkoutReview.autoReplenishOrder' | cxTranslate }}
+    </h5>
+    <cx-icon [type]="iconTypes.CLOCK"></cx-icon>
+  </div>
+  <div
+    class="cx-order-type-container form-check"
+    *ngFor="let type of orderTypes | keyvalue"
+  >
+    <input
+      id="orderType-{{ type.value }}"
+      class="scaled-input form-check-input"
+      role="radio"
+      type="radio"
+      formControlName="orderType"
+      aria-checked="true"
+      (change)="changeOrderType(type.value)"
+      [value]="type.value"
+      [checked]="type.value == (selectedOrderType$ | async)"
+    />
+    <label
+      class="order-type-label form-check-label form-radio-label"
+      for="orderType-{{ type.value }}"
+    >
+      <div class="order-type">
+        {{ 'checkoutReview.orderType_' + type?.value | cxTranslate }}
+      </div>
+    </label>
+  </div>
+  <ng-container
+    *ngIf="
+      scheduleReplenishmentFormData &&
+      (selectedOrderType$ | async) === orderTypes.SCHEDULE_REPLENISHMENT_ORDER
+    "
+  >
+    <div class="cx-replenishment-form-data-container">
+      <div *ngIf="!isMonthly" class="cx-days">
+        <span class="form-data-label">{{
+          'checkoutReview.every' | cxTranslate
+        }}</span>
+        <ng-container *ngIf="isWeekly; else isDaily">
+          <select
+            class="form-control"
+            (change)="changeNumberOfWeeks($event.target.value)"
+          >
+            <option
+              *ngFor="let nWeeks of numberOfWeeks"
+              [value]="nWeeks"
+              [selected]="
+                nWeeks === scheduleReplenishmentFormData.numberOfWeeks
+              "
+            >
+              {{ nWeeks }}
+            </option>
+          </select>
+        </ng-container>
+        <ng-template #isDaily>
+          <select
+            class="form-control"
+            (change)="changeNumberOfDays($event.target.value)"
+          >
+            <option
+              *ngFor="let nDays of numberOfDays"
+              [value]="nDays"
+              [selected]="nDays === scheduleReplenishmentFormData.numberOfDays"
+            >
+              {{ nDays }}
+            </option>
+          </select>
+        </ng-template>
+      </div>
+      <div class="cx-month">
+        <span *ngIf="isMonthly" class="form-data-label">{{
+          'checkoutReview.every' | cxTranslate
+        }}</span>
+        <select
+          class="form-control"
+          (change)="changeRecurrencePeriodType($event.target.value)"
+        >
+          <option
+            *ngFor="let type of recurrencePeriodType"
+            [value]="type"
+            [selected]="type === scheduleReplenishmentFormData.recurrencePeriod"
+          >
+            {{ 'checkoutReview.recurrencePeriodType_' + type | cxTranslate }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="isMonthly" class="cx-dayMonth">
+        <span class="form-data-label">{{
+          'checkoutReview.dayOfMonth' | cxTranslate
+        }}</span>
+        <div class="cx-day-of-month">
+          <select
+            class="form-control"
+            (change)="changeDayOfTheMonth($event.target.value)"
+          >
+            <option
+              *ngFor="let nDays of numberOfDays"
+              [value]="nDays"
+              [selected]="nDays === scheduleReplenishmentFormData.nthDayOfMonth"
+            >
+              {{ nDays }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-replenishment-form-data-container">
+      <span class="form-data-label">{{
+        'checkoutReview.startOn' | cxTranslate
+      }}</span>
+      <div class="cx-replenishment-date">
+        <input
+          type="date"
+          placeholder="yyyy-mm-dd"
+          [value]="currentDate"
+          (change)="changeReplenishmentStartDate($event.target.value)"
+        />
+      </div>
+    </div>
+
+    <div
+      *ngIf="isWeekly"
+      class="cx-replenishment-form-data-container cx-repeat-days-container"
+    >
+      <span class="cx-repeat-days form-data-label">{{
+        'checkoutReview.repeatOnDays' | cxTranslate
+      }}</span>
+      <div *ngFor="let day of daysOfWeek" class="form-check">
+        <label for="day-{{ day }}" class="cx-week-day">{{
+          day | titlecase
+        }}</label
+        ><input
+          id="day-{{ day }}"
+          type="checkbox"
+          class="form-check-input"
+          [checked]="hasDaysOfWeekChecked(day)"
+          (change)="changeRepeatDays(day, $event.target.checked)"
+        />
+      </div>
+    </div>
+  </ng-container>
+</div>

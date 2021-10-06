@@ -1,0 +1,188 @@
+%cx-configurator-attribute-product-card {
+  &:first-of-type {
+    .cx-product-card {
+      border-top: solid 1px var(--cx-color-light);
+    }
+  }
+
+  .cx-product-card {
+    padding-block-start: 16px;
+    padding-block-end: 16px;
+    width: 100%;
+    min-height: 140px;
+    border-bottom: solid 1px var(--cx-color-light);
+
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .cx-product-card-rows {
+      display: flex;
+      flex-wrap: wrap;
+      width: 50%;
+
+      @include media-breakpoint-up(md) {
+        padding-inline-start: 16px;
+        padding-inline-end: 16px;
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+
+      &.column {
+        flex-direction: column;
+      }
+
+      .cx-product-card-quantity-price {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-block-end: 16px;
+        min-height: 48px;
+
+        @include media-breakpoint-down(sm) {
+          margin-block-start: 0.5rem;
+          margin-block-end: 0.5rem;
+        }
+
+        .cx-product-card-quantity,
+        .cx-product-card-price {
+          width: 50%;
+        }
+
+        @include media-breakpoint-down(sm) {
+          .cx-product-card-quantity:empty {
+            width: 0%;
+
+            + .cx-product-card-price {
+              width: 100%;
+            }
+          }
+        }
+
+        .cx-product-card-price {
+          height: fit-content;
+          width: fit-content;
+        }
+
+        .cx-product-card-quantity {
+          width: fit-content;
+
+          @include media-breakpoint-down(sm) {
+            margin-block-start: 0.5rem;
+            margin-block-end: 0.5rem;
+            margin-inline-end: 0.5rem;
+          }
+
+          @include media-breakpoint-up(md) {
+            margin-inline-end: 4rem;
+          }
+        }
+      }
+
+      .cx-product-card-action {
+        display: flex;
+        flex-direction: row;
+
+        @include media-breakpoint-up(md) {
+          align-self: flex-end;
+        }
+      }
+
+      &.deselection-error-message {
+        display: inline-block;
+        width: 80%;
+      }
+    }
+
+    .cx-product-card-imgs {
+      @include cx-configurator-image();
+    }
+
+    .cx-product-card-info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin-inline-start: 16px;
+      width: 15.5rem;
+
+      @include media-breakpoint-up(md) {
+        width: 18rem;
+      }
+
+      .cx-product-card-name {
+        a,
+        p {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        p {
+          color: var(--cx-color-primary);
+          margin-block-end: 0;
+        }
+      }
+
+      .cx-product-card-code {
+        @include cx-configurator-truncate-content();
+        color: var(--cx-color-secondary);
+        font-size: 0.875rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 0.5rem;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .cx-product-card-action-btn {
+      @include media-breakpoint-up(md) {
+        min-width: 6rem;
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+
+      .btn {
+        font-size: 16px;
+        width: 100%;
+
+        @include media-breakpoint-up(md) {
+          max-width: 20rem;
+        }
+      }
+    }
+  }
+
+  .cx-product-card-selected {
+    flex-wrap: wrap;
+    background-color: var(--cx-color-background);
+
+    cx-item-counter {
+      background-color: #fff;
+    }
+  }
+
+  .deselection-error-message {
+    padding-top: 5px;
+    color: var(--cx-color-danger);
+  }
+
+  .deselection-error-symbol {
+    padding: 5px;
+  }
+}

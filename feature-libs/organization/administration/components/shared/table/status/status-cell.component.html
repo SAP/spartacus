@@ -1,0 +1,18 @@
+<a
+  *ngIf="linkable; else text"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabindex]="tabIndex"
+>
+  <ng-container *ngTemplateOutlet="text"></ng-container>
+</a>
+
+<ng-template #text>
+  <span
+    class="text"
+    title="{{ label | cxTranslate }}"
+    [class.is-active]="isActive"
+    *ngIf="label"
+  >
+    {{ label | cxTranslate }}</span
+  >
+</ng-template>

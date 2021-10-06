@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/facade/auth.service';
+import { of } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -24,9 +25,9 @@ describe('CustomerCouponService', () => {
     notificationOn: true,
   };
 
-  class MockAuthService {
-    invokeWithUserId(cb) {
-      cb(OCC_USER_ID_CURRENT);
+  class MockUserIdService implements Partial<UserIdService> {
+    takeUserId() {
+      return of(OCC_USER_ID_CURRENT);
     }
   }
 
@@ -45,7 +46,7 @@ describe('CustomerCouponService', () => {
       ],
       providers: [
         CustomerCouponService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

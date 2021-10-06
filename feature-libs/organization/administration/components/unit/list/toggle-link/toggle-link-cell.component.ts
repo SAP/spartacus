@@ -5,20 +5,19 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationCellComponent } from '../../../shared/organization-table/organization-cell.component';
+import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
+  selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleLinkCellComponent extends OrganizationCellComponent {
+export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;
   }
-
-  @HostBinding('class.content-wrapper') cls = true;
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
@@ -49,7 +48,7 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   toggleItem(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.unitTreeService.toggle((this.model as unknown) as B2BUnitTreeNode);
+    this.unitTreeService.toggle(this.model as unknown as B2BUnitTreeNode);
   }
 
   /**

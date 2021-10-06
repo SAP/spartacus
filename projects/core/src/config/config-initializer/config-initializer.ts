@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import { Config } from '../config-tokens';
 
 export const CONFIG_INITIALIZER = new InjectionToken('ConfigInitializer');
 
@@ -14,7 +15,7 @@ export interface ConfigInitializer {
   /**
    * Promise that returns config chunk
    */
-  configFactory: () => Promise<any>;
+  configFactory: () => Promise<Config>;
 }
 
 export const CONFIG_INITIALIZER_FORROOT_GUARD = new InjectionToken<void>(

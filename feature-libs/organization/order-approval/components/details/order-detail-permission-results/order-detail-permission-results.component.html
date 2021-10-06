@@ -1,0 +1,81 @@
+<ng-container *ngIf="order$ | async as order">
+  <ng-container *ngIf="order.permissionResults?.length">
+    <div class="cx-approval-header row">
+      <div class="cx-approval-label col-sm-12">
+        {{ 'orderApprovalDetails.permissionResults.header' | cxTranslate }}
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-striped cx-approval-table">
+        <thead class="cx-approval-thead-mobile">
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.permission' | cxTranslate
+            }}
+          </th>
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.approver' | cxTranslate
+            }}
+          </th>
+          <th scope="col">
+            {{ 'orderApprovalDetails.permissionResults.status' | cxTranslate }}
+          </th>
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.approverComments'
+                | cxTranslate
+            }}
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let permissionResult of order.permissionResults">
+            <td class="cx-approval-permissionCode">
+              <div class="d-md-none cx-approval-table-label">
+                {{
+                  'orderApprovalDetails.permissionResults.permission'
+                    | cxTranslate
+                }}
+              </div>
+              {{
+                'orderApprovalDetails.permissionResults.permissionType_' +
+                  permissionResult?.permissionType?.code | cxTranslate
+              }}
+            </td>
+            <td class="cx-approval-approverName">
+              <div class="d-md-none cx-approval-table-label">
+                {{
+                  'orderApprovalDetails.permissionResults.approver'
+                    | cxTranslate
+                }}
+              </div>
+              {{ permissionResult.approverName }}
+            </td>
+            <td class="cx-approval-statusDisplay">
+              <div class="d-md-none cx-approval-table-label">
+                {{
+                  'orderApprovalDetails.permissionResults.status' | cxTranslate
+                }}
+              </div>
+              {{ permissionResult.statusDisplay }}
+            </td>
+            <td class="cx-approval-approvalNotes">
+              <div class="d-md-none cx-approval-table-label">
+                {{
+                  'orderApprovalDetails.permissionResults.approverComments'
+                    | cxTranslate
+                }}
+              </div>
+              {{
+                permissionResult.approverNotes
+                  ? permissionResult.approverNotes
+                  : ('orderApprovalDetails.permissionResults.noApprovalComments'
+                    | cxTranslate)
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</ng-container>

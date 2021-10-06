@@ -1,0 +1,23 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+name: Config check
+jobs:
+  configCheck:
+    name: Dependencies and tsconfig files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Yarn
+        run: yarn
+      - name: Check configurations
+        run: yarn config:check
+        env:
+          FORCE_COLOR: 2 # Support colors from chalk

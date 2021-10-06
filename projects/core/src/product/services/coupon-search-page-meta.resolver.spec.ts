@@ -5,7 +5,7 @@ import {
   Params,
 } from '@angular/router';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { BreadcrumbMeta, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model';

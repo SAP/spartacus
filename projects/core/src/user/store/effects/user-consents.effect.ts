@@ -5,16 +5,14 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
   @Effect()
-  resetConsents$: Observable<
-    UserActions.ResetLoadUserConsents
-  > = this.actions$.pipe(
+  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => new UserActions.ResetLoadUserConsents())
   );
@@ -27,7 +25,7 @@ export class UserConsentsEffect {
       this.userConsentConnector.loadConsents(userId).pipe(
         map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
         catchError((error) =>
-          of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -55,7 +53,7 @@ export class UserConsentsEffect {
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
             > = [
-              new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
+              new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
             ];
             if (
               action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
@@ -74,20 +72,14 @@ export class UserConsentsEffect {
   );
 
   @Effect()
-  withdrawConsent$: Observable<
-    UserActions.UserConsentsAction
-  > = this.actions$.pipe(
+  withdrawConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
     ofType(UserActions.WITHDRAW_USER_CONSENT),
     map((action: UserActions.WithdrawUserConsent) => action.payload),
     concatMap(({ userId, consentCode }) =>
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() => new UserActions.WithdrawUserConsentSuccess()),
         catchError((error) =>
-          of(
-            new UserActions.WithdrawUserConsentFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new UserActions.WithdrawUserConsentFail(normalizeHttpError(error)))
         )
       )
     )

@@ -1,0 +1,9 @@
+<cx-icon
+  *ngFor="let i of [1, 2, 3, 4, 5]"
+  [type]="icon"
+  class="star"
+  (mouseover)="setRate(i)"
+  (click)="saveRate(i)"
+  (keydown.space)="saveRate(i)"
+  [attr.tabindex]="disabled ? null : 0"
+></cx-icon>

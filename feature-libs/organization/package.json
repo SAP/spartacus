@@ -1,44 +1,42 @@
 {
   "name": "@spartacus/organization",
-  "version": "3.0.0-next.4",
+  "version": "4.1.0-next.0",
   "description": "Organization library for Spartacus",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
     "storefront",
     "organization"
   ],
-  "scripts": {
-    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
-    "build:schematics": "tsc -p ./tsconfig.schematics.json",
-    "test:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.spec.json && jasmine \"schematics/**/*_spec.js\""
-  },
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/organization",
   "license": "Apache-2.0",
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^12.0.5",
+    "@angular/common": "^12.0.5",
+    "@angular/core": "^12.0.5",
+    "@angular/forms": "^12.0.5",
+    "@angular/router": "^12.0.5",
+    "@ng-select/ng-select": "^7.0.1",
+    "@ngrx/effects": "^12.1.0",
+    "@ngrx/store": "^12.1.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/user": "4.1.0-next.0",
+    "bootstrap": "^4.3.1",
+    "rxjs": "^6.6.0"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/organization",
-  "schematics": "./schematics/collection.json",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
-  "devDependencies": {
-    "@types/jasmine": "^3.5.0",
-    "@types/node": "^12.11.1",
-    "@types/shelljs": "^0.8.7",
-    "jasmine": "^3.5.0",
-    "rimraf": "^3.0.2",
-    "shelljs": "^0.8.3",
-    "typescript": "~4.0.2"
-  },
-  "peerDependencies": {
-    "@angular/common": "^10.1.0",
-    "@angular/core": "^10.1.0",
-    "@angular/router": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
-    "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.4",
-    "@spartacus/storefront": "3.0.0-next.4"
-  }
+  "schematics": "./schematics/collection.json"
 }

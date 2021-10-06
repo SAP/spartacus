@@ -2,21 +2,22 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Order } from '../../../model/order.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { UserActions } from '../actions/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { Order } from '../../../model/order.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()
-  loadOrderDetails$: Observable<
-    UserActions.OrderDetailsAction
-  > = this.actions$.pipe(
+  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) => action.payload),
     switchMap((payload) => {
@@ -25,7 +26,7 @@ export class OrderDetailsEffect {
           return new UserActions.LoadOrderDetailsSuccess(order);
         }),
         catchError((error) =>
-          of(new UserActions.LoadOrderDetailsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadOrderDetailsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -49,7 +50,7 @@ export class OrderDetailsEffect {
             );
 
             return of(
-              new UserActions.CancelOrderFail(makeErrorSerializable(error))
+              new UserActions.CancelOrderFail(normalizeHttpError(error))
             );
           })
         );

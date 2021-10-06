@@ -3,7 +3,8 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "../node_modules",
-    "types": ["cypress", "@types/testing-library__cypress"],
+    "strict": false,
+    "types": ["cypress", "@testing-library/cypress"],
     "target": "es5",
     "lib": ["esnext", "dom"]
   },

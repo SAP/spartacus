@@ -1,0 +1,11 @@
+<button
+  *ngIf="current$ | async as item"
+  class="button active"
+  [disabled]="
+    isDisabled(item) ||
+    ((isInEditMode$ | async) && item.active && disabled !== true)
+  "
+  (click)="toggle(item)"
+>
+  {{ 'organization.' + (item.active ? 'disable' : 'enable') | cxTranslate }}
+</button>

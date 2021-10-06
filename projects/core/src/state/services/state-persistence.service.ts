@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
+import { WindowRef } from '../../window/window-ref';
 import {
   getStorage,
   persistToStorage,
   readFromStorage,
-} from '../../state/reducers/storage-sync.reducer';
-import { WindowRef } from '../../window/window-ref';
+} from '../utils/browser-storage';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class StatePersistenceService {
     state$: Observable<T>;
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
-    onRead?: (stateFromStorage: T) => void;
+    onRead?: (stateFromStorage: T | undefined) => void;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -60,7 +60,7 @@ export class StatePersistenceService {
             return readFromStorage(
               storage,
               this.generateKeyWithContext(context, key)
-            ) as T;
+            ) as T | undefined;
           }),
           tap((state) => onRead(state))
         )
@@ -80,10 +80,39 @@ export class StatePersistenceService {
     return subscriptions;
   }
 
+  /**
+   * Helper to read state from persistent storage (localStorage, sessionStorage).
+   * It is useful if you need synchronously access state saved with `syncWithStorage`.
+   *
+   * @param key Key to use in storage for state. Should be unique for each feature.
+   * @param context Context value for state
+   * @param storageType Storage type from to read state
+   *
+   * @returns State from the storage
+   */
+  readStateFromStorage<T>({
+    key,
+    context = '',
+    storageType = StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): T | undefined {
+    const storage = getStorage(storageType, this.winRef);
+
+    return readFromStorage(
+      storage,
+      this.generateKeyWithContext(context, key)
+    ) as T | undefined;
+  }
+
   protected generateKeyWithContext(
     context: string | Array<string>,
     key: string
   ): string {
-    return `spartacus⚿${[].concat(context).join('⚿')}⚿${key}`;
+    return `spartacus⚿${([] as Array<string>)
+      .concat(context)
+      .join('⚿')}⚿${key}`;
   }
 }

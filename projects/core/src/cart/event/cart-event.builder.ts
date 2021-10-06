@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
 import { createFrom } from '../../util/create-from';
@@ -12,7 +12,9 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
+  CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
@@ -61,12 +63,20 @@ export class CartEventBuilder {
       action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
       event: CartRemoveEntrySuccessEvent,
     });
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRY_FAIL,
+      event: CartRemoveEntryFailEvent,
+    });
   }
 
   protected registerUpdateEntry(): void {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
       event: CartUpdateEntrySuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CART_UPDATE_ENTRY_FAIL,
+      event: CartUpdateEntryFailEvent,
     });
   }
 
@@ -78,13 +88,25 @@ export class CartEventBuilder {
    */
   protected registerMapped<T>(mapping: ActionToEventMapping<T>): () => void {
     const eventStream$ = this.getAction(mapping.action).pipe(
-      withLatestFrom(this.activeCartService.getActive()),
+      switchMap((action) => {
+        // SwitchMap was used instead of withLatestFrom, because we only want to subscribe to cart stream when action is dispatched.
+        // Using withLatestFrom would trigger subscription to cart observables on event subscription and that causes side effects,
+        // such as loading cart when we don't yet need it.
+        return of(action).pipe(
+          withLatestFrom(
+            this.activeCartService.getActive(),
+            this.activeCartService.getActiveCartId()
+          )
+        );
+      }),
       filter(
-        ([action, activeCart]) => action.payload['cartId'] === activeCart.guid // assuming that action's payload contains the cart id
+        ([action, _activeCart, activeCartId]) =>
+          action.payload['cartId'] === activeCartId
       ),
       map(([action, activeCart]) =>
         createFrom(mapping.event, {
           ...action.payload,
+          cartCode: activeCart.code,
           entry: action.payload.entry
             ? action.payload.entry
             : activeCart.entries[Number(action.payload.entryNumber)],
@@ -102,6 +124,8 @@ export class CartEventBuilder {
   protected getAction(
     actionType: string | string[]
   ): Observable<{ type: string; payload?: any }> {
-    return this.actionsSubject.pipe(ofType(...[].concat(actionType)));
+    return this.actionsSubject.pipe(
+      ofType(...([] as string[]).concat(actionType))
+    );
   }
 }

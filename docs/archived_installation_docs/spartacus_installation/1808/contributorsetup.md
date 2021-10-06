@@ -74,8 +74,8 @@ Building in production mode has more retrictive rules about what kind of code is
 
 Contrary to development mode, in production mode you need to package and build a standalone storefront library. This is done with the following command:
 
-```
-$ yarn build:core:lib
+```bash
+yarn build:libs
 ```
 
 ## Configuring Your Back end URL

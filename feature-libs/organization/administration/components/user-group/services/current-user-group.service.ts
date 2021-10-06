@@ -4,16 +4,14 @@ import {
   UserGroup,
   UserGroupService,
 } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUserGroupService extends CurrentOrganizationItemService<
-  UserGroup
-> {
+export class CurrentUserGroupService extends CurrentItemService<UserGroup> {
   constructor(
     protected routingService: RoutingService,
     protected userGroupService: UserGroupService
@@ -27,5 +25,9 @@ export class CurrentUserGroupService extends CurrentOrganizationItemService<
 
   protected getItem(code: string): Observable<UserGroup> {
     return this.userGroupService.get(code);
+  }
+
+  getError(code: string): Observable<boolean> {
+    return this.userGroupService.getErrorState(code);
   }
 }

@@ -1,0 +1,35 @@
+%cx-order-confirmation-items {
+  .cx-order-items {
+    &.container {
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
+      }
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
+      }
+    }
+  }
+
+  .cx-order-items-header {
+    @include type('4');
+    padding: 1.375rem 0;
+    margin: 0;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      min-width: 100%;
+      padding-inline-start: 2.5rem;
+    }
+    @include media-breakpoint-down(sm) {
+      max-width: 100%;
+      min-width: 100%;
+      padding-inline-start: 1rem;
+    }
+  }
+}

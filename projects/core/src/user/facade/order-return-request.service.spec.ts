@@ -1,11 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/facade/auth.service';
+import { of, throwError } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ReturnRequestList } from '../../model/order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -13,15 +11,15 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { OrderReturnRequestService } from './order-return-request.service';
 
-class MockAuthService {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId() {
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
 describe('OrderReturnRequestService', () => {
   let orderReturnRequestService: OrderReturnRequestService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -36,12 +34,12 @@ describe('OrderReturnRequestService', () => {
       ],
       providers: [
         OrderReturnRequestService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     orderReturnRequestService = TestBed.inject(OrderReturnRequestService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -147,9 +145,9 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should NOT load order return requests list when user is anonymous', () => {
-    spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
-      cb(OCC_USER_ID_ANONYMOUS)
-    );
+    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      return throwError('Error');
+    });
 
     orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();

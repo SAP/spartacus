@@ -17,12 +17,14 @@ const userId = 'userId';
 const budget = {
   code: budgetCode,
   name: 'testBudget',
+  startDate: '',
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { budgetCode }) => (url === 'budget' ? url + budgetCode : url)
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { budgetCode } }) =>
+      url === 'budget' ? url + budgetCode : url
   );
 }
 

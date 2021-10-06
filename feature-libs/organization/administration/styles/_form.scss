@@ -39,7 +39,7 @@
     @include media-breakpoint-down(sm) {
       flex: 100%;
     }
-    padding-right: 20px;
+    padding-inline-end: 20px;
 
     cx-form-errors {
       position: relative;
@@ -56,6 +56,14 @@
     .ng-select-container {
       // align the height of the select with buttons
       max-height: 48px;
+    }
+  }
+
+  .ng-dropdown-panel {
+    span {
+      @include media-breakpoint-down(sm) {
+        white-space: normal;
+      }
     }
   }
 }

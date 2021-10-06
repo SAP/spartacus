@@ -1,4 +1,8 @@
-import { CheckoutConfig, CheckoutStepType, DeliveryModePreferences } from '@spartacus/storefront';
+import {
+  CheckoutConfig,
+  CheckoutStepType,
+  DeliveryModePreferences,
+} from '@spartacus/checkout/root';
 
 export const defaultB2bCheckoutConfig: CheckoutConfig = {
   checkout: {

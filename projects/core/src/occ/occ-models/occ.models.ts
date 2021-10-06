@@ -480,6 +480,10 @@ export namespace Occ {
      * @member {string} [slotStatus]
      */
     slotStatus?: string;
+    /**
+     * @member {any} [properties]
+     */
+    properties?: any;
   }
 
   /**
@@ -519,6 +523,10 @@ export namespace Occ {
      */
     title?: string;
     /**
+     * @member {string} [description]
+     */
+    description?: string;
+    /**
      * @member {string} [typeCode]
      */
     typeCode?: string;
@@ -526,6 +534,26 @@ export namespace Occ {
      * @member {string} [uid]
      */
     uid?: string;
+    /**
+     * @member {string} [label]
+     */
+    label?: string;
+    /**
+     * @member {any} [properties]
+     */
+    properties?: any;
+
+    robotTag?: PageRobots;
+  }
+
+  /**
+   * The page robot information is exposed with 4 string values.
+   */
+  export enum PageRobots {
+    INDEX_FOLLOW = 'INDEX_FOLLOW',
+    NOINDEX_FOLLOW = 'NOINDEX_FOLLOW',
+    INDEX_NOFOLLOW = 'INDEX_NOFOLLOW',
+    NOINDEX_NOFOLLOW = 'NOINDEX_NOFOLLOW',
   }
 
   /**
@@ -1469,6 +1497,64 @@ export namespace Occ {
      * @member {boolean} [updateable]
      */
     updateable?: boolean;
+    /**
+     * @member {StatusSummary[]} [statusSummaryList]
+     */
+    statusSummaryList?: StatusSummary[];
+    /**
+     * @member {ConfigurationInfo[]} [configurationInfos]
+     */
+    configurationInfos?: ConfigurationInfo[];
+  }
+
+  /**
+   *
+   * An interface representing ConfigurationInfo.
+   * Provides information about configuration values of the entry.
+   */
+  export interface ConfigurationInfo {
+    /**
+     * @member {string} [configurationLabel]
+     */
+    configurationLabel?: string;
+    /**
+     * @member {string} [configurationValue]
+     */
+    configurationValue?: string;
+    /**
+     * @member {string} [configuratorType]
+     */
+    configuratorType?: string;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
+  }
+
+  /**
+   * Possible order entry statuses
+   */
+  export enum OrderEntryStatus {
+    Success = 'SUCCESS',
+    Info = 'INFO',
+    Warning = 'WARNING',
+    Error = 'ERROR',
+  }
+
+  /**
+   *
+   * An interface representing StatusSummary.
+   * Provides status including number of issues for configurable entry.
+   */
+  export interface StatusSummary {
+    /**
+     * @member {number} [numberOfIssues]
+     */
+    numberOfIssues?: number;
+    /**
+     * @member {string} [status]
+     */
+    status?: OrderEntryStatus;
   }
 
   /**
@@ -4221,7 +4307,7 @@ export namespace Occ {
     addresses?: Address[];
     uid?: string;
     name?: string;
-    parentOrgUnit?: string;
+    parentOrgUnit?: Partial<B2BUnit>;
     approvalProcess?: B2BApprovalProcess;
     administrators?: B2BUser[];
     approvers?: B2BUser[];

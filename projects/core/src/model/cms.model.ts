@@ -4,6 +4,25 @@ export interface CmsComponent {
   otherProperties?: any;
   typeCode?: string;
   uid?: string;
+
+  /**
+   * Defines detailed CMS component composition
+   */
+  composition?: {
+    /**
+     * List of inner component mappings
+     */
+    inner?: string[];
+  };
+
+  /**
+   * Style classes can be added to the CMS banner component to enhance the UX.
+   * The style classes are typically derived from the (CMS) backend and should
+   * match an existing CSS selector.
+   *
+   * The styleClasses can contain a "list" of space separated style classes.
+   */
+  styleClasses?: string;
 }
 
 export enum PageType {
@@ -20,7 +39,15 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPage?: string;
   contentPageLabelOrId?: string;
   linkName?: string;
-  target?: boolean;
+  target?: string | boolean;
+
+  /**
+   * Style rules can be added to the CMS Link component to enhance the UX.
+   * The style attributes are typically derived from the (CMS) backend.
+   *
+   * The styleAttributes can contain a "list" of semicolon separated style rules.
+   */
+  styleAttributes?: string;
 }
 
 export interface CmsSiteContextSelectorComponent extends CmsComponent {
@@ -69,7 +96,7 @@ export interface CmsBannerComponent extends CmsComponent {
   container?: string;
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
-  external?: string;
+  external?: string | boolean;
 }
 
 export enum CmsBannerCarouselEffect {
@@ -109,10 +136,12 @@ export interface CmsMiniCartComponent extends CmsComponent {
   lightboxBannerComponent?: CmsBannerComponent;
 }
 
-// TODO: Upgrade model when Breadcrumbs will be finally used in project
-export interface CmsBreadcrumbsComponent extends CmsComponent {
+export interface CmsPageTitleComponent extends CmsComponent {
   container?: string;
 }
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsPageTitleComponent {}
 
 export interface CmsNavigationNode {
   uid?: string;
@@ -141,4 +170,8 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   activeFacetValueCode?: string;
   searchResult?: string;
   minPerFacet?: string;
+}
+
+export interface CmsAddToCartComponent extends CmsComponent {
+  inventoryDisplay?: boolean;
 }

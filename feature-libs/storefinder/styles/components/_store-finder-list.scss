@@ -1,0 +1,120 @@
+%cx-store-finder-list {
+  .cx-columns {
+    display: none;
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      height: 70vh;
+      margin-bottom: 1rem;
+    }
+  }
+  .cx-columns-mobile {
+    margin-top: 1rem;
+    display: block;
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+
+    .cx-list {
+      li:first-child {
+        border: none;
+      }
+    }
+
+    .cx-map-col {
+      height: 70vh;
+    }
+  }
+  .cx-address-col {
+    height: 100%;
+    @include media-breakpoint-up(md) {
+      height: 100%;
+      overflow-y: auto;
+      padding: inherit inherit inherit 0;
+    }
+  }
+  .cx-map-col {
+    height: 100%;
+    @include media-breakpoint-up(md) {
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
+  .cx-list {
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-semi);
+    list-style: none;
+    padding: inherit inherit inherit 0;
+  }
+
+  %cx-store-finder-list-item {
+    margin: 0;
+    padding: 1.25rem;
+  }
+
+  .cx-list-items {
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+
+    .cx-store-name {
+      color: var(--cx-color-primary);
+      cursor: default;
+      a {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &:hover {
+      background-color: var(--cx-color-background);
+    }
+
+    &.cx-selected-item {
+      background-color: var(--cx-color-background);
+      &:hover {
+        background-color: var(--cx-color-background);
+      }
+    }
+  }
+
+  .cx-not-found {
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .cx-store,
+  .cx-feature-item {
+    @include media-breakpoint-up(md) {
+      max-width: 100%;
+      flex: 100%;
+    }
+  }
+
+  .cx-feature {
+    margin-bottom: 0.5rem;
+  }
+
+  .cx-back-wrapper {
+    margin: 0.5rem 1rem;
+    min-width: 180px;
+  }
+
+  .cx-back {
+    font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+
+    cx-icon {
+      margin: 0 0.2rem 0 0;
+    }
+  }
+
+  ul.nav {
+    border-bottom: 1px solid #dee2e6;
+    justify-content: center;
+  }
+}

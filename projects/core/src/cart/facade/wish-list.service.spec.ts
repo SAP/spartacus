@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry, User } from '../../model';
 import { Cart } from '../../model/cart.model';
@@ -46,15 +46,15 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId = createSpy().and.returnValue(of(userId));
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(user));
 }
 
-class MockMultiCartService {
+class MockMultiCartService implements Partial<MultiCartService> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();
@@ -77,7 +77,7 @@ describe('WishListService', () => {
       ],
       providers: [
         WishListService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
         { provide: UserService, useClass: MockUserService },
       ],

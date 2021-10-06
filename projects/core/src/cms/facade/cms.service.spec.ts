@@ -171,8 +171,8 @@ describe('CmsService', () => {
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockContentSlot)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(mockContentSlot)
       );
       spyOn(routingService, 'getPageContext').and.returnValue(
         of({ id: 'test' })
@@ -195,7 +195,9 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const testUid = 'test_uid';
       const mockNodeItem: NodeItem = {
-        testUid: 'test',
+        testUid: {
+          uid: 'test',
+        },
       };
       const mockSelect = createSpy('select').and.returnValue(() =>
         of(mockNodeItem)

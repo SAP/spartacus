@@ -1,4 +1,4 @@
-import { createCart, addToCart } from './utils/cart';
+import { addToCart, createCart } from './utils/cart';
 
 declare namespace Cypress {
   interface Chainable {
@@ -17,13 +17,22 @@ declare namespace Cypress {
 Cypress.Commands.add(
   'addToCart',
   (productCode: string, quantity: string, accessToken: string) => {
-    cy.server();
-
     createCart(accessToken).then((response) => {
-      cy.log(`Create cart ${JSON.stringify(response.body)}`);
       const cartId = response.body.code;
       addToCart(cartId, productCode, quantity, accessToken).then(() => {
-        cy.log(`Add to cart ${cartId}`);
+        Cypress.log({
+          name: 'addToCart',
+          displayName: 'Add to cart',
+          message: [`🛒 Product(s) added to cart`],
+          consoleProps: () => {
+            return {
+              'Cart ID': cartId,
+              'Product code': productCode,
+              Quantity: quantity,
+            };
+          },
+        });
+
         cy.wrap(cartId);
       });
     });

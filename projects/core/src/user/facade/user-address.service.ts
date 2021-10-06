@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
-import { Address, Country, Region } from '../../model/address.model';
+import { map, switchMap } from 'rxjs/operators';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import {
+  Address,
+  AddressValidation,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import {
+  Command,
+  CommandService,
+} from '../../util/command-query/command.service';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -15,14 +25,16 @@ import { StateWithUser } from '../store/user-state';
 export class UserAddressService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService,
+    protected userAddressConnector: UserAddressConnector,
+    protected command: CommandService
   ) {}
 
   /**
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(new UserActions.LoadUserAddresses(userId));
     });
   }
@@ -32,7 +44,7 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.AddUserAddress({
           userId,
@@ -47,7 +59,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -64,7 +76,7 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -80,7 +92,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
           userId,
@@ -171,4 +183,26 @@ export class UserAddressService {
       })
     );
   }
+  /**
+   * Verifies the address
+   * @param address : the address to be verified
+   */
+  verifyAddress(address: Address): Observable<AddressValidation> {
+    return this.userAddressVerificationCommand.execute({ address });
+  }
+
+  protected userAddressVerificationCommand: Command<
+    {
+      address: Address;
+    },
+    AddressValidation
+  > = this.command.create((payload) =>
+    this.userIdService
+      .takeUserId(false)
+      .pipe(
+        switchMap((userId) =>
+          this.userAddressConnector.verify(userId, payload.address)
+        )
+      )
+  );
 }

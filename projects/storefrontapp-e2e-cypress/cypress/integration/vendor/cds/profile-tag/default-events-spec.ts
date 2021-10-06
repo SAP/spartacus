@@ -16,7 +16,6 @@ import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 describe('Profile-tag events', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -48,6 +47,8 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.categories).to.contain('brand_745');
         expect(addedToCartEvent.data.productCategory).to.eq('brand_745');
         expect(addedToCartEvent.data.productPrice).to.eq(8.2);
+        expect(addedToCartEvent.data.cartId.length).to.eq(36);
+        expect(addedToCartEvent.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -56,12 +57,12 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-cart-item cx-item-counter').getByText('+').click();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+        )}/users/anonymous/carts/*`,
+      }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
       cy.window().then((win) => {
         expect(
@@ -79,6 +80,8 @@ describe('Profile-tag events', () => {
         expect(modifiedCart.data.categories).to.contain('577');
         expect(modifiedCart.data.categories).to.contain('brand_745');
         expect(modifiedCart.data.productCategory).to.eq('brand_745');
+        expect(modifiedCart.data.cartId.length).to.eq(36);
+        expect(modifiedCart.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -89,12 +92,12 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/users/anonymous/carts/*`
-      ).as('getRefreshedCart');
+        )}/users/anonymous/carts/*`,
+      }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
       cy.window().then((win) => {
         expect(
@@ -111,12 +114,14 @@ describe('Profile-tag events', () => {
         expect(removedFromCart.data.categories).to.contain('577');
         expect(removedFromCart.data.categories).to.contain('brand_745');
         expect(removedFromCart.data.productCategory).to.eq('brand_745');
+        expect(removedFromCart.data.cartId.length).to.eq(36);
+        expect(removedFromCart.data.cartCode.length).to.eq(8);
       });
     });
   });
 
   it('should send a product detail page view event when viewing a product', () => {
-    cy.route('GET', `**reviews*`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**reviews*` }).as('lastRequest');
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
     const productPrice = 8.2;
@@ -215,7 +220,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
@@ -244,7 +251,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -263,7 +272,9 @@ describe('Profile-tag events', () => {
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 10);
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
-    cy.route('GET', `**/products/search**`).as('lastRequest2'); //waiting for the same request a 2nd time doesn't work
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest2'
+    ); //waiting for the same request a 2nd time doesn't work
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -280,7 +291,9 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
-    cy.route('GET', `**/products/search**`).as('lastRequest');
+    cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
+      'lastRequest'
+    );
 
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -295,7 +308,7 @@ describe('Profile-tag events', () => {
         )
       ).to.equal(1);
     });
-    productSearch.clickFacet('Stores', '');
+    productSearch.clickFacet('Stores');
 
     cy.window().then((win2) => {
       expect(
@@ -315,7 +328,7 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
@@ -326,9 +339,8 @@ describe('Profile-tag events', () => {
 
 // For some reason these two events interfere with eachother. Only 1 needs to click the allow all banner
 // and the next will then have consent granted
-describe('Consent Changed and homepageviewed events', () => {
+describe('Consent Changed', () => {
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
@@ -337,19 +349,54 @@ describe('Consent Changed and homepageviewed events', () => {
     });
     profileTagHelper.waitForCMSComponents();
   });
-  it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
-    anonymousConsents.clickAllowAllFromBanner();
+  it('should send a consentGranted = false before accepting consent, and a consentGranted=true after accepting', () => {
+    cy.wait(2000);
+    cy.window()
+      .then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CONSENT_CHANGED
+          )
+        ).to.equal(1);
+        const consentRejected = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CONSENT_CHANGED
+        )[0];
+        expect(consentRejected.data.granted).to.eq(false);
+      })
+      .then(() => {
+        anonymousConsents.clickAllowAllFromBanner();
+      });
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         )
-      ).to.equal(1);
+      ).to.equal(2);
+      const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      )[1];
+      expect(consentAccepted.data.granted).to.eq(true);
     });
   });
 
+  it('should not send a consentgranted=false event on a page refresh', () => {
+    anonymousConsents.clickAllowAllFromBanner();
+    cy.reload();
+    cy.window().then((win) => {
+      const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      );
+      expect(consentAccepted.length).to.equal(1);
+      expect(consentAccepted[0].data.granted).to.eq(true);
+    });
+  });
   it('should send a HomePageViewed event when viewing the homepage', () => {
+    anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
     profileTagHelper.waitForCMSComponents().then(() => {
       cy.window().then((win) => {
@@ -366,10 +413,13 @@ describe('Consent Changed and homepageviewed events', () => {
 
 function goToProductPage(): Cypress.Chainable<number> {
   const productPagePath = 'ProductPage';
-  const productPage = checkoutFlow.waitForPage(
+  const productPage = checkoutFlow.waitForProductPage(
     productPagePath,
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
-  return cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  return cy
+    .wait(`@${productPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }

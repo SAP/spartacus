@@ -1,0 +1,56 @@
+<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="cx-row">
+  <div
+    *ngFor="let value of attribute.values"
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    class="cx-configurator-select"
+  >
+    <input
+      id="{{
+        createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+          '-input'
+      }}"
+      type="radio"
+      class="form-input"
+      [value]="value.valueCode"
+      formcontrolname="attributeRadioButtonForm"
+      [formControl]="attributeRadioButtonForm"
+      [value]="value.valueCode"
+      name="{{ createAttributeIdForConfigurator(attribute) }}"
+      attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+      [attr.required]="attribute.required"
+      [attr.aria-labelledby]="
+        createAriaLabelledBy('label', attribute.name, value.valueCode)
+      "
+      [attr.aria-checked]="
+        attributeRadioButtonForm.value === value.valueCode ? true : false
+      "
+      [attr.checked]="
+        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+      "
+      (click)="onClick(value.valueCode)"
+      [cxFocus]="{ key: attribute.name + '-' + value.name }"
+    />
+    <div class="cx-label-container">
+      <label
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+        for="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+            '-input'
+        }}"
+        class="form-check-label form-radio-label"
+      >
+        <img
+          *ngIf="value.images[0]"
+          class="cx-img"
+          src="{{ value.images[0].url }}"
+          alt="{{ value.images[0].altText }}"
+        />
+        <div *ngIf="!value.images[0]" class="cx-img-dummy"></div>
+        {{ value.valueDisplay }}
+        <cx-configurator-price
+          [formula]="extractValuePriceFormulaParameters(value)"
+        ></cx-configurator-price>
+      </label>
+    </div>
+  </div>
+</div>

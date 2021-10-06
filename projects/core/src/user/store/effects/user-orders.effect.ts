@@ -11,6 +11,9 @@ import {
 } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class UserOrdersEffect {
   constructor(
@@ -20,26 +23,25 @@ export class UserOrdersEffect {
   ) {}
 
   @Effect()
-  loadUserOrders$: Observable<
-    UserActions.UserOrdersAction
-  > = this.actions$.pipe(
+  loadUserOrders$: Observable<UserActions.UserOrdersAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap((payload) => {
-      return (Boolean(payload.replenishmentOrderCode)
-        ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
-            payload.userId,
-            payload.replenishmentOrderCode,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
-        : this.orderConnector.getHistory(
-            payload.userId,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
+      return (
+        Boolean(payload.replenishmentOrderCode)
+          ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
+              payload.userId,
+              payload.replenishmentOrderCode,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
+          : this.orderConnector.getHistory(
+              payload.userId,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
       ).pipe(
         map((orders: OrderHistoryList) => {
           return new UserActions.LoadUserOrdersSuccess(orders);
@@ -52,9 +54,7 @@ export class UserOrdersEffect {
   );
 
   @Effect()
-  resetUserOrders$: Observable<
-    UserActions.ClearUserOrders
-  > = this.actions$.pipe(
+  resetUserOrders$: Observable<UserActions.ClearUserOrders> = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => {
       return new UserActions.ClearUserOrders();

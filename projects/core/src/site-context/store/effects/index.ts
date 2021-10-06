@@ -1,6 +1,6 @@
-import { LanguagesEffects } from './languages.effect';
-import { CurrenciesEffects } from './currencies.effect';
 import { BaseSiteEffects } from './base-site.effect';
+import { CurrenciesEffects } from './currencies.effect';
+import { LanguagesEffects } from './languages.effect';
 
 export const effects: any[] = [
   LanguagesEffects,
@@ -8,6 +8,6 @@ export const effects: any[] = [
   BaseSiteEffects,
 ];
 
-export * from './languages.effect';
-export * from './currencies.effect';
 export * from './base-site.effect';
+export * from './currencies.effect';
+export * from './languages.effect';

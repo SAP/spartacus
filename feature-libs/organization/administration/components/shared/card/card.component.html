@@ -1,0 +1,54 @@
+<cx-view class="card">
+  <div class="header">
+    <div class="title-bar">
+      <div class="title">
+        <h3>
+          {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          <button
+            *ngIf="showHint"
+            [cxPopover]="detailHint"
+            [cxPopoverOptions]="{
+              placement: 'auto',
+              class: 'hint-popover',
+              appendToBody: true,
+              displayCloseButton: true
+            }"
+          >
+            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+          </button>
+        </h3>
+        <h4>
+          {{
+            subtitle ||
+              (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
+          }}
+        </h4>
+      </div>
+      <div class="actions">
+        <ng-content select="[actions]"></ng-content>
+      </div>
+    </div>
+    <a *ngIf="!!previous" class="link close" routerLink="../">
+      <cx-icon
+        *ngIf="previous === true; else prevLabel"
+        type="CLOSE"
+        (click)="closeView($event)"
+      ></cx-icon>
+      <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
+    </a>
+  </div>
+
+  <div class="main">
+    <cx-org-message></cx-org-message>
+    <ng-content select="[info]"></ng-content>
+    <ng-content select="[main]"></ng-content>
+  </div>
+</cx-view>
+
+<router-outlet></router-outlet>
+
+<ng-template #detailHint>
+  <p>
+    {{ i18nRoot + '.hint' | cxTranslate }}
+  </p>
+</ng-template>

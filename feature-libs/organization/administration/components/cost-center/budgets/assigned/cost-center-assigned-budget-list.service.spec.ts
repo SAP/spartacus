@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
   Budget,
+  BudgetService,
   CostCenterService,
+  LoadStatus,
+  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -40,6 +43,13 @@ class MockTableService {
   }
 }
 
+@Injectable()
+class MockBudgetService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
 describe('CostCenterAssignedBudgetListService', () => {
   let service: CostCenterAssignedBudgetListService;
 
@@ -51,6 +61,10 @@ describe('CostCenterAssignedBudgetListService', () => {
         {
           provide: CostCenterService,
           useClass: MockCostCenterService,
+        },
+        {
+          provide: BudgetService,
+          useClass: MockBudgetService,
         },
         {
           provide: TableService,

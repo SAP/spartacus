@@ -4,16 +4,14 @@ import {
   Permission,
   PermissionService,
 } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentPermissionService extends CurrentOrganizationItemService<
-  Permission
-> {
+export class CurrentPermissionService extends CurrentItemService<Permission> {
   constructor(
     protected routingService: RoutingService,
     protected permissionService: PermissionService
@@ -27,5 +25,9 @@ export class CurrentPermissionService extends CurrentOrganizationItemService<
 
   protected getItem(code: string): Observable<Permission> {
     return this.permissionService.get(code);
+  }
+
+  getError(code: string): Observable<boolean> {
+    return this.permissionService.getErrorState(code);
   }
 }

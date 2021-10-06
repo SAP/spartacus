@@ -1,12 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { Observable, of, throwError } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { RoutingService } from '../../routing/facade/routing.service';
@@ -23,15 +20,15 @@ class MockRoutingService {
   }
 }
 
-class MockAuthService {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId() {
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
 describe('UserOrderService', () => {
   let userOrderService: UserOrderService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let routingService: RoutingService;
   let store: Store<StateWithUser>;
 
@@ -47,13 +44,13 @@ describe('UserOrderService', () => {
       ],
       providers: [
         UserOrderService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
     userOrderService = TestBed.inject(UserOrderService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
 
@@ -174,9 +171,9 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
-      cb(OCC_USER_ID_ANONYMOUS)
-    );
+    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      return throwError('Error');
+    });
 
     userOrderService.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).not.toHaveBeenCalled();

@@ -1,12 +1,13 @@
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import {
   b2bAccountShipToUser,
   b2bProduct,
   b2bUnit,
   b2bUser,
   costCenter,
+  order_type,
   poNumber,
   POWERTOOLS_BASESITE,
-  POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
   recurrencePeriod,
   recurrencePeriodMap,
@@ -19,10 +20,12 @@ import {
   SampleUser,
   user,
 } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
   visitHomePage,
   waitForPage,
+  waitForProductPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
@@ -34,7 +37,12 @@ export function loginB2bUser() {
 }
 
 export function addB2bProductToCartAndCheckout() {
-  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
+  const code = products[0].code;
+  const productPage = waitForProductPage(code, 'getProductPage');
+
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
   });
@@ -49,7 +57,7 @@ export function addB2bProductToCartAndCheckout() {
     'getPaymentType'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function enterPONumber() {
@@ -60,6 +68,12 @@ export function enterPONumber() {
   cy.get('cx-payment-type').within(() => {
     cy.get('.form-control').clear().type(poNumber);
   });
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.paymentMethod
+  );
 }
 
 export function selectAccountPayment() {
@@ -67,12 +81,20 @@ export function selectAccountPayment() {
     cy.findByText('Account').click({ force: true });
   });
 
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*?fields=DEFAULT*`
+  ).as('getCart');
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
@@ -85,7 +107,7 @@ export function selectCreditCardPayment() {
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function selectAccountShippingAddress() {
@@ -95,38 +117,60 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.server();
-
-  cy.route(
-    'GET',
+  cy.intercept(
+    'PUT',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('getCart');
+    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`
+  ).as('updateAddress');
+
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });
   });
 
-  cy.wait('@getCart');
+  cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
-  cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.shippingAddressAccount
+  );
+
+  cy.get('button.btn-primary').click();
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function selectAccountDeliveryMode(
-  deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
-) {
+export function selectAccountDeliveryMode() {
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?*`,
+  }).as('putDeliveryMode');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get(`#${deliveryMode}`).should('be.checked');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.deliveryMode
+  );
+
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${orderReview}`).its('status').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${orderReview}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function reviewB2bReviewOrderPage(
@@ -202,6 +246,19 @@ export function reviewB2bReviewOrderPage(
     );
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
+
+  // Accessibility
+  if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.replenishmentOrderAccountCheckoutReviewOrder
+    );
+  } else {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
+    );
+  }
 }
 
 export function completeReplenishmentForm(replenishmentPeriod: string) {
@@ -240,8 +297,12 @@ export function placeOrder(orderUrl: string) {
     orderUrl,
     'getOrderConfirmationPage'
   );
+
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  // temporary solution for very slow backend response while placing order
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function reviewB2bOrderConfirmation(

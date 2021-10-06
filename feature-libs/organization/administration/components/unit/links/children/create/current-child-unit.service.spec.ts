@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from 'feature-libs/organization/administration/components/constants';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { of, Subject } from 'rxjs';
-import { CurrentChildUnitService } from './current-child-unit.service';
+import { CurrentUnitChildService } from './current-unit-child.service';
 
 const mockParams = new Subject();
 
@@ -23,20 +23,20 @@ class MockOrgUnitService {
   }
 }
 
-describe('CurrentChildUnitService', () => {
-  let service: CurrentChildUnitService;
+describe('CurrentUnitChildService', () => {
+  let service: CurrentUnitChildService;
   let unitService: OrgUnitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CurrentChildUnitService,
+        CurrentUnitChildService,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     });
 
-    service = TestBed.inject(CurrentChildUnitService);
+    service = TestBed.inject(CurrentUnitChildService);
     unitService = TestBed.inject(OrgUnitService);
   });
 

@@ -5,7 +5,7 @@ import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
  * Resolves the page heading value which is used in the UI (typically
  * the `<H1>`). The page heading might differ from the page title,
  * which is used in the browser (history, tabs) and outside the storefront
- * by search crawlers (Google Seach, Bing) and social crawlers (facebook,
+ * by search crawlers (Google Search, Bing) and social crawlers (facebook,
  * pinterest).
  *
  * While there are multiple standard resolvers available, nothing stops you
@@ -15,7 +15,7 @@ export interface PageHeadingResolver {
   /**
    * Resolves the page heading.
    */
-  resolveHeading(): Observable<string>;
+  resolveHeading(): Observable<string | undefined>;
 }
 
 /**
@@ -26,7 +26,7 @@ export interface PageTitleResolver {
   /**
    * Resolves the page title.
    */
-  resolveTitle(): Observable<string>;
+  resolveTitle(): Observable<string | undefined>;
 }
 
 /**
@@ -37,7 +37,7 @@ export interface PageDescriptionResolver {
   /**
    * Resolves the page description.
    */
-  resolveDescription(): Observable<string>;
+  resolveDescription(): Observable<string | undefined>;
 }
 
 /**
@@ -48,7 +48,7 @@ export interface PageBreadcrumbResolver {
   /**
    * Resolves the breadcrumbs for the page.
    */
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]>;
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined>;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface PageImageResolver {
   /**
    * Resolves the main image for the page.
    */
-  resolveImage(): Observable<string>;
+  resolveImage(): Observable<string | undefined>;
 }
 
 /**
@@ -71,7 +71,25 @@ export interface PageImageResolver {
  */
 export interface PageRobotsResolver {
   /**
-   * Resolves the robots for the page.
+   * Resolves the robot meta data for the page.
+   *
+   * The robot meta data is used by search engines to indicate whether a page
+   * should be indexed and whether links on the page should be followed for
+   * further indexing.
+   *
+   * Robots meta tags are an alternative (or supplement) to the robots.txt as well
+   * as the sitemaps.
    */
-  resolveRobots(): Observable<PageRobotsMeta[]>;
+  resolveRobots(): Observable<PageRobotsMeta[] | undefined>;
+}
+
+export interface CanonicalPageResolver {
+  /**
+   * Resolves the canonical url for the page.
+   *
+   * The canonical url is used by search engines to optimize the search index. Without
+   * a canonical url, url variations for the same page might be considered duplicates
+   * which have a negative impact on SEO.
+   */
+  resolveCanonicalUrl(): Observable<string | undefined>;
 }

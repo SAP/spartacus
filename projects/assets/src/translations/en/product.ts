@@ -9,6 +9,7 @@ export const product = {
     share: 'Share',
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
+    productPrice: 'Product price',
   },
   productList: {
     filterBy: {
@@ -18,9 +19,10 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
-    sortByRelevance: 'Sort by Relevance',
+    sortBy: 'Sort by',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
+    productSearchPagination: 'Product search pagination',
   },
   productFacetNavigation: {
     filterBy: {
@@ -30,12 +32,13 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
-    sortByRelevance: 'Sort by Relevance',
+    sortBy: 'Sort by',
   },
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
     share: 'Share',
+    newItemPrice: 'New item price',
   },
   productReview: {
     overallRating: 'Overall Rating',
@@ -44,8 +47,8 @@ export const product = {
     rating: 'Rating',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
-    more: 'More',
-    less: 'Less',
+    more: 'Show More Reviews',
+    less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
   },
@@ -62,6 +65,8 @@ export const product = {
     outOfStock: 'Out of stock',
     inStock: 'In stock',
     selectStyleAndSize: 'Select style and size to check stock',
+    removeFromCart: 'Remove Product from Cart',
+    closeModal: 'Close Modal',
   },
   TabPanelContainer: {
     tabs: {
@@ -70,13 +75,6 @@ export const product = {
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
     },
-  },
-  variant: {
-    style: 'Style',
-    selectedStyle: 'Selected style',
-    size: 'Size',
-    color: 'Color',
-    sizeGuideLabel: 'Style guide',
   },
   addToWishList: {
     add: 'Add to Wish List',
@@ -110,5 +108,14 @@ export const product = {
       subscribing:
         'Subscribing you to Out of Stock notifications for this product',
     },
+  },
+  itemCounter: {
+    removeOne: 'Remove one',
+    addOneMore: 'Add one more',
+    quantity: 'Quantity',
+  },
+  productView: {
+    gridView: 'Select to change to Grid View',
+    listView: 'Select to change to List View',
   },
 };

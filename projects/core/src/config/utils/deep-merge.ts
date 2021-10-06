@@ -2,23 +2,26 @@ export function isObject(item: any): boolean {
   return item && typeof item === 'object' && !Array.isArray(item);
 }
 
-export function deepMerge(target = {}, ...sources: any[]): any {
+export function deepMerge(
+  target: Record<string, unknown> = {},
+  ...sources: any[]
+): any {
   if (!sources.length) {
     return target;
   }
   const source = sources.shift() || {};
 
-  if (isObject(target) && isObject(source)) {
+  if (isObject(source)) {
     for (const key in source) {
       if (source[key] instanceof Date) {
-        Object.assign(target, { [key]: source[key] });
+        target[key] = source[key];
       } else if (isObject(source[key])) {
-        if (!target[key]) {
-          Object.assign(target, { [key]: {} });
+        if (!target[key] || !isObject(target[key])) {
+          target[key] = {};
         }
-        deepMerge(target[key], source[key]);
+        deepMerge(target[key] as Record<string, unknown>, source[key]);
       } else {
-        Object.assign(target, { [key]: source[key] });
+        target[key] = source[key];
       }
     }
   }

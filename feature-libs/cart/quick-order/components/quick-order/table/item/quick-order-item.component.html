@@ -1,0 +1,78 @@
+<div class="cx-quick-order-table-item">
+  <div class="row">
+    <div class="col-2 col-md-1 cx-quick-order-image-container">
+      <div class="cx-quick-order-table-item-product-image">
+        <a
+          [ngClass]="{ disabled: loading }"
+          [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+          tabindex="-1"
+        >
+          <cx-media
+            [container]="entry?.product?.images?.PRIMARY"
+            format="cartIcon"
+          ></cx-media>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-10 col-md-11 cx-quick-order-info-container">
+      <div class="row">
+        <div
+          class="
+            cx-quick-order-table-item-product-information
+            col-md-4 col-lg-4 col-xl-4
+          "
+        >
+          <div class="cx-name">
+            <a
+              [ngClass]="{ disabled: loading }"
+              [routerLink]="
+                { cxRoute: 'product', params: entry.product } | cxUrl
+              "
+              class="cx-link"
+              >{{ entry.product?.name || '-' }}
+            </a>
+          </div>
+
+          <div class="cx-code">
+            {{ 'quickOrderTable.id' | cxTranslate }} {{ entry.product?.code }}
+          </div>
+        </div>
+
+        <div class="cx-quick-order-table-item-price col-md-2 col-lg-2 col-xl-2">
+          <span class="cx-label">
+            {{ 'quickOrderTable.itemPrice' | cxTranslate }}
+          </span>
+          <div class="cx-value">
+            {{ entry.basePrice?.formattedValue || '-' }}
+          </div>
+        </div>
+
+        <div
+          class="cx-quick-order-table-item-quantity col-md-4 col-lg-4 col-xl-4"
+        >
+          <span class="cx-label">
+            {{ 'quickOrderTable.qty' | cxTranslate }}
+          </span>
+          <cx-item-counter
+            [control]="quantityControl"
+            [max]="entry.product?.stock?.stockLevel"
+            [readonly]="loading"
+          ></cx-item-counter>
+        </div>
+
+        <div
+          class="cx-quick-order-table-item-action col-md-2 col-lg-2 col-xl-2"
+        >
+          <button
+            (click)="removeEntry()"
+            [disabled]="loading"
+            class="link cx-action-link"
+          >
+            {{ 'common.remove' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

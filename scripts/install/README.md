@@ -12,6 +12,11 @@ It can also:
 - Install spartacus in production mode
 - Install Spartacus in SSR mode
 
+## Preparing setup
+- Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
+- Run it: `$ verdaccio` in one terminal
+- Create an npm user in another terminal (when verdaccio is running): `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
+
 ## How to install
 
 Checkout and pull the latest maintenance branch corresponding to the version being released. For example for new `next` release it's `develop` but for `2.1.x` patch release it's `release/2.1.x`.
@@ -39,6 +44,7 @@ Before running the main script, please ensure that:
 - `ANGULAR_CLI_VERSION` variable is set properly in the `config.sh` file (it must meet project's `package.json` `@angular/cli` version requirement)
 - `OCC_PREFIX` variable is set to proper value (depends on backend version)
 - `ADD_B2B_LIBS` variable is set to true in case you want to add b2b libs (`setup` and `organization` as for `3.0.0-next.1`) to the output apps
+- `ADD_PRODUCT_CONFIGURATOR` variable is set to true in case you want to add the product-configurator libs to the output apps
 - adjust any other variables available in the `config.default.sh` if needed (by setting them up in the `config.sh`)
 
 Once ready start the installation as below:

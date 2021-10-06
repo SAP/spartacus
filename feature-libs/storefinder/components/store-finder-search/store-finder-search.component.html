@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 col-lg-7">
+      <div class="form-group search-wrapper">
+        <input
+          #queryInput
+          [formControl]="searchBox"
+          (keyup)="onKey($event)"
+          type="text"
+          class="form-control"
+          placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
+        />
+        <cx-icon
+          [type]="iconTypes.SEARCH"
+          [attr.aria-label]="'common.search' | cxTranslate"
+          class="search"
+          (keyup)="onKey($event)"
+          [routerLink]="['/store-finder/find']"
+          [queryParams]="{ query: queryInput.value }"
+          [ngClass]="{
+            'disabled-action': !(queryInput.value && queryInput.value.length)
+          }"
+        ></cx-icon>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-5">
+      <div class="row cx-search-links mb-3">
+        <div class="col-6">
+          <button
+            (click)="viewStoresWithMyLoc()"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'storeFinder.useMyLocation' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-6">
+          <button
+            [routerLink]="['/store-finder/view-all']"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'storeFinder.viewAllStores' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

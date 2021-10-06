@@ -12,7 +12,7 @@ export const addToCartButton = `cx-add-to-cart`;
 export const atcModal = `cx-added-to-cart-dialog`;
 export const atcModalTitle = `${atcModal} .cx-dialog-title`;
 export const atcModalItem = `${atcModal} cx-cart-item`;
-export const atcModalCloseButton = `${atcModal} [aria-label="Close"]`;
+export const atcModalCloseButton = `${atcModal} [aria-label="Close Modal"]`;
 export const header = `cx-page-layout[section="header"]`;
 export const headerCartButton = `${header} cx-mini-cart .count`;
 export const itemCounter = 'cx-item-counter';
@@ -67,6 +67,12 @@ export function verifyContentInReviewTab() {
 }
 
 export function verifyReviewForm() {
+  cy.intercept(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/reviews?lang=en&curr=USD`
+  ).as('submitReview');
+
   cy.get(writeAReviewButton).click();
   cy.get(writeAReviewForm).should('be.visible');
   cy.get(writeAReviewForm).findByText('Cancel').should('be.not.disabled');
@@ -76,9 +82,11 @@ export function verifyReviewForm() {
   );
   cy.get(`${writeAReviewForm} .star`).eq(2).click();
   cy.get(`${writeAReviewForm} input`).eq(2).type('Me');
-  cy.get(writeAReviewForm).findByText('Submit').should('be.not.disabled');
+
   cy.get(writeAReviewForm).findByText('Submit').click();
-  cy.get(writeAReviewForm).should('be.not.visible');
+
+  cy.wait('@submitReview');
+
   cy.get(reviewList).should('be.visible');
 }
 
@@ -97,6 +105,7 @@ export function verifyQuantityInCart() {
   cy.get(addToCartButton)
     .findByText(/Add To Cart/i)
     .click();
+  cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }

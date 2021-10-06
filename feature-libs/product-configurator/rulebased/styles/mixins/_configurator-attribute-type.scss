@@ -1,0 +1,39 @@
+@mixin cx-configurator-attribute-type {
+  display: flex;
+  flex-direction: row;
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
+
+  padding-block-start: 10px;
+  padding-block-end: 0px;
+
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
+  fieldset {
+    width: 100%;
+
+    .form-check {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .cx-value-label-pair {
+        width: 80%;
+        padding-inline-end: 10px;
+        line-break: anywhere;
+      }
+
+      .cx-value-price {
+        width: 20%;
+      }
+
+      @include media-breakpoint-down(sm) {
+        .cx-value-label-pair,
+        .cx-value-price {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

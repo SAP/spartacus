@@ -1,9 +1,9 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { clickFacet, searchUrlPrefix } from './product-search';
+import { clickFacet } from './product-search';
 
-const scrollDuration = 100;
-const defaultNumberOfProducts = 10;
-let defaultProductLimit = 10;
+const scrollDuration = 5000;
+const defaultNumberOfProducts = 12;
+let defaultProductLimit = 12;
 
 const defaultQueryName = `query_relevance`;
 const defaultQueryAlias = `@${defaultQueryName}`;
@@ -27,13 +27,6 @@ export function configScroll(
       },
     },
   });
-}
-
-export function createDefaultQuery() {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816*`
-  ).as(defaultQueryName);
 }
 
 export function assertDefaultNumberOfProducts(view) {
@@ -93,7 +86,8 @@ export function scrollToFooter(
           cy.get(productScrollButtons).should('exist');
         });
     } else {
-      cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
+      cy.scrollTo('bottom', { duration: scrollDuration });
+      cy.scrollTo('bottom')
         .wait(defaultQueryAlias)
         .then(() => {
           numberOfProducts += defaultNumberOfProducts;
@@ -120,7 +114,7 @@ export function verifySortingResetsList() {
 }
 
 export function verifyFilterResetsList() {
-  clickFacet('Brand', '');
+  clickFacet('Brand');
 
   cy.wait('@gridQuery').then(() => {
     assertDefaultNumberOfProducts('list');

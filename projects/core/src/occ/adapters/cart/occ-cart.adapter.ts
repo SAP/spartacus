@@ -27,7 +27,9 @@ export class OccCartAdapter implements CartAdapter {
 
   public loadAll(userId: string): Observable<Cart[]> {
     return this.http
-      .get<Occ.CartList>(this.occEndpointsService.getUrl('carts', { userId }))
+      .get<Occ.CartList>(
+        this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
+      )
       .pipe(
         pluck('carts'),
         this.converterService.pipeableMany(CART_NORMALIZER)
@@ -51,7 +53,9 @@ export class OccCartAdapter implements CartAdapter {
     } else {
       return this.http
         .get<Occ.Cart>(
-          this.occEndpointsService.getUrl('cart', { userId, cartId })
+          this.occEndpointsService.buildUrl('cart', {
+            urlParams: { userId, cartId },
+          })
         )
         .pipe(this.converterService.pipeable(CART_NORMALIZER));
     }
@@ -75,7 +79,10 @@ export class OccCartAdapter implements CartAdapter {
 
     return this.http
       .post<Occ.Cart>(
-        this.occEndpointsService.getUrl('createCart', { userId }, params),
+        this.occEndpointsService.buildUrl('createCart', {
+          urlParams: { userId },
+          queryParams: params,
+        }),
         toAdd
       )
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
@@ -87,7 +94,9 @@ export class OccCartAdapter implements CartAdapter {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
     return this.http.delete<{}>(
-      this.occEndpointsService.getUrl('deleteCart', { userId, cartId }),
+      this.occEndpointsService.buildUrl('deleteCart', {
+        urlParams: { userId, cartId },
+      }),
       { headers }
     );
   }
@@ -100,9 +109,11 @@ export class OccCartAdapter implements CartAdapter {
 
     const httpParams: HttpParams = new HttpParams().set('email', email);
 
-    const url = this.occEndpointsService.getUrl('addEmail', {
-      userId,
-      cartId,
+    const url = this.occEndpointsService.buildUrl('addEmail', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
 
     return this.http.put(url, httpParams, { headers });

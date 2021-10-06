@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "OrganizationSchematics",
+  "title": "Organization Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the organization features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Administration", "Order-Approval"],
+        "type": "string"
+      },
+      "default": ["Administration", "Order-Approval"],
+      "x-prompt": {
+        "message": "Which Organization features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Administration",
+            "label": "Administration (b2b feature)"
+          },
+          { "value": "Order-Approval", "label": "Order Approval (b2b feature)" }
+        ]
+      }
+    }
+  },
+  "required": []
+}

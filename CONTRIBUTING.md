@@ -12,7 +12,7 @@ Note: This is a living document. Like the Spartacus code, this document will be 
 
 An easy way to start is by helping others who may have questions or need support. Look for such requests here:
 
-* Spartacus [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
+* Spartacus [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ)
 * [Stack Overflow posts tagged with 'spartacus'](https://stackoverflow.com/questions/tagged/spartacus)
 
 ----
@@ -125,9 +125,6 @@ We welcome contributions to the Spartacus codebase. Before you start your first 
 
 1. You must be aware of the Apache License (which describes contributions), and you must agree to the [Contributors License Agreement](LICENSE.md). This is common practice for most open source projects.
 
-    Note: You do not need to sign the CLA until you submit your first pull request. If you have not signed the CLA before, a link to the CLA assistant is provided on the PR status page.
-
-    * To make this process as simple as possible, we use the *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA.
     * For company contributors, special rules apply. See the respective section below for details.
 
 1. Contributions must be compliant with the project code style, quality, and standards. We also follow them :-) 
@@ -140,9 +137,13 @@ We welcome contributions to the Spartacus codebase. Before you start your first 
 
 ### Contributor License Agreement
 
-When you contribute anything to Spartacus (code, documentation, analysis, anything), be aware that your contribution is covered by the same [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) that is applied to Spartacus itself. In particular, you must agree to the [Individual Contributor License Agreement](https://gist.github.com/CLAassistant/bd1ea8ec8aa0357414e8).
+When you contribute anything to Spartacus (code, documentation, analysis, anything), be aware that your contribution is covered by the same [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) that is applied to Spartacus itself.
 
-This applies to all contributors, including those contributing on behalf of a company. If you agree to its content, click on the link posted by the CLA assistant as a comment to the pull request. Click it to check the CLA, then accept it on the following screen if you agree to it. CLA assistant will save this decision for upcoming contributions and will notify you if there is any changes to the CLA in the meantime.
+This applies to all contributors, including those contributing on behalf of a company.
+
+### Developer Certificate of Origin (DCO)
+
+Due to legal reasons, contributors will be asked to accept a DCO when they create the first pull request to this project. This happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
 
 #### Company Contributors
 
@@ -156,53 +157,52 @@ Submit the form to us through one of the following methods:
 * Fax to +49 6227 78-45813
 * Mail to:
 
-Industry Standards & Open Source Team
-Dietmar-Hopp-Allee 16
-69190 Walldorf, Germany
+  Industry Standards & Open Source Team
+  Dietmar-Hopp-Allee 16
+  69190 Walldorf, Germany
 
 ### Contribution Content Guidelines
 
-A contribution will be considered for inclusion in Spartacus if it meets the following criteria:
+  A contribution will be considered for inclusion in Spartacus if it meets the following criteria:
 
 * The contribution fits the overall vision and direction of Spartacus
 * The contribution truly improves the storefront
 * The contribution follows the applicable guidelines and standards.
 
-The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Contributor's Guide](https://sap.github.io/spartacus-docs/contributors-guide/).
+  The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Contributor's Guide](https://sap.github.io/spartacus-docs/contributors-guide/).
 
 ### Contribution Process
 
-1. Make sure the change would be welcome, as described above.
+  1. Make sure the change would be welcome, as described above.
 
-1. Create a fork of the Spartacus library sources. 
+  1. Create a fork of the Spartacus library sources. 
 
-1. Build and run the storefront from the library development workspace. 
+  1. Build and run the storefront from the library development workspace. 
 
-    For more information, see [Contributor Setup](https://sap.github.io/spartacus-docs/contributor-setup/).
+      For more information, see [Contributor Setup](https://sap.github.io/spartacus-docs/contributor-setup/).
 
-1. Work on the change in your fork (either on the `develop` branch or on a feature branch).
+  1. Work on the change in your fork (either on the `develop` branch or on a feature branch).
 
-1. Commit and push your changes using the [squash and merge](https://help.github.com/articles/about-pull-request-merges/) feature in GitHub.
+  1. Commit and push your changes using the [squash and merge](https://help.github.com/articles/about-pull-request-merges/) feature in GitHub.
 
-    You should also use the squash and merge feature when additional changes are required after code review.
+      You should also use the squash and merge feature when additional changes are required after code review.
 
-1. In the commit message, please follow the conventions described in [Committing Code to Spartacus](https://sap.github.io/spartacus-docs/commit-guidelines/).
+  1. In the commit message, please follow the conventions described in [Committing Code to Spartacus](https://sap.github.io/spartacus-docs/commit-guidelines/).
 
-    By following the guidelines, your work will be accurately captured in the release changelog.
+      By following the guidelines, your work will be accurately captured in the release changelog.
 
-1. If your change fixes an issue reported in GitHub, add the following line to the commit message:
+  1. If your change fixes an issue reported in GitHub, add the following line to the commit message:
 
-     ```Fixes https://github.com/SAP/spartacus/issues/(issueNumber)```
+      ```Fixes https://github.com/SAP/spartacus/issues/(issueNumber)```
 
-    * Do not add a colon after "Fixes", as this prevents automatic closing.
-    * When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:
+      * Do not add a colon after "Fixes", as this prevents automatic closing.
+      * When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:
 
-        ```Closes https://github.com/SAP/spartacus/pull/(pullRequestNumber)```
+          ```Closes https://github.com/SAP/spartacus/pull/(pullRequestNumber)```
 
-1. Create a pull request so that we can review your change.
-1. Follow the link posted by the CLA assistant to your pull request and accept it, as described above.
-1. Wait for our code review and approval, possibly enhancing your change on request.
-    
+  1. Create a pull request so that we can review your change.
+  1. Wait for our code review and approval, possibly enhancing your change on request.
+
     Note: This may take time, depending on the required effort for reviewing, testing, and clarification. Spartacus developers are also working their regular duties.
 
 1. After the change has been approved, we will inform you in a comment.

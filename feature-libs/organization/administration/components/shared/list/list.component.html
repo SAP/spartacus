@@ -1,0 +1,97 @@
+<cx-split-view [hideMode]="false">
+  <ng-container *ngIf="structure$ | async as structure">
+    <cx-view class="list" *ngIf="listData$ | async as data">
+      <div class="header">
+        <div class="title">
+          <h3>
+            {{
+              viewType + '.header' | cxTranslate: { count: getListCount(data) }
+            }}
+            <button
+              [cxPopover]="listHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'hint-popover',
+                appendToBody: true,
+                displayCloseButton: true
+              }"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
+          </h3>
+        </div>
+
+        <div class="actions">
+          <label>
+            <span *ngIf="data.pagination?.sort">{{
+              structure.type + '.sortBy' | cxTranslate
+            }}</span>
+            <ng-select
+              name="sort"
+              class="sort"
+              *ngIf="data.pagination?.sort"
+              [searchable]="false"
+              [clearable]="false"
+              (change)="sort(data.pagination)"
+              [tabIndex]="0"
+              [(ngModel)]="sortCode"
+              [attr.aria-label]="
+                (sortCode
+                  ? structure.type + '.sort.' + sortCode
+                  : structure.type + '.sortBy'
+                ) | cxTranslate
+              "
+            >
+              <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
+                {{ structure.type + '.sort.' + sort.code | cxTranslate }}
+              </ng-option>
+            </ng-select>
+          </label>
+
+          <ng-content select="[actions]"></ng-content>
+
+          <a
+            class="button primary create"
+            [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
+            routerLinkActive="disabled"
+          >
+            {{ 'organization.add' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+
+      <cx-table
+        *ngIf="data.values?.length > 0; else emptyList"
+        [structure]="structure"
+        [data]="data.values"
+        [i18nRoot]="domainType"
+        [currentItem]="{ property: key, value: currentKey$ | async }"
+        (launch)="launchItem($event)"
+        [cxFocus]="{ trap: 'both' }"
+      >
+      </cx-table>
+
+      <div class="footer">
+        <cx-pagination
+          [pagination]="data.pagination"
+          (viewPageEvent)="browse(data.pagination, $event)"
+        ></cx-pagination>
+      </div>
+    </cx-view>
+
+    <!-- nested split views are rendered inside child routes -->
+    <router-outlet></router-outlet>
+  </ng-container>
+</cx-split-view>
+
+<ng-template #emptyList>
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>
+
+<ng-template #listHint>
+  <p>
+    {{ viewType + '.hint' | cxTranslate }}
+  </p>
+</ng-template>

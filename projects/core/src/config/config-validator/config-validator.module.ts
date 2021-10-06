@@ -19,8 +19,8 @@ export function configValidatorFactory(
   const validate = () => {
     if (isDevMode()) {
       configInitializer
-        .getStableConfig()
-        .then((config) => validateConfig(config, validators || []));
+        .getStable()
+        .subscribe((config) => validateConfig(config, validators || []));
     }
   };
   return validate;

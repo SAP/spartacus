@@ -1,25 +1,57 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
-import { Address, Country, Region } from '../../model/address.model';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import {
+  Address,
+  AddressValidation,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+import createSpy = jasmine.createSpy;
 
-class MockAuthService {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
+class MockUserIdService implements Partial<UserIdService> {
+  public takeUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
   }
 }
+
+const mockAddressVerificationResult: AddressValidation = {
+  decision: 'ACCEPT',
+};
+
+class MockUserAddressConnector implements Partial<UserAddressConnector> {
+  verify = createSpy('MockUserAddressConnector.verify Spy').and.returnValue(
+    of(mockAddressVerificationResult)
+  );
+}
+
+const mockAddress: Address = {
+  id: 'mock address id',
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' },
+};
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
   let store: Store<StateWithUser>;
+  let userAddressConnector: UserAddressConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,13 +65,15 @@ describe('UserAddressService', () => {
       ],
       providers: [
         UserAddressService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: UserAddressConnector, useClass: MockUserAddressConnector },
       ],
     });
 
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(UserAddressService);
+    userAddressConnector = TestBed.inject(UserAddressConnector);
   });
 
   it('should UserAddressService is injected', inject(
@@ -301,6 +335,19 @@ describe('UserAddressService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.ClearRegions()
       );
+    });
+  });
+
+  describe('verifyAddress', () => {
+    it('should call the corresponding command', (done) => {
+      service.verifyAddress(mockAddress).subscribe((result) => {
+        expect(result).toBe(mockAddressVerificationResult);
+        expect(userAddressConnector.verify).toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT,
+          mockAddress
+        );
+        done();
+      });
     });
   });
 });

@@ -1,0 +1,114 @@
+<div
+  *ngIf="content"
+  class="cx-card"
+  [class.cx-card-border]="border"
+  [class.cx-card-fit-to-container]="fitToContainer"
+>
+  <!-- Card Header -->
+  <div *ngIf="content.header && !editMode" class="card-header">
+    {{ content.header }}
+  </div>
+  <!-- Card Body -->
+  <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
+    <!-- Edit message -->
+    <div *ngIf="editMode" class="cx-card-delete-msg">
+      {{ content.deleteMsg }}
+    </div>
+    <!-- Card title -->
+    <h3 *ngIf="content.title" class="cx-card-title">
+      {{ content.title }}
+    </h3>
+    <!-- Card Content -->
+    <div class="cx-card-container">
+      <!-- Card Label -->
+      <div class="cx-card-label-container">
+        <div *ngIf="content.textBold" class="cx-card-label-bold">
+          {{ content.textBold }}
+        </div>
+        <div *ngFor="let line of content.text">
+          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
+            {{ line }}
+          </div>
+
+          <ng-template #truncate>
+            <cx-truncate-text-popover
+              [charactersLimit]="charactersLimit"
+              [content]="line"
+            ></cx-truncate-text-popover>
+          </ng-template>
+        </div>
+        <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
+          <div class="cx-card-paragraph-title">{{ item.title }}</div>
+          <div *ngFor="let text of item.text">
+            <div class="cx-card-paragraph-text">
+              {{ text }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Image -->
+      <div *ngIf="content.img" class="cx-card-img-container">
+        <cx-icon [type]="content.img"></cx-icon>
+      </div>
+    </div>
+    <!-- Edit Mode Actions -->
+    <div *ngIf="editMode" class="row cx-card-body-delete">
+      <div class="col-md-6">
+        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-block btn-primary" (click)="delete()">
+          {{ 'common.delete' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+    <!-- Actions -->
+    <div *ngIf="content.actions && !editMode" class="cx-card-actions">
+      <div *ngFor="let action of content.actions">
+        <div [ngSwitch]="action.event">
+          <a
+            *ngSwitchCase="'delete'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="delete()"
+            (keydown.enter)="delete()"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'default'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="setDefault()"
+            (keydown.enter)="setDefault()"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'send'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="send()"
+            (keydown.enter)="send()"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'edit'"
+            class="cx-card-link card-link btn-link cx-action-link"
+            (click)="edit()"
+            (keydown.enter)="edit()"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchDefault
+            href="{{ action.link }}"
+            class="card-link btn-link cx-action-link"
+            tabindex="0"
+            >{{ action.name }}</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

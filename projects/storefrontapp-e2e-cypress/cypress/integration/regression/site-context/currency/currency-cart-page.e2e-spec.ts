@@ -13,33 +13,34 @@ context('Currency switch - cart page', () => {
     cy.requireLoggedIn();
 
     cy.window().then((win) => {
+      // clear currency and language data from session storage
+      win.sessionStorage.clear();
+
       const savedState = JSON.parse(
-        win.localStorage.getItem('spartacus-local-data')
+        win.localStorage.getItem('spartacus⚿⚿auth')
       );
-      const accessToken = savedState.auth.userToken.token.access_token;
+      const accessToken = savedState.token.access_token;
       cy.addToCart('300938', '3', accessToken).then((cartCode) => {
         cartId = cartCode;
       });
     });
 
-    cy.server();
     cy.visit('/cart');
-
-    cy.route('GET', siteContextSelector.CURRENCY_REQUEST).as(
-      'currencies_request'
-    );
-    cy.wait(`@currencies_request`).its('status').should('eq', 200);
+    cy.intercept({
+      method: 'GET',
+      path: siteContextSelector.CURRENCY_REQUEST,
+    }).as('currencies_request');
+    cy.wait(`@currencies_request`).its('response.statusCode').should('eq', 200);
   });
 
   describe('cart page', () => {
-    const baseUrl = `${Cypress.env('API_URL')}/${Cypress.env(
-      'OCC_PREFIX'
-    )}/${Cypress.env('BASE_SITE')}`;
+    const baseUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
 
     it('should change currency in the url', () => {
-      cy.route('GET', siteContextSelector.CART_REQUEST).as(
-        siteContextSelector.CART_REQUEST_ALIAS
-      );
+      cy.intercept({
+        method: 'GET',
+        path: siteContextSelector.CART_REQUEST,
+      }).as(siteContextSelector.CART_REQUEST_ALIAS);
 
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
@@ -51,10 +52,13 @@ context('Currency switch - cart page', () => {
     });
 
     it('should change currency for cart details', () => {
-      cy.route(
-        'GET',
-        `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`
-      ).as('switchedCartContext');
+      cy.intercept({
+        method: 'GET',
+        pathname: `${baseUrl}/users/current/carts/${cartId}`,
+        query: {
+          curr: siteContextSelector.CURRENCY_JPY,
+        },
+      }).as('switchedCartContext');
 
       switchSiteContext(
         siteContextSelector.CURRENCY_JPY,

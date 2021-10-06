@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Converter, ConverterService, Occ } from '@spartacus/core';
 import {
+  Converter,
+  ConverterService,
+  Occ,
   OrderApprovalPermissionType,
-  PERMISSION_TYPE_NORMALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@spartacus/core';
+import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccPermissionTypeListNormalizer
   implements
     Converter<
       Occ.OrderApprovalPermissionTypeList,
       OrderApprovalPermissionType[]
-    > {
+    >
+{
   constructor(private converter: ConverterService) {}
 
   convert(
     source: Occ.OrderApprovalPermissionTypeList,
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
-    if (target === undefined) {
-      target = source.orderApprovalPermissionTypes.map((permissionType) =>
-        this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
-      );
-    }
+    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+      this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
+    );
+
     return target;
   }
 }

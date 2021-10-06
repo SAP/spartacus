@@ -1,4 +1,3 @@
-import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouteConfig } from '../routes-config';
@@ -48,33 +47,6 @@ describe('SemanticPathService', () => {
 
   describe('transform', () => {
     describe(`, when commands contain 'route' property,`, () => {
-      // tslint:disable-next-line:max-line-length
-      it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
-        spyOn(console, 'warn');
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
-          paths: ['path/:param1'],
-        });
-        service.transform({
-          cxRoute: 'test',
-          params: { param2: 'value2' },
-        });
-        expect(console.warn).toHaveBeenCalledTimes(1);
-      });
-
-      // tslint:disable-next-line:max-line-length
-      it('should NOT console.warn in production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-        spyOn(console, 'warn');
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
-          paths: ['path/:param1'],
-        });
-        service.transform({
-          cxRoute: 'test',
-          params: { param2: 'value2' },
-        });
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
       it('should return absolute path', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],

@@ -6,5 +6,4 @@ export * from './gateway/gateway-timeout.handler';
 export * from './http-error.handler';
 export * from './internal-server/internal-server.handler';
 export * from './not-found/not-found.handler';
-export * from './unauthorized/unauthorized.handler';
 export * from './unknown-error/unknown-error.handler';

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/smartedit",
+  "lib": {
+    "entryFile": "./public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "rxjs": "rxjs"
+    }
+  },
+  "assets": [
+    "assets/webApplicationInjector.js",
+    "schematics/**/*.json",
+    "schematics/**/*.js"
+  ]
+}

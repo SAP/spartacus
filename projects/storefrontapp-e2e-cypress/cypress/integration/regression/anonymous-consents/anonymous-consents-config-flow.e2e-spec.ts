@@ -11,13 +11,15 @@ import {
 } from '../../../helpers/anonymous-consents';
 
 context('Anonymous consents - config flow', () => {
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
+  });
+
   describe('when config legalDescription is false and showAnonymousConsents is false', () => {
     before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-
       anonoymousConsentConfig(
         MARKETING_NEWSLETTER,
         noLegalDescriptionInDialog,
@@ -29,7 +31,6 @@ context('Anonymous consents - config flow', () => {
       );
 
       sessionLogin();
-      cy.reload();
       cy.visit('/');
     });
 
@@ -38,11 +39,6 @@ context('Anonymous consents - config flow', () => {
 
   describe('when config registerConsig is changed, requiredConsents and hideConsents exist, ', () => {
     before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-
       anonoymousConsentConfig(
         PROFILE,
         displayLegalDescriptionInDialog,
@@ -52,8 +48,6 @@ context('Anonymous consents - config flow', () => {
           hideConsents: [STORE_USER_INFORMATION],
         }
       );
-
-      cy.reload();
       cy.visit('/');
     });
 

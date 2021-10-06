@@ -1,0 +1,49 @@
+{
+  "schematics": {
+    "migration-v2-methods-and-properties-deprecations-02": {
+      "version": "2.1.0-next.1",
+      "factory": "./methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of removed public methods or properties"
+    },
+    "migration-v2-constructor-deprecations-03": {
+      "version": "2.1.0-next.1",
+      "factory": "./constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
+    },
+    "migration-v2-removed-public-api-deprecation-04": {
+      "version": "2.1.0-next.1",
+      "factory": "./removed-public-api-deprecations/removed-public-api-deprecation#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "migration-v2-component-deprecations-05": {
+      "version": "2.1.0-next.1",
+      "factory": "./component-deprecations/component-deprecations#migrate",
+      "description": "Handle deprecated Spartacus components"
+    },
+    "migration-v2-config-deprecations-09": {
+      "version": "2.1.0-next.1",
+      "factory": "./config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
+    },
+    "00-migration-v4-rename-symbol": {
+      "version": "4.0.0",
+      "factory": "./rename-symbol/rename-symbol#migrate",
+      "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "01-migration-v4-constructor-deprecations": {
+      "version": "4.0.0",
+      "factory": "./constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Constructor deprecation"
+    },
+    "02-migration-v4-dependency-management": {
+      "version": "4.0.0",
+      "factory": "./dependency-management/dependency-management#migrate",
+      "description": "Update dependencies"
+    },
+    "03-migration-v4-missing-packages": {
+      "version": "4.0.0",
+      "factory": "./missing-packages/missing-packages#migrate",
+      "description": "Check missing packages"
+    }
+  }
+}

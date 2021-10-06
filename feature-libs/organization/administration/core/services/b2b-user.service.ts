@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
@@ -21,8 +21,8 @@ import {
   getB2BUserPermissions,
   getB2BUserState,
   getB2BUserUserGroups,
-  getUserList,
   getB2BUserValue,
+  getUserList,
 } from '../store/selectors/b2b-user.selector';
 import { getItemStatus } from '../utils/get-item-status';
 
@@ -30,23 +30,33 @@ import { getItemStatus } from '../utils/get-item-status';
 export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   load(orgCustomerId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.LoadB2BUser({
-          userId,
-          orgCustomerId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUser({
+            userId,
+            orgCustomerId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadList(params?: SearchConfig): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUsers({ userId, params })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -88,28 +98,40 @@ export class B2BUserService {
     );
   }
 
-  create(orgCustomer: B2BUser): void {
-    delete orgCustomer.isAssignedToApprovers;
+  getErrorState(orgCustomerId): Observable<boolean> {
+    return this.getB2BUserState(orgCustomerId).pipe(
+      map((state) => state.error)
+    );
+  }
 
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.CreateB2BUser({
-          userId,
-          orgCustomer,
-        })
-      )
+  create(orgCustomer: B2BUser): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.CreateB2BUser({
+            userId,
+            orgCustomer,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   update(orgCustomerId: string, orgCustomer: B2BUser): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.UpdateB2BUser({
-          userId,
-          orgCustomerId,
-          orgCustomer,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.UpdateB2BUser({
+            userId,
+            orgCustomerId,
+            orgCustomer,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -120,14 +142,18 @@ export class B2BUserService {
   }
 
   loadApprovers(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.LoadB2BUserApprovers({
-          userId,
-          orgCustomerId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUserApprovers({
+            userId,
+            orgCustomerId,
+            params,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -151,38 +177,50 @@ export class B2BUserService {
   }
 
   assignApprover(orgCustomerId: string, approverId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.CreateB2BUserApprover({
-          userId,
-          orgCustomerId,
-          approverId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.AssignB2BUserApprover({
+            userId,
+            orgCustomerId,
+            approverId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   unassignApprover(orgCustomerId: string, approverId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.DeleteB2BUserApprover({
-          userId,
-          orgCustomerId,
-          approverId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.UnassignB2BUserApprover({
+            userId,
+            orgCustomerId,
+            approverId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadPermissions(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.LoadB2BUserPermissions({
-          userId,
-          orgCustomerId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUserPermissions({
+            userId,
+            orgCustomerId,
+            params,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -206,38 +244,50 @@ export class B2BUserService {
   }
 
   assignPermission(orgCustomerId: string, permissionId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.CreateB2BUserPermission({
-          userId,
-          orgCustomerId,
-          permissionId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.AssignB2BUserPermission({
+            userId,
+            orgCustomerId,
+            permissionId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   unassignPermission(orgCustomerId: string, permissionId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.DeleteB2BUserPermission({
-          userId,
-          orgCustomerId,
-          permissionId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.UnassignB2BUserPermission({
+            userId,
+            orgCustomerId,
+            permissionId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadUserGroups(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.LoadB2BUserUserGroups({
-          userId,
-          orgCustomerId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUserUserGroups({
+            userId,
+            orgCustomerId,
+            params,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -261,26 +311,34 @@ export class B2BUserService {
   }
 
   assignUserGroup(orgCustomerId: string, userGroupId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.CreateB2BUserUserGroup({
-          userId,
-          orgCustomerId,
-          userGroupId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.AssignB2BUserUserGroup({
+            userId,
+            orgCustomerId,
+            userGroupId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   unassignUserGroup(orgCustomerId: string, userGroupId: string): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.DeleteB2BUserUserGroup({
-          userId,
-          orgCustomerId,
-          userGroupId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new B2BUserActions.UnassignB2BUserUserGroup({
+            userId,
+            orgCustomerId,
+            userGroupId,
+          })
+        ),
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -293,12 +351,12 @@ export class B2BUserService {
    * If you reconfigure those roles in the backend or extend the list, you should change
    * this implementation accordingly.
    */
-  getAllRoles(): B2BUserGroup[] {
+  getAllRoles(): B2BUserRole[] {
     return [
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      B2BUserGroup.B2B_MANAGER_GROUP,
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 
@@ -333,12 +391,5 @@ export class B2BUserService {
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getUserList(params));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

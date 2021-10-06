@@ -8,7 +8,6 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import {
   getDecoratorMetadata,
   getSourceNodes,
@@ -41,13 +40,12 @@ import {
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   buildRelativePath,
   stripTsFromImport,
 } from '../shared/utils/module-file-utils';
-import { getWorkspace } from '../shared/utils/workspace-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
 function buildComponentModule(options: CxCmsComponentSchema): string {
@@ -127,14 +125,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     );
     changes.push(...addToModuleDeclarationsChanges);
 
-    const addToModuleEntryComponentsChanges = addToModuleEntryComponents(
-      tree,
-      modulePath,
-      componentName,
-      moduleTs
-    );
-    changes.push(...addToModuleEntryComponentsChanges);
-
     const addToModuleExportsChanges = addToModuleExports(
       tree,
       modulePath,
@@ -191,9 +181,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
 
-    const { workspace } = getWorkspace(tree);
-    const project = getProjectFromWorkspace(workspace, options.project);
-
+    const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,
@@ -205,13 +193,13 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const componentTs = getTsSourceFile(tree, componentPath);
     const nodes = getSourceNodes(componentTs);
     const constructorNode = findConstructor(nodes);
-    const injectionChange = injectService(
+    const injectionChange = injectService({
       constructorNode,
-      componentPath,
-      cmsComponentData,
-      'private',
-      CMS_COMPONENT_DATA_PROPERTY_NAME
-    );
+      path: componentPath,
+      serviceName: cmsComponentData,
+      modifier: 'private',
+      propertyName: CMS_COMPONENT_DATA_PROPERTY_NAME,
+    });
     changes.push(injectionChange);
 
     const componentDataProperty = `  ${CMS_COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
@@ -260,9 +248,8 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
     const componentFileName = `${strings.dasherize(
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
-    const { workspace } = getWorkspace(tree);
-    const project = getProjectFromWorkspace(workspace, options.project);
 
+    const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,
@@ -386,7 +373,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       export: exportOption,
       name: componentName,
       changeDetection,
-      entryComponent,
       flat,
       inlineStyle,
       inlineTemplate,
@@ -432,7 +418,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
         changeDetection,
-        entryComponent,
         export: exportOption,
         flat,
         inlineStyle,

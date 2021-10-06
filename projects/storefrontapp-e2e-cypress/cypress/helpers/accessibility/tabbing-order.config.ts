@@ -1,4 +1,4 @@
-import { TabbingOrderTypes, TabbingOrderConfig } from './tabbing-order.model';
+import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
   home: [
@@ -163,8 +163,72 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
+    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
+  ],
+  productConfigurationPage: [
+    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Basics',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'Next',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+
+  productConfigurationOverview: [
+    {
+      value: 'show more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
   cart: [
     {
@@ -438,6 +502,94 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  orderDetailsCancelAction: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Items',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  orderDetailsReturnAction: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Request a Return',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  cancelOrReturnOrder: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Continue',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Set all quantities to maximum',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Continue',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  confirmCancelOrReturnOrder: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Submit Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Submit Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  returnRequestList: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+  ],
+  returnRequestDetails: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Return Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   headerDesktopNotLoggedIn: [
     {
       value: 'Language',
@@ -446,6 +598,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Currency',
       type: TabbingOrderTypes.SELECT,
+    },
+    {
+      value: 'Quick Order',
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Find a Store',

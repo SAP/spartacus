@@ -1,0 +1,112 @@
+<div class="cx-page" *ngIf="model$ | async as model">
+  <section class="cx-page-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
+          <div class="cx-sorting top">
+            <div class="row">
+              <label
+                class="form-group cx-sort-dropdown col-12 col-lg-4 mr-auto"
+              >
+                <span>{{ 'productList.sortBy' | cxTranslate }}</span>
+                <cx-sorting
+                  [sortOptions]="model.sorts"
+                  (sortListEvent)="sortList($event)"
+                  [selectedOption]="model.pagination.sort"
+                  placeholder="{{ 'productList.sortBy' | cxTranslate }}"
+                ></cx-sorting>
+              </label>
+              <div *ngIf="!isInfiniteScroll" class="col-auto">
+                <div
+                  class="cx-pagination"
+                  [attr.aria-label]="
+                    'productList.productSearchPagination' | cxTranslate
+                  "
+                >
+                  <cx-pagination
+                    [pagination]="model.pagination"
+                    queryParam="currentPage"
+                    [defaultPage]="0"
+                  ></cx-pagination>
+                </div>
+              </div>
+              <div class="col-auto ml-auto ml-lg-0">
+                <cx-product-view
+                  (modeChange)="setViewMode($event)"
+                  [mode]="viewMode"
+                ></cx-product-view>
+              </div>
+            </div>
+          </div>
+          <div class="cx-product-container">
+            <!-- Product list when using pagination -->
+            <ng-container *ngIf="!isInfiniteScroll; else infiniteScroll">
+              <ng-container *ngIf="viewMode === ViewModes.Grid">
+                <div class="row">
+                  <cx-product-grid-item
+                    *ngFor="let product of model?.products"
+                    [product]="product"
+                    class="col-12 col-sm-6 col-md-4"
+                  ></cx-product-grid-item>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="viewMode === ViewModes.List">
+                <cx-product-list-item
+                  *ngFor="let product of model?.products"
+                  [product]="product"
+                  class="cx-product-search-list"
+                ></cx-product-list-item>
+              </ng-container>
+            </ng-container>
+
+            <!-- Product list when using infinite scroll -->
+            <ng-template #infiniteScroll>
+              <cx-product-scroll
+                [scrollConfig]="scrollConfig"
+                [model]="model"
+                [inputViewMode]="viewMode"
+              ></cx-product-scroll>
+            </ng-template>
+          </div>
+          <div class="cx-sorting bottom">
+            <div class="row">
+              <label
+                class="form-group cx-sort-dropdown col-12 col-lg-4 mr-auto"
+              >
+                <span>{{ 'productList.sortBy' | cxTranslate }}</span>
+                <cx-sorting
+                  [sortOptions]="model.sorts"
+                  (sortListEvent)="sortList($event)"
+                  [selectedOption]="model.pagination.sort"
+                  placeholder="{{ 'productList.sortBy' | cxTranslate }}"
+                ></cx-sorting>
+              </label>
+              <div
+                *ngIf="!isInfiniteScroll"
+                class="col-auto"
+                [attr.aria-label]="
+                  'productList.productSearchPagination' | cxTranslate
+                "
+              >
+                <div class="cx-pagination">
+                  <cx-pagination
+                    [pagination]="model.pagination"
+                    queryParam="currentPage"
+                    [defaultPage]="0"
+                  ></cx-pagination>
+                </div>
+              </div>
+              <div class="col-auto ml-auto ml-lg-0">
+                <cx-product-view
+                  (modeChange)="setViewMode($event)"
+                  [mode]="viewMode"
+                ></cx-product-view>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

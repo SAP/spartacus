@@ -1,0 +1,17 @@
+@mixin cx-configurator-attribute-level-quantity-price {
+  .cx-attribute-level-quantity-price {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    cx-configurator-attribute-quantity {
+      padding-inline-end: 10px;
+      padding-block-end: 10px;
+    }
+
+    cx-configurator-price {
+      padding-block-end: 10px;
+    }
+  }
+}

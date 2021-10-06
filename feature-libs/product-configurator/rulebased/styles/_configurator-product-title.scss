@@ -1,0 +1,170 @@
+%cx-configurator-product-title {
+  display: none;
+
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--cx-color-background);
+    margin-block-end: 15px;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    padding-block-start: 15px;
+    padding-block-end: 15px;
+
+    .cx-general-product-info {
+      display: flex;
+      flex-direction: column;
+
+      @include media-breakpoint-up(lg) {
+        width: 1140px;
+      }
+
+      @include media-breakpoint-down(lg) {
+        width: 100%;
+      }
+
+      .cx-title {
+        font-weight: bold;
+        align-self: center;
+        min-block-size: 1rem;
+
+        @include media-breakpoint-down(sm) {
+          width: 80%;
+        }
+
+        span {
+          @include cx-configurator-truncate-content();
+          text-align: center;
+        }
+      }
+
+      a {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-self: flex-end;
+        cursor: pointer;
+        margin-block-start: -25px;
+        margin-inline-end: 5px;
+        font-weight: normal;
+        color: var(--cx-color-text);
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        cx-icon {
+          margin-inline-start: 5px;
+          margin-inline-end: 5px;
+          align-self: center;
+        }
+
+        @include media-breakpoint-down(xs) {
+          margin-block-start: -20px;
+        }
+
+        .cx-toggle-details-link-text {
+          text-decoration: underline;
+          @include media-breakpoint-down(xs) {
+            display: none;
+          }
+        }
+      }
+
+      button {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-self: flex-end;
+        margin-block-start: -25px;
+        margin-inline-end: 5px;
+        font-weight: normal;
+        color: var(--cx-color-text);
+        border: none;
+        background-color: transparent;
+        outline-offset: 0px;
+
+        cx-icon {
+          margin-inline-start: 5px;
+          margin-inline-end: 5px;
+          align-self: center;
+        }
+
+        @include media-breakpoint-down(xs) {
+          margin-block-start: -20px;
+        }
+
+        .cx-toggle-details-link-text {
+          text-decoration: underline;
+          @include media-breakpoint-down(xs) {
+            display: none;
+          }
+        }
+      }
+
+      .cx-details {
+        inline-size: 100%;
+        max-block-size: 0;
+        overflow: hidden;
+        display: flex;
+        font-size: var(--cx-font-small, 0.8rem);
+
+        transition: all 0.7s ease-in-out;
+        -webkit-transition: all 0.7s ease-in-out;
+
+        &.open {
+          // A larger value than the details need, this will be used to animate the closing/opening.
+          // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
+          max-block-size: 400px;
+
+          @include media-breakpoint-down(sm) {
+            padding-inline-start: 16px;
+          }
+
+          @include media-breakpoint-only(md) {
+            padding-inline-start: 32px;
+          }
+        }
+
+        .cx-details-image {
+          margin-block-start: 15px;
+          margin-block-end: 0px;
+          max-inline-size: 100px;
+
+          @include cx-configurator-image();
+        }
+
+        .cx-details-content {
+          display: flex;
+          flex-direction: column;
+          margin-inline-start: 15px;
+          margin-inline-end: 0px;
+          margin-block-start: 15px;
+          margin-block-end: 0px;
+
+          @include media-breakpoint-down(sm) {
+            width: 70%;
+          }
+
+          .cx-detail-title,
+          .cx-price {
+            font-weight: bold;
+          }
+
+          .cx-code {
+            color: var(--cx-color-secondary);
+          }
+
+          .cx-detail-title,
+          .cx-code,
+          .cx-description {
+            span {
+              @include cx-configurator-truncate-content();
+            }
+          }
+        }
+      }
+    }
+  }
+}

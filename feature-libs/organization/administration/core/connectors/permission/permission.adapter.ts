@@ -1,9 +1,10 @@
-import { EntitiesModel, SearchConfig } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
+  EntitiesModel,
+  SearchConfig,
   OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { Permission } from '../../model/permission.model';
 
 export abstract class PermissionAdapter {
   /**

@@ -14,14 +14,12 @@ import {
   B2BUser,
   CostCenter,
   ListModel,
+  OrderApprovalPermissionType,
+  SiteContextActions,
   StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import { OrderApproval } from '../../model/order-approval.model';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { UserGroup } from '../../model/user-group.model';
 import { OrganizationActions } from '../actions';
@@ -40,9 +38,6 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_FEATURE,
   COST_CENTER_LIST,
-  ORDER_APPROVAL_ENTITIES,
-  ORDER_APPROVAL_FEATURE,
-  ORDER_APPROVAL_LIST,
   OrganizationState,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ASSIGNED_USERS,
@@ -74,10 +69,6 @@ import {
   costCentersEntitiesReducer,
   costCentersListReducer,
 } from './cost-center.reducer';
-import {
-  orderApprovalsEntitiesReducer,
-  orderApprovalsListReducer,
-} from './order-approval.reducer';
 import {
   orgUnitAddressListReducer,
   orgUnitEntitiesReducer,
@@ -124,9 +115,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ORG_UNIT_ENTITIES,
         orgUnitEntitiesReducer
       ),
-      availableOrgUnitNodes: StateUtils.entityLoaderReducer<B2BUnitNode[]>(
-        ORG_UNIT_NODE_LIST
-      ),
+      availableOrgUnitNodes:
+        StateUtils.entityLoaderReducer<B2BUnitNode[]>(ORG_UNIT_NODE_LIST),
       tree: StateUtils.entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
       approvalProcesses: StateUtils.entityLoaderReducer<B2BApprovalProcess[]>(
         ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
@@ -139,9 +129,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities: StateUtils.entityLoaderReducer<Address>(
-        ADDRESS_ENTITIES
-      ),
+      addressEntities:
+        StateUtils.entityLoaderReducer<Address>(ADDRESS_ENTITIES),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<UserGroup>(
@@ -197,24 +186,13 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         b2bUserUserGroupListReducer
       ),
     }),
-    [ORDER_APPROVAL_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<OrderApproval>(
-        ORDER_APPROVAL_ENTITIES,
-        orderApprovalsEntitiesReducer
-      ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
-        ORDER_APPROVAL_LIST,
-        orderApprovalsListReducer
-      ),
-    }),
   };
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  OrganizationState
->> = new InjectionToken<ActionReducerMap<OrganizationState>>(
-  'OrganizationReducers'
-);
+export const reducerToken: InjectionToken<ActionReducerMap<OrganizationState>> =
+  new InjectionToken<ActionReducerMap<OrganizationState>>(
+    'OrganizationReducers'
+  );
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -229,6 +207,9 @@ export function clearOrganizationState(
       state = undefined;
     }
     if (action.type === AuthActions.LOGOUT) {
+      state = undefined;
+    }
+    if (action.type === SiteContextActions.LANGUAGE_CHANGE) {
       state = undefined;
     }
 

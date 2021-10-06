@@ -3,16 +3,17 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class OrderReturnRequestEffect {
   @Effect()
-  createReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  createReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -26,7 +27,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.CreateOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -35,9 +36,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  loadReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -51,7 +50,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -60,9 +59,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  cancelReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  cancelReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -77,7 +74,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.CancelOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -86,9 +83,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequestList$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  loadReturnRequestList$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) => action.payload),
     switchMap((payload) => {
@@ -109,7 +104,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestListFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

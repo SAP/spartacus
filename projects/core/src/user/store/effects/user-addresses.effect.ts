@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
@@ -15,9 +15,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserAddressesEffects {
   @Effect()
-  loadUserAddresses$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  loadUserAddresses$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) => action.payload),
     mergeMap((payload) => {
@@ -26,18 +24,14 @@ export class UserAddressesEffects {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
         catchError((error) =>
-          of(
-            new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.LoadUserAddressesFail(normalizeHttpError(error)))
         )
       );
     })
   );
 
   @Effect()
-  addUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  addUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -48,16 +42,14 @@ export class UserAddressesEffects {
             return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError((error) =>
-            of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
+            of(new UserActions.AddUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
   );
 
   @Effect()
-  updateUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  updateUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -77,20 +69,14 @@ export class UserAddressesEffects {
             }
           }),
           catchError((error) =>
-            of(
-              new UserActions.UpdateUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.UpdateUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
   );
 
   @Effect()
-  deleteUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  deleteUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -101,11 +87,7 @@ export class UserAddressesEffects {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) =>
-            of(
-              new UserActions.DeleteUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
           )
         );
     })

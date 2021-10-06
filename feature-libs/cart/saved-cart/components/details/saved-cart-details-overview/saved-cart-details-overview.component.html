@@ -1,0 +1,40 @@
+<ng-container *ngIf="savedCart$ | async as cart">
+  <div class="cx-cart-summary">
+    <div class="container">
+      <div class="cx-summary-card">
+        <div class="cx-edit-container">
+          <cx-card [content]="getCartName(cart?.name) | async"></cx-card>
+          <button class="cx-edit-cart" #element (click)="openDialog(cart)">
+            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          </button>
+        </div>
+        <div class="cx-card-description">
+          <cx-card
+            [content]="getCartDescription(cart?.description) | async"
+            [truncateText]="true"
+            [charactersLimit]="30"
+          ></cx-card>
+        </div>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card [content]="getCartId(cart?.code) | async"></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getDateSaved(cart?.saveTime | cxDate) | async"
+        ></cx-card>
+        <cx-card [content]="getCartItems(cart?.totalItems) | async"></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getCartQuantity(cart?.totalUnitCount) | async"
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCartTotal(cart?.totalPriceWithTax?.formattedValue) | async
+          "
+        ></cx-card>
+      </div>
+    </div>
+  </div>
+</ng-container>

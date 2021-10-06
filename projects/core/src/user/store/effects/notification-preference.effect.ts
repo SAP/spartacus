@@ -2,16 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class NotificationPreferenceEffects {
   @Effect()
-  loadPreferences$: Observable<
-    UserActions.NotificationPreferenceAction
-  > = this.actions$.pipe(
+  loadPreferences$: Observable<UserActions.NotificationPreferenceAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
     map((action: UserActions.LoadNotificationPreferences) => action.payload),
     switchMap((payload) =>
@@ -23,7 +21,7 @@ export class NotificationPreferenceEffects {
         catchError((error) =>
           of(
             new UserActions.LoadNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -32,9 +30,7 @@ export class NotificationPreferenceEffects {
   );
 
   @Effect()
-  updatePreferences$: Observable<
-    UserActions.NotificationPreferenceAction
-  > = this.actions$.pipe(
+  updatePreferences$: Observable<UserActions.NotificationPreferenceAction> = this.actions$.pipe(
     ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: UserActions.UpdateNotificationPreferences) => action.payload),
     mergeMap((payload) =>
@@ -48,7 +44,7 @@ export class NotificationPreferenceEffects {
         catchError((error) =>
           of(
             new UserActions.UpdateNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )

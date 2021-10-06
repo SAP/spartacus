@@ -3,20 +3,22 @@ import { TestBed } from '@angular/core/testing';
 import { ConfigInitializerService } from './config-initializer.service';
 import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
+import { tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 const MockConfig = {
   test: 'test',
   scope1: 'notFinal',
-};
+} as Config;
 
 const configInitializers = [
   {
     scopes: ['scope1'],
-    configFactory: async () => ({ scope1: 'final' }),
+    configFactory: async () => ({ scope1: 'final' } as Config),
   },
   {
     scopes: ['scope2.nested'],
-    configFactory: async () => ({ scope2: { nested: true } }),
+    configFactory: async () => ({ scope2: { nested: true } } as Config),
   },
 ];
 
@@ -42,14 +44,20 @@ describe('ConfigInitializerService', () => {
       service.initialize();
     });
 
-    it('should get final config', async () => {
-      expect(await service.getStableConfig()).toEqual(MockConfig);
+    it('should get final config', () => {
+      let data;
+      service.getStable().subscribe((config) => {
+        data = config;
+        expect(data).toEqual(MockConfig);
+      });
     });
 
-    it('should get final config for any scope', async () => {
-      expect(await service.getStableConfig('scope1', 'scope2.nested')).toEqual(
-        MockConfig
-      );
+    it('should get final config for any scope', () => {
+      let data;
+      service.getStable('scope1', 'scope2.nested').subscribe((config) => {
+        data = config;
+        expect(data).toEqual(MockConfig);
+      });
     });
   });
 
@@ -58,73 +66,135 @@ describe('ConfigInitializerService', () => {
       service.initialize(configInitializers);
     });
 
-    it('initializers should contribute to final config', async () => {
-      const config = await service.getStableConfig();
-      expect(config.scope1).toEqual('final');
-      expect(config.scope2.nested).toBeTruthy();
+    it('initializers should contribute to final config', () => {
+      let data;
+      service.getStable().subscribe((config) => {
+        data = config;
+        expect(data.scope1).toEqual('final');
+        expect(data.scope2.nested).toBeTruthy();
+      });
+    });
+
+    describe('getStable should return correct config for scope', () => {
+      it('scope1', (done) => {
+        service.getStable('scope1').subscribe((config: any) => {
+          expect(config.scope1).toEqual('final');
+          done();
+        });
+      });
+
+      it('scope2', (done) => {
+        service.getStable('scope2').subscribe((config: any) => {
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+
+      it('scope2.nested', (done) => {
+        service.getStable('scope2.nested').subscribe((config: any) => {
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+
+      it('scope2.nested.even.more', (done) => {
+        service
+          .getStable('scope2.nested.even.more')
+          .subscribe((config: any) => {
+            expect(config.scope2).toEqual({ nested: true });
+            done();
+          });
+      });
+
+      it('scope1, scope2', (done) => {
+        service.getStable('scope1', 'scope2').subscribe((config: any) => {
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
     });
 
     describe('getConfigStable should return correct config for scope', () => {
-      it('scope1', async () => {
-        const config = await service.getStableConfig('scope1');
-        expect(config.scope1).toEqual('final');
+      it('scope1', () => {
+        let data;
+        service.getStable('scope1').subscribe((config) => {
+          data = config;
+          expect(data.scope1).toEqual('final');
+        });
       });
 
-      it('scope2', async () => {
-        const config = await service.getStableConfig('scope2');
-        expect(config.scope2).toEqual({ nested: true });
+      it('scope2', () => {
+        let data;
+        service.getStable('scope2').subscribe((config) => {
+          data = config;
+          expect(data.scope2).toEqual({ nested: true });
+        });
       });
 
-      it('scope2.nested', async () => {
-        const config = await service.getStableConfig('scope2.nested');
-        expect(config.scope2).toEqual({ nested: true });
+      it('scope2.nested', () => {
+        let data;
+        service.getStable('scope2.nested').subscribe((config) => {
+          data = config;
+          expect(data.scope2).toEqual({ nested: true });
+        });
       });
 
       it('scope2.nested.even.more', async () => {
-        const config = await service.getStableConfig('scope2.nested.even.more');
-        expect(config.scope2).toEqual({ nested: true });
+        let data;
+        service.getStable('scope2.nested.even.more').subscribe((config) => {
+          data = config;
+          expect(data.scope2).toEqual({ nested: true });
+        });
       });
 
       it('scope1, scope2', async () => {
-        const config = await service.getStableConfig('scope1', 'scope2');
-        expect(config.scope1).toEqual('final');
-        expect(config.scope2).toEqual({ nested: true });
+        let data;
+        service.getStable('scope1', 'scope2').subscribe((config) => {
+          data = config;
+          expect(data.scope1).toEqual('final');
+          expect(data.scope2).toEqual({ nested: true });
+        });
       });
     });
 
-    it('getConfigStable should fulfil gradually', async () => {
-      const results = [];
+    it('getStable should fulfil gradually', (done) => {
+      const results: string[] = [];
 
-      const scope2 = async () => {
-        await service.getStableConfig('scope2');
-        results.push('scope2');
-      };
-      const stable = async () => {
-        await service.getStableConfig();
-        results.push('stable');
-      };
-      const scope1 = async () => {
-        await service.getStableConfig('scope1');
-        results.push('scope1');
-      };
+      const scope2 = service
+        .getStable('scope2')
+        .pipe(tap(() => results.push('scope2')));
 
-      await Promise.all([scope2(), stable(), scope1()]);
+      const stable = service
+        .getStable()
+        .pipe(tap(() => results.push('stable')));
 
-      expect(results).toEqual(['scope1', 'scope2', 'stable']);
+      const scope1 = service
+        .getStable('scope1')
+        .pipe(tap(() => results.push('scope1')));
+
+      forkJoin([scope2, stable, scope1]).subscribe(() => {
+        expect(results).toEqual(['scope1', 'scope2', 'stable']);
+        done();
+      });
     });
 
     describe('Config tokens', () => {
-      it('should contribute to global Configuration token', async () => {
-        await service.getStableConfig();
-        const config = TestBed.inject(Config);
-        expect(config.scope1).toEqual('final');
-        expect(config.scope2.nested).toBeTruthy();
+      it('should contribute to global Configuration token', (done) => {
+        service.getStable().subscribe(() => {
+          const config: any = TestBed.inject(Config);
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2.nested).toBeTruthy();
+          done();
+        });
       });
-      it('should contribute to Root Configuration token', async () => {
-        await service.getStableConfig();
-        const config = TestBed.inject(RootConfig);
-        expect(config.scope1).toEqual('final');
-        expect(config.scope2.nested).toBeTruthy();
+      it('should contribute to Root Configuration token', (done) => {
+        service.getStable().subscribe(() => {
+          const config = TestBed.inject(RootConfig);
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2.nested).toBeTruthy();
+          done();
+        });
       });
     });
   });

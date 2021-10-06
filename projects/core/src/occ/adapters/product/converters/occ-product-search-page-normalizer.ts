@@ -12,7 +12,8 @@ import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccProductSearchPageNormalizer
-  implements Converter<Occ.ProductSearchPage, ProductSearchPage> {
+  implements Converter<Occ.ProductSearchPage, ProductSearchPage>
+{
   constructor(private converterService: ConverterService) {}
 
   /**
@@ -54,19 +55,21 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = target.facets.filter((facet) => {
-      return (
-        !target.pagination ||
-        !target.pagination.totalResults ||
-        ((!facet.hasOwnProperty('visible') || facet.visible) &&
-          facet.values &&
-          facet.values.find((value) => {
-            return (
-              value.selected || value.count < target.pagination.totalResults
-            );
-          }))
-      );
-    });
+    if (target.facets) {
+      target.facets = target.facets.filter((facet) => {
+        return (
+          !target.pagination ||
+          !target.pagination.totalResults ||
+          ((!facet.hasOwnProperty('visible') || facet.visible) &&
+            facet.values &&
+            facet.values.find((value) => {
+              return (
+                value.selected || value.count < target.pagination.totalResults
+              );
+            }))
+        );
+      });
+    }
   }
 
   /*

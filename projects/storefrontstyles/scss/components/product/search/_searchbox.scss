@@ -1,10 +1,21 @@
 @import '../../../theme';
 
-/**
- * To control visual effects while searching the searchbox requries
- * some CSS rules to the outer elements.
- */
+// To control visual effects while searching the searchbox requires
+// some CSS rules to the outer elements.
 %cx-searchbox__body {
+  // hide the mobile search button by default and how on mobile
+  button.search {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+  // hide the search icon on mobile
+  div.search-icon {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
   // when there are results and the searchbox is active
   // we display the searchbox
   &.searchbox-is-active {
@@ -47,7 +58,7 @@
           width: 0;
           padding: 0;
         }
-        cx-icon.reset {
+        button.reset {
           display: none;
         }
       }
@@ -60,6 +71,7 @@
     // we position the parent relative to ensure the result panel
     // is aligned to the left of searchbox
     position: relative;
+    z-index: 0;
   }
 
   z-index: 10;
@@ -93,7 +105,7 @@
       min-width: 300px;
       max-width: 550px;
       // hide search icon when the input is dirty
-      &.dirty cx-icon.search {
+      &.dirty div.search-icon {
         display: none;
       }
     }
@@ -127,16 +139,19 @@
     }
 
     // hide reset icon when the input is empty
-    &:not(.dirty) cx-icon.reset {
+    &:not(.dirty) button.reset {
       display: none;
     }
 
-    cx-icon {
+    button,
+    div.search-icon {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
-      cursor: pointer;
-      &.reset {
+      background: none;
+      border: none;
+      padding: 6px;
+      &.reset cx-icon {
         &:before {
           font-size: 1.4rem;
         }
@@ -187,12 +202,21 @@
     .suggestions {
       display: flex;
       flex-wrap: wrap;
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+      li,
       a {
         flex: 100%;
         line-height: 2rem;
+        display: block;
       }
     }
     .products {
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+
       @include media-breakpoint-down(sm) {
         display: none;
       }
@@ -212,13 +236,13 @@
           grid-row: 1 / 3;
         }
 
-        h4.name {
+        div.name {
           text-overflow: ellipsis;
 
           font-size: inherit;
           font-weight: inherit;
 
-          /* Required for text-overflow to do anything */
+          // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }

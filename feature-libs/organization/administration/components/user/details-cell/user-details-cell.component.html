@@ -1,0 +1,63 @@
+<ng-template #details>
+  <div class="popover-details">
+    <div class="property">
+      <label>{{ 'orgUser.name' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUserDetails',
+            params: model
+          } | cxUrl
+        "
+        >{{ model.name }}</a
+      >
+    </div>
+
+    <div class="property full-width">
+      <label>{{ 'orgUser.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUser.roles' | cxTranslate }}</label>
+      <ul class="value">
+        <li
+          *ngFor="let role of model.roles; let isLast = last"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUser.orgUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<button
+  class="button text"
+  [cxPopover]="details"
+  [cxPopoverOptions]="{
+    placement: 'auto',
+    class: 'my-company-popover',
+    appendToBody: true,
+    displayCloseButton: true
+  }"
+>
+  {{ model?.name }}
+</button>

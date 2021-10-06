@@ -15,6 +15,7 @@ import {
   PERMISSIONS_NORMALIZER,
   UserGroup,
   USER_GROUPS_NORMALIZER,
+  B2B_USER_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -42,6 +43,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   }
 
   create(userId: string, orgCustomer: B2BUser): Observable<B2BUser> {
+    orgCustomer = this.converter.convert(orgCustomer, B2B_USER_SERIALIZER);
     return this.http
       .post<Occ.B2BUser>(this.getB2BUsersEndpoint(userId), orgCustomer)
       .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
@@ -52,6 +54,10 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     orgCustomer: B2BUser
   ): Observable<B2BUser> {
+    orgCustomer = this.converter.convert(
+      orgCustomer,
+      B2B_USER_SERIALIZER
+    ) as B2BUser;
     return this.http
       .patch<Occ.B2BUser>(
         this.getB2BUserEndpoint(userId, orgCustomerId),
@@ -160,14 +166,19 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   }
 
   protected getB2BUserEndpoint(userId: string, orgCustomerId: string): string {
-    return this.occEndpoints.getUrl('b2bUser', {
-      userId,
-      orgCustomerId,
+    return this.occEndpoints.buildUrl('b2bUser', {
+      urlParams: {
+        userId,
+        orgCustomerId,
+      },
     });
   }
 
   protected getB2BUsersEndpoint(userId: string, params?: SearchConfig): string {
-    return this.occEndpoints.getUrl('b2bUsers', { userId }, params);
+    return this.occEndpoints.buildUrl('b2bUsers', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getApproverEndpoint(
@@ -175,10 +186,12 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     approverId: string
   ): string {
-    return this.occEndpoints.getUrl('b2bUserApprover', {
-      userId,
-      orgCustomerId,
-      approverId,
+    return this.occEndpoints.buildUrl('b2bUserApprover', {
+      urlParams: {
+        userId,
+        orgCustomerId,
+        approverId,
+      },
     });
   }
 
@@ -187,11 +200,10 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     params?: SearchConfig | { orgCustomerId: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'b2bUserApprovers',
-      { userId, orgCustomerId },
-      params
-    );
+    return this.occEndpoints.buildUrl('b2bUserApprovers', {
+      urlParams: { userId, orgCustomerId },
+      queryParams: params,
+    });
   }
 
   protected getPermissionEndpoint(
@@ -199,10 +211,12 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     premissionId: string
   ): string {
-    return this.occEndpoints.getUrl('b2bUserPermission', {
-      userId,
-      orgCustomerId,
-      premissionId,
+    return this.occEndpoints.buildUrl('b2bUserPermission', {
+      urlParams: {
+        userId,
+        orgCustomerId,
+        premissionId,
+      },
     });
   }
 
@@ -211,14 +225,13 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(
-      'b2bUserPermissions',
-      {
+    return this.occEndpoints.buildUrl('b2bUserPermissions', {
+      urlParams: {
         userId,
         orgCustomerId,
       },
-      params
-    );
+      queryParams: params,
+    });
   }
 
   protected getUserGroupEndpoint(
@@ -226,10 +239,12 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     userGroupId: string
   ): string {
-    return this.occEndpoints.getUrl('b2bUserUserGroup', {
-      userId,
-      orgCustomerId,
-      userGroupId,
+    return this.occEndpoints.buildUrl('b2bUserUserGroup', {
+      urlParams: {
+        userId,
+        orgCustomerId,
+        userGroupId,
+      },
     });
   }
 
@@ -238,10 +253,9 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     orgCustomerId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(
-      'b2bUserUserGroups',
-      { userId, orgCustomerId },
-      params
-    );
+    return this.occEndpoints.buildUrl('b2bUserUserGroups', {
+      urlParams: { userId, orgCustomerId },
+      queryParams: params,
+    });
   }
 }

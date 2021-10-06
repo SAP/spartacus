@@ -50,21 +50,17 @@
       padding: 2rem;
     }
 
-    @include forVersion(2.1) {
-      .cx-image-container {
-        a {
-          padding: 0;
-          max-width: 65px;
-        }
+    .cx-image-container {
+      a {
+        padding: 0;
+        max-width: 65px;
       }
     }
 
     .cx-compact {
-      @include forVersion(2.1) {
-        .cx-info {
-          @include media-breakpoint-up(md) {
-            padding: 0 25px;
-          }
+      .cx-info {
+        @include media-breakpoint-up(md) {
+          padding: 0 25px;
         }
       }
 

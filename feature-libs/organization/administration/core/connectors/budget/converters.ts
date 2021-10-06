@@ -8,3 +8,7 @@ export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
 export const BUDGETS_NORMALIZER = new InjectionToken<
   Converter<any, EntitiesModel<Budget>>
 >('BudgetsListNormalizer');
+
+export const BUDGET_SERIALIZER = new InjectionToken<Converter<Budget, any>>(
+  'BudgetSerializer'
+);

@@ -7,20 +7,12 @@ import {
   B2BUser,
   EntitiesModel,
   normalizeHttpError,
+  StateUtils,
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  groupBy,
-  map,
-  mergeMap,
-  switchMap,
-} from 'rxjs/operators';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
-import { isValidUser } from '../../utils/check-user';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   OrganizationActions,
@@ -38,11 +30,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
-          const { values, page } = normalizeListPage(
+          const { values, page } = StateUtils.normalizeListPage(
             { values: orgUnit.addresses },
             'id'
           );
@@ -70,7 +61,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector.getList(payload.userId).pipe(
         map(
@@ -96,7 +86,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
         switchMap((data) => [
@@ -118,16 +107,21 @@ export class OrgUnitEffects {
 
   @Effect()
   updateUnit$: Observable<
-    OrgUnitActions.UpdateUnitFail | OrganizationActions.OrganizationClearData
+    | OrgUnitActions.UpdateUnitSuccess
+    | OrgUnitActions.UpdateUnitFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          switchMap(() => [new OrganizationActions.OrganizationClearData()]),
+          switchMap((_data) => [
+            // Workaround for empty response
+            new OrgUnitActions.UpdateUnitSuccess(payload.unit),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
             from([
               new OrgUnitActions.UpdateUnitFail({
@@ -147,7 +141,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_TREE),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getTree(userId).pipe(
         map(
@@ -171,7 +164,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
         map(
@@ -197,9 +189,8 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ orgUnitId, roleId, params }) =>
-      serializeParams([orgUnitId, roleId], params)
+      StateUtils.serializeParams([orgUnitId, roleId], params)
     ),
     mergeMap((group) =>
       group.pipe(
@@ -208,7 +199,10 @@ export class OrgUnitEffects {
             .getUsers(userId, orgUnitId, roleId, params)
             .pipe(
               switchMap((users: EntitiesModel<B2BUser>) => {
-                const { values, page } = normalizeListPage(users, 'customerId');
+                const { values, page } = StateUtils.normalizeListPage(
+                  users,
+                  'customerId'
+                );
                 return [
                   new B2BUserActions.LoadB2BUserSuccess(values),
                   new OrgUnitActions.LoadAssignedUsersSuccess({
@@ -241,7 +235,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_ROLE),
     map((action: OrgUnitActions.AssignRole) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId, roleId }) =>
       this.orgUnitConnector.assignRole(userId, orgCustomerId, roleId).pipe(
         map(
@@ -270,7 +263,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_ROLE),
     map((action: OrgUnitActions.UnassignRole) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId, roleId }) =>
       this.orgUnitConnector.unassignRole(userId, orgCustomerId, roleId).pipe(
         map(
@@ -301,7 +293,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
@@ -335,7 +326,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
@@ -369,13 +359,13 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
         .pipe(
           switchMap((data) => [
             new OrgUnitActions.CreateAddressSuccess(data),
+            new OrgUnitActions.CreateAddressSuccess({ id: null }),
             new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
@@ -399,13 +389,14 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgUnitId, addressId, address }) =>
       this.orgUnitConnector
         .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
-          switchMap((data) => [
-            new OrgUnitActions.UpdateAddressSuccess(data),
+          switchMap(() => [
+            // commented out due to no response from backend on PATCH request
+            // new OrgUnitActions.UpdateAddressSuccess(data),
+            new OrgUnitActions.UpdateAddressSuccess(address),
             new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
@@ -429,7 +420,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
@@ -459,11 +449,10 @@ export class OrgUnitEffects {
   // > = this.actions$.pipe(
   //   ofType(OrgUnitActions.LOAD_ADDRESSES),
   //   map((action: OrgUnitActions.LoadAddresses) => action.payload),
-  //   filter(payload => isValidUser(payload.userId)),
   //   switchMap(({ userId, orgUnitId }) => {
   //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
   //       switchMap((addresses: EntitiesModel<B2BAddress>) => {
-  //         const { values, page } = normalizeListPage(addresses, 'id');
+  //         const { values, page } = StateUtils.normalizeListPage(addresses, 'id');
   //         return [
   //           new OrgUnitActions.LoadAddressSuccess(values),
   //           new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),

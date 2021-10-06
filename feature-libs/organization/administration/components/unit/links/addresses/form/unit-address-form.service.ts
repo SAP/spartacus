@@ -6,19 +6,19 @@ import {
   Region,
   Title,
   UserAddressService,
-  UserService,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
+import { FormService } from '../../../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressFormService extends OrganizationFormService<Address> {
+export class UnitAddressFormService extends FormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
-    protected userService: UserService
+    protected userProfileFacade: UserProfileFacade
   ) {
     super();
   }
@@ -41,8 +41,7 @@ export class UnitAddressFormService extends OrganizationFormService<Address> {
     form.setControl(
       'region',
       new FormGroup({
-        isocode: new FormControl(null),
-        // , Validators.required
+        isocode: new FormControl(null, Validators.required),
       })
     );
     form.setControl('postalCode', new FormControl('', Validators.required));
@@ -62,33 +61,32 @@ export class UnitAddressFormService extends OrganizationFormService<Address> {
   }
 
   getTitles(): Observable<Title[]> {
-    return this.userService.getTitles().pipe(
-      tap((titles) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      })
-    );
+    return this.userProfileFacade.getTitles();
   }
 
   getRegions(): Observable<Region[]> {
+    let selectedCountryCode = this.form.get('country.isocode').value;
+    let newCountryCode: string;
+
     return this.getForm()
       .get('country.isocode')
       .valueChanges.pipe(
         filter((countryIsoCode) => Boolean(countryIsoCode)),
-        switchMap((countryIsoCode) =>
-          this.userAddressService.getRegions(countryIsoCode)
-        ),
-        tap((regions) => {
-          const regionControl = this.form.get('region');
+        switchMap((countryIsoCode) => {
+          newCountryCode = countryIsoCode;
+          return this.userAddressService.getRegions(countryIsoCode);
+        }),
+        tap((regions: Region[]) => {
+          const regionControl = this.form.get('region.isocode');
           if (!regions || regions.length === 0) {
             regionControl.disable();
           } else {
             regionControl.enable();
           }
-          if (regions?.length === 0) {
+          if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
             regionControl.reset();
           }
+          selectedCountryCode = newCountryCode;
         })
       );
   }

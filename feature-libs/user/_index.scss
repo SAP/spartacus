@@ -1,0 +1,45 @@
+@import '~@spartacus/styles/scss/core';
+
+@import './account/styles/index';
+@import './profile/styles/index';
+
+$skipComponentStyles: () !default;
+$selectors: cx-login, cx-login-form, cx-register, cx-reset-password !default;
+
+@each $selector in $selectors {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+.user-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @include media-breakpoint-up(md) {
+    width: 50%;
+    --cx-max-width: 50%;
+  }
+
+  position: relative;
+
+  form {
+    display: contents;
+
+    label {
+      all: unset;
+      flex: 100%;
+      margin-bottom: 0.375rem;
+    }
+  }
+
+  button,
+  a {
+    flex: 0 0 calc(50% - 10px);
+    margin-top: 0.5rem;
+  }
+}

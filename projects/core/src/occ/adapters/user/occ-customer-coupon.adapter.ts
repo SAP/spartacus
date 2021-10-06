@@ -32,7 +32,9 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       return of({});
     }
 
-    const url = this.occEndpoints.getUrl('customerCoupons', { userId });
+    const url = this.occEndpoints.buildUrl('customerCoupons', {
+      urlParams: { userId },
+    });
 
     let params = new HttpParams().set('sort', sort ? sort : 'startDate:asc');
 
@@ -51,9 +53,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   }
 
   turnOffNotification(userId: string, couponCode: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('couponNotification', {
-      userId,
-      couponCode,
+    const url = this.occEndpoints.buildUrl('couponNotification', {
+      urlParams: { userId, couponCode },
     });
     const headers = this.newHttpHeader();
 
@@ -64,9 +65,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable<CustomerCouponNotification> {
-    const url = this.occEndpoints.getUrl('couponNotification', {
-      userId,
-      couponCode,
+    const url = this.occEndpoints.buildUrl('couponNotification', {
+      urlParams: { userId, couponCode },
     });
     const headers = this.newHttpHeader();
 
@@ -77,9 +77,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer> {
-    const url = this.occEndpoints.getUrl('claimCoupon', {
-      userId,
-      couponCode,
+    const url = this.occEndpoints.buildUrl('claimCoupon', {
+      urlParams: { userId, couponCode },
     });
     const headers = this.newHttpHeader();
 

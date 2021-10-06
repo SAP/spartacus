@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { UrlCommand, UrlCommands } from '../url-command';
 
-export const URL_TESTING_WHITELISTED_PARAMS = new InjectionToken<string[]>(
+export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
   'Array of params keys that will be rendered by the mock cxUrl pipe'
 );
 
@@ -29,16 +29,16 @@ export const URL_TESTING_WHITELISTED_PARAMS = new InjectionToken<string[]>(
  * - if an input is an array, the parts of output will be separated with space
  * - if an input is a string, it will be printed as string
  * - if the `params` object has too many properties that pollute the output,
- *    they can be whitelisted by using module's method. For example `UrlTestingModule.whitelistParams(['code', 'name'])`
+ *    they can be allowlisted by using module's method. For example `UrlTestingModule.allowlistParams(['code', 'name'])`
  */
 @Pipe({
   name: 'cxUrl',
 })
 export class MockUrlPipe implements PipeTransform {
   constructor(
-    @Inject(URL_TESTING_WHITELISTED_PARAMS)
+    @Inject(URL_TESTING_ALLOWLISTED_PARAMS)
     @Optional()
-    private readonly whitelistedParams
+    private readonly allowlistedParams
   ) {}
   transform(commands: UrlCommands) {
     if (!Array.isArray(commands)) {
@@ -87,11 +87,11 @@ export class MockUrlPipe implements PipeTransform {
   }
 
   /**
-   * When defined whitelisted keys, don't show any non-whitelisted keys.
+   * When defined allowlisted keys, don't show any non-allowlisted keys.
    * Show only primitive keys.
    */
   private shouldShowParam(key: string, value: any): boolean {
-    if (this.whitelistedParams && !this.whitelistedParams.includes(key)) {
+    if (this.allowlistedParams && !this.allowlistedParams.includes(key)) {
       return false;
     }
 

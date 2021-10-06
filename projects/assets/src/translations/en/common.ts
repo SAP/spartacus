@@ -4,6 +4,7 @@ export const common = {
     delete: 'Delete',
     remove: 'Remove',
     edit: 'Edit',
+    restore: 'Restore',
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',
@@ -12,6 +13,13 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
+    close: 'Close',
+    loading: 'Loading',
+    menu: 'Menu',
+    reset: 'Reset',
+    search: 'Search',
+    add: 'Add',
   },
   pageMetaResolver: {
     category: {
@@ -19,14 +27,14 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
       findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      default_title: 'All products',
     },
     product: {
       description: '{{description}}',
@@ -42,6 +50,16 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
+    ariaLabelInput: 'Search here...',
+    ariaLabelSuggestions: 'typing suggestions',
+    ariaLabelProducts: 'product results',
+    initialDescription:
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    suggestionsResult: '{{ count }} suggestion and ',
+    suggestionsResult_plural: '{{ count }} suggestions and ',
+    productsResult: '{{ count }} product is available.',
+    productsResult_plural: '{{ count }} products are available.',
+    resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
@@ -60,11 +78,15 @@ export const common = {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
-    conflict: 'Already exists',
-    forbidden: 'You are not authorized to perform this action.',
+    badRequestGuestDuplicateEmail:
+      '{{ errorMessage }} email already exist. Please checkout with a different email to register using a guest account.',
+    conflict: 'Already exists.',
+    forbidden:
+      'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
+    sessionExpired: 'Your session has expired. Please login again.',
     unknownError: 'An unknown error occurred',
     unauthorized: {
       common: 'An unknown authorization error occured',
@@ -88,11 +110,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -102,6 +124,8 @@ export const common = {
         lastName: 'Last Name entered is not valid.',
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
+        code: 'Code is not valid.',
+        email: 'Email is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -112,10 +136,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',
@@ -135,11 +155,16 @@ export const common = {
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
-    cxNoSelectedItemToCancel: 'Select at least one item to cancel',
-    cxDateMin: 'Date cannot be before {{min}}',
-    cxDateMax: 'Date cannot be after {{max}}',
+    cxNoSelectedItemToCancel: 'Select at least one item',
     cxNegativeAmount: 'Amount must be equal or greater than zero',
     cxContainsSpecialCharacters: 'Field cannot contain special characters',
+    date: {
+      required: 'This field is required',
+      min: 'Date cannot be before {{min}}',
+      max: 'Date cannot be after {{max}}',
+      pattern: 'Use dateformat yyyy-mm-dd',
+      invalid: 'Use a valid date',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',

@@ -1,0 +1,18 @@
+<input
+  class="form-control"
+  type="date"
+  [formControl]="control"
+  [attr.min]="min"
+  [attr.max]="max"
+  (change)="change()"
+  [placeholder]="placeholder"
+  [pattern]="pattern"
+/>
+<cx-form-errors
+  [control]="control"
+  prefix="formErrors.date"
+  [translationParams]="{
+    max: getDate(max) | cxDate,
+    min: getDate(min) | cxDate
+  }"
+></cx-form-errors>

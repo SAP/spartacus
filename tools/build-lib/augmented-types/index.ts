@@ -3,13 +3,13 @@ import {
   BuilderOutput,
   createBuilder,
 } from '@angular-devkit/architect';
+import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { JsonObject, logging } from '@angular-devkit/core';
-import { NgPackagrBuilderOptions } from '@angular-devkit/build-ng-packagr';
+import { promises as fs } from 'fs';
+import * as globModule from 'glob';
+import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import * as globModule from 'glob';
 import { promisify } from 'util';
 const glob = promisify(globModule);
 
@@ -19,7 +19,7 @@ const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 export default createBuilder(augmentedTypesBuilder);
 
 /**
- * Builder that runs default ng-packagr builder ('@angular-devkit/build-ng-packagr:build')
+ * Builder that runs default ng-packagr builder ('@angular-devkit/build-angular:ng-packagr')
  * and performs additional post step to move augmentable types to root d.ts file.
  *
  * It's a workaround to make TS types augmentable, reference issues:
@@ -52,7 +52,7 @@ async function ngPackagrBuild(
   options: NgPackagrBuilderOptions & JsonObject
 ): Promise<BuilderOutput> {
   const builderRun = await context.scheduleBuilder(
-    '@angular-devkit/build-ng-packagr:build',
+    '@angular-devkit/build-angular:ng-packagr',
     options
   );
   return await builderRun.result;
@@ -98,13 +98,14 @@ async function propagateAugmentableTypes(
       if (!typingsFile) {
         continue;
       }
-      const typingsFilePath = path.join(libPath, typingsFile);
+      const packageJsonDir = path.dirname(packageJsonFile);
+      const typingsFilePath = path.join(packageJsonDir, typingsFile);
       let typingsFileSource = await fs.readFile(typingsFilePath, 'utf8');
 
       // look for export from public api file
       const regex = /export \* from '(.+)\'/;
       const publicApiFile = typingsFileSource.match(regex)![1];
-      const apiFilePath = path.join(libPath, publicApiFile + '.d.ts');
+      const apiFilePath = path.join(packageJsonDir, publicApiFile + '.d.ts');
 
       let publicApiFileSource = await fs.readFile(apiFilePath, 'utf8');
 
@@ -112,7 +113,7 @@ async function propagateAugmentableTypes(
       const augTypesStart = publicApiFileSource.indexOf(DELIMITER_START);
 
       if (augTypesStart === -1) {
-        return;
+        continue;
       }
 
       const augTypesEnd =

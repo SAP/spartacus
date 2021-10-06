@@ -1,2 +1,4 @@
-projects/storefrontapp/src/webApplicationInjector.js
+feature-libs/smartedit/assets/webApplicationInjector.js
+**/schematics/**/*.js
 **/*.md
+**/*.yml

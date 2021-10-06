@@ -1,10 +1,8 @@
-/**
-  * We use the hamburgers from https://github.com/jonsuh/hamburgers
-  * In order to allow for custom hamburgers, we use the `cx-hamburger`
-  * selector. This selector extends the hamburger selectors provided 
-  * by the lib. In order to easily switch the hamburger type, we introduce the 
-  * `$hamburger-type`, that can be set to the types provided by the library. 
-  */
+// We use the hamburgers from https://github.com/jonsuh/hamburgers
+// In order to allow for custom hamburgers, we use the `cx-hamburger`
+// selector. This selector extends the hamburger selectors provided
+// by the lib. In order to easily switch the hamburger type, we introduce the
+// `$hamburger-type`, that can be set to the types provided by the library.
 $cx-hamburger-type: squeeze !default;
 
 $hamburger-types: ($cx-hamburger-type);

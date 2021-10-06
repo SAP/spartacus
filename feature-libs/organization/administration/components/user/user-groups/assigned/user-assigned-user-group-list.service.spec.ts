@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
   UserGroup,
+  UserGroupService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -40,6 +43,13 @@ class MockTableService {
   }
 }
 
+@Injectable()
+class MockUserGroupService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<UserGroup>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
+  }
+}
+
 describe('UserAssignedUserGroupListService', () => {
   let service: UserAssignedUserGroupListService;
 
@@ -51,6 +61,10 @@ describe('UserAssignedUserGroupListService', () => {
         {
           provide: B2BUserService,
           useClass: MockB2BUserService,
+        },
+        {
+          provide: UserGroupService,
+          useClass: MockUserGroupService,
         },
         {
           provide: TableService,

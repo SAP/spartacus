@@ -1,0 +1,107 @@
+%MultiStepCheckoutSummaryPageTemplate {
+  // @extend %pageBody !optional;
+
+  max-width: var(--cx-page-width-max);
+  padding-top: 2rem;
+  padding-inline-end: 1.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.5rem;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+
+  @include media-breakpoint-down(md) {
+    display: inline-block;
+  }
+
+  cx-page-slot {
+    &.TopContent {
+      flex: 0 100%;
+    }
+
+    &.BodyContent {
+      flex: 0 63%;
+    }
+
+    &.SideContent {
+      flex: 0 0 35%;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      cx-checkout-order-summary {
+        flex: unset;
+
+        cx-order-summary {
+          padding-top: 1rem;
+          padding-inline-start: 2.5rem;
+          padding-bottom: 0;
+          padding-inline-end: 0;
+
+          @include media-breakpoint-down(md) {
+            padding: 1rem 0 0 0;
+          }
+        }
+      }
+
+      cx-schedule-replenishment-order {
+        @include media-breakpoint-down(md) {
+          width: 50%;
+        }
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      cx-place-order,
+      cx-schedule-replenishment-order {
+        flex: unset;
+        padding-top: 1rem;
+        padding-inline-start: 2.5rem;
+        padding-bottom: 0;
+        padding-inline-end: 0;
+
+        @include media-breakpoint-down(md) {
+          padding: 1rem 0 0 0;
+        }
+      }
+
+      @include media-breakpoint-down(md) {
+        --cx-flex-basis: 50%;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
+
+        cx-checkout-order-summary {
+          width: 50%;
+          padding-top: 1rem;
+          cx-order-summary {
+            padding: 1rem 2.5rem 0;
+
+            @include media-breakpoint-down(md) {
+              padding: 1rem 0 0 0;
+            }
+          }
+        }
+        cx-place-order {
+          max-width: 50%;
+          padding-bottom: 2rem;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        --cx-flex-basis: 100%;
+        align-items: normal;
+
+        cx-checkout-order-summary {
+          min-width: 100%;
+        }
+        cx-place-order {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}

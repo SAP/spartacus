@@ -1,4 +1,4 @@
-import { B2BUnit, B2BUser } from '@spartacus/core';
+import { B2BUnit, B2BUser, B2BUserRole } from '@spartacus/core';
 import { Permission } from './permission.model';
 
 export interface UserGroup {
@@ -7,8 +7,8 @@ export interface UserGroup {
   name?: string;
   orgUnit?: B2BUnit;
   permissions?: Permission[];
-  roles?: any;
+  roles?: B2BUserRole[];
   selected?: boolean;
-  subGroups?: any;
+  subGroups?: UserGroup[];
   uid?: string;
 }
