@@ -1,10 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  RestoreSavedCartSuccessEvent,
-  SaveCartSuccessEvent,
-} from '@spartacus/cart/saved-cart/root';
-import { ClearCheckoutFacade } from '@spartacus/checkout/root';
-import {
   CxEvent,
   DeleteUserAddressEvent,
   EventService,
@@ -26,12 +21,8 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-class MockClearCheckoutFacade implements Partial<ClearCheckoutFacade> {
-  resetCheckoutProcesses(): void {}
-}
 describe('CheckoutEventListener', () => {
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
-  let clearCheckoutFacade: ClearCheckoutFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,16 +36,11 @@ describe('CheckoutEventListener', () => {
           provide: CheckoutDeliveryFacade,
           useClass: MockCheckoutDeliveryFacade,
         },
-        {
-          provide: ClearCheckoutFacade,
-          useClass: MockClearCheckoutFacade,
-        },
       ],
     });
 
     TestBed.inject(CheckoutEventListener);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-    clearCheckoutFacade = TestBed.inject(ClearCheckoutFacade);
   });
 
   it('Should UpdateUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {
@@ -71,17 +57,5 @@ describe('CheckoutEventListener', () => {
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
-  });
-
-  it('Should SaveCartSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(clearCheckoutFacade, 'resetCheckoutProcesses').and.stub();
-    mockEventStream$.next(new SaveCartSuccessEvent());
-    expect(clearCheckoutFacade.resetCheckoutProcesses).toHaveBeenCalled();
-  });
-
-  it('Should RestoreSavedCartSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(clearCheckoutFacade, 'resetCheckoutProcesses').and.stub();
-    mockEventStream$.next(new RestoreSavedCartSuccessEvent());
-    expect(clearCheckoutFacade.resetCheckoutProcesses).toHaveBeenCalled();
   });
 });

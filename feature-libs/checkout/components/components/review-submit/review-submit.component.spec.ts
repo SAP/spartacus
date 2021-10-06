@@ -194,7 +194,6 @@ class MockUrlPipe implements PipeTransform {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutDeliveryService: CheckoutDeliveryFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -246,8 +245,6 @@ describe('ReviewSubmitComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
-
-    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryFacade);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -318,14 +315,6 @@ describe('ReviewSubmitComponent', () => {
     });
 
     expect(deliveryMode).toEqual(mockDeliveryMode);
-  });
-
-  it('should be able to load deliveryModes if no modes selected', () => {
-    deliveryModeBS.next(null);
-    component.deliveryMode$.subscribe();
-    expect(
-      mockCheckoutDeliveryService.loadSupportedDeliveryModes
-    ).toHaveBeenCalled();
   });
 
   it('should be able to get country', () => {

@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
-import { Address, Order, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
 
@@ -79,18 +80,6 @@ class MockCheckoutCostCenterService {
   }
 }
 
-class MockCheckoutDetailsService {
-  getDeliveryAddress(): Observable<Address> {
-    return of(null);
-  }
-  getSelectedDeliveryModeCode(): Observable<string> {
-    return of(null);
-  }
-  getPaymentDetails(): Observable<Order> {
-    return of(null);
-  }
-}
-
 // initial it as ACCOUNT payment
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 class MockPaymentTypeService {
@@ -102,20 +91,29 @@ class MockPaymentTypeService {
   }
 }
 
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+  getSelectedDeliveryMode(): Observable<any> {
+    return of(undefined);
+  }
+}
+
+class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
+  getPaymentDetails(): Observable<any> {
+    return of(null);
+  }
+}
+
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
   let paymentTypeService: PaymentTypeFacade;
-  let checkoutDetailsService: CheckoutDetailsService;
+  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutPaymentFacade: CheckoutPaymentFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
         CheckoutStepsSetGuard,
-        {
-          provide: CheckoutDetailsService,
-          useClass: MockCheckoutDetailsService,
-        },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
           provide: PaymentTypeFacade,
@@ -125,13 +123,22 @@ describe(`CheckoutStepsSetGuard`, () => {
           provide: CheckoutCostCenterFacade,
           useClass: MockCheckoutCostCenterService,
         },
+        {
+          provide: CheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryFacade,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentFacade,
+        },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
     paymentTypeService = TestBed.inject(PaymentTypeFacade);
-    checkoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
   });
 
   describe('When CARD payment', () => {
@@ -179,7 +186,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     describe('step1 (shipping address) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutDetailsService, 'getDeliveryAddress').and.returnValue(
+        spyOn(checkoutDeliveryFacade, 'getDeliveryAddress').and.returnValue(
           of({ id: 'test-address' })
         );
       });
@@ -215,9 +222,9 @@ describe(`CheckoutStepsSetGuard`, () => {
     describe('step2 (delivery mode) data set', () => {
       beforeEach(() => {
         spyOn(
-          checkoutDetailsService,
-          'getSelectedDeliveryModeCode'
-        ).and.returnValue(of('test-delivery-mode'));
+          checkoutDeliveryFacade,
+          'getSelectedDeliveryMode'
+        ).and.returnValue(of({ code: 'test-delivery-mode' }));
       });
 
       it('go to step3 (payment details), should return true', (done) => {
@@ -241,7 +248,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     describe('step3 (payment details) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutDetailsService, 'getPaymentDetails').and.returnValue(
+        spyOn(checkoutPaymentFacade, 'getPaymentDetails').and.returnValue(
           of({ id: 'test-details' })
         );
       });
@@ -343,7 +350,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     describe('step1 (shipping address) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutDetailsService, 'getDeliveryAddress').and.returnValue(
+        spyOn(checkoutDeliveryFacade, 'getDeliveryAddress').and.returnValue(
           of({ id: 'test-address' })
         );
       });
@@ -370,9 +377,9 @@ describe(`CheckoutStepsSetGuard`, () => {
     describe('step2 (delivery mode) data set', () => {
       beforeEach(() => {
         spyOn(
-          checkoutDetailsService,
-          'getSelectedDeliveryModeCode'
-        ).and.returnValue(of('test-delivery-mode'));
+          checkoutDeliveryFacade,
+          'getSelectedDeliveryMode'
+        ).and.returnValue(of({ code: 'test-delivery-mode' }));
       });
 
       it('go to step4 (review details), should return true', (done) => {

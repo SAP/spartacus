@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import {
-  Address,
-  Order,
-  PaymentDetails,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
@@ -24,83 +19,6 @@ describe('Checkout Selectors', () => {
 
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-  });
-
-  describe('getDeliveryAddress', () => {
-    it('should return the cart delivery address', () => {
-      const address: Address = {
-        id: 'testAddressId',
-        firstName: 'John',
-        lastName: 'Doe',
-        titleCode: 'mr',
-        line1: 'Toyosaki 2 create on cart',
-        town: 'Montreal',
-        postalCode: 'L6M1P9',
-        country: { isocode: 'CA' },
-      };
-
-      let result: Address;
-      store
-        .pipe(select(CheckoutSelectors.getDeliveryAddress))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(new CheckoutActions.SetDeliveryAddressSuccess(address));
-
-      expect(result).toEqual(address);
-    });
-  });
-
-  describe('getDeliveryMode', () => {
-    it('should return the cart delivery mode', () => {
-      const emptyEntities = {
-        selected: '',
-      };
-
-      let result;
-      store
-        .pipe(select(CheckoutSelectors.getDeliveryMode))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual(emptyEntities);
-    });
-  });
-
-  describe('getSelectedDeliveryModeCode', () => {
-    it('should return selected delivery mode code', () => {
-      let result: string;
-      store
-        .pipe(select(CheckoutSelectors.getSelectedDeliveryModeCode))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual('');
-
-      store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
-
-      expect(result).toEqual('code1');
-    });
-  });
-
-  describe('getPaymentDetails', () => {
-    it('should return payment details', () => {
-      let result: PaymentDetails;
-      const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails',
-      };
-
-      store
-        .pipe(select(CheckoutSelectors.getPaymentDetails))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(
-        new CheckoutActions.CreatePaymentDetailsSuccess(paymentDetails)
-      );
-
-      expect(result).toEqual(paymentDetails);
-    });
   });
 
   describe('getOrderDetails', () => {

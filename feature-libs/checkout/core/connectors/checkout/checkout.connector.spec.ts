@@ -6,7 +6,7 @@ import { CheckoutConnector } from './checkout.connector';
 
 import createSpy = jasmine.createSpy;
 
-class MockOrderAdapter implements CheckoutAdapter {
+class MockOrderAdapter implements Partial<CheckoutAdapter> {
   placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(
     (userId, cartId, termsChecked) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)

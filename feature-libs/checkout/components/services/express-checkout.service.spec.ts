@@ -3,7 +3,6 @@ import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
-  ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
   Address,
@@ -22,7 +21,6 @@ import {
   throwError,
 } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
-import { CheckoutDetailsService } from './checkout-details.service';
 import { ExpressCheckoutService } from './express-checkout.service';
 
 const mockDetails: CheckoutDetails = {
@@ -65,18 +63,6 @@ const mockSelectedDeliveryModeCode = new BehaviorSubject(
 );
 const mockPaymentDetails = new BehaviorSubject(mockDetails.paymentInfo);
 
-class MockCheckoutDetailsService implements Partial<CheckoutDetailsService> {
-  getDeliveryAddress(): Observable<Address> {
-    return mockDeliveryAddress.asObservable();
-  }
-  getSelectedDeliveryModeCode(): Observable<string> {
-    return mockSelectedDeliveryModeCode.asObservable();
-  }
-  getPaymentDetails(): Observable<PaymentDetails> {
-    return mockPaymentDetails.asObservable();
-  }
-}
-
 const mockSupportedDeliveryModes = new BehaviorSubject([
   mockDetails.deliveryMode,
 ]);
@@ -100,7 +86,9 @@ class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
   setDeliveryAddress() {
     return of(undefined);
   }
-  setDeliveryMode() {}
+  setDeliveryMode() {
+    return of();
+  }
   resetSetDeliveryAddressProcess() {}
   resetSetDeliveryModeProcess() {}
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
@@ -133,16 +121,15 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   > {
     return mockSetPaymentDetailsResult.asObservable();
   }
-  setPaymentDetails() {}
+  setPaymentDetails() {
+    return of();
+  }
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   getPreferredDeliveryMode(): string {
     return mockDetails.deliveryMode.code;
   }
-}
-class MockClearCheckoutFacade implements Partial<ClearCheckoutFacade> {
-  resetCheckoutProcesses(): void {}
 }
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
@@ -181,16 +168,8 @@ describe('ExpressCheckoutService', () => {
             useClass: MockCheckoutPaymentService,
           },
           {
-            provide: CheckoutDetailsService,
-            useClass: MockCheckoutDetailsService,
-          },
-          {
             provide: CheckoutConfigService,
             useClass: MockCheckoutConfigService,
-          },
-          {
-            provide: ClearCheckoutFacade,
-            useClass: MockClearCheckoutFacade,
           },
         ],
       });
@@ -346,12 +325,15 @@ describe('ExpressCheckoutService', () => {
             error: false,
             loading: false,
           });
-          spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
-            mockSetPaymentDetailsResult.next({
-              success: true,
-              error: false,
-              loading: false,
-            })
+          spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(
+            () => {
+              mockSetPaymentDetailsResult.next({
+                success: true,
+                error: false,
+                loading: false,
+              });
+              return of();
+            }
           );
           subscription = service
             .trySetDefaultCheckoutDetails()
@@ -370,12 +352,15 @@ describe('ExpressCheckoutService', () => {
             error: false,
             loading: false,
           });
-          spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
-            mockSetPaymentDetailsResult.next({
-              success: false,
-              error: true,
-              loading: false,
-            })
+          spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(
+            () => {
+              mockSetPaymentDetailsResult.next({
+                success: false,
+                error: true,
+                loading: false,
+              });
+              return of();
+            }
           );
           subscription = service
             .trySetDefaultCheckoutDetails()
@@ -403,13 +388,14 @@ describe('ExpressCheckoutService', () => {
             error: false,
             loading: false,
           });
-          spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() =>
+          spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() => {
             mockSetDeliveryModeResult.next({
               success: true,
               error: false,
               loading: false,
-            })
-          );
+            });
+            return of();
+          });
           subscription = service
             .trySetDefaultCheckoutDetails()
             .subscribe((data) => {
@@ -427,13 +413,14 @@ describe('ExpressCheckoutService', () => {
             error: false,
             loading: false,
           });
-          spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() =>
+          spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() => {
             mockSetDeliveryModeResult.next({
               success: false,
               error: true,
               loading: false,
-            })
-          );
+            });
+            return of();
+          });
           subscription = service
             .trySetDefaultCheckoutDetails()
             .subscribe((data) => {
@@ -477,16 +464,8 @@ describe('ExpressCheckoutService', () => {
             useClass: MockCheckoutPaymentService,
           },
           {
-            provide: CheckoutDetailsService,
-            useClass: MockCheckoutDetailsService,
-          },
-          {
             provide: CheckoutConfigService,
             useClass: MockCheckoutConfigService,
-          },
-          {
-            provide: ClearCheckoutFacade,
-            useClass: MockClearCheckoutFacade,
           },
           {
             provide: FeatureConfigService,

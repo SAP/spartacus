@@ -4,13 +4,11 @@ import {
   ActiveCartService,
   CardType,
   Cart,
-  PaymentDetails,
   QueryService,
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
-import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -22,10 +20,6 @@ describe('CheckoutPaymentService', () => {
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
-
-  const paymentDetails: PaymentDetails = {
-    id: 'mockPaymentDetails',
-  };
 
   class ActiveCartServiceStub {
     cart;
@@ -97,7 +91,7 @@ describe('CheckoutPaymentService', () => {
   ));
 
   it('should be able to get the card types', () => {
-    let cardTypes: CardType[];
+    let cardTypes: CardType[] | undefined;
     service.getCardTypes().subscribe((data) => {
       cardTypes = data;
     });
@@ -105,49 +99,5 @@ describe('CheckoutPaymentService', () => {
       { code: 'visa', name: 'visa' },
       { code: 'masterCard', name: 'masterCard' },
     ]);
-  });
-
-  it('should be able to get the payment details', () => {
-    store.dispatch(
-      new CheckoutActions.SetPaymentDetailsSuccess(paymentDetails)
-    );
-
-    let tempPaymentDetails: PaymentDetails;
-    service
-      .getPaymentDetails()
-      .subscribe((data) => {
-        tempPaymentDetails = data;
-      })
-      .unsubscribe();
-    expect(tempPaymentDetails).toEqual(paymentDetails);
-  });
-
-  it('should be able to create payment details', () => {
-    service.createPaymentDetails(paymentDetails);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.CreatePaymentDetails({
-        userId: userId,
-        cartId: cart.code,
-        paymentDetails,
-      })
-    );
-  });
-
-  it('should set payment details', () => {
-    service.setPaymentDetails(paymentDetails);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentDetails({
-        userId: userId,
-        cartId: cart.code,
-        paymentDetails,
-      })
-    );
-  });
-
-  it('should allow actions for login user or guest user', () => {
-    userIdService['userId'] = 'anonymous';
-    expect(service['actionAllowed']()).toBeTruthy();
   });
 });

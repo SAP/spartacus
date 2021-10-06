@@ -10,7 +10,6 @@ import {
   Order,
   PaymentDetails,
   SiteContextActions,
-  UserActions,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -162,81 +161,6 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('createPaymentDetails$', () => {
-    const mockPaymentDetails: PaymentDetails = {
-      accountHolderName: 'test test',
-      cardNumber: '4111111111111111',
-      cardType: {
-        code: 'visa',
-      },
-      defaultPayment: false,
-      expiryMonth: '01',
-      expiryYear: '2019',
-      cvn: '123',
-      billingAddress: {
-        firstName: 'test',
-        lastName: 'test',
-        line1: 'line1',
-        line2: 'line2',
-        postalCode: '12345',
-        town: 'MainCity',
-        country: {
-          isocode: 'US',
-        },
-      },
-    };
-    it('should create payment details for cart', () => {
-      const action = new CheckoutActions.CreatePaymentDetails({
-        userId: userId,
-        cartId: cartId,
-        paymentDetails: mockPaymentDetails,
-      });
-      const completion1 = new UserActions.LoadUserPaymentMethods(userId);
-      const completion2 = new CheckoutActions.CreatePaymentDetailsSuccess(
-        paymentDetails
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
-
-      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
-    });
-
-    it('should create payment details for guest user', () => {
-      const action = new CheckoutActions.CreatePaymentDetails({
-        userId: 'anonymous',
-        cartId: cartId,
-        paymentDetails: mockPaymentDetails,
-      });
-      const completion = new CheckoutActions.CreatePaymentDetailsSuccess(
-        paymentDetails
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
-    });
-  });
-
-  describe('setPaymentDetails$', () => {
-    it('should set payment details', () => {
-      const action = new CheckoutActions.SetPaymentDetails({
-        userId: userId,
-        cartId: cartId,
-        paymentDetails,
-      });
-      const completion = new CheckoutActions.SetPaymentDetailsSuccess(
-        paymentDetails
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
-    });
-  });
-
   describe('placeOrder$', () => {
     it('should place order', () => {
       const action = new CheckoutActions.PlaceOrder({
@@ -259,63 +183,6 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('loadCheckoutDetails$', () => {
-    it('should load checkout details from cart', () => {
-      const action = new CheckoutActions.LoadCheckoutDetails({
-        userId: userId,
-        cartId: cartId,
-      });
-      const completion = new CheckoutActions.LoadCheckoutDetailsSuccess(
-        details
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
-    });
-  });
-
-  describe('clearCheckoutDeliveryAddress$', () => {
-    it('should clear checkout delivery address', () => {
-      const action = new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId: userId,
-        cartId: cartId,
-      });
-      const completion =
-        new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.clearCheckoutDeliveryAddress$).toBeObservable(
-        expected
-      );
-    });
-  });
-
-  describe('clearCheckoutDeliveryMode$', () => {
-    it('should clear checkout delivery modes', () => {
-      const action = new CheckoutActions.ClearCheckoutDeliveryMode({
-        userId: userId,
-        cartId: cartId,
-      });
-      const completion1 = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
-        userId: userId,
-        cartId: cartId,
-      });
-      const completion2 = new CartActions.LoadCart({
-        userId: userId,
-        cartId: cartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
-
-      expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
-    });
-  });
-
   describe('setCostCenter$', () => {
     it('should set cost center to cart', () => {
       const action = new CheckoutActions.SetCostCenter({
@@ -328,16 +195,11 @@ describe('Checkout effect', () => {
         cartId,
       });
       const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId,
-        cartId,
-      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: completion1,
         c: completion2,
-        d: completion3,
       });
 
       expect(entryEffects.setCostCenter$).toBeObservable(expected);

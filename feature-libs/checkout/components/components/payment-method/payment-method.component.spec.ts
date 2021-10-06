@@ -132,7 +132,6 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
-  let mockCheckoutService: CheckoutFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -171,7 +170,6 @@ describe('PaymentMethodComponent', () => {
       mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
       mockActiveCartService = TestBed.inject(ActiveCartService);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
-      mockCheckoutService = TestBed.inject(CheckoutFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -529,7 +527,6 @@ describe('PaymentMethodComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      expect(mockCheckoutService.clearCheckoutStep).toHaveBeenCalledWith(3);
     });
   });
 });

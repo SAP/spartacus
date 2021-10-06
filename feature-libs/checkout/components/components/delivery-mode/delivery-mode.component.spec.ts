@@ -186,19 +186,6 @@ describe('DeliveryModeComponent', () => {
     expect(invalid).toBe(true);
   });
 
-  it('should reload delivery modes on error', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getLoadSupportedDeliveryModeProcess'
-    ).and.returnValue(of({ loading: false, success: false, error: true }));
-
-    component.ngOnInit();
-
-    expect(
-      mockCheckoutDeliveryService.loadSupportedDeliveryModes
-    ).toHaveBeenCalledTimes(1);
-  });
-
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));

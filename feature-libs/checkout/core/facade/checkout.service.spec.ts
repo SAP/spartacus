@@ -101,87 +101,6 @@ describe('CheckoutService', () => {
     }
   ));
 
-  describe('Load checkout details for extensible checkout', () => {
-    it('should be able to load checkout details', () => {
-      service.loadCheckoutDetails(mockCartId);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CheckoutActions.LoadCheckoutDetails({
-          userId: userId,
-          cartId: mockCartId,
-        })
-      );
-    });
-
-    describe('get checkout details success', () => {
-      it('should return true for success', () => {
-        store.dispatch(
-          new CheckoutActions.LoadCheckoutDetailsSuccess({
-            deliveryAddress: {},
-            deliveryMode: {},
-            paymentInfo: {},
-          })
-        );
-
-        let loaded: boolean;
-        service
-          .getCheckoutDetailsLoaded()
-          .subscribe((data) => {
-            loaded = data;
-          })
-          .unsubscribe();
-        expect(loaded).toBeTruthy();
-      });
-
-      it('should return false for fail', () => {
-        store.dispatch(
-          new CheckoutActions.LoadCheckoutDetailsFail(new Error())
-        );
-
-        let loaded: boolean;
-        service
-          .getCheckoutDetailsLoaded()
-          .subscribe((data) => {
-            loaded = data;
-          })
-          .unsubscribe();
-        expect(loaded).toBeFalsy();
-      });
-    });
-
-    describe('is loading', () => {
-      it('should return true in case loading was triggered', () => {
-        store.dispatch(
-          new CheckoutActions.LoadCheckoutDetails({
-            userId: userId,
-            cartId: cart.code,
-          })
-        );
-
-        let loaded: boolean;
-        service
-          .isLoading()
-          .subscribe((data) => {
-            loaded = data;
-          })
-          .unsubscribe();
-        expect(loaded).toBeTruthy();
-      });
-    });
-
-    it('should return false in case checkout load failed', () => {
-      store.dispatch(new CheckoutActions.LoadCheckoutDetailsFail(new Error()));
-
-      let loaded: boolean;
-      service
-        .isLoading()
-        .subscribe((data) => {
-          loaded = data;
-        })
-        .unsubscribe();
-      expect(loaded).toBeFalsy();
-    });
-  });
-
   describe('Type of order', () => {
     it('should set checkout order type', () => {
       service.setOrderType(ORDER_TYPE.PLACE_ORDER);
@@ -377,13 +296,6 @@ describe('CheckoutService', () => {
       service.clearCheckoutData();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.ClearCheckoutData()
-      );
-    });
-
-    it('should be able to clear checkout step', () => {
-      service.clearCheckoutStep(2);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CheckoutActions.ClearCheckoutStep(2)
       );
     });
   });
