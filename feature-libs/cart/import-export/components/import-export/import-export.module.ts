@@ -7,7 +7,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
-import { CartTypes } from '@spartacus/cart/import-export/core';
 import { ExportEntriesModule } from '../export-entries';
 import { ImportToCartModule } from '../import-to-cart';
 import { ImportExportComponent } from './import-export.component';
@@ -31,12 +30,6 @@ import { ImportExportComponent } from './import-export.component';
               'cart',
               'quickOrder',
             ],
-            routesCartMapping: {
-              savedCarts: CartTypes.NEW_SAVED_CART,
-              savedCartsDetails: CartTypes.SAVED_CART,
-              cart: CartTypes.ACTIVE_CART,
-              quickOrder: CartTypes.QUICK_ORDER,
-            },
           },
         },
       },

@@ -19,7 +19,7 @@ import {
   ImportCsvFileService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ImportToCartService } from '../../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form.component';
 
 const mockLoadFileData: string[][] = [
@@ -48,7 +48,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockImportToCartService implements Partial<ImportToCartService> {
+class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
   loadProductsToCart = () => of(mockLoadProduct);
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
@@ -68,7 +68,7 @@ class MockLanguageService {
 describe('ImportToNewSavedCartFormComponent', () => {
   let component: ImportToNewSavedCartFormComponent;
   let fixture: ComponentFixture<ImportToNewSavedCartFormComponent>;
-  let importToCartService: ImportToCartService;
+  let importToCartService: ImportProductsFromCsvService;
   let filesFormValidators: FilesFormValidators;
   let importCsvService: ImportCsvFileService;
   let el: DebugElement;
@@ -85,7 +85,10 @@ describe('ImportToNewSavedCartFormComponent', () => {
       declarations: [ImportToNewSavedCartFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: ImportToCartService, useClass: MockImportToCartService },
+        {
+          provide: ImportProductsFromCsvService,
+          useClass: MockImportToCartService,
+        },
         { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
@@ -97,7 +100,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
     el = fixture.debugElement;
 
     importCsvService = TestBed.inject(ImportCsvFileService);
-    importToCartService = TestBed.inject(ImportToCartService);
+    importToCartService = TestBed.inject(ImportProductsFromCsvService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
 
     spyOn(importToCartService, 'loadProductsToCart').and.callThrough();

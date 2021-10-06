@@ -26,17 +26,17 @@
     </div>
 
     <!-- Modal Body -->
-    <ng-container *ngIf="cartType$ | async as cartType">
-      <ng-container *ngIf="formState; else importSummary" [ngSwitch]="cartType">
+    <ng-container *ngIf="context$ | async as context">
+      <ng-container *ngIf="formState; else importSummary">
         <cx-import-to-new-saved-cart-form
-          *ngSwitchCase="CartTypes.NEW_SAVED_CART"
-          (submitEvent)="importProducts(cartType, $event)"
+          *ngIf="isNewCartForm(context); else reducedForm"
+          (submitEvent)="importProducts(context, $event)"
         ></cx-import-to-new-saved-cart-form>
-
-        <cx-import-entries-form
-          (submitEvent)="importProducts(cartType, $event)"
-          *ngSwitchDefault
-        ></cx-import-entries-form>
+        <ng-template #reducedForm>
+          <cx-import-entries-form
+            (submitEvent)="importProducts(context, $event)"
+          ></cx-import-entries-form>
+        </ng-template>
       </ng-container>
     </ng-container>
 

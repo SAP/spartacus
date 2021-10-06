@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { ProductImportStatus, ProductsData } from '../../core/model';
-import { ImportToCartService } from './import-to-cart.service';
+import { ImportProductsFromCsvService } from './import-products-from-csv.service';
 
 import createSpy = jasmine.createSpy;
 
@@ -70,8 +70,8 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 
 const mockActionsSubject = new Subject<Action>();
 
-describe('ImportToCartService', () => {
-  let service: ImportToCartService;
+describe('ImportProductsFromCsvService', () => {
+  let service: ImportProductsFromCsvService;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
@@ -81,7 +81,7 @@ describe('ImportToCartService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ImportToCartService,
+        ImportProductsFromCsvService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartService, useClass: MockMultiCartService },
         { provide: SavedCartFacade, useClass: MockSavedCartService },
@@ -90,7 +90,7 @@ describe('ImportToCartService', () => {
         { provide: ActionsSubject, useValue: mockActionsSubject },
       ],
     });
-    service = TestBed.inject(ImportToCartService);
+    service = TestBed.inject(ImportProductsFromCsvService);
     multiCartService = TestBed.inject(MultiCartService);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);

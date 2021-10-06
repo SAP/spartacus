@@ -1,36 +1,28 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
-  ActiveCartService,
-  Cart,
   OrderEntry,
   TranslationService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
 import { ExportCsvFileService } from '@spartacus/storefront';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   ImportExportConfig,
   ExportColumn,
   ExportConfig,
-  CartTypes,
 } from '@spartacus/cart/import-export/core';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExportEntriesService {
+export class ExportProductsToCsvService {
   constructor(
-    protected activeCartService: ActiveCartService,
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected importExportConfig: ImportExportConfig,
-    protected translationService: TranslationService,
-    protected globalMessageService: GlobalMessageService,
     protected exportCsvFileService: ExportCsvFileService,
-    protected quickOrderFacade: QuickOrderFacade
+    protected importExportConfig: ImportExportConfig,
+    protected globalMessageService: GlobalMessageService,
+    protected translationService: TranslationService
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
@@ -67,45 +59,9 @@ export class ExportEntriesService {
       : values?.toString() ?? '';
   }
 
-  protected getEntries(cartType: CartTypes): Observable<OrderEntry[]> {
-    switch (cartType) {
-      case CartTypes.QUICK_ORDER: {
-        return this.getQuickOrderEntries();
-      }
-      case CartTypes.SAVED_CART: {
-        return this.getSavedCartEntries();
-      }
-      case CartTypes.ACTIVE_CART:
-      default: {
-        return this.getActiveCartEntries();
-      }
-    }
-  }
-
-  protected getQuickOrderEntries(): Observable<OrderEntry[]> {
-    return this.quickOrderFacade.getEntries();
-  }
-
-  protected getSavedCartEntries(): Observable<OrderEntry[]> {
-    return this.savedCartDetailsService
-      .getCartDetails()
-      .pipe(
-        map((cart: Cart | undefined) => cart?.entries ?? ([] as OrderEntry[]))
-      );
-  }
-
-  protected getActiveCartEntries(): Observable<OrderEntry[]> {
-    return this.activeCartService.getEntries();
-  }
-
-  protected getResolvedValues(cartType: CartTypes): Observable<string[][]> {
-    return this.getEntries(cartType).pipe(
-      filter((entries) => entries?.length > 0),
-      map((entries) =>
-        entries?.map((entry) =>
-          this.columns.map((column) => this.resolveValue(column.value, entry))
-        )
-      )
+  protected resolveValues(entries: OrderEntry[]): string[][] {
+    return entries.map((entry) =>
+      this.columns.map((column) => this.resolveValue(column.value, entry))
     );
   }
 
@@ -132,11 +88,10 @@ export class ExportEntriesService {
       : data;
   }
 
-  getResolvedEntries(cartType: CartTypes): Observable<string[][]> {
-    return this.getResolvedValues(cartType).pipe(
-      map((values) => this.limitValues(values)),
-      withLatestFrom(this.getTranslatedColumnHeaders()),
-      map(([values, headers]) => {
+  getResolvedEntries(entries: OrderEntry[]): Observable<string[][]> {
+    const values = this.limitValues(this.resolveValues(entries));
+    return this.getTranslatedColumnHeaders().pipe(
+      map((headers) => {
         return [headers, ...values];
       })
     );

@@ -4,9 +4,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CartTypes } from '@spartacus/cart/import-export/core';
+import { OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ExportEntriesService } from './export-entries.service';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
   selector: 'cx-export-entries',
@@ -14,18 +14,18 @@ import { ExportEntriesService } from './export-entries.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportEntriesComponent implements OnInit {
-  entries$: Observable<string[][]>;
+  csv$: Observable<string[][]>;
 
   @Input()
-  cartType: CartTypes;
+  entries: OrderEntry[];
 
-  constructor(protected exportEntriesService: ExportEntriesService) {}
+  constructor(protected exportEntriesService: ExportProductsToCsvService) {}
 
   ngOnInit() {
-    this.entries$ = this.exportEntriesService.getResolvedEntries(this.cartType);
+    this.csv$ = this.exportEntriesService.getResolvedEntries(this.entries);
   }
 
-  exportToCsv(entries: string[][]): void {
-    this.exportEntriesService.downloadCsv(entries);
+  downloadCsv(csvData: string[][]): void {
+    this.exportEntriesService.downloadCsv(csvData);
   }
 }

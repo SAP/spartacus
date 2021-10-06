@@ -20,7 +20,7 @@ import {
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { ProductsData, NameSource } from '@spartacus/cart/import-export/core';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
-import { ImportToCartService } from '../../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-to-new-saved-cart-form',
@@ -50,7 +50,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService,
+    protected importToCartService: ImportProductsFromCsvService,
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,

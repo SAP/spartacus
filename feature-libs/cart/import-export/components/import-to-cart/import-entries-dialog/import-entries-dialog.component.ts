@@ -1,19 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, pluck } from 'rxjs/operators';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import {
-  ProductImportSummary,
-  ProductImportStatus,
+  ImportExportContext,
   ProductImportInfo,
+  ProductImportStatus,
+  ProductImportSummary,
   ProductsData,
   CartTypes,
 } from '@spartacus/cart/import-export/core';
-import { ImportToCartService } from '../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -40,20 +41,24 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  cartType$ = this.launchDialogService.data$;
-  CartTypes = CartTypes;
+  context$: Observable<ImportExportContext> =
+    this.launchDialogService.data$.pipe(pluck('context'));
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService
+    protected importToCartService: ImportProductsFromCsvService
   ) {}
+
+  isNewCartForm(context: ImportExportContext) {
+    return context.type === CartTypes.NEW_SAVED_CART;
+  }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
   importProducts(
-    cartType: CartTypes,
+    context: ImportExportContext,
     {
       products,
       savedCartInfo,
@@ -72,8 +77,8 @@ export class ImportEntriesDialogComponent {
       total: products.length,
       cartName: savedCartInfo?.name,
     });
-    this.importToCartService
-      .loadProductsToCart(cartType, products, savedCartInfo)
+    context
+      .addEntries(products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({

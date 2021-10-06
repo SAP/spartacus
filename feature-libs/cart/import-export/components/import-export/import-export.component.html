@@ -1,8 +1,8 @@
 <cx-import-entries
   *ngIf="shouldDisplayImport$ | async"
-  [cartType]="cartType$ | async"
+  [context]="context$ | async"
 ></cx-import-entries>
 <cx-export-entries
   *ngIf="shouldDisplayExport$ | async"
-  [cartType]="cartType$ | async"
+  [entries]="entries$ | async"
 ></cx-export-entries>
