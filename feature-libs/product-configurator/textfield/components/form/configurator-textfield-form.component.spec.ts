@@ -25,6 +25,7 @@ const CART_ENTRY_KEY = '3';
 const ORDER_ENTRY_KEY = '00100/3';
 const ATTRIBUTE_NAME = 'AttributeName';
 const ROUTE_CONFIGURATION = 'configureTEXTFIELD';
+const ROUTE_CONFIGURATION_OVERVIEW = 'configureOverviewTEXTFIELD';
 const mockRouterState: any = {
   state: {
     params: {
@@ -159,5 +160,35 @@ describe('TextfieldFormComponent', () => {
     spyOn(textfieldService, 'updateConfiguration').and.callThrough();
     component.updateConfiguration(productConfig.configurationInfos[0]);
     expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
+  });
+
+  it('should detect that content is editable in case route refers to configuration', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: PRODUCT_CODE,
+      },
+      semanticRoute: ROUTE_CONFIGURATION,
+    };
+    expect(component.isEditable$).toBeObservable(
+      cold('-b', {
+        b: true,
+      })
+    );
+  });
+
+  it('should detect that content is read-only in case route refers to configuration overview', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: PRODUCT_CODE,
+      },
+      semanticRoute: ROUTE_CONFIGURATION_OVERVIEW,
+    };
+    expect(component.isEditable$).toBeObservable(
+      cold('-b', {
+        b: false,
+      })
+    );
   });
 });

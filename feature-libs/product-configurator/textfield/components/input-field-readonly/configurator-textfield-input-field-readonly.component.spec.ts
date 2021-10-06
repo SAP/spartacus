@@ -1,18 +1,17 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './configurator-textfield-input-field-readonly.component';
 
-describe('TextfieldInputFieldComponent', () => {
+describe('TextfieldInputFieldReadonlyComponent', () => {
   let component: ConfiguratorTextfieldInputFieldReadonlyComponent;
-
+  let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldReadonlyComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
-        imports: [ReactiveFormsModule],
       })
         .overrideComponent(ConfiguratorTextfieldInputFieldReadonlyComponent, {
           set: {
@@ -33,27 +32,27 @@ describe('TextfieldInputFieldComponent', () => {
       configurationValue: 'input123',
     };
     fixture.detectChanges();
+    htmlElem = fixture.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set value on init', () => {
-    expect(component.attributeInputForm.value).toEqual('input123');
+  it('should render label', () => {
+    const idLabel = component.getIdLabel(component.attribute);
+    const elementsLabel = htmlElem.querySelectorAll('#' + idLabel);
+    expect(elementsLabel.length).toBe(1);
+    const elementLabel = elementsLabel[0];
+    expect(elementLabel.innerHTML).toBe(component.attribute.configurationLabel);
   });
 
-  it('should emit a change event on change ', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
-    component.onInputChange();
-    expect(component.inputChange.emit).toHaveBeenCalledWith(
-      component.attribute
-    );
-  });
-
-  it('should generate id with prefixt', () => {
-    expect(component.getId(component.attribute)).toEqual(
-      'cx-configurator-textfieldattributeName'
+  it('should render value', () => {
+    const elementsDiv = htmlElem.querySelectorAll('div');
+    expect(elementsDiv.length).toBe(1);
+    const elementDiv = elementsDiv[0];
+    expect(elementDiv.innerHTML).toContain(
+      component.attribute.configurationValue
     );
   });
 });
