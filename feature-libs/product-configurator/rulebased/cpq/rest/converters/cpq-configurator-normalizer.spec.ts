@@ -1066,7 +1066,7 @@ describe('CpqConfiguratorNormalizer', () => {
       const cpqValue: Cpq.Value = {
         paV_ID: 0,
         valueDisplay: 'No option selected',
-        selected: false,
+        selected: true,
       };
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
