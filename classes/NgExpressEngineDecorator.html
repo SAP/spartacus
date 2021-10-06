@@ -1,0 +1,375 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >NgExpressEngineDecorator</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#get" >get</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>get</b></span>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>get(ngExpressEngine: <a href="../undefineds/NgExpressEngine.html" target="_self">NgExpressEngine</a>, optimizationOptions?: <a href="../interfaces/SsrOptimizationOptions.html" target="_self">SsrOptimizationOptions | null</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the higher order ngExpressEngine with provided tokens for Spartacus</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ngExpressEngine</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#NgExpressEngine" target="_self" >NgExpressEngine</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>optimizationOptions</td>
+                                    <td>
+                                                <code><a href="../interfaces/SsrOptimizationOptions.html" target="_self" >SsrOptimizationOptions | null</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#NgExpressEngine" target="_self" >NgExpressEngine</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StaticProvider } from &#x27;@angular/core&#x27;;
+import { NgSetupOptions } from &#x27;@nguniversal/express-engine&#x27;;
+import { REQUEST } from &#x27;@nguniversal/express-engine/tokens&#x27;;
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;@spartacus/core&#x27;;
+import { Request } from &#x27;express&#x27;;
+import {
+  OptimizedSsrEngine,
+  SsrCallbackFn,
+} from &#x27;../optimized-engine/optimized-ssr-engine&#x27;;
+import { SsrOptimizationOptions } from &#x27;../optimized-engine/ssr-optimization-options&#x27;;
+
+export type NgExpressEngineInstance &#x3D; (
+  filePath: string,
+  options: object,
+  callback: SsrCallbackFn
+) &#x3D;&gt; void;
+
+export type NgExpressEngine &#x3D; (
+  setupOptions: Readonly&lt;NgSetupOptions&gt;
+) &#x3D;&gt; NgExpressEngineInstance;
+
+/**
+ * The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus
+ * @param ngExpressEngine
+ */
+export class NgExpressEngineDecorator {
+  /**
+   * Returns the higher order ngExpressEngine with provided tokens for Spartacus
+   *
+   * @param ngExpressEngine
+   */
+  static get(
+    ngExpressEngine: NgExpressEngine,
+    optimizationOptions?: SsrOptimizationOptions | null
+  ): NgExpressEngine {
+    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
+  }
+}
+
+export function decorateExpressEngine(
+  ngExpressEngine: NgExpressEngine,
+  optimizationOptions: SsrOptimizationOptions | null &#x3D; {
+    concurrency: 20,
+    timeout: 3000,
+  }
+): NgExpressEngine {
+  return function (setupOptions: NgSetupOptions) {
+    const engineInstance &#x3D; ngExpressEngine({
+      ...setupOptions,
+      providers: [
+        // add spartacus related providers
+        ...getServerRequestProviders(),
+        ...(setupOptions.providers ?? []),
+      ],
+    });
+
+    // apply optimization wrapper if optimization options were defined
+    return optimizationOptions
+      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
+          .engineInstance
+      : engineInstance;
+  };
+}
+
+/**
+ * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
+ *
+ * @param options
+ */
+export function getServerRequestProviders(): StaticProvider[] {
+  return [
+    {
+      provide: SERVER_REQUEST_URL,
+      useFactory: getRequestUrl,
+      deps: [REQUEST],
+    },
+    {
+      provide: SERVER_REQUEST_ORIGIN,
+      useFactory: getRequestOrigin,
+      deps: [REQUEST],
+    },
+  ];
+}
+
+function getRequestUrl(req: Request): string {
+  return getRequestOrigin(req) + req.originalUrl;
+}
+
+function getRequestOrigin(req: Request): string {
+  // If express is resolving and trusting X-Forwarded-Host, we want to take it
+  // into an account to properly generate request origin.
+  const trustProxyFn &#x3D; req.app.get(&#x27;trust proxy fn&#x27;);
+  let forwardedHost &#x3D; req.get(&#x27;X-Forwarded-Host&#x27;);
+  if (forwardedHost &amp;&amp; trustProxyFn(req.connection.remoteAddress, 0)) {
+    if (forwardedHost.indexOf(&#x27;,&#x27;) !&#x3D;&#x3D; -1) {
+      // Note: X-Forwarded-Host is normally only ever a
+      //       single value, but this is to be safe.
+      forwardedHost &#x3D; forwardedHost
+        .substring(0, forwardedHost.indexOf(&#x27;,&#x27;))
+        .trimRight();
+    }
+    return req.protocol + &#x27;://&#x27; + forwardedHost;
+  } else {
+    return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'NgExpressEngineDecorator.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
