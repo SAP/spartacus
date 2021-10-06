@@ -97,7 +97,7 @@ export class UserPaymentMethodsEffects {
   /**
    * Show global confirmation message with provided text
    */
-  private showGlobalMessage(text: string) {
+  private showGlobalMessage(text: string): void {
     this.messageService.add(
       { key: text },
       GlobalMessageType.MSG_TYPE_CONFIRMATION

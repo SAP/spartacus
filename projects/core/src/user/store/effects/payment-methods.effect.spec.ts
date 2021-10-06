@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { PaymentDetails } from '../../../model/cart.model';
-import { Translatable } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserPaymentAdapter } from '../../connectors/payment/user-payment.adapter';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
@@ -15,16 +15,12 @@ import { UserActions } from '../actions/index';
 import * as fromPaymentMethodsEffect from './payment-methods.effect';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add(
-    _text: string | Translatable,
-    _type: GlobalMessageType,
-    _timeout?: number
-  ): void {}
+  add = createSpy();
 }
 
 const mockPaymentMethods: PaymentDetails[] = [{ id: '3710178129845' }];
 
-describe('Payment methods effect', () => {
+fdescribe('Payment methods effect', () => {
   let userPaymentMethodsEffect: fromPaymentMethodsEffect.UserPaymentMethodsEffects;
   let userPaymentConnector: UserPaymentConnector;
   let globalMessageService: GlobalMessageService;
@@ -74,12 +70,14 @@ describe('Payment methods effect', () => {
     it('should set default user payment method', () => {
       const action = new UserActions.SetDefaultUserPaymentMethod({
         userId: OCC_USER_ID_CURRENT,
-        paymentMethodID: '5216871129345',
+        paymentMethodID: '5216871129145',
       });
       const completion = new UserActions.SetDefaultUserPaymentMethodSuccess({});
-
+      const completion2 = new UserActions.LoadUserPaymentMethods(
+        OCC_USER_ID_CURRENT
+      );
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
       expect(
         userPaymentMethodsEffect.setDefaultUserPaymentMethod$
       ).toBeObservable(expected);
@@ -88,15 +86,17 @@ describe('Payment methods effect', () => {
 
   describe('deleteUserPaymentMethod$', () => {
     it('should delete user payment method', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(userPaymentMethodsEffect, 'showGlobalMessage').and.callThrough();
       const action = new UserActions.DeleteUserPaymentMethod({
         userId: OCC_USER_ID_CURRENT,
         paymentMethodID: '3710178129845',
       });
       const completion = new UserActions.DeleteUserPaymentMethodSuccess({});
+      const completion2 = new UserActions.LoadUserPaymentMethods(
+        OCC_USER_ID_CURRENT
+      );
       actions$ = hot('-a', { a: action });
-
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
       expect(userPaymentMethodsEffect.deleteUserPaymentMethod$).toBeObservable(
         expected
       );
