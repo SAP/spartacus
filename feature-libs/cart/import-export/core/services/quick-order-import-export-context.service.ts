@@ -1,9 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { OrderEntry } from '@spartacus/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable, isDevMode } from '@angular/core';
+import { Observable, of, Subject } from 'rxjs';
+import { OrderEntry, Product } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { catchError, take, tap } from 'rxjs/operators';
 import { CartTypes } from '../model/import-export.model';
-import { ProductImportInfo, ProductsData } from '../model/import-to-cart.model';
+import {
+  ProductImportInfo,
+  ProductImportStatus,
+  ProductsData,
+} from '../model/import-to-cart.model';
 import { ImportExportContext } from './import-export.context';
 
 @Injectable({
@@ -14,11 +20,75 @@ export class QuickOrderImportExportContext implements ImportExportContext {
 
   constructor(protected quickOrderService: QuickOrderFacade) {}
 
+  results$ = new Subject<ProductImportInfo>();
+
   getEntries(): Observable<OrderEntry[]> {
     return this.quickOrderService.getEntries();
   }
 
-  addEntries(_products: ProductsData): Observable<ProductImportInfo> {
-    return of({} as ProductImportInfo);
+  addEntries(products: ProductsData): Observable<ProductImportInfo> {
+    products.forEach((productData) => {
+      this.quickOrderService
+        .search(productData.productCode)
+        .pipe(
+          take(1),
+          tap((product: Product) => {
+            this.handleWarnings(product, productData);
+            this.quickOrderService.addProduct(product, productData.quantity);
+          }),
+          catchError((response: HttpErrorResponse) => {
+            this.handleErrors(response, productData.productCode);
+            return of(response);
+          })
+        )
+        .subscribe();
+    });
+    return this.results$.pipe(take(products.length));
+  }
+
+  protected handleWarnings(product: Product, productData: any) {
+    if (
+      product.stock?.stockLevel &&
+      productData.quantity >= product.stock.stockLevel
+    ) {
+      this.results$.next({
+        productCode: productData.productCode,
+        productName: product?.name,
+        statusCode: ProductImportStatus.LOW_STOCK,
+        quantity: productData.quantity,
+        quantityAdded: product.stock.stockLevel,
+      });
+    } else if (product.stock?.stockLevelStatus === 'outOfStock') {
+      this.results$.next({
+        productCode: productData.productCode,
+        statusCode: ProductImportStatus.NO_STOCK,
+        productName: product?.name,
+      });
+    } else {
+      this.results$.next({
+        productCode: productData.productCode,
+        statusCode: ProductImportStatus.SUCCESS,
+      });
+    }
+  }
+
+  protected handleErrors(response: HttpErrorResponse, productCode: string) {
+    if (response?.error?.errors[0].type === 'UnknownIdentifierError') {
+      this.results$.next({
+        productCode,
+        statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+      });
+    } else {
+      if (isDevMode()) {
+        console.warn(
+          'Unrecognized cart add entry action type while mapping messages',
+          response
+        );
+      }
+      this.results$.next({
+        productCode,
+        statusCode: ProductImportStatus.UNKNOWN_ERROR,
+      });
+    }
   }
 }
