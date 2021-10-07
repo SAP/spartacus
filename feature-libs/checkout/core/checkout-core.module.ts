@@ -6,7 +6,6 @@ import { CheckoutDeliveryConnector } from './connectors/delivery/checkout-delive
 import { PaymentTypeConnector } from './connectors/payment-type/payment-type.connector';
 import { CheckoutPaymentConnector } from './connectors/payment/checkout-payment.connector';
 import { CheckoutReplenishmentOrderConnector } from './connectors/replenishment-order/checkout-replenishment-order.connector';
-import { CheckoutEventBuilder } from './events/checkout-event.builder';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
@@ -22,7 +21,6 @@ import { CheckoutStoreModule } from './store/checkout-store.module';
     CheckoutPaymentConnector,
     PaymentTypeConnector,
     CheckoutReplenishmentOrderConnector,
-    CheckoutEventBuilder,
     CheckoutPageMetaResolver,
     {
       provide: PageMetaResolver,

@@ -14,15 +14,15 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationTotalsComponent implements OnInit, OnDestroy {
-  order$: Observable<Order>;
+  order$: Observable<Order | undefined>;
 
   constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.getOrderDetails();
+    this.order$ = this.checkoutService.getOrder();
   }
 
   ngOnDestroy() {
-    this.checkoutService.clearCheckoutData();
+    this.checkoutService.clearOrder();
   }
 }

@@ -15,15 +15,15 @@ import { Observable } from 'rxjs';
 })
 export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-  order$: Observable<Order>;
+  order$: Observable<Order | undefined>;
 
   constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.getOrderDetails();
+    this.order$ = this.checkoutService.getOrder();
   }
 
   ngOnDestroy() {
-    this.checkoutService.clearCheckoutData();
+    this.checkoutService.clearOrder();
   }
 }

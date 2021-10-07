@@ -3,7 +3,6 @@ import {
   facadeFactory,
   Order,
   ORDER_TYPE,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -17,14 +16,14 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'placeOrder',
+        'getOrder',
+        'clearOrder',
         'scheduleReplenishmentOrder',
         'getPlaceOrderLoading',
         'getPlaceOrderSuccess',
         'getPlaceOrderError',
         'clearPlaceOrderState',
-        'clearCheckoutData',
         'isLoading',
-        'getOrderDetails',
         'setOrderType',
         'getCurrentOrderType',
       ],
@@ -36,6 +35,10 @@ export abstract class CheckoutFacade {
    * Places an order
    */
   abstract placeOrder(termsChecked: boolean): void;
+
+  abstract getOrder(): Observable<Order | undefined>;
+
+  abstract clearOrder(): void;
 
   /**
    * Schedule a replenishment order
@@ -66,19 +69,9 @@ export abstract class CheckoutFacade {
   abstract clearPlaceOrderState(): void;
 
   /**
-   * Clear checkout data
-   */
-  abstract clearCheckoutData(): void;
-
-  /**
    * Check if checkout details are stable (no longer loading)
    */
   abstract isLoading(): Observable<boolean>;
-
-  /**
-   * Get order details
-   */
-  abstract getOrderDetails(): Observable<Order | ReplenishmentOrder>;
 
   /**
    * Set checkout order type

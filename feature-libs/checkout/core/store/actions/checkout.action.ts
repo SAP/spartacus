@@ -5,8 +5,6 @@ import {
   SET_COST_CENTER_PROCESS_ID,
 } from '../checkout-state';
 
-export const PLACE_ORDER = '[Checkout] Place Order';
-export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
 export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
 export const CLEAR_PLACE_ORDER = '[Checkout] Clear Place Order';
 
@@ -19,22 +17,6 @@ export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
 export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
-
-export class PlaceOrder extends StateUtils.EntityLoadAction {
-  readonly type = PLACE_ORDER;
-  constructor(
-    public payload: { userId: string; cartId: string; termsChecked: boolean }
-  ) {
-    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
-  }
-}
-
-export class PlaceOrderFail extends StateUtils.EntityFailAction {
-  readonly type = PLACE_ORDER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID, payload);
-  }
-}
 
 export class PlaceOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = PLACE_ORDER_SUCCESS;
@@ -89,8 +71,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | PlaceOrder
-  | PlaceOrderFail
   | PlaceOrderSuccess
   | ClearCheckoutData
   | CheckoutClearMiscsData

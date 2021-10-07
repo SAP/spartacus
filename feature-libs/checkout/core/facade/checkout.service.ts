@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import { CheckoutFacade, OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
+  CartActions,
+  Command,
+  CommandService,
+  CommandStrategy,
+  EventService,
   OCC_USER_ID_ANONYMOUS,
   Order,
   ORDER_TYPE,
   ProcessSelectors,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
+import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutActions } from '../store/actions/index';
 import {
   PLACED_ORDER_PROCESS_ID,
@@ -23,40 +28,79 @@ import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
+  protected order$ = new BehaviorSubject<Order | undefined>(undefined);
+
+  protected placeOrderCommand: Command<boolean, Order> = this.command.create<
+    boolean,
+    Order
+  >(
+    (payload) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          if (
+            !userId ||
+            !cartId ||
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart())
+          ) {
+            throw new Error('Checkout conditions not met');
+          }
+          return this.checkoutConnector
+            .placeOrder(userId, cartId, payload)
+            .pipe(
+              tap((order) => {
+                this.order$.next(order);
+                this.checkoutStore.dispatch(
+                  new CartActions.RemoveCart({ cartId })
+                );
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    order,
+                  },
+                  OrderPlacedEvent
+                );
+              })
+            );
+        })
+      );
+    },
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected command: CommandService,
+    protected checkoutConnector: CheckoutConnector,
+    protected eventService: EventService
   ) {}
+
+  getOrder(): Observable<Order | undefined> {
+    return this.order$.asObservable();
+  }
+
+  clearOrder(): void {
+    // TODO: Why?
+    this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
+
+    this.order$.next(undefined);
+  }
 
   /**
    * Places an order
    */
-  placeOrder(termsChecked: boolean): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
-
-      if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.PlaceOrder({
-            userId,
-            cartId,
-            termsChecked,
-          })
-        );
-      }
-    }
+  placeOrder(termsChecked: boolean): Observable<Order> {
+    return this.placeOrderCommand.execute(termsChecked);
   }
 
   /**
@@ -127,27 +171,11 @@ export class CheckoutService implements CheckoutFacade {
   }
 
   /**
-   * Clear checkout data
-   */
-  clearCheckoutData(): void {
-    this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
-  }
-
-  /**
    * Check if checkout details are stable (no longer loading)
    */
   isLoading(): Observable<boolean> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutLoading)
-    );
-  }
-
-  /**
-   * Get order details
-   */
-  getOrderDetails(): Observable<Order | ReplenishmentOrder> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCheckoutOrderDetails)
     );
   }
 

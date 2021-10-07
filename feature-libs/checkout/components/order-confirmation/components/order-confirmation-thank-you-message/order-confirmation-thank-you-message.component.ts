@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { ORDER_TYPE } from '@spartacus/core';
+import { Order, ORDER_TYPE } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -17,20 +17,22 @@ import { map, tap } from 'rxjs/operators';
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy
 {
-  order$: Observable<any>;
+  order$: Observable<Order | undefined>;
   isReplenishmentOrderType$: Observable<boolean>;
 
   isGuestCustomer = false;
-  orderGuid: string;
+  orderGuid: string | undefined;
 
   constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.getOrderDetails().pipe(
+    this.order$ = this.checkoutService.getOrder().pipe(
       tap((order) => {
         this.isGuestCustomer =
-          'guestCustomer' in order ? order.guestCustomer ?? false : false;
-        this.orderGuid = order.guid as string;
+          order && 'guestCustomer' in order
+            ? order.guestCustomer ?? false
+            : false;
+        this.orderGuid = order?.guid;
       })
     );
 
@@ -44,6 +46,6 @@ export class OrderConfirmationThankYouMessageComponent
   }
 
   ngOnDestroy() {
-    this.checkoutService.clearCheckoutData();
+    this.checkoutService.clearOrder();
   }
 }

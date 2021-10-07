@@ -1,4 +1,4 @@
-import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
+import { Address, CxEvent, Order, PaymentDetails } from '@spartacus/core';
 
 /**
  * An abstract event for all the checkout events.
@@ -11,16 +11,15 @@ export abstract class CheckoutEvent extends CxEvent {
 /**
  * Indicates that a user has successfully placed an order.
  */
-// TODO:#13888 before 5.0 - extend CheckoutEvent
-export class OrderPlacedEvent extends CxEvent {
+export class OrderPlacedEvent extends CheckoutEvent {
   /**
    * Event's type
    */
   static readonly type = 'OrderPlacedEvent';
   /**
-   * Order code
+   * Order
    */
-  code: string;
+  order: Order;
 }
 
 /**

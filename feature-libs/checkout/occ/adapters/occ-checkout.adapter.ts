@@ -86,7 +86,10 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
         {},
         { headers }
       )
-      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(ORDER_NORMALIZER)
+      );
   }
 
   loadCheckoutDetails(
