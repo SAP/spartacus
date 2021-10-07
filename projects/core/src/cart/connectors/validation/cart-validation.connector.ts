@@ -9,7 +9,7 @@ import { CartModificationList } from '../../../model/cart.model';
 export class CartValidationConnector {
   constructor(protected adapter: CartValidationAdapter) {}
 
-  get(cartId: string, userId: string): Observable<CartModificationList> {
-    return this.adapter.load(cartId, userId);
+  validate(cartId: string, userId: string): Observable<CartModificationList> {
+    return this.adapter.validate(cartId, userId);
   }
 }
