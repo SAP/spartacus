@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Breadcrumb,
+  ConsentService,
   ConverterService,
   PageContext,
   PageType,
@@ -13,6 +14,7 @@ import {
   filter,
   map,
   startWith,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -21,6 +23,7 @@ import {
 } from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
+import { CdsConfig } from '../../config';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +33,9 @@ export class CdsMerchandisingUserContextService {
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
     private converterService: ConverterService,
-    private profileTagEventService: ProfileTagEventService
+    private profileTagEventService: ProfileTagEventService,
+    private config: CdsConfig,
+    private consentService: ConsentService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
@@ -61,11 +66,24 @@ export class CdsMerchandisingUserContextService {
   }
 
   private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
-    return this.profileTagEventService.getConsentReference().pipe(
-      startWith(''),
-      distinctUntilChanged(),
-      map((consentReference) => ({ consentReference }))
-    );
+    return this.consentService
+      .getConsent(this.config.cds.consentTemplateId)
+      .pipe(
+        switchMap((profileConsent) => {
+          if (this.consentService.isConsentGiven(profileConsent)) {
+            return this.profileTagEventService.getConsentReference().pipe(
+              distinctUntilChanged(),
+              map((consentReference) => ({ consentReference }))
+            );
+          } else {
+            return this.profileTagEventService.getConsentReference().pipe(
+              startWith(''),
+              distinctUntilChanged(),
+              map((consentReference) => ({ consentReference }))
+            );
+          }
+        })
+      );
   }
 
   private getFacetsContext(): Observable<MerchandisingUserContext> {

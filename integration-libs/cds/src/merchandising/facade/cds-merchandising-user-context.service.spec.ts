@@ -6,6 +6,9 @@ import {
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
+  ConsentService,
+  AnonymousConsent,
+  Consent,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,6 +19,7 @@ import {
 } from './../connectors/strategy/converters';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
+import { CdsConfig } from '../../config';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
@@ -34,6 +38,15 @@ class ProfileTagEventServiceStub {
     return of();
   }
 }
+class ConsentServiceStub {
+  getConsent(): Observable<AnonymousConsent | Consent> {
+    return of({});
+  }
+
+  isConsentGiven(): boolean {
+    return false;
+  }
+}
 
 describe('CdsMerchandisingUserContextService', () => {
   let cdsMerchandisingUserContextService: CdsMerchandisingUserContextService;
@@ -41,6 +54,13 @@ describe('CdsMerchandisingUserContextService', () => {
   let productSearchService: ProductSearchService;
   let converterService: ConverterService;
   let profileTagEventService: ProfileTagEventService;
+  let consentService: ConsentService;
+
+  const mockCdsConfig: CdsConfig = {
+    cds: {
+      consentTemplateId: 'PROFILE',
+    },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,6 +81,14 @@ describe('CdsMerchandisingUserContextService', () => {
           provide: ProfileTagEventService,
           useClass: ProfileTagEventServiceStub,
         },
+        {
+          provide: ConsentService,
+          useClass: ConsentServiceStub,
+        },
+        {
+          provide: CdsConfig,
+          useValue: mockCdsConfig,
+        },
       ],
     });
     cdsMerchandisingUserContextService = TestBed.inject(
@@ -70,6 +98,7 @@ describe('CdsMerchandisingUserContextService', () => {
     productSearchService = TestBed.inject(ProductSearchService);
     converterService = TestBed.inject(ConverterService);
     profileTagEventService = TestBed.inject(ProfileTagEventService);
+    consentService = TestBed.inject(ConsentService);
   });
 
   it('should be created', () => {
@@ -108,6 +137,7 @@ describe('CdsMerchandisingUserContextService', () => {
     spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
       of(consentReference)
     );
+    spyOn(consentService, 'isConsentGiven').and.returnValue(true);
 
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
