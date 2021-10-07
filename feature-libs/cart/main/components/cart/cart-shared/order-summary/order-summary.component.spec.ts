@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CartVoucherFacade, Voucher } from '@spartacus/cart/main/root';
+import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/main/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { of } from 'rxjs';
 import { OrderSummaryComponent } from './order-summary.component';
 
 @Component({
@@ -20,6 +21,12 @@ class MockAppliedCouponsComponent {
   isReadOnly = false;
 }
 
+const mockCart: Cart = {
+  code: 'test cart',
+};
+
+const context$ = of(mockCart);
+
 describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
@@ -33,7 +40,13 @@ describe('OrderSummary', () => {
           MockAppliedCouponsComponent,
           MockFeatureLevelDirective,
         ],
-        providers: [{ provide: CartVoucherFacade, useValue: {} }],
+        providers: [
+          { provide: CartVoucherFacade, useValue: {} },
+          {
+            provide: OutletContextData,
+            useValue: { context$ },
+          },
+        ],
       }).compileComponents();
     })
   );
@@ -45,5 +58,10 @@ describe('OrderSummary', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get cart from outlet context data', () => {
+    component.ngOnInit();
+    expect(component.cart).toEqual(mockCart);
   });
 });

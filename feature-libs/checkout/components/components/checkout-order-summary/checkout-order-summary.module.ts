@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 
 @NgModule({
-  imports: [CommonModule, CartSharedModule],
+  imports: [CommonModule, OutletModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

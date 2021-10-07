@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -13,9 +15,20 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
+
+interface ItemListContext {
+  readonly?: boolean;
+  hasHeader?: boolean;
+  options?: CartItemComponentOptions;
+  cartId?: string;
+  items?: OrderEntry[];
+  promotionLocation?: PromotionLocation;
+  cartIsLoading?: boolean;
+}
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -58,6 +71,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       value
         ? this.form.disable({ emitEvent: false })
         : this.form.enable({ emitEvent: false });
+      this.cd.markForCheck();
     }
   }
 
@@ -65,15 +79,45 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartFacade
+    protected multiCartService: MultiCartFacade,
+    protected cd: ChangeDetectorRef,
+    @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {}
 
   ngOnInit(): void {
+    this.subscription.add(this.getInputsFromContext());
+
     this.subscription.add(
       this.userIdService
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+  }
+
+  protected getInputsFromContext(): Subscription | undefined {
+    return this.outlet?.context$.subscribe((context) => {
+      if (context.readonly !== undefined) {
+        this.readonly = context.readonly;
+      }
+      if (context.hasHeader !== undefined) {
+        this.hasHeader = context.hasHeader;
+      }
+      if (context.options !== undefined) {
+        this.options = context.options;
+      }
+      if (context.cartId !== undefined) {
+        this.cartId = context.cartId;
+      }
+      if (context.items !== undefined) {
+        this.items = context.items;
+      }
+      if (context.promotionLocation !== undefined) {
+        this.promotionLocation = context.promotionLocation;
+      }
+      if (context.cartIsLoading !== undefined) {
+        this.setLoading = context.cartIsLoading;
+      }
+    });
   }
 
   /**

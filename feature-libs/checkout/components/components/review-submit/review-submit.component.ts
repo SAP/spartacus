@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
@@ -39,6 +40,7 @@ export class ReviewSubmitComponent {
   iconTypes = ICON_TYPE;
   checkoutStepType = CheckoutStepType;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  readonly CartOutlets = CartOutlets;
 
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryFacade,

@@ -2,12 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import {
-  Cart,
-  PaymentType,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart, PaymentType } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -82,16 +77,6 @@ const mockPaymentTypes: PaymentType[] = [
   { code: 'test-account' },
   { code: 'test-card' },
 ];
-
-@Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-}
 
 @Component({
   selector: 'cx-card',
@@ -207,12 +192,7 @@ describe('ReviewSubmitComponent', () => {
           RouterTestingModule,
           IconTestingModule,
         ],
-        declarations: [
-          ReviewSubmitComponent,
-          MockCartItemListComponent,
-          MockCardComponent,
-          MockUrlPipe,
-        ],
+        declarations: [ReviewSubmitComponent, MockCardComponent, MockUrlPipe],
         providers: [
           {
             provide: CheckoutDeliveryFacade,
@@ -450,20 +430,6 @@ describe('ReviewSubmitComponent', () => {
     it('should contain total price', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
-    });
-  });
-
-  describe('child cx-cart-item-list component', () => {
-    const getCartItemList = () =>
-      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
-
-    it('should receive items attribute with cart entires', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().items).toEqual([
-        { entryNumber: 123 },
-        { entryNumber: 456 },
-      ]);
-      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

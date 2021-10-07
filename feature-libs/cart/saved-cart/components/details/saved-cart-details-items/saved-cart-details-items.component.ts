@@ -4,7 +4,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  CartOutlets,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartSuccessEvent,
   SavedCartFacade,
@@ -26,6 +30,8 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+
+  readonly CartOutlets = CartOutlets;
 
   CartLocation = PromotionLocation;
 

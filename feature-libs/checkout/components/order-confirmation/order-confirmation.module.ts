@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -12,6 +11,7 @@ import {
   CardModule,
   FormErrorsModule,
   OrderOverviewModule,
+  OutletModule,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
@@ -34,7 +34,6 @@ const orderConfirmationComponents = [
 @NgModule({
   imports: [
     CommonModule,
-    CartSharedModule,
     CardModule,
     PwaModule,
     PromotionsModule,
@@ -43,6 +42,7 @@ const orderConfirmationComponents = [
     FeaturesConfigModule,
     FormErrorsModule,
     OrderOverviewModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -1,1 +1,5 @@
-<cx-order-summary [cart]="cart$ | async"></cx-order-summary>
+<ng-template
+  [cxOutlet]="CartOutlets.ORDER_SUMMARY"
+  [cxOutletContext]="cart$ | async"
+>
+</ng-template>
