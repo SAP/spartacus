@@ -225,7 +225,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected searchProducts(query: string): void {
     this.quickOrderService
-      .search(query, this.config?.quickOrderForm?.maxProducts)
+      .searchProducts(query, this.config?.quickOrderForm?.maxProducts)
       .pipe(take(1))
       .subscribe((products) => {
         this.results = products;

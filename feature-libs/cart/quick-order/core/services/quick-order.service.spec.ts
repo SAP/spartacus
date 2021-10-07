@@ -73,6 +73,12 @@ const mockProductSearchPage: ProductSearchPage = {
   products: [mockProduct1, mockProduct2],
 };
 
+class MockProductAdapter implements Partial<ProductAdapter> {
+  load(_productCode: any, _scope?: string): Observable<Product> {
+    return of(mockProduct1);
+  }
+}
+
 class MockProductSearchAdapter implements Partial<ProductSearchAdapter> {
   search(
     _query: string,
@@ -100,6 +106,7 @@ class MockEventService implements Partial<EventService> {
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
+  let productAdapter: ProductAdapter;
   let productSearchAdapter: ProductSearchAdapter;
   let activeCartService: ActiveCartService;
 
@@ -116,11 +123,13 @@ describe('QuickOrderService', () => {
           provide: EventService,
           useClass: MockEventService,
         },
+        { provide: ProductAdapter, useClass: MockProductAdapter },
         { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
+    productAdapter = TestBed.inject(ProductAdapter);
     productSearchAdapter = TestBed.inject(ProductSearchAdapter);
     activeCartService = TestBed.inject(ActiveCartService);
   });
@@ -173,7 +182,14 @@ describe('QuickOrderService', () => {
       });
   });
 
-  describe('should trigger search', () => {
+  it('should trigger search', () => {
+    spyOn(productAdapter, 'load');
+
+    service.search(mockProduct1Code);
+    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
+  });
+
+  describe('should trigger search products', () => {
     beforeEach(() => {
       spyOn(productSearchAdapter, 'search').and.returnValue(
         of(mockProductSearchPage)
@@ -182,7 +198,7 @@ describe('QuickOrderService', () => {
 
     it('with provided maxProducts', (done) => {
       service
-        .search(mockProduct1Code, mockMaxProducts)
+        .searchProducts(mockProduct1Code, mockMaxProducts)
         .pipe(take(1))
         .subscribe(() => {
           expect(productSearchAdapter.search).toHaveBeenCalledWith(
@@ -195,7 +211,7 @@ describe('QuickOrderService', () => {
 
     it('with default config maxProducts value', (done) => {
       service
-        .search(mockProduct1Code)
+        .searchProducts(mockProduct1Code)
         .pipe(take(1))
         .subscribe(() => {
           expect(productSearchAdapter.search).toHaveBeenCalledWith(
@@ -261,6 +277,29 @@ describe('QuickOrderService', () => {
           {
             product: mockProduct1,
             quantity: 1,
+            basePrice: {
+              value: 1,
+            },
+            totalPrice: {
+              value: 1,
+            },
+          },
+        ]);
+        done();
+      });
+  });
+
+  it('should add product to the quick order list with custom quantity', (done) => {
+    service.addProduct(mockProduct1, 4);
+
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([
+          {
+            product: mockProduct1,
+            quantity: 4,
             basePrice: {
               value: 1,
             },

@@ -12,6 +12,7 @@ import {
   HttpErrorModel,
   OrderEntry,
   Product,
+  ProductAdapter,
   ProductSearchAdapter,
   ProductSearchPage,
   SearchConfig,
@@ -40,7 +41,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   constructor(
     protected activeCartService: ActiveCartService,
     protected productSearchAdapter: ProductSearchAdapter,
-    protected eventService: EventService
+    protected eventService: EventService,
+    /**
+     * @deprecated since 4.2 - use ProductSearchAdapter instead
+     */
+    protected productAdapter: ProductAdapter
   ) {}
 
   ngOnDestroy(): void {
@@ -55,9 +60,17 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Search product using query
+   * @deprecated since 4.2 - use searchProducts instead
+   * Search product using SKU
    */
-  search(query: string, maxProducts?: number): Observable<Product[]> {
+  search(productCode: string): Observable<Product> {
+    return this.productAdapter.load(productCode);
+  }
+
+  /**
+   * Search products using query
+   */
+  searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
     const searchConfig: SearchConfig = {
       pageSize:
         maxProducts || defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
@@ -113,8 +126,8 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Add product to the quick order list
    */
-  addProduct(product: Product): void {
-    const entry = this.generateOrderEntry(product);
+  addProduct(product: Product, quantity: number = 1): void {
+    const entry = this.generateOrderEntry(product, quantity);
     this.addEntry(entry);
   }
 
@@ -256,11 +269,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Generate Order Entry from Product
    */
-  protected generateOrderEntry(product: Product): OrderEntry {
+  protected generateOrderEntry(product: Product, quantity: number): OrderEntry {
     return {
       basePrice: product.price,
       product: product,
-      quantity: 1,
+      quantity,
       totalPrice: product.price,
     } as OrderEntry;
   }
@@ -270,23 +283,35 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
+    const entryStockLevel = entry.product?.stock?.stockLevel;
+
+    if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
+      entry.quantity = entryStockLevel;
+    }
 
     if (entry.product?.code && this.isProductOnTheList(entry.product.code)) {
+      console.log('on list entries', entries);
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
-      const quantity = entries[entryIndex].quantity;
+      let quantity = entries[entryIndex].quantity;
 
       if (quantity && entry.quantity) {
         entries[entryIndex].quantity = quantity + entry?.quantity;
+        let newQuantity = entries[entryIndex].quantity;
+
+        if (newQuantity && entryStockLevel && newQuantity > entryStockLevel) {
+          entries[entryIndex].quantity = entryStockLevel;
+        }
+
+        this.entries$.next([...entries]);
+      } else {
+        console.log('New list entries', entries);
+        this.entries$.next([...entries, ...[entry]]);
       }
 
-      this.entries$.next([...entries]);
-    } else {
-      this.entries$.next([...entries, ...[entry]]);
+      this.productAdded$.next(entry.product?.code);
     }
-
-    this.productAdded$.next(entry.product?.code);
   }
 
   /**

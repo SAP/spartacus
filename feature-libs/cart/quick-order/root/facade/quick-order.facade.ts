@@ -17,6 +17,7 @@ export function quickOrderFacadeFactory() {
       'loadEntries',
       'softDeleteEntry',
       'search',
+      'searchProducts',
       'setProductAdded',
       'updateEntryQuantity',
       'getSoftDeletedEntries',
@@ -38,9 +39,18 @@ export abstract class QuickOrderFacade {
   abstract getEntries(): BehaviorSubject<OrderEntry[]>;
 
   /**
-   * Search product using query
+   * @deprecated since 4.2 - use searchProducts instead
+   * Search product using SKU
    */
-  abstract search(query: string, maxProducts?: number): Observable<Product[]>;
+  abstract search(productCode: string): Observable<Product>;
+
+  /**
+   * Search products using query
+   */
+  abstract searchProducts(
+    query: string,
+    maxProducts?: number
+  ): Observable<Product[]>;
 
   /**
    * Clear a list of added entries

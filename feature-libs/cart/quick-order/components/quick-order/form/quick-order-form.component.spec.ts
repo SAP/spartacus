@@ -39,7 +39,7 @@ const mockResetIconElement = {
 const mockEmptyElement = {} as Element;
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
-  search(_query: string, _maxProducts?: number): Observable<Product[]> {
+  searchProducts(_query: string, _maxProducts?: number): Observable<Product[]> {
     return of([mockProduct]);
   }
   setProductAdded(_productCode: string): void {}
