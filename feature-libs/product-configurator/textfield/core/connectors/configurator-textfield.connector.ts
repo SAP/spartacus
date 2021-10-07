@@ -33,8 +33,8 @@ export class ConfiguratorTextfieldConnector {
   }
   /**
    * Reads an existing configuration for an order entry
-   * @param parameters Attributes needed to read a product configuration for an order entry
-   * @returns Observable of product configurations
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters Attributes needed to read a product configuration for an order entry
+   * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of product configurations
    */
   readConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters

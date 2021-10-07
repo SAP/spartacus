@@ -219,7 +219,7 @@ export class ConfiguratorTextfieldService {
   /**
    * Returns the textfield configuration attached to an order entry.
    *
-   * @param owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    *
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */

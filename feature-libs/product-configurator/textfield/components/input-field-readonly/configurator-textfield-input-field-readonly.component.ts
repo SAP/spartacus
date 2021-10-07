@@ -14,8 +14,8 @@ export class ConfiguratorTextfieldInputFieldReadonlyComponent {
 
   /**
    * Compiles an ID for the attribute label by using the label from the backend and a prefix 'label'
-   * @param attribute Textfield configurator attribute. Carries the attribute label information from the backend
-   * @returns ID
+   * @param {ConfiguratorTextfield.ConfigurationInfo} attribute Textfield configurator attribute. Carries the attribute label information from the backend
+   * @returns {string} ID
    */
   getIdLabel(attribute: ConfiguratorTextfield.ConfigurationInfo): string {
     return (
