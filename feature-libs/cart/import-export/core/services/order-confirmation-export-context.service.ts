@@ -18,7 +18,7 @@ export class OrderConfirmationExportContext implements ImportExportContext {
   getEntries(): Observable<OrderEntry[]> {
     return this.checkoutService
       .getOrderDetails()
-      .pipe(map((order: Order) => order.entries));
+      .pipe(map((order: Order) => order?.entries ?? []));
   }
 
   addEntries(_products: ProductData[]): Observable<ProductImportInfo> {

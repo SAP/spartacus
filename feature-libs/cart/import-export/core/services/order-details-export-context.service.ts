@@ -18,7 +18,7 @@ export class OrderDetailsExportContextService implements ImportExportContext {
   getEntries(): Observable<OrderEntry[]> {
     return this.orderDetailsService
       .getOrderDetails()
-      .pipe(map((order: Order) => order.entries));
+      .pipe(map((order: Order) => order?.entries ?? []));
   }
 
   addEntries(_products: ProductData[]): Observable<ProductImportInfo> {
