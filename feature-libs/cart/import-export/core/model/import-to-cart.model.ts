@@ -1,7 +1,7 @@
-export type ProductsData = {
+export type ProductData = {
   productCode: string;
   quantity: number;
-}[];
+};
 
 export interface FileValidity {
   // size unit is MB

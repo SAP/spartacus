@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductsData } from '@spartacus/cart/import-export/core';
+import { ProductData } from '@spartacus/cart/import-export/core';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,7 @@ import { ProductsData } from '@spartacus/cart/import-export/core';
 export class ImportProductsFromCsvService {
   constructor() {}
 
-  csvDataToProduct(csvData: string[][]): ProductsData {
+  csvDataToProduct(csvData: string[][]): ProductData[] {
     return csvData.map((row: string[]) => ({
       productCode: row[0],
       quantity: Number(row[1]),

@@ -8,7 +8,7 @@ import { CartTypes } from '../model/import-export.model';
 import {
   ProductImportInfo,
   ProductImportStatus,
-  ProductsData,
+  ProductData,
 } from '../model/import-to-cart.model';
 import { ImportExportContext } from './import-export.context';
 
@@ -26,14 +26,14 @@ export class QuickOrderImportExportContext implements ImportExportContext {
     return this.quickOrderService.getEntries();
   }
 
-  addEntries(products: ProductsData): Observable<ProductImportInfo> {
+  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     products.forEach((productData) => {
       this.quickOrderService
         .search(productData.productCode)
         .pipe(
           take(1),
           tap((product: Product) => {
-            this.handleWarnings(product, productData);
+            this.handleResults(product, productData);
             this.quickOrderService.addProduct(product, productData.quantity);
           }),
           catchError((response: HttpErrorResponse) => {
@@ -46,7 +46,7 @@ export class QuickOrderImportExportContext implements ImportExportContext {
     return this.results$.pipe(take(products.length));
   }
 
-  protected handleWarnings(product: Product, productData: any) {
+  protected handleResults(product: Product, productData: ProductData) {
     if (
       product.stock?.stockLevel &&
       productData.quantity >= product.stock.stockLevel

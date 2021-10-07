@@ -11,7 +11,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
-  ProductsData,
+  ProductData,
   CartTypes,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../import-products-from-csv.service';
@@ -63,7 +63,7 @@ export class ImportEntriesDialogComponent {
       products,
       savedCartInfo,
     }: {
-      products: ProductsData;
+      products: ProductData[];
       savedCartInfo?: {
         name: string;
         description: string;

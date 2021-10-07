@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { ProductsData } from '../model/import-to-cart.model';
+import { ProductData } from '../model/import-to-cart.model';
 import { CartTypes } from '../model/import-export.model';
 import { ImportExportContext } from './import-export.context';
 import { CartImportExportContext } from './cart-import-export.context';
@@ -27,12 +27,12 @@ export class ActiveCartImportExportContext
     return this.activeCartService.getEntries();
   }
 
-  protected add(products: ProductsData): Observable<string> {
+  protected add(products: ProductData[]): Observable<string> {
     this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
     return this.activeCartService.getActiveCartId();
   }
 
-  protected mapProductsToOrderEntries(products: ProductsData): OrderEntry[] {
+  protected mapProductsToOrderEntries(products: ProductData[]): OrderEntry[] {
     return products.map(
       (product: { productCode: string; quantity: number }) => ({
         product: { code: product.productCode },

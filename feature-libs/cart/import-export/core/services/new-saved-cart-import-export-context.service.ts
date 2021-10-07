@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { CartTypes } from '../model/import-export.model';
-import { ProductImportInfo, ProductsData } from '../model/import-to-cart.model';
+import { ProductImportInfo, ProductData } from '../model/import-to-cart.model';
 import { CartImportExportContext } from './cart-import-export.context';
 import { ImportExportContext } from './import-export.context';
 
@@ -46,7 +46,7 @@ export class NewSavedCartImportExportContext
   }
 
   addEntries(
-    products: ProductsData,
+    products: ProductData[],
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
     return this.add(products, savedCartInfo).pipe(
@@ -56,7 +56,7 @@ export class NewSavedCartImportExportContext
   }
 
   protected add(
-    products: ProductsData,
+    products: ProductData[],
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
     return this.userIdService.takeUserId().pipe(

@@ -7,20 +7,20 @@ import { CartActions } from '@spartacus/core';
 import {
   ProductImportInfo,
   ProductImportStatus,
-  ProductsData,
+  ProductData,
 } from '../model/import-to-cart.model';
 
 export abstract class CartImportExportContext {
   protected constructor(protected actionsSubject: ActionsSubject) {}
 
-  addEntries(products: ProductsData): Observable<ProductImportInfo> {
+  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     return this.add(products).pipe(
       switchMap((cartId: string) => this.getResults(cartId)),
       take(products.length)
     );
   }
 
-  protected abstract add(products: ProductsData): Observable<string>;
+  protected abstract add(products: ProductData[]): Observable<string>;
 
   protected getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(

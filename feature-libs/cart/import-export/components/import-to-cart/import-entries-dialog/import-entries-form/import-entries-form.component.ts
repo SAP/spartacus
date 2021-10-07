@@ -17,7 +17,7 @@ import {
 } from '@spartacus/storefront';
 import {
   ImportConfig,
-  ProductsData,
+  ProductData,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
@@ -36,7 +36,7 @@ export class ImportEntriesFormComponent implements OnInit {
 
   @Output()
   submitEvent = new EventEmitter<{
-    products: ProductsData;
+    products: ProductData[];
   }>();
 
   constructor(

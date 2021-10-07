@@ -10,7 +10,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { ProductsData } from '../model/import-to-cart.model';
+import { ProductData } from '../model/import-to-cart.model';
 import { CartTypes } from '../model/import-export.model';
 import { ImportExportContext } from './import-export.context';
 import { CartImportExportContext } from './cart-import-export.context';
@@ -46,7 +46,7 @@ export class SavedCartImportExportContext
     );
   }
 
-  protected add(products: ProductsData): Observable<string> {
+  protected add(products: ProductData[]): Observable<string> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.savedCartId$,

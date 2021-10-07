@@ -18,7 +18,7 @@ import {
   ImportCsvFileService,
 } from '@spartacus/storefront';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { ProductsData, NameSource } from '@spartacus/cart/import-export/core';
+import { ProductData, NameSource } from '@spartacus/cart/import-export/core';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
@@ -34,7 +34,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   @Output()
   submitEvent = new EventEmitter<{
-    products: ProductsData;
+    products: ProductData[];
     savedCartInfo?: {
       name: string;
       description: string;
