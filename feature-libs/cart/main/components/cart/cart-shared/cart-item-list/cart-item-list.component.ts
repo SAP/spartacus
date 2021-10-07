@@ -20,6 +20,16 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
+interface ItemListContext {
+  readonly?: boolean;
+  hasHeader?: boolean;
+  options?: CartItemComponentOptions;
+  cartId?: string;
+  items?: OrderEntry[];
+  promotionLocation?: PromotionLocation;
+  cartIsLoading?: boolean;
+}
+
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
@@ -71,7 +81,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
-    @Optional() protected outlet?: OutletContextData<any>
+    @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {}
 
   ngOnInit(): void {

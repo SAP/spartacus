@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
 import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
-import { CART_FEATURE } from 'feature-libs/cart/main/root';
 
 @NgModule({
   imports: [OrderRootModule],
