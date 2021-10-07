@@ -1,11 +1,9 @@
 cx-import-export {
   display: flex;
   justify-content: start;
-
   margin-top: 3rem;
-
-  > :last-child {
-    margin-inline-end: 0;
+  > * {
+    align-self: flex-start;
     &:before {
       content: '|';
       color: var(--cx-color-light);
@@ -14,6 +12,10 @@ cx-import-export {
       margin-inline-start: 0.313rem;
       margin-inline-end: 0.313rem;
     }
+    &:first-child {
+      &:before {
+        display: none;
+      }
+    }
   }
-
 }
