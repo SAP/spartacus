@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   Address,
   DeliveryMode,
@@ -18,16 +17,16 @@ import { CheckoutDeliveryService } from './checkout-delivery.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let userIdService: UserIdService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class ActiveCartServiceStub implements Partial<ActiveCartService> {
+  class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
     cart;
     isGuestCart() {
-      return true;
+      return of(true);
     }
 
     getActiveCartId() {
@@ -69,17 +68,17 @@ describe('CheckoutDeliveryService', () => {
       providers: [
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutDeliveryService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });

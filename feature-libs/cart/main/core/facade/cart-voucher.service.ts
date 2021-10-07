@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { CartVoucherFacade } from '@spartacus/cart/main/root';
 import {
   ProcessSelectors,
   StateWithProcess,
@@ -14,7 +15,7 @@ import { ActiveCartService } from './active-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CartVoucherService {
+export class CartVoucherService implements CartVoucherFacade {
   constructor(
     protected store: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,

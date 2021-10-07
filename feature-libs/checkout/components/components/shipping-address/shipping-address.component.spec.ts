@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -31,8 +31,8 @@ class MockUserAddressService {
 }
 
 class MockActiveCartService {
-  isGuestCart(): Boolean {
-    return false;
+  isGuestCart(): Observable<Boolean> {
+    return of(false);
   }
 }
 
@@ -139,7 +139,7 @@ describe('ShippingAddressComponent', () => {
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let userAddressService: UserAddressService;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
 
@@ -155,7 +155,7 @@ describe('ShippingAddressComponent', () => {
         ],
         providers: [
           { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryFacade,
@@ -179,7 +179,7 @@ describe('ShippingAddressComponent', () => {
         .compileComponents();
 
       checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-      activeCartService = TestBed.inject(ActiveCartService);
+      activeCartFacade = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -234,7 +234,7 @@ describe('ShippingAddressComponent', () => {
     });
 
     it('for guest user, should not load user addresses', () => {
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
+      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(true));
       spyOn(userAddressService, 'loadAddresses').and.stub();
       isAccount.next(false);
 

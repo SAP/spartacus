@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
@@ -7,7 +7,9 @@ import {
 } from '@spartacus/checkout/root';
 import {
   Address,
+  EMAIL_PATTERN,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
   PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -29,16 +31,19 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    protected checkoutService: CheckoutFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartService
+    protected checkoutFacade: CheckoutFacade,
+    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {
-    this.cartId$ = this.activeCartService.getActive().pipe(
+    this.cartId$ = this.activeCartFacade.getActive().pipe(
       map((cartData) => {
+        const cartUser = cartData.user;
         if (
-          (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
-          this.activeCartService.isGuestCart()
+          cartUser &&
+          (cartUser.uid === OCC_USER_ID_ANONYMOUS ||
+            cartUser.uid === OCC_USER_ID_GUEST ||
+            !!cartUser.uid?.split('|').slice(1).join('|').match(EMAIL_PATTERN))
         ) {
           return cartData.guid as string;
         }
@@ -49,30 +54,28 @@ export class CheckoutDetailsService {
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
       distinctUntilChanged(),
-      tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) => this.checkoutFacade.loadCheckoutDetails(cartId)),
       shareReplay(1),
-      switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
+      switchMap(() => this.checkoutFacade.getCheckoutDetailsLoaded()),
       skipWhile((loaded) => !loaded)
     );
   }
 
   getDeliveryAddress(): Observable<Address> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
+      switchMap(() => this.checkoutDeliveryFacade.getDeliveryAddress())
     );
   }
 
   getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() =>
-        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
-      )
+      switchMap(() => this.checkoutDeliveryFacade.getSelectedDeliveryModeCode())
     );
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutPaymentService.getPaymentDetails())
+      switchMap(() => this.checkoutPaymentFacade.getPaymentDetails())
     );
   }
 }

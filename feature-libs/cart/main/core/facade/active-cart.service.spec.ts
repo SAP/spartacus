@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/main/root';
 import {
+  getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -258,7 +259,7 @@ describe('ActiveCartService', () => {
 
     it('should merge guest cart', () => {
       spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
-      spyOn(service, 'isGuestCart').and.returnValue(true);
+      spyOn(service, 'isGuestCart').and.returnValue(of(true));
       service['loadOrMerge'](
         'cartId',
         OCC_USER_ID_CURRENT,
@@ -470,7 +471,7 @@ describe('ActiveCartService', () => {
         },
       });
 
-      expect(service.isGuestCart()).toBe(true);
+      expect(getLastValueSync(service.isGuestCart())).toBe(true);
     });
 
     it('should return false for OCC_USER_ID_CURRENT', () => {
@@ -481,7 +482,7 @@ describe('ActiveCartService', () => {
         },
       });
 
-      expect(service.isGuestCart()).toBe(false);
+      expect(getLastValueSync(service.isGuestCart())).toBe(false);
     });
 
     it('should return false for OCC_USER_ID_ANONYMOUS', () => {
@@ -492,7 +493,7 @@ describe('ActiveCartService', () => {
         },
       });
 
-      expect(service.isGuestCart()).toBe(false);
+      expect(getLastValueSync(service.isGuestCart())).toBe(false);
     });
 
     it('should return true when uid contains an email', () => {
@@ -503,7 +504,7 @@ describe('ActiveCartService', () => {
         },
       });
 
-      expect(service.isGuestCart()).toBe(true);
+      expect(getLastValueSync(service.isGuestCart())).toBe(true);
     });
 
     it('should return false when uid does not contain an email', () => {
@@ -514,7 +515,7 @@ describe('ActiveCartService', () => {
         },
       });
 
-      expect(service.isGuestCart()).toBe(false);
+      expect(getLastValueSync(service.isGuestCart())).toBe(false);
     });
   });
 

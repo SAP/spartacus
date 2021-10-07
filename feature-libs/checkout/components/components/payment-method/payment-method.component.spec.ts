@@ -2,7 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
@@ -90,8 +90,8 @@ class MockGlobalMessageService {
 }
 
 class MockActiveCartService {
-  isGuestCart(): boolean {
-    return false;
+  isGuestCart(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -130,7 +130,7 @@ describe('PaymentMethodComponent', () => {
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
-  let mockActiveCartService: ActiveCartService;
+  let mockActiveCartService: ActiveCartFacade;
   let mockGlobalMessageService: GlobalMessageService;
   let mockCheckoutService: CheckoutFacade;
   let checkoutStepService: CheckoutStepService;
@@ -154,7 +154,7 @@ describe('PaymentMethodComponent', () => {
             useClass: MockCheckoutDeliveryService,
           },
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -169,7 +169,7 @@ describe('PaymentMethodComponent', () => {
 
       mockUserPaymentService = TestBed.inject(UserPaymentService);
       mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-      mockActiveCartService = TestBed.inject(ActiveCartService);
+      mockActiveCartService = TestBed.inject(ActiveCartFacade);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
       mockCheckoutService = TestBed.inject(CheckoutFacade);
       checkoutStepService = TestBed.inject(
@@ -441,7 +441,7 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
+      spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(of(true));
 
       component.ngOnInit();
 

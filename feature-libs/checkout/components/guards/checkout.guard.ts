@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStepType } from '@spartacus/checkout/root';
-import { RoutingConfigService } from '@spartacus/core';
+import { getLastValueSync, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -20,7 +20,7 @@ export class CheckoutGuard implements CanActivate {
     protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
     protected expressCheckoutService: ExpressCheckoutService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {
     this.firstStep$ = of(
@@ -35,7 +35,7 @@ export class CheckoutGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     if (
       this.checkoutConfigService.isExpressCheckout() &&
-      !this.activeCartService.isGuestCart()
+      !Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     ) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {

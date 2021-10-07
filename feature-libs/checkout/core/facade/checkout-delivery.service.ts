@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
   StateUtils,
@@ -27,7 +28,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 
@@ -171,7 +172,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -199,7 +200,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -227,7 +228,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -256,7 +257,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -283,7 +284,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       .unsubscribe();
 
     let cartId;
-    this.activeCartService
+    this.activeCartFacade
       .getActiveCartId()
       .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
@@ -308,7 +309,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       .unsubscribe();
 
     let cartId;
-    this.activeCartService
+    this.activeCartFacade
       .getActiveCartId()
       .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
@@ -332,14 +333,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
+    const userId = getLastValueSync(this.userIdService.getUserId());
+
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
+      Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     );
   }
 }

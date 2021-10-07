@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, WishListFacade } from '@spartacus/cart/main/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
@@ -26,7 +26,7 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class WishListService {
+export class WishListService implements WishListFacade {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,

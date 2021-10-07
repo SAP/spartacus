@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, SelectiveCartFacade } from '@spartacus/cart/main/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
@@ -17,7 +17,7 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class SelectiveCartService {
+export class SelectiveCartService implements SelectiveCartFacade {
   protected customerId: string;
   protected userId: string;
   protected cartId: string;

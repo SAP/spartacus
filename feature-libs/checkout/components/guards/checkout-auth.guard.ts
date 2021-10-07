@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   AuthRedirectService,
   AuthService,
@@ -23,26 +23,26 @@ export class CheckoutAuthGuard implements CanActivate {
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
-    protected userService: UserAccountFacade,
+    protected userFacade: UserAccountFacade,
     protected globalMessageService: GlobalMessageService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
-      this.activeCartService.getAssignedUser(),
-      this.userService.get(),
-      this.activeCartService.isStable(),
+      this.activeCartFacade.isGuestCart(),
+      this.userFacade.get(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
-      filter(([, , _user, isStable]) => isStable),
+      filter(([, , , isStable]) => isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous
       filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
-      map(([isLoggedIn, cartUser, user]) => {
+      map(([isLoggedIn, isGuest, user]) => {
         if (!isLoggedIn) {
-          return this.handleAnonymousUser(cartUser);
+          return isGuest ? true : this.handleAnonymousUser();
         } else if (user && 'roles' in user) {
           return this.handleUserRole(user);
         }
@@ -51,10 +51,7 @@ export class CheckoutAuthGuard implements CanActivate {
     );
   }
 
-  protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
-    if (this.activeCartService.isGuestCart()) {
-      return !!cartUser;
-    }
+  protected handleAnonymousUser(): boolean | UrlTree {
     this.authRedirectService.saveCurrentNavigationUrl();
     if (this.checkoutConfigService.isGuestCheckout()) {
       return this.router.createUrlTree(
