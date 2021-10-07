@@ -14,9 +14,8 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   templateUrl: './configurator-textfield-form.component.html',
 })
 export class ConfiguratorTextfieldFormComponent {
-  configuration$: Observable<ConfiguratorTextfield.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
+  configuration$: Observable<ConfiguratorTextfield.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         switch (routerData.owner.type) {
           case CommonConfigurator.OwnerType.PRODUCT:

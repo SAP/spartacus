@@ -49,19 +49,21 @@ const ownerOrderRelated = ConfiguratorModelUtils.createOwner(
   ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
 );
 
-const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: 'anonymous',
-  cartId: CART_GUID,
-  cartEntryNumber: CART_ENTRY_NUMBER,
-  owner: ownerCartRelated,
-};
+const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: 'anonymous',
+    cartId: CART_GUID,
+    cartEntryNumber: CART_ENTRY_NUMBER,
+    owner: ownerCartRelated,
+  };
 
-const readFromOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-  userId: OCC_USER_ID_CURRENT,
-  orderId: ORDER_NUMBER,
-  orderEntryNumber: ORDER_ENTRY_NUMBER,
-  owner: ownerOrderRelated,
-};
+const readFromOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: OCC_USER_ID_CURRENT,
+    orderId: ORDER_NUMBER,
+    orderEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ownerOrderRelated,
+  };
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
@@ -132,9 +134,9 @@ class MockUserIdService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
-  const mockConfigLoaderStateReturned = createSpy(
-    'select'
-  ).and.returnValue(() => of(loaderState));
+  const mockConfigLoaderStateReturned = createSpy('select').and.returnValue(
+    () => of(loaderState)
+  );
   const mockConfigLoaderStateNothingPresent = createSpy(
     'select'
   ).and.returnValue(() => of(loaderStateNothingPresent));
@@ -212,9 +214,8 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
-    const configurationFromStore = serviceUnderTest.readConfigurationForCartEntry(
-      ownerCartRelated
-    );
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForCartEntry(ownerCartRelated);
 
     expect(configurationFromStore).toBeDefined();
 
@@ -233,9 +234,8 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should dispatch the correct action when readConfigurationForOrderEntry is called', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
-    const configurationFromStore = serviceUnderTest.readConfigurationForOrderEntry(
-      ownerOrderRelated
-    );
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForOrderEntry(ownerOrderRelated);
 
     expect(configurationFromStore).toBeDefined();
 
