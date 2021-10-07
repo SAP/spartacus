@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { OrderEntry, Product } from '@spartacus/core';
+import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { catchError, take, tap } from 'rxjs/operators';
 import { CartTypes } from '../model/import-export.model';
@@ -18,7 +18,10 @@ import { ImportExportContext } from './import-export.context';
 export class QuickOrderImportExportContext implements ImportExportContext {
   readonly type = CartTypes.QUICK_ORDER;
 
-  constructor(protected quickOrderService: QuickOrderFacade) {}
+  constructor(
+    protected quickOrderService: QuickOrderFacade,
+    protected productAdapter: ProductAdapter
+  ) {}
 
   results$ = new Subject<ProductImportInfo>();
 
@@ -28,8 +31,8 @@ export class QuickOrderImportExportContext implements ImportExportContext {
 
   addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     products.forEach((productData) => {
-      this.quickOrderService
-        .search(productData.productCode)
+      this.productAdapter
+        .load(productData.productCode)
         .pipe(
           take(1),
           tap((product: Product) => {
