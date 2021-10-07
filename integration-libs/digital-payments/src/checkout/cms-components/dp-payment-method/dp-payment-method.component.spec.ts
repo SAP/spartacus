@@ -1,24 +1,25 @@
-import { DpPaymentMethodComponent } from './dp-payment-method.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CheckoutStepService } from '@spartacus/checkout/components';
-import { StoreModule } from '@ngrx/store';
 import {
   ActivatedRoute,
-  RouterModule,
   convertToParamMap,
+  RouterModule,
 } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { CheckoutStepService } from '@spartacus/checkout/components';
 import {
-  CheckoutService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CheckoutService,
 } from '@spartacus/checkout/core';
 import {
+  PaymentDetails,
   TranslationService,
   UserPaymentService,
-  PaymentDetails,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CheckoutPaymentFacade } from 'feature-libs/checkout/root';
+import { Observable, of } from 'rxjs';
+import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
@@ -75,6 +76,12 @@ const mockActivatedRoute = {
   },
 };
 
+class MockActiveCartService {
+  isGuestCart(): Observable<boolean> {
+    return of(false);
+  }
+}
+
 describe('DpPaymentMethodComponent', () => {
   let component: DpPaymentMethodComponent;
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
@@ -85,8 +92,8 @@ describe('DpPaymentMethodComponent', () => {
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
-          provide: DpPaymentMethodComponent,
-          useClass: DpPaymentMethodComponent,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
         {
           provide: TranslationService,
