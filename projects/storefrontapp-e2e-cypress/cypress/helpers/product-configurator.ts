@@ -485,9 +485,9 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 }
 
 /**
- * Searches for a certain product by a product name.
+ * Searches for a product by a product name.
  *
- * @param {string} productName _ Product name
+ * @param {string} productName - Product name
  */
 export function searchForProduct(productName: string): void {
   cy.intercept({
