@@ -8,7 +8,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { ANGULAR_HTTP, SPARTACUS_ROUTING_MODULE } from '../shared/constants';
+import { ANGULAR_HTTP, SPARTACUS_STOREFRONTLIB } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -18,10 +18,7 @@ import {
   LibraryOptions,
   prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
-import {
-  addModuleImport,
-  ensureModuleExists,
-} from '../shared/utils/new-module-utils';
+import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -40,7 +37,6 @@ import {
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
-import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
@@ -244,6 +240,14 @@ function updateAppModule(project: string): Rule {
             },
             content: 'HttpClientModule',
           });
+          addModuleImport(sourceFile, {
+            order: 2,
+            import: {
+              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+              namedImports: ['AppRoutingModule'],
+            },
+            content: 'AppRoutingModule',
+          });
 
           saveAndFormat(sourceFile);
 
@@ -283,14 +287,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
-
-      ensureModuleExists({
-        name: SPARTACUS_ROUTING_MODULE,
-        path: 'app',
-        module: 'app',
-        project: options.project,
-      }),
-      setupRouterModule(options.project),
 
       setupStoreModules(options.project),
 
