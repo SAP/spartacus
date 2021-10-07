@@ -364,7 +364,7 @@ if (typeof config.to === 'undefined') {
       config.library = '@spartacus/order';
       break;
     case 'asm':
-    case '@@spartacus/asm':
+    case '@spartacus/asm':
       config.library = '@spartacus/asm';
       break;
     default:
