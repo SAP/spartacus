@@ -45,7 +45,7 @@ export class ImportExportComponent {
   );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap((service) => service.getEntries() as Observable<OrderEntry[]>)
+    switchMap((service) => service?.getEntries() as Observable<OrderEntry[]>)
   );
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([
