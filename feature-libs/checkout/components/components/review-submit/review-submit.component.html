@@ -187,11 +187,15 @@
         "
       ></cx-promotions>
 
-      <cx-cart-item-list
-        [items]="entries"
-        [readonly]="true"
-        [promotionLocation]="promotionLocation"
-      ></cx-cart-item-list>
+      <ng-template
+        [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: entries,
+          readonly: true,
+          promotionLocation: promotionLocation
+        }"
+      >
+      </ng-template>
     </div>
   </ng-container>
 </div>

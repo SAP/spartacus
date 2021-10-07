@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CmsConfig,
   FeaturesConfig,
@@ -14,6 +13,7 @@ import {
   CardModule,
   OrderDetailsServiceTransitionalToken,
   OrderOverviewModule,
+  OutletModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -38,7 +38,6 @@ const moduleComponents = [
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,
@@ -48,6 +47,7 @@ const moduleComponents = [
     UrlModule,
     SpinnerModule,
     RouterModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

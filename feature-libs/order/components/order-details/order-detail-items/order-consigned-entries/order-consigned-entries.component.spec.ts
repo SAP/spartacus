@@ -73,16 +73,6 @@ const mockOrder: Order = {
 };
 
 @Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() readonly = false;
-  @Input() items = [];
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.Order;
-}
-
-@Component({
   selector: 'cx-consignment-tracking',
   template: '',
 })
@@ -115,7 +105,6 @@ describe('OrderConsignedEntriesComponent', () => {
         ],
         declarations: [
           OrderConsignedEntriesComponent,
-          MockCartItemListComponent,
           MockConsignmentTrackingComponent,
         ],
       }).compileComponents();

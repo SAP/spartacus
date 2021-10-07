@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { AddToCartModule } from './cart/add-to-cart/add-to-cart.module';
 import { AddToWishListModule } from './cart/add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart/cart-details/cart-details.module';
@@ -20,6 +20,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     CartSharedModule,
     SaveForLaterModule,
     WishListModule,
+    OutletModule.forChild(),
   ],
   exports: [
     AddToWishListModule,
