@@ -6,7 +6,6 @@ import * as configurationVc from '../../helpers/product-configurator-vc';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationCart from '../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
-import * as productSearch from '../../helpers/product-search';
 import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 /**

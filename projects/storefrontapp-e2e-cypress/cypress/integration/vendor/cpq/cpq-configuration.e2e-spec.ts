@@ -4,7 +4,6 @@ import * as configurationOverview from '../../../helpers/product-configurator-ov
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as productSearch from '../../../helpers/product-search';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
