@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import {
   OrderEntry,
   TranslationService,
@@ -49,6 +49,12 @@ export class ExportProductsToCsvService {
     ...(this.exportConfig?.additionalColumns ?? []),
   ];
 
+  downloadCsv(entries: OrderEntry[]): void {
+    this.getResolvedEntries(entries)
+      .pipe(take(1))
+      .subscribe((csvData: string[][]) => this.download(csvData));
+  }
+
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
     const values: any = combinedKeys
       .split('.')
@@ -88,7 +94,7 @@ export class ExportProductsToCsvService {
       : data;
   }
 
-  getResolvedEntries(entries: OrderEntry[]): Observable<string[][]> {
+  protected getResolvedEntries(entries: OrderEntry[]): Observable<string[][]> {
     const values = this.limitValues(this.resolveValues(entries));
     return this.getTranslatedColumnHeaders().pipe(
       map((headers) => {
@@ -97,7 +103,7 @@ export class ExportProductsToCsvService {
     );
   }
 
-  downloadCsv(entries: string[][]): void {
+  protected download(entries: string[][]): void {
     if (this.exportConfig?.messageEnabled) {
       this.displayExportMessage();
     }
