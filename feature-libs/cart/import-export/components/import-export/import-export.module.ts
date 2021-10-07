@@ -28,6 +28,7 @@ import { ImportExportComponent } from './import-export.component';
             exportButtonDisplayRoutes: [
               'savedCartsDetails',
               'cart',
+              'checkoutReviewOrder',
               'quickOrder',
             ],
           },

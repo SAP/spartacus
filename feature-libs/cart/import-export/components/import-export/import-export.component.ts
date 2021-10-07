@@ -29,6 +29,7 @@ export class ImportExportComponent {
     ['savedCarts', this.newSavedCartService],
     ['savedCartsDetails', this.savedCartService],
     ['quickOrder', this.quickOrderService],
+    ['checkoutReviewOrder', this.activeCartService],
   ]);
 
   constructor(
