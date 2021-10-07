@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - 'feature/GH-13889'
+      - 'release/3.**'
+      - 'release/4.**'
+      - 'develop'
+name: Installation
+jobs:
+  install:
+    name: Build libs and install
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Yarn
+        run: yarn install
+        env:
+          FORCE_COLOR: 2 # Support colors from chalk
+      - name: run installation script
+        run: cd ./scripts/install && ./run.sh install && ./run.sh start
