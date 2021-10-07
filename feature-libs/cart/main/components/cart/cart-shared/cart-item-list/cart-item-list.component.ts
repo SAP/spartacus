@@ -71,7 +71,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
-    @Optional() protected outlet?: OutletContextData
+    @Optional() protected outlet?: OutletContextData<any>
   ) {}
 
   ngOnInit(): void {

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CartOutlets } from '@spartacus/cart/main/root';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
@@ -37,11 +38,11 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
   ],
   providers: [
     provideOutlet({
-      id: 'cx-order-summary',
+      id: CartOutlets.ORDER_SUMMARY,
       component: OrderSummaryComponent,
     }),
     provideOutlet({
-      id: 'cx-cart-item-list',
+      id: CartOutlets.CART_ITEM_LIST,
       component: CartItemListComponent,
     }),
   ],

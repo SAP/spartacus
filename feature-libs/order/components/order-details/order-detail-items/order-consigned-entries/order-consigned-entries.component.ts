@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
 import { Consignment, Order, OrderEntry } from '@spartacus/core';
 
 @Component({
@@ -10,6 +10,8 @@ export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
   promotionLocation: PromotionLocation = PromotionLocation.Order;
+
+  readonly CartOutlets = CartOutlets;
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];

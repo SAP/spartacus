@@ -1,7 +1,10 @@
 <div class="cx-order-summary container" *ngIf="order$ | async as order">
   <div class="row justify-content-end">
     <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
-      <ng-template [cxOutlet]="'cx-order-summary'" [cxOutletContext]="order">
+      <ng-template
+        [cxOutlet]="CartOutlets.ORDER_SUMMARY"
+        [cxOutletContext]="order"
+      >
       </ng-template>
     </div>
   </div>

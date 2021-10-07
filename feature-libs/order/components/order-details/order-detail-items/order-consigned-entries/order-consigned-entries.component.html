@@ -18,7 +18,7 @@
   </div>
   <div class="cx-list-item col-12">
     <ng-template
-      [cxOutlet]="'cx-cart-item-list'"
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
         items: consignment.entries,
         readonly: true,
