@@ -7,6 +7,7 @@ import * as configurationOverviewVc from '../../helpers/product-configurator-ove
 import * as configurationCart from '../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
 import * as productSearch from '../../helpers/product-search';
+import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
@@ -68,14 +69,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions?term=CONF_HOME_THEATER_ML*`,
-      }).as('productSearch');
-      productSearch.searchForProduct(testProductMultiLevel);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
@@ -177,12 +171,13 @@ context('Product Configuration', () => {
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       login.registerUser();
+      verifyGlobalMessageAfterRegistration();
       const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
       login.loginUser();
       cy.wait(tokenAuthRequestAlias)
         .its('response.statusCode')
         .should('eq', 200);
-      productSearch.searchForProduct(testProductMultiLevel);
+      configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configurationCartVc.checkout();

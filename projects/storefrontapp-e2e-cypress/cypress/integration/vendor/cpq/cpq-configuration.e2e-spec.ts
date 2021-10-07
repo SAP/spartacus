@@ -97,14 +97,7 @@ context('CPQ Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions?term=${PROD_CODE_CAM}*`,
-      }).as('productSearch');
-      productSearch.searchForProduct(PROD_CODE_CAM);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
