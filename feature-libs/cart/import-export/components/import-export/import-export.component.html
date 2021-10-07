@@ -1,8 +1,10 @@
-<cx-import-entries
-  *ngIf="shouldDisplayImport$ | async"
-  [context]="context$ | async"
-></cx-import-entries>
-<cx-export-entries
-  *ngIf="shouldDisplayExport$ | async"
-  [entries]="entries$ | async"
-></cx-export-entries>
+<div class="container">
+  <cx-import-entries
+    *ngIf="shouldDisplayImport$ | async"
+    [context]="context$ | async"
+  ></cx-import-entries>
+  <cx-export-entries
+    *ngIf="shouldDisplayExport$ | async"
+    [entries]="entries$ | async"
+  ></cx-export-entries>
+</div>
