@@ -22,12 +22,12 @@ import {
 export class CartTotalsComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
-  buttonEnabled = true;
+  cartValidationInProgress = true;
 
   protected subscription = new Subscription();
 
   /**
-   * @deprecated since 4.1
+   * @deprecated since 4.2
    */
   constructor(activeCartService: ActiveCartService);
 
@@ -43,12 +43,12 @@ export class CartTotalsComponent implements OnInit, OnDestroy {
       .pipe(filter((entries) => entries.length > 0));
 
     this.subscription.add(
-      this.router.events.subscribe((event: Event) => {
+      this.router?.events.subscribe((event: Event) => {
         if (
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel
         ) {
-          this.buttonEnabled = true;
+          this.cartValidationInProgress = true;
         }
       })
     );
@@ -59,6 +59,6 @@ export class CartTotalsComponent implements OnInit, OnDestroy {
   }
 
   disableButtonWhileNavigation(): void {
-    this.buttonEnabled = false;
+    this.cartValidationInProgress = false;
   }
 }

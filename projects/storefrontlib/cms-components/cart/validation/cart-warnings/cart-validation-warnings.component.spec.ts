@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { CartValidationStateService } from '../cart-validation-state.service';
 import {
   Component,
   DebugElement,
@@ -43,8 +43,8 @@ const mockData = [
 
 const dataReplaySubject = new ReplaySubject<CartModification[]>();
 
-class MockCartValidationWarningsStateService
-  implements Partial<CartValidationWarningsStateService>
+class MockCartValidationStateService
+  implements Partial<CartValidationStateService>
 {
   cartValidationResult$ = dataReplaySubject;
 }
@@ -74,7 +74,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CartValidationWarningsComponent', () => {
   let component: CartValidationWarningsComponent;
   let fixture: ComponentFixture<CartValidationWarningsComponent>;
-  let mockCartValidationWarningsStateService: CartValidationWarningsStateService;
+  let mockCartValidationStateService: CartValidationStateService;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -88,8 +88,8 @@ describe('CartValidationWarningsComponent', () => {
       ],
       providers: [
         {
-          provide: CartValidationWarningsStateService,
-          useClass: MockCartValidationWarningsStateService,
+          provide: CartValidationStateService,
+          useClass: MockCartValidationStateService,
         },
       ],
     }).compileComponents();
@@ -97,11 +97,9 @@ describe('CartValidationWarningsComponent', () => {
     fixture = TestBed.createComponent(CartValidationWarningsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    mockCartValidationWarningsStateService = TestBed.inject(
-      CartValidationWarningsStateService
-    );
+    mockCartValidationStateService = TestBed.inject(CartValidationStateService);
 
-    mockCartValidationWarningsStateService.cartValidationResult$.next(mockData);
+    mockCartValidationStateService.cartValidationResult$.next(mockData);
 
     fixture.detectChanges();
   });
@@ -111,7 +109,7 @@ describe('CartValidationWarningsComponent', () => {
   });
 
   it('should find proper cart modification object', () => {
-    mockCartValidationWarningsStateService.cartValidationResult$.next(mockData);
+    mockCartValidationStateService.cartValidationResult$.next(mockData);
 
     component.cartModifications$.subscribe();
 

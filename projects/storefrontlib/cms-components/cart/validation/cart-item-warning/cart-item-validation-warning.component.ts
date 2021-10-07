@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { CartValidationStateService } from '../cart-validation-state.service';
 import { ICON_TYPE } from '../../../misc';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 
@@ -17,7 +17,7 @@ export class CartItemValidationWarningComponent {
   isVisible = true;
 
   cartModification$ =
-    this.cartValidationWarningsStateService.cartValidationResult$.pipe(
+    this.cartValidationStateService.cartValidationResult$.pipe(
       map((modificationList: CartModification[]) =>
         modificationList.find(
           (modification) =>
@@ -28,6 +28,6 @@ export class CartItemValidationWarningComponent {
     );
 
   constructor(
-    protected cartValidationWarningsStateService: CartValidationWarningsStateService
+    protected cartValidationStateService: CartValidationStateService
   ) {}
 }

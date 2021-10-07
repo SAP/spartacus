@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { CartValidationStateService } from '../cart-validation-state.service';
 import { ICON_TYPE } from '../../../misc';
 
 @Component({
@@ -14,7 +14,7 @@ export class CartValidationWarningsComponent {
   visibleWarnings: { [key: string]: boolean } = {};
 
   cartModifications$ =
-    this.cartValidationWarningsStateService.cartValidationResult$.pipe(
+    this.cartValidationStateService.cartValidationResult$.pipe(
       map((modificationList: CartModification[]) => {
         const result = modificationList.filter(
           (modification) =>
@@ -31,7 +31,7 @@ export class CartValidationWarningsComponent {
     );
 
   constructor(
-    protected cartValidationWarningsStateService: CartValidationWarningsStateService
+    protected cartValidationStateService: CartValidationStateService
   ) {}
 
   removeMessage(cartModification: CartModification) {

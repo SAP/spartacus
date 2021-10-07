@@ -6,7 +6,7 @@ import { RoutingService, CartModification } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationWarningsStateService implements OnDestroy {
+export class CartValidationStateService implements OnDestroy {
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
@@ -14,13 +14,7 @@ export class CartValidationWarningsStateService implements OnDestroy {
   cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
 
   constructor(protected routingService: RoutingService) {
-    this.routingService
-      .getRouterState()
-      .pipe(take(1))
-      .subscribe(
-        (routerState) => (this.navigationIdCount = routerState.navigationId)
-      );
-    this.subscription.add(this.checkForValidationResultClear$.subscribe());
+    this.setInitialState();
   }
 
   checkForValidationResultClear$ = this.routingService.getRouterState().pipe(
@@ -38,6 +32,25 @@ export class CartValidationWarningsStateService implements OnDestroy {
   );
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
+  }
+
+  setInitialState() {
+    this.setNavigationIdStep();
+    this.subscription.add(this.checkForValidationResultClear$.subscribe());
+  }
+
+  updateValidationResultAndRoutingId(cartModification: CartModification[]) {
+    this.cartValidationResult$.next(cartModification);
+    this.setNavigationIdStep();
+  }
+
+  setNavigationIdStep() {
+    this.routingService
+      .getRouterState()
+      .pipe(take(1))
+      .subscribe(
+        (routerState) => (this.navigationIdCount = routerState.navigationId)
+      );
   }
 }

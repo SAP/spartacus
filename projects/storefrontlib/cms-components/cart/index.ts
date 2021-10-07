@@ -19,3 +19,4 @@ export * from './validation/cart-warnings/cart-validation-warnings.component';
 export * from './validation/cart-warnings/cart-validation-warnings.module';
 export * from './validation/cart-validation-components.module';
 export * from './validation/guards/index';
+export * from './validation/cart-validation-state.service';

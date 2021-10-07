@@ -7,11 +7,10 @@ import {
   GlobalMessageService,
   ActiveCartService,
   GlobalMessageType,
-  CartModification,
   RoutingService,
 } from '@spartacus/core';
-import { map, take, withLatestFrom } from 'rxjs/operators';
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { CartValidationStateService } from '../cart-validation-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,15 +22,15 @@ export class CartValidationGuard implements CanActivate {
     protected router: Router,
     protected globalMessageService: GlobalMessageService,
     protected activeCartService: ActiveCartService,
-    protected cartValidationWarningsStateService: CartValidationWarningsStateService,
+    protected cartValidationStateService: CartValidationStateService,
     protected routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.cartValidationService.getCartValidationStatus().pipe(
+    return this.cartValidationService.validateCart().pipe(
       withLatestFrom(this.activeCartService.getEntries()),
       map(([cartModificationList, cartEntries]) => {
-        this.updateValidationResultState(
+        this.cartValidationStateService.updateValidationResultAndRoutingId(
           cartModificationList?.cartModifications
         );
 
@@ -66,20 +65,5 @@ export class CartValidationGuard implements CanActivate {
         return true;
       })
     );
-  }
-
-  updateValidationResultState(cartModification: CartModification[]) {
-    this.cartValidationWarningsStateService.cartValidationResult$.next(
-      cartModification
-    );
-
-    this.routingService
-      .getRouterState()
-      .pipe(take(1))
-      .subscribe(
-        (routerState) =>
-          (this.cartValidationWarningsStateService.navigationIdCount =
-            routerState.navigationId)
-      );
   }
 }

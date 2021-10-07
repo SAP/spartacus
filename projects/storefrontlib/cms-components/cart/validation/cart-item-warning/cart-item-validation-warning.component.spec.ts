@@ -9,7 +9,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { CartValidationStateService } from '../cart-validation-state.service';
 import { ReplaySubject } from 'rxjs';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
@@ -36,8 +36,8 @@ const mockData = [
 
 const dataReplaySubject = new ReplaySubject<CartModification[]>();
 
-class MockCartValidationWarningsStateService
-  implements Partial<CartValidationWarningsStateService>
+class MockCartValidationStateService
+  implements Partial<CartValidationStateService>
 {
   cartValidationResult$ = dataReplaySubject;
 }
@@ -67,7 +67,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CartItemValidationWarningComponent', () => {
   let component: CartItemValidationWarningComponent;
   let fixture: ComponentFixture<CartItemValidationWarningComponent>;
-  let mockCartValidationWarningsStateService: CartValidationWarningsStateService;
+  let mockCartValidationStateService: CartValidationStateService;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -81,8 +81,8 @@ describe('CartItemValidationWarningComponent', () => {
       ],
       providers: [
         {
-          provide: CartValidationWarningsStateService,
-          useClass: MockCartValidationWarningsStateService,
+          provide: CartValidationStateService,
+          useClass: MockCartValidationStateService,
         },
       ],
     }).compileComponents();
@@ -90,11 +90,9 @@ describe('CartItemValidationWarningComponent', () => {
     fixture = TestBed.createComponent(CartItemValidationWarningComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    mockCartValidationWarningsStateService = TestBed.inject(
-      CartValidationWarningsStateService
-    );
+    mockCartValidationStateService = TestBed.inject(CartValidationStateService);
 
-    mockCartValidationWarningsStateService.cartValidationResult$.next([]);
+    mockCartValidationStateService.cartValidationResult$.next([]);
     component.code = mockCode;
 
     fixture.detectChanges();
@@ -105,7 +103,7 @@ describe('CartItemValidationWarningComponent', () => {
   });
 
   it('should find proper cart modification object', () => {
-    mockCartValidationWarningsStateService.cartValidationResult$.next(mockData);
+    mockCartValidationStateService.cartValidationResult$.next(mockData);
     let result;
 
     component.cartModification$.subscribe((value) => (result = value));
@@ -117,7 +115,7 @@ describe('CartItemValidationWarningComponent', () => {
     let button = el.query(By.css('.close')) as any;
     expect(button).toBeNull();
 
-    mockCartValidationWarningsStateService.cartValidationResult$.next(mockData);
+    mockCartValidationStateService.cartValidationResult$.next(mockData);
     fixture.detectChanges();
 
     button = el.query(By.css('.close')).nativeElement;

@@ -114,13 +114,13 @@ describe('CartTotalsComponent', () => {
     expect(entries).toEqual(entriesMock);
   });
 
-  it('should disable button when checkout routing is active and enable once navigation is over', () => {
+  it('should disable button when checkout routing with cart validation is active and enable once navigation is over', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
     component.disableButtonWhileNavigation();
-    expect(component.buttonEnabled).toEqual(false);
+    expect(component.cartValidationInProgress).toEqual(false);
     mockRouterEvents$.next(new NavigationEnd(null, null, null));
-    expect(component.buttonEnabled).toEqual(true);
+    expect(component.cartValidationInProgress).toEqual(true);
   });
 });

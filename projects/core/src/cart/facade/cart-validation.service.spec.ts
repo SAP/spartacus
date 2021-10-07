@@ -56,7 +56,7 @@ describe('CartValidationService', () => {
   it('should execute command for cart validation and return results', () => {
     let result;
     service
-      .getCartValidationStatus()
+      .validateCart()
       .subscribe((data) => {
         result = data;
       })
@@ -66,7 +66,7 @@ describe('CartValidationService', () => {
   });
 
   it('should call connector with passed params to validate cart', () => {
-    service.getCartValidationStatus().subscribe().unsubscribe();
+    service.validateCart().subscribe().unsubscribe();
     expect(connector.get).toHaveBeenCalled();
   });
 });

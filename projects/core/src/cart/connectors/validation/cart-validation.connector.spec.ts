@@ -5,7 +5,7 @@ import { CartValidationConnector } from './cart-validation.connector';
 import createSpy = jasmine.createSpy;
 
 class MockCartValidationAdapter implements CartValidationAdapter {
-  load = createSpy('load').and.callFake((cartId, userId) =>
+  validate = createSpy('validate').and.callFake((cartId, userId) =>
     of(`load-${cartId}-${userId}`)
   );
 }
@@ -30,10 +30,10 @@ describe('CartValidationConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('get should call adapter', () => {
+  it('validate should call adapter', () => {
     let result;
-    service.get('cart1', 'user1').subscribe((res) => (result = res));
+    service.validate('cart1', 'user1').subscribe((res) => (result = res));
     expect(result).toEqual('load-cart1-user1');
-    expect(adapter.load).toHaveBeenCalledWith('cart1', 'user1');
+    expect(adapter.validate).toHaveBeenCalledWith('cart1', 'user1');
   });
 });

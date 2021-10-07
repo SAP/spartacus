@@ -73,7 +73,7 @@ describe('OccCartValidationAdapter', () => {
   });
 
   it('should return cart modification list based on provided params', () => {
-    occCartValidationAdapter.load(mockCartId, mockUserId).subscribe();
+    occCartValidationAdapter.validate(mockCartId, mockUserId).subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'POST';
@@ -89,7 +89,7 @@ describe('OccCartValidationAdapter', () => {
   });
 
   it('should use converter', () => {
-    occCartValidationAdapter.load(mockCartId, mockUserId).subscribe();
+    occCartValidationAdapter.validate(mockCartId, mockUserId).subscribe();
     httpMock
       .expectOne((req) => {
         return req.method === 'POST';

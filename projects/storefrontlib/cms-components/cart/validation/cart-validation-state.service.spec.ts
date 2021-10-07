@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CartValidationWarningsStateService } from './cart-validation-warnings-state.service';
+import { CartValidationStateService } from './cart-validation-state.service';
 import {
   CartValidationStatusCode,
   RouterState,
@@ -32,13 +32,13 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-describe('CartValidationWarningsStateService', () => {
-  let service: CartValidationWarningsStateService;
+describe('CartValidationStateService', () => {
+  let service: CartValidationStateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CartValidationWarningsStateService,
+        CartValidationStateService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -46,7 +46,7 @@ describe('CartValidationWarningsStateService', () => {
       ],
     });
 
-    service = TestBed.inject(CartValidationWarningsStateService);
+    service = TestBed.inject(CartValidationStateService);
   });
 
   afterEach(() => {
@@ -72,5 +72,26 @@ describe('CartValidationWarningsStateService', () => {
         expect(result.length).toEqual(0);
       })
       .unsubscribe();
+  });
+
+  it('should update result and navigation id', () => {
+    routerStateSubject.next({ navigationId: 2 });
+
+    service.updateValidationResultAndRoutingId([mockData[1]]);
+
+    service.checkForValidationResultClear$
+      .subscribe(() => {
+        let result;
+        service.cartValidationResult$.subscribe((val) => (result = val));
+        expect(service.navigationIdCount).toEqual(2);
+        expect(result).toEqual([mockData[1]]);
+      })
+      .unsubscribe();
+  });
+
+  it('should update navigationIdCount', () => {
+    routerStateSubject.next({ navigationId: 3 });
+    service.setNavigationIdStep();
+    expect(service.navigationIdCount).toEqual(3);
   });
 });

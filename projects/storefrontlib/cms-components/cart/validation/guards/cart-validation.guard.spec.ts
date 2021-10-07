@@ -13,7 +13,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { CartValidationWarningsStateService } from '../cart-validation-warnings-state.service';
+import { CartValidationStateService } from '../cart-validation-state.service';
 
 const cartModificationSubject = new BehaviorSubject({});
 const mockCartId = 'cartTest';
@@ -40,7 +40,7 @@ const mockEntries = [
 ];
 
 class MockCartValidationService implements Partial<CartValidationService> {
-  getCartValidationStatus() {
+  validateCart() {
     return cartModificationSubject.asObservable();
   }
 }
@@ -57,8 +57,8 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   reloadActiveCart = createSpy().and.stub();
   getEntries = () => mockEntriesSubject.asObservable();
 }
-class MockCartValidationWarningsStateService
-  implements Partial<CartValidationWarningsStateService>
+class MockCartValidationStateService
+  implements Partial<CartValidationStateService>
 {
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
@@ -79,8 +79,6 @@ describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
   let activeCartService: ActiveCartService;
-  let routingService: RoutingService;
-  let cartValidationWarningsStateService: CartValidationWarningsStateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,8 +89,8 @@ describe(`CartValidationGuard`, () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
-          provide: CartValidationWarningsStateService,
-          useClass: MockCartValidationWarningsStateService,
+          provide: CartValidationStateService,
+          useClass: MockCartValidationStateService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
@@ -102,10 +100,6 @@ describe(`CartValidationGuard`, () => {
     guard = TestBed.inject(CartValidationGuard);
     globalMessageService = TestBed.inject(GlobalMessageService);
     activeCartService = TestBed.inject(ActiveCartService);
-    routingService = TestBed.inject(RoutingService);
-    cartValidationWarningsStateService = TestBed.inject(
-      CartValidationWarningsStateService
-    );
 
     cartModificationSubject.next({ cartModifications: [] });
   });
@@ -170,23 +164,5 @@ describe(`CartValidationGuard`, () => {
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');
-  });
-
-  it('should push updated validation result and router state id count', () => {
-    const modification = { statusCode: 'noStock', entry: mockEntries[0] };
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of({ navigationId: 5 } as any)
-    );
-
-    guard.updateValidationResultState([modification]);
-
-    let result;
-
-    cartValidationWarningsStateService.cartValidationResult$.subscribe(
-      (value) => (result = value)
-    );
-
-    expect(result).toEqual([modification]);
-    expect(cartValidationWarningsStateService.navigationIdCount).toEqual(5);
   });
 });
