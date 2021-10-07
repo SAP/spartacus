@@ -425,4 +425,13 @@ describe('QuickOrderService', () => {
         done();
       });
   });
+
+  it('should return quick order list limit', () => {
+    expect(service.getListLimit()).toEqual(0);
+  });
+
+  it('should set quick order list limit', () => {
+    service.setListLimit(55);
+    expect(service.getListLimit()).toEqual(55);
+  });
 });

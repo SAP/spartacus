@@ -34,8 +34,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   >([]);
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
-  protected hardDeleteTimeout = 50000;
+  protected hardDeleteTimeout = 5000;
 
+  private quickOrderListLimit = 0;
   private clearDeleteTimeouts: Record<string, Subscription> = {};
 
   constructor(
@@ -85,6 +86,20 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   clearList(): void {
     this.entries$.next([]);
+  }
+
+  /**
+   * Get quick order list limit property
+   */
+  getListLimit(): number {
+    return this.quickOrderListLimit;
+  }
+
+  /**
+   * Set quick order list limit property
+   */
+  setListLimit(limit: number): void {
+    this.quickOrderListLimit = limit;
   }
 
   /**
@@ -290,7 +305,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     }
 
     if (entry.product?.code && this.isProductOnTheList(entry.product.code)) {
-      console.log('on list entries', entries);
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
@@ -305,13 +319,12 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
         }
 
         this.entries$.next([...entries]);
-      } else {
-        console.log('New list entries', entries);
-        this.entries$.next([...entries, ...[entry]]);
       }
-
-      this.productAdded$.next(entry.product?.code);
+    } else {
+      this.entries$.next([...entries, ...[entry]]);
     }
+
+    this.productAdded$.next(entry.product?.code);
   }
 
   /**
