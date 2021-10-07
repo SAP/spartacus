@@ -30,6 +30,8 @@ import { ImportExportComponent } from './import-export.component';
               'cart',
               'checkoutReviewOrder',
               'quickOrder',
+              'orderConfirmation',
+              'orderDetails',
             ],
           },
         },
