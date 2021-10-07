@@ -7,19 +7,12 @@ import {
 import {
   Address,
   DeliveryMode,
-  FeatureConfigService,
   PaymentDetails,
-  StateUtils,
+  QueryState,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  Observable,
-  of,
-  Subscription,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { ExpressCheckoutService } from './express-checkout.service';
 
@@ -61,6 +54,7 @@ const mockDeliveryAddress = new BehaviorSubject(mockDetails.deliveryAddress);
 const mockSelectedDeliveryModeCode = new BehaviorSubject(
   mockDetails.deliveryMode.code
 );
+const mockSelectedDeliveryMode = new BehaviorSubject(mockDetails.deliveryMode);
 const mockPaymentDetails = new BehaviorSubject(mockDetails.paymentInfo);
 
 const mockSupportedDeliveryModes = new BehaviorSubject([
@@ -87,24 +81,23 @@ class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
     return of(undefined);
   }
   setDeliveryMode() {
-    return of();
+    return of(undefined);
   }
-  resetSetDeliveryAddressProcess() {}
-  resetSetDeliveryModeProcess() {}
+  getDeliveryAddress() {
+    return mockDeliveryAddress.asObservable();
+  }
+  getSelectedDeliveryMode() {
+    return mockSelectedDeliveryMode.asObservable();
+  }
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return mockSupportedDeliveryModes.asObservable();
   }
-
-  getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
-    return mockSetDeliveryAddressResult.asObservable();
-  }
-  getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
-    return mockSetDeliveryModeResult.asObservable();
-  }
-  getLoadSupportedDeliveryModeProcess(): Observable<
-    StateUtils.LoaderState<void>
-  > {
-    return mockLoadSupportedDeliveryModesResult.asObservable();
+  getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
+    return of({
+      loading: false,
+      error: false,
+      data: mockSupportedDeliveryModes.value,
+    });
   }
 }
 
@@ -115,14 +108,11 @@ const mockSetPaymentDetailsResult = new BehaviorSubject({
 });
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  resetSetPaymentDetailsProcess() {}
-  getSetPaymentDetailsResultProcess(): Observable<
-    StateUtils.LoaderState<void>
-  > {
-    return mockSetPaymentDetailsResult.asObservable();
-  }
   setPaymentDetails() {
-    return of();
+    return of(undefined);
+  }
+  getPaymentDetails() {
+    return mockPaymentDetails.asObservable();
   }
 }
 
@@ -132,13 +122,7 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(): boolean {
-    return true;
-  }
-}
-
-describe('ExpressCheckoutService', () => {
+fdescribe('ExpressCheckoutService', () => {
   let subscription: Subscription;
   let service: ExpressCheckoutService;
   let userAddressService: UserAddressService;
@@ -270,19 +254,9 @@ describe('ExpressCheckoutService', () => {
         });
 
         it('should return false if set delivery address error', (done) => {
-          mockSetDeliveryAddressResult.next({
-            success: false,
-            error: false,
-            loading: false,
-          });
           spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(
             () => {
-              mockSetDeliveryAddressResult.next({
-                success: false,
-                error: true,
-                loading: false,
-              });
-              return of(undefined);
+              throw new Error('err');
             }
           );
           subscription = service
@@ -434,162 +408,6 @@ describe('ExpressCheckoutService', () => {
           subscription = service
             .trySetDefaultCheckoutDetails()
             .subscribe((data) => {
-              expect(data).toBeFalsy();
-              done();
-            });
-        });
-      });
-    });
-  });
-
-  describe('with commands and queries', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          ExpressCheckoutService,
-          {
-            provide: UserAddressService,
-            useClass: MockUserAddressService,
-          },
-          {
-            provide: UserPaymentService,
-            useClass: MockUserPaymentService,
-          },
-          {
-            provide: CheckoutDeliveryFacade,
-            useClass: MockCheckoutDeliveryFacade,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          {
-            provide: CheckoutConfigService,
-            useClass: MockCheckoutConfigService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      });
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-
-      mockAddresses.next([mockDetails.deliveryAddress]);
-      mockGetAddressesLoadedSuccess.next(true);
-      mockPaymentMethods.next([mockDetails.paymentInfo]);
-      mockGetPaymentMethodsLoadedSuccess.next(true);
-      mockDeliveryAddress.next(mockDetails.deliveryAddress);
-      mockSelectedDeliveryModeCode.next(mockDetails.deliveryMode.code);
-      mockPaymentDetails.next(mockDetails.paymentInfo);
-      mockSupportedDeliveryModes.next([mockDetails.deliveryMode]);
-      mockSetDeliveryAddressResult.next({
-        success: true,
-        error: false,
-        loading: false,
-      });
-      mockSetDeliveryModeResult.next({
-        success: true,
-        error: false,
-        loading: false,
-      });
-      mockLoadSupportedDeliveryModesResult.next({
-        success: true,
-        error: false,
-        loading: false,
-      });
-      mockSetPaymentDetailsResult.next({
-        success: true,
-        error: false,
-        loading: false,
-      });
-
-      service = TestBed.inject(ExpressCheckoutService);
-      userAddressService = TestBed.inject(UserAddressService);
-      userPaymentService = TestBed.inject(UserPaymentService);
-      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-      checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-    });
-
-    describe('trySetDefaultCheckoutDetails', () => {
-      describe('shippingAddressSet$', () => {
-        it('should load addresses if they are not loaded', (done) => {
-          mockGetAddressesLoadedSuccess.next(false);
-          spyOn(userAddressService, 'loadAddresses').and.callFake(() =>
-            mockGetAddressesLoadedSuccess.next(true)
-          );
-          subscription = service
-            .trySetDefaultCheckoutDetails()
-            .subscribe((data) => {
-              expect(userAddressService.loadAddresses).toHaveBeenCalled();
-              expect(data).toBeTruthy();
-              done();
-            });
-        });
-
-        it('should set delivery address if it has been not set yet', (done) => {
-          mockDeliveryAddress.next({});
-          spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(
-            () => {
-              mockDeliveryAddress.next(mockDetails.deliveryAddress);
-              return of(undefined);
-            }
-          );
-          subscription = service
-            .trySetDefaultCheckoutDetails()
-            .subscribe((data) => {
-              expect(
-                checkoutDeliveryFacade.setDeliveryAddress
-              ).toHaveBeenCalledWith(mockDetails.deliveryAddress);
-              expect(data).toBeTruthy();
-              done();
-            });
-        });
-
-        it('should not change delivery address when it is already set', (done) => {
-          mockDeliveryAddress.next(mockDetails.deliveryAddress);
-          spyOn(checkoutDeliveryFacade, 'setDeliveryAddress');
-          subscription = service
-            .trySetDefaultCheckoutDetails()
-            .subscribe((data) => {
-              expect(
-                checkoutDeliveryFacade.setDeliveryAddress
-              ).not.toHaveBeenCalled();
-              expect(data).toBeTruthy();
-              done();
-            });
-        });
-
-        it('should return false if set delivery address failed', (done) => {
-          mockDeliveryAddress.next({});
-          spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(
-            () => {
-              return throwError(new Error());
-            }
-          );
-          subscription = service
-            .trySetDefaultCheckoutDetails()
-            .subscribe((data) => {
-              expect(
-                checkoutDeliveryFacade.setDeliveryAddress
-              ).toHaveBeenCalled();
-              expect(data).toBeFalsy();
-              done();
-            });
-        });
-
-        it('should return false if there are no addresses', (done) => {
-          mockDeliveryAddress.next({});
-          mockAddresses.next([]);
-          spyOn(checkoutDeliveryFacade, 'setDeliveryAddress');
-          subscription = service
-            .trySetDefaultCheckoutDetails()
-            .subscribe((data) => {
-              expect(
-                checkoutDeliveryFacade.setDeliveryAddress
-              ).not.toHaveBeenCalled();
               expect(data).toBeFalsy();
               done();
             });

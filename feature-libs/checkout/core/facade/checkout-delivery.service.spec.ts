@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
+import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -55,6 +56,8 @@ describe('CheckoutDeliveryService', () => {
     }
   }
 
+  class MockCheckoutConnector implements Partial<CheckoutConnector> {}
+
   describe('based on store', () => {
     let actions$: Observable<Action>;
     beforeEach(() => {
@@ -77,6 +80,10 @@ describe('CheckoutDeliveryService', () => {
           {
             provide: CheckoutDeliveryConnector,
             useClass: MockCheckoutDeliveryConnector,
+          },
+          {
+            provide: CheckoutConnector,
+            useClass: MockCheckoutConnector,
           },
           provideMockActions(() => actions$),
         ],

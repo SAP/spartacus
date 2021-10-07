@@ -122,7 +122,7 @@ export class ExpressCheckoutService {
               !!supportedDeliveryModesState.data?.length
           ),
           switchMap(([deliveryModesState]) => {
-            if (!deliveryModesState.data?.length) {
+            if (!deliveryModesState.data) {
               return of(false);
             }
             const preferredDeliveryMode =

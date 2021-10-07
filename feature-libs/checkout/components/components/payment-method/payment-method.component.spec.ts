@@ -58,16 +58,18 @@ class MockCheckoutService {
 }
 
 class MockCheckoutPaymentService {
-  setPaymentDetails = createSpy();
+  setPaymentDetails = createSpy('setPaymentDetails', () => {
+    return of();
+  });
   createPaymentDetails = createSpy();
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
   paymentProcessSuccess() {}
 }
-class MockCheckoutDeliveryService {
-  getDeliveryAddress(): Observable<PaymentDetails> {
-    return of(null);
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+  getDeliveryAddress(): Observable<PaymentDetails | undefined> {
+    return of(undefined);
   }
 }
 
@@ -150,7 +152,7 @@ describe('PaymentMethodComponent', () => {
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutDeliveryFacade,
-            useClass: MockCheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryFacade,
           },
           {
             provide: ActiveCartService,
@@ -258,7 +260,7 @@ describe('PaymentMethodComponent', () => {
         of([])
       );
       spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(null)
+        of(undefined)
       );
 
       component.ngOnInit();
