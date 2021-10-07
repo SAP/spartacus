@@ -30,7 +30,8 @@ export const importEntriesDialog = {
   close: 'Close',
   summary: {
     info: 'Do not close or refresh this window while products are being imported.',
-    loaded: 'Products has been loaded to cart {{ cartName }}',
+    loadedToCart: 'Products has been loaded to cart {{ cartName }}',
+    loadedToQuickOrder: 'Products has been loaded',
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',

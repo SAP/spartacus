@@ -43,6 +43,7 @@
     <ng-template #importSummary>
       <cx-import-entries-summary
         [summary]="summary$ | async"
+        [type]="(context$ | async).type"
         (closeEvent)="close('Close Import Products Dialog')"
       ></cx-import-entries-summary>
     </ng-template>
