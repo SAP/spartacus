@@ -2,7 +2,11 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage, waitForProductPage, waitForCategoryPage } from '../../checkout-flow';
+import {
+  waitForPage,
+  waitForProductPage,
+  waitForCategoryPage,
+} from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -181,7 +185,7 @@ export function verifyRequestToStrategyService(
 ): void {
   cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
-  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then(({request}:any) => {
+  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then(({ request }: any) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -218,9 +222,7 @@ export function verifyRequestToStrategyService(
 
     strategyRequestContext.containsConsentReference
       ? expect(request.headers).to.have.property('consent-reference')
-      : expect(request.headers).to.not.have.property(
-          'consent-reference'
-        );
+      : expect(request.headers).to.not.have.property('consent-reference');
   });
 }
 
