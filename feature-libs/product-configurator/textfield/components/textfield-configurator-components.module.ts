@@ -12,6 +12,7 @@ import {
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldFormComponent } from './form/configurator-textfield-form.component';
 import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configurator-textfield-input-field.component';
+import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-readonly/configurator-textfield-input-field-readonly.component';
 
 @NgModule({
   imports: [
@@ -35,11 +36,13 @@ import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configur
   declarations: [
     ConfiguratorTextfieldFormComponent,
     ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
     ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   exports: [
     ConfiguratorTextfieldFormComponent,
     ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
     ConfiguratorTextfieldAddToCartButtonComponent,
   ],
 })
