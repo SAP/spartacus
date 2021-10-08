@@ -58,7 +58,7 @@ export function waitForPage(page: string, alias: string): string {
   return alias;
 }
 
-export function waitForProductPage(product: string, alias: string): string {
+export function waitForProductPage(productCode: string, alias: string): string {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -66,7 +66,7 @@ export function waitForProductPage(product: string, alias: string): string {
     )}/cms/pages`,
     query: {
       pageType: 'ProductPage',
-      code: product,
+      code: productCode,
     },
   }).as(alias);
   return alias;

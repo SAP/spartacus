@@ -1,4 +1,3 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -16,7 +15,7 @@ function testCategoryPage(
   categoryPagePath: string = merchandisingCarousel.filmCamerasCategoryPagePath,
   containsConsentReference?: boolean
 ): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+  const categoryPage = merchandisingCarousel.waitForCategoryPage('getCategory');
 
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`

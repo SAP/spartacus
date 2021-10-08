@@ -181,7 +181,7 @@ export function verifyRequestToStrategyService(
 ): void {
   cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
-  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then((request) => {
+  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then(({request}:any) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -217,8 +217,8 @@ export function verifyRequestToStrategyService(
     }
 
     strategyRequestContext.containsConsentReference
-      ? expect(request.requestHeaders).to.have.property('consent-reference')
-      : expect(request.requestHeaders).to.not.have.property(
+      ? expect(request.headers).to.have.property('consent-reference')
+      : expect(request.headers).to.not.have.property(
           'consent-reference'
         );
   });
@@ -341,7 +341,7 @@ export function navigateToHomepage(): void {
 }
 
 export function navigateToCategory(categoryName: string): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+  const categoryPage = waitForCategoryPage('getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
@@ -352,4 +352,17 @@ export function waitForCarouselViewEvent(): void {
   cy.waitForCarouselEvent(carouselViewedEventSchema).should((sentEvent) => {
     verifyCarouselViewEvent(sentEvent);
   });
+}
+
+export function waitForCategoryPage(alias: string): string {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages`,
+    query: {
+      pageType: 'CategoryPage'
+    },
+  }).as(alias);
+  return alias;
 }
