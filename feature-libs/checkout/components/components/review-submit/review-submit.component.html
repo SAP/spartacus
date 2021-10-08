@@ -45,7 +45,7 @@
       <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          aria-label="Edit Shipping details, opens a previous page"
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
@@ -66,7 +66,7 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          aria-label="Edit Payment details, opens previous page"
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
@@ -88,7 +88,9 @@
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a
-            aria-label="Edit Shipping details, opens a previous page"
+            [attr.aria-label]="
+              'checkoutReview.editShippingAddressDetails' | cxTranslate
+            "
             [routerLink]="
               {
                 cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
@@ -113,7 +115,9 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          aria-label="Edit Shipping details, opens a previous page"
+          [attr.aria-label]="
+            'checkoutReview.editShippingAddressDetails' | cxTranslate
+          "
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
@@ -134,7 +138,7 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          aria-label="Edit Delivery Mode, opens a previous page"
+          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
               | cxUrl
@@ -157,7 +161,7 @@
       </div>
       <div class="cx-review-summary-edit-step">
         <a
-          aria-label="Edit Payment details, opens previous page"
+          [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
               | cxUrl
