@@ -37,17 +37,22 @@ export const product = {
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
+    showReviewsDetailed:
+      'Show reviews, button, {{count}} reviews, Rated {{rating}} out of 5 stars',
     share: 'Share',
     newItemPrice: 'New item price',
   },
   productReview: {
     overallRating: 'Overall Rating',
+    overallRatingDetailed:
+      'Rated {{rating}} out of 5 stars based on {{count}} reviews',
     reviewTitle: 'Review Title',
     writeYourComments: 'Write your comments',
     rating: 'Rating',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
+    numberOfReviews: '{{count}} Reviews',
     less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
