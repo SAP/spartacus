@@ -30,22 +30,24 @@
       <ng-container *ngIf="formState; else importSummary">
         <cx-import-to-new-saved-cart-form
           *ngIf="isNewCartForm(context); else reducedForm"
+          [type]="context.type"
           (submitEvent)="importProducts(context, $event)"
         ></cx-import-to-new-saved-cart-form>
         <ng-template #reducedForm>
           <cx-import-entries-form
+            [type]="context.type"
             (submitEvent)="importProducts(context, $event)"
           ></cx-import-entries-form>
         </ng-template>
       </ng-container>
-    </ng-container>
 
-    <ng-template #importSummary>
-      <cx-import-entries-summary
-        [summary]="summary$ | async"
-        [type]="(context$ | async).type"
-        (closeEvent)="close('Close Import Products Dialog')"
-      ></cx-import-entries-summary>
-    </ng-template>
+      <ng-template #importSummary>
+        <cx-import-entries-summary
+          [summary]="summary$ | async"
+          [type]="context.type"
+          (closeEvent)="close('Close Import Products Dialog')"
+        ></cx-import-entries-summary>
+      </ng-template>
+    </ng-container>
   </div>
 </div>

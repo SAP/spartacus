@@ -1,3 +1,5 @@
+import { CartTypes } from './import-export.model';
+
 export type ProductData = {
   productCode: string;
   quantity: number;
@@ -6,7 +8,9 @@ export type ProductData = {
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  maxEntries?: number;
+  maxEntries?: {
+    [key in CartTypes]?: number;
+  };
   allowedTypes?: string[];
 }
 

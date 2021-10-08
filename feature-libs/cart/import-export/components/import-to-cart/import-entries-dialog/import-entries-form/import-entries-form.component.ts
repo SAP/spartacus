@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -19,6 +20,7 @@ import {
   ImportConfig,
   ProductData,
   ImportExportConfig,
+  CartTypes,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
@@ -38,6 +40,9 @@ export class ImportEntriesFormComponent implements OnInit {
   submitEvent = new EventEmitter<{
     products: ProductData[];
   }>();
+
+  @Input()
+  type: CartTypes;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -124,6 +129,6 @@ export class ImportEntriesFormComponent implements OnInit {
 
   protected get maxEntries(): number | undefined {
     return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries;
+      ?.maxEntries[this.type];
   }
 }
