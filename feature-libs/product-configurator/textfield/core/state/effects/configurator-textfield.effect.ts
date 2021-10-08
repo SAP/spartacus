@@ -135,6 +135,35 @@ export class ConfiguratorTextfieldEffects {
     )
   );
 
+  @Effect()
+  readConfigurationForOrderEntry$: Observable<
+    | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess
+    | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail
+  > = this.actions$.pipe(
+    ofType(ConfiguratorTextfieldActions.READ_ORDER_ENTRY_CONFIGURATION),
+    switchMap(
+      (action: ConfiguratorTextfieldActions.ReadOrderEntryConfiguration) => {
+        const parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+          action.payload;
+
+        return this.configuratorTextfieldConnector
+          .readConfigurationForOrderEntry(parameters)
+          .pipe(
+            switchMap((result: ConfiguratorTextfield.Configuration) => [
+              new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
+                result
+              ),
+            ]),
+            catchError((error) => [
+              new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
+                normalizeHttpError(error)
+              ),
+            ])
+          );
+      }
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private configuratorTextfieldConnector: ConfiguratorTextfieldConnector
