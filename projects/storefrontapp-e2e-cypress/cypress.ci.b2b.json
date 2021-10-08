@@ -10,7 +10,7 @@
   "videoUploadOnPasses": false,
   "chromeWebSecurity": false,
   "env": {
-    "API_URL": "https://20.83.184.244:9002",
+    "API_URL": "https://api.spartacus.rocks",
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
     "OCC_PREFIX": "/occ/v2",
