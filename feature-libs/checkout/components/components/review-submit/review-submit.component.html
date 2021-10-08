@@ -45,12 +45,13 @@
       <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          aria-label="Edit Shipping details, opens a previous page"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -65,12 +66,13 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          aria-label="Edit Payment details, opens previous page"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -86,12 +88,13 @@
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a
+            aria-label="Edit Shipping details, opens a previous page"
             [routerLink]="
               {
                 cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
               } | cxUrl
             "
-            ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
           ></a>
         </div>
       </div>
@@ -110,12 +113,13 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          aria-label="Edit Shipping details, opens a previous page"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -130,12 +134,13 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          aria-label="Edit Delivery Mode, opens a previous page"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
               | cxUrl
           "
         >
-          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
         </a>
       </div>
     </div>
@@ -152,12 +157,13 @@
       </div>
       <div class="cx-review-summary-edit-step">
         <a
+          aria-label="Edit Payment details, opens previous page"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
               | cxUrl
           "
         >
-          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
         </a>
       </div>
     </div>
