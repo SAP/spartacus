@@ -1,7 +1,8 @@
 @import 'styles/index';
 
 $configurator-textfield-components: cx-configurator-textfield-input-field,
-  cx-configurator-textfield-form, cx-configurator-textfield-add-to-cart-button !default;
+  cx-configurator-textfield-input-field-readonly, cx-configurator-textfield-form,
+  cx-configurator-textfield-add-to-cart-button !default;
 
 $configurator-textfield-pages: TextfieldConfigurationTemplate !default;
 
