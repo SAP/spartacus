@@ -42,7 +42,7 @@ export function clickSearchIcon() {
 }
 
 export function searchForProduct(product: string) {
-  cy.get('cx-searchbox input').type(`${product}{enter}`);
+  cy.get('cx-searchbox input').type(`${product}{enter}`, { force: true });
 }
 
 export function assertFirstProduct() {
