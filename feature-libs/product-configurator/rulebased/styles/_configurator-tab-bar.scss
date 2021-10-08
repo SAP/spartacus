@@ -2,9 +2,15 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
   padding-inline-start: 0px;
   padding-inline-end: 0px;
+
+  //Should be removed later on
+  justify-content: flex-start;
+
+  @include forVersion(4.2) {
+    justify-content: flex-end;
+  }
 
   @include media-breakpoint-up(lg) {
     border-width: 0 0 1px 0;
