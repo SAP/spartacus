@@ -8,6 +8,7 @@
           (keyup)="onKey($event)"
           type="text"
           class="form-control"
+          [attr.aria-label]="'common.search' | cxTranslate"
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
         />
         <cx-icon
