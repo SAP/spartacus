@@ -9,12 +9,13 @@ import {
 } from '../../../../helpers/vendor/cds/cds';
 import * as merchandisingCarousel from '../../../../helpers/vendor/cds/merchandising-carousel';
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
 
 function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
   currency: string = merchandisingCarousel.DEFAULT_CURRENCY
 ): void {
-  const categoryPage = merchandisingCarousel.waitForCategoryPage('getCategory');
+  const categoryPage = waitForCategoryPage('', 'getCategory');
 
   cy.visit(
     `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`

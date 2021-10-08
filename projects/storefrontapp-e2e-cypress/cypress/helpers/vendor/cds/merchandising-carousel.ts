@@ -2,7 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { waitForPage, waitForProductPage, waitForCategoryPage } from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -341,7 +341,7 @@ export function navigateToHomepage(): void {
 }
 
 export function navigateToCategory(categoryName: string): void {
-  const categoryPage = waitForCategoryPage('getCategory');
+  const categoryPage = waitForCategoryPage('', 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
@@ -352,17 +352,4 @@ export function waitForCarouselViewEvent(): void {
   cy.waitForCarouselEvent(carouselViewedEventSchema).should((sentEvent) => {
     verifyCarouselViewEvent(sentEvent);
   });
-}
-
-export function waitForCategoryPage(alias: string): string {
-  cy.intercept({
-    method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages`,
-    query: {
-      pageType: 'CategoryPage'
-    },
-  }).as(alias);
-  return alias;
 }

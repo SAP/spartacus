@@ -9,13 +9,14 @@ import {
 } from '../../../../helpers/vendor/cds/cds';
 import * as merchandisingCarousel from '../../../../helpers/vendor/cds/merchandising-carousel';
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
 
 function testCategoryPage(
   categoryCode: string = merchandisingCarousel.filmCamerasCategoryCode,
   categoryPagePath: string = merchandisingCarousel.filmCamerasCategoryPagePath,
   containsConsentReference?: boolean
 ): void {
-  const categoryPage = merchandisingCarousel.waitForCategoryPage('getCategory');
+  const categoryPage = waitForCategoryPage('', 'getCategory');
 
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`
