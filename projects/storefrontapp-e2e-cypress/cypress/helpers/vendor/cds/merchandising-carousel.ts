@@ -3,9 +3,9 @@ import {
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
 import {
+  waitForCategoryPage,
   waitForPage,
   waitForProductPage,
-  waitForCategoryPage,
 } from '../../checkout-flow';
 
 interface StrategyRequestContext {
@@ -342,8 +342,11 @@ export function navigateToHomepage(): void {
   cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function navigateToCategory(categoryName: string): void {
-  const categoryPage = waitForCategoryPage('', 'getCategory');
+export function navigateToCategory(
+  categoryName: string,
+  categoryCode: string
+): void {
+  const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
