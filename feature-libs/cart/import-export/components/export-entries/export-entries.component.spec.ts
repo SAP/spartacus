@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
@@ -87,20 +87,11 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
-const transitionalArray = [
-  ['SKU', 'quantity'],
-  ['3803058', '2'],
-];
 
 const entries$ = new BehaviorSubject([entry]);
 
-class MockExportEntriesService {
-  getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
-    of(transitionalArray)
-  );
-  downloadCsv = createSpy('downloadCsvSpy').and.returnValue(
-    of(transitionalArray)
-  );
+class MockExportProductsToCsvService {
+  downloadCsv = createSpy('downloadCsv');
 }
 
 describe('ExportEntriesComponent', () => {
@@ -120,7 +111,7 @@ describe('ExportEntriesComponent', () => {
         providers: [
           {
             provide: ExportProductsToCsvService,
-            useClass: MockExportEntriesService,
+            useClass: MockExportProductsToCsvService,
           },
         ],
         declarations: [ExportEntriesComponent],
@@ -143,18 +134,15 @@ describe('ExportEntriesComponent', () => {
     entries$.next([entry]);
     fixture.detectChanges();
 
-    const exportToCsvSpy = spyOn(component, 'exportToCsv').and.callThrough();
+    const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
 
     expect(btn.nativeElement).toBeTruthy();
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
-      expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
-      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(
-        transitionalArray
-      );
+      expect(exportToCsvSpy).toHaveBeenCalledWith();
+      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith([entry]);
     });
   });
 
