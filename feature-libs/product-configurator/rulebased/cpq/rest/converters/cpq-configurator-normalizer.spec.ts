@@ -175,7 +175,7 @@ class MockTranslationService {
     if (key.endsWith('incomplete')) {
       return of(TEST_MESSAGE + options.attribute);
     } else if (key.indexOf('dropDownSelectMsg') >= 0) {
-      return of('Please select');
+      return of('Make a selection');
     } else {
       return of('General');
     }
@@ -1088,7 +1088,7 @@ describe('CpqConfiguratorNormalizer', () => {
         cpqAttr,
         value
       );
-      expect(value.valueDisplay).toEqual('Please select');
+      expect(value.valueDisplay).toEqual('Make a selection');
     });
 
     it('should convert value display - contain cpq value display for drop-down list', () => {

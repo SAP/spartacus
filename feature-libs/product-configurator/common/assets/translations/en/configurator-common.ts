@@ -42,7 +42,7 @@ export const configurator = {
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
       deselectionNotPossible:
         'Add a different product before removing this one',
-      dropDownSelectMsg: 'Please select',
+      dropDownSelectMsg: 'Make a selection',
     },
     button: {
       previous: 'Previous',
