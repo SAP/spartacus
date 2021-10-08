@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -36,6 +37,7 @@ export function defaultCheckoutComponentsConfig() {
           'ReplenishmentConfirmationItemsComponent',
           'ReplenishmentConfirmationTotalsComponent',
         ],
+        dependencies: [CART_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,

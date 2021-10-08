@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
@@ -15,7 +14,6 @@ import { provideConfig } from '@spartacus/core';
         [CHECKOUT_FEATURE]: {
           module: () =>
             import('@spartacus/checkout').then((m) => m.CheckoutModule),
-          dependencies: [CART_FEATURE],
         },
       },
       i18n: {

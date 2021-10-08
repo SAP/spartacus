@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 
@@ -23,6 +24,7 @@ export function defaultProductConfiguratorRulebasedComponentsConfig(): CmsConfig
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         cmsComponents,
+        dependencies: [CART_FEATURE],
       },
     },
   };
