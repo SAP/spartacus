@@ -11,8 +11,10 @@ import {
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
+  OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
+  ReplenishmentOrderScheduledEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -66,6 +68,9 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         RestoreSavedCartSuccessEvent,
         PaymentDetailsCreatedEvent,
         PaymentDetailsSetEvent,
+        // query state should be reset when checkout is finished (should be undefined after these 2 event)
+        OrderPlacedEvent,
+        ReplenishmentOrderScheduledEvent,
         this.actions$.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)),
         this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
       ],
