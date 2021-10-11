@@ -1,12 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Order, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import {
-  PLACED_ORDER_PROCESS_ID,
-  SET_COST_CENTER_PROCESS_ID,
-} from '../checkout-state';
-
-export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
-export const CLEAR_PLACE_ORDER = '[Checkout] Clear Place Order';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { SET_COST_CENTER_PROCESS_ID } from '../checkout-state';
 
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
@@ -17,20 +11,6 @@ export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
 export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
 export const RESET_SET_COST_CENTER_PROCESS =
   '[Checkout] Reset Set Cost Center Process';
-
-export class PlaceOrderSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = PLACE_ORDER_SUCCESS;
-  constructor(public payload: Order) {
-    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
-  }
-}
-
-export class ClearPlaceOrder extends StateUtils.EntityLoaderResetAction {
-  readonly type = CLEAR_PLACE_ORDER;
-  constructor() {
-    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
-  }
-}
 
 export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
@@ -71,7 +51,6 @@ export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetActio
 }
 
 export type CheckoutAction =
-  | PlaceOrderSuccess
   | ClearCheckoutData
   | CheckoutClearMiscsData
   | SetCostCenter

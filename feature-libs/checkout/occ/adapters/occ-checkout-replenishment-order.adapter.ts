@@ -6,12 +6,14 @@ import {
 } from '@spartacus/checkout/core';
 import {
   ConverterService,
+  normalizeHttpError,
   OccEndpointsService,
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutReplenishmentOrderAdapter
@@ -59,6 +61,9 @@ export class OccCheckoutReplenishmentOrderAdapter
         scheduleReplenishmentForm,
         { headers }
       )
-      .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
+      );
   }
 }

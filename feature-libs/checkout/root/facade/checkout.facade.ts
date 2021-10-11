@@ -3,6 +3,7 @@ import {
   facadeFactory,
   Order,
   ORDER_TYPE,
+  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -19,10 +20,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getOrder',
         'clearOrder',
         'scheduleReplenishmentOrder',
-        'getPlaceOrderLoading',
-        'getPlaceOrderSuccess',
-        'getPlaceOrderError',
-        'clearPlaceOrderState',
         'isLoading',
         'setOrderType',
         'getCurrentOrderType',
@@ -34,7 +31,7 @@ export abstract class CheckoutFacade {
   /**
    * Places an order
    */
-  abstract placeOrder(termsChecked: boolean): void;
+  abstract placeOrder(termsChecked: boolean): Observable<Order>;
 
   abstract getOrder(): Observable<Order | undefined>;
 
@@ -46,27 +43,7 @@ export abstract class CheckoutFacade {
   abstract scheduleReplenishmentOrder(
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean
-  ): void;
-
-  /**
-   * Returns the place or schedule replenishment order's loading flag
-   */
-  abstract getPlaceOrderLoading(): Observable<boolean>;
-
-  /**
-   * Returns the place or schedule replenishment order's success flag
-   */
-  abstract getPlaceOrderSuccess(): Observable<boolean>;
-
-  /**
-   * Returns the place or schedule replenishment order's error flag
-   */
-  abstract getPlaceOrderError(): Observable<boolean>;
-
-  /**
-   * Resets the place or schedule replenishment order's processing state
-   */
-  abstract clearPlaceOrderState(): void;
+  ): Observable<ReplenishmentOrder>;
 
   /**
    * Check if checkout details are stable (no longer loading)

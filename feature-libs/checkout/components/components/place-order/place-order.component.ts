@@ -15,7 +15,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 
 @Component({
@@ -51,61 +51,42 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   submitForm(): void {
     if (this.checkoutSubmitForm.valid && Boolean(this.currentOrderType)) {
-      switch (this.currentOrderType) {
-        case ORDER_TYPE.PLACE_ORDER: {
-          this.checkoutService.placeOrder(this.checkoutSubmitForm.valid);
-          break;
-        }
-
-        case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
-          this.checkoutService.scheduleReplenishmentOrder(
-            this.scheduleReplenishmentFormData,
-            this.checkoutSubmitForm.valid
-          );
-          break;
-        }
-      }
+      this.placedOrder = this.launchDialogService.launch(
+        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+        this.vcr
+      );
+      this.currentOrderType === ORDER_TYPE.PLACE_ORDER
+        ? this.checkoutService.placeOrder(this.checkoutSubmitForm.valid)
+        : this.checkoutService
+            .scheduleReplenishmentOrder(
+              this.scheduleReplenishmentFormData,
+              this.checkoutSubmitForm.valid
+            )
+            .subscribe({
+              error: () => {
+                if (this.placedOrder) {
+                  this.placedOrder
+                    .subscribe((component) => {
+                      this.launchDialogService.clear(
+                        LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                      );
+                      if (component) {
+                        component.destroy();
+                      }
+                    })
+                    .unsubscribe();
+                }
+              },
+              next: () => {
+                this.onSuccess(true);
+              },
+            });
     } else {
       this.checkoutSubmitForm.markAllAsTouched();
     }
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      combineLatest([
-        this.checkoutService.getPlaceOrderLoading(),
-        this.checkoutService.getPlaceOrderSuccess(),
-        this.checkoutService.getPlaceOrderError(),
-      ]).subscribe(([orderLoading, orderSuccess, orderError]) => {
-        if (orderLoading) {
-          this.placedOrder = this.launchDialogService.launch(
-            LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-            this.vcr
-          );
-        }
-
-        if (orderError) {
-          if (this.placedOrder) {
-            this.placedOrder
-              .subscribe((component) => {
-                this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                );
-                if (component) {
-                  component.destroy();
-                }
-              })
-              .unsubscribe();
-            this.checkoutService.clearPlaceOrderState();
-          }
-        }
-
-        if (orderSuccess) {
-          this.onSuccess(orderSuccess);
-        }
-      })
-    );
-
     this.subscription.add(
       this.checkoutService
         .getCurrentOrderType()
@@ -146,6 +127,5 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
-    this.checkoutService.clearPlaceOrderState();
   }
 }

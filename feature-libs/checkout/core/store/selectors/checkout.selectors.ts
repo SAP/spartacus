@@ -3,16 +3,13 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Order, ReplenishmentOrder, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import {
   CheckoutState,
   CheckoutStepsState,
   CHECKOUT_FEATURE,
   StateWithCheckout,
 } from '../checkout-state';
-
-const getOrderDetailsSelector = (state: CheckoutStepsState) =>
-  state.orderDetails;
 
 export const getCheckoutState: MemoizedSelector<
   StateWithCheckout,
@@ -33,11 +30,6 @@ export const getCheckoutSteps: MemoizedSelector<
 > = createSelector(getCheckoutStepsState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
-
-export const getCheckoutOrderDetails: MemoizedSelector<
-  StateWithCheckout,
-  Order | ReplenishmentOrder
-> = createSelector(getCheckoutSteps, getOrderDetailsSelector);
 
 export const getCheckoutDetailsLoaded: MemoizedSelector<
   StateWithCheckout,

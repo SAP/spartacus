@@ -1,18 +1,14 @@
-import { Cart, Order, ReplenishmentOrder } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
-  orderDetails: {},
 };
 
 export function reducer(
   state = initialState,
-  action:
-    | CheckoutActions.CheckoutAction
-    | CheckoutActions.SetPaymentTypeSuccess
-    | CheckoutActions.ReplenishmentOrderActions
+  action: CheckoutActions.CheckoutAction | CheckoutActions.SetPaymentTypeSuccess
 ): CheckoutStepsState {
   switch (action.type) {
     case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
@@ -33,16 +29,6 @@ export function reducer(
           ...state.poNumber,
           costCenter: action.payload,
         },
-      };
-    }
-
-    case CheckoutActions.PLACE_ORDER_SUCCESS:
-    case CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS: {
-      const orderDetails: Order | ReplenishmentOrder = action.payload;
-
-      return {
-        ...state,
-        orderDetails,
       };
     }
 

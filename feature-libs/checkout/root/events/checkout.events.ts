@@ -1,4 +1,10 @@
-import { Address, CxEvent, Order, PaymentDetails } from '@spartacus/core';
+import {
+  Address,
+  CxEvent,
+  Order,
+  PaymentDetails,
+  ReplenishmentOrder,
+} from '@spartacus/core';
 
 /**
  * An abstract event for all the checkout events.
@@ -20,6 +26,20 @@ export class OrderPlacedEvent extends CheckoutEvent {
    * Order
    */
   order: Order;
+}
+
+/**
+ * Indicates that a user has scheduled replenishment order.
+ */
+export class ReplenishmentOrderScheduledEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ReplenishmentOrderScheduledEvent';
+  /**
+   * Replenishment Order
+   */
+  replenishmentOrder: ReplenishmentOrder;
 }
 
 /**

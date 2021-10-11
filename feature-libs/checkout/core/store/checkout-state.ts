@@ -1,17 +1,10 @@
-import {
-  Order,
-  ORDER_TYPE,
-  PaymentType,
-  ReplenishmentOrder,
-  StateUtils,
-} from '@spartacus/core';
+import { ORDER_TYPE, PaymentType, StateUtils } from '@spartacus/core';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
 export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
 export const SET_COST_CENTER_PROCESS_ID = 'setCostCenter';
-export const PLACED_ORDER_PROCESS_ID = 'placeOrder';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -22,7 +15,6 @@ export interface CheckoutStepsState {
     po?: string;
     costCenter?: string;
   };
-  orderDetails: Order | ReplenishmentOrder;
 }
 
 export interface PaymentTypesState {
