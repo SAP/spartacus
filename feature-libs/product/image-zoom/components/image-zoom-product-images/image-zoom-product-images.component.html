@@ -1,5 +1,10 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main"></cx-media>
+  <cx-media [container]="main" (click)="triggerZoom(true)"></cx-media>
+  <cx-image-zoom-trigger
+    [expandImage]="expandImage.value"
+    [galleryIndex]="selectedIndex"
+    (dialogClose)="triggerZoom(false)"
+  ></cx-image-zoom-trigger>
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">

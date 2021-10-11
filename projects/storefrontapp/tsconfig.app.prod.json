@@ -102,6 +102,21 @@
       "@spartacus/product/bulk-pricing/root": [
         "dist/product/bulk-pricing/root"
       ],
+      "@spartacus/product/image-zoom": [
+        "dist/product/image-zoom/public_api"
+      ],
+      "@spartacus/product/image-zoom/assets": [
+        "dist/product/image-zoom/assets/public_api"
+      ],
+      "@spartacus/product/image-zoom/root": [
+        "dist/product/image-zoom/root/public_api"
+      ],
+      "@spartacus/product/image-zoom/core": [
+        "dist/product/image-zoom/core/public_api"
+      ],
+      "@spartacus/product/image-zoom/components": [
+        "dist/product/image-zoom/components/public_api"
+      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
       "@spartacus/product/variants/components": [

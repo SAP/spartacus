@@ -34,7 +34,7 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-import { ThumbnailsGroup } from '../image-zoom-thumbnails/image-zoom-thumbnails.model';
+import { ThumbnailsGroup } from '../../core/models/image-zoom-thumbnails.model';
 import {
   calculatePointerMovePosition,
   handleOutOfBounds,

@@ -2,15 +2,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
-import { CurrentProductService } from '../current-product.service';
+import { CurrentProductService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-product-images',
-  templateUrl: './product-images.component.html',
+  templateUrl: './image-zoom-product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImagesComponent {
-  private mainMediaContainer = new BehaviorSubject(null);
+export class ImageZoomProductImagesComponent {
+  private mainMediaContainer = new BehaviorSubject<ImageGroup | any>(null);
 
   private product$: Observable<Product> = this.currentProductService
     .getProduct()
@@ -30,10 +30,14 @@ export class ProductImagesComponent {
     map(([, container]) => container)
   );
 
+  expandImage = new BehaviorSubject(false);
+  selectedIndex: number | undefined;
+
   constructor(private currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
+    this.selectedIndex = this.mainMediaContainer.value?.zoom?.galleryIndex;
   }
 
   isActive(thumbnail: ImageGroup): Observable<boolean> {
@@ -83,5 +87,12 @@ export class ProductImagesComponent {
     }
 
     return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
+  }
+
+  /**
+   * Opens image zoom dialog.
+   */
+  triggerZoom(value: boolean): void {
+    this.expandImage.next(value);
   }
 }

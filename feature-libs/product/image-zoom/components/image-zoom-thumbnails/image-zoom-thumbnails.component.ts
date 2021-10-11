@@ -8,7 +8,8 @@ import {
 import { ImageGroup } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ThumbnailsGroup } from './image-zoom-thumbnails.model';
+import { ThumbnailsGroup } from '../../core/models/image-zoom-thumbnails.model';
+
 
 @Component({
   selector: 'cx-image-zoom-thumbnails',

@@ -8,7 +8,7 @@ import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/index';
 
 import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './image-zoom-dialog/image-zoom-dialog.component';
-import { ImageZoomThumbnailsModule } from './image-zoom-thumbnails/image-zoom-thumbnails.module';
+import { ImageZoomThumbnailsModule } from '../../../../../feature-libs/product/image-zoom/components/image-zoom-thumbnails/image-zoom-thumbnails.module';
 import { ImageZoomViewComponent } from './image-zoom-view/image-zoom-view.component';
 import { ImageZoomTriggerComponent } from './image-zoom-trigger/image-zoom-trigger.component';
 
