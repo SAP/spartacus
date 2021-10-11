@@ -1,14 +1,27 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <div
-    class="cx-attribute"
-    *ngFor="let attribute of configuration.configurationInfos"
-  >
-    <cx-configurator-textfield-input-field
-      [attribute]="attribute"
-      (inputChange)="updateConfiguration($event)"
-    ></cx-configurator-textfield-input-field>
-  </div>
-  <cx-configurator-textfield-add-to-cart-button
-    [configuration]="configuration"
-  ></cx-configurator-textfield-add-to-cart-button>
+  <ng-container *ngIf="isEditable$ | async as isEditable; else readonly">
+    <div
+      class="cx-attribute"
+      *ngFor="let attribute of configuration.configurationInfos"
+    >
+      <cx-configurator-textfield-input-field
+        [attribute]="attribute"
+        (inputChange)="updateConfiguration($event)"
+      ></cx-configurator-textfield-input-field>
+    </div>
+
+    <cx-configurator-textfield-add-to-cart-button
+      [configuration]="configuration"
+    ></cx-configurator-textfield-add-to-cart-button>
+  </ng-container>
+  <ng-template #readonly>
+    <div
+      class="cx-attribute"
+      *ngFor="let attribute of configuration.configurationInfos"
+    >
+      <cx-configurator-textfield-input-field-readonly
+        [attribute]="attribute"
+      ></cx-configurator-textfield-input-field-readonly>
+    </div>
+  </ng-template>
 </ng-container>

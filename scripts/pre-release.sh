@@ -43,7 +43,10 @@ function generate_docs {
     echo "--> Generating compodocs"
     yarn generate:docs
 
-    echo "--> Getting dependencies again"
+    echo "--> Publishing compodocs"
+    yarn publish:docs
+
+    echo "--> Getting npm dependencies back"
     yarn
 }
 
