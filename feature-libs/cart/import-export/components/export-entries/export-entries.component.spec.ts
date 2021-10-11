@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
@@ -88,7 +87,7 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
-const entries$ = new BehaviorSubject([entry]);
+const entries: OrderEntry[] = [entry, entry];
 
 class MockExportProductsToCsvService {
   downloadCsv = createSpy('downloadCsv');
@@ -97,27 +96,24 @@ class MockExportProductsToCsvService {
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
-
   let exportEntriesService: ExportProductsToCsvService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          I18nTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: ExportProductsToCsvService,
-            useClass: MockExportProductsToCsvService,
-          },
-        ],
-        declarations: [ExportEntriesComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: ExportProductsToCsvService,
+          useClass: MockExportProductsToCsvService,
+        },
+      ],
+      declarations: [ExportEntriesComponent],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
@@ -131,7 +127,7 @@ describe('ExportEntriesComponent', () => {
   });
 
   it('should display export to csv link and run downloadCsv on click', () => {
-    entries$.next([entry]);
+    component.entries = entries;
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
@@ -142,16 +138,7 @@ describe('ExportEntriesComponent', () => {
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
       expect(exportToCsvSpy).toHaveBeenCalledWith();
-      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith([entry]);
+      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(entries);
     });
-  });
-
-  it('should to not display button if no entries', () => {
-    entries$.next([]);
-
-    const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
-    fixture.detectChanges();
-
-    expect(btn).toBeNull();
   });
 });
