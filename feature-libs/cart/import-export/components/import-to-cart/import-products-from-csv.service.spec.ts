@@ -12,7 +12,7 @@ import {
   RouterState,
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { ProductImportStatus, ProductsData } from '../../core/model';
+import { ProductImportStatus, ProductData } from '../../core/model';
 import { ImportProductsFromCsvService } from './import-products-from-csv.service';
 
 import createSpy = jasmine.createSpy;
@@ -31,7 +31,7 @@ const mockCartData: StateUtils.ProcessesLoaderState<Cart> = {
   value: { code: mockCartId },
 };
 
-const mockProductData: ProductsData = [
+const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
@@ -113,7 +113,7 @@ describe('ImportProductsFromCsvService', () => {
   });
 
   it('should convert csv extracted data according to product and quantity', () => {
-    expect(service['csvDataToProduct'](mockFileData)).toEqual(mockProductData);
+    expect(service.csvDataToProduct(mockFileData)).toEqual(mockProductData);
   });
 
   describe('loadProductsToCart for saved cart', () => {
@@ -271,50 +271,6 @@ describe('ImportProductsFromCsvService', () => {
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
-    });
-  });
-
-  describe('loadProductsToCart for active cart', () => {
-    it('should create, save and load cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'cart',
-        },
-      } as RouterState);
-
-      service
-        .loadProductsToCart(mockProductData, mockSavedCart)
-        .subscribe()
-        .unsubscribe();
-
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(activeCartService.addEntries).toHaveBeenCalledWith([
-        { product: { code: '693923' }, quantity: 1 },
-        { product: { code: '232133' }, quantity: 2 },
-      ]);
-      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
-    });
-  });
-
-  describe('loadProductsToCart for other page', () => {
-    it('should create, save and load cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'otherPage',
-        },
-      } as RouterState);
-
-      service
-        .loadProductsToCart(mockProductData, mockSavedCart)
-        .subscribe()
-        .unsubscribe();
-
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(activeCartService.addEntries).toHaveBeenCalledWith([
-        { product: { code: '693923' }, quantity: 1 },
-        { product: { code: '232133' }, quantity: 2 },
-      ]);
-      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
     });
   });
 });
