@@ -1,7 +1,6 @@
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as productSearch from '../../helpers/product-search';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -57,17 +56,7 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      cy.intercept({
-        method: 'GET',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions`,
-        query: {
-          term: 'CONF_CAMERA_SL*',
-        },
-      }).as('productSearch');
-      productSearch.searchForProduct(testProduct);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
