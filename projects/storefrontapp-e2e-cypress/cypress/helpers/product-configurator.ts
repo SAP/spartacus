@@ -1,4 +1,7 @@
+import * as login from './login';
+import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
+import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
@@ -498,4 +501,35 @@ export function searchForProduct(productName: string): void {
   }).as('productSearch');
   productSearch.searchForProduct(productName);
   cy.wait('@productSearch');
+}
+
+/**
+ * Orders a product:
+ * (1) Registers a new user,
+ * (2) Logs in with the credentials of the newly registered user,
+ * (3) Searches for a corresponding product by a product name,
+ * (4) Adds a searched product to the cart,
+ * (5) Orders a product,
+ * (6) Verifies whether the order history contains the ordered product and
+ * (7) Navigates to the order details of the product via 'Display Configuration' link.
+ *
+ * @param {string} productName - Product name
+ */
+export function completeOrderProcess(productName: string): void {
+  login.registerUser();
+  verifyGlobalMessageAfterRegistration();
+  const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
+  login.loginUser();
+  cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
+  this.searchForProduct(productName);
+  this.clickOnAddToCartBtnOnPD();
+  this.clickOnProceedToCheckoutBtnOnPD();
+  configurationCartVc.checkout();
+  //TODO: navigation to an order should be enabled after some clarification with @Christoph Hinssen
+  //configurationCart.navigateToOrderDetails();
+  /**
+  const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+  login.signOutUser();
+  cy.wait(tokenRevocationRequestAlias);
+   */
 }
