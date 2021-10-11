@@ -14,7 +14,6 @@ import {
   ProductData,
   CartTypes,
 } from '@spartacus/cart/import-export/core';
-import { ImportProductsFromCsvService } from '../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -44,10 +43,7 @@ export class ImportEntriesDialogComponent {
   context$: Observable<ImportExportContext> =
     this.launchDialogService.data$.pipe(pluck('context'));
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService
-  ) {}
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: ImportExportContext) {
     return context.type === CartTypes.NEW_SAVED_CART;
