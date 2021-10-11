@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   NameSource,
-  ProductImportInfo,
-  ProductImportStatus,
   ProductData,
   ImportExportConfig,
   defaultImportExportConfig,

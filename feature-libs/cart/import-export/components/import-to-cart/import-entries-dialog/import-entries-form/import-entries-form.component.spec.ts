@@ -134,7 +134,9 @@ describe('ImportEntriesFormComponent', () => {
     spyOn(component.submitEvent, 'emit');
     component.save();
 
-    expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith([]);
+    expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith(
+      mockLoadFileData
+    );
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
 });

@@ -1,4 +1,4 @@
-import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
+import { DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -9,7 +9,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _data?: any
   ) {}
 }
 
@@ -48,7 +48,7 @@ describe('ImportEntriesComponent', () => {
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
-      component['vcr']
+      { context: component.context }
     );
   });
 
