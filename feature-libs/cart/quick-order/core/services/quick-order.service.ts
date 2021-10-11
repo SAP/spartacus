@@ -92,7 +92,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Get quick order list limit property
    */
   getListLimit(): number {
-    return this.quickOrderListLimit;
+    const entries = this.entries$.getValue() || [];
+
+    return this.quickOrderListLimit - entries.length;
   }
 
   /**

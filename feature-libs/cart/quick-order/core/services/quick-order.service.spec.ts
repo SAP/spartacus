@@ -430,8 +430,16 @@ describe('QuickOrderService', () => {
     expect(service.getListLimit()).toEqual(0);
   });
 
-  it('should set quick order list limit', () => {
-    service.setListLimit(55);
-    expect(service.getListLimit()).toEqual(55);
+  describe('should set quick order list limit', () => {
+    it('with setter method and no entries', () => {
+      service.setListLimit(55);
+      expect(service.getListLimit()).toEqual(55);
+    });
+
+    it('with setter method and some entries', () => {
+      service.loadEntries(mockEntries);
+      service.setListLimit(10);
+      expect(service.getListLimit()).toEqual(8);
+    });
   });
 });
