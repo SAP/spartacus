@@ -205,6 +205,21 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  protected convertValueDisplay(
+    sourceValue: Cpq.Value,
+    sourceAttribute: Cpq.Attribute,
+    value: Configurator.Value
+  ): void {
+    sourceAttribute?.displayAs === Cpq.DisplayAs.DROPDOWN &&
+    sourceValue?.selected &&
+    sourceValue.paV_ID === 0
+      ? this.translation
+          .translate('configurator.attribute.dropDownSelectMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text))
+      : value.valueDisplay;
+  }
+
   protected convertValue(
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
@@ -231,6 +246,8 @@ export class CpqConfiguratorNormalizer
       ),
       images: [],
     };
+
+    this.convertValueDisplay(sourceValue, sourceAttribute, value);
     value.valuePriceTotal =
       this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
         value.quantity ?? 1,
