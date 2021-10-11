@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ProductImportInfo,
-  ProductImportStatus,
-  ProductsData,
+  ProductData,
   ImportExportConfig,
   defaultImportExportConfig,
 } from '@spartacus/cart/import-export/core';
@@ -31,22 +29,16 @@ const mockFile: File = new File([mockCsvString], 'mockFile.csv', {
   type: 'text/csv',
 });
 
-const mockProducts: ProductsData = [
+const mockProducts: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
-
-const mockLoadProduct: ProductImportInfo = {
-  productCode: '123456',
-  statusCode: ProductImportStatus.SUCCESS,
-};
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
 class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
-  loadProductsToCart = () => of(mockLoadProduct);
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
@@ -100,7 +92,7 @@ describe('ImportEntriesFormComponent', () => {
     filesFormValidators = TestBed.inject(FilesFormValidators);
     importCsvService = TestBed.inject(ImportCsvFileService);
 
-    spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
     spyOn(importCsvService, 'validateFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
     fixture.detectChanges();
@@ -142,6 +134,7 @@ describe('ImportEntriesFormComponent', () => {
     spyOn(component.submitEvent, 'emit');
     component.save();
 
+    expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith([]);
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
 });
