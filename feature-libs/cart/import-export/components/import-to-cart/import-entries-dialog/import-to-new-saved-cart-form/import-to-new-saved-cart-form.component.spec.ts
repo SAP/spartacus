@@ -2,21 +2,21 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  NameSource,
-  ProductData,
-  ImportExportConfig,
-  defaultImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+import { Observable, of } from 'rxjs';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
+  FilesFormValidators,
   FileUploadModule,
   FormErrorsModule,
-  LaunchDialogService,
-  FilesFormValidators,
   ImportCsvFileService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import {
+  defaultImportExportConfig,
+  ImportExportConfig,
+  NameSource,
+  ProductData,
+} from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form.component';
 

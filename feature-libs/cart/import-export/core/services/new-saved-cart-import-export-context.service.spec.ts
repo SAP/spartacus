@@ -9,12 +9,12 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   NewSavedCartImportExportContext,
   ProductData,
   ProductImportStatus,
 } from '@spartacus/cart/import-export/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

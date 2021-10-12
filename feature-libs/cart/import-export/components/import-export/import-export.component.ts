@@ -4,9 +4,9 @@ import { map, switchMap } from 'rxjs/operators';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
+  ActiveCartImportExportContext,
   CmsImportExportComponent,
   ImportExportContext,
-  ActiveCartImportExportContext,
   NewSavedCartImportExportContext,
   QuickOrderImportExportContext,
   SavedCartImportExportContext,

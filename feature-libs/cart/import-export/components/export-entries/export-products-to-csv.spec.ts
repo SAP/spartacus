@@ -1,11 +1,11 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   ImageType,
   OrderEntry,
   PriceType,
   TranslationService,
-  GlobalMessageService,
 } from '@spartacus/core';
 import {
   ExportCsvFileService,

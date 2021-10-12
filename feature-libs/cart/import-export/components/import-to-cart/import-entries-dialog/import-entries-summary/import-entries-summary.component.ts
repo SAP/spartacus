@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import {
-  ProductImportSummary,
   CartTypes,
+  ProductImportSummary,
 } from '@spartacus/cart/import-export/core';
 
 @Component({

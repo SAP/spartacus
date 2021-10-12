@@ -13,14 +13,17 @@ import {
 import { of } from 'rxjs';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  LaunchDialogService,
   FilesFormValidators,
   ImportCsvFileService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { ProductData, NameSource } from '@spartacus/cart/import-export/core';
-import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
+import {
+  ImportExportConfig,
+  NameSource,
+  ProductData,
+} from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 
 @Component({
   selector: 'cx-import-to-new-saved-cart-form',

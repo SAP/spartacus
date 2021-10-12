@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { OrderEntry } from '@spartacus/core';
 import { CartTypes } from '../model/import-export.model';
-import { ProductImportInfo, ProductData } from '../model/import-to-cart.model';
+import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
 
 export interface ImportExportContext {
   readonly type: CartTypes;

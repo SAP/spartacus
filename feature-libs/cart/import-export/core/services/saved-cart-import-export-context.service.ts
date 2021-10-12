@@ -10,10 +10,10 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { ProductData } from '../model/import-to-cart.model';
 import { CartTypes } from '../model/import-export.model';
-import { ImportExportContext } from './import-export.context';
+import { ProductData } from '../model/import-to-cart.model';
 import { CartImportExportContext } from './cart-import-export.context';
+import { ImportExportContext } from './import-export.context';
 
 @Injectable({
   providedIn: 'root',

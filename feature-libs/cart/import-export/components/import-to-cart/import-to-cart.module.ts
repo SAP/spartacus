@@ -1,9 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { I18nModule, provideConfig } from '@spartacus/core';
-import { ImportEntriesComponent } from './import-entries/import-entries-component';
-import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { I18nModule, provideConfig } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
@@ -11,9 +9,11 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
-import { ImportToNewSavedCartFormComponent } from './import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
+import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
+import { ImportToNewSavedCartFormComponent } from './import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
+import { ImportEntriesComponent } from './import-entries/import-entries-component';
 
 @NgModule({
   imports: [

@@ -2,6 +2,8 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
+import { OrderEntry, RouterState, RoutingService } from '@spartacus/core';
+import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
 import {
   ActiveCartImportExportContext,
   CartTypes,
@@ -13,8 +15,6 @@ import {
   QuickOrderImportExportContext,
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
-import { OrderEntry, RouterState, RoutingService } from '@spartacus/core';
-import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
 import { ImportExportComponent } from './import-export.component';
 import createSpy = jasmine.createSpy;
 

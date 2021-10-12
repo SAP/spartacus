@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Order, OrderEntry } from '@spartacus/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { CartTypes } from '../model/import-export.model';
-import { ProductImportInfo, ProductData } from '../model/import-to-cart.model';
+import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
 import { ImportExportContext } from './import-export.context';
 
 @Injectable({

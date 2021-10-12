@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   I18nTestingModule,
@@ -8,8 +8,8 @@ import {
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import { ExportEntriesComponent } from './export-entries.component';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {

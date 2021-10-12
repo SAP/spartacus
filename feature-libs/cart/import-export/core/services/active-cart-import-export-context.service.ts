@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { ProductData } from '../model/import-to-cart.model';
 import { CartTypes } from '../model/import-export.model';
-import { ImportExportContext } from './import-export.context';
+import { ProductData } from '../model/import-to-cart.model';
 import { CartImportExportContext } from './cart-import-export.context';
+import { ImportExportContext } from './import-export.context';
 
 @Injectable({
   providedIn: 'root',

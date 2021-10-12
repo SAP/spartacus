@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { CartTypes } from '../model/import-export.model';
-import { ProductImportInfo, ProductData } from '../model/import-to-cart.model';
+import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
 import { CartImportExportContext } from './cart-import-export.context';
 import { ImportExportContext } from './import-export.context';
 

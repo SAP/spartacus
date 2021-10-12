@@ -9,11 +9,11 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   ProductData,
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

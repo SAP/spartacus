@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CartActions } from '@spartacus/core';
 import {
+  ProductData,
   ProductImportInfo,
   ProductImportStatus,
-  ProductData,
 } from '../model/import-to-cart.model';
 
 export abstract class CartImportExportContext {

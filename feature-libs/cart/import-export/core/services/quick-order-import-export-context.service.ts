@@ -6,9 +6,9 @@ import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { catchError, take, tap } from 'rxjs/operators';
 import { CartTypes } from '../model/import-export.model';
 import {
+  ProductData,
   ProductImportInfo,
   ProductImportStatus,
-  ProductData,
 } from '../model/import-to-cart.model';
 import { ImportExportContext } from './import-export.context';
 
