@@ -14,6 +14,7 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
       featureModules: {
         [ORDER_FEATURE]: {
           module: () => import('@spartacus/order').then((m) => m.OrderModule),
+          dependencies: [CART_FEATURE],
         },
       },
     }),

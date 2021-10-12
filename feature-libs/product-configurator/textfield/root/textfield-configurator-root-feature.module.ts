@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE } from './feature-name';
 
@@ -11,7 +10,6 @@ export function defaultProductConfiguratorTextfieldComponentsConfig(): CmsConfig
     featureModules: {
       [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
         cmsComponents,
-        dependencies: [CART_FEATURE],
       },
     },
   };
