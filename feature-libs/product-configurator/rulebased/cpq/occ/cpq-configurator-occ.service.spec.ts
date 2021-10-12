@@ -4,10 +4,10 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/core';
 import { CartModification } from '@spartacus/cart/main/root';
 import {
   BaseOccUrlProperties,
-  CART_MODIFICATION_NORMALIZER,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
