@@ -127,6 +127,6 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   protected get maxEntries(): number | undefined {
-    return this.componentData?.fileValidity?.maxEntries[this.type];
+    return this.componentData?.fileValidity?.maxEntries?.[this.type];
   }
 }
