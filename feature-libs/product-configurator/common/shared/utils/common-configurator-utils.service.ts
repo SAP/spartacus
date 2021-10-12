@@ -49,7 +49,9 @@ export class CommonConfiguratorUtilsService {
   decomposeOwnerId(ownerId: string): any {
     const parts: string[] = ownerId.split('+');
     if (parts.length !== 2) {
-      throw new Error('We only expect 2 parts in ownerId, separated by +');
+      throw new Error(
+        'We only expect 2 parts in ownerId, separated by +, but was: ' + ownerId
+      );
     }
     const result = { documentId: parts[0], entryNumber: parts[1] };
     return result;
