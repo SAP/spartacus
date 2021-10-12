@@ -53,6 +53,8 @@ export const configurator = {
       select: 'Select',
       add: 'Add',
       remove: 'Remove',
+      exit: 'Exit Configuration',
+      exitshort: 'Exit',
     },
     priceSummary: {
       basePrice: 'Base Price',

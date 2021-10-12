@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  WindowRef,
+} from '@spartacus/core';
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 @NgModule({
@@ -13,6 +18,7 @@ import { ConfiguratorExitButtonComponent } from './configurator-exit-button.comp
         },
       },
     }),
+    WindowRef,
   ],
   declarations: [ConfiguratorExitButtonComponent],
   exports: [ConfiguratorExitButtonComponent],

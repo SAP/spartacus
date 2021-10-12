@@ -1,3 +1,13 @@
-<button class="config-exit-button" style="color: crimson">
-  <span class="exit"> EXIT CONFIGURATION </span>
+<button class="cx-config-exit-button" tabindex="0" (click)="goBack()">
+  <span class="cx-exit-configurator" *ngIf="isDesktop() | async">
+    {{ 'configurator.button.exit' | cxTranslate }}
+  </span>
+  <span
+    #mobile
+    id="cx-exit-configurator-short"
+    class="cx-exit-configurator-short"
+    *ngIf="isMobile() | async"
+  >
+    {{ 'configurator.button.exitshort' | cxTranslate }}
+  </span>
 </button>

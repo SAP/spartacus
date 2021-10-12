@@ -1,0 +1,24 @@
+%cx-configurator-exit-button {
+  .cx-config-exit-button {
+    border-radius: var(--cx-buttons-border-radius);
+    border: 2px solid white;
+    background-color: transparent;
+    height: 44px;
+  }
+  .cx-exit-configurator {
+    align-items: center;
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
+  }
+  .cx-exit-configurator-short {
+    align-items: center;
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
+  }
+}
