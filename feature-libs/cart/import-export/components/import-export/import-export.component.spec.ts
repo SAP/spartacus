@@ -1,5 +1,7 @@
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { StoreModule } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, of } from 'rxjs';
 import {
   ActiveCartImportExportContext,
   CartTypes,
@@ -12,9 +14,7 @@ import {
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
 import { OrderEntry, RouterState, RoutingService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
-// import { PageComponentModule } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
 import { ImportExportComponent } from './import-export.component';
 import createSpy = jasmine.createSpy;
 
@@ -99,13 +99,33 @@ const MockCmsImportExportComponent = <CmsComponentData<any>>{
   data$: of(mockCmsComponentData),
 };
 
+@Component({
+  selector: 'cx-import-entries',
+  template: '',
+})
+export class MockImportEntriesComponent {
+  @ViewChild('open') element: ElementRef;
+
+  @Input()
+  context: ImportExportContext;
+}
+
+@Component({
+  selector: 'cx-export-entries',
+  template: '',
+})
+export class MockExportEntriesComponent {
+  @Input()
+  entries: OrderEntry[];
+}
+
 describe('ImportExportComponent', () => {
   let component: ImportExportComponent;
   let fixture: ComponentFixture<ImportExportComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [RouterTestingModule, PageComponentModule],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsImportExportComponent },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -126,7 +146,11 @@ describe('ImportExportComponent', () => {
           useClass: MockQuickOrderImportExportContext,
         },
       ],
-      declarations: [ImportExportComponent],
+      declarations: [
+        ImportExportComponent,
+        MockExportEntriesComponent,
+        MockImportEntriesComponent,
+      ],
     }).compileComponents();
   });
 
