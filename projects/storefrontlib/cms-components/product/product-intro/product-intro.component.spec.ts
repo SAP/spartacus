@@ -4,7 +4,6 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
-import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'cx-star-rating',
