@@ -7,7 +7,7 @@
       class="previous"
       (click)="activeSlide = activeSlide - size"
       [disabled]="activeSlide === 0"
-      aria-label="previous slide"
+      [attr.aria-label]="'common.carousel.previous' | cxTranslate"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -42,7 +42,7 @@
       (click)="activeSlide = activeSlide + size"
       tabindex="-1"
       [disabled]="activeSlide > items.length - size - 1"
-      aria-label="next slide"
+      [attr.aria-label]="'carousel.next' | cxTranslate"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
