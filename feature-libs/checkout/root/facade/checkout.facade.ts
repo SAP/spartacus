@@ -22,7 +22,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'scheduleReplenishmentOrder',
         'isLoading',
         'setOrderType',
-        'getCurrentOrderType',
+        'getOrderType',
       ],
       async: true,
     }),
@@ -59,5 +59,5 @@ export abstract class CheckoutFacade {
   /**
    * Get current checkout order type
    */
-  abstract getCurrentOrderType(): Observable<ORDER_TYPE>;
+  abstract getOrderType(): Observable<ORDER_TYPE>;
 }

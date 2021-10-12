@@ -118,7 +118,7 @@ describe('CheckoutService', () => {
 
       let result: ORDER_TYPE;
       service
-        .getCurrentOrderType()
+        .getOrderType()
         .subscribe((data) => {
           result = data;
         })

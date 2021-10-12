@@ -15,7 +15,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 
 @Component({
@@ -55,32 +55,32 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
       );
-      this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-        ? this.checkoutService.placeOrder(this.checkoutSubmitForm.valid)
-        : this.checkoutService
-            .scheduleReplenishmentOrder(
+      merge(
+        this.currentOrderType === ORDER_TYPE.PLACE_ORDER
+          ? this.checkoutService.placeOrder(this.checkoutSubmitForm.valid)
+          : this.checkoutService.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
               this.checkoutSubmitForm.valid
             )
-            .subscribe({
-              error: () => {
-                if (this.placedOrder) {
-                  this.placedOrder
-                    .subscribe((component) => {
-                      this.launchDialogService.clear(
-                        LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                      );
-                      if (component) {
-                        component.destroy();
-                      }
-                    })
-                    .unsubscribe();
+      ).subscribe({
+        error: () => {
+          if (this.placedOrder) {
+            this.placedOrder
+              .subscribe((component) => {
+                this.launchDialogService.clear(
+                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                );
+                if (component) {
+                  component.destroy();
                 }
-              },
-              next: () => {
-                this.onSuccess(true);
-              },
-            });
+              })
+              .unsubscribe();
+          }
+        },
+        next: () => {
+          this.onSuccess();
+        },
+      });
     } else {
       this.checkoutSubmitForm.markAllAsTouched();
     }
@@ -89,7 +89,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.checkoutService
-        .getCurrentOrderType()
+        .getOrderType()
         .subscribe((orderType) => (this.currentOrderType = orderType))
     );
 
@@ -107,21 +107,20 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSuccess(data: boolean): void {
-    if (data) {
-      switch (this.currentOrderType) {
-        case ORDER_TYPE.PLACE_ORDER: {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
-          break;
-        }
-
-        case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
-          this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
-          break;
-        }
+  onSuccess(): void {
+    console.log(this.currentOrderType);
+    switch (this.currentOrderType) {
+      case ORDER_TYPE.PLACE_ORDER: {
+        this.routingService.go({ cxRoute: 'orderConfirmation' });
+        break;
       }
-      this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
+
+      case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
+        this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
+        break;
+      }
     }
+    this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
   }
 
   ngOnDestroy(): void {

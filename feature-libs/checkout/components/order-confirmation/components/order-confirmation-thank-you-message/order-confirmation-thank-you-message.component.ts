@@ -37,7 +37,7 @@ export class OrderConfirmationThankYouMessageComponent
     );
 
     this.isReplenishmentOrderType$ = this.checkoutService
-      .getCurrentOrderType()
+      .getOrderType()
       .pipe(
         map(
           (orderType) => ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER === orderType

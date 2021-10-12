@@ -1,4 +1,4 @@
-import { ORDER_TYPE, PaymentType, StateUtils } from '@spartacus/core';
+import { PaymentType, StateUtils } from '@spartacus/core';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
@@ -22,12 +22,7 @@ export interface PaymentTypesState {
   selected?: string;
 }
 
-export interface OrderTypesState {
-  selected: ORDER_TYPE;
-}
-
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
   paymentTypes: PaymentTypesState;
-  orderType: OrderTypesState;
 }

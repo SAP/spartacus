@@ -7,7 +7,6 @@ import {
   CHECKOUT_DETAILS,
 } from '../checkout-state';
 import * as fromCheckout from './checkout.reducer';
-import * as fromOrderTypes from './order-types.reducer';
 import * as fromPaymentTypes from './payment-types.reducer';
 
 export function getReducers(): ActionReducerMap<CheckoutState, any> {
@@ -17,7 +16,6 @@ export function getReducers(): ActionReducerMap<CheckoutState, any> {
       fromCheckout.reducer
     ),
     paymentTypes: fromPaymentTypes.reducer,
-    orderType: fromOrderTypes.reducer,
   };
 }
 
