@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   I18nTestingModule,
   ImageType,
@@ -203,22 +203,39 @@ describe('ExportProductsToCsvService', () => {
     expect(result.length).toEqual(2);
   });
 
-  xit(`should downloadCsv`, async () => {
+  it(`should downloadCsv`, fakeAsync(() => {
+    const timeout = 0;
+    const data = [
+      [
+        'exportEntries.columnNames.code',
+        'exportEntries.columnNames.quantity',
+        'exportEntries.columnNames.name',
+        'exportEntries.columnNames.price',
+      ],
+      ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+      ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+    ];
+
+    spyOn<any>(service, 'download').and.callThrough();
+
     service['importExportConfig'] = {
       cartImportExport: {
         ...defaultImportExportConfig.cartImportExport,
         export: {
           ...defaultImportExportConfig.cartImportExport?.export,
-          downloadDelay: 0,
+          downloadDelay: timeout,
         },
       },
     };
 
     service.downloadCsv(entries);
+    tick(timeout);
+
+    expect(service['download']).toHaveBeenCalledWith(data);
     expect(exportCsvFileService.download).toHaveBeenCalledWith(
-      [],
-      defaultImportExportConfig.cartImportExport.file.separator,
-      defaultImportExportConfig.cartImportExport.export.fileOptions
+      data,
+      defaultImportExportConfig.cartImportExport?.file.separator,
+      defaultImportExportConfig.cartImportExport?.export.fileOptions
     );
-  });
+  }));
 });
