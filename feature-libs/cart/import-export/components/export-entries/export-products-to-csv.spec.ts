@@ -7,7 +7,10 @@ import {
   TranslationService,
   GlobalMessageService,
 } from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
+import {
+  ExportCsvFileService,
+  PageComponentModule,
+} from '@spartacus/storefront';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
@@ -96,16 +99,21 @@ const entries: OrderEntry[] = [entry, entry];
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
+class MockExportCsvFileService implements Partial<ExportCsvFileService> {
+  download = createSpy().and.callThrough();
+}
 
 describe('ExportProductsToCsvService', () => {
   let service: ExportProductsToCsvService;
   let translationService: TranslationService;
+  let exportCsvFileService: ExportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, PageComponentModule],
       providers: [
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
+        { provide: ExportCsvFileService, useClass: MockExportCsvFileService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -114,6 +122,9 @@ describe('ExportProductsToCsvService', () => {
     });
     service = TestBed.inject(ExportProductsToCsvService);
     translationService = TestBed.inject(TranslationService);
+    exportCsvFileService = TestBed.inject(ExportCsvFileService);
+
+    spyOn(translationService, 'translate').and.callThrough();
   });
 
   it('should be created', () => {
@@ -122,8 +133,6 @@ describe('ExportProductsToCsvService', () => {
 
   describe('getResolvedEntries', () => {
     it('should translate headings and export entries to specific format', () => {
-      spyOn(translationService, 'translate').and.callThrough();
-
       let result: string[][] = [];
       service['getResolvedEntries'](entries).subscribe(
         (data) => (result = data)
@@ -192,5 +201,24 @@ describe('ExportProductsToCsvService', () => {
       .subscribe((data) => (result = data))
       .unsubscribe();
     expect(result.length).toEqual(2);
+  });
+
+  xit(`should downloadCsv`, async () => {
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport?.export,
+          downloadDelay: 0,
+        },
+      },
+    };
+
+    service.downloadCsv(entries);
+    expect(exportCsvFileService.download).toHaveBeenCalledWith(
+      [],
+      defaultImportExportConfig.cartImportExport.file.separator,
+      defaultImportExportConfig.cartImportExport.export.fileOptions
+    );
   });
 });
