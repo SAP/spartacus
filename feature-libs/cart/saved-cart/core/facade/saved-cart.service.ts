@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/main/core';
+import {
+  getWishlistName,
+  isSelectiveCart,
+  StateWithMultiCart,
+} from '@spartacus/cart/main/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartEvent,
@@ -8,8 +12,6 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   EventService,
-  getWishlistName,
-  isSelectiveCart,
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
