@@ -6,11 +6,12 @@
         <div class="form-group" formGroupName="cardType">
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
-              <label aria-required="true">
+              <label>
                 <span class="label-content required">{{
                   'paymentForm.paymentType' | cxTranslate
                 }}</span>
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="cardTypes"
@@ -73,6 +74,7 @@
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="months"
@@ -91,6 +93,7 @@
               </label>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="years"
@@ -199,6 +202,7 @@
                         'addressForm.country' | cxTranslate
                       }}</span>
                       <ng-select
+                        aria-required="true"
                         [searchable]="true"
                         [clearable]="false"
                         [items]="countries"
@@ -262,6 +266,7 @@
                     'addressForm.address1' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
@@ -337,6 +342,7 @@
                           'addressForm.state' | cxTranslate
                         }}</span>
                         <ng-select
+                          aria-required="true"
                           class="region-select"
                           formControlName="isocodeShort"
                           [searchable]="true"

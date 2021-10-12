@@ -4,11 +4,12 @@
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">
-            <label aria-required="true">
+            <label>
               <span class="label-content required">{{
                 'addressForm.country' | cxTranslate
               }}</span>
               <ng-select
+                aria-required="true"
                 class="country-select"
                 formControlName="isocode"
                 [searchable]="true"
@@ -30,7 +31,7 @@
       <div class="form-group" *ngIf="showTitleCode">
         <ng-container *ngIf="titles$ | async as titles">
           <div *ngIf="titles.length !== 0">
-            <label aria-required="true">
+            <label>
               <span class="label-content required">{{
                 'addressForm.title' | cxTranslate
               }}</span>
@@ -155,11 +156,12 @@
         >
           <ng-container *ngIf="regions.length !== 0">
             <div class="form-group col-md-6">
-              <label aria-required="true">
+              <label>
                 <span class="label-content required">{{
                   'addressForm.state' | cxTranslate
                 }}</span>
                 <ng-select
+                  aria-required="true"
                   class="region-select"
                   formControlName="isocode"
                   [searchable]="true"
