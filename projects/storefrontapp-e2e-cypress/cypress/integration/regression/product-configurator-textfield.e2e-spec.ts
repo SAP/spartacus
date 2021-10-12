@@ -1,5 +1,5 @@
 import * as cart from '../../helpers/cart';
-import * as productSearch from '../../helpers/product-search';
+import * as configuration from '../../helpers/product-configurator';
 import * as textfieldConfiguration from '../../helpers/textfield-configuration';
 
 const electronicsShop = 'electronics-spa';
@@ -14,7 +14,7 @@ context('Textfield Configuration', () => {
   // TODO: GH-13777 Remove skip and Fix test failure
   describe.skip('Navigate to Textfield Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      productSearch.searchForProduct(testProduct);
+      configuration.searchForProduct(testProduct);
       textfieldConfiguration.clickOnConfigureButton();
     });
 

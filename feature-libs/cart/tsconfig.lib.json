@@ -32,7 +32,8 @@
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
 }

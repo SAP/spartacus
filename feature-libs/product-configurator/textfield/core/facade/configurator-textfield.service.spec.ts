@@ -3,7 +3,11 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
-import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  UserIdService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -27,6 +31,8 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
+const ORDER_NUMBER = '0001';
+const ORDER_ENTRY_NUMBER = '10';
 const owner = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
@@ -37,12 +43,25 @@ const ownerCartRelated = ConfiguratorModelUtils.createOwner(
   CART_ENTRY_NUMBER
 );
 
+const ownerOrderRelated = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.ORDER_ENTRY,
+  ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
+);
+
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
   {
     userId: 'anonymous',
     cartId: CART_GUID,
     cartEntryNumber: CART_ENTRY_NUMBER,
     owner: ownerCartRelated,
+  };
+
+const readFromOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: OCC_USER_ID_CURRENT,
+    orderId: ORDER_NUMBER,
+    orderEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ownerOrderRelated,
   };
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
@@ -208,6 +227,26 @@ describe('ConfiguratorTextfieldService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
         readFromCartEntryParams
+      )
+    );
+  });
+
+  it('should dispatch the correct action when readConfigurationForOrderEntry is called', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForOrderEntry(ownerOrderRelated);
+
+    expect(configurationFromStore).toBeDefined();
+
+    configurationFromStore
+      .subscribe((configuration) =>
+        expect(configuration.configurationInfos.length).toBe(1)
+      )
+      .unsubscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParams
       )
     );
   });

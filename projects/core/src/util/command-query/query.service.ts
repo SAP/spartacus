@@ -13,7 +13,6 @@ import {
 import {
   catchError,
   distinctUntilChanged,
-  filter,
   pluck,
   share,
   switchMapTo,
@@ -23,7 +22,7 @@ import {
 import { EventService } from '../../event/event.service';
 import { CxEvent } from '../../event/cx-event';
 
-export type QueryNotifier = Observable<any> | Type<CxEvent>;
+export type QueryNotifier = Observable<unknown> | Type<CxEvent>;
 
 export interface QueryState<T> {
   loading: boolean;
@@ -31,7 +30,7 @@ export interface QueryState<T> {
   data: T | undefined;
 }
 
-export interface Query<T, P extends any[] = []> {
+export interface Query<T, P extends unknown[] = []> {
   get(...params: P): Observable<T | undefined>;
   getState(...params: P): Observable<QueryState<T>>;
 }
@@ -51,43 +50,54 @@ export class QueryService implements OnDestroy {
       resetOn?: QueryNotifier[];
     }
   ): Query<T> {
-    const state$ = new BehaviorSubject<QueryState<T>>({
+    const initialState: QueryState<T> = {
       data: undefined,
       error: false,
-      loading: false,
-    });
+      loading: true,
+    };
 
-    // if query will be unsubscribed when data is loaded, we will end up with loading flag set to true
+    const state$ = new BehaviorSubject<QueryState<T>>(initialState);
+
+    // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
-    const retryInterruptedLoad$ = iif(
-      () => state$.value.loading,
-      of(undefined)
-    );
+    const onSubscribeLoad$ = iif(() => state$.value.loading, of(undefined));
 
     const loadTrigger$ = this.getTriggersStream([
-      state$.pipe(
-        filter(
-          ({ data, loading, error }) => data === undefined && !loading && !error
-        )
-      ),
+      onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
       ...(options?.reloadOn ?? []),
-      retryInterruptedLoad$,
+      ...(options?.resetOn ?? []),
     ]);
 
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
+    const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
     const load$ = loadTrigger$.pipe(
-      tap(() => state$.next({ ...state$.value, loading: true })),
+      tap(() => {
+        if (!state$.value.loading) {
+          state$.next({ ...state$.value, loading: true });
+        }
+      }),
       switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
-      catchError((error) => {
+      catchError((error, retryStream$) => {
         state$.next({ loading: false, error, data: undefined });
-        return EMPTY;
+        return retryStream$;
       }),
       share()
     );
+
+    // reload logic
+    if (options?.reloadOn?.length) {
+      this.subscriptions.add(
+        reloadTrigger$.subscribe(() => {
+          if (!state$.value.loading) {
+            state$.next({ ...state$.value, loading: true });
+          }
+        })
+      );
+    }
 
     // reset logic
     if (options?.resetOn?.length) {
@@ -98,11 +108,7 @@ export class QueryService implements OnDestroy {
             state$.value.error !== false ||
             state$.value.loading !== false
           ) {
-            state$.next({
-              data: undefined,
-              error: false,
-              loading: false,
-            });
+            state$.next(initialState);
           }
         })
       );
@@ -118,7 +124,7 @@ export class QueryService implements OnDestroy {
     return { get: () => data$, getState: () => query$ };
   }
 
-  protected getTriggersStream(triggers: QueryNotifier[]): Observable<any> {
+  protected getTriggersStream(triggers: QueryNotifier[]): Observable<unknown> {
     if (!triggers.length) {
       return EMPTY;
     }
