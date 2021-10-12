@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CartTypes,
   ImportExportContext,
   ProductData,
   ProductImportInfo,
@@ -50,7 +51,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   selector: 'cx-import-entries-form',
   template: '',
 })
-class MockImportEntriesFormComponent {}
+class MockImportEntriesFormComponent {
+  @Input()
+  type: CartTypes;
+}
 
 describe('ImportEntriesDialogComponent', () => {
   let component: ImportEntriesDialogComponent;
