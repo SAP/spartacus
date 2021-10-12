@@ -4,6 +4,7 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'cx-star-rating',
@@ -146,32 +147,6 @@ describe('ProductIntroComponent in product', () => {
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
       );
-    });
-  });
-
-  describe('Product rating rounding', () => {
-    it('should round to 4 when rating is 4', () => {
-      let averageRating = 4;
-      let rounding = productIntroComponent.roundAverageRating(averageRating);
-      expect(rounding).toEqual(4);
-    });
-
-    it('should round to 3.5 when rating is 3.512345', () => {
-      let averageRating = 3.512345;
-      let rounding = productIntroComponent.roundAverageRating(averageRating);
-      expect(rounding).toEqual(3.5);
-    });
-
-    it('should round to 3.6 when rating is 3.594832', () => {
-      let averageRating = 3.594832;
-      let rounding = productIntroComponent.roundAverageRating(averageRating);
-      expect(rounding).toEqual(3.6);
-    });
-
-    it('should round to 0 when rating is 0', () => {
-      let averageRating = 0;
-      let rounding = productIntroComponent.roundAverageRating(averageRating);
-      expect(rounding).toEqual(0);
     });
   });
 });

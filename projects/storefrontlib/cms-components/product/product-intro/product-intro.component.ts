@@ -84,11 +84,4 @@ export class ProductIntroComponent implements AfterContentChecked {
       }
     }
   }
-
-  /**
-   * Round average rating to the nearest tenth
-   */
-  roundAverageRating(rating: number): number {
-    return Math.round(rating * 10) / 10;
-  }
 }

@@ -12,7 +12,7 @@
         'productSummary.showReviewsDetailed'
           | cxTranslate
             : {
-                rating: roundAverageRating(product.averageRating),
+                rating: product.averageRating | number: '1.0-1',
                 count: product?.numberOfReviews
               }
       "
