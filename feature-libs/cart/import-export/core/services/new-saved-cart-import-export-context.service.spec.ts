@@ -60,7 +60,7 @@ describe('NewSavedCartImportExportContext', () => {
         { useValue: mockActionsSubject, provide: ActionsSubject },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
         { useClass: MockMultiCartService, provide: MultiCartService },
-        { useClass: UserIdService, provide: MockUserIdService },
+        { useClass: MockUserIdService, provide: UserIdService },
       ],
     });
     service = TestBed.inject(NewSavedCartImportExportContext);
@@ -73,12 +73,9 @@ describe('NewSavedCartImportExportContext', () => {
     expect(service).toBeTruthy();
   });
 
-  xdescribe('addEntries', () => {
+  describe('addEntries', () => {
     it('should create, save and load cart', () => {
-      service
-        .addEntries(mockProductData, mockSavedCart)
-        .subscribe()
-        .unsubscribe();
+      service.addEntries(mockProductData, mockSavedCart).subscribe();
 
       expect(userIdService.takeUserId).toHaveBeenCalledWith();
       expect(multiCartService.createCart).toHaveBeenCalledWith({
