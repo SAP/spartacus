@@ -34,4 +34,4 @@ import { ImageZoomTriggerComponent } from './image-zoom-trigger/image-zoom-trigg
     ImageZoomViewComponent,
   ],
 })
-export class ImageZoomModule {}
+export class ImageZoomComponentsModule {}

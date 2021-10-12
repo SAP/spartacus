@@ -198,6 +198,21 @@
       "@spartacus/product/variants/root": [
         "feature-libs/product/variants/root/public_api"
       ],
+      "@spartacus/product/image-zoom/assets": [
+        "feature-libs/product/image-zoom/assets/public_api"
+      ],
+      "@spartacus/product/image-zoom/components": [
+        "feature-libs/product/image-zoom/components/public_api"
+      ],
+      "@spartacus/product/image-zoom/core": [
+        "feature-libs/product/image-zoom/core/public_api"
+      ],
+      "@spartacus/product/image-zoom": [
+        "feature-libs/product/image-zoom/public_api"
+      ],
+      "@spartacus/product/image-zoom/root": [
+        "feature-libs/product/image-zoom/root/public_api"
+      ],
       "@spartacus/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],

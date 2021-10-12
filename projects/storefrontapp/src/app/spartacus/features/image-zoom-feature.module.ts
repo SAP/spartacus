@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
+  ImageZoomRootModule,
+  PRODUCT_IMAGE_ZOOM_FEATURE,
+} from 'feature-libs/product/image-zoom/root';
+import {
   imageZoomTranslationChunksConfig,
   imageZoomTranslations,
 } from '@spartacus/product/image-zoom/assets';
-import {
-  ImageZoomRootModule,
-  IMAGE_ZOOM_FEATURE,
-} from '@spartacus/product/image-zoom/root';
 
 @NgModule({
   imports: [ImageZoomRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [IMAGE_ZOOM_FEATURE]: {
+        [PRODUCT_IMAGE_ZOOM_FEATURE]: {
           module: () =>
             import('@spartacus/product/image-zoom').then(
               (m) => m.ImageZoomModule
