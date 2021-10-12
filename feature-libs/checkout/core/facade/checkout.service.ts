@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
+import {
   CheckoutFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
@@ -29,10 +33,6 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import {
-  RestoreSavedCartSuccessEvent,
-  SaveCartSuccessEvent,
-} from 'feature-libs/cart/saved-cart/root';
 import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
