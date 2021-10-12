@@ -101,12 +101,7 @@ export class ImportEntriesFormComponent implements OnInit {
       'file',
       new FormControl(
         '',
-        [
-          Validators.required,
-          this.filesFormValidators.maxSize(
-            this.componentData?.fileValidity?.maxSize
-          ),
-        ],
+        [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [
           (control) =>
             this.separator !== undefined
@@ -123,12 +118,15 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
+  protected get maxSize(): number | undefined {
+    return this.componentData?.fileValidity?.maxSize;
+  }
+
   protected get separator(): string | undefined {
     return this.importExportConfig.cartImportExport?.file.separator;
   }
 
   protected get maxEntries(): number | undefined {
-    return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries[this.type];
+    return this.componentData?.fileValidity?.maxEntries[this.type];
   }
 }

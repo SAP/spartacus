@@ -91,12 +91,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
       'file',
       new FormControl(
         '',
-        [
-          Validators.required,
-          this.filesFormValidators.maxSize(
-            this.componentData?.fileValidity?.maxSize
-          ),
-        ],
+        [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [
           (control) =>
             this.separator !== undefined
