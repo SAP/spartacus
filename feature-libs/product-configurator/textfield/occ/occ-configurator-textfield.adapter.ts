@@ -100,6 +100,32 @@ export class OccConfiguratorTextfieldAdapter
       })
     );
   }
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readTextfieldConfigurationForOrderEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
+        };
+      })
+    );
+  }
   updateConfigurationForCartEntry(
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {

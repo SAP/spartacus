@@ -34,7 +34,9 @@ class MockOccEndpointsService {
 const productCode = 'CONF_LAPTOP';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
+const ORDER_ID = '0001000';
 const CART_ENTRY_NUMBER = '1';
+const ORDER_ENTRY_NUMBER = '10';
 const PRODUCT_CODE = 'CPQ_LAPTOP';
 const QUANTITY = 1;
 const LABEL1 = 'LABEL1';
@@ -70,6 +72,14 @@ const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
     userId: USER_ID,
     cartId: CART_ID,
     cartEntryNumber: '0',
+    owner: ConfiguratorModelUtils.createInitialOwner(),
+  };
+
+const readParamsForOrder: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: USER_ID,
+    orderId: ORDER_ID,
+    orderEntryNumber: ORDER_ENTRY_NUMBER,
     owner: ConfiguratorModelUtils.createInitialOwner(),
   };
 
@@ -158,6 +168,36 @@ describe('OccConfigurationTextfieldAdapter', () => {
           userId: USER_ID,
           cartId: CART_ID,
           cartEntryNumber: '0',
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_TEXTFIELD_NORMALIZER
+    );
+  });
+
+  it('should call readTextfieldConfigurationForOrderEntry endpoint', () => {
+    occConfiguratorVariantAdapter
+      .readConfigurationForOrderEntry(readParamsForOrder)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readTextfieldConfigurationForOrderEntry'
+      );
+    });
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readTextfieldConfigurationForOrderEntry',
+      {
+        urlParams: {
+          userId: USER_ID,
+          orderId: ORDER_ID,
+          orderEntryNumber: ORDER_ENTRY_NUMBER,
         },
       }
     );

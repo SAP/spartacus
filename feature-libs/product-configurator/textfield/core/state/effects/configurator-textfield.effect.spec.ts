@@ -45,6 +45,7 @@ const cartModification: CartModification = {
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
   let readFromCartEntryMock: jasmine.Spy;
+  let readFromOrderEntryMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
 
@@ -57,6 +58,9 @@ describe('ConfiguratorTextfieldEffect', () => {
     readFromCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+    readFromOrderEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     updateCartEntryMock = jasmine
       .createSpy()
@@ -65,6 +69,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       createConfiguration = createMock;
       addToCart = addToCartMock;
       readConfigurationForCartEntry = readFromCartEntryMock;
+      readConfigurationForOrderEntry = readFromOrderEntryMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
     }
 
@@ -175,6 +180,49 @@ describe('ConfiguratorTextfieldEffect', () => {
     const expectedObs = cold('-b', { b: completionFailure });
 
     expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+      expectedObs
+    );
+  });
+
+  it('should emit a success action with content for an action of type readOrderEntryConfiguration if read from order entry is successful', () => {
+    const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
+    const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+      payloadInput
+    );
+
+    const completion =
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
+        productConfiguration
+      );
+    actions$ = cold('-a', { a: action });
+    const expectedObs = cold('-b', { b: completion });
+
+    expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
+      expectedObs
+    );
+  });
+
+  it('should emit a fail action in case read from order entry leads to an error', () => {
+    readFromOrderEntryMock.and.returnValue(throwError(errorResponse));
+    const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
+    const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+      payloadInput
+    );
+
+    const completionFailure =
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
+        normalizeHttpError(errorResponse)
+      );
+    actions$ = cold('-a', { a: action });
+    const expectedObs = cold('-b', { b: completionFailure });
+
+    expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
       expectedObs
     );
   });

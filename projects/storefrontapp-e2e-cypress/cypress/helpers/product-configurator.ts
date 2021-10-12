@@ -1,3 +1,5 @@
+import * as productSearch from './product-search';
+
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
@@ -480,4 +482,20 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-shipping-address').should('be.visible');
     });
+}
+
+/**
+ * Searches for a product by a product name.
+ *
+ * @param {string} productName - Product name
+ */
+export function searchForProduct(productName: string): void {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/suggestions?term=${productName}*`,
+  }).as('productSearch');
+  productSearch.searchForProduct(productName);
+  cy.wait('@productSearch');
 }

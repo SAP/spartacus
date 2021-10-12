@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { UserIdService } from '@spartacus/core';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -213,6 +213,42 @@ export class ConfiguratorTextfieldService {
     );
   }
 
+  /**
+   * Returns the textfield configuration attached to an order entry.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
+   */
+  readConfigurationForOrderEntry(
+    owner: CommonConfigurator.Owner
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const ownerIdParts = this.configuratorUtils.decomposeOwnerId(owner.id);
+    const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        userId: OCC_USER_ID_CURRENT,
+        orderId: ownerIdParts.documentId,
+        orderEntryNumber: ownerIdParts.entryNumber,
+        owner: owner,
+      };
+    this.store.dispatch(
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParameters
+      )
+    );
+    return this.store.pipe(
+      select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+      filter((configuration) => !this.isConfigurationInitial(configuration)),
+      map((configuration) =>
+        configuration
+          ? configuration
+          : {
+              configurationInfos: [],
+              owner: ConfiguratorModelUtils.createInitialOwner(),
+            }
+      )
+    );
+  }
   /**
    * Creates a textfield configuration supposed to be sent to the backend when an attribute
    * has been changed
