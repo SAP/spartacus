@@ -165,7 +165,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.only('Configuration process', () => {
+  describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
     });
