@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+// Imported for side effects (module augmentation)
+import '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
