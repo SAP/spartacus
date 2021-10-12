@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
@@ -17,10 +17,9 @@ export class MiniCartComponent {
     map((cart) => cart.deliveryItemsQuantity || 0)
   );
 
-  total$: Observable<string> = this.activeCartService.getActive().pipe(
-    filter((cart) => !!cart.totalPrice),
-    map((cart) => cart.totalPrice.formattedValue)
-  );
+  total$: Observable<string> = this.activeCartService
+    .getActive()
+    .pipe(map((cart) => cart.totalPrice?.formattedValue || '$0.00'));
 
   constructor(protected activeCartService: ActiveCartService) {}
 }
