@@ -5,9 +5,11 @@ import {
   Cart,
   CART_NORMALIZER,
   ConverterService,
+  normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
@@ -24,7 +26,10 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
   ): Observable<Cart> {
     return this.http
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
-      .pipe(this.converter.pipeable(CART_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
   }
 
   protected getSetCartCostCenterEndpoint(

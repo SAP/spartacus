@@ -1,48 +1,86 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import {
+  CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
+} from '@spartacus/checkout/root';
+import {
+  ActiveCartService,
+  Cart,
+  CartActions,
+  Command,
+  CommandService,
+  CommandStrategy,
+  OCC_USER_ID_ANONYMOUS,
+  UserIdService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
+  protected setCostCenterCommand: Command<string, Cart> = this.command.create<
+    string,
+    Cart
+  >(
+    (payload) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          if (
+            !userId ||
+            !cartId ||
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart())
+          ) {
+            throw new Error('Checkout conditions not met');
+          }
+          return this.checkoutCostCenterConnector
+            .setCostCenter(userId, cartId, payload)
+            .pipe(
+              tap(() => {
+                this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
+                this.checkoutStore.dispatch(
+                  new CartActions.LoadCart({
+                    cartId,
+                    userId,
+                  })
+                );
+                this.checkoutStore.dispatch(
+                  new CheckoutActions.SetCostCenterSuccess(payload)
+                );
+              })
+            );
+        })
+      );
+    },
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected command: CommandService,
+    protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade
   ) {}
 
   /**
    * Set cost center to cart
    * @param costCenterId : cost center id
    */
-  setCostCenter(costCenterId: string): void {
-    let cartId: string;
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => (cartId = activeCartId));
-
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
-        if (cartId) {
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenter({
-              userId: userId,
-              cartId: cartId,
-              costCenterId: costCenterId,
-            })
-          );
-        }
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+  setCostCenter(costCenterId: string): Observable<Cart> {
+    return this.setCostCenterCommand.execute(costCenterId);
   }
 
   /**

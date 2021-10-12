@@ -31,6 +31,7 @@ export class CostCenterComponent {
       filter(([costCenters]) => Boolean(costCenters)),
       tap(([costCenters, cartCostCenter]) => {
         if (!Boolean(cartCostCenter)) {
+          console.log('called 2 times?');
           this.setCostCenter(costCenters[0].code as string);
         } else {
           this.costCenterId = cartCostCenter;

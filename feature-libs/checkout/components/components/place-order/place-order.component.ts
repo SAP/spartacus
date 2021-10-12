@@ -108,7 +108,6 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
-    console.log(this.currentOrderType);
     switch (this.currentOrderType) {
       case ORDER_TYPE.PLACE_ORDER: {
         this.routingService.go({ cxRoute: 'orderConfirmation' });
