@@ -1,5 +1,6 @@
 import * as login from './login';
 import * as configurationCartVc from './product-configurator-cart-vc';
+//import * as configurationCart from './product-configurator-cart';
 import * as productSearch from './product-search';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
@@ -525,11 +526,8 @@ export function completeOrderProcess(productName: string): void {
   this.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
   configurationCartVc.checkout();
-  //TODO: navigation to an order should be enabled after some clarification with @Christoph Hinssen
   //configurationCart.navigateToOrderDetails();
-  /**
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
-   */
 }
