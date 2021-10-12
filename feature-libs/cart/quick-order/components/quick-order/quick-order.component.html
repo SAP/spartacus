@@ -1,0 +1,125 @@
+<ng-container *ngIf="errors$ | async as errors">
+  <cx-message
+    *ngIf="errors.length > 0"
+    (closeMessage)="clearErrors()"
+    [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+  >
+    <ul class="quick-order-errors">
+      <li *ngFor="let error of errors" class="quick-order-error-item">
+        <span>
+          {{
+            'quickOrderList.errors.productIsOutOfStock'
+              | cxTranslate
+                : {
+                    name: error.entry.product.name,
+                    code: error.entry.product.code
+                  }
+          }}
+        </span>
+      </li>
+    </ul>
+  </cx-message>
+</ng-container>
+
+<ng-container *ngIf="warnings$ | async as warnings">
+  <cx-message
+    *ngIf="warnings.length > 0"
+    (closeMessage)="clearWarnings()"
+    [text]="'quickOrderList.warningProceedingToCart' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_WARNING"
+  >
+    <ul class="quick-order-warnings">
+      <li *ngFor="let warning of warnings" class="quick-order-warning-item">
+        <span>
+          {{
+            'quickOrderList.warnings.productWasReduced'
+              | cxTranslate
+                : {
+                    name: warning.entry.product.name,
+                    code: warning.entry.product.code,
+                    quantityAdded: warning.quantityAdded
+                  }
+          }}
+        </span>
+      </li>
+    </ul>
+  </cx-message>
+</ng-container>
+
+<ng-container *ngIf="successes$ | async as successes">
+  <cx-message
+    *ngIf="successes.length > 0"
+    (closeMessage)="clearSuccesses()"
+    [text]="'quickOrderList.successfullyAddedToCart' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+  >
+    <ul class="quick-order-successes">
+      <li *ngFor="let entry of successes" class="quick-order-success-item">
+        <span>{{
+          'quickOrderList.successes.productAddedToCart'
+            | cxTranslate
+              : {
+                  name: entry.product.name,
+                  code: entry.product.code
+                }
+        }}</span>
+      </li>
+    </ul>
+  </cx-message>
+</ng-container>
+
+<ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
+  <ng-container *ngIf="entries$ | async as entries">
+    <div class="quick-order-header">
+      <h3>{{ 'quickOrderList.header' | cxTranslate }}</h3>
+      <p>
+        {{
+          'quickOrderList.subHeader'
+            | cxTranslate: { limit: quickOrderListLimit }
+        }}
+      </p>
+    </div>
+
+    <div class="quick-order-form-body">
+      <cx-quick-order-form
+        [isDisabled]="entries.length >= quickOrderListLimit"
+        [isLoading]="!(isCartStable$ | async)"
+      ></cx-quick-order-form>
+    </div>
+
+    <div class="quick-order-table-body">
+      <cx-quick-order-table
+        [entries]="entries"
+        [loading]="!(isCartStable$ | async)"
+      ></cx-quick-order-table>
+    </div>
+
+    <div class="quick-order-footer row">
+      <div class="col-xs-12 col-md-5 col-lg-4">
+        <button
+          *ngIf="entries.length"
+          (click)="clear()"
+          [attr.aria-label]="'quickOrderList.emptyList' | cxTranslate"
+          [disabled]="!(isCartStable$ | async)"
+          class="btn btn-block btn-action clear-button"
+          type="button"
+        >
+          {{ 'quickOrderList.emptyList' | cxTranslate }}
+        </button>
+      </div>
+
+      <div class="col-xs-12 col-md-5 col-lg-4">
+        <cx-progress-button
+          (clikEvent)="addToCart(entries)"
+          [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
+          [class]="'btn-block add-button'"
+          [disabled]="!entries.length"
+          [loading]="!(isCartStable$ | async)"
+        >
+          {{ 'quickOrderList.addToCart' | cxTranslate }}
+        </cx-progress-button>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

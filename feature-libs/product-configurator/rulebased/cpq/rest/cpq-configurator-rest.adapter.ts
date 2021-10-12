@@ -8,14 +8,15 @@ import {
   Configurator,
   RulebasedConfiguratorAdapter,
 } from '@spartacus/product-configurator/rulebased';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected cpqRestService: CpqConfiguratorRestService,
     protected cpqOccService: CpqConfiguratorOccService
@@ -28,9 +29,8 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    if (!owner.id) {
-      return throwError('No product code provided');
-    }
+    // no error handling for missing owner id needed, as it's a
+    // mandatory attribute in owner
     return this.cpqRestService.createConfiguration(owner.id).pipe(
       map((configResponse) => {
         configResponse.owner = owner;

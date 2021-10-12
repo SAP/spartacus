@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { ViewComponent } from 'projects/storefrontlib/src/shared/components/split-view/view/view.component';
+import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
@@ -72,20 +72,23 @@ describe('CardComponent', () => {
         fixture.detectChanges();
       });
       it('should have localized h3 title', () => {
-        const el: HTMLElement = fixture.debugElement.query(By.css('.title h3'))
-          .nativeElement;
+        const el: HTMLElement = fixture.debugElement.query(
+          By.css('.title h3')
+        ).nativeElement;
         expect(el.innerText).toContain('organization.budget.title');
       });
 
       it('should have localized h4 subtitle', () => {
-        const el: HTMLElement = fixture.debugElement.query(By.css('.title h4'))
-          .nativeElement;
+        const el: HTMLElement = fixture.debugElement.query(
+          By.css('.title h4')
+        ).nativeElement;
         expect(el.innerText).toContain('organization.budget.subtitle');
       });
 
       it('should have back button by default', () => {
-        const el: HTMLElement = fixture.debugElement.query(By.css('a.close'))
-          .nativeElement;
+        const el: HTMLElement = fixture.debugElement.query(
+          By.css('a.close')
+        ).nativeElement;
         expect(el).toBeDefined();
       });
     });
@@ -101,8 +104,9 @@ describe('CardComponent', () => {
       it('should have back button with localized text', () => {
         component.previous = 'organization.assign';
         fixture.detectChanges();
-        const el: HTMLElement = fixture.debugElement.query(By.css('a.close'))
-          .nativeElement;
+        const el: HTMLElement = fixture.debugElement.query(
+          By.css('a.close')
+        ).nativeElement;
         expect(el.innerText).toContain('organization.assign');
       });
     });

@@ -4,7 +4,6 @@ import * as configurationOverview from '../../../helpers/product-configurator-ov
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
-import * as productSearch from '../../../helpers/product-search';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -97,15 +96,7 @@ context('CPQ Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions?term=${PROD_CODE_CAM}*`
-      ).as('productSearch');
-      productSearch.searchForProduct(PROD_CODE_CAM);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
@@ -518,12 +509,10 @@ context('CPQ Configuration', () => {
       {
         name: 'Canon RF 24-105mm f4L IS USM',
         price: '$1,500.00',
-        quantity: '1',
       },
       {
         name: 'LowePro Streetline SL 140',
         price: '$110.00',
-        quantity: '1',
       },
     ];
     configurationCartCpq.checkAmountOfBundleItems(

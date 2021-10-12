@@ -83,7 +83,9 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
 
     cy.get('cx-searchbox input').clear().type(`${id}{enter}`);
 
-    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
+      .its('response.statusCode')
+      .should('eq', 200);
 
     cy.get('cx-product-list-item .cx-product-name')
       .first()
@@ -277,7 +279,9 @@ export function removeAllItemsFromCart() {
 export function removeCartItem(product) {
   registerDeleteCartItemRoute();
 
-  getCartItem(product.name).findByText('Remove').click();
+  getCartItem(product.name).within(() => {
+    cy.get('.cx-remove-btn > .link').click();
+  });
 
   cy.wait('@delete_cart_item');
 }
@@ -313,7 +317,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -321,7 +325,6 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
-  cy.server();
   createProductQuery(
     QUERY_ALIAS.PRODUCE_CODE,
     product.code,
@@ -332,7 +335,9 @@ export function addProductAsAnonymous() {
     force: true,
   });
 
-  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
@@ -357,7 +362,7 @@ export function verifyMergedCartWhenLoggedIn() {
   clickHamburger();
 
   cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   login(
     standardUser.registrationData.email,
@@ -372,7 +377,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get('cx-mini-cart > a').click({ force: true });
 
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
@@ -463,7 +468,7 @@ export function registerCartUser() {
 export function loginCartUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }

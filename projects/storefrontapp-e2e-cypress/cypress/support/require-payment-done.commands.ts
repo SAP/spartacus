@@ -93,9 +93,11 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
 
   getResponseUrl().then((resp) => {
     doVerification(convertToMap(resp.body.parameters.entry)).then((respV) => {
-      const sidRe = /name="paySubscriptionCreateReply_subscriptionID" value="(.+)"/gm;
+      const sidRe =
+        /name="paySubscriptionCreateReply_subscriptionID" value="(.+)"/gm;
       const sid = sidRe.exec(respV.body)[1];
-      const sidSigRe = /name="paySubscriptionCreateReply_subscriptionIDPublicSignature" value="(.+)"/gm;
+      const sidSigRe =
+        /name="paySubscriptionCreateReply_subscriptionIDPublicSignature" value="(.+)"/gm;
       const sidSig = sidSigRe.exec(respV.body)[1];
       doPayment(convertToMap(resp.body.parameters.entry), sid, sidSig);
     });

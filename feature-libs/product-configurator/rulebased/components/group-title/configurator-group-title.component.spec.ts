@@ -17,7 +17,7 @@ import { ConfiguratorGroupTitleComponent } from './configurator-group-title.comp
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
-let routerStateObservable = null;
+let routerStateObservable: Observable<RouterState>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {

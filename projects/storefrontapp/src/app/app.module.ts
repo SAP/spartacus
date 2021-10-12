@@ -20,10 +20,9 @@ import {
   RoutingConfig,
   TestConfigModule,
 } from '@spartacus/core';
-import { StorefrontComponent } from '@spartacus/storefront';
+import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { AppRoutingModule } from './app-routing.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);

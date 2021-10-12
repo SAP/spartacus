@@ -16,7 +16,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeDropDownForm = new FormControl('');
   @Input() group: string;
 

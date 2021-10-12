@@ -209,7 +209,25 @@ function handleLibConfigs(
       `${library.directory}/tsconfig.lib.json`
     );
     if (libraryTsConfigPaths.length) {
-      let dependenciesEntryPoints = library.spartacusDependencies
+      // Collect all spartacus dependencies for this lib (also dependencies of dependencies)
+      let previousSize = 0;
+      const dependencies = new Set(library.spartacusDependencies);
+      // We collect the dependencies till we have keep adding.
+      while (dependencies.size !== previousSize) {
+        previousSize = dependencies.size;
+        let subDependencies = new Set<string>();
+        dependencies.forEach((dependency) => {
+          libraries[dependency].spartacusDependencies.forEach(
+            (subDependency) => {
+              subDependencies.add(subDependency);
+            }
+          );
+        });
+        subDependencies.forEach((subDependency) => {
+          dependencies.add(subDependency);
+        });
+      }
+      let dependenciesEntryPoints = Array.from(dependencies)
         // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
         .filter((dependency) => dependency !== SPARTACUS_SCHEMATICS)
         .map((library) => libraries[library])
@@ -218,7 +236,7 @@ function handleLibConfigs(
             (acc, entry) => {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/src/public_api']
+                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/public_api']
                 [entry.entryPoint]: [
                   joinPaths('dist', dependency.distDir, entry.directory),
                 ],
@@ -260,7 +278,7 @@ function handleRootConfigs(
     (acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
-          // We reference source files entry points in these configs. E.g. `projects/storefrontlib/src/public_api`
+          // We reference source files entry points in these configs. E.g. `projects/storefrontlib/public_api`
           joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
         ];
       });

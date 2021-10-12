@@ -15,7 +15,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGIN_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
+  // projects/storefrontlib/cms-components/user/login-form/login-form.component.ts
   class: LOGIN_FORM_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

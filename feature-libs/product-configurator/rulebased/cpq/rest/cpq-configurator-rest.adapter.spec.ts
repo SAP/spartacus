@@ -50,12 +50,13 @@ const addToCartParams: Configurator.AddToCartParameters = {
   cartId: documentId,
 };
 
-const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
-  userId: userId,
-  cartId: documentId,
-  cartEntryNumber: '3',
-  configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
-};
+const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
+  {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
+  };
 
 const cartResponse: CartModification = {
   quantityAdded: 1,
@@ -63,19 +64,21 @@ const cartResponse: CartModification = {
   statusCode: '201',
 };
 
-const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: userId,
-  cartId: documentId,
-  cartEntryNumber: '3',
-  owner: owner,
-};
+const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    owner: owner,
+  };
 
-const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-  userId: userId,
-  orderId: documentId,
-  orderEntryNumber: '3',
-  owner: owner,
-};
+const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: userId,
+    orderId: documentId,
+    orderEntryNumber: '3',
+    owner: owner,
+  };
 
 const asSpy = (f: any) => <jasmine.Spy>f;
 
@@ -167,22 +170,6 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
-  });
-
-  it('should handle missing product code during create configuration', () => {
-    adapterUnderTest
-      .createConfiguration({
-        key: owner.key,
-        id: owner.id,
-        configuratorType: ConfiguratorType.CPQ,
-        type: CommonConfigurator.OwnerType.PRODUCT,
-      })
-      .subscribe(
-        () => {},
-        (error) => {
-          expect(error).toBeDefined();
-        }
-      );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {

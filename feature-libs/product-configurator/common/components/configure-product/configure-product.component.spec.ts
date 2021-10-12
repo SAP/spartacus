@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
@@ -32,7 +33,8 @@ class MockCurrentProductService implements Partial<CurrentProductService> {
 }
 
 class MockCurrentProductServiceReturnsNull
-  implements Partial<CurrentProductService> {
+  implements Partial<CurrentProductService>
+{
   getProduct(): Observable<Product | null> {
     return of(null);
   }
@@ -64,7 +66,7 @@ function setupWithCurrentProductService(
 ) {
   if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
         {

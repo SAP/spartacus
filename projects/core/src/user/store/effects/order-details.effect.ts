@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Order } from '../../../model/order.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { UserActions } from '../actions/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { Order } from '../../../model/order.model';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()

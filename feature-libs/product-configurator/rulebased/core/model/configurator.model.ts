@@ -1,5 +1,8 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
+// Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
+// of the rulebased entry point, and there is no index.ts file in this folder
+
 export namespace Configurator {
   export interface Attribute {
     attrCode?: number;

@@ -21,7 +21,13 @@ class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
   alterRequest(req) {
     return req;
   }
+  getStableToken() {
+    return of(undefined);
+  }
   shouldCatchError() {
+    return true;
+  }
+  shouldAddAuthorizationHeader() {
     return true;
   }
   handleExpiredAccessToken() {
@@ -60,13 +66,47 @@ describe('AuthInterceptor', () => {
     http = TestBed.inject(HttpClient);
   });
 
-  it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
+  it('should not add header when the request should does not need it', (done) => {
+    spyOn(authHeaderService, 'shouldAddAuthorizationHeader').and.returnValue(
+      false
+    );
     spyOn(authHeaderService, 'alterRequest').and.returnValue(
       new HttpRequest('GET', '/test')
+    );
+    spyOn(authHeaderService, 'getStableToken').and.returnValue(
+      of({ access_token: 'test' } as AuthToken)
     );
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
+      expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
+        jasmine.anything(),
+        undefined
+      );
+      done();
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/test';
+    });
+
+    mockReq.flush('someData');
+    sub.unsubscribe();
+  });
+
+  it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
+    spyOn(authHeaderService, 'alterRequest').and.returnValue(
+      new HttpRequest('GET', '/test')
+    );
+    const token = { access_token: 'test' } as AuthToken;
+    spyOn(authHeaderService, 'getStableToken').and.returnValue(of(token));
+
+    const sub: Subscription = http.get('/xxx').subscribe((result) => {
+      expect(result).toBeTruthy();
+      expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
+        jasmine.anything(),
+        token
+      );
       done();
     });
 
@@ -79,10 +119,9 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
-    spyOn(
-      authHeaderService,
-      'handleExpiredAccessToken'
-    ).and.callFake((_, next) => next.handle(new HttpRequest('GET', '/test')));
+    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+      (_, next) => next.handle(new HttpRequest('GET', '/test'))
+    );
     const sub: Subscription = http.get('/occ').subscribe((result) => {
       expect(result).toEqual('someText');
       done();
