@@ -19,6 +19,17 @@ import {
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
 
+const csvData = [
+  [
+    'exportEntries.columnNames.code',
+    'exportEntries.columnNames.quantity',
+    'exportEntries.columnNames.name',
+    'exportEntries.columnNames.price',
+  ],
+  ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+  ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+];
+
 const entry: OrderEntry = {
   basePrice: {
     currencyIso: 'USD',
@@ -204,36 +215,24 @@ describe('ExportProductsToCsvService', () => {
   });
 
   it(`should downloadCsv`, fakeAsync(() => {
-    const timeout = 0;
-    const data = [
-      [
-        'exportEntries.columnNames.code',
-        'exportEntries.columnNames.quantity',
-        'exportEntries.columnNames.name',
-        'exportEntries.columnNames.price',
-      ],
-      ['3803058', '2', 'PC Service Set Professional', '$47.00'],
-      ['3803058', '2', 'PC Service Set Professional', '$47.00'],
-    ];
-
     spyOn<any>(service, 'download').and.callThrough();
-
+    const downloadDelay = 0;
     service['importExportConfig'] = {
       cartImportExport: {
         ...defaultImportExportConfig.cartImportExport,
         export: {
           ...defaultImportExportConfig.cartImportExport?.export,
-          downloadDelay: timeout,
+          downloadDelay,
         },
       },
     };
 
     service.downloadCsv(entries);
-    tick(timeout);
+    tick(downloadDelay);
 
-    expect(service['download']).toHaveBeenCalledWith(data);
+    expect(service['download']).toHaveBeenCalledWith(csvData);
     expect(exportCsvFileService.download).toHaveBeenCalledWith(
-      data,
+      csvData,
       defaultImportExportConfig.cartImportExport?.file.separator,
       defaultImportExportConfig.cartImportExport?.export.fileOptions
     );
