@@ -11,7 +11,7 @@ import { ActiveCartService } from './active-cart.service';
   providedIn: 'root',
 })
 export class CartValidationService {
-  protected getCartModificationListCommand: Command = this.command.create(
+  protected validateCartCommand: Command = this.command.create(
     () =>
       combineLatest([
         this.activeCartService.getActiveCartId(),
@@ -41,6 +41,6 @@ export class CartValidationService {
    * @param userId
    */
   validateCart(): Observable<CartModificationList> {
-    return this.getCartModificationListCommand.execute(undefined);
+    return this.validateCartCommand.execute(undefined);
   }
 }

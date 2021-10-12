@@ -16,13 +16,13 @@
       <cx-progress-button
         *ngIf="entries.length"
         [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
-        [loading]="!cartValidationInProgress"
-        [disabled]="!cartValidationInProgress"
+        [loading]="cartValidationInProgress"
+        [disabled]="cartValidationInProgress"
         [class]="'btn btn-primary btn-block'"
         (clikEvent)="disableButtonWhileNavigation()"
       >
         {{
-          (cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
+          (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
             | cxTranslate
         }}
       </cx-progress-button>

@@ -7,7 +7,7 @@ import { RoutingService, CartModification } from '@spartacus/core';
   providedIn: 'root',
 })
 export class CartValidationStateService implements OnDestroy {
-  NAVIGATION_SKIPS = 2;
+  protected NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 
   private subscription = new Subscription();

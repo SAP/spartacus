@@ -22,7 +22,7 @@ import {
 export class CartTotalsComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
-  cartValidationInProgress = true;
+  cartValidationInProgress = false;
 
   protected subscription = new Subscription();
 
@@ -48,17 +48,17 @@ export class CartTotalsComponent implements OnInit, OnDestroy {
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel
         ) {
-          this.cartValidationInProgress = true;
+          this.cartValidationInProgress = false;
         }
       })
     );
   }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   disableButtonWhileNavigation(): void {
-    this.cartValidationInProgress = false;
+    this.cartValidationInProgress = true;
   }
 }

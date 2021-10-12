@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 import { CartValidationStateService } from '../cart-validation-state.service';
-import { ICON_TYPE } from '../../../misc';
+import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
   selector: 'cx-cart-validation-warnings',
@@ -11,11 +11,11 @@ import { ICON_TYPE } from '../../../misc';
 })
 export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;
-  visibleWarnings: { [key: string]: boolean } = {};
+  visibleWarnings: Record<string, boolean> = {};
 
   cartModifications$ =
     this.cartValidationStateService.cartValidationResult$.pipe(
-      map((modificationList: CartModification[]) => {
+      map((modificationList) => {
         const result = modificationList.filter(
           (modification) =>
             modification.statusCode === CartValidationStatusCode.NO_STOCK
