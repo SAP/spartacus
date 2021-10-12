@@ -30,4 +30,4 @@ import {
     }),
   ],
 })
-export class BulkPricingFeatureModule {}
+export class ImageZoomFeatureModule {}

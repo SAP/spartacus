@@ -10,6 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ImageGroup, Product } from '@spartacus/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -34,7 +35,6 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-import { ThumbnailsGroup } from '../../core/models/image-zoom-thumbnails.model';
 import {
   calculatePointerMovePosition,
   handleOutOfBounds,
@@ -50,19 +50,17 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
 
   @Input() galleryIndex: number;
 
-  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
+  private mainMediaContainer = new BehaviorSubject<ImageGroup | null>(null);
   private defaultImageReady = new BehaviorSubject<boolean>(false);
   private zoomReady = new BehaviorSubject<boolean>(false);
   private _defaultImage: ElementRef;
   private _zoomImage: ElementRef;
 
   protected subscription = new Subscription();
-  protected mainMediaContainer$: Observable<
-    ImageGroup
-  > = this.mainMediaContainer.asObservable();
-  protected defaultImageReady$: Observable<
-    boolean
-  > = this.defaultImageReady.asObservable();
+  protected mainMediaContainer$: Observable<ImageGroup | null> =
+    this.mainMediaContainer.asObservable();
+  protected defaultImageReady$: Observable<boolean> =
+    this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
   defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
@@ -111,39 +109,39 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
-  startCoords: { x: number; y: number } = null;
+  startCoords: { x: number; y: number } | null = null;
   left = 0;
   top = 0;
   isZoomed = false;
 
-  protected product$: Observable<
-    Product
-  > = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
-    distinctUntilChanged(),
-    tap((p: Product) => {
-      if (this.galleryIndex) {
-        const image = Array.isArray(p.images?.GALLERY)
-          ? p.images?.GALLERY.find(
-              (img) => img.zoom?.galleryIndex === this.galleryIndex
-            )
-          : p.images?.GALLERY;
-        this.mainMediaContainer.next(image);
-      } else {
-        this.mainMediaContainer.next(
-          p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
-        );
-      }
-    }),
-    shareReplay(1)
-  );
+  protected product$: Observable<Product> = this.currentProductService
+    .getProduct()
+    .pipe(
+      filter(Boolean),
+      distinctUntilChanged(),
+      tap((p: Product) => {
+        if (this.galleryIndex) {
+          const image = Array.isArray(p.images?.GALLERY)
+            ? p.images?.GALLERY.find(
+                (img) => img.zoom?.galleryIndex === this.galleryIndex
+              )
+            : p.images?.GALLERY;
+          this.mainMediaContainer.next(image || null);
+        } else {
+          this.mainMediaContainer.next(
+            p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
+          );
+        }
+      }),
+      shareReplay(1)
+    );
 
   thumbnails$: Observable<Observable<ThumbnailsGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p)),
     shareReplay(1)
   );
 
-  mainImage$: Observable<ImageGroup> = combineLatest([
+  mainImage$: Observable<ImageGroup | null> = combineLatest([
     this.product$,
     this.mainMediaContainer$,
   ]).pipe(map(([, container]) => container));
@@ -169,7 +167,7 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
     if (Array.isArray(this.mainMediaContainer.value)) {
       return this.mainMediaContainer.value[0].thumbnail?.galleryIndex || 0;
     }
-    return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
+    return this.mainMediaContainer?.value?.thumbnail?.galleryIndex || 0;
   }
 
   getPreviousProduct(thumbs: Observable<ImageGroup>[]): Observable<ImageGroup> {
@@ -206,7 +204,8 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    */
   touchMove(event: TouchEvent): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const boundingRect =
+      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     if (!this.startCoords)
@@ -233,7 +232,8 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    * @param event
    */
   pointerMove(event: MouseEvent): void {
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const boundingRect =
+      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     const { positionX, positionY } = calculatePointerMovePosition(

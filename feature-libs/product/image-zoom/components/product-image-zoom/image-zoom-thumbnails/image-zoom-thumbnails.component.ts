@@ -6,10 +6,9 @@ import {
   Output,
 } from '@angular/core';
 import { ImageGroup } from '@spartacus/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ThumbnailsGroup } from '../../core/models/image-zoom-thumbnails.model';
-
 
 @Component({
   selector: 'cx-image-zoom-thumbnails',
@@ -17,7 +16,7 @@ import { ThumbnailsGroup } from '../../core/models/image-zoom-thumbnails.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomThumbnailsComponent {
-  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
+  private mainMediaContainer = new BehaviorSubject<ImageGroup | null>(null);
 
   @Output() productImage = new EventEmitter<{ image: any; index: number }>();
 
@@ -34,7 +33,7 @@ export class ImageZoomThumbnailsComponent {
     }
   }
 
-  isActive(thumbnail: ImageGroup): Observable<boolean> {
+  isActive(thumbnail: ImageGroup): Observable<boolean | '' | undefined> {
     return this.mainMediaContainer.asObservable().pipe(
       filter(Boolean),
       map((container: ImageGroup) => {
