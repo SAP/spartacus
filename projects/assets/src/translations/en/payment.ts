@@ -13,8 +13,11 @@ export const payment = {
     securityCodeTitle: 'Card Verification Value',
     saveAsDefault: 'Save as default',
     setAsDefault: 'Set as default',
+    setDefaultPayment: 'Set this payment method as default',
     billingAddress: 'Billing address',
     sameAsShippingAddress: 'Same as shipping address',
+    billingAddressSameAsShipping:
+      'Billing address is the same as shipping address',
     selectOne: 'Select One...',
     monthMask: 'MM',
     yearMask: 'YYYY',

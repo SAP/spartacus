@@ -140,6 +140,9 @@
                 type="checkbox"
                 class="form-check-input"
                 (change)="toggleDefaultPaymentMethod()"
+                [attr.aria-label]="
+                  'paymentForm.setDefaultPayment' | cxTranslate
+                "
               />
               <span class="form-check-label">{{
                 'paymentForm.setAsDefault' | cxTranslate
@@ -164,6 +167,9 @@
                     class="form-check-input"
                     [checked]="sameAsShippingAddress"
                     (change)="toggleSameAsShippingAddress()"
+                    [attr.aria-label]="
+                      'paymentForm.billingAddressSameAsShipping' | cxTranslate
+                    "
                   />
                   <span class="form-check-label">{{
                     'paymentForm.sameAsShippingAddress' | cxTranslate
