@@ -1,9 +1,7 @@
 <div class="cx-import-entries-summary-status">
   <p *ngIf="!summary.loading; else loading" [ngSwitch]="type">
     <ng-container *ngSwitchCase="cartTypes.QUICK_ORDER">
-      {{
-        'importEntriesDialog.summary.loaded' | cxTranslate: summary
-      }}
+      {{ 'importEntriesDialog.summary.loaded' | cxTranslate: summary }}
     </ng-container>
     <ng-container *ngSwitchDefault>
       {{ 'importEntriesDialog.summary.loadedToCart' | cxTranslate: summary }}
