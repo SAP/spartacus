@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
 import { CartValidationService } from './cart-validation.service';
 import createSpy = jasmine.createSpy;
-import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
 
 const cartValidationResult = { cartModificationList: [] };
 class MockCartValidationConnector implements Partial<CartValidationConnector> {
-  get = createSpy().and.callFake(() => of(cartValidationResult));
+  validate = createSpy().and.callFake(() => of(cartValidationResult));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
