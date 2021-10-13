@@ -1,13 +1,11 @@
 <button class="cx-config-exit-button" tabindex="0" (click)="goBack()">
-  <span class="cx-exit-configurator" *ngIf="isDesktop() | async">
-    {{ 'configurator.button.exit' | cxTranslate }}
-  </span>
-  <span
-    #mobile
-    id="cx-exit-configurator-short"
-    class="cx-exit-configurator-short"
-    *ngIf="isMobile() | async"
-  >
-    {{ 'configurator.button.exitshort' | cxTranslate }}
+  <span class="cx-config-exit-button-text" *ngIf="isDesktop() | async">
+    <ng-container *ngIf="isDesktop() | async; else short">
+      {{ 'configurator.button.exit' | cxTranslate }}
+    </ng-container>
+
+    <ng-template #short>{{
+      'configurator.button.exitshort' | cxTranslate
+    }}</ng-template>
   </span>
 </button>

@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
+  Product,
   ProductService,
   RoutingService,
   WindowRef,
@@ -14,18 +14,22 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorExitButtonComponent,
 } from '@spartacus/product-configurator/rulebased';
+import { BreakpointService } from '@spartacus/storefront';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from 'feature-libs/product-configurator/common';
-import { EMPTY, Observable, of } from 'rxjs';
+} from '@spartacus/product-configurator/common';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const Product = 'Laptop';
+const PRODUCT: Product = {
+  code: PRODUCT_CODE,
+};
 
 const mockRouterData: any = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -40,10 +44,13 @@ const mockRouterData: any = {
   resolveIssues: false,
 };
 
-let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration('a', ConfiguratorModelUtils.createOwner(
-  CommonConfigurator.OwnerType.PRODUCT,
-  PRODUCT_CODE
-));
+let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
+  'a',
+  ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  )
+);
 
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
@@ -58,34 +65,34 @@ class MockConfiguratorCommonsService {
 }
 
 class MockRoutingService {
-  go() { }
+  go() {}
 }
 
 class MockProductService {
-  getProduct(): Observable<typeof Product> {
-    return of(Product);
-  }
-}
-//we cannot spy go() therefore we check via property.
-class MockWindowRef {
-  nativeWindow: {
-    history: {
-      goMethodCalled: false,
-      length: 0,
-      go: () => { if(this) {
-        this?.goMethodCalled = true;
-       }
-      }
-    }
+  get(): Observable<Product> {
+    return of(PRODUCT);
   }
 }
 
+class MockBreakpointService {
+  isUp() {}
+}
+
+class MockWindowRef {
+  nativeWindow: {
+    history: {
+      length: 1;
+      go: () => {};
+    };
+  };
+}
 
 describe('ConfiguratorExitButton', () => {
   let component: ConfiguratorExitButtonComponent;
   let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
   let htmlElem: HTMLElement;
   let routingService: RoutingService;
+  let breakpointService: BreakpointService;
   let windowRef: WindowRef;
 
   beforeEach(
@@ -114,6 +121,10 @@ describe('ConfiguratorExitButton', () => {
             provide: WindowRef,
             useClass: MockWindowRef,
           },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
         ],
       });
     })
@@ -122,29 +133,59 @@ describe('ConfiguratorExitButton', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
     component = fixture.componentInstance;
-    windowRef = TestBed.inject(
-      WindowRef as Type<WindowRef>
+    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    breakpointService = TestBed.inject(
+      BreakpointService as Type<BreakpointService>
     );
-    routingService = TestBed.inject(
-      RoutingService as Type<RoutingService>
-    );
-
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
   });
 
-  it('should navigate back to previous page ', () => {
-    if (windowRef.nativeWindow?.history) {
-       windowRef.nativeWindow?.history.length === 2;
-       }
-    component.goBack();
-    expect(component.goBack()).toHaveBeenCalledWith(-1);
+  describe('navigation tests', () => {
+    it('should navigate back to previous page ', () => {
+      if (windowRef.nativeWindow?.history) {
+        spyOn(windowRef.nativeWindow?.history, 'go').and.callThrough();
+        windowRef.nativeWindow?.history.length === 2;
+        component.goBack();
+        expect(windowRef.nativeWindow?.history.go).toHaveBeenCalledWith(-1);
+      }
+    });
+
+    it('should navigate to product detail page if going back to previous page does not work', () => {
+      spyOn(routingService, 'go').and.callThrough();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'product',
+        params: PRODUCT,
+      });
+    });
   });
 
-  it('should navigate product detail page if going back to previous page does not work', () => {
-    expect(component.).toBeCalledWith({ cxRoute: 'product', params: Product });
-  });
+  describe('rendering tests', () => {
+    it('should render short text in mobile mode', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-exit-button-text',
+        'configurator.button.exit'
+      );
+    });
 
+    it('should render long text in desktop mode', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-exit-button-text',
+        'configurator.button.exitshort'
+      );
+    });
+  });
 });

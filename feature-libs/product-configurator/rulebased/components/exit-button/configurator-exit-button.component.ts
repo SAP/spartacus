@@ -30,8 +30,8 @@ export class ConfiguratorExitButtonComponent {
   ) {}
 
   goBack() {
-    const historyLength: number | undefined =
-      this.windowRef?.nativeWindow?.history?.length;
+    const historyLength: number | undefined = this.windowRef?.nativeWindow
+      ?.history?.length;
     if (historyLength !== undefined && historyLength > 1) {
       this.windowRef.nativeWindow?.history.go(-1);
     } else {
@@ -62,14 +62,5 @@ export class ConfiguratorExitButtonComponent {
    */
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
-  }
-
-  /**
-   * Verifies whether the current screen size equals or is smaller than breakpoint `BREAKPOINT.sm`.
-   *
-   * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.sm` returns `true`, otherwise `false`.
-   */
-  isMobile(): Observable<boolean> {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
   }
 }
