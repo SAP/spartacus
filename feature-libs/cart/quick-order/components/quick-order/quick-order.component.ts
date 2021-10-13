@@ -31,14 +31,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<number | undefined> =
-    this.component.data$.pipe(
-      map((data) => data.quickOrderListLimit),
-      tap((limit) => {
-        if (!!limit) {
-          this.quickOrderService.setListLimit(limit);
-        }
-      })
-    );
+    this.component.data$.pipe(map((data) => data.quickOrderListLimit));
   isCartStable$: Observable<boolean> = combineLatest([
     this.activeCartService.getActiveCartId(),
     this.activeCartService.isStable(),

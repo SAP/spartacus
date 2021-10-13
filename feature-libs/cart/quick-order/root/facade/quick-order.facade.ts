@@ -12,8 +12,6 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'addToCart',
       'clearList',
-      'getListLimit',
-      'setListLimit',
       'getEntries',
       'getProductAdded',
       'loadEntries',
@@ -58,16 +56,6 @@ export abstract class QuickOrderFacade {
    * Clear a list of added entries
    */
   abstract clearList(): void;
-
-  /**
-   * Get quick order list limit property
-   */
-  abstract getListLimit(): number;
-
-  /**
-   * Set quick order list limit property
-   */
-  abstract setListLimit(limit: number): void;
 
   /**
    * Load a list of entries
