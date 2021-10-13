@@ -109,15 +109,17 @@ describe('MiniCartComponent', () => {
 
     describe('when mini-cart is not loaded', () => {
       it('should show 0 items when mini-cart is not loaded', () => {
-        const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-          .nativeElement.innerText;
+        const cartItemsNumber = fixture.debugElement
+          .query(By.css('.count'))
+          .nativeElement.innerText.trim();
         expect(cartItemsNumber).toEqual('miniCart.count count:0');
       });
 
       it('should show $0.00 total when mini-cart is not loaded', () => {
-        const cartTotalPrice = fixture.debugElement.query(By.css('.total'))
-          .nativeElement.innerText;
-        expect(cartTotalPrice).toEqual('miniCart.total total:0.00 ');
+        const cartTotalPrice = fixture.debugElement
+          .query(By.css('.total'))
+          .nativeElement.innerText.trim();
+        expect(cartTotalPrice).toEqual('miniCart.total total:0.00');
       });
     });
 
@@ -128,18 +130,20 @@ describe('MiniCartComponent', () => {
       });
 
       it('should contain number of items in mini-cart', () => {
-        const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-          .nativeElement.innerText;
+        const cartItemsNumber = fixture.debugElement
+          .query(By.css('.count'))
+          .nativeElement.innerText.trim();
         expect(cartItemsNumber).toEqual(
           `miniCart.count count:${testCart.deliveryItemsQuantity}`
         );
       });
 
       it('should contain total price in mini-cart', () => {
-        const cartTotalPrice = fixture.debugElement.query(By.css('.total'))
-          .nativeElement.innerText;
+        const cartTotalPrice = fixture.debugElement
+          .query(By.css('.total'))
+          .nativeElement.innerText.trim();
         expect(cartTotalPrice).toEqual(
-          `miniCart.total total:${testCart.totalPrice?.formattedValue} `
+          `miniCart.total total:${testCart.totalPrice?.formattedValue}`
         );
       });
     });
