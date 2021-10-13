@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take, tap, withLatestFrom } from 'rxjs/operators';
 import { RoutingService, CartModification } from '@spartacus/core';
 
@@ -11,7 +11,10 @@ export class CartValidationStateService implements OnDestroy {
   protected navigationIdCount = 0;
 
   protected subscription = new Subscription();
-  cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
+  // cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
+  cartValidationResult$: Observable<CartModification[]> = new ReplaySubject<
+    CartModification[]
+  >(1) as Observable<CartModification[]>;
 
   constructor(protected routingService: RoutingService) {
     this.setInitialState();
@@ -27,7 +30,9 @@ export class CartValidationStateService implements OnDestroy {
             routerState.navigationId &&
           cartModifications.length
         ) {
-          this.cartValidationResult$.next([]);
+          (
+            this.cartValidationResult$ as ReplaySubject<CartModification[]>
+          ).next([]);
           this.navigationIdCount = routerState.navigationId;
         }
       })
@@ -43,7 +48,9 @@ export class CartValidationStateService implements OnDestroy {
   }
 
   updateValidationResultAndRoutingId(cartModification: CartModification[]) {
-    this.cartValidationResult$.next(cartModification);
+    (this.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
+      cartModification
+    );
     this.setNavigationIdStep();
   }
 
