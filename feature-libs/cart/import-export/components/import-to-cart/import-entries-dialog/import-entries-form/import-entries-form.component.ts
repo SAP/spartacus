@@ -115,7 +115,7 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
-  public get accept(): string[] | undefined {
+  public get allowedTypes(): string[] | undefined {
     return this.importExportConfig.cartImportExport?.import?.fileValidity
       ?.allowedTypes;
   }
