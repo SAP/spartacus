@@ -62,6 +62,21 @@ export class PaginationComponent {
   }
 
   /**
+   * Format aria-label based on pagination page type.
+   *
+   * @param label
+   * @param item
+   * @returns
+   */
+  getAriaLabel(label: string, item: PaginationItemType) {
+    if (item === PaginationItemType.PAGE) {
+      return `${item} ${label}`;
+    }
+
+    return `${item} ${PaginationItemType.PAGE}`;
+  }
+
+  /**
    * Indicates whether the given item is the current item.
    *
    * @param item PaginationItem
