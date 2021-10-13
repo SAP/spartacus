@@ -36,7 +36,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     new BehaviorSubject<Record<string, OrderEntry>>({});
   protected hardDeleteTimeout = 5000;
 
-  private quickOrderListLimit = 0;
   private clearDeleteTimeouts: Record<string, Subscription> = {};
 
   constructor(

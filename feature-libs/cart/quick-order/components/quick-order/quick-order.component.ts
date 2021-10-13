@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quick-order',
