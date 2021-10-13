@@ -102,9 +102,10 @@ describe('ImportEntriesFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get the file Validity', () => {
-    expect(component.componentData.fileValidity).toEqual(
+  it('should get the accept', () => {
+    expect(component.accept).toEqual(
       defaultImportExportConfig.cartImportExport.import.fileValidity
+        .allowedTypes
     );
   });
 

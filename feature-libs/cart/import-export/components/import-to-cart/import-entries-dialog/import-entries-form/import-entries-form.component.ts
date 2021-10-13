@@ -18,7 +18,6 @@ import {
 } from '@spartacus/storefront';
 import {
   CartTypes,
-  ImportConfig,
   ImportExportConfig,
   ProductData,
 } from '@spartacus/cart/import-export/core';
@@ -32,7 +31,6 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  componentData?: ImportConfig;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
 
@@ -53,7 +51,6 @@ export class ImportEntriesFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.componentData = this.importExportConfig.cartImportExport?.import;
     this.form = this.buildForm();
 
     this.formSubmitSubject$
@@ -118,15 +115,22 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
+  public get accept(): string[] | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.allowedTypes;
+  }
+
   protected get maxSize(): number | undefined {
-    return this.componentData?.fileValidity?.maxSize;
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxSize;
+  }
+
+  protected get maxEntries(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxEntries?.[this.type];
   }
 
   protected get separator(): string | undefined {
     return this.importExportConfig.cartImportExport?.file.separator;
-  }
-
-  protected get maxEntries(): number | undefined {
-    return this.componentData?.fileValidity?.maxEntries?.[this.type];
   }
 }

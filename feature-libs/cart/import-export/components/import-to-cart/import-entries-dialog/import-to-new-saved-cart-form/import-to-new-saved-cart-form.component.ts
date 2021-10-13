@@ -18,6 +18,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import {
+  CartNameGeneration
   ImportExportConfig,
   NameSource,
   ProductData,
@@ -121,12 +122,8 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   updateCartName(): void {
     const nameField = this.form.get('name');
-    if (
-      nameField &&
-      !nameField?.value &&
-      this.componentData?.cartNameGeneration?.source
-    ) {
-      switch (this.componentData.cartNameGeneration.source) {
+    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
+      switch (this.cartNameGeneration.source) {
         case NameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);
           break;
@@ -151,8 +148,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   protected setFieldValueByDatetime(nameField: AbstractControl): void {
     const date = new Date();
-    const fromDateOptions =
-      this.componentData?.cartNameGeneration?.fromDateOptions;
+    const fromDateOptions = this.cartNameGeneration?.fromDateOptions;
     const mask = fromDateOptions?.mask;
     const prefix = fromDateOptions?.prefix ?? '';
     const suffix = fromDateOptions?.suffix ?? '';
@@ -160,5 +156,9 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);
     nameField.setValue(`${prefix}${dateString}${suffix}`);
+  }
+
+  protected get cartNameGeneration(): CartNameGeneration | undefined {
+    return this.importExportConfig.cartImportExport?.import?.cartNameGeneration;
   }
 }
