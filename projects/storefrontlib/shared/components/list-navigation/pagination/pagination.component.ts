@@ -68,12 +68,12 @@ export class PaginationComponent {
    * @param item
    * @returns
    */
-  getAriaLabel(label: string, item: PaginationItemType) {
-    if (item === PaginationItemType.PAGE) {
-      return `${item} ${label}`;
+  getAriaLabel(label: string, type: PaginationItemType) {
+    if (type === PaginationItemType.PAGE) {
+      return `${type} ${label}`;
     }
 
-    return `${item} ${PaginationItemType.PAGE}`;
+    return `${type} ${PaginationItemType.PAGE}`;
   }
 
   /**
