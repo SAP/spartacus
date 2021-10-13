@@ -54,7 +54,10 @@
         *ngIf="i % size === 0"
         (focus)="activeSlide = i"
         [disabled]="i === activeSlide"
-        [attr.aria-label]="getIndicatorAriaLabel(size, i, items.length)"
+        [attr.aria-label]="
+          'carousel.slide'
+            | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+        "
         tabindex="-1"
       >
         <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
