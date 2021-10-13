@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -18,8 +18,8 @@ import { MiniCartComponent } from './mini-cart.component';
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(options: UrlCommandRoute): string {
-    return options.cxRoute;
+  transform(options: UrlCommandRoute): string | undefined {
+    return options?.cxRoute;
   }
 }
 
@@ -28,7 +28,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 const testCart: Cart = {
@@ -39,6 +39,7 @@ const testCart: Cart = {
   totalPrice: {
     currencyIso: 'USD',
     value: 10.0,
+    formattedValue: '$10.0',
   },
   totalPriceWithTax: {
     currencyIso: 'USD',
@@ -95,7 +96,7 @@ describe('MiniCartComponent', () => {
     expect(miniCartComponent).toBeTruthy();
   });
 
-  describe('template', () => {
+  describe('UI tests', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
@@ -106,18 +107,41 @@ describe('MiniCartComponent', () => {
       expect(linkHref).toBe('/cart');
     });
 
-    it('should show 0 items when cart is not loaded', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.count count:0');
+    describe('when mini-cart is not loaded', () => {
+      it('should show 0 items when mini-cart is not loaded', () => {
+        const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+          .nativeElement.innerText;
+        expect(cartItemsNumber).toEqual('miniCart.count count:0');
+      });
+
+      it('should show $0.00 total when mini-cart is not loaded', () => {
+        const cartTotalPrice = fixture.debugElement.query(By.css('.total'))
+          .nativeElement.innerText;
+        expect(cartTotalPrice).toEqual('miniCart.total total:0.00 ');
+      });
     });
 
-    it('should contain number of items in cart', () => {
-      activeCart.next(testCart);
-      fixture.detectChanges();
-      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.count count:1');
+    describe('when mini-cart is loaded', () => {
+      beforeEach(() => {
+        activeCart.next(testCart);
+        fixture.detectChanges();
+      });
+
+      it('should contain number of items in mini-cart', () => {
+        const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+          .nativeElement.innerText;
+        expect(cartItemsNumber).toEqual(
+          `miniCart.count count:${testCart.deliveryItemsQuantity}`
+        );
+      });
+
+      it('should contain total price in mini-cart', () => {
+        const cartTotalPrice = fixture.debugElement.query(By.css('.total'))
+          .nativeElement.innerText;
+        expect(cartTotalPrice).toEqual(
+          `miniCart.total total:${testCart.totalPrice?.formattedValue} `
+        );
+      });
     });
   });
 });

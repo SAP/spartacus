@@ -17,9 +17,10 @@ export class MiniCartComponent {
     map((cart) => cart.deliveryItemsQuantity || 0)
   );
 
-  total$: Observable<string> = this.activeCartService
-    .getActive()
-    .pipe(map((cart) => cart.totalPrice?.formattedValue || '$0.00'));
+  total$: Observable<string> = this.activeCartService.getActive().pipe(
+    startWith({ totalPrice: { formattedValue: '0.00' } }),
+    map((cart) => cart.totalPrice?.formattedValue || '0.00')
+  );
 
   constructor(protected activeCartService: ActiveCartService) {}
 }
