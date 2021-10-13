@@ -1,6 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 import {
   Component,
   DebugElement,
@@ -8,11 +5,14 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { CartValidationStateService } from '../cart-validation-state.service';
-import { ReplaySubject } from 'rxjs';
-import { CartModification, CartValidationStatusCode } from '@spartacus/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CartModification, CartValidationStatusCode } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { ReplaySubject } from 'rxjs';
+import { CartValidationStateService } from '../cart-validation-state.service';
+import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 
 const mockCode = 'productCode1';
 const mockData = [
@@ -92,7 +92,11 @@ describe('CartItemValidationWarningComponent', () => {
     el = fixture.debugElement;
     mockCartValidationStateService = TestBed.inject(CartValidationStateService);
 
-    mockCartValidationStateService.cartValidationResult$.next([]);
+    (
+      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+        CartModification[]
+      >
+    ).next([]);
     component.code = mockCode;
 
     fixture.detectChanges();
@@ -103,7 +107,11 @@ describe('CartItemValidationWarningComponent', () => {
   });
 
   it('should find proper cart modification object', () => {
-    mockCartValidationStateService.cartValidationResult$.next(mockData);
+    (
+      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+        CartModification[]
+      >
+    ).next(mockData);
     let result;
 
     component.cartModification$.subscribe((value) => (result = value));
@@ -115,7 +123,11 @@ describe('CartItemValidationWarningComponent', () => {
     let button = el.query(By.css('.close')) as any;
     expect(button).toBeNull();
 
-    mockCartValidationStateService.cartValidationResult$.next(mockData);
+    (
+      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+        CartModification[]
+      >
+    ).next(mockData);
     fixture.detectChanges();
 
     button = el.query(By.css('.close')).nativeElement;

@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { CartValidationStateService } from './cart-validation-state.service';
 import {
+  CartModification,
   CartValidationStatusCode,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { CartValidationStateService } from './cart-validation-state.service';
 
 const mockData = [
   {
@@ -58,18 +59,22 @@ describe('CartValidationStateService', () => {
   });
 
   it('should clear validation data after configured number of routing steps', () => {
-    service.cartValidationResult$.next([]);
+    (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
+      []
+    );
     routerStateSubject.next({ navigationId: 1 });
 
     routerStateSubject.next({ navigationId: 5 });
-    service.cartValidationResult$.next(mockData);
+    (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
+      mockData
+    );
 
-    service.checkForValidationResultClear$
+    (service as any).checkForValidationResultClear$
       .subscribe(() => {
         let result;
         service.cartValidationResult$.subscribe((val) => (result = val));
-        expect(service.navigationIdCount).toEqual(5);
-        expect(result.length).toEqual(0);
+        expect((service as any).navigationIdCount).toEqual(5);
+        expect(result?.length).toEqual(0);
       })
       .unsubscribe();
   });
@@ -79,11 +84,11 @@ describe('CartValidationStateService', () => {
 
     service.updateValidationResultAndRoutingId([mockData[1]]);
 
-    service.checkForValidationResultClear$
+    (service as any).checkForValidationResultClear$
       .subscribe(() => {
         let result;
         service.cartValidationResult$.subscribe((val) => (result = val));
-        expect(service.navigationIdCount).toEqual(2);
+        expect((service as any).navigationIdCount).toEqual(2);
         expect(result).toEqual([mockData[1]]);
       })
       .unsubscribe();
@@ -91,7 +96,7 @@ describe('CartValidationStateService', () => {
 
   it('should update navigationIdCount', () => {
     routerStateSubject.next({ navigationId: 3 });
-    service.setNavigationIdStep();
-    expect(service.navigationIdCount).toEqual(3);
+    (service as any).setNavigationIdStep();
+    expect((service as any).navigationIdCount).toEqual(3);
   });
 });

@@ -1,20 +1,23 @@
-import {
-  ActiveCartService,
-  GlobalMessageService,
-  SemanticPathService,
-  CartValidationService,
-  CartModification,
-  GlobalMessageType,
-  RouterState,
-} from '@spartacus/core';
-import { CartValidationGuard } from '@spartacus/storefront';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  ActiveCartService,
+  CartModification,
+  CartModificationList,
+  CartValidationService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RouterState,
+  SemanticPathService,
+} from '@spartacus/core';
+import { CartValidationGuard } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { CartValidationStateService } from '../cart-validation-state.service';
+import createSpy = jasmine.createSpy;
 
-const cartModificationSubject = new BehaviorSubject({});
+const cartModificationSubject = new BehaviorSubject<CartModificationList>({
+  cartModifications: [],
+});
 const mockCartId = 'cartTest';
 const mockEntriesSubject = new BehaviorSubject([]);
 const mockEntries = [
@@ -66,6 +69,10 @@ class MockCartValidationStateService
   checkForValidationResultClear$ = of() as Observable<
     [RouterState, CartModification[]]
   >;
+
+  updateValidationResultAndRoutingId() {
+    this.cartValidationResult$.next([]);
+  }
 }
 
 describe(`CartValidationGuard`, () => {
