@@ -18,7 +18,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import {
-  CartNameGeneration
+  CartNameGeneration,
   ImportExportConfig,
   NameSource,
   ProductData,
