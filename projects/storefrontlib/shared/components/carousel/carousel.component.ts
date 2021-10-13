@@ -91,14 +91,8 @@ export class CarouselComponent implements OnInit {
       .pipe(tap(() => (this.activeSlide = 0)));
   }
 
-  getIndicatorAriaLabel(size: number, currentIndex: number, length: number) {
-    let normalizedCurrentIndex;
-    if (currentIndex === 0) {
-      normalizedCurrentIndex = 1;
-    } else {
-      normalizedCurrentIndex = currentIndex;
-    }
-    const currentSlide = Math.ceil((size * normalizedCurrentIndex) / length);
-    return `slide ${currentSlide}`;
+  getSlideNumber(size: number, currentIndex: number): number {
+    let normalizedCurrentIndex = currentIndex + 1;
+    return Math.ceil(normalizedCurrentIndex / size);
   }
 }
