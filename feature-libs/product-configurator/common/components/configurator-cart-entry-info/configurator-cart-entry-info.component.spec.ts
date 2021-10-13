@@ -12,7 +12,7 @@ import {
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import { CartItemContext } from '@spartacus/cart/main/components';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';

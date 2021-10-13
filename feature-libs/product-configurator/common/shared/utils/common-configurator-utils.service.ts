@@ -5,7 +5,7 @@ import {
   OrderEntry,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import { CartItemContext } from '@spartacus/cart/main/components';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
