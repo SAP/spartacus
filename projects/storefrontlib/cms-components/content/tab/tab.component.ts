@@ -6,7 +6,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { BreakpointService } from 'projects/storefrontlib/src/layout/breakpoint/breakpoint.service';
+import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_TYPE } from './Tab';
