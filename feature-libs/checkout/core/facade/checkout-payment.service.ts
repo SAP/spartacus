@@ -22,7 +22,7 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 import { StateWithCheckout } from '../store/checkout-state';
@@ -30,7 +30,7 @@ import { StateWithCheckout } from '../store/checkout-state';
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
   protected cardTypesQuery: Query<CardType[]> = this.query.create(
-    () => this.checkoutPaymentConnector?.getCardTypes() ?? of([]),
+    () => this.checkoutPaymentConnector.getCardTypes(),
     {
       reloadOn: [LanguageSetEvent, CurrencySetEvent],
     }

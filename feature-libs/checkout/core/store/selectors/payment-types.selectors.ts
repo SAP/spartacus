@@ -1,5 +1,4 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { PaymentType } from '@spartacus/core';
 import {
   CheckoutState,
   PaymentTypesState,
@@ -15,18 +14,6 @@ export const getPaymentTypesState: MemoizedSelector<
   getCheckoutState,
   (state: CheckoutState) => state.paymentTypes
 );
-
-export const getPaymentTypesEntites: MemoizedSelector<
-  StateWithCheckout,
-  { [code: string]: PaymentType }
-> = createSelector(getPaymentTypesState, fromReducer.getPaymentTypesEntites);
-
-export const getAllPaymentTypes: MemoizedSelector<
-  StateWithCheckout,
-  PaymentType[]
-> = createSelector(getPaymentTypesEntites, (entites) => {
-  return Object.keys(entites).map((code) => entites[code]);
-});
 
 export const getSelectedPaymentType: MemoizedSelector<
   StateWithCheckout,

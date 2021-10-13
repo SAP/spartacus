@@ -1,9 +1,7 @@
-import { PaymentType, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
-
-export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -16,7 +14,6 @@ export interface CheckoutStepsState {
 }
 
 export interface PaymentTypesState {
-  entities: { [code: string]: PaymentType };
   selected?: string;
 }
 

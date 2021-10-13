@@ -4,68 +4,49 @@ import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
+  CurrencySetEvent,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
   PaymentType,
-  ProcessSelectors,
+  Query,
+  QueryService,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import {
-  map,
-  pluck,
-  shareReplay,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { PaymentTypeConnector } from '..';
 import { CheckoutActions } from '../store/actions/index';
-import {
-  GET_PAYMENT_TYPES_PROCESS_ID,
-  StateWithCheckout,
-} from '../store/checkout-state';
+import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class PaymentTypeService implements PaymentTypeFacade {
+  protected paymentTypesQuery: Query<PaymentType[]> = this.query.create(
+    () => this.paymentTypeConnector.getPaymentTypes(),
+    {
+      reloadOn: [LanguageSetEvent, CurrencySetEvent],
+      resetOn: [LogoutEvent, LoginEvent],
+    }
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected query: QueryService,
+    protected paymentTypeConnector: PaymentTypeConnector
   ) {}
 
   /**
    * Get payment types
    */
   getPaymentTypes(): Observable<PaymentType[]> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getAllPaymentTypes),
-      withLatestFrom(
-        this.processStateStore.pipe(
-          select(
-            ProcessSelectors.getProcessStateFactory(
-              GET_PAYMENT_TYPES_PROCESS_ID
-            )
-          )
-        )
-      ),
-      tap(([_, loadingState]) => {
-        if (
-          !(loadingState.loading || loadingState.success || loadingState.error)
-        ) {
-          this.loadPaymentTypes();
-        }
-      }),
-      pluck(0),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
-  }
-
-  /**
-   * Load the supported payment types
-   */
-  loadPaymentTypes(): void {
-    this.checkoutStore.dispatch(new CheckoutActions.LoadPaymentTypes());
+    return this.paymentTypesQuery
+      .get()
+      .pipe(map((paymentTypes) => paymentTypes ?? []));
   }
 
   /**

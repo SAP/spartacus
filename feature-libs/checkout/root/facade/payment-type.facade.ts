@@ -11,7 +11,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'getPaymentTypes',
-        'loadPaymentTypes',
         'setPaymentType',
         'getSelectedPaymentType',
         'isAccountPayment',
@@ -25,11 +24,6 @@ export abstract class PaymentTypeFacade {
    * Get payment types
    */
   abstract getPaymentTypes(): Observable<PaymentType[]>;
-
-  /**
-   * Load the supported payment types
-   */
-  abstract loadPaymentTypes(): void;
 
   /**
    * Set payment type to cart

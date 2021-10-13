@@ -8,12 +8,13 @@ import {
   Cart,
   CART_NORMALIZER,
   ConverterService,
+  normalizeHttpError,
   Occ,
   OccEndpointsService,
   PaymentType,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
@@ -27,6 +28,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
       .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
