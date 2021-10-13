@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -26,7 +25,6 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
           'SavedCartDetailsItemsComponent',
           'SavedCartDetailsActionComponent',
         ],
-        dependencies: [CART_FEATURE],
       },
       // by default core is bundled together with components
       [CART_SAVED_CART_CORE_FEATURE]: CART_SAVED_CART_FEATURE,
