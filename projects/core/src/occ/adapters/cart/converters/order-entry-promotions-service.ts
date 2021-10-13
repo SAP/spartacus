@@ -3,6 +3,10 @@ import { PromotionResult } from '../../../../model/cart.model';
 import { PromotionOrderEntryConsumed } from '../../../../model/order.model';
 import { Occ } from '../../../occ-models/occ.models';
 
+/**
+ * @deprecated since 5.0, use cart lib instead.
+ * TODO: Remove when order OCC code is movedd to order lib
+ */
 @Injectable({ providedIn: 'root' })
 export class OrderEntryPromotionsService {
   /**
