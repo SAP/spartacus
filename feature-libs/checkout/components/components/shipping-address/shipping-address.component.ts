@@ -18,8 +18,14 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -48,9 +54,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService?: PaymentTypeFacade,
-    protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade
+    protected paymentTypeService: PaymentTypeFacade,
+    protected userCostCenterService: UserCostCenterService,
+    protected checkoutCostCenterService: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -115,14 +121,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.userCostCenterService
     ) {
       return this.checkoutCostCenterService.getCostCenter().pipe(
+        filter((costCenterState) => !costCenterState.loading),
+        map((costCenterState) => costCenterState.data),
         distinctUntilChanged(),
-        switchMap((selected) => {
+        switchMap((costCenterCode) => {
           this.doneAutoSelect = false;
-          return (
-            this.userCostCenterService?.getCostCenterAddresses(
-              selected as string
-            ) ?? []
-          );
+          return costCenterCode
+            ? this.userCostCenterService.getCostCenterAddresses(costCenterCode)
+            : of([]);
         })
       );
     }

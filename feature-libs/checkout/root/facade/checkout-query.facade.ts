@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Address,
+  CostCenter,
   DeliveryMode,
   facadeFactory,
   PaymentDetails,
@@ -13,6 +14,7 @@ export interface CheckoutState {
   deliveryAddress?: Address;
   deliveryMode?: DeliveryMode;
   paymentInfo?: PaymentDetails;
+  costCenter?: CostCenter; // TODO move to checkout b2b entry point and use augmentation
 }
 
 @Injectable({

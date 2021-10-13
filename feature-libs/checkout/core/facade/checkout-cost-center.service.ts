@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
+  CheckoutQueryFacade,
+  CostCenterSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Cart,
-  CartActions,
   Command,
   CommandService,
   CommandStrategy,
+  EventService,
   OCC_USER_ID_ANONYMOUS,
+  QueryState,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
-import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
@@ -47,14 +48,13 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
             .pipe(
               tap(() => {
                 this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
-                this.checkoutStore.dispatch(
-                  new CartActions.LoadCart({
+                this.eventService.dispatch(
+                  {
                     cartId,
                     userId,
-                  })
-                );
-                this.checkoutStore.dispatch(
-                  new CheckoutActions.SetCostCenterSuccess(payload)
+                    code: payload,
+                  },
+                  CostCenterSetEvent
                 );
               })
             );
@@ -72,7 +72,9 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
     protected userIdService: UserIdService,
     protected command: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutQueryService: CheckoutQueryFacade,
+    protected eventService: EventService
   ) {}
 
   /**
@@ -86,23 +88,12 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  getCostCenter(): Observable<string | undefined> {
-    return combineLatest([
-      this.activeCartService.getActive(),
-      this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
-    ]).pipe(
-      filter(([cart]) => Boolean(cart)),
-      map(([cart, costCenterId]) => {
-        if (costCenterId === undefined && cart.costCenter) {
-          costCenterId = cart.costCenter.code;
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenterSuccess(
-              cart.costCenter.code as string
-            )
-          );
-        }
-        return costCenterId;
-      })
+  getCostCenter(): Observable<QueryState<string>> {
+    return this.checkoutQueryService.getCheckoutDetailsState().pipe(
+      map((state) => ({
+        ...state,
+        data: state?.data?.costCenter?.code,
+      }))
     );
   }
 }

@@ -12,7 +12,6 @@ export interface StateWithCheckout {
 export interface CheckoutStepsState {
   poNumber: {
     po?: string;
-    costCenter?: string;
   };
 }
 

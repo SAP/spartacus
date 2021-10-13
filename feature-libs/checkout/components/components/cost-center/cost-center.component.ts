@@ -4,8 +4,8 @@ import {
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import { CostCenter, UserCostCenterService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center',
@@ -26,15 +26,21 @@ export class CostCenterComponent {
   }
 
   get costCenters$(): Observable<CostCenter[]> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      withLatestFrom(this.checkoutCostCenterService.getCostCenter()),
-      filter(([costCenters]) => Boolean(costCenters)),
-      tap(([costCenters, cartCostCenter]) => {
-        if (!Boolean(cartCostCenter)) {
-          console.log('called 2 times?');
+    return combineLatest([
+      this.userCostCenterService
+        .getActiveCostCenters()
+        .pipe(filter((costCenters) => !!costCenters)),
+      this.checkoutCostCenterService.getCostCenter().pipe(
+        filter((checkoutCostCenterState) => !checkoutCostCenterState.loading),
+        map((checkoutCostCenterState) => checkoutCostCenterState.data),
+        distinctUntilChanged()
+      ),
+    ]).pipe(
+      tap(([costCenters, costCenterCode]) => {
+        if (!Boolean(costCenterCode)) {
           this.setCostCenter(costCenters[0].code as string);
         } else {
-          this.costCenterId = cartCostCenter;
+          this.costCenterId = costCenterCode;
         }
       }),
       map(([costCenters]) => costCenters)

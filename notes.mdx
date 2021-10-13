@@ -34,12 +34,22 @@
 - should move scheduled replenishment to it's own service/entry point ?
 - better organize code related to order type clearing
 - smooth checkout UI (loading states etc.)
+- separate entry point for b2b checkout in checkout lib
+- move default-b2b-occ-config to b2b checkout entry point
+- multiple calls for setting cost center (user cost centers emits multiple times)
 
 # Next session
 
-- set cost center command
-- get cost center with super query (extending super query for b2b)
 - payment types query
 - set payment type command
-- get payment type with super query
 - get po number with super query
+- get payment type with super query
+
+### Checkout lib structure
+
+- root
+- occ
+- core
+- components
+
+- b2b // augment @spartacus/checkout/root { CheckoutState }

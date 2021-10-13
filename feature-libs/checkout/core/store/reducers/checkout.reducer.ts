@@ -3,7 +3,7 @@ import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
-  poNumber: { po: undefined, costCenter: undefined },
+  poNumber: { po: undefined },
 };
 
 export function reducer(
@@ -18,16 +18,6 @@ export function reducer(
         poNumber: {
           ...state.poNumber,
           po: cart.purchaseOrderNumber,
-        },
-      };
-    }
-
-    case CheckoutActions.SET_COST_CENTER_SUCCESS: {
-      return {
-        ...state,
-        poNumber: {
-          ...state.poNumber,
-          costCenter: action.payload,
         },
       };
     }

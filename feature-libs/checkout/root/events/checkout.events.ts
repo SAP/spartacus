@@ -102,3 +102,16 @@ export class PaymentDetailsCreatedEvent extends CheckoutEvent {
    */
   paymentDetails: PaymentDetails;
 }
+
+// TODO: Move to b2b checkout entry point
+export class CostCenterSetEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CostCenterSetEvent';
+
+  /**
+   * Cost center code
+   */
+  code: string;
+}

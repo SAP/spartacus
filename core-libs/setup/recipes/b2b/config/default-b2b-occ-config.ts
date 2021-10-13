@@ -1,8 +1,8 @@
 // We need this import for augmentation of OccEndpoints to pick up
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
+import { OccConfig } from '@spartacus/core';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
-import { OccConfig } from '@spartacus/core';
 
 // While it is not strictly required to define checkout endpoints in a separate `CheckoutOccEndpoints`
 // variable, type augmentation does require that this file imports `CheckoutOccEndpoints`.
@@ -44,6 +44,8 @@ export const defaultB2bOccConfig: OccConfig = {
           'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+        getCheckoutDetails:
+          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)',
       },
     },
   },

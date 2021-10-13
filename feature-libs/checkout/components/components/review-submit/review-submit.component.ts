@@ -107,8 +107,10 @@ export class ReviewSubmitComponent {
       filter((costCenters) => Boolean(costCenters)),
       switchMap((costCenters) => {
         return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((code) => {
-            return costCenters.find((cc) => cc.code === code);
+          map((checkoutCostCenterState) => {
+            return costCenters.find(
+              (cc) => cc.code === checkoutCostCenterState?.data
+            );
           })
         );
       })

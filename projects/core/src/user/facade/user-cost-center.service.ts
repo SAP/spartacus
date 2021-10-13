@@ -50,9 +50,10 @@ export class UserCostCenterService {
         }
       }),
       filter(
-        (process: LoaderState<CostCenter[]>) => process.success || process.error
+        (process: LoaderState<CostCenter[]>) =>
+          !!(process.success || process.error)
       ),
-      map((result) => result.value)
+      map((result) => result.value ?? [])
     );
   }
 
