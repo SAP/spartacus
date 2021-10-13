@@ -63,4 +63,13 @@ export class ConfiguratorExitButtonComponent {
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
   }
+
+  /**
+   * Verifies whether the current screen size equals or is smaller than breakpoint `BREAKPOINT.sm`.
+   *
+   * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.sm` returns `true`, otherwise `false`.
+   */
+  isMobile(): Observable<boolean> {
+    return this.breakpointService?.isDown(BREAKPOINT.sm);
+  }
 }
