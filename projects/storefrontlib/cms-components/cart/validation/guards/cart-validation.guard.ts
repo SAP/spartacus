@@ -7,7 +7,6 @@ import {
   GlobalMessageService,
   ActiveCartService,
   GlobalMessageType,
-  RoutingService,
 } from '@spartacus/core';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { CartValidationStateService } from '../cart-validation-state.service';
@@ -22,8 +21,7 @@ export class CartValidationGuard implements CanActivate {
     protected router: Router,
     protected globalMessageService: GlobalMessageService,
     protected activeCartService: ActiveCartService,
-    protected cartValidationStateService: CartValidationStateService,
-    protected routingService: RoutingService
+    protected cartValidationStateService: CartValidationStateService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {

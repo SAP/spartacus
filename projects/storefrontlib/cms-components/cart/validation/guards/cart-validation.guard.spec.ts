@@ -3,7 +3,6 @@ import {
   GlobalMessageService,
   SemanticPathService,
   CartValidationService,
-  RoutingService,
   CartModification,
   GlobalMessageType,
   RouterState,
@@ -69,12 +68,6 @@ class MockCartValidationStateService
   >;
 }
 
-class MockRoutingService {
-  getRouterState() {
-    return of();
-  }
-}
-
 describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
@@ -92,7 +85,6 @@ describe(`CartValidationGuard`, () => {
           provide: CartValidationStateService,
           useClass: MockCartValidationStateService,
         },
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
       imports: [RouterTestingModule],
     });

@@ -66,7 +66,7 @@ describe('CartValidationService', () => {
   });
 
   it('should call connector with passed params to validate cart', () => {
-    service.validateCart().subscribe().unsubscribe();
-    expect(connector.get).toHaveBeenCalled();
+    service.validateCart();
+    expect(connector.validate).toHaveBeenCalled();
   });
 });
