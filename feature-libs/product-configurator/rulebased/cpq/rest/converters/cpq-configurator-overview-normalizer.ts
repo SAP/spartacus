@@ -131,7 +131,9 @@ export class CpqConfiguratorOverviewNormalizer
   ): Configurator.AttributeOverview {
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
+      attributeId: attr.stdAttrCode.toString(),
       value: valueSelected.valueDisplay ?? valueSelected.paV_ID.toString(),
+      valueId: valueSelected.paV_ID.toString(),
       productCode: valueSelected.productSystemId,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         valueSelected,
