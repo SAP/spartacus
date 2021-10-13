@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   ActiveCartFacade,
   Cart,
+  CartItemComponentOptions,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
@@ -13,7 +14,6 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-shared/cart-item/cart-item.component';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
   template: '',

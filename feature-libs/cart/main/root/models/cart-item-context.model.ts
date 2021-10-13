@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { PromotionLocation } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-item.component';
+import { CartItemComponentOptions } from './cart.model';
 
 /**
  * Context for `CartItemComponent`.

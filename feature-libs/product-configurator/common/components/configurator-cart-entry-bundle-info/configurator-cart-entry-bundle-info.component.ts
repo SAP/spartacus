@@ -1,6 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext } from '@spartacus/cart/main/components';
+import { CartItemContext } from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
-import { CartItemContext } from '@spartacus/cart/main/components';
+import { CartItemContext } from '@spartacus/cart/main/root';
 import { PromotionLocation } from '@spartacus/cart/main/root';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import {

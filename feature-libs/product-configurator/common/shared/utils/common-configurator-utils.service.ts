@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Cart, PromotionLocation } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  CartItemContext,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/cart/main/components';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {

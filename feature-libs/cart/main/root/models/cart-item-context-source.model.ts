@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { PromotionLocation } from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-item.component';
+import { CartItemComponentOptions } from './cart.model';
 import { CartItemContext } from './cart-item-context.model';
 
 /**

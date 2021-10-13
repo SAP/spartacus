@@ -1,15 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
+import {
+  CartItemComponentOptions,
+  CartItemContext,
+  CartItemContextSource,
+  CartOutlets,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { CartItemContext } from './model/cart-item-context.model';
-
-export interface CartItemComponentOptions {
-  isSaveForLater?: boolean;
-  optionalBtn?: any;
-}
 
 @Component({
   selector: 'cx-cart-item',

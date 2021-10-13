@@ -4,8 +4,8 @@ import { FormControl } from '@angular/forms';
 import {
   CartItemContext,
   CartItemContextSource,
-} from '@spartacus/cart/main/components';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
