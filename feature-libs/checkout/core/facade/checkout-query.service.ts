@@ -7,6 +7,7 @@ import {
 import {
   CheckoutQueryFacade,
   CheckoutState,
+  CostCenterSetEvent,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
@@ -24,6 +25,7 @@ import {
   LoginEvent,
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
+  QueryNotifier,
   QueryService,
   QueryState,
   UserIdService,
@@ -35,6 +37,31 @@ import { CheckoutActions } from '../store/actions/index';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
+  protected queryReloadEvents: QueryNotifier[] = [
+    LanguageSetEvent,
+    CurrencySetEvent,
+  ];
+  protected queryResetEvents: QueryNotifier[] = [
+    DeliveryAddressSetEvent,
+    LogoutEvent,
+    LoginEvent,
+    DeliveryAddressClearedEvent,
+    DeliveryModeSetEvent,
+    DeliveryModeClearedEvent,
+    SaveCartSuccessEvent,
+    RestoreSavedCartSuccessEvent,
+    PaymentDetailsCreatedEvent,
+    PaymentDetailsSetEvent,
+    // TODO: In b2b entry point we would extend the list of the events with the b2b ones (such as this)
+    // this.queryResetEvents = [...super.queryResetEvents, b2b events];
+    CostCenterSetEvent,
+    // query state should be reset when checkout is finished (should be undefined after these 2 event)
+    OrderPlacedEvent,
+    ReplenishmentOrderScheduledEvent,
+    this.actions$.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)),
+    this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
+  ];
+
   protected checkoutQuery$ = this.query.create<CheckoutState>(
     () => {
       return combineLatest([
@@ -56,24 +83,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       );
     },
     {
-      reloadOn: [LanguageSetEvent, CurrencySetEvent],
-      resetOn: [
-        DeliveryAddressSetEvent,
-        LogoutEvent,
-        LoginEvent,
-        DeliveryAddressClearedEvent,
-        DeliveryModeSetEvent,
-        DeliveryModeClearedEvent,
-        SaveCartSuccessEvent,
-        RestoreSavedCartSuccessEvent,
-        PaymentDetailsCreatedEvent,
-        PaymentDetailsSetEvent,
-        // query state should be reset when checkout is finished (should be undefined after these 2 event)
-        OrderPlacedEvent,
-        ReplenishmentOrderScheduledEvent,
-        this.actions$.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)),
-        this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
-      ],
+      reloadOn: this.queryReloadEvents,
+      resetOn: this.queryResetEvents,
     }
   );
 
