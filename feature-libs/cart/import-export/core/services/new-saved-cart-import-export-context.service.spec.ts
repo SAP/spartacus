@@ -1,29 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import {
-  ActiveCartService,
   Cart,
   CartActions,
   MultiCartService,
-  RoutingService,
+  OrderEntry,
   StateUtils,
   UserIdService,
-  RouterState,
 } from '@spartacus/core';
+import {
+  NewSavedCartImportExportContext,
+  ProductData,
+  ProductImportStatus,
+} from '@spartacus/cart/import-export/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { ProductImportStatus, ProductsData } from '../../core/model';
-import { ImportToCartService } from './import-to-cart.service';
-
 import createSpy = jasmine.createSpy;
+
+const mockActionsSubject = new Subject<Action>();
 
 const mockUserId = 'test-user';
 const mockCartId = '00004546';
-
-const mockFileData: string[][] = [
-  ['693923', '1', 'mockProduct1', '$4.00'],
-  ['232133', '2', 'mockProduct2', '$5.00'],
-];
 
 const mockSavedCart = { name: 'mockSavedCart', description: 'mock saved cart' };
 
@@ -31,7 +28,7 @@ const mockCartData: StateUtils.ProcessesLoaderState<Cart> = {
   value: { code: mockCartId },
 };
 
-const mockProductData: ProductsData = [
+const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
@@ -51,87 +48,35 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-const routerStateSubject = new BehaviorSubject<RouterState>({
-  state: {
-    semanticRoute: 'savedCarts',
-  },
-} as RouterState);
-
-class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
-    routerStateSubject.asObservable()
-  );
-}
-
-class MockActiveCartService implements Partial<ActiveCartService> {
-  addEntries = createSpy().and.callThrough();
-  getActiveCartId = createSpy().and.returnValue(of(mockCartId));
-}
-
-const mockActionsSubject = new Subject<Action>();
-
-describe('ImportToCartService', () => {
-  let service: ImportToCartService;
+describe('NewSavedCartImportExportContext', () => {
+  let service: NewSavedCartImportExportContext;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
-  let routingService: RoutingService;
-  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ImportToCartService,
-        { provide: UserIdService, useClass: MockUserIdService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
-        { provide: SavedCartFacade, useClass: MockSavedCartService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: ActionsSubject, useValue: mockActionsSubject },
+        { useValue: mockActionsSubject, provide: ActionsSubject },
+        { useClass: MockSavedCartService, provide: SavedCartFacade },
+        { useClass: MockMultiCartService, provide: MultiCartService },
+        { useClass: MockUserIdService, provide: UserIdService },
       ],
     });
-    service = TestBed.inject(ImportToCartService);
+    service = TestBed.inject(NewSavedCartImportExportContext);
     multiCartService = TestBed.inject(MultiCartService);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
-    routingService = TestBed.inject(RoutingService);
-    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return true if data is parsable', () => {
-    const result = service.isDataParsableToProducts(mockFileData);
-    expect(result).toBe(true);
-  });
-
-  it('should return false if data is not parsable', () => {
-    const result = service.isDataParsableToProducts([['abc', '11.22']]);
-    expect(result).toBe(false);
-  });
-
-  it('should convert csv extracted data according to product and quantity', () => {
-    expect(service['csvDataToProduct'](mockFileData)).toEqual(mockProductData);
-  });
-
-  describe('loadProductsToCart for saved cart', () => {
-    beforeEach(() => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'savedCarts',
-        },
-      } as RouterState);
-    });
-
+  describe('addEntries', () => {
     it('should create, save and load cart', () => {
-      service
-        .loadProductsToCart(mockProductData, mockSavedCart)
-        .subscribe()
-        .unsubscribe();
+      service.addEntries(mockProductData, mockSavedCart).subscribe();
 
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(userIdService.takeUserId).toHaveBeenCalledWith();
       expect(multiCartService.createCart).toHaveBeenCalledWith({
         userId: mockUserId,
@@ -153,7 +98,7 @@ describe('ImportToCartService', () => {
     it('should return success action', () => {
       let action;
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
+        .addEntries(mockProductData, mockSavedCart)
         .subscribe((data) => (action = data));
 
       mockActionsSubject.next(
@@ -178,7 +123,7 @@ describe('ImportToCartService', () => {
     it('should return low stock action', () => {
       let action;
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
+        .addEntries(mockProductData, mockSavedCart)
         .subscribe((data) => (action = data));
 
       mockActionsSubject.next(
@@ -205,7 +150,7 @@ describe('ImportToCartService', () => {
     it('should return no stock action', () => {
       let action;
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
+        .addEntries(mockProductData, mockSavedCart)
         .subscribe((data) => (action = data));
 
       mockActionsSubject.next(
@@ -230,7 +175,7 @@ describe('ImportToCartService', () => {
     it('should return Unknown Identifier Error action', () => {
       let action;
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
+        .addEntries(mockProductData, mockSavedCart)
         .subscribe((data) => (action = data));
 
       mockActionsSubject.next(
@@ -252,7 +197,7 @@ describe('ImportToCartService', () => {
     it('should return unknown error action', () => {
       let action;
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
+        .addEntries(mockProductData, mockSavedCart)
         .subscribe((data) => (action = data));
 
       mockActionsSubject.next(
@@ -274,47 +219,17 @@ describe('ImportToCartService', () => {
     });
   });
 
-  describe('loadProductsToCart for active cart', () => {
-    it('should create, save and load cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'cart',
-        },
-      } as RouterState);
-
+  describe('getEntries', () => {
+    it('getEntries from new saved cart', () => {
+      let entries: OrderEntry[];
       service
-        .loadProductsToCart(mockProductData, mockSavedCart)
-        .subscribe()
+        .getEntries()
+        .subscribe((result) => {
+          entries = result;
+        })
         .unsubscribe();
 
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(activeCartService.addEntries).toHaveBeenCalledWith([
-        { product: { code: '693923' }, quantity: 1 },
-        { product: { code: '232133' }, quantity: 2 },
-      ]);
-      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
-    });
-  });
-
-  describe('loadProductsToCart for other page', () => {
-    it('should create, save and load cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'otherPage',
-        },
-      } as RouterState);
-
-      service
-        .loadProductsToCart(mockProductData, mockSavedCart)
-        .subscribe()
-        .unsubscribe();
-
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(activeCartService.addEntries).toHaveBeenCalledWith([
-        { product: { code: '693923' }, quantity: 1 },
-        { product: { code: '232133' }, quantity: 2 },
-      ]);
-      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
+      expect(entries).toEqual([]);
     });
   });
 });

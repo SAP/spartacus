@@ -1,3 +1,4 @@
+import { CartTypes } from '../model/import-export.model';
 import { NameSource } from '../model/import-to-cart.model';
 import { ImportExportConfig } from './import-export-config';
 
@@ -9,7 +10,12 @@ export const defaultImportExportConfig: ImportExportConfig = {
     import: {
       fileValidity: {
         maxSize: 1,
-        maxEntries: 100,
+        maxEntries: {
+          [CartTypes.NEW_SAVED_CART]: 100,
+          [CartTypes.SAVED_CART]: 100,
+          [CartTypes.ACTIVE_CART]: 10,
+          [CartTypes.QUICK_ORDER]: 10,
+        },
         allowedTypes: [
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/vnd.ms-excel',

@@ -1,23 +1,34 @@
-import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
-  ActiveCartService,
+  GlobalMessageService,
   I18nTestingModule,
   ImageType,
   OrderEntry,
-  RoutingService,
-  RouterState,
   PriceType,
   TranslationService,
-  GlobalMessageService,
 } from '@spartacus/core';
+import {
+  ExportCsvFileService,
+  PageComponentModule,
+} from '@spartacus/storefront';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
-import { ExportEntriesService } from './export-entries.service';
+
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
+
+const csvData = [
+  [
+    'exportEntries.columnNames.code',
+    'exportEntries.columnNames.quantity',
+    'exportEntries.columnNames.name',
+    'exportEntries.columnNames.price',
+  ],
+  ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+  ['3803058', '2', 'PC Service Set Professional', '$47.00'],
+];
 
 const entry: OrderEntry = {
   basePrice: {
@@ -94,59 +105,37 @@ const entry: OrderEntry = {
   updateable: true,
 };
 
-const routerStateSubject = new BehaviorSubject<RouterState>({
-  state: {
-    semanticRoute: 'savedCartsDetails',
-  },
-} as RouterState);
-
-class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    routerStateSubject.asObservable()
-  );
-}
-
-class MockActiveCartService implements Partial<ActiveCartService> {
-  getEntries = createSpy('getEntries').and.returnValue(of([entry, entry]));
-}
-
-class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
-  getCartDetails = createSpy('getCartDetails').and.returnValue(
-    of({ entries: [entry, entry] })
-  );
-}
+const entries: OrderEntry[] = [entry, entry];
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
+class MockExportCsvFileService implements Partial<ExportCsvFileService> {
+  download = createSpy().and.callThrough();
+}
 
-describe('ExportEntriesService', () => {
-  let service: ExportEntriesService;
+describe('ExportProductsToCsvService', () => {
+  let service: ExportProductsToCsvService;
   let translationService: TranslationService;
-  let savedCartDetailsService: SavedCartDetailsService;
-  let activeCartService: ActiveCartService;
+  let exportCsvFileService: ExportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, PageComponentModule],
       providers: [
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        {
-          provide: SavedCartDetailsService,
-          useClass: MockSavedCartDetailsService,
-        },
+        { provide: ExportCsvFileService, useClass: MockExportCsvFileService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
       ],
     });
-    service = TestBed.inject(ExportEntriesService);
+    service = TestBed.inject(ExportProductsToCsvService);
     translationService = TestBed.inject(TranslationService);
-    savedCartDetailsService = TestBed.inject(SavedCartDetailsService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    exportCsvFileService = TestBed.inject(ExportCsvFileService);
+
+    spyOn(translationService, 'translate').and.callThrough();
   });
 
   it('should be created', () => {
@@ -155,15 +144,10 @@ describe('ExportEntriesService', () => {
 
   describe('getResolvedEntries', () => {
     it('should translate headings and export entries to specific format', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'savedCartsDetails',
-        },
-      } as RouterState);
-      spyOn(translationService, 'translate').and.callThrough();
-
       let result: string[][] = [];
-      service.getResolvedEntries().subscribe((data) => (result = data));
+      service['getResolvedEntries'](entries).subscribe(
+        (data) => (result = data)
+      );
 
       const headings = [
         'exportEntries.columnNames.code',
@@ -182,36 +166,6 @@ describe('ExportEntriesService', () => {
       expect(result.length).toEqual(3);
       expect(result).toEqual([[...headings], values, values]);
       expect(translationService.translate).toHaveBeenCalledTimes(4);
-    });
-
-    it('should resolve data from saved cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'savedCartsDetails',
-        },
-      } as RouterState);
-      service.getResolvedEntries().subscribe();
-      expect(savedCartDetailsService.getCartDetails).toHaveBeenCalledWith();
-    });
-
-    it('should resolve data from active cart', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'cart',
-        },
-      } as RouterState);
-      service.getResolvedEntries().subscribe();
-      expect(activeCartService.getEntries).toHaveBeenCalledWith();
-    });
-
-    it('should resolve data from other page', () => {
-      routerStateSubject.next({
-        state: {
-          semanticRoute: 'otherPage',
-        },
-      } as RouterState);
-      service.getResolvedEntries().subscribe();
-      expect(activeCartService.getEntries).toHaveBeenCalledWith();
     });
   });
 
@@ -254,10 +208,33 @@ describe('ExportEntriesService', () => {
     };
 
     let result: string[][] = [];
-    service
-      .getResolvedEntries()
+    service['getResolvedEntries'](entries)
       .subscribe((data) => (result = data))
       .unsubscribe();
     expect(result.length).toEqual(2);
   });
+
+  it(`should downloadCsv`, fakeAsync(() => {
+    spyOn<any>(service, 'download').and.callThrough();
+    const downloadDelay = 0;
+    service['importExportConfig'] = {
+      cartImportExport: {
+        ...defaultImportExportConfig.cartImportExport,
+        export: {
+          ...defaultImportExportConfig.cartImportExport?.export,
+          downloadDelay,
+        },
+      },
+    };
+
+    service.downloadCsv(entries);
+    tick(downloadDelay);
+
+    expect(service['download']).toHaveBeenCalledWith(csvData);
+    expect(exportCsvFileService.download).toHaveBeenCalledWith(
+      csvData,
+      defaultImportExportConfig.cartImportExport?.file.separator,
+      defaultImportExportConfig.cartImportExport?.export.fileOptions
+    );
+  }));
 });

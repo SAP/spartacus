@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -10,17 +11,17 @@ import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  LaunchDialogService,
+  FilesFormValidators,
   FormUtils,
   ImportCsvFileService,
-  FilesFormValidators,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import {
-  ImportConfig,
-  ProductsData,
+  CartTypes,
   ImportExportConfig,
+  ProductData,
 } from '@spartacus/cart/import-export/core';
-import { ImportToCartService } from '../../import-to-cart.service';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -30,25 +31,26 @@ import { ImportToCartService } from '../../import-to-cart.service';
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
-  componentData?: ImportConfig;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
 
   @Output()
   submitEvent = new EventEmitter<{
-    products: ProductsData;
+    products: ProductData[];
   }>();
+
+  @Input()
+  type: CartTypes;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService,
+    protected importToCartService: ImportProductsFromCsvService,
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig
   ) {}
 
   ngOnInit() {
-    this.componentData = this.importExportConfig.cartImportExport?.import;
     this.form = this.buildForm();
 
     this.formSubmitSubject$
@@ -96,12 +98,7 @@ export class ImportEntriesFormComponent implements OnInit {
       'file',
       new FormControl(
         '',
-        [
-          Validators.required,
-          this.filesFormValidators.maxSize(
-            this.componentData?.fileValidity?.maxSize
-          ),
-        ],
+        [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [
           (control) =>
             this.separator !== undefined
@@ -118,12 +115,22 @@ export class ImportEntriesFormComponent implements OnInit {
     return form;
   }
 
-  protected get separator(): string | undefined {
-    return this.importExportConfig.cartImportExport?.file.separator;
+  public get allowedTypes(): string[] | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.allowedTypes;
+  }
+
+  protected get maxSize(): number | undefined {
+    return this.importExportConfig.cartImportExport?.import?.fileValidity
+      ?.maxSize;
   }
 
   protected get maxEntries(): number | undefined {
     return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries;
+      ?.maxEntries?.[this.type];
+  }
+
+  protected get separator(): string | undefined {
+    return this.importExportConfig.cartImportExport?.file.separator;
   }
 }

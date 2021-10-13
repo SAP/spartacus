@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject, of } from 'rxjs';
 import {
   I18nTestingModule,
   ImageType,
   OrderEntry,
   PriceType,
 } from '@spartacus/core';
-import { ExportEntriesService } from './export-entries.service';
 import { ExportEntriesComponent } from './export-entries.component';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
@@ -87,52 +86,40 @@ const entry: OrderEntry = {
   },
   updateable: true,
 };
-const transitionalArray = [
-  ['SKU', 'quantity'],
-  ['3803058', '2'],
-];
 
-const entries$ = new BehaviorSubject([entry]);
+const entries: OrderEntry[] = [entry, entry];
 
-class MockExportEntriesService {
-  getResolvedEntries = createSpy('getResolvedEntries').and.returnValue(
-    of(transitionalArray)
-  );
-  downloadCsv = createSpy('downloadCsvSpy').and.returnValue(
-    of(transitionalArray)
-  );
+class MockExportProductsToCsvService {
+  downloadCsv = createSpy('downloadCsv');
 }
 
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
+  let exportEntriesService: ExportProductsToCsvService;
 
-  let exportEntriesService: ExportEntriesService;
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          I18nTestingModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: ExportEntriesService,
-            useClass: MockExportEntriesService,
-          },
-        ],
-        declarations: [ExportEntriesComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: ExportProductsToCsvService,
+          useClass: MockExportProductsToCsvService,
+        },
+      ],
+      declarations: [ExportEntriesComponent],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExportEntriesComponent);
     component = fixture.componentInstance;
 
-    exportEntriesService = TestBed.inject(ExportEntriesService);
+    exportEntriesService = TestBed.inject(ExportProductsToCsvService);
   });
 
   it('should create', () => {
@@ -140,30 +127,18 @@ describe('ExportEntriesComponent', () => {
   });
 
   it('should display export to csv link and run downloadCsv on click', () => {
-    entries$.next([entry]);
+    component.entries = entries;
     fixture.detectChanges();
 
-    const exportToCsvSpy = spyOn(component, 'exportToCsv').and.callThrough();
+    const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
     const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
 
     expect(btn.nativeElement).toBeTruthy();
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportEntriesService.getResolvedEntries).toHaveBeenCalledWith();
-      expect(exportToCsvSpy).toHaveBeenCalledWith(transitionalArray);
-      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(
-        transitionalArray
-      );
+      expect(exportToCsvSpy).toHaveBeenCalledWith();
+      expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(entries);
     });
-  });
-
-  it('should to not display button if no entries', () => {
-    entries$.next([]);
-
-    const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
-    fixture.detectChanges();
-
-    expect(btn).toBeNull();
   });
 });

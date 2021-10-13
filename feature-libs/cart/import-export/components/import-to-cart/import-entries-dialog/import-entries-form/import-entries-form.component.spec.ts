@@ -1,22 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  ProductImportInfo,
-  ProductImportStatus,
-  ProductsData,
-  ImportExportConfig,
-  defaultImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+import { Observable, of } from 'rxjs';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
+  FilesFormValidators,
   FileUploadModule,
   FormErrorsModule,
-  LaunchDialogService,
-  FilesFormValidators,
   ImportCsvFileService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { ImportToCartService } from '../../import-to-cart.service';
+import {
+  defaultImportExportConfig,
+  ImportExportConfig,
+  ProductData,
+} from '@spartacus/cart/import-export/core';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 
 const mockLoadFileData: string[][] = [
@@ -31,22 +29,16 @@ const mockFile: File = new File([mockCsvString], 'mockFile.csv', {
   type: 'text/csv',
 });
 
-const mockProducts: ProductsData = [
+const mockProducts: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
-
-const mockLoadProduct: ProductImportInfo = {
-  productCode: '123456',
-  statusCode: ProductImportStatus.SUCCESS,
-};
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockImportToCartService implements Partial<ImportToCartService> {
-  loadProductsToCart = () => of(mockLoadProduct);
+class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
@@ -66,7 +58,7 @@ describe('ImportEntriesFormComponent', () => {
   let component: ImportEntriesFormComponent;
   let fixture: ComponentFixture<ImportEntriesFormComponent>;
   let launchDialogService: LaunchDialogService;
-  let importToCartService: ImportToCartService;
+  let importToCartService: ImportProductsFromCsvService;
   let filesFormValidators: FilesFormValidators;
   let importCsvService: ImportCsvFileService;
 
@@ -82,7 +74,10 @@ describe('ImportEntriesFormComponent', () => {
       declarations: [ImportEntriesFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: ImportToCartService, useClass: MockImportToCartService },
+        {
+          provide: ImportProductsFromCsvService,
+          useClass: MockImportToCartService,
+        },
         { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
@@ -93,11 +88,11 @@ describe('ImportEntriesFormComponent', () => {
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    importToCartService = TestBed.inject(ImportToCartService);
+    importToCartService = TestBed.inject(ImportProductsFromCsvService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
     importCsvService = TestBed.inject(ImportCsvFileService);
 
-    spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
     spyOn(importCsvService, 'validateFile').and.callThrough();
     spyOn(filesFormValidators, 'maxSize').and.callThrough();
     fixture.detectChanges();
@@ -107,9 +102,10 @@ describe('ImportEntriesFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get the file Validity', () => {
-    expect(component.componentData.fileValidity).toEqual(
+  it('should get the accept', () => {
+    expect(component.allowedTypes).toEqual(
       defaultImportExportConfig.cartImportExport.import.fileValidity
+        .allowedTypes
     );
   });
 
@@ -139,6 +135,9 @@ describe('ImportEntriesFormComponent', () => {
     spyOn(component.submitEvent, 'emit');
     component.save();
 
+    expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith(
+      mockLoadFileData
+    );
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });
 });

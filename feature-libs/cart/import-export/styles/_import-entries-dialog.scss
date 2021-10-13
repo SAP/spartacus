@@ -94,6 +94,7 @@ cx-import-entries-dialog {
           margin: -0.75rem 0 1.5rem;
           overflow: auto;
           max-height: 150px;
+          pointer-events: all;
           li {
             padding: 0;
             font-size: 0.8em;

@@ -26,32 +26,28 @@
     </div>
 
     <!-- Modal Body -->
+    <ng-container *ngIf="context$ | async as context">
+      <ng-container *ngIf="formState; else importSummary">
+        <cx-import-to-new-saved-cart-form
+          *ngIf="isNewCartForm(context); else reducedForm"
+          [type]="context.type"
+          (submitEvent)="importProducts(context, $event)"
+        ></cx-import-to-new-saved-cart-form>
+        <ng-template #reducedForm>
+          <cx-import-entries-form
+            [type]="context.type"
+            (submitEvent)="importProducts(context, $event)"
+          ></cx-import-entries-form>
+        </ng-template>
+      </ng-container>
 
-    <ng-container
-      *ngIf="formState; else importSummary"
-      [ngSwitch]="placement$ | async"
-    >
-      <cx-import-to-new-saved-cart-form
-        *ngSwitchCase="Placement.SAVED_CARTS"
-        (submitEvent)="importProducts($event)"
-      ></cx-import-to-new-saved-cart-form>
-
-      <cx-import-entries-form
-        *ngSwitchCase="Placement.CART"
-        (submitEvent)="importProducts($event)"
-      ></cx-import-entries-form>
-
-      <cx-import-entries-form
-        (submitEvent)="importProducts($event)"
-        *ngSwitchDefault
-      ></cx-import-entries-form>
+      <ng-template #importSummary>
+        <cx-import-entries-summary
+          [summary]="summary$ | async"
+          [type]="context.type"
+          (closeEvent)="close('Close Import Products Dialog')"
+        ></cx-import-entries-summary>
+      </ng-template>
     </ng-container>
-
-    <ng-template #importSummary>
-      <cx-import-entries-summary
-        [summary]="summary$ | async"
-        (closeEvent)="close('Close Import Products Dialog')"
-      ></cx-import-entries-summary>
-    </ng-template>
   </div>
 </div>

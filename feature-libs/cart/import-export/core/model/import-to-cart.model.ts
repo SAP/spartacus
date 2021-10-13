@@ -1,12 +1,16 @@
-export type ProductsData = {
+import { CartTypes } from './import-export.model';
+
+export type ProductData = {
   productCode: string;
   quantity: number;
-}[];
+};
 
 export interface FileValidity {
   // size unit is MB
   maxSize?: number;
-  maxEntries?: number;
+  maxEntries?: {
+    [key in CartTypes]?: number;
+  };
   allowedTypes?: string[];
 }
 
@@ -53,10 +57,4 @@ export interface CartNameGeneration {
 export interface ImportConfig {
   fileValidity?: FileValidity;
   cartNameGeneration?: CartNameGeneration;
-}
-
-export enum ImportCartRoutes {
-  SAVED_CARTS = 'savedCarts',
-  SAVED_CART_DETAILS = 'savedCartsDetails',
-  CART = 'cart',
 }

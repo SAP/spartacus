@@ -42,4 +42,20 @@ describe('ImportEntriesFormComponent', () => {
 
     expect(component.closeEvent.emit).toHaveBeenCalledWith(mockCloseReason);
   });
+
+  it('should toggleWarningList', () => {
+    component.warningDetailsOpened = false;
+    component.toggleWarningList();
+    expect(component.warningDetailsOpened).toBe(true);
+    component.toggleWarningList();
+    expect(component.warningDetailsOpened).toBe(false);
+  });
+
+  it('should toggleErrorList', () => {
+    component.errorDetailsOpened = false;
+    component.toggleErrorList();
+    expect(component.errorDetailsOpened).toBe(true);
+    component.toggleErrorList();
+    expect(component.errorDetailsOpened).toBe(false);
+  });
 });

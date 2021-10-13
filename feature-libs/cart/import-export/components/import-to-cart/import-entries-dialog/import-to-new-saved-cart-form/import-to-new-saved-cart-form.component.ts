@@ -13,14 +13,18 @@ import {
 import { of } from 'rxjs';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  LaunchDialogService,
   FilesFormValidators,
   ImportCsvFileService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { ProductsData, NameSource } from '@spartacus/cart/import-export/core';
+import {
+  CartNameGeneration,
+  ImportExportConfig,
+  NameSource,
+  ProductData,
+} from '@spartacus/cart/import-export/core';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
-import { ImportToCartService } from '../../import-to-cart.service';
 
 @Component({
   selector: 'cx-import-to-new-saved-cart-form',
@@ -34,7 +38,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   @Output()
   submitEvent = new EventEmitter<{
-    products: ProductsData;
+    products: ProductData[];
     savedCartInfo?: {
       name: string;
       description: string;
@@ -50,7 +54,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService,
+    protected importToCartService: ImportProductsFromCsvService,
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,
@@ -88,12 +92,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
       'file',
       new FormControl(
         '',
-        [
-          Validators.required,
-          this.filesFormValidators.maxSize(
-            this.componentData?.fileValidity?.maxSize
-          ),
-        ],
+        [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [
           (control) =>
             this.separator !== undefined
@@ -123,12 +122,8 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   updateCartName(): void {
     const nameField = this.form.get('name');
-    if (
-      nameField &&
-      !nameField?.value &&
-      this.componentData?.cartNameGeneration?.source
-    ) {
-      switch (this.componentData.cartNameGeneration.source) {
+    if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
+      switch (this.cartNameGeneration.source) {
         case NameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);
           break;
@@ -153,8 +148,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
 
   protected setFieldValueByDatetime(nameField: AbstractControl): void {
     const date = new Date();
-    const fromDateOptions =
-      this.componentData?.cartNameGeneration?.fromDateOptions;
+    const fromDateOptions = this.cartNameGeneration?.fromDateOptions;
     const mask = fromDateOptions?.mask;
     const prefix = fromDateOptions?.prefix ?? '';
     const suffix = fromDateOptions?.suffix ?? '';
@@ -162,5 +156,9 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
       ? this.datePipe.transform(date, mask)
       : this.datePipe.transform(date);
     nameField.setValue(`${prefix}${dateString}${suffix}`);
+  }
+
+  protected get cartNameGeneration(): CartNameGeneration | undefined {
+    return this.importExportConfig.cartImportExport?.import?.cartNameGeneration;
   }
 }

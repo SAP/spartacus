@@ -83,8 +83,8 @@ export class QuickOrderService implements QuickOrderFacade {
   /**
    * Add product to the quick order list
    */
-  addProduct(product: Product): void {
-    const entry = this.generateOrderEntry(product);
+  addProduct(product: Product, quantity = 1): void {
+    const entry = this.generateOrderEntry(product, quantity);
     this.addEntry(entry);
   }
 
@@ -146,11 +146,11 @@ export class QuickOrderService implements QuickOrderFacade {
   /**
    * Generate Order Entry from Product
    */
-  protected generateOrderEntry(product: Product): OrderEntry {
+  protected generateOrderEntry(product: Product, quantity: number): OrderEntry {
     return {
       basePrice: product.price,
-      product: product,
-      quantity: 1,
+      product,
+      quantity,
       totalPrice: product.price,
     } as OrderEntry;
   }

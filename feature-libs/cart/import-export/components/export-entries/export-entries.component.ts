@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ExportEntriesService } from './export-entries.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
+import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
   selector: 'cx-export-entries',
@@ -7,11 +8,12 @@ import { ExportEntriesService } from './export-entries.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportEntriesComponent {
-  constructor(protected exportEntriesService: ExportEntriesService) {}
+  @Input()
+  entries: OrderEntry[];
 
-  entries$ = this.exportEntriesService.getResolvedEntries();
+  constructor(protected exportEntriesService: ExportProductsToCsvService) {}
 
-  exportToCsv(entries: string[][]): void {
-    this.exportEntriesService.downloadCsv(entries);
+  exportCsv(): void {
+    this.exportEntriesService.downloadCsv(this.entries);
   }
 }

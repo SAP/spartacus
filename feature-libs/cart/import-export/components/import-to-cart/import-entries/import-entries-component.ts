@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { ImportExportContext } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',
@@ -17,16 +18,16 @@ export class ImportEntriesComponent {
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  @Input()
+  context: ImportExportContext;
+
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   openDialog(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      this.vcr
+      { context: this.context }
     );
   }
 }

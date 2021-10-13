@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { ImportConfig } from '../model/import-to-cart.model';
 import { ExportConfig } from '../model/export-entries.model';
+import { ImportConfig } from '../model/import-to-cart.model';
 
 @Injectable({
   providedIn: 'root',

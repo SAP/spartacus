@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   ExportEntriesModule,
+  ImportExportComponentModule,
   ImportToCartModule,
 } from '@spartacus/cart/import-export/components';
 import { ImportExportCoreModule } from '@spartacus/cart/import-export/core';
@@ -10,6 +11,7 @@ import { ImportExportCoreModule } from '@spartacus/cart/import-export/core';
     ImportExportCoreModule.forRoot(),
     ExportEntriesModule,
     ImportToCartModule,
+    ImportExportComponentModule,
   ],
 })
 export class ImportExportModule {}
