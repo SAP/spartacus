@@ -2,7 +2,7 @@
   <p *ngIf="!summary.loading; else loading" [ngSwitch]="type">
     <ng-container *ngSwitchCase="cartTypes.QUICK_ORDER">
       {{
-        'importEntriesDialog.summary.loadedToQuickOrder' | cxTranslate: summary
+        'importEntriesDialog.summary.loaded' | cxTranslate: summary
       }}
     </ng-container>
     <ng-container *ngSwitchDefault>
