@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
+import { CART_FEATURE } from '@spartacus/cart/main/root';
 import { provideConfig } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import {
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
+  VariantConfiguratorInteractiveLayoutModule,
+  VariantConfiguratorOverviewLayoutModule,
 } from '@spartacus/product-configurator/rulebased/root';
-import { VariantConfiguratorInteractiveLayoutModule } from '@spartacus/product-configurator/rulebased/root';
-import { VariantConfiguratorOverviewLayoutModule } from '@spartacus/product-configurator/rulebased/root';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { VariantConfiguratorOverviewLayoutModule } from '@spartacus/product-conf
             import('@spartacus/product-configurator/rulebased').then(
               (m) => m.RulebasedConfiguratorModule
             ),
+          dependencies: [CART_FEATURE],
         },
       },
       i18n: {
