@@ -16,6 +16,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
   ],
+  /**
+   * @deprecated since 4.2, use feature-library @spartacus/cart/main/assets instead
+   */
   cart: [
     'cartDetails',
     'cartItems',

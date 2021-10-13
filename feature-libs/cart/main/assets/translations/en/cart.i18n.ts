@@ -1,6 +1,3 @@
-/**
- * @deprecated since 4.2, use feature-library @spartacus/cart/main/assets instead
- */
 export const cart = {
   cartDetails: {
     id: 'ID',
