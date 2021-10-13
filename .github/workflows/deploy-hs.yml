@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize]
     branches:
       - 'develop'
-      - 'feature/GH-**'
+      - 'feature/**'
       - 'epic/**'
       - '!release/4.1.x'
   push:
