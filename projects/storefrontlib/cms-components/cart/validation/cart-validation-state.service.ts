@@ -11,7 +11,6 @@ export class CartValidationStateService implements OnDestroy {
   protected navigationIdCount = 0;
 
   protected subscription = new Subscription();
-  // cartValidationResult$ = new ReplaySubject<CartModification[]>(1);
   cartValidationResult$: Observable<CartModification[]> = new ReplaySubject<
     CartModification[]
   >(1) as Observable<CartModification[]>;
