@@ -15,10 +15,20 @@ import { LayoutConfig } from '@spartacus/storefront';
         VariantConfigurationOverviewTemplate: {
           header: {
             md: {
-              slots: ['SiteLogo', 'MiniCart'],
+              slots: [
+                'PreHeader',
+                'SiteLogo',
+                'VariantConfigExitButton',
+                'MiniCart',
+              ],
             },
             xs: {
-              slots: ['SiteLogo', 'MiniCart'],
+              slots: [
+                'PreHeader',
+                'SiteLogo',
+                'VariantConfigExitButton',
+                'MiniCart',
+              ],
             },
           },
           slots: [
