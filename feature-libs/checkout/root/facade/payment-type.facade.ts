@@ -14,7 +14,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'setPaymentType',
         'getSelectedPaymentType',
         'isAccountPayment',
-        'getPoNumber',
+        'getPurchaseOrderNumber',
       ],
       async: true,
     }),
@@ -38,7 +38,7 @@ export abstract class PaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  abstract getSelectedPaymentType(): Observable<string | undefined>;
+  abstract getSelectedPaymentType(): Observable<PaymentType | undefined>;
 
   /**
    * Get whether the selected payment type is "ACCOUNT" payment
@@ -46,7 +46,7 @@ export abstract class PaymentTypeFacade {
   abstract isAccountPayment(): Observable<boolean>;
 
   /**
-   * Get PO Number
+   * Get purchase order number
    */
-  abstract getPoNumber(): Observable<string | undefined>;
+  abstract getPurchaseOrderNumber(): Observable<string | undefined>;
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
   CheckoutFacade,
+  CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
@@ -30,16 +31,13 @@ import {
   ORDER_TYPE,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
-  StateWithProcess,
+  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/replenishment-order/checkout-replenishment-order.connector';
-import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
@@ -75,9 +73,7 @@ export class CheckoutService implements CheckoutFacade {
             .pipe(
               tap((order) => {
                 this.order$.next(order);
-                this.checkoutStore.dispatch(
-                  new CartActions.RemoveCart({ cartId })
-                );
+                this.store.dispatch(new CartActions.RemoveCart({ cartId }));
                 this.eventService.dispatch(
                   {
                     userId,
@@ -123,9 +119,7 @@ export class CheckoutService implements CheckoutFacade {
             .pipe(
               tap((replenishmentOrder) => {
                 this.order$.next(replenishmentOrder);
-                this.checkoutStore.dispatch(
-                  new CartActions.RemoveCart({ cartId })
-                );
+                this.store.dispatch(new CartActions.RemoveCart({ cartId }));
                 this.eventService.dispatch(
                   {
                     userId,
@@ -145,15 +139,15 @@ export class CheckoutService implements CheckoutFacade {
   );
 
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
-    protected processStateStore: Store<StateWithProcess<void>>,
+    protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected command: CommandService,
     protected checkoutConnector: CheckoutConnector,
     protected checkoutReplenishmentOrderConnector: CheckoutReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected actions$: Actions
+    protected actions$: Actions,
+    protected checkoutQuery: CheckoutQueryFacade
   ) {
     // TODO: Double check and move to some method
     merge([
@@ -180,9 +174,6 @@ export class CheckoutService implements CheckoutFacade {
   }
 
   clearOrder(): void {
-    // TODO: Why?
-    this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
-
     this.order$.next(undefined);
   }
 
@@ -210,9 +201,9 @@ export class CheckoutService implements CheckoutFacade {
    * Check if checkout details are stable (no longer loading)
    */
   isLoading(): Observable<boolean> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCheckoutLoading)
-    );
+    return this.checkoutQuery
+      .getCheckoutDetailsState()
+      .pipe(map((state) => state.loading));
   }
 
   /**

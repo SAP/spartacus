@@ -19,13 +19,13 @@ import {
   PaymentDetails,
   Query,
   QueryService,
+  StateWithMultiCart,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
-import { StateWithCheckout } from '../store/checkout-state';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
@@ -67,7 +67,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                     PaymentDetailsCreatedEvent
                   );
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.checkoutStore.dispatch(
+                    this.store.dispatch(
                       new UserActions.LoadUserPaymentMethods(userId)
                     );
                   }
@@ -123,7 +123,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,

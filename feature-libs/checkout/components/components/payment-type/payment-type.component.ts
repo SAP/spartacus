@@ -24,29 +24,29 @@ export class PaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
   private _poNumberInput: ElementRef;
 
-  typeSelected: string;
+  typeSelected?: string;
   cartPoNumber: string;
 
   paymentTypes$: Observable<PaymentType[]> =
     this.paymentTypeService.getPaymentTypes();
 
-  typeSelected$: Observable<string> = this.paymentTypeService
+  typeSelected$: Observable<PaymentType> = this.paymentTypeService
     .getSelectedPaymentType()
     .pipe(
       filter(isNotUndefined),
       distinctUntilChanged(),
       tap((selected) => {
-        this.typeSelected = selected;
+        this.typeSelected = selected?.code;
         this.checkoutStepService.resetSteps();
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.PAYMENT_DETAILS,
-          selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+          selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
         );
       })
     );
 
   cartPoNumber$: Observable<string> = this.paymentTypeService
-    .getPoNumber()
+    .getPurchaseOrderNumber()
     .pipe(
       filter(isNotUndefined),
       tap((po) => {

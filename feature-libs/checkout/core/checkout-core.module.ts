@@ -9,10 +9,9 @@ import { CheckoutReplenishmentOrderConnector } from './connectors/replenishment-
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
-import { CheckoutStoreModule } from './store/checkout-store.module';
 
 @NgModule({
-  imports: [CheckoutStoreModule, CheckoutEventModule],
+  imports: [CheckoutEventModule],
   providers: [
     ...facadeProviders,
     CheckoutDeliveryConnector,

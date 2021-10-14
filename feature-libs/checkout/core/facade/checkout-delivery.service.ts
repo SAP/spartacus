@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
   CheckoutQueryFacade,
+  CostCenterSetEvent,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
+  PaymentTypeSetEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -27,16 +28,15 @@ import {
   Query,
   QueryService,
   QueryState,
+  StateWithMultiCart,
   UpdateUserAddressEvent,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
-import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
@@ -65,7 +65,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
               .pipe(
                 tap(() => {
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.checkoutStore.dispatch(
+                    this.store.dispatch(
                       new UserActions.LoadUserAddresses(userId)
                     );
                   }
@@ -201,15 +201,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           UpdateUserAddressEvent,
           DeleteUserAddressEvent,
           this.retrySupportedDeliveryModes$.asObservable(),
-          // TODO:#13888 convert to an event
-          // TODO:test: when starting the b2b checkout
-          this.actions$?.pipe(
-            ofType(CheckoutActions.SET_PAYMENT_TYPE_SUCCESS)
-          ) ?? EMPTY,
-          // TODO:#13888 remove when removing the action
-          // TODO:test: finish checkout and leave the order confirmation page
-          this.actions$?.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)) ??
-            EMPTY,
+          PaymentTypeSetEvent,
+          CostCenterSetEvent,
         ],
       }
     );
@@ -243,7 +236,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                     },
                     DeliveryModeSetEvent
                   );
-                  this.checkoutStore.dispatch(
+                  this.store.dispatch(
                     new CartActions.LoadCart({
                       userId,
                       cartId,
@@ -286,7 +279,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                     },
                     DeliveryModeClearedEvent
                   );
-                  this.checkoutStore.dispatch(
+                  this.store.dispatch(
                     new CartActions.LoadCart({
                       cartId,
                       userId,
@@ -295,7 +288,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                 }),
                 catchError((err) => {
                   // TODO: Why we do it?
-                  this.checkoutStore.dispatch(
+                  this.store.dispatch(
                     new CartActions.LoadCart({
                       cartId,
                       userId,
@@ -313,7 +306,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
 
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected eventService: EventService,
@@ -321,7 +314,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected command: CommandService,
     protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
     protected checkoutConnector: CheckoutConnector,
-    protected actions$: Actions,
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 

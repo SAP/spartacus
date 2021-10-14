@@ -5,6 +5,7 @@ import {
   DeliveryMode,
   facadeFactory,
   PaymentDetails,
+  PaymentType,
   QueryState,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -15,6 +16,8 @@ export interface CheckoutState {
   deliveryMode?: DeliveryMode;
   paymentInfo?: PaymentDetails;
   costCenter?: CostCenter; // TODO move to checkout b2b entry point and use augmentation
+  purchaseOrderNumber?: string;
+  paymentType?: PaymentType;
 }
 
 @Injectable({

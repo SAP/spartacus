@@ -34,7 +34,6 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
-import { CheckoutActions } from '../store/actions/index';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
@@ -60,7 +59,6 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     // query state should be reset when checkout is finished (should be undefined after these 2 event)
     OrderPlacedEvent,
     ReplenishmentOrderScheduledEvent,
-    this.actions$.pipe(ofType(CheckoutActions.CLEAR_CHECKOUT_DATA)),
     this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
   ];
 

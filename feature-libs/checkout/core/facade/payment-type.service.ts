@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import {
+  CheckoutQueryFacade,
   PaymentTypeFacade,
   PaymentTypeSetEvent,
 } from '@spartacus/checkout/root';
@@ -19,15 +19,11 @@ import {
   PaymentType,
   Query,
   QueryService,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { PaymentTypeConnector } from '..';
-import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class PaymentTypeService implements PaymentTypeFacade {
@@ -90,14 +86,13 @@ export class PaymentTypeService implements PaymentTypeFacade {
   );
 
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
-    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,
     protected command: CommandService,
     protected paymentTypeConnector: PaymentTypeConnector,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
   /**
@@ -127,23 +122,10 @@ export class PaymentTypeService implements PaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  getSelectedPaymentType(): Observable<string | undefined> {
-    return combineLatest([
-      this.activeCartService.getActive(),
-      this.checkoutStore.pipe(select(CheckoutSelectors.getSelectedPaymentType)),
-    ]).pipe(
-      tap(([cart, selected]) => {
-        if (selected === undefined) {
-          // in b2b, cart always has paymentType (default value 'CARD')
-          if (cart && cart.paymentType) {
-            this.checkoutStore.dispatch(
-              new CheckoutActions.SetPaymentTypeSuccess(cart)
-            );
-          }
-        }
-      }),
-      map(([, selected]) => selected)
-    );
+  getSelectedPaymentType(): Observable<PaymentType | undefined> {
+    return this.checkoutQuery
+      .getCheckoutDetails()
+      .pipe(map((checkoutDetails) => checkoutDetails?.paymentType));
   }
 
   /**
@@ -151,26 +133,16 @@ export class PaymentTypeService implements PaymentTypeFacade {
    */
   isAccountPayment(): Observable<boolean> {
     return this.getSelectedPaymentType().pipe(
-      map((selected) => selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
+      map((selected) => selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
     );
   }
 
   /**
-   * Get PO Number
+   * Get purchase order number
    */
-  getPoNumber(): Observable<string | undefined> {
-    return combineLatest([
-      this.activeCartService.getActive(),
-      this.checkoutStore.pipe(select(CheckoutSelectors.getPoNumer)),
-    ]).pipe(
-      tap(([cart, po]) => {
-        if (po === undefined && cart && cart.purchaseOrderNumber) {
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetPaymentTypeSuccess(cart)
-          );
-        }
-      }),
-      map(([_, po]) => po)
-    );
+  getPurchaseOrderNumber(): Observable<string | undefined> {
+    return this.checkoutQuery
+      .getCheckoutDetails()
+      .pipe(map((checkoutDetails) => checkoutDetails?.purchaseOrderNumber));
   }
 }

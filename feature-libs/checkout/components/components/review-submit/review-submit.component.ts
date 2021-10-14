@@ -19,6 +19,7 @@ import {
   FeatureConfigService,
   OrderEntry,
   PaymentDetails,
+  PaymentType,
   PromotionLocation,
   TranslationService,
   UserAddressService,
@@ -91,10 +92,10 @@ export class ReviewSubmitComponent {
   }
 
   get poNumber$(): Observable<string | undefined> {
-    return this.paymentTypeService.getPoNumber();
+    return this.paymentTypeService.getPurchaseOrderNumber();
   }
 
-  get paymentType$(): Observable<string | undefined> {
+  get paymentType$(): Observable<PaymentType | undefined> {
     return this.paymentTypeService.getSelectedPaymentType();
   }
 
@@ -238,10 +239,12 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPaymentTypeCard(paymentType?: string): Observable<Card> {
+  getPaymentTypeCard(paymentType: PaymentType): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutProgress.methodOfPayment'),
-      this.translation.translate('paymentTypes.paymentType_' + paymentType),
+      this.translation.translate(
+        'paymentTypes.paymentType_' + paymentType.code
+      ),
     ]).pipe(
       map(([textTitle, paymentTypeTranslation]) => {
         return {

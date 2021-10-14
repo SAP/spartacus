@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -20,7 +19,6 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
-import { StateWithCheckout } from '../store/checkout-state';
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
@@ -67,7 +65,6 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   );
 
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected command: CommandService,

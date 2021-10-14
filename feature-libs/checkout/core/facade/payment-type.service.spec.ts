@@ -149,14 +149,14 @@ describe('PaymentTypeService', () => {
     store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
 
     let po: string;
-    service.getPoNumber().subscribe((data) => {
+    service.getPurchaseOrderNumber().subscribe((data) => {
       po = data;
     });
     expect(po).toEqual('testNumber');
   });
 
   it('should be able to set po if cart has it', () => {
-    service.getPoNumber().subscribe();
+    service.getPurchaseOrderNumber().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentTypeSuccess(cart)
     );
