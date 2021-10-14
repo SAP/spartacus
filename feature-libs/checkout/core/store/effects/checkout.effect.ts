@@ -4,6 +4,8 @@ import {
   AuthActions,
   CartActions,
   GlobalMessageActions,
+  GlobalMessageType,
+  GlobalMessageService,
   normalizeHttpError,
   OCC_USER_ID_ANONYMOUS,
   SiteContextActions,
@@ -18,6 +20,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
@@ -289,6 +292,17 @@ export class CheckoutEffects {
     withdrawOn(this.contextChange$)
   );
 
+  @Effect({ dispatch: false })
+  showGlobalMessageOnSetPaymentDetailsSuccess$ = this.actions$.pipe(
+    ofType(CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS),
+    tap(() => {
+      this.addGlobalMessage(
+        'paymentMethods.paymentMethodSelectedSucess',
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    })
+  );
+
   @Effect()
   placeOrder$: Observable<
     | CheckoutActions.PlaceOrderSuccess
@@ -456,6 +470,16 @@ export class CheckoutEffects {
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    private checkoutConnector: CheckoutConnector
+    private checkoutConnector: CheckoutConnector,
+    private messageService: GlobalMessageService
   ) {}
+
+  /**
+   * Add Global message with provided text
+   * @param text
+   * @param type
+   */
+  private addGlobalMessage(text: string, type: GlobalMessageType): void {
+    this.messageService.add({ key: text }, type);
+  }
 }

@@ -159,7 +159,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
     this.checkoutPaymentService.setPaymentDetails(paymentDetails);
-    this.selectPaymentMethodSuccessGlobalMessage();
   }
 
   showNewPaymentForm(): void {
@@ -211,15 +210,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         params: { field },
       },
       GlobalMessageType.MSG_TYPE_ERROR
-    );
-  }
-
-  protected selectPaymentMethodSuccessGlobalMessage() {
-    this.globalMessageService.add(
-      {
-        key: 'paymentMethods.paymentMethodSelectedSucess',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 
