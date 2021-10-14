@@ -62,18 +62,16 @@ export class PaginationComponent {
   }
 
   /**
-   * Format aria-label based on pagination page type.
+   * Format aria-label based on pagination item type.
    *
-   * @param label
-   * @param item
-   * @returns
+   * @param label string
+   * @param type PaginationItemType
+   * @returns string
    */
-  getAriaLabel(label: string, type: PaginationItemType) {
-    if (type === PaginationItemType.PAGE) {
-      return `${type} ${label}`;
-    }
-
-    return `${type} ${PaginationItemType.PAGE}`;
+  getAriaLabel(label: string, type: PaginationItemType): string {
+    return type === PaginationItemType.PAGE
+      ? `${type} ${label}`
+      : `${type} ${PaginationItemType.PAGE}`;
   }
 
   /**
