@@ -17,7 +17,6 @@ $cart-components-allowlist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
   cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-add-to-wishlist,
   cx-save-for-later, cx-order-summary !default;
 
-
 $skipComponentStyles: () !default;
 
 @each $selector in $cart-components-allowlist {

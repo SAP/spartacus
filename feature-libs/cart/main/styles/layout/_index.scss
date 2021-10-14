@@ -10,9 +10,7 @@ $page-template-allowlist-cart: CartPageTemplate !default;
 
 @each $selector in $page-template-allowlist-cart {
   cx-page-layout.#{$selector} {
-    @if (
-      index($page-template-blocklist-cart, $selector) == null
-    ) {
+    @if (index($page-template-blocklist-cart, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }
