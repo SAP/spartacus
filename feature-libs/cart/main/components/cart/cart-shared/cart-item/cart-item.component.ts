@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CartItemContextSource } from '@spartacus/cart/main/components';
 import {
   CartItemComponentOptions,
   CartItemContext,
-  CartItemContextSource,
   CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/main/root';

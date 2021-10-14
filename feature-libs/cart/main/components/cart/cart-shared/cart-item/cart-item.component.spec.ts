@@ -16,11 +16,8 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CartItemContext,
-  CartItemContextSource,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+import { CartItemContextSource } from '@spartacus/cart/main/components';
+import { CartItemContext, PromotionLocation } from '@spartacus/cart/main/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
