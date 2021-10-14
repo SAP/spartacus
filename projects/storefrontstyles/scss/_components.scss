@@ -9,12 +9,10 @@ $skipComponentStyles: () !default;
 $layout-components-allowlist: () !default;
 $product-components-allowlist: () !default;
 $user-components-allowlist: () !default;
-$cart-components-allowlist: () !default;
 $content-components-allowlist: () !default;
 $misc-components-allowlist: () !default;
 $pwa-components-allowlist: () !default;
 $cds-components-allowlist: () !default;
-$wish-list-components-allowlist: () !default;
 $myaccount-components-allowlist: () !default;
 
 $selectors: mergeAll(
@@ -23,12 +21,10 @@ $selectors: mergeAll(
     $misc-components-allowlist,
     $content-components-allowlist,
     $product-components-allowlist,
-    $cart-components-allowlist,
     $user-components-allowlist,
     $myaccount-components-allowlist,
     $pwa-components-allowlist,
     $cds-components-allowlist,
-    $wish-list-components-allowlist
   )
 );
 
