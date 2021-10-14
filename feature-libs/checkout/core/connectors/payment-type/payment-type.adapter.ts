@@ -13,12 +13,12 @@ export abstract class PaymentTypeAdapter {
    * @param userId
    * @param cartId
    * @param typeCode
-   * @param poNumber: purchase order number
+   * @param purchaseOrderNumber: purchase order number
    */
   abstract setPaymentType(
     userId: string,
     cartId: string,
     typeCode: string,
-    poNumber?: string
-  ): Observable<any>;
+    purchaseOrderNumber?: string
+  ): Observable<unknown>;
 }

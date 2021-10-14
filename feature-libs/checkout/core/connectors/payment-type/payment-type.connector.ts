@@ -15,8 +15,13 @@ export class PaymentTypeConnector {
     userId: string,
     cartId: string,
     typeCode: string,
-    poNumber?: string
-  ): Observable<any> {
-    return this.adapter.setPaymentType(userId, cartId, typeCode, poNumber);
+    purchaseOrderNumber?: string
+  ): Observable<unknown> {
+    return this.adapter.setPaymentType(
+      userId,
+      cartId,
+      typeCode,
+      purchaseOrderNumber
+    );
   }
 }

@@ -27,10 +27,13 @@ export abstract class PaymentTypeFacade {
 
   /**
    * Set payment type to cart
-   * @param typeCode
-   * @param poNumber : purchase order number
+   * @param paymentTypeCode
+   * @param purchaseOrderNumber
    */
-  abstract setPaymentType(typeCode: string, poNumber?: string): void;
+  abstract setPaymentType(
+    paymentTypeCode: string,
+    purchaseOrderNumber?: string
+  ): Observable<unknown>;
 
   /**
    * Get the selected payment type

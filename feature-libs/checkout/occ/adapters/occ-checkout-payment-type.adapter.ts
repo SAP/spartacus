@@ -34,6 +34,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
       );
   }
 
+  // TODO: Should it return cart?
   setPaymentType(
     userId: string,
     cartId: string,
@@ -50,7 +51,10 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
         ),
         {}
       )
-      .pipe(this.converter.pipeable(CART_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
   }
 
   protected getPaymentTypesEndpoint(): string {

@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PaymentTypeFacade } from '@spartacus/checkout/root';
+import {
+  PaymentTypeFacade,
+  PaymentTypeSetEvent,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
+  Command,
+  CommandService,
+  CommandStrategy,
   CurrencySetEvent,
+  EventService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
+  OCC_USER_ID_ANONYMOUS,
   PaymentType,
   Query,
   QueryService,
@@ -15,7 +23,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { PaymentTypeConnector } from '..';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
@@ -31,13 +39,65 @@ export class PaymentTypeService implements PaymentTypeFacade {
     }
   );
 
+  protected setPaymentTypeCommand: Command<
+    { paymentTypeCode: string; purchaseOrderNumber?: string },
+    unknown
+  > = this.command.create<{
+    paymentTypeCode: string;
+    purchaseOrderNumber?: string;
+  }>(
+    ({ paymentTypeCode, purchaseOrderNumber }) => {
+      return combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) => {
+          if (
+            !userId ||
+            !cartId ||
+            (userId === OCC_USER_ID_ANONYMOUS &&
+              !this.activeCartService.isGuestCart())
+          ) {
+            throw new Error('Checkout conditions not met');
+          }
+          return this.paymentTypeConnector
+            .setPaymentType(
+              userId,
+              cartId,
+              paymentTypeCode,
+              purchaseOrderNumber
+            )
+            .pipe(
+              tap(() => {
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    paymentTypeCode,
+                    purchaseOrderNumber,
+                  },
+                  PaymentTypeSetEvent
+                );
+              })
+            );
+        })
+      );
+    },
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,
-    protected paymentTypeConnector: PaymentTypeConnector
+    protected command: CommandService,
+    protected paymentTypeConnector: PaymentTypeConnector,
+    protected eventService: EventService
   ) {}
 
   /**
@@ -51,33 +111,17 @@ export class PaymentTypeService implements PaymentTypeFacade {
 
   /**
    * Set payment type to cart
-   * @param typeCode
-   * @param poNumber : purchase order number
+   * @param paymentTypeCode
+   * @param purchaseOrderNumber
    */
-  setPaymentType(typeCode: string, poNumber?: string): void {
-    let cartId: string;
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => (cartId = activeCartId));
-
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
-        if (cartId) {
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetPaymentType({
-              userId: userId,
-              cartId: cartId,
-              typeCode: typeCode,
-              poNumber: poNumber,
-            })
-          );
-        }
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+  setPaymentType(
+    paymentTypeCode: string,
+    purchaseOrderNumber?: string
+  ): Observable<unknown> {
+    return this.setPaymentTypeCommand.execute({
+      paymentTypeCode,
+      purchaseOrderNumber,
+    });
   }
 
   /**

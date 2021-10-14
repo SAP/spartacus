@@ -15,6 +15,7 @@ import {
   OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
+  PaymentTypeSetEvent,
   ReplenishmentOrderScheduledEvent,
 } from '@spartacus/checkout/root';
 import {
@@ -55,6 +56,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     // TODO: In b2b entry point we would extend the list of the events with the b2b ones (such as this)
     // this.queryResetEvents = [...super.queryResetEvents, b2b events];
     CostCenterSetEvent,
+    PaymentTypeSetEvent,
     // query state should be reset when checkout is finished (should be undefined after these 2 event)
     OrderPlacedEvent,
     ReplenishmentOrderScheduledEvent,
