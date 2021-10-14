@@ -145,7 +145,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
-    const quantity = this.addToCartForm.get('quantity').value;
+    const quantity = this.addToCartForm.get('quantity')?.value;
     if (!this.productCode || quantity <= 0) {
       return;
     }

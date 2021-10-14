@@ -25,7 +25,7 @@ export class AddToWishListComponent {
     .getWishList()
     .pipe(
       filter((wishlist) => Boolean(wishlist)),
-      map((wishList) => wishList.entries)
+      map((wishList) => wishList.entries ?? [])
     );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
@@ -41,15 +41,20 @@ export class AddToWishListComponent {
   ) {}
 
   add(product: Product): void {
-    this.wishListService.addEntry(product.code);
+    if (product.code) {
+      this.wishListService.addEntry(product.code);
+    }
   }
 
   remove(entry: OrderEntry): void {
     this.wishListService.removeEntry(entry);
   }
 
-  getProductInWishList(product: Product, entries: OrderEntry[]): OrderEntry {
-    const item = entries.find((entry) => entry.product.code === product.code);
+  getProductInWishList(
+    product: Product,
+    entries: OrderEntry[]
+  ): OrderEntry | undefined {
+    const item = entries.find((entry) => entry.product?.code === product.code);
     return item;
   }
 

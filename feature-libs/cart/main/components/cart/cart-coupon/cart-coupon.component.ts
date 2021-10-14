@@ -59,7 +59,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
           CustomerCouponSearchResult
         ]) => {
           this.cartId = activeCardId;
-          this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
+          this.getApplicableCustomerCoupons(
+            cart,
+            customerCoupons.coupons ?? []
+          );
         }
       ),
       map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)

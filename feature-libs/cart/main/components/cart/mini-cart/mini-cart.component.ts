@@ -19,7 +19,7 @@ export class MiniCartComponent {
 
   total$: Observable<string> = this.activeCartService.getActive().pipe(
     filter((cart) => !!cart.totalPrice),
-    map((cart) => cart.totalPrice.formattedValue)
+    map((cart) => cart.totalPrice?.formattedValue ?? '')
   );
 
   constructor(protected activeCartService: ActiveCartFacade) {}

@@ -47,6 +47,6 @@ export class SaveForLaterComponent implements OnInit {
 
   moveToCart(item: OrderEntry) {
     this.selectiveCartService.removeEntry(item);
-    this.cartService.addEntry(item.product.code, item.quantity);
+    this.cartService.addEntry(item.product?.code ?? '', item.quantity ?? 0);
   }
 }
