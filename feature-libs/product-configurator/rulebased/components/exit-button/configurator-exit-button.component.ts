@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -15,7 +15,6 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorExitButtonComponent {
   product$: Observable<Product>;
@@ -30,8 +29,8 @@ export class ConfiguratorExitButtonComponent {
   ) {}
 
   goBack() {
-    const historyLength: number | undefined = this.windowRef?.nativeWindow
-      ?.history?.length;
+    const historyLength: number | undefined =
+      this.windowRef?.nativeWindow?.history?.length;
     if (historyLength !== undefined && historyLength > 1) {
       this.windowRef.nativeWindow?.history.go(-1);
     } else {
