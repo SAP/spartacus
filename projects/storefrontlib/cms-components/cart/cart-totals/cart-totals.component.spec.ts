@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
@@ -11,7 +12,6 @@ import {
 import { Observable, of, Subject } from 'rxjs';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartTotalsComponent } from './cart-totals.component';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 const cartMock: Cart = {
   name: 'cart-mock',
@@ -119,8 +119,8 @@ describe('CartTotalsComponent', () => {
     fixture.detectChanges();
 
     component.disableButtonWhileNavigation();
-    expect(component.cartValidationInProgress).toEqual(false);
-    mockRouterEvents$.next(new NavigationEnd(null, null, null));
     expect(component.cartValidationInProgress).toEqual(true);
+    mockRouterEvents$.next(new NavigationEnd(null, null, null));
+    expect(component.cartValidationInProgress).toEqual(false);
   });
 });

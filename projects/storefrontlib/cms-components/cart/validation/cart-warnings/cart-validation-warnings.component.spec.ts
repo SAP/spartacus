@@ -1,9 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
-import { CartModification, CartValidationStatusCode } from '@spartacus/core';
-import { ReplaySubject } from 'rxjs';
-import { CartValidationStateService } from '../cart-validation-state.service';
 import {
   Component,
   DebugElement,
@@ -11,8 +5,14 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CartModification, CartValidationStatusCode } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { ReplaySubject } from 'rxjs';
+import { CartValidationStateService } from '../cart-validation-state.service';
+import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
 
 const mockData = [
   {
@@ -99,7 +99,11 @@ describe('CartValidationWarningsComponent', () => {
     el = fixture.debugElement;
     mockCartValidationStateService = TestBed.inject(CartValidationStateService);
 
-    mockCartValidationStateService.cartValidationResult$.next(mockData);
+    (
+      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+        CartModification[]
+      >
+    ).next(mockData);
 
     fixture.detectChanges();
   });
@@ -109,7 +113,11 @@ describe('CartValidationWarningsComponent', () => {
   });
 
   it('should find proper cart modification object', () => {
-    mockCartValidationStateService.cartValidationResult$.next(mockData);
+    (
+      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+        CartModification[]
+      >
+    ).next(mockData);
 
     component.cartModifications$.subscribe();
 
