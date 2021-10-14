@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ImageGroup, Product } from '@spartacus/core';
+import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
 import {
   BREAKPOINT,
@@ -117,7 +117,7 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
   protected product$: Observable<Product> = this.currentProductService
     .getProduct()
     .pipe(
-      filter(Boolean),
+      filter(isNotNullable),
       distinctUntilChanged(),
       tap((p: Product) => {
         if (this.galleryIndex) {
@@ -309,6 +309,8 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
       return [];
     }
 
-    return [].concat(product.images.GALLERY).map((c) => of({ container: c }));
+    const images : ImageGroup[] = product.images.GALLERY as ImageGroup[];
+
+    return images.map((c) => of({ container: c }));
   }
 }
