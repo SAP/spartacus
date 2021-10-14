@@ -1,7 +1,10 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import {
+  defaultRenderKeyResolver,
+  NgExpressEngineInstance,
+} from '../engine-decorator/ng-express-engine-decorator';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
@@ -66,7 +69,7 @@ export class OptimizedSsrEngine {
   protected getRenderingKey(request: Request): string {
     return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
-      : request.originalUrl;
+      : defaultRenderKeyResolver(request);
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {

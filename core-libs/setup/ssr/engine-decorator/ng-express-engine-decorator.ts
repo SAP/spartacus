@@ -104,3 +104,14 @@ function getRequestOrigin(req: Request): string {
     return req.protocol + '://' + req.get('host');
   }
 }
+
+/**
+ * Default function which resolves the rendering key based on the whole URL (including domain).
+ * Supports the sites which have the base site embedded as part of the domain (e.g. my-shop.ca, my-shop.rs, my-shop.pl).
+ *
+ * @param req request
+ * @returns the rendering key
+ */
+export function defaultRenderKeyResolver(req: Request): string {
+  return getRequestUrl(req);
+}
