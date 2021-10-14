@@ -1,6 +1,4 @@
-@import '../../theme';
-
-%cx-cart-details {
+%cx-save-for-later {
   display: block;
 
   .cart-details-wrapper {
@@ -12,16 +10,6 @@
     margin: 0 0 1rem;
   }
 
-  .cx-promotions {
-    @include type('7');
-    color: var(--cx-color-success);
-    padding: 0.5rem 0;
-
-    li {
-      line-height: 1.6;
-    }
-  }
-
   .cx-remove-btn {
     text-align: end;
     padding-inline-start: 0;
@@ -31,5 +19,9 @@
   .cx-sfl-btn {
     text-align: end;
     padding-inline-end: 0;
+  }
+
+  .cx-empty-cart-info {
+    margin-top: 3rem;
   }
 }

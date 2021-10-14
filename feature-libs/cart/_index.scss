@@ -1,6 +1,5 @@
 @import '~@spartacus/styles/scss/core';
 @import '~@spartacus/styles/scss/app';
-@import '~@spartacus/styles/scss/components/cart/cart-details';
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
@@ -14,5 +13,6 @@
   transition: none;
 }
 
+@import './main/index';
 @import './saved-cart/index';
 @import './quick-order/index';
