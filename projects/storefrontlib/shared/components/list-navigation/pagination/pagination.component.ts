@@ -69,6 +69,9 @@ export class PaginationComponent {
    * @returns string
    */
   getAriaLabel(label: string, type: PaginationItemType): string {
+    // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
+    type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
+    type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
     return type === PaginationItemType.PAGE
       ? `${type} ${label}`
       : `${type} ${PaginationItemType.PAGE}`;
