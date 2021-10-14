@@ -44,13 +44,14 @@ const mockRouterData: any = {
   resolveIssues: false,
 };
 
-let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
-  'a',
-  ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  )
-);
+let configuration: Configurator.Configuration =
+  ConfiguratorTestUtils.createConfiguration(
+    'a',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  );
 
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
@@ -76,6 +77,7 @@ class MockProductService {
 
 class MockBreakpointService {
   isUp() {}
+  isDown() {}
 }
 
 class MockWindowRef {
@@ -157,34 +159,40 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should navigate to product detail page if going back to previous page does not work', () => {
-      spyOn(routingService, 'go').and.callThrough();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'product',
-        params: PRODUCT,
-      });
+      if (windowRef.nativeWindow?.history) {
+        spyOn(windowRef.nativeWindow?.history, 'go').and.callThrough();
+        windowRef.nativeWindow?.history.length === 1;
+        spyOn(routingService, 'go').and.callThrough();
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'product',
+          params: PRODUCT,
+        });
+      }
     });
   });
 
   describe('rendering tests', () => {
     it('should render short text in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       spyOn(breakpointService, 'isUp').and.returnValue(of(false));
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-config-exit-button-text',
-        'configurator.button.exit'
+        'configurator.button.exitshort'
       );
     });
 
     it('should render long text in desktop mode', () => {
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-config-exit-button-text',
-        'configurator.button.exitshort'
+        'configurator.button.exit'
       );
     });
   });
