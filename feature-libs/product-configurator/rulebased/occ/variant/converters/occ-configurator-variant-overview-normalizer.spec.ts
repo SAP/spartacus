@@ -38,7 +38,9 @@ const convertedOverview: Configurator.Overview = {
       attributes: [
         {
           attribute: 'C1',
+          attributeId: undefined,
           value: 'V1',
+          valueId: undefined,
         },
       ],
       subGroups: [
@@ -55,11 +57,15 @@ const convertedOverview: Configurator.Overview = {
       attributes: [
         {
           attribute: 'C2',
+          attributeId: undefined,
           value: 'V2',
+          valueId: undefined,
         },
         {
           attribute: 'C3',
+          attributeId: undefined,
           value: 'V3',
+          valueId: undefined,
         },
       ],
     },
