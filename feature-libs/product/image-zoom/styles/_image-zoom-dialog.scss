@@ -1,6 +1,6 @@
-@import '../../../theme';
+@import '~@spartacus/styles';
 
-%cx-image-zoom-dialog {
+cx-image-zoom-dialog {
   color: var(--cx-color-text);
   background-color: rgba(0, 0, 0, 0.5);
 

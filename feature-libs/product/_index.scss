@@ -1,3 +1,5 @@
+@import '~@spartacus/styles';
+
 // we require a few bootstrap files for the CSS in this code
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
@@ -29,3 +31,4 @@
 
 @import './bulk-pricing/index';
 @import './variants/index';
+@import './image-zoom/index';
