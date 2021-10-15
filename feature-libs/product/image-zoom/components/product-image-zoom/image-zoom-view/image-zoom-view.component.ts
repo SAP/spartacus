@@ -57,10 +57,8 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
   private _zoomImage: ElementRef;
 
   protected subscription = new Subscription();
-  protected mainMediaContainer$: Observable<ImageGroup | null> =
-    this.mainMediaContainer.asObservable();
-  protected defaultImageReady$: Observable<boolean> =
-    this.defaultImageReady.asObservable();
+  protected mainMediaContainer$: Observable<ImageGroup | null> = this.mainMediaContainer.asObservable();
+  protected defaultImageReady$: Observable<boolean> = this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
   defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
@@ -204,8 +202,7 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    */
   touchMove(event: TouchEvent): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    const boundingRect =
-      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     if (!this.startCoords)
@@ -232,8 +229,7 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    * @param event
    */
   pointerMove(event: MouseEvent): void {
-    const boundingRect =
-      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     const { positionX, positionY } = calculatePointerMovePosition(
@@ -309,7 +305,7 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
       return [];
     }
 
-    const images : ImageGroup[] = product.images.GALLERY as ImageGroup[];
+    const images: ImageGroup[] = product.images.GALLERY as ImageGroup[];
 
     return images.map((c) => of({ container: c }));
   }

@@ -102,9 +102,7 @@
       "@spartacus/product/bulk-pricing/root": [
         "dist/product/bulk-pricing/root"
       ],
-      "@spartacus/product/image-zoom": [
-        "dist/product/image-zoom/public_api"
-      ],
+      "@spartacus/product/image-zoom": ["dist/product/image-zoom/public_api"],
       "@spartacus/product/image-zoom/assets": [
         "dist/product/image-zoom/assets/public_api"
       ],

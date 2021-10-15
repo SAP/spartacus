@@ -50,9 +50,7 @@ export class ImageZoomTriggerComponent {
           .pipe(
             tap(([comp]) => {
               if (this.galleryIndex) {
-                (
-                  comp as ComponentRef<ImageZoomDialogComponent>
-                ).instance.galleryIndex = this.galleryIndex;
+                (comp as ComponentRef<ImageZoomDialogComponent>).instance.galleryIndex = this.galleryIndex;
               }
             }),
             filter(([, close]) => Boolean(close)),

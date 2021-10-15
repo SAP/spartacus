@@ -35,9 +35,7 @@ describe('ImageZoomTriggerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule
-      ],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: LaunchDialogService,

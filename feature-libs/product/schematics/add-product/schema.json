@@ -20,17 +20,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Bulk-Pricing",
-          "Product-Variants",
-          "Image-Zoom"
-        ],
+        "enum": ["Bulk-Pricing", "Product-Variants", "Image-Zoom"],
         "type": "string"
       },
-      "default": [
-        "Product-Variants",
-        "Image-Zoom"
-      ],
+      "default": ["Product-Variants", "Image-Zoom"],
       "x-prompt": {
         "message": "Which Product features would you like to set up?",
         "type": "list",
