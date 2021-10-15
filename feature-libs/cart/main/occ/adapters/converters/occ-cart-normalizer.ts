@@ -4,9 +4,9 @@ import {
   Converter,
   ConverterService,
   Occ,
+  OrderEntryPromotionsService,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {

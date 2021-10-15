@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartItemContextSource } from '@spartacus/cart/main/components';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/main/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';

@@ -7,7 +7,7 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
-import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
+import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
