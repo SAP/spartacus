@@ -9,6 +9,7 @@ ci:
   assert:
     preset: lighthouse:recommended
     assertions:
+      aria-allowed-attr: 'warn'
       bootup-time:
         - warn
         - minScore: 0.44
