@@ -5,17 +5,13 @@ import {
   CheckoutCostCenterAdapter,
   CheckoutDeliveryAdapter,
   CheckoutPaymentAdapter,
-  CheckoutReplenishmentOrderAdapter,
   PaymentTypeAdapter,
-  REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OccReplenishmentOrderFormSerializer } from './adapters/converters/index';
 import { OccCheckoutCostCenterAdapter } from './adapters/occ-checkout-cost-center.adapter';
 import { OccCheckoutDeliveryAdapter } from './adapters/occ-checkout-delivery.adapter';
 import { OccCheckoutPaymentTypeAdapter } from './adapters/occ-checkout-payment-type.adapter';
 import { OccCheckoutPaymentAdapter } from './adapters/occ-checkout-payment.adapter';
-import { OccCheckoutReplenishmentOrderAdapter } from './adapters/occ-checkout-replenishment-order.adapter';
 import { OccCheckoutAdapter } from './adapters/occ-checkout.adapter';
 import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
 
@@ -23,7 +19,6 @@ import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCheckoutConfig),
-    OccReplenishmentOrderFormSerializer,
     {
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,
@@ -43,15 +38,6 @@ import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
     {
       provide: CheckoutCostCenterAdapter,
       useClass: OccCheckoutCostCenterAdapter,
-    },
-    {
-      provide: CheckoutReplenishmentOrderAdapter,
-      useClass: OccCheckoutReplenishmentOrderAdapter,
-    },
-    {
-      provide: REPLENISHMENT_ORDER_FORM_SERIALIZER,
-      useExisting: OccReplenishmentOrderFormSerializer,
-      multi: true,
     },
   ],
 })

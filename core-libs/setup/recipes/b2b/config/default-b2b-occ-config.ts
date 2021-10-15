@@ -34,8 +34,6 @@ export const defaultB2bOccConfig: OccConfig = {
         userCloseAccount: 'users/${userId}',
         addEntries:
           'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
-        scheduleReplenishmentOrder:
-          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
         replenishmentOrderDetails:
           'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
         replenishmentOrderDetailsHistory:

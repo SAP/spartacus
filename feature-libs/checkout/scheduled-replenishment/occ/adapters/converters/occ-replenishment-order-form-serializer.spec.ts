@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TimeUtils } from '@spartacus/core';
-import { TestingTimeUtils } from '../../../../../projects/core/src/util/testing-time-utils';
+import { TestingTimeUtils } from '../../../../../../projects/core/src/util/testing-time-utils';
 import { OccReplenishmentOrderFormSerializer } from './occ-replenishment-order-form-serializer';
 
 const mockTime = '10:00';

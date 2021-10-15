@@ -17,6 +17,21 @@
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
+      "@spartacus/cart/quick-order/assets": [
+        "../../feature-libs/cart/quick-order/assets/public_api"
+      ],
+      "@spartacus/cart/quick-order/components": [
+        "../../feature-libs/cart/quick-order/components/public_api"
+      ],
+      "@spartacus/cart/quick-order/core": [
+        "../../feature-libs/cart/quick-order/core/public_api"
+      ],
+      "@spartacus/cart/quick-order": [
+        "../../feature-libs/cart/quick-order/public_api"
+      ],
+      "@spartacus/cart/quick-order/root": [
+        "../../feature-libs/cart/quick-order/root/public_api"
+      ],
       "@spartacus/cart/saved-cart/assets": [
         "../../feature-libs/cart/saved-cart/assets/public_api"
       ],
@@ -35,21 +50,6 @@
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/quick-order": [
-        "../../feature-libs/cart/quick-order/public_api"
-      ],
-      "@spartacus/cart/quick-order/assets": [
-        "../../feature-libs/cart/quick-order/assets/public_api"
-      ],
-      "@spartacus/cart/quick-order/components": [
-        "../../feature-libs/cart/quick-order/components/public_api"
-      ],
-      "@spartacus/cart/quick-order/core": [
-        "../../feature-libs/cart/quick-order/core/public_api"
-      ],
-      "@spartacus/cart/quick-order/root": [
-        "../../feature-libs/cart/quick-order/root/public_api"
-      ],
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"
       ],
@@ -63,6 +63,24 @@
       "@spartacus/checkout/occ": ["../../feature-libs/checkout/occ/public_api"],
       "@spartacus/checkout/root": [
         "../../feature-libs/checkout/root/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/assets": [
+        "../../feature-libs/checkout/scheduled-replenishment/assets/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/components": [
+        "../../feature-libs/checkout/scheduled-replenishment/components/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/core": [
+        "../../feature-libs/checkout/scheduled-replenishment/core/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment": [
+        "../../feature-libs/checkout/scheduled-replenishment/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/occ": [
+        "../../feature-libs/checkout/scheduled-replenishment/occ/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/root": [
+        "../../feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [

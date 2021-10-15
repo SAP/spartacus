@@ -2,6 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  OrderConfirmationGuard,
+  OrderConfirmationItemsComponent,
+  OrderConfirmationOverviewComponent,
+  OrderConfirmationTotalsComponent,
+} from '@spartacus/checkout/components';
+import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
@@ -14,11 +20,7 @@ import {
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
-import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
-import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
-import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
-import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
+import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 
 @NgModule({
   imports: [
@@ -35,8 +37,14 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
+        OrderConfirmationThankMessageComponent: {
+          component:
+            ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+          guards: [OrderConfirmationGuard],
+        },
         ReplenishmentConfirmationMessageComponent: {
-          component: OrderConfirmationThankYouMessageComponent,
+          component:
+            ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationOverviewComponent: {
@@ -55,4 +63,4 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
     }),
   ],
 })
-export class ReplenishmentOrderConfirmationModule {}
+export class ScheduledReplenishmentOrderConfirmationModule {}

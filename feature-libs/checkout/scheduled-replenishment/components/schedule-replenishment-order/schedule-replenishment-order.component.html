@@ -1,7 +1,7 @@
 <div class="cx-order-type-card">
   <div class="cx-label-container">
     <h5 class="cx-order-replenishment-header">
-      {{ 'checkoutReview.autoReplenishOrder' | cxTranslate }}
+      {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
     </h5>
     <cx-icon [type]="iconTypes.CLOCK"></cx-icon>
   </div>
@@ -25,7 +25,10 @@
       for="orderType-{{ type.value }}"
     >
       <div class="order-type">
-        {{ 'checkoutReview.orderType_' + type?.value | cxTranslate }}
+        {{
+          'checkoutScheduledReplenishment.orderType_' + type?.value
+            | cxTranslate
+        }}
       </div>
     </label>
   </div>
@@ -38,7 +41,7 @@
     <div class="cx-replenishment-form-data-container">
       <div *ngIf="!isMonthly" class="cx-days">
         <span class="form-data-label">{{
-          'checkoutReview.every' | cxTranslate
+          'checkoutScheduledReplenishment.every' | cxTranslate
         }}</span>
         <ng-container *ngIf="isWeekly; else isDaily">
           <select
@@ -73,7 +76,7 @@
       </div>
       <div class="cx-month">
         <span *ngIf="isMonthly" class="form-data-label">{{
-          'checkoutReview.every' | cxTranslate
+          'checkoutScheduledReplenishment.every' | cxTranslate
         }}</span>
         <select
           class="form-control"
@@ -84,13 +87,16 @@
             [value]="type"
             [selected]="type === scheduleReplenishmentFormData.recurrencePeriod"
           >
-            {{ 'checkoutReview.recurrencePeriodType_' + type | cxTranslate }}
+            {{
+              'checkoutScheduledReplenishment.recurrencePeriodType_' + type
+                | cxTranslate
+            }}
           </option>
         </select>
       </div>
       <div *ngIf="isMonthly" class="cx-dayMonth">
         <span class="form-data-label">{{
-          'checkoutReview.dayOfMonth' | cxTranslate
+          'checkoutScheduledReplenishment.dayOfMonth' | cxTranslate
         }}</span>
         <div class="cx-day-of-month">
           <select
@@ -111,7 +117,7 @@
 
     <div class="cx-replenishment-form-data-container">
       <span class="form-data-label">{{
-        'checkoutReview.startOn' | cxTranslate
+        'checkoutScheduledReplenishment.startOn' | cxTranslate
       }}</span>
       <div class="cx-replenishment-date">
         <input
@@ -128,7 +134,7 @@
       class="cx-replenishment-form-data-container cx-repeat-days-container"
     >
       <span class="cx-repeat-days form-data-label">{{
-        'checkoutReview.repeatOnDays' | cxTranslate
+        'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate
       }}</span>
       <div *ngFor="let day of daysOfWeek" class="form-check">
         <label for="day-{{ day }}" class="cx-week-day">{{

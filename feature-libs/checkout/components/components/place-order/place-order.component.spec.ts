@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../../../scheduled-replenishment/components/services/checkout-replenishment-form-service';
 import { PlaceOrderComponent } from './place-order.component';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {

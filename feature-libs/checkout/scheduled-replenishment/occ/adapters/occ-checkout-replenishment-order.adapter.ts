@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
-} from '@spartacus/checkout/core';
+} from '@spartacus/checkout/scheduled-replenishment/core';
 import {
   ConverterService,
   normalizeHttpError,

@@ -3,34 +3,21 @@ import {
   Component,
   ComponentRef,
   OnDestroy,
-  OnInit,
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import {
-  ORDER_TYPE,
-  recurrencePeriod,
-  RoutingService,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
   templateUrl: './place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaceOrderComponent implements OnInit, OnDestroy {
-  private subscription: Subscription = new Subscription();
-
-  currentOrderType: ORDER_TYPE;
-  scheduleReplenishmentFormData: ScheduleReplenishmentForm;
+export class PlaceOrderComponent implements OnDestroy {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
-
-  daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   checkoutSubmitForm: FormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
@@ -44,25 +31,17 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     protected checkoutService: CheckoutFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid && Boolean(this.currentOrderType)) {
+    if (this.checkoutSubmitForm.valid) {
       this.placedOrder = this.launchDialogService.launch(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
       );
-      merge(
-        this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.checkoutService.placeOrder(this.checkoutSubmitForm.valid)
-          : this.checkoutService.scheduleReplenishmentOrder(
-              this.scheduleReplenishmentFormData,
-              this.checkoutSubmitForm.valid
-            )
-      ).subscribe({
+      this.checkoutService.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {
           if (this.placedOrder) {
             this.placedOrder
@@ -86,44 +65,11 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    this.subscription.add(
-      this.checkoutService
-        .getOrderType()
-        .subscribe((orderType) => (this.currentOrderType = orderType))
-    );
-
-    this.subscription.add(
-      this.checkoutReplenishmentFormService
-        .getScheduleReplenishmentFormData()
-        .subscribe((data) => {
-          this.scheduleReplenishmentFormData = data;
-
-          this.daysOfWeekNotChecked$.next(
-            data.daysOfWeek?.length === 0 &&
-              data.recurrencePeriod === recurrencePeriod.WEEKLY
-          );
-        })
-    );
-  }
-
   onSuccess(): void {
-    switch (this.currentOrderType) {
-      case ORDER_TYPE.PLACE_ORDER: {
-        this.routingService.go({ cxRoute: 'orderConfirmation' });
-        break;
-      }
-
-      case ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER: {
-        this.routingService.go({ cxRoute: 'replenishmentConfirmation' });
-        break;
-      }
-    }
-    this.checkoutReplenishmentFormService.resetScheduleReplenishmentFormData();
+    this.routingService.go({ cxRoute: 'orderConfirmation' });
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
   }
 }

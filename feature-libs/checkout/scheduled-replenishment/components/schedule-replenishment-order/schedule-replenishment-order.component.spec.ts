@@ -8,9 +8,9 @@ import {
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
+import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { Observable, of } from 'rxjs';
-import { IconTestingModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
 import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {

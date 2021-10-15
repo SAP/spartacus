@@ -5,9 +5,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, ORDER_TYPE } from '@spartacus/core';
+import { Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -35,14 +35,6 @@ export class OrderConfirmationThankYouMessageComponent
         this.orderGuid = order?.guid;
       })
     );
-
-    this.isReplenishmentOrderType$ = this.checkoutService
-      .getOrderType()
-      .pipe(
-        map(
-          (orderType) => ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER === orderType
-        )
-      );
   }
 
   ngOnDestroy() {

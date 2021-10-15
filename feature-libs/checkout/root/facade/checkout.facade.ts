@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  facadeFactory,
-  Order,
-  ORDER_TYPE,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+import { facadeFactory, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
@@ -19,10 +13,8 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'placeOrder',
         'getOrder',
         'clearOrder',
-        'scheduleReplenishmentOrder',
+        'setOrder',
         'isLoading',
-        'setOrderType',
-        'getOrderType',
       ],
       async: true,
     }),
@@ -37,27 +29,10 @@ export abstract class CheckoutFacade {
 
   abstract clearOrder(): void;
 
-  /**
-   * Schedule a replenishment order
-   */
-  abstract scheduleReplenishmentOrder(
-    scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    termsChecked: boolean
-  ): Observable<ReplenishmentOrder>;
+  abstract setOrder(order: Order): void;
 
   /**
    * Check if checkout details are stable (no longer loading)
    */
   abstract isLoading(): Observable<boolean>;
-
-  /**
-   * Set checkout order type
-   * @param orderType : an enum of types of order we are placing
-   */
-  abstract setOrderType(orderType: ORDER_TYPE): void;
-
-  /**
-   * Get current checkout order type
-   */
-  abstract getOrderType(): Observable<ORDER_TYPE>;
 }
