@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/core';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/root';
 import { Cart, CartModification } from '@spartacus/cart/main/root';
 import {
   BaseOccUrlProperties,

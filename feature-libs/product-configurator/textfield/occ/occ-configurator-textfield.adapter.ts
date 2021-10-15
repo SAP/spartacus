@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/core';
-import { CartModification } from '@spartacus/cart/main/root';
+import {
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/main/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
