@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartAdapter, CART_NORMALIZER } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { CartAdapter } from '@spartacus/cart/main/core';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/main/root';
 import {
   ConverterService,
   InterceptorUtil,
