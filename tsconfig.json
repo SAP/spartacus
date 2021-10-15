@@ -51,6 +51,9 @@
       "@spartacus/asm/root": [
         "feature-libs/asm/root/public_api"
       ],
+      "@spartacus/cart/main/assets": [
+        "feature-libs/cart/main/assets/public_api"
+      ],
       "@spartacus/cart/main/components": [
         "feature-libs/cart/main/components/public_api"
       ],

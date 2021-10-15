@@ -1,12 +1,10 @@
 import * as cart from '../../helpers/cart';
-import * as login from '../../helpers/login';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationCart from '../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
-import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
@@ -169,24 +167,7 @@ context('Product Configuration', () => {
 
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
-      login.registerUser();
-      verifyGlobalMessageAfterRegistration();
-      const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-      login.loginUser();
-      cy.wait(tokenAuthRequestAlias)
-        .its('response.statusCode')
-        .should('eq', 200);
-      configuration.searchForProduct(testProductMultiLevel);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnProceedToCheckoutBtnOnPD();
-      configurationCartVc.checkout();
-      configurationCart.navigateToOrderDetails();
-      //don't check the order history aspect because this part is flaky
-      //configuration.selectOrderByOrderNumberAlias();
-      const tokenRevocationRequestAlias =
-        login.listenForTokenRevocationRequest();
-      login.signOutUser();
-      cy.wait(tokenRevocationRequestAlias);
+      configuration.completeOrderProcess(testProductMultiLevel);
     });
   });
 });
