@@ -30,6 +30,17 @@ class MockCxIconComponent {
 })
 class MockTemplateComponent {}
 
+function checkIndicatorAriaLabels(
+  fixture: ComponentFixture<CarouselComponent>
+) {
+  const els = fixture.debugElement.queryAll(By.css('div.indicators button'));
+  let currentSlide = 1;
+  els.forEach((el) => {
+    expect(el.nativeNode.ariaLabel).toContain(currentSlide);
+    currentSlide++;
+  });
+}
+
 describe('Carousel Component', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
@@ -276,15 +287,8 @@ describe('Carousel Component', () => {
         expect(el.length).toEqual(2);
       });
 
-      it('should have the right indicator labels', () => {
-        const els = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
-        );
-        let currentSlide = 1;
-        els.forEach((el) => {
-          expect(el.nativeNode.ariaLabel).toContain(currentSlide);
-          currentSlide++;
-        });
+      it('should have the correct indicator labels', () => {
+        checkIndicatorAriaLabels(fixture);
       });
     });
 
@@ -321,15 +325,8 @@ describe('Carousel Component', () => {
         expect(el.length).toEqual(3);
       });
 
-      it('should have the right indicator labels', () => {
-        const els = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
-        );
-        let currentSlide = 1;
-        els.forEach((el) => {
-          expect(el.nativeNode.ariaLabel).toContain(currentSlide);
-          currentSlide++;
-        });
+      it('should have the correct indicator labels', () => {
+        checkIndicatorAriaLabels(fixture);
       });
     });
 
@@ -403,7 +400,7 @@ describe('Carousel Component', () => {
       expect(component.getSlideNumber(1, 2)).toBe(3);
     });
 
-    it('should return the 1rst slide', () => {
+    it('should return the 1st slide', () => {
       expect(component.getSlideNumber(4, 3)).toBe(1);
     });
 
