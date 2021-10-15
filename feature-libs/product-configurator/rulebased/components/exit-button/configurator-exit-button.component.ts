@@ -27,7 +27,11 @@ export class ConfiguratorExitButtonComponent {
     protected breakpointService: BreakpointService,
     protected windowRef: WindowRef
   ) {}
-
+  /**
+   * the method navigates to the previous page when user clicks on the configurator exit button.
+   * If there is no previous page to return to, it will navigate to the product detail page of the product
+   * that is being configured.
+   */
   goBack() {
     const historyLength: number | undefined =
       this.windowRef?.nativeWindow?.history?.length;
