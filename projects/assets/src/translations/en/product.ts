@@ -37,6 +37,8 @@ export const product = {
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
+    showReviewsDetailed:
+      'Show {{count}} reviews, Rated {{rating}} out of 5 stars',
     share: 'Share',
     newItemPrice: 'New item price',
   },
