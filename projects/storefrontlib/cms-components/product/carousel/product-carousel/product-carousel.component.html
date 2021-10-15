@@ -8,7 +8,11 @@
 
 <ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
-    <cx-media [container]="item.images?.PRIMARY" format="product"></cx-media>
+    <cx-media
+      [container]="item.images?.PRIMARY"
+      format="product"
+      [alt]="item.name"
+    ></cx-media>
     <h3>
       {{ item.name }}
     </h3>

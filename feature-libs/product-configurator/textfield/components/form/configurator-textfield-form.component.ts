@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
@@ -26,9 +27,20 @@ export class ConfiguratorTextfieldFormComponent {
               routerData.owner
             );
           case CommonConfigurator.OwnerType.ORDER_ENTRY:
-            throw new Error('Order history integration not yet implemented');
+            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
+              routerData.owner
+            );
         }
       })
+    );
+
+  isEditable$: Observable<boolean> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      map(
+        (routerData) =>
+          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+      )
     );
 
   constructor(

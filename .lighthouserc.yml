@@ -1,0 +1,71 @@
+ci:
+  collect:
+    numberOfRuns: 3
+    url:
+       - http://localhost:4000
+       - http://localhost:4000/electronics-spa/en/USD/Brands/Canon/c/brand_10
+       - http://localhost:4000/electronics-spa/en/USD/product/832386/ef-300mm-f-2.8l-is-usm
+    startServerCommand: 'yarn serve:ssr'
+  assert:
+    preset: lighthouse:recommended
+    assertions:
+      aria-allowed-attr: 'warn'
+      bootup-time:
+        - warn
+        - minScore: 0.44
+      button-name: 'warn'
+      color-contrast: 'warn'
+      csp-xss: 'warn'
+      cumulative-layout-shift:
+        - warn
+        - minScore: 0.03 
+        # - minScore: 0.02 
+      errors-in-console: 'warn'
+      first-contentful-paint:
+        - warn
+        - minScore: 0.3
+      first-meaningful-paint: 'warn'
+      font-display: 'warn'
+      image-alt: 'warn'
+      image-size-responsive: 'warn'
+      interactive:
+        - warn
+        - minScore: 0.04
+      largest-contentful-paint: 'warn'
+      legacy-javascript: 'warn'
+      link-name: 'warn'
+      mainthread-work-breakdown:
+        - warn
+        - minScore: 0.14
+      maskable-icon: 'warn'
+      max-potential-fid: 'warn'
+      meta-description: 'warn'
+      modern-image-formats: 'warn'
+      non-composited-animations: 'warn'
+      offscreen-images: 'warn'
+      render-blocking-resources:
+        - warn
+        - maxLength: 2
+      robots-txt: 'warn'
+      server-response-time: 'warn'
+      service-worker: 'warn'
+      speed-index:
+        - warn
+        - minScore: 0.1
+      tap-targets: 'warn'
+      themed-omnibox: 'warn'
+      total-byte-weight:
+        - warn
+        - minScore: 0.55
+      unminified-javascript: 'warn'
+      unsized-images: 'warn'
+      unused-css-rules:
+        - warn
+        - maxLength: 7
+        - minScore: 0.19
+      unused-javascript: 'warn'
+      uses-optimized-images: 'warn'
+      uses-rel-preconnect: 'warn'
+      uses-webp-images: 'warn'
+      valid-source-maps: 'warn'
+      uses-text-compression: 'warn'
