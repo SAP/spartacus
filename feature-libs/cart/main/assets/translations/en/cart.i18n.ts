@@ -49,4 +49,7 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
+  wishlist: {
+    empty: 'No products in your wish list yet',
+  },
 };
