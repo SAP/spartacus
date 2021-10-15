@@ -9,17 +9,8 @@
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
         <ng-container *ngFor="let step of paymentSteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
-              <ng-container *ngTemplateOutlet="poNumber"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
-              <ng-container *ngTemplateOutlet="paymentType"></ng-container>
-            </ng-container>
             <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
               <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
-              <ng-container *ngTemplateOutlet="costCenter"></ng-container>
             </ng-container>
           </ng-container>
         </ng-container>
@@ -38,70 +29,6 @@
       </div>
     </ng-container>
   </div>
-
-  <!-- PO NUMBER SECTION -->
-  <ng-template #poNumber>
-    <div class="cx-review-summary-card">
-      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
-      <div class="cx-review-summary-edit-step">
-        <a
-          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
-          [routerLink]="
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
-            } | cxUrl
-          "
-          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-        ></a>
-      </div>
-    </div>
-  </ng-template>
-
-  <!-- PAYMENT TYPE SECTION -->
-  <ng-template #paymentType>
-    <div class="cx-review-summary-card">
-      <cx-card
-        *ngIf="paymentType$ | async as paymentType"
-        [content]="getPaymentTypeCard(paymentType) | async"
-      ></cx-card>
-      <div class="cx-review-summary-edit-step">
-        <a
-          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
-          [routerLink]="
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
-            } | cxUrl
-          "
-          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-        ></a>
-      </div>
-    </div>
-  </ng-template>
-
-  <!-- COST CENTER SECTION -->
-  <ng-template #costCenter>
-    <ng-container *ngIf="isAccountPayment$ | async">
-      <div class="cx-review-summary-card">
-        <cx-card
-          *ngIf="costCenter$ | async as costCenter"
-          [content]="getCostCenterCard(costCenter) | async"
-        ></cx-card>
-        <div class="cx-review-summary-edit-step">
-          <a
-            [attr.aria-label]="
-              'checkoutReview.editShippingAddressDetails' | cxTranslate
-            "
-            [routerLink]="
-              {
-                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
-              } | cxUrl
-            "
-            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-          ></a>
-        </div>
-      </div>
-    </ng-container>
-  </ng-template>
 
   <!-- SHIPPING ADDRESS SECTION -->
   <ng-template #shippingAddress>

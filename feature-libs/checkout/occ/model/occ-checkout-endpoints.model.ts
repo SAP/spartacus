@@ -10,18 +10,6 @@ export interface CheckoutOccEndpoints {
    */
   placeOrder?: string | OccEndpoint;
   /**
-   * Returns a list of the available payment types.
-   */
-  paymentTypes?: string | OccEndpoint;
-  /**
-   * Sets the cost center for the checkout cart.
-   */
-  setCartCostCenter?: string | OccEndpoint;
-  /**
-   * Sets the payment type for the checkout cart
-   */
-  setCartPaymentType?: string | OccEndpoint;
-  /**
    * Get a list of supported payment card types.
    */
   cardTypes?: string | OccEndpoint;

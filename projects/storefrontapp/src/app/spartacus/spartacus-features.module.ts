@@ -61,6 +61,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { CheckoutB2BFeatureModule } from './features/checkout-b2b-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
@@ -85,6 +86,7 @@ if (environment.b2b) {
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
+    CheckoutB2BFeatureModule,
     CheckoutScheduledReplenishmentFeatureModule
   );
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -14,9 +14,12 @@ import {
   OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
-  ReplenishmentOrderScheduledEvent,
+  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/root';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
+import {
+  CheckoutScheduledReplenishmentFacade,
+  ReplenishmentOrderScheduledEvent,
+} from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   ActiveCartService,
   CartActions,
@@ -33,14 +36,22 @@ import {
   StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/replenishment-order/checkout-replenishment-order.connector';
 
 @Injectable()
 export class CheckoutScheduledReplenishmentService
-  implements CheckoutScheduledReplenishmentFacade
+  implements CheckoutScheduledReplenishmentFacade, OnDestroy
 {
+  protected subscription = new Subscription();
+
   protected orderType$ = new BehaviorSubject<ORDER_TYPE>(
     ORDER_TYPE.PLACE_ORDER
   );
@@ -119,6 +130,17 @@ export class CheckoutScheduledReplenishmentService
     ]).subscribe(() => {
       this.orderType$.next(ORDER_TYPE.PLACE_ORDER);
     });
+    this.registerResetTriggers();
+  }
+
+  registerResetTriggers(): void {
+    this.subscription.add(
+      this.eventService
+        .get(ReplenishmentOrderScheduledEvent)
+        .subscribe(() =>
+          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+        )
+    );
   }
 
   /**
@@ -147,5 +169,9 @@ export class CheckoutScheduledReplenishmentService
    */
   getOrderType(): Observable<ORDER_TYPE> {
     return this.orderType$.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

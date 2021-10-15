@@ -7,7 +7,6 @@ import {
 import {
   CheckoutQueryFacade,
   CheckoutState,
-  CostCenterSetEvent,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
@@ -15,8 +14,8 @@ import {
   OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
-  PaymentTypeSetEvent,
-  ReplenishmentOrderScheduledEvent,
+  ReloadCheckoutQueryEvent,
+  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -37,30 +36,33 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
-  protected queryReloadEvents: QueryNotifier[] = [
-    LanguageSetEvent,
-    CurrencySetEvent,
-  ];
-  protected queryResetEvents: QueryNotifier[] = [
-    DeliveryAddressSetEvent,
-    LogoutEvent,
-    LoginEvent,
-    DeliveryAddressClearedEvent,
-    DeliveryModeSetEvent,
-    DeliveryModeClearedEvent,
-    SaveCartSuccessEvent,
-    RestoreSavedCartSuccessEvent,
-    PaymentDetailsCreatedEvent,
-    PaymentDetailsSetEvent,
-    // TODO: In b2b entry point we would extend the list of the events with the b2b ones (such as this)
-    // this.queryResetEvents = [...super.queryResetEvents, b2b events];
-    CostCenterSetEvent,
-    PaymentTypeSetEvent,
-    // query state should be reset when checkout is finished (should be undefined after these 2 event)
-    OrderPlacedEvent,
-    ReplenishmentOrderScheduledEvent,
-    this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
-  ];
+  protected getQueryReloadEvents(): QueryNotifier[] {
+    return [
+      ReloadCheckoutQueryEvent,
+      // TODO: Register reload event dispatchers for events below
+      LanguageSetEvent,
+      CurrencySetEvent,
+    ];
+  }
+  protected getQueryResetEvents(): QueryNotifier[] {
+    return [
+      ResetCheckoutQueryEvent,
+      // TODO: Register reset event dispatchers for events below
+      DeliveryAddressSetEvent,
+      LogoutEvent,
+      LoginEvent,
+      DeliveryAddressClearedEvent,
+      DeliveryModeSetEvent,
+      DeliveryModeClearedEvent,
+      SaveCartSuccessEvent,
+      RestoreSavedCartSuccessEvent,
+      PaymentDetailsCreatedEvent,
+      PaymentDetailsSetEvent,
+      // query state should be reset when checkout is finished (should be undefined after the following events)
+      OrderPlacedEvent,
+      this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
+    ];
+  }
 
   protected checkoutQuery$ = this.query.create<CheckoutState>(
     () => {
@@ -83,8 +85,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       );
     },
     {
-      reloadOn: this.queryReloadEvents,
-      resetOn: this.queryResetEvents,
+      reloadOn: this.getQueryReloadEvents(),
+      resetOn: this.getQueryResetEvents(),
     }
   );
 

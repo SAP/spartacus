@@ -1,10 +1,4 @@
-import {
-  Address,
-  CxEvent,
-  Order,
-  PaymentDetails,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { Address, CxEvent, Order, PaymentDetails } from '@spartacus/core';
 
 /**
  * An abstract event for all the checkout events.
@@ -12,6 +6,46 @@ import {
 export abstract class CheckoutEvent extends CxEvent {
   userId: string;
   cartId: string;
+}
+
+/**
+ * Emit this event to force checkout details reload
+ */
+export class ReloadCheckoutQueryEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ReloadCheckoutQueryEvent';
+}
+
+/**
+ * Emit this event to force checkout details reset
+ */
+export class ResetCheckoutQueryEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ResetCheckoutQueryEvent';
+}
+
+/**
+ * Emit this event to force delivery modes reload
+ */
+export class ReloadDeliveryModesEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ReloadDeliveryModesEvent';
+}
+
+/**
+ * Emit this event to force delivery modes reset
+ */
+export class ResetDeliveryModesEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ResetDeliveryModesEvent';
 }
 
 /**
@@ -26,20 +60,6 @@ export class OrderPlacedEvent extends CheckoutEvent {
    * Order
    */
   order: Order;
-}
-
-/**
- * Indicates that a user has scheduled replenishment order.
- */
-export class ReplenishmentOrderScheduledEvent extends CheckoutEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'ReplenishmentOrderScheduledEvent';
-  /**
-   * Replenishment Order
-   */
-  replenishmentOrder: ReplenishmentOrder;
 }
 
 /**
@@ -101,35 +121,4 @@ export class PaymentDetailsCreatedEvent extends CheckoutEvent {
    * Payment details
    */
   paymentDetails: PaymentDetails;
-}
-
-// TODO: Move to b2b checkout entry point
-export class CostCenterSetEvent extends CheckoutEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CostCenterSetEvent';
-
-  /**
-   * Cost center code
-   */
-  code: string;
-}
-
-// TODO: Move to b2b checkout entry point
-export class PaymentTypeSetEvent extends CheckoutEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'PaymentTypeSetEvent';
-
-  /**
-   * Payment type code
-   */
-  paymentTypeCode: string;
-
-  /**
-   * Purchase order number
-   */
-  purchaseOrderNumber?: string;
 }

@@ -11,7 +11,6 @@ export const defaultCheckoutRoutingConfig: RoutingConfig = {
       checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
       checkoutReviewOrder: { paths: ['checkout/review-order'] },
       orderConfirmation: { paths: ['order-confirmation'] },
-      replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
     },
   },
 };

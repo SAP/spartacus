@@ -90,6 +90,24 @@
       "@spartacus/checkout/assets": [
         "feature-libs/checkout/assets/public_api"
       ],
+      "@spartacus/checkout/b2b/assets": [
+        "feature-libs/checkout/b2b/assets/public_api"
+      ],
+      "@spartacus/checkout/b2b/components": [
+        "feature-libs/checkout/b2b/components/public_api"
+      ],
+      "@spartacus/checkout/b2b/core": [
+        "feature-libs/checkout/b2b/core/public_api"
+      ],
+      "@spartacus/checkout/b2b": [
+        "feature-libs/checkout/b2b/public_api"
+      ],
+      "@spartacus/checkout/b2b/occ": [
+        "feature-libs/checkout/b2b/occ/public_api"
+      ],
+      "@spartacus/checkout/b2b/root": [
+        "feature-libs/checkout/b2b/root/public_api"
+      ],
       "@spartacus/checkout/components": [
         "feature-libs/checkout/components/public_api"
       ],

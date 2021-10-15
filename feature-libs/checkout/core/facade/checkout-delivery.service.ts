@@ -3,12 +3,12 @@ import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryFacade,
   CheckoutQueryFacade,
-  CostCenterSetEvent,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
-  PaymentTypeSetEvent,
+  ReloadDeliveryModesEvent,
+  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -193,16 +193,21 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         );
       },
       {
-        reloadOn: [LanguageSetEvent, CurrencySetEvent],
+        reloadOn: [
+          ReloadDeliveryModesEvent,
+          // TODO: Map these events to reload event
+          LanguageSetEvent,
+          CurrencySetEvent,
+        ],
         resetOn: [
+          ResetDeliveryModesEvent,
+          // TODO: Map these events to reset event
           LogoutEvent,
           LoginEvent,
           DeliveryAddressSetEvent,
           UpdateUserAddressEvent,
           DeleteUserAddressEvent,
           this.retrySupportedDeliveryModes$.asObservable(),
-          PaymentTypeSetEvent,
-          CostCenterSetEvent,
         ],
       }
     );

@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
 } from '.';
+import { defaultCheckoutScheduledReplenishmentRoutingConfig } from './config/default-checkout-scheduled-replenishment-routing-config';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {
@@ -29,6 +33,9 @@ export function defaultCheckoutComponentsConfig() {
 
 @NgModule({
   imports: [],
-  providers: [provideDefaultConfigFactory(defaultCheckoutComponentsConfig)],
+  providers: [
+    provideDefaultConfig(defaultCheckoutScheduledReplenishmentRoutingConfig),
+    provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
+  ],
 })
 export class CheckoutScheduledReplenishmentRootModule {}

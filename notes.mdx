@@ -5,6 +5,7 @@
 - outlet for order-confirmation-thank-you component (to avoid exteding)
 - check all e2e tests (express checkout fails since we changed delivery mode processes)
 - smooth checkout UI (loading states etc.)
+- check CheckoutStepsSetGuard with b2b entry point and with super query
 - multiple calls for setting cost center (user cost centers emits multiple times)
 - move clear delivery address/mode methods from checkout-connector to checkout-delivery connector
 - separate delivery address/mode to 2 services
@@ -34,6 +35,7 @@
 
 ## TODO (details nice to have in actual spartacus release of new checkout)
 
+- normalize naming of files/exported things from scheduled replenishment and b2b entry point
 - schematics for scheduled replenishment
 - clear fields in occ endpoint configs that are no longer needed
 - check feature config service in constructors
@@ -45,10 +47,11 @@
 - move default-b2b-occ-config to b2b checkout entry point
 - try to reproduce payment hasError reponse
 - ask Bill about desired express checkout behaviour (should we always assign defaults or should we preserve user's selected options)
+- should we rename checkout events with `Checkout` prefix?
 
 # Next session
 
-- separate entry point for b2b checkout in checkout lib
+- do the translations for b2b entry point
 
 ### Checkout lib structure
 

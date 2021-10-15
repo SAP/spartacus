@@ -15,6 +15,12 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/checkout/assets": ["dist/checkout/assets"],
+      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
+      "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
+      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
+      "@spartacus/checkout/b2b": ["dist/checkout/b2b"],
+      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
+      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root"],
       "@spartacus/checkout/components": ["dist/checkout/components"],
       "@spartacus/checkout/core": ["dist/checkout/core"],
       "@spartacus/checkout": ["dist/checkout"],

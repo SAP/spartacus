@@ -5,27 +5,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
-  PaymentTypeFacade,
-} from '@spartacus/checkout/root';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
   TranslationService,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -43,7 +32,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address;
   doneAutoSelect = false;
-  isAccountPayment = false;
 
   protected subscriptions = new Subscription();
 
@@ -53,10 +41,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService: PaymentTypeFacade,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -115,23 +100,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   getSupportedAddresses(): Observable<Address[]> {
-    if (
-      this.isAccountPayment &&
-      this.checkoutCostCenterService &&
-      this.userCostCenterService
-    ) {
-      return this.checkoutCostCenterService.getCostCenter().pipe(
-        filter((costCenterState) => !costCenterState.loading),
-        map((costCenterState) => costCenterState.data),
-        distinctUntilChanged(),
-        switchMap((costCenterCode) => {
-          this.doneAutoSelect = false;
-          return costCenterCode
-            ? this.userCostCenterService.getCostCenterAddresses(costCenterCode)
-            : of([]);
-        })
-      );
-    }
     return this.userAddressService.getAddresses();
   }
 
@@ -142,35 +110,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
-      if (this.isAccountPayment) {
-        if (addresses.length === 1) {
-          this.selectAddress(addresses[0]);
-        }
-      } else {
-        selected = addresses.find((address) => address.defaultAddress);
-        if (selected) {
-          this.selectAddress(selected);
-        }
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.selectAddress(selected);
       }
       this.doneAutoSelect = true;
     }
   }
 
   ngOnInit(): void {
-    if (
-      this.paymentTypeService &&
-      this.userCostCenterService &&
-      this.checkoutCostCenterService
-    ) {
-      this.subscriptions.add(
-        this.paymentTypeService
-          .isAccountPayment()
-          .pipe(distinctUntilChanged())
-          .subscribe((isAccount) => (this.isAccountPayment = isAccount))
-      );
-    }
-
-    if (!this.isGuestCheckout && !this.isAccountPayment) {
+    if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
   }

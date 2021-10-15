@@ -1,25 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
   checkoutPaymentSteps,
   checkoutShippingSteps,
   CheckoutStep,
   CheckoutStepType,
-  PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
   Cart,
-  CostCenter,
   Country,
   DeliveryMode,
   FeatureConfigService,
   OrderEntry,
   PaymentDetails,
-  PaymentType,
   PromotionLocation,
   TranslationService,
   UserAddressService,
@@ -27,7 +23,7 @@ import {
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -47,8 +43,6 @@ export class ReviewSubmitComponent {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService: PaymentTypeFacade,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected userCostCenterService: UserCostCenterService,
     protected featureConfigService: FeatureConfigService
   ) {}
@@ -91,33 +85,6 @@ export class ReviewSubmitComponent {
     );
   }
 
-  get poNumber$(): Observable<string | undefined> {
-    return this.paymentTypeService.getPurchaseOrderNumber();
-  }
-
-  get paymentType$(): Observable<PaymentType | undefined> {
-    return this.paymentTypeService.getSelectedPaymentType();
-  }
-
-  get isAccountPayment$(): Observable<boolean> {
-    return this.paymentTypeService.isAccountPayment();
-  }
-
-  get costCenter$(): Observable<CostCenter | undefined> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => Boolean(costCenters)),
-      switchMap((costCenters) => {
-        return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((checkoutCostCenterState) => {
-            return costCenters.find(
-              (cc) => cc.code === checkoutCostCenterState?.data
-            );
-          })
-        );
-      })
-    );
-  }
-
   getShippingAddressCard(
     deliveryAddress: Address,
     countryName: string
@@ -150,20 +117,6 @@ export class ReviewSubmitComponent {
             deliveryAddress.phone,
           ],
         } as Card;
-      })
-    );
-  }
-
-  getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('checkoutPO.costCenter'),
-    ]).pipe(
-      map(([textTitle]) => {
-        return {
-          title: textTitle,
-          textBold: costCenter?.name,
-          text: ['(' + costCenter?.unit?.name + ')'],
-        };
       })
     );
   }
@@ -225,39 +178,9 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPoNumberCard(poNumber?: string | null): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('checkoutReview.poNumber'),
-      this.translation.translate('checkoutPO.noPoNumber'),
-    ]).pipe(
-      map(([textTitle, noneTextTitle]) => {
-        return {
-          title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
-        };
-      })
-    );
-  }
-
-  getPaymentTypeCard(paymentType: PaymentType): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('checkoutProgress.methodOfPayment'),
-      this.translation.translate(
-        'paymentTypes.paymentType_' + paymentType.code
-      ),
-    ]).pipe(
-      map(([textTitle, paymentTypeTranslation]) => {
-        return {
-          title: textTitle,
-          textBold: paymentTypeTranslation,
-        };
-      })
-    );
-  }
-
   getCheckoutStepUrl(stepType: CheckoutStepType): string | undefined {
     const step = this.checkoutStepService.getCheckoutStep(stepType);
-    return step && step.routeName;
+    return step?.routeName;
   }
 
   shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
