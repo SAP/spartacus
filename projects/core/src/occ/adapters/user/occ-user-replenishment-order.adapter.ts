@@ -16,7 +16,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
  */
 @Injectable()
 export class OccUserReplenishmentOrderAdapter
-  implements UserReplenishmentOrderAdapter {
+  implements UserReplenishmentOrderAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

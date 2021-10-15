@@ -1,12 +1,10 @@
 import * as cart from '../../helpers/cart';
-import * as login from '../../helpers/login';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationCart from '../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
-import * as productSearch from '../../helpers/product-search';
 
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
@@ -68,15 +66,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions?term=CONF_HOME_THEATER_ML*`
-      ).as('productSearch');
-      productSearch.searchForProduct(testProductMultiLevel);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
@@ -86,13 +76,12 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      cy.server();
-      cy.route(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PATCH',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*`
-      ).as('updateConfig');
+        )}/ccpconfigurator/*`,
+      }).as('updateConfig');
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -178,20 +167,7 @@ context('Product Configuration', () => {
 
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
-      login.registerUser();
-      const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-      login.loginUser();
-      cy.wait(tokenAuthRequestAlias).its('status').should('eq', 200);
-      productSearch.searchForProduct(testProductMultiLevel);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnProceedToCheckoutBtnOnPD();
-      configurationCartVc.checkout();
-      configurationCart.navigateToOrderDetails();
-      //don't check the order history aspect because this part is flaky
-      //configuration.selectOrderByOrderNumberAlias();
-      const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
-      login.signOutUser();
-      cy.wait(tokenRevocationRequestAlias);
+      configuration.completeOrderProcess(testProductMultiLevel);
     });
   });
 });

@@ -44,6 +44,7 @@ function prepare_install {
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     npm i -g verdaccio@5
+    npm i -g npm-cli-login
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
@@ -181,7 +182,9 @@ function restore_clone {
         pushd ../.. > /dev/null
         for path in ${SPARTACUS_PROJECTS[@]} 
         do
-            rm ${path}/package.json-E
+            if [ -f "${path}/package.json-E" ]; then
+                rm ${path}/package.json-E
+            fi
         done
         git checkout .
         popd > /dev/null
@@ -201,6 +204,7 @@ function install_from_sources {
         CLONE_DIR=`pwd`
         echo "CLONE DIR: ${CLONE_DIR}"
         yarn build:libs
+        
         popd > /dev/null
     else
         echo "Not installing develop. Cloning repo and installing dependencies."
@@ -217,6 +221,8 @@ function install_from_sources {
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
     sleep 15
+
+    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     local dist_packages=(
         'core'

@@ -19,7 +19,8 @@ class ResolverC {}
 
 @Injectable()
 class MockDefaultRoutePageMetaResolver
-  implements Partial<DefaultRoutePageMetaResolver> {
+  implements Partial<DefaultRoutePageMetaResolver>
+{
   resolveBreadcrumbs() {
     return of([]);
   }
@@ -197,13 +198,11 @@ describe('RoutingPageMetaResolver', () => {
 
     beforeEach(() => {
       defaultResolver = TestBed.inject(DefaultRoutePageMetaResolver);
-      spyOn(
-        defaultResolver,
-        'resolveBreadcrumbs'
-      ).and.callFake(({ url, pageMetaConfig }) =>
-        pageMetaConfig?.breadcrumb
-          ? of([{ link: url, label: pageMetaConfig?.breadcrumb as string }])
-          : of([])
+      spyOn(defaultResolver, 'resolveBreadcrumbs').and.callFake(
+        ({ url, pageMetaConfig }) =>
+          pageMetaConfig?.breadcrumb
+            ? of([{ link: url, label: pageMetaConfig?.breadcrumb as string }])
+            : of([])
       );
     });
 

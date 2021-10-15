@@ -6,7 +6,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantSerializer
   implements
-    Converter<Configurator.Configuration, OccConfigurator.Configuration> {
+    Converter<Configurator.Configuration, OccConfigurator.Configuration>
+{
   convert(
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration

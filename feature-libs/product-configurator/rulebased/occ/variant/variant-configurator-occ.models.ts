@@ -143,7 +143,9 @@ export namespace OccConfigurator {
 
   export interface CharacteristicOverview {
     characteristic: string;
+    characteristicId?: string;
     value: string;
+    valueId?: string;
   }
   export interface Image {
     imageType: ImageType;
