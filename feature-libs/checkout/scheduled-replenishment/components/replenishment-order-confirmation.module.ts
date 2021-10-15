@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   OrderConfirmationGuard,
   OrderConfirmationItemsComponent,
+  OrderConfirmationModule,
   OrderConfirmationOverviewComponent,
   OrderConfirmationTotalsComponent,
 } from '@spartacus/checkout/components';
@@ -22,6 +23,10 @@ import {
 } from '@spartacus/storefront';
 import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 
+const orderConfirmationComponents = [
+  ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +38,7 @@ import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from 
     ReactiveFormsModule,
     FeaturesConfigModule,
     FormErrorsModule,
+    OrderConfirmationModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -62,5 +68,7 @@ import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from 
       },
     }),
   ],
+  declarations: [...orderConfirmationComponents],
+  exports: [...orderConfirmationComponents],
 })
 export class ScheduledReplenishmentOrderConfirmationModule {}
