@@ -5,7 +5,7 @@ export const storeFinder = {
     back: 'Back',
     call: 'Call',
     getDirections: 'Get Directions',
-    ariaLabelGetDirections: 'this link opens in a new window',
+    ariaLabelGetDirections: 'Get Directions, this link opens in a new window',
     listView: 'List View',
     mapView: 'Map View',
     noStoresFound: 'No Stores Found.',
