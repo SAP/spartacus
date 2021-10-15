@@ -18,7 +18,6 @@ export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy
 {
   order$: Observable<Order | undefined>;
-  isReplenishmentOrderType$: Observable<boolean>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;

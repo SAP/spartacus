@@ -23,7 +23,7 @@ export class PlaceOrderComponent implements OnDestroy {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
-  get termsAndConditionInvalid(): Boolean {
+  get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
   }
 

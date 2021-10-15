@@ -1,12 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ComponentRef,
   OnDestroy,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { PlaceOrderComponent } from '@spartacus/checkout/components';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
@@ -17,7 +16,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../../scheduled-replenishment/components/services/checkout-replenishment-form-service';
 
 @Component({
@@ -33,17 +32,8 @@ export class ScheduledReplenishmentPlaceOrderComponent
 
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-  placedOrder: void | Observable<ComponentRef<any> | undefined>;
 
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
-
-  checkoutSubmitForm: FormGroup = this.fb.group({
-    termsAndConditions: [false, Validators.requiredTrue],
-  });
-
-  get termsAndConditionInvalid(): Boolean {
-    return this.checkoutSubmitForm.invalid;
-  }
 
   constructor(
     protected checkoutService: CheckoutFacade,
@@ -58,7 +48,7 @@ export class ScheduledReplenishmentPlaceOrderComponent
   }
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid && Boolean(this.currentOrderType)) {
+    if (this.checkoutSubmitForm.valid && !!this.currentOrderType) {
       this.placedOrder = this.launchDialogService.launch(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
@@ -118,7 +108,7 @@ export class ScheduledReplenishmentPlaceOrderComponent
   onSuccess(): void {
     switch (this.currentOrderType) {
       case ORDER_TYPE.PLACE_ORDER: {
-        this.routingService.go({ cxRoute: 'orderConfirmation' });
+        super.onSuccess();
         break;
       }
 
@@ -132,6 +122,6 @@ export class ScheduledReplenishmentPlaceOrderComponent
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+    super.ngOnDestroy();
   }
 }
