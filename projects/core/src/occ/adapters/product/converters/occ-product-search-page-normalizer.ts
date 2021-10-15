@@ -12,7 +12,8 @@ import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccProductSearchPageNormalizer
-  implements Converter<Occ.ProductSearchPage, ProductSearchPage> {
+  implements Converter<Occ.ProductSearchPage, ProductSearchPage>
+{
   constructor(private converterService: ConverterService) {}
 
   /**

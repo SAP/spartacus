@@ -1,13 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { BREAKPOINT } from '../../../config';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../config';
 import { KeyboardFocusConfig } from '../config';
-import { WindowRef } from '@spartacus/core';
 
 /**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
  * Shared service for keyboard focus features called when the browser navigates.
  */
 @Injectable({
