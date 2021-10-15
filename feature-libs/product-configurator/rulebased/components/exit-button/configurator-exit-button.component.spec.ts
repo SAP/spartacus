@@ -163,6 +163,7 @@ describe('ConfiguratorExitButton', () => {
         spyOn(windowRef.nativeWindow?.history, 'go').and.callThrough();
         windowRef.nativeWindow?.history.length === 1;
         spyOn(routingService, 'go').and.callThrough();
+        component.goBack();
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'product',
           params: PRODUCT,
