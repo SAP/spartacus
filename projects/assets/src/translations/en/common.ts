@@ -150,7 +150,7 @@ export const common = {
   carousel: {
     previous: 'Previous slide',
     next: 'Next slide',
-    slide: 'Slide {{currentSlideNumber}}',
+    slideNumber: 'Slide {{currentSlideNumber}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',

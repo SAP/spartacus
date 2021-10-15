@@ -55,7 +55,7 @@
         (focus)="activeSlide = i"
         [disabled]="i === activeSlide"
         [attr.aria-label]="
-          'carousel.slide'
+          'carousel.slideNumber'
             | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
         "
         tabindex="-1"
