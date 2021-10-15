@@ -82,7 +82,7 @@ export function navigateToConsentPage() {
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.wait(`@${consentsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${consentsPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function seeBannerAsAnonymous() {
@@ -244,7 +244,7 @@ export function movingFromAnonymousToRegisteredUser() {
       clickHamburger();
     });
     cy.get('cx-login [role="link"]').click();
-    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);
 
@@ -282,12 +282,17 @@ export function changeLanguageTest() {
     checkAllInputConsentState(BE_CHECKED);
     closeAnonymousConsentsDialog();
 
-    cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
+    cy.intercept({
+      method: 'GET',
+      query: {
+        lang: LANGUAGE_DE,
+      },
+    }).as('switchedContext');
     cy.onMobile(() => {
       clickHamburger();
     });
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
-    cy.wait('@switchedContext').its('status').should('eq', 200);
+    cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 
     openAnonymousConsentsDialog();
     checkAllInputConsentState(BE_CHECKED);

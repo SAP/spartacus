@@ -9,7 +9,11 @@
     <ng-container *ngIf="interests.pagination.totalCount > 0; else noInterest">
       <div class="cx-product-interests-sort top row">
         <label
-          class="cx-product-interests-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          class="
+            cx-product-interests-form-group
+            form-group
+            col-sm-12 col-md-4 col-lg-4
+          "
           ><span>{{ 'myInterests.sortBy' | cxTranslate }}</span>
           <cx-sorting
             [sortOptions]="sortOptions"
@@ -21,7 +25,9 @@
           </cx-sorting>
         </label>
         <div
-          class="cx-product-interests-pagination cx-product-interests-thead-mobile"
+          class="
+            cx-product-interests-pagination cx-product-interests-thead-mobile
+          "
         >
           <cx-pagination
             [pagination]="pagination"
@@ -176,7 +182,11 @@
       </table>
       <div class="cx-product-interests-sort bottom row">
         <label
-          class="cx-product-interests-form-group cx-product-interests-thead-mobile form-group col-sm-12 col-md-4 col-lg-4"
+          class="
+            cx-product-interests-form-group cx-product-interests-thead-mobile
+            form-group
+            col-sm-12 col-md-4 col-lg-4
+          "
           ><span>{{ 'myInterests.sortBy' | cxTranslate }}</span>
           <cx-sorting
             [sortOptions]="sortOptions"

@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { SkipLink, SkipLinkConfig } from '../config/index';
@@ -8,20 +8,20 @@ import { SkipLinkComponent } from './skip-link.component';
 
 const mockSkipLinks: SkipLink[] = [
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 1',
     key: 'Key1',
   },
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 2',
     key: 'Key2',
   },
   {
-    target: null,
-    position: null,
+    target: undefined,
+    position: undefined,
     i18nKey: 'Link 3',
     key: 'Key3',
   },

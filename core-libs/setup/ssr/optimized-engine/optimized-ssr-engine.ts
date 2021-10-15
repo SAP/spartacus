@@ -86,9 +86,8 @@ export class OptimizedSsrEngine {
    */
   protected shouldRender(request: Request): boolean {
     const renderingKey = this.getRenderingKey(request);
-    const concurrencyLimitExceeded = this.isConcurrencyLimitExceeded(
-      renderingKey
-    );
+    const concurrencyLimitExceeded =
+      this.isConcurrencyLimitExceeded(renderingKey);
     const fallBack =
       this.renderingCache.isRendering(renderingKey) &&
       !this.ssrOptions?.reuseCurrentRendering;
