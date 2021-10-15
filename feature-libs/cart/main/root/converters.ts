@@ -5,7 +5,7 @@ import {
   CartModification,
   SaveCartResult,
   Voucher,
-} from '../models/cart.model';
+} from './models/cart.model';
 
 export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
   'CartNormalizer'
