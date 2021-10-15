@@ -16,17 +16,15 @@ import { LayoutConfig } from '@spartacus/storefront';
           header: {
             md: {
               slots: [
-                'PreHeader',
                 'SiteLogo',
-                'VariantConfigExitButton',
+                'VariantConfigOverviewExitButton',
                 'MiniCart',
               ],
             },
             xs: {
               slots: [
-                'PreHeader',
                 'SiteLogo',
-                'VariantConfigExitButton',
+                'VariantConfigOverviewExitButton',
                 'MiniCart',
               ],
             },

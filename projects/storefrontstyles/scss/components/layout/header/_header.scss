@@ -101,6 +101,20 @@ $space: 0.5rem;
     }
   }
 
+  .VariantConfigOverviewExitButton {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-inline-start: auto;
+    margin-inline-end: 14px;
+
+    @include media-breakpoint-down(sm) {
+      margin-top: 4px;
+      margin-inline-end: 0;
+      margin-bottom: 4px;
+      margin-inline-start: auto;
+    }
+  }
+
   .NavigationBar {
     flex: 100%;
     min-height: 67px;
