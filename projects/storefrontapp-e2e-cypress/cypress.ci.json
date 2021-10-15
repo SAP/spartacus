@@ -11,7 +11,7 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://api.spartacus.rocks",
+    "API_URL": "https://spartacus-devci7673.eastus.cloudapp.azure.com",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",
