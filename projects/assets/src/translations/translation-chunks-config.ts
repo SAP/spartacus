@@ -16,17 +16,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
   ],
-  /**
-   * @deprecated since 4.2, use feature-library @spartacus/cart/main/assets instead
-   */
-  cart: [
-    'cartDetails',
-    'cartItems',
-    'orderCost',
-    'voucher',
-    'wishList',
-    'saveForLaterItems',
-  ],
   address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes'],
   myAccount: [
@@ -37,7 +26,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'myCoupons',
-    'wishlist',
     'notificationPreference',
     'myInterests',
     'AccountOrderHistoryTabContainer',
