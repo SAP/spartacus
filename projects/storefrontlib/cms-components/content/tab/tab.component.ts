@@ -21,11 +21,9 @@ export class TabComponent implements OnInit {
   @Input() config: TabConfig;
 
   openTabs$: BehaviorSubject<number[]>;
-
   mode$: Observable<TAB_TYPE>;
 
-  @ViewChildren('tabHeader')
-  tabHeaders: QueryList<any>;
+  @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
   constructor(protected breakpointService: BreakpointService) {}
 
@@ -46,11 +44,9 @@ export class TabComponent implements OnInit {
 
     switch (mode) {
       case TAB_TYPE.TAB:
-        this.openTabs$.next([tabNum]);
-        return;
+        return this.openTabs$.next([tabNum]);
       case TAB_TYPE.ACCORDIAN:
-        this.toggleTab(tabNum);
-        return;
+        return this.toggleTab(tabNum);
     }
   }
 

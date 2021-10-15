@@ -41,33 +41,16 @@
           [ngTemplateOutlet]="tabPanel"
           [ngTemplateOutletContext]="{ tabNum: i }"
         >
-        </ng-container
-      ></ng-container>
+        </ng-container>
+      </ng-container>
 
       <!-- Tab Panel shows the content of the given tab -->
       <ng-template #tabPanel let-tabNum="tabNum">
-        <div
-          role="tabpanel"
-          [attr.aria-labelledby]="tabs[tabNum]?.id"
-          [attr.id]="'section-' + tabNum"
-          [attr.tabindex]="isOpen(tabNum) ? 0 : -1"
-          [class.active]="isOpen(tabNum)"
-          [style.display]="isOpen(tabNum) ? 'block' : 'none'"
-          [cxFocus]="{ focusOnEscape: true }"
-        >
-          <ng-container
-            [ngTemplateOutlet]="tabs[tabNum]?.template"
-          ></ng-container>
-
-          <ng-template
-            *ngIf="tabs[tabNum]?.cxComponent as component"
-            [cxOutlet]="component.flexType"
-            [cxOutletContext]="{}"
-            #componentTemplate
-          >
-            <ng-container [cxComponentWrapper]="component"></ng-container>
-          </ng-template>
-        </div>
+        <cx-tab-panel
+          [tab]="tabs[tabNum]"
+          [isOpen]="isOpen(tabNum)"
+          [tabNum]="tabNum"
+        ></cx-tab-panel>
       </ng-template>
     </ng-container>
   </ng-container>

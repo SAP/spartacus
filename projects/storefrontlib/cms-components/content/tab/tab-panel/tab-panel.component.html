@@ -1,0 +1,26 @@
+<div
+  role="tabpanel"
+  [attr.aria-labelledby]="tab?.id"
+  [attr.id]="'section-' + tabNum"
+  [attr.tabindex]="isOpen ? 0 : -1"
+  [class.active]="isOpen"
+  [style.display]="isOpen ? 'block' : 'none'"
+>
+  <!-- [cxFocus]="{ focusOnEscape: true }" -->
+  <ng-container
+    *ngIf="getContentType(tab?.content) === 'TemplateRef'"
+    [ngTemplateOutlet]="tab?.content"
+  ></ng-container>
+
+  <ng-template
+    *ngIf="
+      getContentType(tab?.content) === 'ContentSlotComponentData' &&
+      tab?.content as component
+    "
+    [cxOutlet]="component.flexType"
+    [cxOutletContext]="{}"
+    #componentTemplate
+  >
+    <ng-container [cxComponentWrapper]="component"></ng-container>
+  </ng-template>
+</div>

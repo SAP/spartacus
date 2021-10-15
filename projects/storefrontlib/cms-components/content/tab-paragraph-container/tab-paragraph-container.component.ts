@@ -85,7 +85,7 @@ export class TabParagraphContainerComponent
     map((components) =>
       components.map((component) => ({
         headerKey: component.title,
-        cxComponent: component,
+        content: component,
       }))
     )
   );

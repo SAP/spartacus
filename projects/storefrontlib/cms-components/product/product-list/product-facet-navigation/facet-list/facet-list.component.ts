@@ -14,11 +14,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import {
-  Tab,
-  TabConfig,
-  TAB_TYPE,
-} from '../../../../content/tab/Tab';
+import { Tab, TabConfig, TAB_TYPE } from '../../../../content/tab/Tab';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
@@ -69,7 +65,7 @@ export class FacetListComponent implements AfterViewInit {
   tabConfig: TabConfig = {
     label: 'Product Facets',
     mode: TAB_TYPE.ACCORDIAN,
-    openTabs: [0]
+    openTabs: [0],
   };
   tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
@@ -92,7 +88,7 @@ export class FacetListComponent implements AfterViewInit {
         for (let i = 0; i < facets?.length; i++) {
           tabs.push({
             header: facets[i].name ?? 'unnamed',
-            template: templates?._results[i],
+            content: templates?._results[i],
           });
         }
 

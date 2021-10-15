@@ -1,17 +1,14 @@
 import { TemplateRef } from '@angular/core';
+import { ContentSlotComponentData } from '@spartacus/core';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export interface Tab {
   headerKey?: string;
   header?: string;
   /**
-   * Template to display in tab panel when open.
+   * Content to display in tab panel when open.
    */
-  template?: TemplateRef<any>;
-  /**
-   * cxComponent to display in tab panel when open.
-   */
-  cxComponent?: any;
+  content?: TemplateRef<any> | ContentSlotComponentData;
   id?: string;
 }
 
