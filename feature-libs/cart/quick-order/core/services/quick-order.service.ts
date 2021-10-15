@@ -285,7 +285,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
-    if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
+    if (entryStockLevel && entry.quantity > entryStockLevel) {
       entry.quantity = entryStockLevel;
     }
 
