@@ -3,7 +3,6 @@
  */
 export * from './src/anonymous-consents/index';
 export * from './src/auth/index';
-export * from './src/cart/index';
 export * from './src/checkout/index';
 export * from './src/cms/index';
 export * from './src/config/index';

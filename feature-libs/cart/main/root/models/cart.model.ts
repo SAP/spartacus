@@ -109,3 +109,8 @@ export interface CartModification {
   statusCode?: string;
   statusMessage?: string;
 }
+
+export interface CartItemComponentOptions {
+  isSaveForLater?: boolean;
+  optionalBtn?: any;
+}

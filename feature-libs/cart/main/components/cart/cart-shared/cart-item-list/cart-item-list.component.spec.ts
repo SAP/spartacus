@@ -22,7 +22,7 @@ import {
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '@spartacus/cart/main/root';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {

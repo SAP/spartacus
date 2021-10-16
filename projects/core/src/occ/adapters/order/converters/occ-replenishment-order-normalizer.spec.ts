@@ -3,7 +3,7 @@ import { PromotionResult } from '../../../../model/cart.model';
 import { Product } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
-import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
+import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {

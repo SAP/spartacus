@@ -4,9 +4,9 @@ import {
   CartAdapter,
   CartEntryAdapter,
   CartVoucherAdapter,
-  CART_NORMALIZER,
   SaveCartAdapter,
 } from '@spartacus/cart/main/core';
+import { CART_NORMALIZER } from '@spartacus/cart/main/root';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { defaultOccCartConfig } from './adapters/default-occ-cart-config';

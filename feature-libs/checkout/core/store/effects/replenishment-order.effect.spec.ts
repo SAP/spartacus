@@ -1,8 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
 import {
-  CartActions,
   normalizeHttpError,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,

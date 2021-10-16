@@ -16,15 +16,14 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { CartItemContext, PromotionLocation } from '@spartacus/cart/main/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
-import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { CartItemContext } from './model/cart-item-context.model';
 
 @Pipe({
   name: 'cxUrl',

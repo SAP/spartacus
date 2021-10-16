@@ -2,12 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
-import {
-  CartActions,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SavedCartConnector } from '../../connectors/saved-cart.connector';
