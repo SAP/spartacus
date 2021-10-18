@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   QuickOrderFacade,
-  QuickOrderFormConfig,
+  QuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
 import {
   GlobalMessageService,
@@ -77,7 +77,7 @@ describe('QuickOrderFormComponent', () => {
       providers: [
         ChangeDetectorRef,
         WindowRef,
-        QuickOrderFormConfig,
+        QuickOrderConfig,
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],

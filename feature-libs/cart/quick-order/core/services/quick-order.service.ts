@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Optional } from '@angular/core';
 import {
-  defaultQuickOrderFormConfig,
+  defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
@@ -38,14 +38,24 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
   private clearDeleteTimeouts: Record<string, Subscription> = {};
 
+  /**
+   * @deprecated since version 4.2
+   * Use constructor(protected activeCartService: ActiveCartService, protected productAdapter: ProductAdapter, winRef: WindowRef, protected eventService: EventService, protected productSearchAdapter: ProductSearchAdapter); instead
+   */
+  // TODO(#11041): Remove deprecated constructors
+  constructor(
+    activeCartService: ActiveCartService,
+    productAdapter: ProductAdapter,
+    eventService: EventService,
+    productSearchAdapter: ProductSearchAdapter
+  );
+
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productSearchAdapter: ProductSearchAdapter,
+    @Optional()
+    protected productAdapter: ProductAdapter,
     protected eventService: EventService,
-    /**
-     * @deprecated since 4.2 - use ProductSearchAdapter instead
-     */
-    protected productAdapter: ProductAdapter
+    protected productSearchAdapter: ProductSearchAdapter
   ) {}
 
   ngOnDestroy(): void {
@@ -73,7 +83,8 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
     const searchConfig: SearchConfig = {
       pageSize:
-        maxProducts || defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
+        maxProducts ||
+        defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
     };
     return this.productSearchAdapter
       .search(query, searchConfig)
@@ -269,7 +280,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Generate Order Entry from Product
    */
-  protected generateOrderEntry(product: Product, quantity: number): OrderEntry {
+  protected generateOrderEntry(
+    product: Product,
+    quantity?: number
+  ): OrderEntry {
     return {
       basePrice: product.price,
       product: product,

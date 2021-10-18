@@ -20,6 +20,7 @@
         'quick-order-form-reset-icon': isResultsBoxOpen(),
         'quick-order-form-search-icon': !isResultsBoxOpen()
       }"
+      class="search"
       tabindex="-1"
     ></cx-icon>
 
@@ -41,12 +42,12 @@
         (click)="add(product, $event)"
         (keydown.enter)="add(product, $event)"
         (keydown.escape)="clear($event)"
-        [class.has-media]="config?.quickOrderForm?.displayProductImages"
+        [class.has-media]="config?.quickOrder?.searchForm?.displayProductImages"
         [ngClass]="{ active: getFocusedElementIndex() === i }"
         class="quick-order-results-product"
       >
         <cx-media
-          *ngIf="config?.quickOrderForm?.displayProductImages"
+          *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
           [container]="product.images?.PRIMARY"
           class="media"
           format="thumbnail"

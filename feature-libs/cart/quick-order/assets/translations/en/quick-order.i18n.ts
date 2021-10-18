@@ -1,4 +1,8 @@
 export const quickOrderCartForm = {
+  /**
+   * @deprecated since 4.2, use entriesWereAdded instead
+   */
+  entriesWasAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entriesWereAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entryWasAdded: '{{ product }} has been added to the cart',
   noResults: 'We could not find any products',

@@ -5,13 +5,14 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   QuickOrderFacade,
-  QuickOrderFormConfig,
+  QuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
-import { Product, WindowRef } from '@spartacus/core';
+import { GlobalMessageService, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import {
@@ -56,10 +57,25 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected _loading: boolean = false;
   protected _focusedElementIndex: number | null = null;
 
+  /**
+   * @deprecated since version 4.2
+   * Use constructor(public config: QuickOrderConfig, protected cd: ChangeDetectorRef, protected quickOrderService: QuickOrderFacade, protected winRef: WindowRef); instead
+   */
+  // TODO(#11041): Remove deprecated constructors
   constructor(
-    public config: QuickOrderFormConfig,
-    protected cd: ChangeDetectorRef,
+    globalMessageService: GlobalMessageService,
+    quickOrderService: QuickOrderFacade,
+    config: QuickOrderConfig,
+    cd: ChangeDetectorRef,
+    winRef: WindowRef
+  );
+
+  constructor(
+    protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
+    @Optional()
+    public config: QuickOrderConfig,
+    protected cd: ChangeDetectorRef,
     protected winRef: WindowRef
   ) {}
 
@@ -201,7 +217,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(300),
         filter((value) => {
-          if (this.config.quickOrderForm) {
+          if (this.config.quickOrder?.searchForm) {
             //Check if input to quick order is an empty after deleting input manually
             if (this.isEmpty(value.product)) {
               //Clear recommendation results on empty string
@@ -211,7 +227,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
             return (
               !!value.product &&
               value.product.length >=
-                this.config.quickOrderForm.minCharactersBeforeRequest
+                this.config.quickOrder?.searchForm?.minCharactersBeforeRequest
             );
           }
 
@@ -225,7 +241,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected searchProducts(query: string): void {
     this.quickOrderService
-      .searchProducts(query, this.config?.quickOrderForm?.maxProducts)
+      .searchProducts(query, this.config?.quickOrder?.searchForm?.maxProducts)
       .pipe(take(1))
       .subscribe((products) => {
         this.results = products;

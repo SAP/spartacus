@@ -1,6 +1,6 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { defaultQuickOrderFormConfig } from '@spartacus/cart/quick-order/root';
+import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
@@ -67,7 +67,7 @@ const mockSearchConfig: SearchConfig = {
   pageSize: mockMaxProducts,
 };
 const mockDefaultSearchConfig: SearchConfig = {
-  pageSize: defaultQuickOrderFormConfig.quickOrderForm?.maxProducts,
+  pageSize: defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
 };
 const mockProductSearchPage: ProductSearchPage = {
   products: [mockProduct1, mockProduct2],
