@@ -207,8 +207,6 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    const renderingKey = this.getRenderingKey(request);
-
     let requestTimeout: NodeJS.Timeout | undefined;
     if (this.shouldTimeout(request)) {
       // establish timeout for rendering
@@ -228,7 +226,8 @@ export class OptimizedSsrEngine {
       this.fallbackToCsr(response, filePath, callback);
     }
 
-    const renderCallback: SsrCallbackFn = (err, html) => {
+    const renderingKey = this.getRenderingKey(request);
+    const renderCallback: SsrCallbackFn = (err, html): void => {
       if (requestTimeout) {
         // if request is still waiting for render, return it
         clearTimeout(requestTimeout);

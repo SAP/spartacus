@@ -1,4 +1,7 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { Application, Request } from 'express';
+import { IncomingHttpHeaders } from 'http';
+import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
@@ -48,21 +51,46 @@ class TestEngineRunner {
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
-  request(url: string, params?: { httpHeaders?: { [key: string]: string } }) {
+  request(
+    url: string,
+    params?: {
+      /** headers */
+      httpHeaders?: IncomingHttpHeaders;
+      /** by default it's http */
+      protocol?: string;
+      /** used when resolving SERVER_REQUEST_URL and SERVER_REQUEST_ORIGIN */
+      app?: Application;
+    }
+  ): TestEngineRunner {
     const response: { [key: string]: string } = {};
-    const headers = new Headers(params?.httpHeaders ?? {});
+    const headers = params?.httpHeaders ?? { host: 'localhost:4200/' };
+    const remoteAddress = 'randomremoteaddress';
+    const app =
+      params?.app ??
+      <Partial<Application>>{
+        get:
+          (_name: string): any =>
+          (_connectionRemoteAddress: string) =>
+            remoteAddress,
+      };
+
     const optionsMock = {
       req: <Partial<Request>>{
+        protocol: params?.protocol ?? 'http',
         originalUrl: url,
         headers,
-        get: (header: string): string | null => headers.get(header),
+        get: (header: string): string | string[] | null | undefined => {
+          return headers[header];
+        },
+        app,
+        connection: <Partial<Socket>>{ remoteAddress },
       },
       res: <Partial<Response>>{
         set: (key: string, value: any) => (response[key] = value),
       },
     };
 
-    this.engineInstance(url, optionsMock, (_, html) => {
+    this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
       this.responseParams.push(response);
     });
@@ -272,6 +300,51 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('renderKeyResolver option', () => {
+    describe('default key resolver', () => {
+      it('should be used when the custom one is provided', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+        });
+        spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+        engineRunner.request(route);
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`http://localhost:4200/${route}`);
+      }));
+
+      it('should use the X-Forwarded-Host header to resolve the origin', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+        });
+        spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const domain = 'my.shop.com/';
+        const route = 'home';
+        engineRunner.request(route, {
+          httpHeaders: {
+            'X-Forwarded-Host': domain,
+          },
+        });
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`http://${domain}${route}`);
+      }));
+    });
+
     it('should use custom render key resolver', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         renderKeyResolver: (req) => req.originalUrl.substr(0, 2),
@@ -637,18 +710,19 @@ describe('OptimizedSsrEngine', () => {
 
     describe('when disabled', () => {
       it('should fallback to CSR for parallel subsequent requests for the same rendering key', fakeAsync(() => {
+        const renderingKey = `http://localhost:4200/${requestUrl}`;
         const timeout = 300;
         const engineRunner = new TestEngineRunner({ timeout }, 400);
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
         engineRunner.request(requestUrl);
-        expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+        expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
           renderCallbacksCount: 0,
         });
 
         tick(200);
         engineRunner.request(requestUrl);
-        expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+        expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
           renderCallbacksCount: 0,
         });
 
@@ -735,6 +809,7 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('also when the rendering strategy is ALWAYS_SSR', fakeAsync(() => {
+          const renderingKey = `http://localhost:4200/${requestUrl}`;
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             {
@@ -749,7 +824,7 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 1,
           });
 
@@ -758,7 +833,7 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 2,
           });
 
@@ -773,6 +848,7 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('and take up only one concurrent slot', fakeAsync(() => {
+          const renderingKey = `http://localhost:4200/${requestUrl}`;
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
@@ -785,7 +861,7 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 1,
           });
 
@@ -795,13 +871,13 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 2,
           });
 
           // start 3rd request
           engineRunner.request(requestUrl);
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 3,
           });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -827,7 +903,7 @@ describe('OptimizedSsrEngine', () => {
             `${requestUrl}-0`,
             `${requestUrl}-0`,
           ]);
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(getRenderCallbacksCount(engineRunner, renderingKey)).toEqual({
             renderCallbacksCount: 0,
           });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -858,6 +934,8 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('combined with a different request should take up two concurrency slots', fakeAsync(() => {
+          const renderingKeyRequestUrl = `http://localhost:4200/${requestUrl}`;
+          const renderingKeyDifferentUrl = `http://localhost:4200/${differentUrl}`;
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
@@ -871,7 +949,9 @@ describe('OptimizedSsrEngine', () => {
             .request(requestUrl);
 
           tick(20);
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyRequestUrl)
+          ).toEqual({
             renderCallbacksCount: 5,
           });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -880,7 +960,9 @@ describe('OptimizedSsrEngine', () => {
 
           engineRunner.request(differentUrl);
           tick(20);
-          expect(getRenderCallbacksCount(engineRunner, differentUrl)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyDifferentUrl)
+          ).toEqual({
             renderCallbacksCount: 1,
           });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -896,10 +978,14 @@ describe('OptimizedSsrEngine', () => {
             'a-0',
             'b-1',
           ]);
-          expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyRequestUrl)
+          ).toEqual({
             renderCallbacksCount: 0,
           });
-          expect(getRenderCallbacksCount(engineRunner, differentUrl)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyDifferentUrl)
+          ).toEqual({
             renderCallbacksCount: 0,
           });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -913,7 +999,11 @@ describe('OptimizedSsrEngine', () => {
       describe('combined with maxRenderTime option', () => {
         it('should free up only one concurrent slot when the render is hanging for many waiting requests', fakeAsync(() => {
           const hangingRequest = 'a';
+          const renderingKeyHangingRequest = `http://localhost:4200/${hangingRequest}`;
+
           const ssrRequest = 'b';
+          const renderingKeySsrRequest = `http://localhost:4200/${ssrRequest}`;
+
           const renderTime = 200;
           const maxRenderTime = renderTime - 50; // shorter than the predicted render time
           const engineRunner = new TestEngineRunner(
@@ -931,11 +1021,11 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, hangingRequest)).toEqual(
-            {
-              renderCallbacksCount: 3,
-            }
-          );
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyHangingRequest)
+          ).toEqual({
+            renderCallbacksCount: 3,
+          });
 
           tick(maxRenderTime);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
@@ -945,11 +1035,11 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 0,
           });
-          expect(getRenderCallbacksCount(engineRunner, hangingRequest)).toEqual(
-            {
-              renderCallbacksCount: 0,
-            }
-          );
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeyHangingRequest)
+          ).toEqual({
+            renderCallbacksCount: 0,
+          });
 
           // even though the hanging request is still rendering, we've freed up a slot for a new request
           engineRunner.request(ssrRequest);
@@ -960,7 +1050,9 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
-          expect(getRenderCallbacksCount(engineRunner, ssrRequest)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeySsrRequest)
+          ).toEqual({
             renderCallbacksCount: 1,
           });
 
@@ -969,7 +1061,9 @@ describe('OptimizedSsrEngine', () => {
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 0,
           });
-          expect(getRenderCallbacksCount(engineRunner, ssrRequest)).toEqual({
+          expect(
+            getRenderCallbacksCount(engineRunner, renderingKeySsrRequest)
+          ).toEqual({
             renderCallbacksCount: 0,
           });
         }));
