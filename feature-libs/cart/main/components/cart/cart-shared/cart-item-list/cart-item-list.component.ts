@@ -18,7 +18,7 @@ import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { CartItemComponentOptions } from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '@spartacus/cart/main/root';
 
 interface ItemListContext {
   readonly?: boolean;

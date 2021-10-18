@@ -9,6 +9,8 @@ import {
 import { CostCenter } from './org-unit.model';
 import { Price, Promotion } from './product.model';
 
+// TODO: Remove cart models after the order models are also removed.
+
 /**
  * @deprecated since 5.0, use cart lib instead
  */

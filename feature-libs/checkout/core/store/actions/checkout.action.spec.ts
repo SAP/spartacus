@@ -1,7 +1,7 @@
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import {
   Address,
   DeliveryMode,
-  MULTI_CART_DATA,
   Order,
   PaymentDetails,
   PROCESS_FEATURE,

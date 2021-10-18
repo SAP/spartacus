@@ -285,7 +285,4 @@ export const myAccount = {
     note: 'The totals are estimated and may not include applicable taxes or other charges.',
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
   },
-  wishlist: {
-    empty: 'No products in your wish list yet',
-  },
 };

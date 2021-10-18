@@ -16,6 +16,9 @@
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
+      "@spartacus/cart/main/assets": [
+        "../../feature-libs/cart/main/assets/public_api"
+      ],
       "@spartacus/cart/main/components": [
         "../../feature-libs/cart/main/components/public_api"
       ],
@@ -30,6 +33,21 @@
         "../../feature-libs/cart/main/root/public_api"
       ],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
+      "@spartacus/cart/quick-order/assets": [
+        "../../feature-libs/cart/quick-order/assets/public_api"
+      ],
+      "@spartacus/cart/quick-order/components": [
+        "../../feature-libs/cart/quick-order/components/public_api"
+      ],
+      "@spartacus/cart/quick-order/core": [
+        "../../feature-libs/cart/quick-order/core/public_api"
+      ],
+      "@spartacus/cart/quick-order": [
+        "../../feature-libs/cart/quick-order/public_api"
+      ],
+      "@spartacus/cart/quick-order/root": [
+        "../../feature-libs/cart/quick-order/root/public_api"
+      ],
       "@spartacus/cart/saved-cart/assets": [
         "../../feature-libs/cart/saved-cart/assets/public_api"
       ],
@@ -47,21 +65,6 @@
       ],
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
-      ],
-      "@spartacus/cart/quick-order": [
-        "../../feature-libs/cart/quick-order/public_api"
-      ],
-      "@spartacus/cart/quick-order/assets": [
-        "../../feature-libs/cart/quick-order/assets/public_api"
-      ],
-      "@spartacus/cart/quick-order/components": [
-        "../../feature-libs/cart/quick-order/components/public_api"
-      ],
-      "@spartacus/cart/quick-order/core": [
-        "../../feature-libs/cart/quick-order/core/public_api"
-      ],
-      "@spartacus/cart/quick-order/root": [
-        "../../feature-libs/cart/quick-order/root/public_api"
       ],
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"

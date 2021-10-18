@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
 import { MultiCartFacade } from '@spartacus/cart/main/root';
 import {
   CloneSavedCartEvent,
@@ -21,7 +22,6 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
-  CartActions,
   createFrom,
   EventService,
   StateEventService,
