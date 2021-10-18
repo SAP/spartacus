@@ -208,7 +208,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected isEmpty(string?: string): boolean {
-    return product?.trim() === '' || product == null;
+    return string?.trim() === '' || string == null;
   }
 
   protected watchQueryChange(): Subscription {
