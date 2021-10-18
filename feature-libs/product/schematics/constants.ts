@@ -33,6 +33,6 @@ export const IMAGE_ZOOM_ROOT_MODULE = 'ImageZoomRootModule';
 export const SPARTACUS_IMAGE_ZOOM = `${SPARTACUS_PRODUCT}/image-zoom`;
 export const SPARTACUS_IMAGE_ZOOM_ROOT = `${SPARTACUS_IMAGE_ZOOM}/root`;
 export const SPARTACUS_IMAGE_ZOOM_ASSETS = `${SPARTACUS_IMAGE_ZOOM}/assets`;
-export const IMAGE_ZOOM_TRANSLATIONS = 'imageZoomTranslations';
+export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
 export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
-  'imageZoomTranslationChunksConfig';
+  'productImageZoomTranslationChunksConfig';

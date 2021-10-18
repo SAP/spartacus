@@ -4,6 +4,7 @@ import {
   ComponentRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   ViewContainerRef,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { ImageZoomDialogComponent } from '../image-zoom-dialog/image-zoom-dialog
   templateUrl: 'image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomTriggerComponent {
+export class ImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
@@ -63,5 +64,9 @@ export class ImageZoomTriggerComponent {
           .subscribe()
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

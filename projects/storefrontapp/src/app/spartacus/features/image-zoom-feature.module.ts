@@ -5,8 +5,8 @@ import {
   PRODUCT_IMAGE_ZOOM_FEATURE,
 } from 'feature-libs/product/image-zoom/root';
 import {
-  imageZoomTranslationChunksConfig,
-  imageZoomTranslations,
+  productImageZoomTranslationChunksConfig,
+  productImageZoomTranslations,
 } from '@spartacus/product/image-zoom/assets';
 
 @NgModule({
@@ -24,8 +24,8 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: imageZoomTranslations,
-        chunks: imageZoomTranslationChunksConfig,
+        resources: productImageZoomTranslations,
+        chunks: productImageZoomTranslationChunksConfig,
       },
     }),
   ],
