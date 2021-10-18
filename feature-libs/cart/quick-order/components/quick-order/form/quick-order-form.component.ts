@@ -71,7 +71,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   constructor(
     protected globalMessageService: GlobalMessageService, // TODO(#14058): Remove it as it is not in use anymore
     protected quickOrderService: QuickOrderFacade,
-    protected config?: Config, // TODO(#14058): Make it required
+    public config?: Config, // TODO(#14058): Make it required
     protected cd?: ChangeDetectorRef, // TODO(#14058): Make it required
     protected winRef?: WindowRef // TODO(#14058): Make it required
   ) {}
