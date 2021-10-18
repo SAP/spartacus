@@ -4,7 +4,13 @@
   <cx-amend-order-items *ngIf="entries$ | async as entries" [entries]="entries">
   </cx-amend-order-items>
 
-  <cx-form-errors [control]="form.get('entries')"></cx-form-errors>
+  <cx-form-errors
+    [control]="form.get('entries')"
+    aria-live="assertive"
+    aria-atomic="true"
+    role="status"
+  >
+  </cx-form-errors>
 
   <ng-container *ngTemplateOutlet="actions"></ng-container>
 
