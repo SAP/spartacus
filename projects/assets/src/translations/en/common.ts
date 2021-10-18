@@ -148,8 +148,8 @@ export const common = {
     },
   },
   carousel: {
-    previous: 'Previous slide',
-    next: 'Next slide',
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
     slideNumber: 'Slide {{currentSlideNumber}}',
   },
   formErrors: {
