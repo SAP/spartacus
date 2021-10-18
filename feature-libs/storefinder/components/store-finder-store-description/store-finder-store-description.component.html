@@ -22,6 +22,9 @@
                 class="cx-link"
                 [href]="getDirections(location)"
                 target="_blank"
+                [attr.aria-label]="
+                  'storeFinder.ariaLabelGetDirections' | cxTranslate
+                "
                 >{{ 'storeFinder.getDirections' | cxTranslate }}</a
               >
             </li>
