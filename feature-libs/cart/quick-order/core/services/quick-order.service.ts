@@ -20,6 +20,7 @@ import {
 import {
   BehaviorSubject,
   Observable,
+  of,
   Subject,
   Subscription,
   timer,
@@ -42,7 +43,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * @deprecated since version 4.2
    * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchAdapter: ProductSearchAdapter); instead
    */
-  // TODO(#issue_number_pls): Remove deprecated constructor
+  // TODO(#14059): Remove deprecated constructor
   constructor(
     activeCartService: ActiveCartService,
     productAdapter: ProductAdapter,
@@ -51,9 +52,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter, // TODO(#issue_number_pls): Remove this service
+    protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
     protected eventService: EventService,
-    protected productSearchAdapter?: ProductSearchAdapter //TODO(#issue_number_pls): Make it required
+    protected productSearchAdapter?: ProductSearchAdapter //TODO(#14059): Make it required
   ) {}
 
   ngOnDestroy(): void {
@@ -79,14 +80,21 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Search products using query
    */
   searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
-    const searchConfig: SearchConfig = {
-      pageSize:
-        maxProducts ||
-        defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
-    };
-    return this.productSearchAdapter
-      .search(query, searchConfig)
-      .pipe(map((searchPage: ProductSearchPage) => searchPage.products || []));
+    // TODO(#14059): Remove condition
+    if (this.productSearchAdapter) {
+      const searchConfig: SearchConfig = {
+        pageSize:
+          maxProducts ||
+          defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
+      };
+      return this.productSearchAdapter
+        .search(query, searchConfig)
+        .pipe(
+          map((searchPage: ProductSearchPage) => searchPage.products || [])
+        );
+    } else {
+      return of([]);
+    }
   }
 
   /**
@@ -297,7 +305,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
-    if (entryStockLevel && entry.quantity > entryStockLevel) {
+    if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
       entry.quantity = entryStockLevel;
     }
 

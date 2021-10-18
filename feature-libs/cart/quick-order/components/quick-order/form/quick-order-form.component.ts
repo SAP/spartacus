@@ -62,18 +62,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
    * @deprecated since version 4.2
    * Use constructor(globalMessageService: GlobalMessageService, quickOrderService: QuickOrderFacade, config: Config, cd: ChangeDetectorRef, winRef: WindowRef); instead
    */
-  // TODO(#issue_number_pls): Remove deprecated constructor
+  // TODO(#14058): Remove deprecated constructor
   constructor(
     globalMessageService: GlobalMessageService,
     quickOrderService: QuickOrderFacade
   );
 
   constructor(
-    protected globalMessageService: GlobalMessageService,
+    protected globalMessageService: GlobalMessageService, // TODO(#14058): Remove it as it is not in use anymore
     protected quickOrderService: QuickOrderFacade,
-    protected config?: Config, // TODO(#issue_number_pls): Make it required
-    protected cd?: ChangeDetectorRef, // TODO(#issue_number_pls): Make it required
-    protected winRef?: WindowRef // TODO(#issue_number_pls): Make it required
+    protected config?: Config, // TODO(#14058): Make it required
+    protected cd?: ChangeDetectorRef, // TODO(#14058): Make it required
+    protected winRef?: WindowRef // TODO(#14058): Make it required
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +109,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
       // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
       this.close();
-      this.cd.detectChanges();
+      this.cd?.detectChanges();
     }
   }
 
@@ -187,12 +187,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected toggleBodyClass(className: string, add?: boolean) {
-    if (add === undefined) {
-      this.winRef.document.body.classList.toggle(className);
-    } else {
-      add
-        ? this.winRef.document.body.classList.add(className)
-        : this.winRef.document.body.classList.remove(className);
+    // TODO(#14058): Remove condition
+    if (this.winRef) {
+      if (add === undefined) {
+        this.winRef.document.body.classList.toggle(className);
+      } else {
+        add
+          ? this.winRef.document.body.classList.add(className)
+          : this.winRef.document.body.classList.remove(className);
+      }
     }
   }
 
@@ -214,7 +217,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(300),
         filter((value) => {
-          if (this.config.quickOrder?.searchForm) {
+          if (this.config?.quickOrder?.searchForm) {
             //Check if input to quick order is an empty after deleting input manually
             if (this.isEmpty(value.product)) {
               //Clear recommendation results on empty string
@@ -251,7 +254,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
         this.open();
         this.resetFocusedElementIndex();
-        this.cd.detectChanges();
+        this.cd?.detectChanges();
       });
   }
 
