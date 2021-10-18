@@ -471,7 +471,7 @@ export class CheckoutEffects {
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
     private checkoutConnector: CheckoutConnector,
-    private messageService: GlobalMessageService
+    private messageService?: GlobalMessageService
   ) {}
 
   /**
@@ -480,6 +480,6 @@ export class CheckoutEffects {
    * @param type
    */
   private addGlobalMessage(text: string, type: GlobalMessageType): void {
-    this.messageService.add({ key: text }, type);
+    this.messageService?.add({ key: text }, type);
   }
 }
