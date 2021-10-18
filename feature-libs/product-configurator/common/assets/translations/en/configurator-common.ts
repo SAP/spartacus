@@ -55,7 +55,7 @@ export const configurator = {
       add: 'Add',
       remove: 'Remove',
       exit: 'Exit Configuration',
-      exitMobil: 'Exit',
+      exitMobile: 'Exit',
     },
     priceSummary: {
       basePrice: 'Base Price',

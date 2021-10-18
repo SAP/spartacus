@@ -7,7 +7,6 @@ import {
   Product,
   ProductService,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import {
   Configurator,
@@ -80,22 +79,12 @@ class MockBreakpointService {
   isDown() {}
 }
 
-class MockWindowRef {
-  nativeWindow: {
-    history: {
-      length: 1;
-      go: () => {};
-    };
-  };
-}
-
 describe('ConfiguratorExitButton', () => {
   let component: ConfiguratorExitButtonComponent;
   let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
   let htmlElem: HTMLElement;
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
-  let windowRef: WindowRef;
 
   beforeEach(
     waitForAsync(() => {
@@ -120,10 +109,6 @@ describe('ConfiguratorExitButton', () => {
             useClass: MockRoutingService,
           },
           {
-            provide: WindowRef,
-            useClass: MockWindowRef,
-          },
-          {
             provide: BreakpointService,
             useClass: MockBreakpointService,
           },
@@ -135,7 +120,6 @@ describe('ConfiguratorExitButton', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
     component = fixture.componentInstance;
-    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
@@ -149,26 +133,13 @@ describe('ConfiguratorExitButton', () => {
   });
 
   describe('navigation tests', () => {
-    it('should navigate back to previous page ', () => {
-      if (windowRef.nativeWindow?.history) {
-        spyOn(windowRef.nativeWindow?.history, 'go').and.callThrough();
-        windowRef.nativeWindow?.history.length === 2;
-        component.goBack();
-        expect(windowRef.nativeWindow?.history.go).toHaveBeenCalledWith(-1);
-      }
-    });
-
     it('should navigate to product detail page if going back to previous page does not work', () => {
-      if (windowRef.nativeWindow?.history) {
-        spyOn(windowRef.nativeWindow?.history, 'go').and.callThrough();
-        windowRef.nativeWindow?.history.length === 1;
-        spyOn(routingService, 'go').and.callThrough();
-        component.goBack();
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'product',
-          params: PRODUCT,
-        });
-      }
+      spyOn(routingService, 'go').and.callThrough();
+      component.goBack();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'product',
+        params: PRODUCT,
+      });
     });
   });
 
@@ -180,8 +151,8 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button-text',
-        'configurator.button.exitshort'
+        '.cx-config-exit-button',
+        'configurator.button.exitMobile'
       );
     });
 
@@ -192,7 +163,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button-text',
+        '.cx-config-exit-button',
         'configurator.button.exit'
       );
     });

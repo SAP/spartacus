@@ -33,29 +33,23 @@ export class ConfiguratorExitButtonComponent {
    * that is being configured.
    */
   goBack() {
-    const historyLength: number | undefined =
-      this.windowRef?.nativeWindow?.history?.length;
-    if (historyLength !== undefined && historyLength > 1) {
-      this.windowRef.nativeWindow?.history.go(-1);
-    } else {
-      this.configRouterExtractorService
-        .extractRouterData()
-        .pipe(
-          switchMap((routerData) =>
-            this.configuratorCommonsService.getConfiguration(routerData.owner)
-          ),
-          switchMap((configuration: Configurator.Configuration) =>
-            this.productService.get(
-              configuration.productCode ? configuration.productCode : ''
-            )
-          ),
-          filter((product) => product !== undefined),
-          take(1)
-        )
-        .subscribe((product) =>
-          this.routingService.go({ cxRoute: 'product', params: product })
-        );
-    }
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        ),
+        switchMap((configuration: Configurator.Configuration) =>
+          this.productService.get(
+            configuration.productCode ? configuration.productCode : ''
+          )
+        ),
+        filter((product) => product !== undefined),
+        take(1)
+      )
+      .subscribe((product) =>
+        this.routingService.go({ cxRoute: 'product', params: product })
+      );
   }
 
   /**
