@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, Optional } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
@@ -40,22 +40,20 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
   /**
    * @deprecated since version 4.2
-   * Use constructor(protected activeCartService: ActiveCartService, protected productAdapter: ProductAdapter, winRef: WindowRef, protected eventService: EventService, protected productSearchAdapter: ProductSearchAdapter); instead
+   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchAdapter: ProductSearchAdapter); instead
    */
-  // TODO(#11041): Remove deprecated constructors
+  // TODO(#issue_number_pls): Remove deprecated constructor
   constructor(
     activeCartService: ActiveCartService,
     productAdapter: ProductAdapter,
-    eventService: EventService,
-    productSearchAdapter: ProductSearchAdapter
+    eventService: EventService
   );
 
   constructor(
     protected activeCartService: ActiveCartService,
-    @Optional()
-    protected productAdapter: ProductAdapter,
+    protected productAdapter: ProductAdapter, // TODO(#issue_number_pls): Remove this service
     protected eventService: EventService,
-    protected productSearchAdapter: ProductSearchAdapter
+    protected productSearchAdapter?: ProductSearchAdapter //TODO(#issue_number_pls): Make it required
   ) {}
 
   ngOnDestroy(): void {
