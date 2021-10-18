@@ -207,7 +207,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.validateProductControl(this.isDisabled);
   }
 
-  protected isEmpty(product?: string): boolean {
+  protected isEmpty(string?: string): boolean {
     return product?.trim() === '' || product == null;
   }
 
