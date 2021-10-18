@@ -11,7 +11,7 @@
 
 <cx-facet-list
   role="region"
-  aria-label="Testing 123"
+  [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
   *ngIf="isOpen$ | async"
   [isDialog]="hasTrigger"
   (closeList)="close()"
