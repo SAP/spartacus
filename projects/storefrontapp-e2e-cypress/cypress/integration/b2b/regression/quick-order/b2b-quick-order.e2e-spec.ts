@@ -10,8 +10,7 @@ context('B2B - Quick Order', () => {
       cy.window().then((win) => win.localStorage.clear());
       cy.clearLocalStorageMemory();
     });
-    // TODO: GH-13776 Fix test failure.
-    describe.skip('Quick Order Page', () => {
+    describe('Quick Order Page', () => {
       beforeEach(() => {
         quickOrder.visitQuickOrderPage();
       });
@@ -114,8 +113,7 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderPageShowSuccessMessageWasAdded();
       });
     });
-    // TODO: GH-13776 Remove skip and Fix test failure
-    describe.skip('Cart Page', () => {
+    describe('Cart Page', () => {
       beforeEach(() => {
         quickOrder.prepareCartWithProduct();
       });
