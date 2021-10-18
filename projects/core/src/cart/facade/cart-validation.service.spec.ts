@@ -20,6 +20,9 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId() {
     return of('current');
   }
+  isStable() {
+    return of(true);
+  }
 }
 
 describe('CartValidationService', () => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { CartModificationList } from '../../model/cart.model';
 import {
@@ -21,7 +21,9 @@ export class CartValidationService {
         combineLatest([
           this.activeCartService.getActiveCartId(),
           this.userIdService.takeUserId(),
+          this.activeCartService.isStable(),
         ]).pipe(
+          filter(([_, __, loaded]) => loaded),
           take(1),
           switchMap(([cartId, userId]) =>
             this.cartValidationConnector.validate(cartId, userId)
