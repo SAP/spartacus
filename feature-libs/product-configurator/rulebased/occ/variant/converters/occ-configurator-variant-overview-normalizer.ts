@@ -56,7 +56,9 @@ export class OccConfiguratorVariantOverviewNormalizer
         ? characteristicValues.map((characteristic) => {
             return {
               attribute: characteristic.characteristic,
+              attributeId: characteristic.characteristicId,
               value: characteristic.value,
+              valueId: characteristic.valueId,
             };
           })
         : [],
