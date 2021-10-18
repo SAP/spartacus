@@ -103,7 +103,7 @@ describe('QuickOrderFormComponent', () => {
 
   it('should trigger addProduct on add method', () => {
     spyOn(quickOrderService, 'addProduct').and.callThrough();
-    component.add(mockProduct);
+    component.add(mockProduct, mockEvent);
 
     expect(quickOrderService.addProduct).toHaveBeenCalledWith(mockProduct);
   });

@@ -80,7 +80,7 @@ export abstract class QuickOrderFacade {
   /**
    * Add product to the quick order list
    */
-  abstract addProduct(product: Product): void;
+  abstract addProduct(product: Product, quantity?: number): void;
 
   /**
    * Return product added subject
