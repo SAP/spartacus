@@ -1,7 +1,6 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 
 const productId = '1990255';
-// const productName = 'DSC-HX1';
 
 describe('Image zoom', () => {
   viewportContext(['desktop'], () => {
@@ -12,38 +11,78 @@ describe('Image zoom', () => {
       cy.visit(`/product/${productId}`);
     });
 
-		it('should display image zoom trigger', () => {
-			cy.get('cx-image-zoom-trigger')
-			.should('be.visible')
-			// .should('contain', 'Expand image')
-		});
-		it('should open modal window with image', () => {
-			cy.get('cx-image-zoom-trigger')
-			.click();
+    it('should display image zoom trigger', () => {
+      cy.get('cx-image-zoom-trigger').should('be.visible');
+    });
 
-			cy.get('cx-image-zoom-dialog')
-			.should('be.visible');
-			// .should('contain', 'Expand image')
-		});
+    it('should have correct label text', () => {
+      cy.get('cx-image-zoom-trigger').should('contain', 'Expand image');
+    });
 
-		it('main image should be visible', () => {
-			cy.get('cx-image-zoom-view')
-			.should('be.visible');
-			cy.get('cx-media.cx-default-image-zoom')
-			.should('be.visible');	
-		});
+    it('should open modal window with image', () => {
+      cy.get('cx-image-zoom-trigger').click();
 
-		it('thumbnails should be visible', () => {
-			cy.get('cx-image-zoom-thumbnails')
-			.should('be.visible');
-		});
+      cy.get('cx-image-zoom-dialog').should('be.visible');
+    });
 
-		it('clicking main image should zoom image ', () => {
-			cy.get('cx-media.cx-default-image-zoom')
-			.click();
+    it('main image should be visible', () => {
+      cy.get('cx-image-zoom-view').should('be.visible');
+      cy.get('cx-media.cx-default-image-zoom').should('be.visible');
+    });
 
-			cy.get('cx-media.cx-image-zoomed')
-			.should('be.visible');
-		});
-	})
+    it('thumbnails should be visible', () => {
+      cy.get('cx-image-zoom-thumbnails').should('be.visible');
+    });
+
+    it('clicking on main image should zoom in image', () => {
+      cy.get('cx-media.cx-default-image-zoom').click();
+
+      cy.get('cx-media.cx-image-zoomed').should('be.visible');
+    });
+
+    it('clicking on zoomed image should zoom out image', () => {
+      cy.get('cx-media.cx-image-zoomed').click();
+
+      cy.get('cx-media.cx-default-image-zoom').should('be.visible');
+    });
+
+    it('clicking on thumbnail should open corresponding main image', () => {
+      cy.get('cx-carousel cx-media img')
+        .eq(1)
+        .invoke('prop', 'src')
+        .as('thumbnail1');
+
+      cy.get('cx-carousel cx-media img').eq(1).click();
+
+      cy.get('cx-media.cx-default-image-zoom img')
+        .invoke('prop', 'src')
+        .as('main1');
+
+      cy.get('@thumbnail1').then((thumb1) => {
+        cy.get('@main1').then((main1) => {
+          expect(main1).to.equal(thumb1);
+        });
+      });
+    });
+
+    it('clicking on navigation arrow should change main image', () => {
+      cy.get('cx-media.cx-default-image-zoom img')
+        .invoke('prop', 'src')
+        .as('mainInitial');
+
+      cy.get('@mainInitial').then((mainInitial) => {
+        cy.get('cx-icon.fa-angle-right').first().click();
+
+        cy.get('cx-media.cx-default-image-zoom img')
+          .invoke('prop', 'src')
+          .as('mainAfter');
+
+        cy.get('@mainAfter').then((mainAfter) => {
+          expect(mainInitial).not.to.equal(mainAfter);
+
+          cy.get('cx-icon.fa-angle-left').eq(1).click();
+        });
+      });
+    });
+  });
 });
