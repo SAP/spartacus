@@ -63,7 +63,7 @@ describe('CheckoutDetailsService', () => {
   let checkoutService: CheckoutFacade;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let checkoutPaymentService: CheckoutPaymentFacade;
-  let activeCartService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
