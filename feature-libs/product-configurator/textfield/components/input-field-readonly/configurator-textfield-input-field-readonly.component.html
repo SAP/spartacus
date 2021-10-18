@@ -1,0 +1,8 @@
+<label
+  id="{{ getIdLabel(attribute) }}"
+  [attr.aria-label]="attribute.configurationLabel"
+  >{{ attribute.configurationLabel }}</label
+>
+<div attr.aria-labelledby="{{ getIdLabel(attribute) }}">
+  {{ attribute.configurationValue }}
+</div>

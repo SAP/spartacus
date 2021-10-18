@@ -70,13 +70,16 @@ export class CpqConfiguratorOverviewNormalizer
         ? Configurator.AttributeOverviewType.BUNDLE
         : Configurator.AttributeOverviewType.GENERAL;
     const ovAttr: Configurator.AttributeOverview[] = [];
-    this.convertAttributeValue(attr, currency).forEach((ovValue, index) => {
+    this.convertAttributeValue(attr, currency).forEach((ovValue) => {
       ovAttr.push({
         ...ovValue,
         type: attributeOverviewType,
+        attribute:
+          this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+            attr
+          ),
+        attributeId: attr.stdAttrCode.toString(),
       });
-      ovAttr[index].attribute =
-        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attr);
     });
     return ovAttr;
   }
@@ -132,6 +135,7 @@ export class CpqConfiguratorOverviewNormalizer
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: valueSelected.valueDisplay ?? valueSelected.paV_ID.toString(),
+      valueId: valueSelected.paV_ID.toString(),
       productCode: valueSelected.productSystemId,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         valueSelected,
@@ -158,6 +162,7 @@ export class CpqConfiguratorOverviewNormalizer
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: attr.userInput ?? attr.stdAttrCode.toString(),
+      valueId: value?.paV_ID.toString(),
       quantity: 1,
     };
     if (value) {
