@@ -100,7 +100,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
           if (data.quantityAdded) {
             key =
               data.quantityAdded > 1
-                ? 'quickOrderCartForm.entriesWasAdded'
+                ? 'quickOrderCartForm.entriesWereAdded'
                 : 'quickOrderCartForm.entryWasAdded';
 
             productTranslation =
