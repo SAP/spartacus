@@ -10,6 +10,8 @@
 <cx-active-facets></cx-active-facets>
 
 <cx-facet-list
+  role="region"
+  aria-label="Testing 123"
   *ngIf="isOpen$ | async"
   [isDialog]="hasTrigger"
   (closeList)="close()"
