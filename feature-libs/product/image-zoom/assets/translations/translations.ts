@@ -6,6 +6,7 @@ export const productImageZoomTranslations: TranslationResources = {
 };
 
 // expose all translation chunk mapping for imageZoom feature
-export const productImageZoomTranslationChunksConfig: TranslationChunksConfig = {
-  imageZoom: ['imageZoomTrigger'],
-};
+export const productImageZoomTranslationChunksConfig: TranslationChunksConfig =
+  {
+    imageZoom: ['imageZoomTrigger'],
+  };

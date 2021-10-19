@@ -57,8 +57,10 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
   private _zoomImage: ElementRef;
 
   protected subscription = new Subscription();
-  protected mainMediaContainer$: Observable<ImageGroup | null> = this.mainMediaContainer.asObservable();
-  protected defaultImageReady$: Observable<boolean> = this.defaultImageReady.asObservable();
+  protected mainMediaContainer$: Observable<ImageGroup | null> =
+    this.mainMediaContainer.asObservable();
+  protected defaultImageReady$: Observable<boolean> =
+    this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
   defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
@@ -202,8 +204,9 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    */
   touchMove(event: TouchEvent): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
-    const imageElement = this.zoomedImage.nativeElement.firstChild;
+    const boundingRect =
+      this.zoomedImage?.nativeElement?.getBoundingClientRect() as DOMRect;
+    const imageElement = this.zoomedImage?.nativeElement?.firstChild;
 
     if (!this.startCoords)
       this.startCoords = { x: touch.clientX, y: touch.clientY };
@@ -229,7 +232,8 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
    * @param event
    */
   pointerMove(event: MouseEvent): void {
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const boundingRect =
+      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     const { positionX, positionY } = calculatePointerMovePosition(
@@ -266,8 +270,10 @@ export class ImageZoomViewComponent implements OnInit, OnDestroy {
       boundingRect
     );
 
-    this.renderer.setStyle(imageElement, 'left', x + 'px');
-    this.renderer.setStyle(imageElement, 'top', y + 'px');
+    if (imageElement) {
+      this.renderer.setStyle(imageElement, 'left', x + 'px');
+      this.renderer.setStyle(imageElement, 'top', y + 'px');
+    }
   }
 
   ngOnDestroy() {

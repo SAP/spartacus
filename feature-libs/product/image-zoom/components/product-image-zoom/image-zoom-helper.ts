@@ -17,17 +17,17 @@ export function handleOutOfBounds(
   const paddingX = 60;
   const paddingY = 60;
 
-  if (positionY <= -imageElement.height + paddingY) {
-    positionY = -imageElement.height + paddingY;
+  if (positionY <= -imageElement?.height + paddingY) {
+    positionY = -imageElement?.height + paddingY;
   }
-  if (positionY >= boundingRect.height - paddingY) {
-    positionY = boundingRect.height - paddingY;
+  if (positionY >= boundingRect?.height - paddingY) {
+    positionY = boundingRect?.height - paddingY;
   }
-  if (positionX <= -imageElement.width - boundingRect.width / 2 + paddingX) {
-    positionX = -imageElement.width - boundingRect.width / 2 + paddingX;
+  if (positionX <= -imageElement?.width - boundingRect?.width / 2 + paddingX) {
+    positionX = -imageElement?.width - boundingRect?.width / 2 + paddingX;
   }
-  if (positionX >= imageElement.width + boundingRect.width / 2 - paddingX) {
-    positionX = imageElement.width + boundingRect.width / 2 - paddingX;
+  if (positionX >= imageElement?.width + boundingRect?.width / 2 - paddingX) {
+    positionX = imageElement?.width + boundingRect?.width / 2 - paddingX;
   }
 
   return { x: positionX, y: positionY };
