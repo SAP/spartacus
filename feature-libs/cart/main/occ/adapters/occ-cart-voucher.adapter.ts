@@ -20,7 +20,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartVoucherEndpoint(userId: string, cartId): string {
+  protected getCartVoucherEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('cartVoucher', {
       urlParams: { userId, cartId },
     });

@@ -29,6 +29,7 @@ export class OccCartAdapter implements CartAdapter {
       )
       .pipe(
         pluck('carts'),
+        map((carts) => carts ?? []),
         this.converterService.pipeableMany(CART_NORMALIZER)
       );
   }
@@ -36,16 +37,9 @@ export class OccCartAdapter implements CartAdapter {
   public load(userId: string, cartId: string): Observable<Cart> {
     if (cartId === OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map((carts) => {
-          if (carts) {
-            const activeCart = carts.find((cart) => {
-              return cart['saveTime'] === undefined;
-            });
-            return activeCart;
-          } else {
-            return null;
-          }
-        })
+        map(
+          (carts) => carts.find((cart) => cart['saveTime'] === undefined) ?? {}
+        )
       );
     } else {
       return this.http
@@ -68,10 +62,10 @@ export class OccCartAdapter implements CartAdapter {
     let params = {};
 
     if (oldCartId) {
-      params = { oldCartId: oldCartId };
+      params = { oldCartId };
     }
     if (toMergeCartGuid) {
-      params['toMergeCartGuid'] = toMergeCartGuid;
+      params = { toMergeCartGuid };
     }
 
     return this.http

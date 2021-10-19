@@ -100,7 +100,7 @@ export class SavedCartService implements SavedCartFacade {
    */
   getSavedCart(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     return this.multiCartService.getCartEntity(cartId);
   }
 
