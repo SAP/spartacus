@@ -66,9 +66,7 @@
     margin-inline-start: 1rem;
   }
 
-  @include forVersion(4.2) {
-    button.link {
-      margin-inline-start: 1rem;
-    }
+  button.link {
+    margin-inline-start: 1rem;
   }
 }

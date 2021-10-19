@@ -58,7 +58,7 @@
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
-      <div class="col-md-6" [cxFocus]="{ autofocus: autoFocusEnabled }">
+      <div class="col-md-6" [cxFocus]="{ autofocus: true }">
         <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
@@ -67,47 +67,7 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div *cxFeatureLevel="'!4.2'" [ngSwitch]="action.event">
-          <a
-            *ngSwitchCase="'delete'"
-            class="cx-card-link card-link btn-link cx-action-link"
-            (click)="delete()"
-            (keydown.enter)="delete()"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
-          <a
-            *ngSwitchCase="'default'"
-            class="cx-card-link card-link btn-link cx-action-link"
-            (click)="setDefault()"
-            (keydown.enter)="setDefault()"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
-          <a
-            *ngSwitchCase="'send'"
-            class="cx-card-link card-link btn-link cx-action-link"
-            (click)="send()"
-            (keydown.enter)="send()"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
-          <a
-            *ngSwitchCase="'edit'"
-            class="cx-card-link card-link btn-link cx-action-link"
-            (click)="edit()"
-            (keydown.enter)="edit()"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
-          <a
-            *ngSwitchDefault
-            href="{{ action.link }}"
-            class="card-link btn-link cx-action-link"
-            >{{ action.name }}</a
-          >
-        </div>
-        <div *cxFeatureLevel="'4.2'" [ngSwitch]="action.event">
+        <div [ngSwitch]="action.event">
           <button
             *ngSwitchCase="'delete'"
             class="link cx-action-link"

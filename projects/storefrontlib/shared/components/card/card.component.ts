@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
-import { FeatureConfigService } from '../../../../core/src/features-config/services/feature-config.service';
 
 export interface CardAction {
   event: string;
@@ -29,8 +28,6 @@ export interface Card {
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
-
-  readonly autoFocusEnabled = this.featureConfig?.isLevel('4.2');
 
   @Output()
   deleteCard: EventEmitter<number> = new EventEmitter();
@@ -92,7 +89,7 @@ export class CardComponent implements OnInit {
     this.editCard.emit(4);
   }
 
-  constructor(protected featureConfig?: FeatureConfigService) {}
+  constructor() {}
 
   ngOnInit() {}
 }
