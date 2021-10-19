@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Cart, SelectiveCartFacade } from '@spartacus/cart/main/root';
 import {
   BaseSiteService,
-  isNotUndefined,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
   StateUtils,
@@ -23,16 +22,13 @@ export class SelectiveCartService implements SelectiveCartFacade {
   protected userId: string;
   protected cartId: string;
   protected selectiveCart$: Observable<Cart>;
-  protected cartId$: BehaviorSubject<string | undefined> = new BehaviorSubject<
-    string | undefined
-  >(undefined);
+  protected cartId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   protected readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   protected previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
   protected cartSelector$ = this.cartId$.pipe(
-    filter(isNotUndefined),
     switchMap((cartId) => {
       this.cartId = cartId;
       return this.multiCartService.getCartEntity(cartId);
@@ -54,7 +50,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         this.customerId = user.customerId;
         this.cartId$.next(`selectivecart${activeBaseSite}${this.customerId}`);
       } else if (user && !user.customerId) {
-        this.cartId$.next(undefined);
+        this.cartId$.next('');
       }
     });
 
@@ -110,7 +106,6 @@ export class SelectiveCartService implements SelectiveCartFacade {
    */
   isStable(): Observable<boolean> {
     return this.cartId$.pipe(
-      filter(isNotUndefined),
       switchMap((cartId) => this.multiCartService.isStable(cartId))
     );
   }
