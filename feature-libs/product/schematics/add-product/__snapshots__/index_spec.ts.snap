@@ -178,12 +178,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature eager loading sh
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { ImageZoomModule } from \\"@spartacus/product/image-zoom\\";
 import { imageZoomTranslationChunksConfig, imageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
-import { ImageZoomRootModule } from \\"@spartacus/product/image-zoom/root\\";
+import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    ImageZoomRootModule,
+    ProductImageZoomRootModule,
     ImageZoomModule
   ],
   providers: [provideConfig(<I18nConfig>{
@@ -201,12 +201,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { imageZoomTranslationChunksConfig, imageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
-import { ImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spartacus/product/image-zoom/root\\";
+import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spartacus/product/image-zoom/root\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    ImageZoomRootModule
+    ProductImageZoomRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {

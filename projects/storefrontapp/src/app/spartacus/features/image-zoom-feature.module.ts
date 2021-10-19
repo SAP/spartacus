@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  ImageZoomRootModule,
+  ProductImageZoomRootModule,
   PRODUCT_IMAGE_ZOOM_FEATURE,
 } from 'feature-libs/product/image-zoom/root';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@spartacus/product/image-zoom/assets';
 
 @NgModule({
-  imports: [ImageZoomRootModule],
+  imports: [ProductImageZoomRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {

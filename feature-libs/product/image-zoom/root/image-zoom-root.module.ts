@@ -17,4 +17,4 @@ export function defaultImageZoomComponentsConfig() {
   imports: [],
   providers: [provideDefaultConfigFactory(defaultImageZoomComponentsConfig)],
 })
-export class ImageZoomRootModule {}
+export class ProductImageZoomRootModule {}
