@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { ImageZoomDialogComponent } from './image-zoom-dialog.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 class MockLaunchDialogService {
   closeDialog() {}
@@ -13,6 +14,7 @@ describe('ImageZoomDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: LaunchDialogService,
