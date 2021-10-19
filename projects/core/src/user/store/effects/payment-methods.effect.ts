@@ -65,10 +65,16 @@ export class UserPaymentMethodsEffects {
       return this.userPaymentMethodConnector
         .delete(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap((data) => [
-            new UserActions.DeleteUserPaymentMethodSuccess(data),
-            new UserActions.LoadUserPaymentMethods(payload.userId),
-          ]),
+          switchMap((data) => {
+            this.globalMessageService.add(
+              { key: 'paymentCard.deletePaymentSuccess' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
+            return [
+              new UserActions.DeleteUserPaymentMethodSuccess(data),
+              new UserActions.LoadUserPaymentMethods(payload.userId),
+            ];
+          }),
           catchError((error) =>
             of(
               new UserActions.DeleteUserPaymentMethodFail(
@@ -84,23 +90,16 @@ export class UserPaymentMethodsEffects {
   showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
     ofType(UserActions.DELETE_USER_PAYMENT_METHOD_SUCCESS),
     tap(() => {
-      this.showGlobalMessage('paymentCard.deletePaymentSuccess');
+      this.globalMessageService.add(
+        { key: 'paymentCard.deletePaymentSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     })
   );
 
   constructor(
     private actions$: Actions,
     private userPaymentMethodConnector: UserPaymentConnector,
-    private messageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService
   ) {}
-
-  /**
-   * Show global confirmation message with provided text
-   */
-  private showGlobalMessage(text: string): void {
-    this.messageService.add(
-      { key: text },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  }
 }

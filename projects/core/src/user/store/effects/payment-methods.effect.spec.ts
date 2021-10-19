@@ -7,12 +7,12 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { PaymentDetails } from '../../../model/cart.model';
-import createSpy = jasmine.createSpy;
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserPaymentAdapter } from '../../connectors/payment/user-payment.adapter';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
 import * as fromPaymentMethodsEffect from './payment-methods.effect';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
@@ -20,7 +20,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 const mockPaymentMethods: PaymentDetails[] = [{ id: '3710178129845' }];
 
-fdescribe('Payment methods effect', () => {
+describe('Payment methods effect', () => {
   let userPaymentMethodsEffect: fromPaymentMethodsEffect.UserPaymentMethodsEffects;
   let userPaymentConnector: UserPaymentConnector;
   let globalMessageService: GlobalMessageService;
@@ -86,7 +86,6 @@ fdescribe('Payment methods effect', () => {
 
   describe('deleteUserPaymentMethod$', () => {
     it('should delete user payment method', () => {
-      spyOn(userPaymentMethodsEffect, 'showGlobalMessage').and.callThrough();
       const action = new UserActions.DeleteUserPaymentMethod({
         userId: OCC_USER_ID_CURRENT,
         paymentMethodID: '3710178129845',
