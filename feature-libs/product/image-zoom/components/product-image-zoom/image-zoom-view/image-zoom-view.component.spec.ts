@@ -16,6 +16,7 @@ const firstImage = {
   },
   thumbnail: {
     url: 'thumb-1.jpg',
+    galleryIndex: 2,
   },
 };
 const secondImage = {
@@ -97,7 +98,7 @@ describe('ImageZoomViewComponent', () => {
   let fixture: ComponentFixture<ImageZoomViewComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [
         ImageZoomViewComponent,
@@ -111,8 +112,14 @@ describe('ImageZoomViewComponent', () => {
       ],
     }).compileComponents();
 
-    currentProductService = TestBed.get(CurrentProductService);
-  }));
+    currentProductService = TestBed.inject(CurrentProductService);
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ImageZoomViewComponent);
+    imageZoomViewComponent = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
@@ -198,5 +205,36 @@ describe('ImageZoomViewComponent', () => {
         .unsubscribe();
       expect(result).toEqual({});
     });
+  });
+
+  it('should clear startCoords', () => {
+    imageZoomViewComponent.clearTouch();
+
+    expect(imageZoomViewComponent.startCoords).toBeNull();
+  });
+
+  it('should update start coords on toucheMove', () => {
+    const mockTouchEvent = {
+      touches: [{ clientX: 1, clientY: 2 }],
+    };
+    imageZoomViewComponent.touchMove(mockTouchEvent as any);
+
+    expect(imageZoomViewComponent.startCoords).toEqual({
+      x: 1,
+      y: 2,
+    });
+  });
+
+  it('should update values on zoom', () => {
+    imageZoomViewComponent.zoom();
+
+    expect(imageZoomViewComponent.isZoomed).toBeTruthy();
+    expect(imageZoomViewComponent.startCoords).toBeNull();
+    expect(imageZoomViewComponent.left).toEqual(0);
+    expect(imageZoomViewComponent.top).toEqual(0);
+  });
+
+  it('should get zoomImage as undefined', () => {
+    expect(imageZoomViewComponent.zoomImage).toBeUndefined();
   });
 });

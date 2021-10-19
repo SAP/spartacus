@@ -48,8 +48,8 @@ describe('ImageZoomTriggerComponent', () => {
 
     fixture = TestBed.createComponent(ImageZoomTriggerComponent);
     component = fixture.componentInstance;
-    testDialogComponent = TestBed.createComponent(TestDialogComponent)
-      .componentRef;
+    testDialogComponent =
+      TestBed.createComponent(TestDialogComponent).componentRef;
     launchDialogService = TestBed.inject(LaunchDialogService);
     fixture.detectChanges();
   });
@@ -90,6 +90,24 @@ describe('ImageZoomTriggerComponent', () => {
       component.triggerZoom();
 
       expect(testDialogComponent.destroy).toHaveBeenCalled();
+    });
+  });
+
+  describe('on expandImage set ', () => {
+    it('with true value should call triggerZoom method', () => {
+      spyOn(component, 'triggerZoom');
+
+      fixture.componentInstance.expandImage = true;
+
+      expect(component.triggerZoom).toHaveBeenCalled();
+    });
+
+    it('with false value should not call triggerZoom method', () => {
+      spyOn(component, 'triggerZoom');
+
+      fixture.componentInstance.expandImage = false;
+
+      expect(component.triggerZoom).not.toHaveBeenCalled();
     });
   });
 });

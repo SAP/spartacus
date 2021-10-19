@@ -24,7 +24,7 @@ describe('ImageZoomDialogComponent', () => {
 
     fixture = TestBed.createComponent(ImageZoomDialogComponent);
     component = fixture.componentInstance;
-    launchDialogService = TestBed.get(LaunchDialogService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     fixture.detectChanges();
   });
 
@@ -33,18 +33,38 @@ describe('ImageZoomDialogComponent', () => {
   });
 
   describe('close', () => {
+    beforeEach(() => {
+      spyOn(component, 'close').and.callThrough();
+    });
+
+    it('should call close dialog on handleClick', () => {
+      const event = new Event('click', {});
+      const button = fixture.nativeElement.querySelector('.close');
+      button.dispatchEvent(event);
+
+      expect(component.close).toHaveBeenCalledWith('cross click');
+    });
+
+    it('should call close dialog on click', () => {
+      const button = fixture.nativeElement.querySelector('.close');
+      button.click();
+
+      expect(component.close).toHaveBeenCalledWith('cross click');
+    });
+
     it('should call close dialog with the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog');
-
-      component.close();
-
-      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');
+      spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
       component.close('cross clicked');
-
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'cross clicked'
       );
+    });
+    it('should call close dialog without the close reason', () => {
+      spyOn(launchDialogService, 'closeDialog').and.callThrough();
+
+      component.close();
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');
     });
   });
 });

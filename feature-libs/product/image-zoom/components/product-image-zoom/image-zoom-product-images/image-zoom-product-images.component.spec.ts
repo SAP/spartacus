@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Product } from '@spartacus/core';
+import { ImageGroup, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '@spartacus/storefront';
 import { ImageZoomProductImagesComponent } from './image-zoom-product-images.component';
+import { take } from 'rxjs/operators';
 
 const firstImage = {
   zoom: {
@@ -21,6 +22,16 @@ const secondImage = {
   thumbnail: {
     url: 'thumb-2.jpg',
   },
+};
+
+const mockItem: ImageGroup = {
+  zoom: {
+    galleryIndex: 2,
+  },
+};
+
+const mockItem2: ImageGroup = {
+  zoom: {},
 };
 
 const mockDataWithOnePicture: Product = {
@@ -101,6 +112,12 @@ describe('ProductImagesComponent', () => {
       currentProductService = TestBed.inject(CurrentProductService);
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
@@ -231,6 +248,33 @@ describe('ProductImagesComponent', () => {
         const media = fixture.debugElement.query(By.css('cx-media'));
         expect(media).toBeDefined();
       });
+    });
+  });
+
+  describe('on openImage', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should emit new value for mainMediaContainer and update selectedIndex', () => {
+      component.openImage(mockItem);
+      expect(component.selectedIndex).toEqual(2);
+    });
+
+    it('should emit new value for mainMediaContainer and update selectedIndex with null value', () => {
+      component.openImage(mockItem2);
+      expect(component.selectedIndex).toBeUndefined();
+    });
+  });
+
+  it('should emit new value for expandImage on triggerZoom', (done) => {
+    component.triggerZoom(true);
+
+    component.expandImage.pipe(take(1)).subscribe((value) => {
+      expect(value).toBeTruthy();
+      done();
     });
   });
 });
