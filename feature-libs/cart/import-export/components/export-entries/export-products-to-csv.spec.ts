@@ -180,6 +180,10 @@ describe('ExportProductsToCsvService', () => {
         key: 'product.images.PRIMARY.zoom.altText',
         output: 'PC Service Set Professional',
       },
+      {
+        key: 'product.stock',
+        output: '[object Object]',
+      },
       { key: 'returnableQuantity', output: '0' },
       { key: 'notExistingKey', output: '' },
       { key: 'notExistingKey.notExistingKey', output: '' },
