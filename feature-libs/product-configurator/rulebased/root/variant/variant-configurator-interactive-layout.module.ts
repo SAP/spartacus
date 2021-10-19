@@ -29,7 +29,7 @@ import { LayoutConfig } from '@spartacus/storefront';
                 'SiteLogo',
                 'VariantConfigExitButton',
                 'MiniCart',
-              ], 
+              ],
             },
           },
 
