@@ -4,7 +4,7 @@
       <button
         type="button"
         class="close"
-        aria-label="Close"
+        [attr.aria-label]="'imageZoomDialog.close' | cxTranslate"
         (click)="close('cross click')"
       >
         <span aria-hidden="true">
