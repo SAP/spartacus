@@ -147,6 +147,11 @@ export const common = {
       productList: 'Product List',
     },
   },
+  carousel: {
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
+    slideNumber: 'Slide {{currentSlideNumber}}',
+  },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
     required: 'This field is required',
