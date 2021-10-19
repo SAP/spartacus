@@ -429,6 +429,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
+    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
