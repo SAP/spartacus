@@ -21,6 +21,8 @@
               >
               </ng-select>
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="addressForm.get('country.isocode')"
               ></cx-form-errors>
             </label>
@@ -62,6 +64,8 @@
             formControlName="firstName"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="addressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -78,6 +82,8 @@
             formControlName="lastName"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="addressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -93,7 +99,11 @@
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
             formControlName="line1"
           />
-          <cx-form-errors [control]="addressForm.get('line1')"></cx-form-errors>
+          <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
+            [control]="addressForm.get('line1')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -122,6 +132,8 @@
               formControlName="town"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="addressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -140,6 +152,8 @@
               formControlName="postalCode"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="addressForm.get('postalCode')"
             ></cx-form-errors>
           </label>
@@ -166,6 +180,8 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="addressForm.get('region.isocode')"
                 ></cx-form-errors>
               </label>
