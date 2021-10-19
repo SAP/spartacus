@@ -145,7 +145,7 @@ export class LoadCartsSuccess extends StateUtils.EntitySuccessAction {
   constructor(public payload: Cart[]) {
     super(
       MULTI_CART_DATA,
-      payload.map((cart) => cart?.code)
+      payload.map((cart) => cart?.code ?? '')
     );
   }
 }

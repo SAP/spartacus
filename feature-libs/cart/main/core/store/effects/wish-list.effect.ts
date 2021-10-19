@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   normalizeHttpError,
   SiteContextActions,
@@ -36,21 +37,21 @@ export class WishListEffects {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
-              cart.code,
+              cart.code ?? '',
               payload.name,
               payload.description
             )
             .pipe(
               switchMap((saveCartResult) => [
                 new CartActions.CreateWishListSuccess({
-                  cart: saveCartResult.savedCartData,
+                  cart: saveCartResult.savedCartData as Cart,
                   userId: payload.userId,
                 }),
               ]),
               catchError((error) =>
                 from([
                   new CartActions.CreateWishListFail({
-                    cartId: cart.code,
+                    cartId: cart.code ?? '',
                     error: normalizeHttpError(error),
                   }),
                 ])
@@ -74,29 +75,27 @@ export class WishListEffects {
       const { userId, customerId, tempCartId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap((carts) => {
-          if (carts) {
-            const wishList = carts.find(
-              (cart) => cart.name === getWishlistName(customerId)
-            );
-            if (Boolean(wishList)) {
-              return [
-                new CartActions.LoadWishListSuccess({
-                  cart: wishList,
-                  userId,
-                  tempCartId,
-                  customerId,
-                  cartId: getCartIdByUserId(wishList, userId),
-                }),
-                new CartActions.RemoveCart({ cartId: tempCartId }),
-              ];
-            } else {
-              return [
-                new CartActions.CreateWishList({
-                  userId,
-                  name: getWishlistName(customerId),
-                }),
-              ];
-            }
+          const wishList = carts.find(
+            (cart) => cart.name === getWishlistName(customerId)
+          );
+          if (wishList) {
+            return [
+              new CartActions.LoadWishListSuccess({
+                cart: wishList,
+                userId,
+                tempCartId,
+                customerId,
+                cartId: getCartIdByUserId(wishList, userId),
+              }),
+              new CartActions.RemoveCart({ cartId: tempCartId }),
+            ];
+          } else {
+            return [
+              new CartActions.CreateWishList({
+                userId,
+                name: getWishlistName(customerId),
+              }),
+            ];
           }
         }),
         catchError((error) =>

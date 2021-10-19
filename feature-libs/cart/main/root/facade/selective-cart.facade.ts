@@ -38,5 +38,5 @@ export abstract class SelectiveCartFacade {
 
   abstract updateEntry(entryNumber: number, quantity: number): void;
 
-  abstract getEntry(productCode: string): Observable<OrderEntry>;
+  abstract getEntry(productCode: string): Observable<OrderEntry | undefined>;
 }

@@ -43,7 +43,7 @@ export class MultiCartService implements MultiCartFacade {
    */
   getCartEntity(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
     );
@@ -91,7 +91,7 @@ export class MultiCartService implements MultiCartFacade {
     extraData?: {
       active?: boolean;
     };
-  }): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+  }): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     // to support creating multiple carts at the same time we need to use different entity for every process
     // simple random uuid generator is used here for entity names
     const tempCartId = this.generateTempCartId();
@@ -178,12 +178,12 @@ export class MultiCartService implements MultiCartFacade {
   getLastEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null> {
+  ): Observable<OrderEntry | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.product.code === productCode
+          (entry) => entry.product?.code === productCode
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
@@ -291,7 +291,10 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    * @param productCode
    */
-  getEntry(cartId: string, productCode: string): Observable<OrderEntry | null> {
+  getEntry(
+    cartId: string,
+    productCode: string
+  ): Observable<OrderEntry | undefined> {
     return this.store.pipe(
       select(
         MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)

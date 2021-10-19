@@ -53,7 +53,9 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    */
-  abstract getLastEntry(productCode: string): Observable<OrderEntry>;
+  abstract getLastEntry(
+    productCode: string
+  ): Observable<OrderEntry | undefined>;
 
   /**
    * Returns cart loading state
@@ -93,7 +95,7 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    */
-  abstract getEntry(productCode: string): Observable<OrderEntry>;
+  abstract getEntry(productCode: string): Observable<OrderEntry | undefined>;
 
   /**
    * Assign email to cart
@@ -120,6 +122,8 @@ export abstract class ActiveCartFacade {
   abstract addEntries(cartEntries: OrderEntry[]): void;
 
   abstract requireLoadedCart(
-    customCartSelector$?: Observable<StateUtils.ProcessesLoaderState<Cart>>
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+    customCartSelector$?: Observable<
+      StateUtils.ProcessesLoaderState<Cart | undefined>
+    >
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 }

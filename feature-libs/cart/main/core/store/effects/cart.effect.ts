@@ -39,6 +39,7 @@ export class CartEffects {
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
     | CartActions.RemoveCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map((action: CartActions.LoadCart) => action.payload),
@@ -91,7 +92,7 @@ export class CartEffects {
             catchError((error) => {
               if (error?.error?.errors) {
                 const couponExpiredErrors = error.error.errors.filter(
-                  (err) => err.reason === 'invalid'
+                  (err: any) => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
                   // Reload in case of expired coupon.
@@ -99,7 +100,7 @@ export class CartEffects {
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
-                  (err) =>
+                  (err: any) =>
                     isCartNotFoundError(err) ||
                     err.reason === 'UnknownResourceError'
                 );

@@ -57,7 +57,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // We also wait until we initialize cart from localStorage. Before that happens cartId in store === null
     filter((cartId) => cartId !== activeCartInitialState),
     map((cartId) => {
-      if (cartId === '') {
+      if (cartId === '' || cartId === null) {
         // We fallback to current when we don't have particular cart id -> cartId === '', because that's how you reference latest user cart.
         return OCC_CART_ID_CURRENT;
       }
@@ -111,17 +111,18 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const activeCartValue$ = this.cartSelector$.pipe(
       map(
         (
-          cartEntity: StateUtils.ProcessesLoaderState<Cart>
+          cartEntity: StateUtils.ProcessesLoaderState<Cart | undefined>
         ): {
           cart: Cart;
           isStable: boolean;
           loaded: boolean;
         } => {
           return {
-            cart: cartEntity.value,
+            cart: cartEntity.value as Cart,
             isStable: !cartEntity.loading && cartEntity.processesCount === 0,
-            loaded:
-              (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+            loaded: Boolean(
+              (cartEntity.error || cartEntity.success) && !cartEntity.loading
+            ),
           };
         }
       ),
@@ -192,7 +193,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param productCode
    */
-  getLastEntry(productCode: string): Observable<OrderEntry> {
+  getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
       switchMap((cartId) =>
         this.multiCartService.getLastEntry(cartId, productCode)
@@ -206,7 +207,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   getLoading(): Observable<boolean> {
     return this.cartSelector$.pipe(
-      map((cartEntity) => cartEntity.loading),
+      map((cartEntity) => Boolean(cartEntity.loading)),
       distinctUntilChanged()
     );
   }
@@ -291,8 +292,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   protected addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map((entry) => ({
-      productCode: entry.product.code,
-      quantity: entry.quantity,
+      productCode: entry.product?.code ?? '',
+      quantity: entry.quantity ?? 0,
     }));
     this.requireLoadedCartForGuestMerge()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
@@ -318,7 +319,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   protected isCartCreating(
-    cartState: StateUtils.ProcessesLoaderState<Cart>,
+    cartState: StateUtils.ProcessesLoaderState<Cart | undefined>,
     cartId: string
   ) {
     // cart creating is always represented with loading flags
@@ -331,8 +332,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   requireLoadedCart(
-    customCartSelector$?: Observable<StateUtils.ProcessesLoaderState<Cart>>
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+    customCartSelector$?: Observable<
+      StateUtils.ProcessesLoaderState<Cart | undefined>
+    >
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     // For guest cart merge we want to filter guest cart in the whole stream
     // We have to wait with load/create/addEntry after guest cart will be deleted.
     // That's why you can provide custom selector with this filter applied.
@@ -420,7 +423,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartService.removeEntry(userId, cartId, entry.entryNumber);
+        this.multiCartService.removeEntry(
+          userId,
+          cartId,
+          entry.entryNumber as number
+        );
       });
   }
 
@@ -448,7 +455,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param productCode
    */
-  getEntry(productCode: string): Observable<OrderEntry> {
+  getEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
       switchMap((cartId) =>
         this.multiCartService.getEntry(cartId, productCode)
@@ -474,7 +481,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Get assigned user to cart
    */
   getAssignedUser(): Observable<User> {
-    return this.getActive().pipe(map((cart) => cart.user));
+    return this.getActive().pipe(map((cart) => cart.user as User));
   }
 
   // TODO: Make cart required param in 4.0
@@ -505,8 +512,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   addEntries(cartEntries: OrderEntry[]): void {
     const entriesToAdd = cartEntries.map((entry) => ({
-      productCode: entry.product?.code,
-      quantity: entry.quantity,
+      productCode: entry.product?.code ?? '',
+      quantity: entry.quantity ?? 0,
     }));
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
@@ -551,7 +558,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Indicates if given cart is empty.
    * Returns true is cart is undefined, null or is an empty object.
    */
-  protected isEmpty(cart: Cart): boolean {
+  protected isEmpty(cart?: Cart): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
