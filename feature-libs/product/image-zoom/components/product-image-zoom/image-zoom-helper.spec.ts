@@ -31,13 +31,27 @@ describe('Image zoom utils', () => {
   });
 
   describe('handleOutOfBounds', () => {
-    const mockBoundingRect = {
+    const mockBoundingRect1 = {
       left: 100,
       top: 100,
       right: 100,
       bottom: 100,
-      height: 200,
+      height: 300,
       width: 300,
+      x: 20,
+      y: 20,
+      toJSON: function () {
+        return {};
+      },
+    };
+
+    const mockBoundingRect2 = {
+      left: 100,
+      top: 100,
+      right: 100,
+      bottom: 100,
+      height: 70,
+      width: 70,
       x: 20,
       y: 20,
       toJSON: function () {
@@ -52,9 +66,30 @@ describe('Image zoom utils', () => {
 
     it('should return correct positions', () => {
       expect(
-        handleOutOfBounds(10, 10, mockImageElement, mockBoundingRect)
+        handleOutOfBounds(10, -200, mockImageElement, mockBoundingRect1)
       ).toEqual({
         x: 10,
+        y: -140,
+      });
+
+      expect(
+        handleOutOfBounds(10, 200, mockImageElement, mockBoundingRect2)
+      ).toEqual({
+        x: 10,
+        y: 10,
+      });
+
+      expect(
+        handleOutOfBounds(-400, 10, mockImageElement, mockBoundingRect1)
+      ).toEqual({
+        x: -390,
+        y: 10,
+      });
+
+      expect(
+        handleOutOfBounds(400, 10, mockImageElement, mockBoundingRect2)
+      ).toEqual({
+        x: 275,
         y: 10,
       });
     });
