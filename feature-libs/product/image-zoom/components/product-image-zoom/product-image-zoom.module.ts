@@ -14,7 +14,7 @@ import {
   MediaModule,
   OutletModule,
 } from '@spartacus/storefront';
-import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
+import { defaultProductImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './image-zoom-dialog/image-zoom-dialog.component';
 import { ImageZoomProductImagesComponent } from './image-zoom-product-images/image-zoom-product-images.component';
 import { ImageZoomThumbnailsComponent } from './image-zoom-thumbnails/image-zoom-thumbnails.component';
@@ -33,7 +33,7 @@ import { ImageZoomViewComponent } from './image-zoom-view/image-zoom-view.compon
     RouterModule,
   ],
   providers: [
-    provideConfig(defaultImageZoomLayoutConfig),
+    provideConfig(defaultProductImageZoomLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductImagesComponent: {
