@@ -135,6 +135,7 @@ describe('QuickOrderService', () => {
   });
 
   beforeEach(() => {
+    service.setListLimit(10);
     service.clearList();
   });
 
