@@ -23,11 +23,13 @@ import { ImportExportComponent } from './import-export.component';
               'cart',
               'savedCarts',
               'savedCartsDetails',
+              'quickOrder',
             ],
             exportButtonDisplayRoutes: [
               'savedCartsDetails',
               'cart',
               'checkoutReviewOrder',
+              'quickOrder',
             ],
           },
         },

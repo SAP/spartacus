@@ -108,10 +108,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Get quick order list limit property
    */
-  getListLimit(): number {
-    const entries = this.entries$.getValue() || [];
-
-    return this.quickOrderListLimit - entries.length;
+  getLimitExceeded(): Observable<boolean> {
+    return this.entries$.pipe(
+      map((entries) => this.quickOrderListLimit - entries.length <= 0)
+    );
   }
 
   /**
@@ -309,7 +309,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ): OrderEntry {
     return {
       basePrice: product.price,
-      product: product,
+      product,
       quantity,
       totalPrice: product.price,
     } as OrderEntry;
@@ -320,6 +320,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
+    if (this.quickOrderListLimit - entries.length <= 0) {
+      return;
+    }
+
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
     if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {

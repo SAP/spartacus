@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';
-import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { CartTypes } from '../model/import-export.model';
@@ -29,38 +29,41 @@ export class QuickOrderImportExportContext implements ImportExportContext {
     return this.quickOrderService.getEntries();
   }
 
-  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+  addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
     forkJoin(
-      products.map((productData) =>
-        this.productAdapter.load(productData.productCode).pipe(take(1))
+      productsData.map((productData) =>
+        this.productAdapter.load(productData.productCode).pipe(
+          take(1),
+          catchError((response: HttpErrorResponse) => {
+            this.handleErrors(response, productData.productCode);
+            return of(null);
+          })
+        )
       )
     )
       .pipe(
-        switchMap((_products) =>
-          from(_products).pipe(
+        switchMap((products) =>
+          from(products).pipe(
+            filter((product) => Boolean(product)),
             switchMap((product: Product) =>
-              this.quickOrderService.getEntries().pipe(
+              this.quickOrderService.getLimitExceeded().pipe(
                 take(1),
-                tap((entries: OrderEntry[]) => {
-                  const _productData = products.find(
+                tap((limitExceeded: boolean) => {
+                  const _productData = productsData.find(
                     (p) => p.productCode === product.code
                   ) as ProductData;
-                  if (entries.length < 10) {
+                  if (limitExceeded) {
+                    this.results$.next({
+                      productCode: _productData.productCode,
+                      statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                    });
+                  } else {
                     this.handleResults(product, _productData);
                     this.quickOrderService.addProduct(
                       product,
                       _productData.quantity
                     );
-                  } else {
-                    this.results$.next({
-                      productCode: _productData.productCode,
-                      statusCode: ProductImportStatus.LIMIT_EXCEED,
-                    });
                   }
-                }),
-                catchError((response: HttpErrorResponse) => {
-                  this.handleErrors(response, product.code as string);
-                  return of(response);
                 })
               )
             )
@@ -68,7 +71,7 @@ export class QuickOrderImportExportContext implements ImportExportContext {
         )
       )
       .subscribe();
-    return this.results$.pipe(take(products.length));
+    return this.results$.pipe(take(productsData.length));
   }
 
   protected handleResults(product: Product, productData: ProductData) {

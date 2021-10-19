@@ -62,7 +62,7 @@ export abstract class QuickOrderFacade {
   /**
    * Get quick order list limit property
    */
-  abstract getListLimit(): number;
+  abstract getLimitExceeded(): Observable<boolean>;
 
   /**
    * Set quick order list limit property
