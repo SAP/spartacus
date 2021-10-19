@@ -54,6 +54,9 @@ export const product = {
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
   },
+  productCarousel: {
+    carouselLabel: 'Carousel, {{title}}',
+  },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
     itemsIncrementedInYourCart:
