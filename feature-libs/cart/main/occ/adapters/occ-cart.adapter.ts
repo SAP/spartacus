@@ -34,12 +34,10 @@ export class OccCartAdapter implements CartAdapter {
       );
   }
 
-  public load(userId: string, cartId: string): Observable<Cart> {
+  public load(userId: string, cartId: string): Observable<Cart | undefined> {
     if (cartId === OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map(
-          (carts) => carts.find((cart) => cart['saveTime'] === undefined) ?? {}
-        )
+        map((carts) => carts.find((cart) => cart['saveTime'] === undefined))
       );
     } else {
       return this.http

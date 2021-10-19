@@ -15,7 +15,7 @@ export abstract class CartAdapter {
    * @param userId
    * @param cartId
    */
-  abstract load(userId: string, cartId: string): Observable<Cart>;
+  abstract load(userId: string, cartId: string): Observable<Cart | undefined>;
 
   /**
    * Abstract method used to create cart. If toMergeCartGuid is specified, cart will be merged with existing one

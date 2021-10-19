@@ -132,7 +132,7 @@ export class WishListEffects {
         return this.cartConnector.load(userId, wishListId).pipe(
           switchMap((wishList) => [
             new CartActions.LoadWishListSuccess({
-              cart: wishList,
+              cart: wishList ?? {},
               userId,
               cartId: getCartIdByUserId(wishList, userId),
             }),

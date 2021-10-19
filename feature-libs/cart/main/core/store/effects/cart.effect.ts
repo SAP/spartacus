@@ -61,7 +61,7 @@ export class CartEffects {
         map(([payload]) => payload),
         switchMap((payload) => {
           return this.cartConnector.load(payload.userId, payload.cartId).pipe(
-            mergeMap((cart: Cart) => {
+            mergeMap((cart) => {
               let actions = [];
               if (cart) {
                 actions.push(
