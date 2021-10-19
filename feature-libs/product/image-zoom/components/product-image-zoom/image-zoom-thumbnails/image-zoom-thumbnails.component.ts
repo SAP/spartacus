@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

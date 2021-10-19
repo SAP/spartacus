@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
   BreakpointService,

@@ -7,7 +7,7 @@ import {
   CurrentProductService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import { ImageZoomViewComponent } from './image-zoom-view.component';
 
 const firstImage = {
