@@ -4,4 +4,4 @@ import { ProductImageZoomComponentsModule } from '@spartacus/product/image-zoom/
 @NgModule({
   imports: [ProductImageZoomComponentsModule],
 })
-export class ImageZoomModule {}
+export class ProductImageZoomModule {}

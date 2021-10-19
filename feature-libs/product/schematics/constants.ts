@@ -28,7 +28,7 @@ export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
 
 export const IMAGE_ZOOM_MODULE_NAME = 'ProductImageZoom';
 export const IMAGE_ZOOM_FEATURE_NAME_CONSTANT = 'PRODUCT_IMAGE_ZOOM_FEATURE';
-export const IMAGE_ZOOM_MODULE = 'ImageZoomModule';
+export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
 export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
 export const SPARTACUS_IMAGE_ZOOM = `${SPARTACUS_PRODUCT}/image-zoom`;
 export const SPARTACUS_IMAGE_ZOOM_ROOT = `${SPARTACUS_IMAGE_ZOOM}/root`;

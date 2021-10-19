@@ -176,7 +176,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
 exports[`Spartacus Product schematics: ng-add ImageZoom feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { ImageZoomModule } from \\"@spartacus/product/image-zoom\\";
+import { ProductImageZoomModule } from \\"@spartacus/product/image-zoom\\";
 import { imageZoomTranslationChunksConfig, imageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
 import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root\\";
 
@@ -184,7 +184,7 @@ import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root
   declarations: [],
   imports: [
     ProductImageZoomRootModule,
-    ImageZoomModule
+    ProductImageZoomModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -212,7 +212,7 @@ import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spart
     featureModules: {
       [PRODUCT_IMAGE_ZOOM_FEATURE]: {
         module: () =>
-          import('@spartacus/product/image-zoom').then((m) => m.ImageZoomModule),
+          import('@spartacus/product/image-zoom').then((m) => m.ProductImageZoomModule),
       },
     }
   }),
