@@ -1,22 +1,39 @@
 cx-quick-order-form {
   .quick-order-form-container {
     display: flex;
+    position: relative;
   }
 
   .quick-order-form-input {
     margin-inline-end: 15px;
     position: relative;
+    width: 300px;
 
     .form-control {
       padding: 0 36px 0 12px;
     }
 
+    // @deprecated since 4.2, use quick-order-form-search-icon class
     .search {
       color: var(--cx-color-light);
       font-size: 24px;
       position: absolute;
       right: 12px;
       top: 12px;
+    }
+
+    .quick-order-form-search-icon,
+    .quick-order-form-reset-icon {
+      color: var(--cx-color-light);
+      display: block;
+      font-size: 24px;
+      position: absolute;
+      right: 12px;
+      top: 12px;
+    }
+
+    .quick-order-form-reset-icon {
+      cursor: pointer;
     }
 
     .list-limit-reached-text {
@@ -27,5 +44,69 @@ cx-quick-order-form {
       padding-inline-start: 2px;
       position: absolute;
     }
+  }
+
+  .quick-order-results {
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid var(--cx-color-light);
+    color: #000;
+    display: none;
+    font-size: 13px;
+    position: absolute;
+    top: 47px;
+    width: 300px;
+    z-index: 20;
+
+    .quick-order-results-products {
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+
+      .quick-order-results-product {
+        border-top: 1px solid var(--cx-color-light);
+        cursor: pointer;
+        display: grid;
+        grid-column-gap: 16px;
+        padding: 10px;
+
+        &.has-media {
+          // create a grid layout in case we show an image
+          grid-template-columns: 50px 1fr;
+        }
+
+        &:first-of-type {
+          border-top: none;
+        }
+
+        &:hover,
+        &.active {
+          background-color: var(--cx-color-light);
+        }
+
+        .media {
+          grid-row: 1/4;
+        }
+
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .quick-order-no-results {
+      align-items: center;
+      display: flex;
+      font-size: 1rem;
+      height: 37px;
+      justify-content: flex-start;
+      padding: 0 10px;
+    }
+  }
+}
+
+.quick-order-searchbox-is-active {
+  .quick-order-results {
+    display: block;
   }
 }
