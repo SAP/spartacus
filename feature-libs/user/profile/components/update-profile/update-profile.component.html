@@ -26,7 +26,11 @@
       }}"
       formControlName="firstName"
     />
-    <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('firstName')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -41,7 +45,11 @@
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
     />
-    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -56,7 +64,11 @@
       formControlName="customerId"
       readonly
     />
-    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
   </label>
 
   <a

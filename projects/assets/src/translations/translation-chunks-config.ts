@@ -15,6 +15,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'skipLink',
     'formErrors',
     'errorHandlers',
+    'carousel',
   ],
   cart: [
     'cartDetails',
