@@ -11,8 +11,7 @@ context('Textfield Configuration', () => {
   before(() => {
     cy.visit('/');
   });
-  // TODO: GH-13777 Remove skip and Fix test failure
-  describe.skip('Navigate to Textfield Configuration Page', () => {
+  describe('Navigate to Textfield Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       configuration.searchForProduct(testProduct);
       textfieldConfiguration.clickOnConfigureButton();
@@ -47,8 +46,7 @@ context('Textfield Configuration', () => {
       textfieldConfiguration.clickOnEditConfigurationLink(0);
     });
   });
-  // TODO: GH-13777 Remove skip and Fix test failure
-  describe.skip('Configure Product and add to cart', () => {
+  describe('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,

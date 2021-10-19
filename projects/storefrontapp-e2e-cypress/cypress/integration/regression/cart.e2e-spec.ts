@@ -19,8 +19,7 @@ describe('Cart', () => {
         cart.loginRegisteredUser();
         visitHomePage();
       });
-      // TODO: GH-13778 Remove skip and Fix test failure
-      it.skip('should merge carts when user is authenticated', () => {
+      it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
 
