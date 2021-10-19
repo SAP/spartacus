@@ -112,7 +112,9 @@ export namespace Configurator {
 
   export interface AttributeOverview {
     attribute: string;
+    attributeId?: string;
     value: string;
+    valueId?: string;
     productCode?: string;
     type?: AttributeOverviewType;
     quantity?: number;

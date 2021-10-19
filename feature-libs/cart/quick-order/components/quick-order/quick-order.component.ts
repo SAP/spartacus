@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -22,7 +27,7 @@ import { first, map } from 'rxjs/operators';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit {
+export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<number | undefined> =
@@ -51,6 +56,10 @@ export class QuickOrderComponent implements OnInit {
     this.quickOrderStatePersistenceService.initSync();
   }
 
+  ngOnDestroy(): void {
+    this.quickOrderService.clearDeletedEntries();
+  }
+
   get errors$(): Observable<QuickOrderAddEntryEvent[]> {
     return this.cartErrors$.asObservable();
   }
@@ -61,6 +70,9 @@ export class QuickOrderComponent implements OnInit {
 
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
+  }
+  get softDeletedEntries$(): Observable<Record<string, OrderEntry>> {
+    return this.quickOrderService.getSoftDeletedEntries();
   }
 
   clear(): void {
@@ -109,6 +121,18 @@ export class QuickOrderComponent implements OnInit {
 
   clearSuccesses(): void {
     this.cartSuccesses$.next([]);
+  }
+
+  undoDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.restoreSoftDeletedEntry(entry.product?.code);
+    }
+  }
+
+  clearDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.hardDeleteEntry(entry.product?.code);
+    }
   }
 
   protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {

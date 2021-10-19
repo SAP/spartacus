@@ -16,6 +16,10 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
+      it('should show result box with 5 products', () => {
+        quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code, 5);
+      });
+
       it('should add product to the cart', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.addToCart();
@@ -40,6 +44,23 @@ context('B2B - Quick Order', () => {
         quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.removeFirstRow();
         quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+      });
+
+      it('should close deletion message after 5s after removal', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        cy.wait(5000);
+        quickOrder.verifyQuickOrderPageHasNotDeletionMessage();
+      });
+
+      it('should remove 5 products and get 5 deletion messages', () => {
+        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
+        quickOrder.removeManyRows(5);
+        quickOrder.verifyQuickOrderListQuantity(5);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(5);
       });
 
       it('should clear the list', () => {
@@ -49,18 +70,6 @@ context('B2B - Quick Order', () => {
         alerts
           .getAlert()
           .should('contain', `Quick order list has been cleared`);
-      });
-
-      it('should show message if product code is invalid', () => {
-        const invalidProductCode = 'invalidCode';
-
-        quickOrder.addWrongProductToTheList(invalidProductCode);
-        alerts
-          .getErrorAlert()
-          .should(
-            'contain',
-            `Product with code '${invalidProductCode}' not found!`
-          );
       });
 
       it('should limit the list and block form for adding more products', () => {
@@ -112,6 +121,21 @@ context('B2B - Quick Order', () => {
         quickOrder.addToCart();
         quickOrder.verifyQuickOrderPageShowErrorMessageOutOfStock();
         quickOrder.verifyQuickOrderPageShowSuccessMessageWasAdded();
+      });
+
+      it('should fill the form with random string and get empty results information', () => {
+        quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
+        quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
+      });
+
+      it('should delete entry and after that restore it', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        quickOrder.restoreDeletedEntry();
+        quickOrder.verifyQuickOrderListQuantity(2);
+        quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
       });
     });
 

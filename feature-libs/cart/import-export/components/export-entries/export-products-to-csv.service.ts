@@ -56,13 +56,12 @@ export class ExportProductsToCsvService {
   }
 
   protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
-    const values: any = combinedKeys
-      .split('.')
-      .reduce((obj, key) => (obj ? (obj as any)[key] : ''), entry);
-
-    return typeof values === 'object'
-      ? JSON.stringify(values).replace(/"/g, `'`)
-      : values?.toString() ?? '';
+    return (
+      combinedKeys
+        .split('.')
+        .reduce((obj, key) => (obj ? (obj as any)[key] : ''), entry)
+        ?.toString() ?? ''
+    );
   }
 
   protected resolveValues(entries: OrderEntry[]): string[][] {
