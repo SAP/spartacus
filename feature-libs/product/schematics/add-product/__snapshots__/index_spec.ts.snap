@@ -177,7 +177,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature eager loading sh
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { ProductImageZoomModule } from \\"@spartacus/product/image-zoom\\";
-import { imageZoomTranslationChunksConfig, imageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
 import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root\\";
 
 @NgModule({
@@ -188,8 +188,8 @@ import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: imageZoomTranslations,
-      chunks: imageZoomTranslationChunksConfig,
+      resources: productImageZoomTranslations,
+      chunks: productImageZoomTranslationChunksConfig,
     },
   })]
 })
@@ -200,7 +200,7 @@ export class ProductImageZoomFeatureModule { }
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { imageZoomTranslationChunksConfig, imageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
 import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spartacus/product/image-zoom/root\\";
 
 @NgModule({
@@ -218,8 +218,8 @@ import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spart
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: imageZoomTranslations,
-      chunks: imageZoomTranslationChunksConfig,
+      resources: productImageZoomTranslations,
+      chunks: productImageZoomTranslationChunksConfig,
     },
   })
   ]
