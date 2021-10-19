@@ -12,7 +12,7 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'addToCart',
       'clearList',
-      'getListLimit',
+      'getLimitExceeded',
       'setListLimit',
       'getEntries',
       'getProductAdded',
