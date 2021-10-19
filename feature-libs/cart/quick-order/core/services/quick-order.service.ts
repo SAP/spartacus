@@ -110,7 +110,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   getLimitExceeded(): Observable<boolean> {
     return this.entries$.pipe(
-      map((entries) => this.quickOrderListLimit - entries.length <= 0)
+      map((entries) => entries.length >= this.quickOrderListLimit)
     );
   }
 
@@ -320,7 +320,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
-    if (this.quickOrderListLimit - entries.length <= 0) {
+    if (entries.length >= this.quickOrderListLimit) {
       return;
     }
 
