@@ -69,7 +69,7 @@ describe('ImageZoomTriggerComponent', () => {
       component.triggerZoom();
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
-        LAUNCH_CALLER.IMAGE_ZOOM,
+        LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM,
         component['vcr']
       );
     });
@@ -80,7 +80,7 @@ describe('ImageZoomTriggerComponent', () => {
       component.triggerZoom();
 
       expect(launchDialogService.clear).toHaveBeenCalledWith(
-        LAUNCH_CALLER.IMAGE_ZOOM
+        LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM
       );
     });
 

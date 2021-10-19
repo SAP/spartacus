@@ -3,7 +3,7 @@ import { ImageZoomDialogComponent } from './image-zoom-dialog/image-zoom-dialog.
 
 export const defaultProductImageZoomLayoutConfig: LayoutConfig = {
   launch: {
-    IMAGE_ZOOM: {
+    PRODUCT_IMAGE_ZOOM: {
       inline: true,
       component: ImageZoomDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,

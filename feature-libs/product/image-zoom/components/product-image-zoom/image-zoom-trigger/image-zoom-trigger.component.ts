@@ -42,7 +42,7 @@ export class ImageZoomTriggerComponent implements OnDestroy {
 
   triggerZoom(): void {
     const component = this.launchDialogService.launch(
-      LAUNCH_CALLER.IMAGE_ZOOM,
+      LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM,
       this.vcr
     );
     if (component) {
@@ -58,7 +58,7 @@ export class ImageZoomTriggerComponent implements OnDestroy {
             }),
             filter(([, close]) => Boolean(close)),
             tap(([comp]) => {
-              this.launchDialogService.clear(LAUNCH_CALLER.IMAGE_ZOOM);
+              this.launchDialogService.clear(LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM);
               comp?.destroy();
               this.dialogClose.emit();
             })

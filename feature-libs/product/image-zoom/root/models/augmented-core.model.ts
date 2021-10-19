@@ -2,6 +2,6 @@ import '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
   const enum LAUNCH_CALLER {
-    IMAGE_ZOOM = 'IMAGE_ZOOM',
+    PRODUCT_IMAGE_ZOOM = 'PRODUCT_IMAGE_ZOOM',
   }
 }
