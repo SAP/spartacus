@@ -10,9 +10,9 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  private mainMediaContainer = new BehaviorSubject(null);
+  protected mainMediaContainer = new BehaviorSubject<any>(null);
 
-  private product$: Observable<Product> = this.currentProductService
+  protected product$: Observable<Product> = this.currentProductService
     .getProduct()
     .pipe(
       filter(isNotNullable),
@@ -30,7 +30,7 @@ export class ProductImagesComponent {
     map(([, container]) => container)
   );
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
