@@ -106,7 +106,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Get quick order list limit property
+   * Get quick order list limit exceeded property
    */
   getLimitExceeded(): Observable<boolean> {
     return this.entries$.pipe(

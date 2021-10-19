@@ -60,7 +60,7 @@ export abstract class QuickOrderFacade {
   abstract clearList(): void;
 
   /**
-   * Get quick order list limit property
+   * Get quick order list limit exceeded property
    */
   abstract getLimitExceeded(): Observable<boolean>;
 
