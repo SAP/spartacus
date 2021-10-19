@@ -8,5 +8,5 @@ export const productImageZoomTranslations: TranslationResources = {
 // expose all translation chunk mapping for imageZoom feature
 export const productImageZoomTranslationChunksConfig: TranslationChunksConfig =
   {
-    imageZoom: ['imageZoomTrigger'],
+    imageZoom: ['imageZoomTrigger', 'imageZoomDialog'],
   };
