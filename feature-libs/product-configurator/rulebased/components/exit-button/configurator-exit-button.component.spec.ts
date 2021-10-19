@@ -132,10 +132,10 @@ describe('ConfiguratorExitButton', () => {
     expect(component).toBeDefined();
   });
 
-  describe('navigation tests', () => {
-    it('should navigate to product detail page if going back to previous page does not work', () => {
+  describe('exit a configuration', () => {
+    it('should navigate to product detail page', () => {
       spyOn(routingService, 'go').and.callThrough();
-      component.goBack();
+      component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
         params: PRODUCT,
