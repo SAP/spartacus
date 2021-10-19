@@ -39,9 +39,13 @@
           {{ 'quickOrderCartForm.addToCart' | cxTranslate }}
         </button>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="quickOrderForm.get('quantity')"
         ></cx-form-errors>
       </div>
