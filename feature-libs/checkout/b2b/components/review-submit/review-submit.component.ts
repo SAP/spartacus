@@ -83,7 +83,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutPO.costCenter'),
+      this.translation.translate('checkoutB2B.costCenter'),
     ]).pipe(
       map(([textTitle]) => {
         return {
@@ -97,8 +97,8 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutReview.poNumber'),
-      this.translation.translate('checkoutPO.noPoNumber'),
+      this.translation.translate('checkoutB2B.review.poNumber'),
+      this.translation.translate('checkoutB2B.noPoNumber'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => {
         return {
@@ -111,7 +111,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getPaymentTypeCard(paymentType: PaymentType): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutProgress.methodOfPayment'),
+      this.translation.translate('checkoutB2B.progress.methodOfPayment'),
       this.translation.translate(
         'paymentTypes.paymentType_' + paymentType.code
       ),

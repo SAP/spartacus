@@ -72,7 +72,7 @@ export class CheckoutB2BAuthGuard
       return true;
     }
     this.globalMessageService.add(
-      { key: 'checkout.invalid.accountType' },
+      { key: 'checkoutB2B.invalid.accountType' },
       GlobalMessageType.MSG_TYPE_WARNING
     );
     return this.router.parseUrl(this.semanticPathService.get('home'));

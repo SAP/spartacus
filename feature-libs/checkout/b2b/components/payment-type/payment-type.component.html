@@ -2,14 +2,14 @@
   <div class="col-md-12 col-lg-6">
     <label>
       <span class="label-content">{{
-        'checkoutPO.poNumber' | cxTranslate
+        'checkoutB2B.poNumber' | cxTranslate
       }}</span>
       <input
         #poNumber
         class="form-control"
         formControlName="poNumber"
         type="text"
-        placeholder="{{ 'checkoutPO.placeholder' | cxTranslate }}"
+        placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
         value="{{ cartPoNumber$ | async }}"
       />
     </label>

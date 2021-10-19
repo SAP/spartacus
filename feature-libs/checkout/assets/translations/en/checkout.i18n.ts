@@ -29,7 +29,6 @@ export const checkout = {
     editPaymentDetails: 'Edit payment details, opens Payment Details page',
     editPaymentType: 'Edit payment method, opens Method of Payment page',
     editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
-    poNumber: 'Purchase Order Number',
   },
   checkoutShipping: {
     shippingMethod: 'Shipping Method',
@@ -38,20 +37,8 @@ export const checkout = {
   },
   checkout: {
     backToCart: 'Back to cart',
-    invalid: {
-      accountType: 'Your account does not allow you to checkout here.',
-    },
-  },
-  checkoutPO: {
-    noPoNumber: 'None',
-    poNumber: 'Purchase order number (optional)',
-    costCenter: 'Cost Center',
-    placeholder: 'Enter P.O',
-    availableLabel:
-      "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
-    methodOfPayment: 'Method of Payment',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery Mode',
     paymentDetails: 'Payment Details',

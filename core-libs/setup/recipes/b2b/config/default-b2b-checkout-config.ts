@@ -9,7 +9,7 @@ export const defaultB2bCheckoutConfig: CheckoutConfig = {
     steps: [
       {
         id: 'paymentType',
-        name: 'checkoutProgress.methodOfPayment',
+        name: 'checkoutB2B.progress.methodOfPayment',
         routeName: 'checkoutPaymentType',
         type: [CheckoutStepType.PAYMENT_TYPE],
       },
