@@ -10,6 +10,7 @@
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
           </label>
           <input
+            aria-required="true"
             class="form-control input-product-code"
             formControlName="productCode"
             placeholder="{{
@@ -24,6 +25,7 @@
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
           <input
+            aria-required="true"
             [min]="min"
             class="form-control input-quantity"
             formControlName="quantity"
