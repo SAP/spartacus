@@ -49,19 +49,19 @@ export class QuickOrderImportExportContext implements ImportExportContext {
               this.quickOrderService.getLimitExceeded().pipe(
                 take(1),
                 tap((limitExceeded: boolean) => {
-                  const _productData = productsData.find(
+                  const productData = productsData.find(
                     (p) => p.productCode === product.code
                   ) as ProductData;
                   if (limitExceeded) {
                     this.results$.next({
-                      productCode: _productData.productCode,
+                      productCode: productData.productCode,
                       statusCode: ProductImportStatus.LIMIT_EXCEEDED,
                     });
                   } else {
-                    this.handleResults(product, _productData);
+                    this.handleResults(product, productData);
                     this.quickOrderService.addProduct(
                       product,
-                      _productData.quantity
+                      productData.quantity
                     );
                   }
                 })
