@@ -1,35 +1,65 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
+  defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
+  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   EventService,
+  HttpErrorModel,
   OrderEntry,
   Product,
   ProductAdapter,
-  CartAddEntryFailEvent,
-  HttpErrorModel,
+  ProductSearchAdapter,
+  ProductSearchPage,
+  SearchConfig,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class QuickOrderService implements QuickOrderFacade {
+@Injectable()
+export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject<string> = new Subject<string>();
   protected entries$: BehaviorSubject<OrderEntry[]> = new BehaviorSubject<
     OrderEntry[]
   >([]);
+  protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
+    new BehaviorSubject<Record<string, OrderEntry>>({});
+  protected hardDeleteTimeout = 5000;
+
+  private clearDeleteTimeouts: Record<string, Subscription> = {};
+
+  /**
+   * @deprecated since version 4.2
+   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchAdapter: ProductSearchAdapter); instead
+   */
+  // TODO(#14059): Remove deprecated constructor
+  constructor(
+    activeCartService: ActiveCartService,
+    productAdapter: ProductAdapter,
+    eventService: EventService
+  );
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter,
-    protected eventService: EventService
+    protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
+    protected eventService: EventService,
+    protected productSearchAdapter?: ProductSearchAdapter //TODO(#14059): Make it required
   ) {}
+
+  ngOnDestroy(): void {
+    this.clearDeletedEntries();
+  }
 
   /**
    * Get entries
@@ -39,10 +69,32 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Search product using sku
+   * @deprecated since 4.2 - use searchProducts instead
+   * Search product using SKU
    */
   search(productCode: string): Observable<Product> {
     return this.productAdapter.load(productCode);
+  }
+
+  /**
+   * Search products using query
+   */
+  searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
+    // TODO(#14059): Remove condition
+    if (this.productSearchAdapter) {
+      const searchConfig: SearchConfig = {
+        pageSize:
+          maxProducts ||
+          defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
+      };
+      return this.productSearchAdapter
+        .search(query, searchConfig)
+        .pipe(
+          map((searchPage: ProductSearchPage) => searchPage.products || [])
+        );
+    } else {
+      return of([]);
+    }
   }
 
   /**
@@ -70,21 +122,29 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
    */
-  removeEntry(index: number): void {
+  softDeleteEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) => {
       const entriesList = entries;
+      this.addSoftEntryDeletion(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
   }
 
   /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
+   */
+  removeEntry(index: number): void {
+    this.softDeleteEntry(index);
+  }
+
+  /**
    * Add product to the quick order list
    */
-  addProduct(product: Product): void {
-    const entry = this.generateOrderEntry(product);
+  addProduct(product: Product, quantity: number = 1): void {
+    const entry = this.generateOrderEntry(product, quantity);
     this.addEntry(entry);
   }
 
@@ -144,13 +204,96 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
+   * Return soft deleted entries
+   */
+  getSoftDeletedEntries(): Observable<Record<string, OrderEntry>> {
+    return this.softDeletedEntries$;
+  }
+
+  /**
+   * Restore soft deleted entry
+   */
+  restoreSoftDeletedEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
+
+    this.addEntry(entry);
+    this.hardDeleteEntry(productCode);
+  }
+
+  /**
+   * Clear deleted entry from the list
+   */
+  hardDeleteEntry(productCode: string): void {
+    const entry = this.getSoftDeletedEntry(productCode);
+    const deletedEntries = this.softDeletedEntries$.getValue();
+
+    if (entry) {
+      delete deletedEntries[productCode];
+      this.softDeletedEntries$.next(deletedEntries);
+    }
+
+    this.clearDeleteTimeout(productCode);
+  }
+
+  /**
+   * Clear all deleted entries and timeout subscriptions
+   */
+  clearDeletedEntries(): void {
+    Object.values(this.clearDeleteTimeouts).forEach(
+      (subscription: Subscription) => subscription.unsubscribe()
+    );
+
+    this.softDeletedEntries$.next({});
+    this.clearDeleteTimeouts = {};
+  }
+
+  /**
+   * Add soft deleted entry to the cached list
+   */
+  protected addSoftEntryDeletion(
+    entry: OrderEntry,
+    clearTimeout: boolean = true
+  ): void {
+    const deletedEntries = this.softDeletedEntries$.getValue();
+    const productCode = entry.product?.code;
+
+    if (productCode) {
+      deletedEntries[productCode] = entry;
+
+      this.softDeletedEntries$.next(deletedEntries);
+
+      if (clearTimeout) {
+        const subscription: Subscription = timer(
+          this.hardDeleteTimeout
+        ).subscribe(() => {
+          this.hardDeleteEntry(productCode);
+        });
+
+        this.clearDeleteTimeouts[productCode] = subscription;
+      }
+    }
+  }
+
+  /**
+   * Get soft deletion entry
+   */
+  protected getSoftDeletedEntry(productCode: string): OrderEntry {
+    const deletedEntries = this.softDeletedEntries$.getValue();
+
+    return deletedEntries[productCode];
+  }
+
+  /**
    * Generate Order Entry from Product
    */
-  protected generateOrderEntry(product: Product): OrderEntry {
+  protected generateOrderEntry(
+    product: Product,
+    quantity?: number
+  ): OrderEntry {
     return {
       basePrice: product.price,
       product: product,
-      quantity: 1,
+      quantity,
       totalPrice: product.price,
     } as OrderEntry;
   }
@@ -160,18 +303,28 @@ export class QuickOrderService implements QuickOrderFacade {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
+    const entryStockLevel = entry.product?.stock?.stockLevel;
+
+    if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
+      entry.quantity = entryStockLevel;
+    }
 
     if (entry.product?.code && this.isProductOnTheList(entry.product.code)) {
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
-      const quantity = entries[entryIndex].quantity;
+      let quantity = entries[entryIndex].quantity;
 
       if (quantity && entry.quantity) {
         entries[entryIndex].quantity = quantity + entry?.quantity;
-      }
+        let newQuantity = entries[entryIndex].quantity;
 
-      this.entries$.next([...entries]);
+        if (newQuantity && entryStockLevel && newQuantity > entryStockLevel) {
+          entries[entryIndex].quantity = entryStockLevel;
+        }
+
+        this.entries$.next([...entries]);
+      }
     } else {
       this.entries$.next([...entries, ...[entry]]);
     }
@@ -216,5 +369,14 @@ export class QuickOrderService implements QuickOrderFacade {
     }
 
     return evt;
+  }
+
+  protected clearDeleteTimeout(productCode: string): void {
+    const clearMessageTimout = this.clearDeleteTimeouts[productCode];
+
+    if (clearMessageTimout) {
+      clearMessageTimout.unsubscribe();
+      delete this.clearDeleteTimeouts[productCode];
+    }
   }
 }

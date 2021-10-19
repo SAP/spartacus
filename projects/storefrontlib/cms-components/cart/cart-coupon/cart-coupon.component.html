@@ -20,6 +20,8 @@
           {{ 'voucher.apply' | cxTranslate }}
         </button>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="couponForm.get('couponCode')"
         ></cx-form-errors>
       </div>
