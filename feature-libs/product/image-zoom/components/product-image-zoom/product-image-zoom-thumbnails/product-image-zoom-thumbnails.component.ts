@@ -33,15 +33,13 @@ export class ProductImageZoomThumbnailsComponent {
     }
   }
 
-  isActive(thumbnail: ImageGroup): Observable<any> {
+  isActive(thumbnail: ImageGroup): Observable<boolean> {
     return this.mainMediaContainer.asObservable().pipe(
       filter(isNotNullable),
       map((container: ImageGroup) => {
-        return (
-          container.zoom?.url &&
+        return (container.zoom?.url &&
           thumbnail.zoom?.url &&
-          container.zoom.url === thumbnail.zoom.url
-        );
+          container.zoom.url === thumbnail.zoom.url) as boolean;
       })
     );
   }
