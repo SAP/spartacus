@@ -37,11 +37,11 @@ describe('Image zoom', () => {
     it('clicking on main image should zoom in image', () => {
       cy.get('cx-media.cx-default-image-zoom').click();
 
-      cy.get('cx-media.cx-product-image-zoomed').should('be.visible');
+      cy.get('cx-media.cx-image-zoomed').should('be.visible');
     });
 
     it('clicking on zoomed image should zoom out image', () => {
-      cy.get('cx-media.cx-product-image-zoomed').click();
+      cy.get('cx-media.cx-image-zoomed').click();
 
       cy.get('cx-media.cx-default-image-zoom').should('be.visible');
     });
