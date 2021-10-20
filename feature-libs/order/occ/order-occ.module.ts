@@ -32,7 +32,6 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       useExisting: OccOrderNormalizer,
       multi: true,
     },
-
   ],
 })
 export class OrderOccModule {}
