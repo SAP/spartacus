@@ -12,7 +12,7 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
@@ -33,9 +33,6 @@ export class TabParagraphContainerComponent
   children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: (Observable<any> | null)[] = [];
-
-  // TODO: it is not used any more, so can be removed in 5.0
-  subscription: Subscription;
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -117,11 +114,5 @@ export class TabParagraphContainerComponent
         this.tabTitleParams.push(null);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
