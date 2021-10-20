@@ -53,7 +53,7 @@ export class ImportCsvFileService {
       }),
       map((res) => this.parse(res, separator)),
       tap((data: string[][]) => {
-        this.validNotParsable(data, errors, isDataParsable);
+        this.validateNotParsable(data, errors, isDataParsable);
         this.validateTooManyEntries(data, errors, maxEntries);
       }),
       catchError((errors) => of(errors)),
@@ -100,7 +100,7 @@ export class ImportCsvFileService {
     }
   }
 
-  protected validNotParsable(
+  protected validateNotParsable(
     data: string[][],
     errors: ValidationErrors,
     isDataParsable?: (data: string[][]) => boolean
