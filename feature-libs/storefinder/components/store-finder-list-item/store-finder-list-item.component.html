@@ -38,6 +38,7 @@
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"
       (click)="$event.stopPropagation()"
+      [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a
     >
   </div>

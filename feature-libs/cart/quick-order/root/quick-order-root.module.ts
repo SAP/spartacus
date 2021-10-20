@@ -4,6 +4,7 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
+import { defaultQuickOrderConfig } from './config/default-quick-order.config';
 import {
   CART_QUICK_ORDER_CORE_FEATURE,
   CART_QUICK_ORDER_FEATURE,
@@ -37,6 +38,7 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig = {
   providers: [
     provideDefaultConfigFactory(defaultQuickOrderComponentsConfig),
     provideDefaultConfig(defaultQuickOrderRoutingConfig),
+    provideDefaultConfig(defaultQuickOrderConfig),
   ],
 })
 export class QuickOrderRootModule {}
