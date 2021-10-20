@@ -65,12 +65,17 @@
             'productReview.reviewTitle' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             #titleInput
             type="text"
             class="form-control"
             formControlName="title"
           />
-          <cx-form-errors [control]="reviewForm.get('title')"></cx-form-errors>
+          <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -79,11 +84,14 @@
             'productReview.writeYourComments' | cxTranslate
           }}</span>
           <textarea
+            aria-required="true"
             class="form-control"
             rows="3"
             formControlName="comment"
           ></textarea>
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
         </label>
@@ -93,12 +101,21 @@
           <span class="label-content">{{
             'productReview.rating' | cxTranslate
           }}</span>
-          <input type="number" formControlName="rating" class="rating-input" />
+          <input
+            aria-required="true"
+            type="number"
+            formControlName="rating"
+            class="rating-input"
+          />
           <cx-star-rating
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>
-          <cx-form-errors [control]="reviewForm.get('rating')"></cx-form-errors>
+          <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
