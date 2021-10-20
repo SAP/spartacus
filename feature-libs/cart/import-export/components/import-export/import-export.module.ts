@@ -24,7 +24,12 @@ import { ImportExportComponent } from './import-export.component';
               'savedCarts',
               'savedCartsDetails',
             ],
-            exportButtonDisplayRoutes: ['savedCartsDetails', 'cart'],
+            exportButtonDisplayRoutes: [
+              'savedCartsDetails',
+              'cart',
+              'orderConfirmation',
+              'orderDetails',
+            ],
           },
         },
       },

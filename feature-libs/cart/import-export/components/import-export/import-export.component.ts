@@ -10,6 +10,8 @@ import {
   NewSavedCartImportExportContext,
   QuickOrderImportExportContext,
   SavedCartImportExportContext,
+  OrderConfirmationExportContext,
+  OrderDetailsExportContextService,
 } from '@spartacus/cart/import-export/core';
 
 @Component({
@@ -30,6 +32,8 @@ export class ImportExportComponent {
     ['savedCartsDetails', this.savedCartService],
     ['quickOrder', this.quickOrderService],
     ['checkoutReviewOrder', this.activeCartService],
+    ['orderConfirmation', this.orderConfirmationService],
+    ['orderDetails', this.orderDetailsService],
   ]);
 
   constructor(
@@ -38,7 +42,9 @@ export class ImportExportComponent {
     protected activeCartService: ActiveCartImportExportContext,
     protected newSavedCartService: NewSavedCartImportExportContext,
     protected savedCartService: SavedCartImportExportContext,
-    protected quickOrderService: QuickOrderImportExportContext
+    protected quickOrderService: QuickOrderImportExportContext,
+    protected orderConfirmationService: OrderConfirmationExportContext,
+    protected orderDetailsService: OrderDetailsExportContextService
   ) {}
 
   context$: Observable<ImportExportContext | undefined> = this.route$.pipe(
