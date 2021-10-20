@@ -10,7 +10,6 @@ import {
   OccConfig,
   OccEndpointsService,
   Order,
-  ORDER_NORMALIZER,
   ReturnRequest,
   ReturnRequestEntryInputList,
 } from '@spartacus/core';
@@ -21,7 +20,7 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
 } from '@spartacus/order/core';
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking, ORDER_NORMALIZER } from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

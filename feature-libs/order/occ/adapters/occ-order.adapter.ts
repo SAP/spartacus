@@ -11,7 +11,6 @@ import {
   OCC_USER_ID_CURRENT,
   Order,
   OrderHistoryList,
-  ORDER_NORMALIZER,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
@@ -26,6 +25,7 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
 } from '@spartacus/order/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

@@ -3,6 +3,9 @@ import { Order } from '../../../model/order.model';
 import { PointOfService } from '../../../model/point-of-service.model';
 import { Converter } from '../../../util/converter.service';
 
+/**
+ * @deprecated
+ */
 export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
   'OrderNormalizer'
 );
