@@ -20,7 +20,7 @@ import {
 import {
   CartNameGeneration,
   ImportExportConfig,
-  NameSource,
+  CartNameSource,
   ProductData,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
@@ -124,11 +124,11 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     const nameField = this.form.get('name');
     if (nameField && !nameField?.value && this.cartNameGeneration?.source) {
       switch (this.cartNameGeneration.source) {
-        case NameSource.FILE_NAME: {
+        case CartNameSource.FILE_NAME: {
           this.setFieldValueByFileName(nameField);
           break;
         }
-        case NameSource.DATE_TIME: {
+        case CartNameSource.DATE_TIME: {
           this.setFieldValueByDatetime(nameField);
           break;
         }

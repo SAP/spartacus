@@ -1,5 +1,5 @@
 import { CartTypes } from '../model/import-export.model';
-import { NameSource } from '../model/import-to-cart.model';
+import { CartNameSource } from '../model/import-to-cart.model';
 import { ImportExportConfig } from './import-export-config';
 
 export const defaultImportExportConfig: ImportExportConfig = {
@@ -24,7 +24,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
         ],
       },
       cartNameGeneration: {
-        source: NameSource.FILE_NAME,
+        source: CartNameSource.FILE_NAME,
       },
     },
     export: {

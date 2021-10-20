@@ -27,7 +27,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**
-   * Allowed extensions for the file. It's setting attribute used for OS window for choosing files.
+   * Allowed file types. It's setting attribute used for OS window for choosing files.
    */
   @Input() accept?: string | string[] = '*';
   /**
