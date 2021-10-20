@@ -26,6 +26,13 @@
       "@spartacus/cart/import-export": ["dist/cart/import-export"],
       "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@spartacus/cart/quick-order/components": [
+        "dist/cart/quick-order/components"
+      ],
+      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [
         "dist/cart/saved-cart/components"
@@ -34,13 +41,6 @@
       "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
-      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
-      "@spartacus/cart/quick-order/components": [
-        "dist/cart/quick-order/components"
-      ],
-      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
-      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
-      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
@@ -55,7 +55,19 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/checkout/assets": ["dist/checkout/assets"],
+      "@spartacus/checkout/components": ["dist/checkout/components"],
+      "@spartacus/checkout/core": ["dist/checkout/core"],
+      "@spartacus/checkout": ["dist/checkout"],
+      "@spartacus/checkout/occ": ["dist/checkout/occ"],
+      "@spartacus/checkout/root": ["dist/checkout/root"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"]
     }
   },
   "angularCompilerOptions": {
