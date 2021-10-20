@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
@@ -24,9 +23,7 @@ import { BREAKPOINT } from '../../../layout/config/layout-config';
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabParagraphContainerComponent
-  implements AfterViewInit, OnInit, OnDestroy
-{
+export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;
 
   @ViewChildren(ComponentWrapperDirective)
