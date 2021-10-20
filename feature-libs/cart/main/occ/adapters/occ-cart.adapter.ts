@@ -57,13 +57,13 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
 
-    let params = {};
+    let params = <any>{};
 
     if (oldCartId) {
-      params = { oldCartId };
+      params['oldCartId'] = oldCartId;
     }
     if (toMergeCartGuid) {
-      params = { toMergeCartGuid };
+      params['toMergeCartGuid'] = toMergeCartGuid;
     }
 
     return this.http
