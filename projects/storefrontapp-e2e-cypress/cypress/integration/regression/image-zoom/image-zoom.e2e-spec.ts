@@ -79,7 +79,6 @@ describe('Image zoom', () => {
 
         cy.get('@mainAfter').then((mainAfter) => {
           expect(mainInitial).not.to.equal(mainAfter);
-
           cy.get('cx-icon.fa-angle-left').eq(1).click();
         });
       });
