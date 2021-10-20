@@ -1089,6 +1089,7 @@ export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
 
 export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
 export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
 
 export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
 export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =

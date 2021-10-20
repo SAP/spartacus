@@ -1,0 +1,45 @@
+<ng-container *ngIf="mainImage$ | async as main">
+  <div class="cx-main-image-group" *ngIf="thumbnails$ | async as thumbs">
+    <div class="cx-navigate-image">
+      <button
+        class="btn btn-link"
+        *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
+        (click)="openImage(previousProduct.container)"
+      >
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+      </button>
+    </div>
+    <cx-media
+      #defaultImage
+      class="cx-default-image-zoom"
+      *ngIf="!isZoomed"
+      [container]="main"
+    >
+    </cx-media>
+    <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+      <cx-media
+        #zoomedImage
+        class="cx-image-zoomed"
+        [container]="main"
+        (mousemove)="pointerMove($event)"
+        (touchmove)="touchMove($event)"
+        (touchend)="clearTouch()"
+      >
+      </cx-media>
+    </div>
+    <div class="cx-navigate-image">
+      <button
+        class="btn btn-link"
+        *ngIf="getNextProduct(thumbs) | async as nextProduct"
+        (click)="openImage(nextProduct.container)"
+      >
+        <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<cx-product-image-zoom-thumbnails
+  [thumbs$]="thumbnails$"
+  (productImage)="changeImage($event)"
+></cx-product-image-zoom-thumbnails>

@@ -1,0 +1,12 @@
+<button
+  class="cx-config-exit-button"
+  tabindex="0"
+  (click)="exitConfiguration()"
+>
+  <ng-container *ngIf="isDesktop() | async">
+    {{ 'configurator.button.exit' | cxTranslate }}
+  </ng-container>
+  <ng-container *ngIf="isMobile() | async">
+    {{ 'configurator.button.exitMobile' | cxTranslate }}
+  </ng-container>
+</button>

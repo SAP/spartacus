@@ -12,6 +12,7 @@ import { ConfiguratorProductTitleModule } from './product-title/configurator-pro
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
+import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-confl
     ConfiguratorOverviewFormModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
+    ConfiguratorExitButtonModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
