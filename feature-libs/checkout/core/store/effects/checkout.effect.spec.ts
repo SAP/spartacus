@@ -52,6 +52,7 @@ const details: CheckoutDetails = {
 
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
+  cardNumber: '1111222211112222',
   defaultPayment: false,
   billingAddress: {
     line1: '123 Montreal',
@@ -370,7 +371,7 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('setPaymentDetails$', () => {
+  fdescribe('setPaymentDetails$', () => {
     it('should set payment details', () => {
       const action = new CheckoutActions.SetPaymentDetails({
         userId: userId,
@@ -385,8 +386,14 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
+
+      let digits = paymentDetails.cardNumber;
+      digits = digits?.substring(digits.length - 4, digits.length);
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'paymentMethods.paymentMethodSelectedSucess' },
+        {
+          key: 'paymentMethods.paymentMethodSelectedSucess',
+          params: { digits: digits },
+        },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });

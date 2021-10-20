@@ -274,8 +274,13 @@ export class CheckoutEffects {
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
           map(() => {
+            let digits = payload.paymentDetails.cardNumber;
+            digits = digits.substring(digits.length - 4, digits.length);
             this.globalMessageService?.add(
-              { key: 'paymentMethods.paymentMethodSelectedSucess' },
+              {
+                key: 'paymentMethods.paymentMethodSelectedSucess',
+                params: { digits: digits },
+              },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CheckoutActions.SetPaymentDetailsSuccess(
