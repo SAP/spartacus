@@ -309,7 +309,7 @@ describe('OptimizedSsrEngine', () => {
         spyOn(
           engineRunner.optimizedSsrEngine as any,
           'isConcurrencyLimitExceeded'
-        );
+        ).and.callThrough();
 
         const route = 'home';
         engineRunner.request(route);
