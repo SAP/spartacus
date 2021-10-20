@@ -7,10 +7,10 @@ import {
 
 @Component({
   selector: 'cx-product-images',
-  templateUrl: './image-zoom-product-images.component.html',
+  templateUrl: './product-image-zoom-product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomProductImagesComponent extends ProductImagesComponent {
+export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
 

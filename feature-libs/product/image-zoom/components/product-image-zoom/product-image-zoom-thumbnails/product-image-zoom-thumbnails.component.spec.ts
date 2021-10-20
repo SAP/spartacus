@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ImageZoomThumbnailsComponent } from './image-zoom-thumbnails.component';
+import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
 const firstImage = {
   zoom: {
@@ -40,48 +40,51 @@ class MockCarouselComponent {
   @Input() hideIndicators;
 }
 
-describe('ImageZoomThumbnailsComponent', () => {
-  let imageZoomThumbnailsComponent: ImageZoomThumbnailsComponent;
-  let fixture: ComponentFixture<ImageZoomThumbnailsComponent>;
+describe('ProductImageZoomThumbnailsComponent', () => {
+  let productImageZoomThumbnailsComponent: ProductImageZoomThumbnailsComponent;
+  let fixture: ComponentFixture<ProductImageZoomThumbnailsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ImageZoomThumbnailsComponent, MockCarouselComponent],
+        declarations: [
+          ProductImageZoomThumbnailsComponent,
+          MockCarouselComponent,
+        ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageZoomThumbnailsComponent);
-    imageZoomThumbnailsComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);
+    productImageZoomThumbnailsComponent = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should be created', () => {
-    expect(imageZoomThumbnailsComponent).toBeTruthy();
+    expect(productImageZoomThumbnailsComponent).toBeTruthy();
   });
 
   describe('openImage', () => {
     it('should emit event with image and index', () => {
-      spyOn(imageZoomThumbnailsComponent.productImage, 'emit');
+      spyOn(productImageZoomThumbnailsComponent.productImage, 'emit');
 
-      imageZoomThumbnailsComponent.openImage(firstImage);
+      productImageZoomThumbnailsComponent.openImage(firstImage);
 
       expect(
-        imageZoomThumbnailsComponent.productImage.emit
+        productImageZoomThumbnailsComponent.productImage.emit
       ).toHaveBeenCalledWith({ image: firstImage, index: 1 });
     });
   });
 
   describe('isActive', () => {
     beforeEach(() => {
-      imageZoomThumbnailsComponent.openImage(firstImage);
+      productImageZoomThumbnailsComponent.openImage(firstImage);
     });
 
     it('should return true when active', () => {
       let result: boolean;
-      imageZoomThumbnailsComponent
+      productImageZoomThumbnailsComponent
         .isActive(firstImage)
         .subscribe((val) => (result = val))
         .unsubscribe();
@@ -89,7 +92,7 @@ describe('ImageZoomThumbnailsComponent', () => {
     });
     it('should return false when NOT active', () => {
       let result: boolean;
-      imageZoomThumbnailsComponent
+      productImageZoomThumbnailsComponent
         .isActive(secondImage)
         .subscribe((val) => (result = val))
         .unsubscribe();

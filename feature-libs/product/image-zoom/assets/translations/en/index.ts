@@ -1,5 +1,5 @@
-import { imageZoom } from './image-zoom.i18n';
+import { productImageZoom } from './product-image-zoom.i18n';
 
 export const en = {
-  imageZoom,
+  productImageZoom,
 };

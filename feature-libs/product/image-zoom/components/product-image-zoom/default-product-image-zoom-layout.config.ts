@@ -1,11 +1,11 @@
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { ImageZoomDialogComponent } from './image-zoom-dialog/image-zoom-dialog.component';
+import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog/product-image-zoom-dialog.component';
 
 export const defaultProductImageZoomLayoutConfig: LayoutConfig = {
   launch: {
     PRODUCT_IMAGE_ZOOM: {
       inline: true,
-      component: ImageZoomDialogComponent,
+      component: ProductImageZoomDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

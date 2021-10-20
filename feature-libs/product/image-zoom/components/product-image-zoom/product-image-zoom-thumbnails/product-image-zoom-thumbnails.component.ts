@@ -11,11 +11,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-image-zoom-thumbnails',
-  templateUrl: './image-zoom-thumbnails.component.html',
+  selector: 'cx-product-image-zoom-thumbnails',
+  templateUrl: './product-image-zoom-thumbnails.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomThumbnailsComponent {
+export class ProductImageZoomThumbnailsComponent {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});
 
   @Output() productImage = new EventEmitter<{ image: any; index: number }>();

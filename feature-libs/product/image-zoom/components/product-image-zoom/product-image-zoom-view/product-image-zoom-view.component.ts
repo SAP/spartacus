@@ -37,11 +37,11 @@ import {
 } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-image-zoom-view',
-  templateUrl: './image-zoom-view.component.html',
+  selector: 'cx-product-image-zoom-view',
+  templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomViewComponent implements OnInit, OnDestroy {
+export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
 
   @Input() galleryIndex: number;

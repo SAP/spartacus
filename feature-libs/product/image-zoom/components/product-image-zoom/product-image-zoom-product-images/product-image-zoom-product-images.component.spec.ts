@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ImageGroup, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '@spartacus/storefront';
-import { ImageZoomProductImagesComponent } from './image-zoom-product-images.component';
+import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
 import { take } from 'rxjs/operators';
 
 const firstImage = {
@@ -89,15 +89,15 @@ class MockCarouselComponent {
 }
 
 describe('ProductImagesComponent', () => {
-  let component: ImageZoomProductImagesComponent;
-  let fixture: ComponentFixture<ImageZoomProductImagesComponent>;
+  let component: ProductImageZoomProductImagesComponent;
+  let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [
-          ImageZoomProductImagesComponent,
+          ProductImageZoomProductImagesComponent,
           MockMediaComponent,
           MockCarouselComponent,
         ],
@@ -114,7 +114,7 @@ describe('ProductImagesComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+    fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -125,7 +125,7 @@ describe('ProductImagesComponent', () => {
         of(mockDataWithMultiplePictures)
       );
 
-      fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+      fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -184,7 +184,7 @@ describe('ProductImagesComponent', () => {
         of(mockDataWithOnePicture)
       );
 
-      fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+      fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -225,7 +225,7 @@ describe('ProductImagesComponent', () => {
         of(mockDataWitoutPrimaryPictures)
       );
 
-      fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+      fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -253,7 +253,7 @@ describe('ProductImagesComponent', () => {
 
   describe('on openImage', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(ImageZoomProductImagesComponent);
+      fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });

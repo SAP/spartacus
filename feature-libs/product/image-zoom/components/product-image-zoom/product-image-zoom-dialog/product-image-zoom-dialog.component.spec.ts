@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { ImageZoomDialogComponent } from './image-zoom-dialog.component';
+import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 import { I18nTestingModule } from '@spartacus/core';
 
 class MockLaunchDialogService {
   closeDialog() {}
 }
 
-describe('ImageZoomDialogComponent', () => {
-  let component: ImageZoomDialogComponent;
-  let fixture: ComponentFixture<ImageZoomDialogComponent>;
+describe('ProductImageZoomDialogComponent', () => {
+  let component: ProductImageZoomDialogComponent;
+  let fixture: ComponentFixture<ProductImageZoomDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
@@ -21,10 +21,10 @@ describe('ImageZoomDialogComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-      declarations: [ImageZoomDialogComponent],
+      declarations: [ProductImageZoomDialogComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImageZoomDialogComponent);
+    fixture = TestBed.createComponent(ProductImageZoomDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     fixture.detectChanges();

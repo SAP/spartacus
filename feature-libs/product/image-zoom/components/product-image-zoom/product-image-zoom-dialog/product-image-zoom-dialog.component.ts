@@ -12,11 +12,11 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-image-zoom-dialog',
-  templateUrl: 'image-zoom-dialog.component.html',
+  selector: 'cx-product-image-zoom-dialog',
+  templateUrl: 'product-image-zoom-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomDialogComponent {
+export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;
 
   focusConfig: FocusConfig = {

@@ -12,36 +12,36 @@ describe('Image zoom', () => {
     });
 
     it('should display image zoom trigger', () => {
-      cy.get('cx-image-zoom-trigger').should('be.visible');
+      cy.get('cx-product-image-zoom-trigger').should('be.visible');
     });
 
     it('should have correct label text', () => {
-      cy.get('cx-image-zoom-trigger').should('contain', 'Expand image');
+      cy.get('cx-product-image-zoom-trigger').should('contain', 'Expand image');
     });
 
     it('should open modal window with image', () => {
-      cy.get('cx-image-zoom-trigger').click();
+      cy.get('cx-product-image-zoom-trigger').click();
 
-      cy.get('cx-image-zoom-dialog').should('be.visible');
+      cy.get('cx-product-image-zoom-dialog').should('be.visible');
     });
 
     it('main image should be visible', () => {
-      cy.get('cx-image-zoom-view').should('be.visible');
+      cy.get('cx-product-image-zoom-view').should('be.visible');
       cy.get('cx-media.cx-default-image-zoom').should('be.visible');
     });
 
     it('thumbnails should be visible', () => {
-      cy.get('cx-image-zoom-thumbnails').should('be.visible');
+      cy.get('cx-product-image-zoom-thumbnails').should('be.visible');
     });
 
     it('clicking on main image should zoom in image', () => {
       cy.get('cx-media.cx-default-image-zoom').click();
 
-      cy.get('cx-media.cx-image-zoomed').should('be.visible');
+      cy.get('cx-media.cx-product-image-zoomed').should('be.visible');
     });
 
     it('clicking on zoomed image should zoom out image', () => {
-      cy.get('cx-media.cx-image-zoomed').click();
+      cy.get('cx-media.cx-product-image-zoomed').click();
 
       cy.get('cx-media.cx-default-image-zoom').should('be.visible');
     });

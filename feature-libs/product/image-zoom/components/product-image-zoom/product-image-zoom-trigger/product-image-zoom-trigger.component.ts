@@ -15,14 +15,14 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { ImageZoomDialogComponent } from '../image-zoom-dialog/image-zoom-dialog.component';
+import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/product-image-zoom-dialog.component';
 
 @Component({
-  selector: 'cx-image-zoom-trigger',
-  templateUrl: 'image-zoom-trigger.component.html',
+  selector: 'cx-product-image-zoom-trigger',
+  templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomTriggerComponent implements OnDestroy {
+export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
@@ -52,7 +52,7 @@ export class ImageZoomTriggerComponent implements OnDestroy {
             tap(([comp]) => {
               if (this.galleryIndex) {
                 (
-                  comp as ComponentRef<ImageZoomDialogComponent>
+                  comp as ComponentRef<ProductImageZoomDialogComponent>
                 ).instance.galleryIndex = this.galleryIndex;
               }
             }),

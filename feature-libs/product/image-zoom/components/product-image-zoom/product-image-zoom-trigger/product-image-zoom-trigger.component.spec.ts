@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { ImageZoomTriggerComponent } from './image-zoom-trigger.component';
+import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 
 @Component({
   template: '',
@@ -27,9 +27,9 @@ class MockLaunchDialogService {
   }
 }
 
-describe('ImageZoomTriggerComponent', () => {
-  let component: ImageZoomTriggerComponent;
-  let fixture: ComponentFixture<ImageZoomTriggerComponent>;
+describe('ProductImageZoomTriggerComponent', () => {
+  let component: ProductImageZoomTriggerComponent;
+  let fixture: ComponentFixture<ProductImageZoomTriggerComponent>;
   let testDialogComponent: ComponentRef<TestDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
@@ -42,11 +42,11 @@ describe('ImageZoomTriggerComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-      declarations: [ImageZoomTriggerComponent, TestDialogComponent],
+      declarations: [ProductImageZoomTriggerComponent, TestDialogComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImageZoomTriggerComponent);
+    fixture = TestBed.createComponent(ProductImageZoomTriggerComponent);
     component = fixture.componentInstance;
     testDialogComponent =
       TestBed.createComponent(TestDialogComponent).componentRef;
