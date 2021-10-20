@@ -77,6 +77,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 
 const featureModules = [];
 
@@ -163,7 +164,6 @@ if (environment.digitalPayments) {
     CartOccModule,
     // Cart UI
     CartComponentModule,
-    ImportExportFeatureModule,
     WishListModule,
 
     // Cost Center
@@ -183,7 +183,7 @@ if (environment.digitalPayments) {
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
     JsonLdBuilderModule,
 
-    /************************* External features *************************/
+    /************************* Feature libraries *************************/
     UserFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
@@ -195,7 +195,9 @@ if (environment.digitalPayments) {
     SavedCartFeatureModule,
     OrderFeatureModule,
     QuickOrderFeatureModule,
+    ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
+    ImageZoomFeatureModule,
     ...featureModules,
   ],
 })

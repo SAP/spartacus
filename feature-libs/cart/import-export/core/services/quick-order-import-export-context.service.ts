@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import { OrderEntry, Product, ProductAdapter } from '@spartacus/core';
+import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { CartTypes } from '../model/import-export.model';
 import {
@@ -20,22 +20,22 @@ export class QuickOrderImportExportContext implements ImportExportContext {
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productAdapter: ProductAdapter
+    protected productConnector: ProductConnector
   ) {}
-
-  results$ = new Subject<ProductImportInfo>();
 
   getEntries(): Observable<OrderEntry[]> {
     return this.quickOrderService.getEntries();
   }
 
   addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
+    const results$ = new Subject<ProductImportInfo>();
+
     forkJoin(
       productsData.map((productData) =>
-        this.productAdapter.load(productData.productCode).pipe(
+        this.productConnector.get(productData.productCode).pipe(
           take(1),
           catchError((response: HttpErrorResponse) => {
-            this.handleErrors(response, productData.productCode);
+            this.handleErrors(response, productData.productCode, results$);
             return of(null);
           })
         )
@@ -53,12 +53,12 @@ export class QuickOrderImportExportContext implements ImportExportContext {
                     (p) => p.productCode === product.code
                   ) as ProductData;
                   if (limitExceeded) {
-                    this.results$.next({
+                    results$.next({
                       productCode: productData.productCode,
                       statusCode: ProductImportStatus.LIMIT_EXCEEDED,
                     });
                   } else {
-                    this.handleResults(product, productData);
+                    this.handleResults(product, productData, results$);
                     this.quickOrderService.addProduct(
                       product,
                       productData.quantity
@@ -71,15 +71,19 @@ export class QuickOrderImportExportContext implements ImportExportContext {
         )
       )
       .subscribe();
-    return this.results$.pipe(take(productsData.length));
+    return results$.pipe(take(productsData.length));
   }
 
-  protected handleResults(product: Product, productData: ProductData) {
+  protected handleResults(
+    product: Product,
+    productData: ProductData,
+    results$: Subject<ProductImportInfo>
+  ) {
     if (
       product.stock?.stockLevel &&
       productData.quantity >= product.stock.stockLevel
     ) {
-      this.results$.next({
+      results$.next({
         productCode: productData.productCode,
         productName: product?.name,
         statusCode: ProductImportStatus.LOW_STOCK,
@@ -87,22 +91,26 @@ export class QuickOrderImportExportContext implements ImportExportContext {
         quantityAdded: product.stock.stockLevel,
       });
     } else if (product.stock?.stockLevelStatus === 'outOfStock') {
-      this.results$.next({
+      results$.next({
         productCode: productData.productCode,
         statusCode: ProductImportStatus.NO_STOCK,
         productName: product?.name,
       });
     } else {
-      this.results$.next({
+      results$.next({
         productCode: productData.productCode,
         statusCode: ProductImportStatus.SUCCESS,
       });
     }
   }
 
-  protected handleErrors(response: HttpErrorResponse, productCode: string) {
+  protected handleErrors(
+    response: HttpErrorResponse,
+    productCode: string,
+    results$: Subject<ProductImportInfo>
+  ) {
     if (response?.error?.errors[0].type === 'UnknownIdentifierError') {
-      this.results$.next({
+      results$.next({
         productCode,
         statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
       });
@@ -113,7 +121,7 @@ export class QuickOrderImportExportContext implements ImportExportContext {
           response
         );
       }
-      this.results$.next({
+      results$.next({
         productCode,
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });

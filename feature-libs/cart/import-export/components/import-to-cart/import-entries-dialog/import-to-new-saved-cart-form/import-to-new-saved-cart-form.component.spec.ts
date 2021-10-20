@@ -14,7 +14,7 @@ import {
 import {
   defaultImportExportConfig,
   ImportExportConfig,
-  NameSource,
+  CartNameSource,
   ProductData,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
@@ -138,14 +138,14 @@ describe('ImportToNewSavedCartFormComponent', () => {
       {
         testName: 'should update cart name based on the file name',
         cartNameGeneration: {
-          source: NameSource.FILE_NAME,
+          source: CartNameSource.FILE_NAME,
         },
         resultMask: /^(mockFile)$/,
       },
       {
         testName: 'should update cart name based on the date',
         cartNameGeneration: {
-          source: NameSource.DATE_TIME,
+          source: CartNameSource.DATE_TIME,
           fromDateOptions: {
             mask: 'yyyy/MM/dd_hh:mm',
           },
@@ -156,7 +156,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
       {
         testName: 'should update cart name based on the date with prefix',
         cartNameGeneration: {
-          source: NameSource.DATE_TIME,
+          source: CartNameSource.DATE_TIME,
           fromDateOptions: {
             prefix: 'cart_',
             mask: 'yyyy/MM/dd_hh:mm',
@@ -168,7 +168,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
       {
         testName: 'should update cart name based on the date with suffix',
         cartNameGeneration: {
-          source: NameSource.DATE_TIME,
+          source: CartNameSource.DATE_TIME,
           fromDateOptions: {
             suffix: '_cart',
             mask: 'yyyy/MM/dd_hh:mm',
@@ -181,7 +181,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
         testName:
           'should update cart name based on the date with prefix and suffix',
         cartNameGeneration: {
-          source: NameSource.DATE_TIME,
+          source: CartNameSource.DATE_TIME,
           fromDateOptions: {
             prefix: 'cart_',
             suffix: '_cart',
@@ -194,7 +194,7 @@ describe('ImportToNewSavedCartFormComponent', () => {
       {
         testName: 'should not update cart name if it was already filled',
         cartNameGeneration: {
-          source: NameSource.FILE_NAME,
+          source: CartNameSource.FILE_NAME,
         },
         alreadyFilledName: 'alreadyFilledName',
         resultMask: /^(alreadyFilledName)$/,

@@ -41,13 +41,13 @@ export interface ProductImportSummary {
   errorMessages: ProductImportInfo[];
 }
 
-export enum NameSource {
+export enum CartNameSource {
   FILE_NAME = 'fileName',
   DATE_TIME = 'dateTime',
 }
 
 export interface CartNameGeneration {
-  source?: NameSource;
+  source?: CartNameSource;
   fromDateOptions?: {
     prefix?: string;
     suffix?: string;
