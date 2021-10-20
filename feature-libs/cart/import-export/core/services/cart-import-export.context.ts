@@ -11,7 +11,7 @@ import {
 } from '../model/import-to-cart.model';
 
 /**
- * An abstract class for cart-like contexts which share part of logic - mainly handle cart actions and map results.
+ * An abstract class for contexts based on cart (active cart, saved cart) which share part of logic - mainly handle cart actions and map results.
  */
 export abstract class CartImportExportContext {
   protected constructor(protected actionsSubject: ActionsSubject) {}
