@@ -26,9 +26,9 @@ export const multiCartReducerToken: InjectionToken<
   ActionReducerMap<MultiCartState>
 > = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
-export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
+export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
   return {
-    carts: StateUtils.entityProcessesLoaderReducer<Cart>(
+    carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
       MULTI_CART_DATA,
       cartEntitiesReducer
     ),

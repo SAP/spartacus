@@ -12,7 +12,7 @@ export function entityProcessesLoaderReducer<T>(
   entityType: string,
   reducer?: (state: T, action: ProcessesLoaderAction) => T
 ): (
-  state: EntityProcessesLoaderState<T>,
+  state: EntityProcessesLoaderState<T> | undefined,
   action: EntityProcessesLoaderAction
 ) => EntityProcessesLoaderState<T> {
   return entityReducer(entityType, processesLoaderReducer(entityType, reducer));

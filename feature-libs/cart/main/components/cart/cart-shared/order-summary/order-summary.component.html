@@ -21,7 +21,7 @@
     <div class="col-6 cx-summary-amount">
       {{
         cart.deliveryCost?.formattedValue
-          ? cart.deliveryCost.formattedValue
+          ? cart.deliveryCost?.formattedValue
           : ('orderCost.toBeDetermined' | cxTranslate)
       }}
     </div>

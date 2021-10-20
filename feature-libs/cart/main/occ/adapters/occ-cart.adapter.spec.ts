@@ -141,7 +141,7 @@ describe('OccCartAdapter', () => {
   });
 
   describe('create a cart', () => {
-    it('should able to create a new cart for the given user ', () => {
+    it('should be able to create a new cart for the given user ', () => {
       let result;
       occCartAdapter.create(userId).subscribe((res) => (result = res));
 
@@ -161,7 +161,7 @@ describe('OccCartAdapter', () => {
   });
 
   describe('merge a cart', () => {
-    it('should able to merge a cart to current one for the given user ', () => {
+    it('should be able to merge a cart to current one for the given user ', () => {
       let result;
       occCartAdapter
         .create(userId, cartId, toMergeCart.guid)
@@ -184,7 +184,7 @@ describe('OccCartAdapter', () => {
   });
 
   describe('add email to cart', () => {
-    it('should able to assign email to cart for anonymous user', () => {
+    it('should be able to assign email to cart for anonymous user', () => {
       const email = 'tester@sap.com';
       let result: Object;
 

@@ -45,7 +45,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
       distinctUntilKeyChanged('active'),
       map((state) => {
         return {
-          active: state.active,
+          active: state.active ?? '',
         };
       })
     );

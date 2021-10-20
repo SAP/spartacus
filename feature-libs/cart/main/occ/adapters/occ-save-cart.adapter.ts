@@ -32,11 +32,11 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
   ): Observable<SaveCartResult> {
     let httpParams = new HttpParams();
 
-    if (Boolean(saveCartName)) {
+    if (saveCartName) {
       httpParams = httpParams.set('saveCartName', saveCartName);
     }
 
-    if (Boolean(saveCartDescription)) {
+    if (saveCartDescription) {
       httpParams = httpParams.set('saveCartDescription', saveCartDescription);
     }
 

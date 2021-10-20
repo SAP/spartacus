@@ -65,7 +65,7 @@ export abstract class SavedCartFacade {
    */
   abstract getSavedCart(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
    * Returns true when there are no operations on that in progress and it is not currently loading

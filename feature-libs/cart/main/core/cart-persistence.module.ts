@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
+import { Action, ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { ConfigInitializerService, MODULE_INITIALIZER } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
@@ -28,16 +28,17 @@ export function cartStatePersistenceFactory(
  * until the data from storage is restored.
  */
 export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
-  const metaReducer = (reducer: ActionReducer<any>) => (state, action) => {
-    const newState = { ...state };
-    if (action.type === '@ngrx/store/init') {
-      newState.cart = {
-        ...newState.cart,
-        ...{ active: activeCartInitialState },
-      };
-    }
-    return reducer(newState, action);
-  };
+  const metaReducer =
+    (reducer: ActionReducer<any>) => (state: any, action: Action) => {
+      const newState = { ...state };
+      if (action.type === '@ngrx/store/init') {
+        newState.cart = {
+          ...newState.cart,
+          ...{ active: activeCartInitialState },
+        };
+      }
+      return reducer(newState, action);
+    };
   return metaReducer;
 }
 

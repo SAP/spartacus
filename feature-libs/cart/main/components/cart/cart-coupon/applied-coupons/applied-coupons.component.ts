@@ -22,7 +22,7 @@ export class AppliedCouponsComponent {
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
     return this.vouchers.slice().sort((a, b) => {
-      return a.code.localeCompare(b.code);
+      return a.code && b.code ? a.code.localeCompare(b.code) : 0;
     });
   }
 

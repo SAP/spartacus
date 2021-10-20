@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../models/cart.model';
 import { facadeFactory, OrderEntry, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
+import { Cart } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +53,7 @@ export abstract class MultiCartFacade {
    */
   abstract getCartEntity(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
    * Returns true when there are no operations on that in progress and it is not currently loading
@@ -79,7 +79,7 @@ export abstract class MultiCartFacade {
     extraData?: {
       active?: boolean;
     };
-  }): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+  }): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
    * Merge provided cart to current user cart
@@ -130,7 +130,7 @@ export abstract class MultiCartFacade {
   abstract getLastEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null>;
+  ): Observable<OrderEntry | undefined>;
 
   /**
    * Add entry to cart
@@ -197,7 +197,7 @@ export abstract class MultiCartFacade {
   abstract getEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null>;
+  ): Observable<OrderEntry | undefined>;
 
   /**
    * Assign email to the cart
