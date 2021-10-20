@@ -6,11 +6,12 @@
         <div class="form-group" formGroupName="cardType">
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
-              <label aria-required="true">
+              <label>
                 <span class="label-content required">{{
                   'paymentForm.paymentType' | cxTranslate
                 }}</span>
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="cardTypes"
@@ -36,6 +37,7 @@
               'paymentForm.accountHolderName.label' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               class="form-control"
               type="text"
               placeholder="{{
@@ -57,6 +59,7 @@
               'paymentForm.cardNumber' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               type="text"
               class="form-control"
               formControlName="cardNumber"
@@ -77,6 +80,7 @@
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="months"
@@ -97,6 +101,7 @@
               </label>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="years"
@@ -131,6 +136,7 @@
                 ></cx-icon>
               </span>
               <input
+                aria-required="true"
                 type="text"
                 class="form-control"
                 id="cVVNumber"
@@ -208,6 +214,7 @@
                         'addressForm.country' | cxTranslate
                       }}</span>
                       <ng-select
+                        aria-required="true"
                         [searchable]="true"
                         [clearable]="false"
                         [items]="countries"
@@ -235,6 +242,7 @@
                     'addressForm.firstName.label' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     class="form-control"
                     type="text"
                     placeholder="{{
@@ -255,6 +263,7 @@
                     'addressForm.lastName.label' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
@@ -275,6 +284,7 @@
                     'addressForm.address1' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
@@ -309,6 +319,7 @@
                       'addressForm.city.label' | cxTranslate
                     }}</span>
                     <input
+                      aria-required="true"
                       type="text"
                       class="form-control"
                       placeholder="{{
@@ -329,6 +340,7 @@
                       'addressForm.zipCode.label' | cxTranslate
                     }}</span>
                     <input
+                      aria-required="true"
                       type="text"
                       class="form-control"
                       placeholder="{{
@@ -354,6 +366,7 @@
                           'addressForm.state' | cxTranslate
                         }}</span>
                         <ng-select
+                          aria-required="true"
                           class="region-select"
                           formControlName="isocodeShort"
                           [searchable]="true"
