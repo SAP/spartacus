@@ -6,6 +6,8 @@ import {
   ORDER_RETURN_REQUEST_NORMALIZER,
   ReplenishmentOrderAdapter,
 } from '@spartacus/order/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
+import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
 import { OccOrderAdapter } from './adapters/occ-order.adapter';
 import { OccReplenishmentOrderAdapter } from './adapters/occ-replenishment-order.adapter';
@@ -25,6 +27,12 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       useExisting: OccReturnRequestNormalizer,
       multi: true,
     },
+    {
+      provide: ORDER_NORMALIZER,
+      useExisting: OccOrderNormalizer,
+      multi: true,
+    },
+
   ],
 })
 export class OrderOccModule {}
