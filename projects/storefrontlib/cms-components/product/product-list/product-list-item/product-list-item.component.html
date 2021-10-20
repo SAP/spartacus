@@ -9,7 +9,7 @@
         class="cx-product-image"
         [container]="product.images?.PRIMARY"
         format="product"
-        [alt]="product.summary"
+        [alt]="getMediaAltText()"
       ></cx-media>
     </a>
   </div>
