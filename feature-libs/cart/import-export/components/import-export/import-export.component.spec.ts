@@ -108,7 +108,7 @@ export class MockImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  context: ImportContext;
+  context: ImportContext | ExportContext;
 }
 
 @Component({
