@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -56,12 +56,12 @@ export class ImportExportComponent {
     filter((service) => service !== undefined)
   );
 
-  entries$: Observable<OrderEntry[] | undefined> = this.context$.pipe(
-    switchMap((service: ImportContext | ExportContext) => {
-      if (isExportContext(service)) {
-        return service.getEntries() as Observable<OrderEntry[]>;
-      } else return of(undefined);
-    })
+  entries$: Observable<OrderEntry[]> = this.context$.pipe(
+    filter((service): service is ExportContext => isExportContext(service)),
+    switchMap(
+      (service: ExportContext) =>
+        service.getEntries() as Observable<OrderEntry[]>
+    )
   );
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([
