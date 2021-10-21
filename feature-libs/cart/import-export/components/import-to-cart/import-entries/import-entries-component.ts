@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ImportExportContext } from '@spartacus/cart/import-export/core';
+import { ImportContext } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',
@@ -19,7 +19,7 @@ export class ImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  context: ImportExportContext;
+  context: ImportContext;
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

@@ -5,12 +5,11 @@ import {
   Cart,
   CartActions,
   MultiCartService,
-  OrderEntry,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
 import {
-  NewSavedCartImportExportContext,
+  NewSavedCartImportContext,
   ProductData,
   ProductImportStatus,
 } from '@spartacus/cart/import-export/core';
@@ -48,8 +47,8 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-describe('NewSavedCartImportExportContext', () => {
-  let service: NewSavedCartImportExportContext;
+describe('NewSavedCartImportContext', () => {
+  let service: NewSavedCartImportContext;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
@@ -63,7 +62,7 @@ describe('NewSavedCartImportExportContext', () => {
         { useClass: MockUserIdService, provide: UserIdService },
       ],
     });
-    service = TestBed.inject(NewSavedCartImportExportContext);
+    service = TestBed.inject(NewSavedCartImportContext);
     multiCartService = TestBed.inject(MultiCartService);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
@@ -216,20 +215,6 @@ describe('NewSavedCartImportExportContext', () => {
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
-    });
-  });
-
-  describe('getEntries', () => {
-    it('getEntries from new saved cart', () => {
-      let entries: OrderEntry[];
-      service
-        .getEntries()
-        .subscribe((result) => {
-          entries = result;
-        })
-        .unsubscribe();
-
-      expect(entries).toEqual([]);
     });
   });
 });
