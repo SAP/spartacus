@@ -6,10 +6,11 @@
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <div class="cx-cart-coupon-container">
         <input
+          aria-required="true"
           type="text"
           class="form-control input-coupon-code"
           formControlName="couponCode"
-          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }} "
         />
         <button
           class="btn btn-block btn-action apply-coupon-button"
@@ -20,6 +21,8 @@
           {{ 'voucher.apply' | cxTranslate }}
         </button>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="couponForm.get('couponCode')"
         ></cx-form-errors>
       </div>
