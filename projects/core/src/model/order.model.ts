@@ -21,7 +21,7 @@ export interface DeliveryMode {
 }
 
 /**
- * @deprecated
+ * @deprecated - done
  */
 export interface OrderEntry {
   orderCode?: string;
@@ -41,7 +41,7 @@ export interface OrderEntry {
 }
 
 /**
- * @deprecated
+ * @deprecated - done
  */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
