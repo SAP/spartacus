@@ -64,14 +64,13 @@ class TestEngineRunner {
   ): TestEngineRunner {
     const response: { [key: string]: string } = {};
     const headers = params?.httpHeaders ?? { host: 'localhost:4200/' };
-    const remoteAddress = 'randomremoteaddress';
     const app =
       params?.app ??
       <Partial<Application>>{
         get:
           (_name: string): any =>
           (_connectionRemoteAddress: string) =>
-            remoteAddress,
+            true,
       };
 
     const optionsMock = {
@@ -83,7 +82,7 @@ class TestEngineRunner {
           return headers[header];
         },
         app,
-        connection: <Partial<Socket>>{ remoteAddress },
+        connection: <Partial<Socket>>{},
       },
       res: <Partial<Response>>{
         set: (key: string, value: any) => (response[key] = value),

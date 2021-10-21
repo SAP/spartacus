@@ -87,12 +87,10 @@ describe('decorateExpressEngine', () => {
   let engineInstance;
 
   beforeEach(() => {
-    const remoteAddress = 'randomremoteaddress';
     const app = {
       get:
         (_name: string): any =>
-        (_connectionRemoteAddress: string) =>
-          remoteAddress,
+        (_connectionRemoteAddress: string) => {},
     };
 
     mockOptions = {
@@ -101,7 +99,7 @@ describe('decorateExpressEngine', () => {
         originalUrl: '/electronics/en/USD/cart',
         get: jasmine.createSpy('req.get').and.returnValue('site.com'),
         app,
-        connection: { remoteAddress },
+        connection: {},
       },
       res: <Partial<Response>>{
         set: jasmine.createSpy('req.set'),
