@@ -13,12 +13,6 @@ import {
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
 
-function isExportContext(
-  service: ImportContext | ExportContext
-): service is ExportContext {
-  return (service as ExportContext)?.getEntries !== undefined;
-}
-
 @Component({
   selector: 'cx-import-export',
   templateUrl: './import-export.component.html',
@@ -57,7 +51,10 @@ export class ImportExportComponent {
   );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    filter((service): service is ExportContext => isExportContext(service)),
+    filter(
+      (service): service is ExportContext =>
+        (service as ExportContext)?.getEntries !== undefined
+    ),
     switchMap(
       (service: ExportContext) =>
         service.getEntries() as Observable<OrderEntry[]>
