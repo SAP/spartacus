@@ -1,18 +1,21 @@
-import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
-  PaymentDetails,
+  OrderEntry,
   PromotionResult,
   Voucher,
-} from './cart.model';
-import { PaginationModel, Principal, SortModel } from './misc.model';
-import { B2BUser, CostCenter } from './org-unit.model';
-import { PointOfService } from './point-of-service.model';
-import { Price, Product } from './product.model';
+} from '@spartacus/cart/main/root';
+import {
+  Address,
+  B2BUser,
+  CostCenter,
+  PaginationModel,
+  PaymentDetails,
+  PointOfService,
+  Price,
+  Principal,
+  SortModel,
+} from '@spartacus/core';
 
-/**
- * @deprecated
- */
 export interface DeliveryMode {
   code?: string;
   deliveryCost?: Price;
@@ -20,61 +23,26 @@ export interface DeliveryMode {
   name?: string;
 }
 
-/**
- * @deprecated
- */
-export interface OrderEntry {
-  orderCode?: string;
-  basePrice?: Price;
-  deliveryMode?: DeliveryMode;
-  deliveryPointOfService?: PointOfService;
-  entryNumber?: number;
-  product?: Product;
-  quantity?: number;
-  totalPrice?: Price;
-  updateable?: boolean;
-  returnedItemsPrice?: Price;
-  returnableQuantity?: number;
-  cancelledItemsPrice?: Price;
-  cancellableQuantity?: number;
-  promotions?: PromotionResult[];
-}
-
-/**
- * @deprecated
- */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
   quantity?: number;
 }
 
-/**
- * @deprecated
- */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated
- */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated
- */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
   expectedQuantity?: number;
   refundAmount?: Price;
 }
 
-/**
- * @deprecated
- */
 export interface ReturnRequest {
   cancellable?: boolean;
   code?: string;
@@ -90,25 +58,16 @@ export interface ReturnRequest {
   totalPrice?: Price;
 }
 
-/**
- * @deprecated
- */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated
- */
 export interface ReturnRequestModification {
   status?: string;
 }
 
-/**
- * @deprecated
- */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;
@@ -117,9 +76,6 @@ export interface PickupOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-/**
- * @deprecated
- */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
   code?: string;
@@ -127,18 +83,12 @@ export interface PromotionOrderEntryConsumed {
   quantity?: number;
 }
 
-/**
- * @deprecated
- */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
   quantity?: number;
   shippedQuantity?: number;
 }
 
-/**
- * @deprecated
- */
 export interface Consignment {
   code?: string;
   deliveryPointOfService?: PointOfService;
@@ -149,9 +99,6 @@ export interface Consignment {
   trackingID?: string;
 }
 
-/**
- * @deprecated
- */
 export interface OrderHistory {
   code?: string;
   guid?: string;
@@ -161,18 +108,12 @@ export interface OrderHistory {
   total?: Price;
 }
 
-/**
- * @deprecated
- */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated
- */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];

@@ -3,11 +3,12 @@ import {
   CostCenter,
   Currency,
   DeliveryMode,
-  OrderEntry,
   PaymentDetails,
   PickupOrderEntryGroup,
+  PointOfService,
   Price,
   Principal,
+  Product,
   Promotion,
   PromotionOrderEntryConsumed,
 } from '@spartacus/core';
@@ -113,4 +114,21 @@ export interface CartModification {
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
+}
+
+export interface OrderEntry {
+  orderCode?: string;
+  basePrice?: Price;
+  deliveryMode?: DeliveryMode;
+  deliveryPointOfService?: PointOfService;
+  entryNumber?: number;
+  product?: Product;
+  quantity?: number;
+  totalPrice?: Price;
+  updateable?: boolean;
+  returnedItemsPrice?: Price;
+  returnableQuantity?: number;
+  cancelledItemsPrice?: Price;
+  cancellableQuantity?: number;
+  promotions?: PromotionResult[];
 }
