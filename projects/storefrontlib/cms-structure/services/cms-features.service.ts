@@ -9,8 +9,9 @@ import {
   DefaultConfigChunk,
   FeatureModuleConfig,
   FeatureModulesService,
+  isNotUndefined,
 } from '@spartacus/core';
-import { defer, Observable, of } from 'rxjs';
+import { defer, Observable, of, zip } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
@@ -30,8 +31,11 @@ export class CmsFeaturesService {
     [featureName: string]: FeatureModuleConfig | string;
   };
 
-  // maps componentType to feature
-  private componentFeatureMap: Map<string, string> = new Map();
+  // maps componentType to features
+  // in most cases, one componentType only maps to one feature
+  // but it can map to multiple features as well, e.g. `CheckoutPlaceOrder`
+  // can map to features `checkout` and `order`
+  private componentFeatureMap: Map<string, string[]> = new Map();
 
   /*
    * Contains either FeatureInstance or FeatureInstance resolver for not yet
@@ -62,7 +66,9 @@ export class CmsFeaturesService {
             featureConfig?.cmsComponents?.length
           ) {
             for (const component of featureConfig.cmsComponents) {
-              this.componentFeatureMap.set(component, featureName);
+              const existing = this.componentFeatureMap.get(component) || [];
+              const newValue = existing.concat([featureName]);
+              this.componentFeatureMap.set(component, newValue);
             }
           }
         }
@@ -83,16 +89,22 @@ export class CmsFeaturesService {
   getCmsMapping(
     componentType: string
   ): Observable<CmsComponentMapping | undefined> {
-    const feature = this.componentFeatureMap.get(componentType);
+    const features = this.componentFeatureMap.get(componentType);
 
-    if (!feature) {
+    if (!features) {
       return of(undefined);
     }
 
-    return this.resolveFeatureInstance(feature).pipe(
-      map(
-        (featureInstance) => featureInstance.componentsMappings?.[componentType]
-      )
+    const arr$ = features.map((feature) =>
+      this.resolveFeatureInstance(feature)
+    );
+    return zip(...arr$).pipe(
+      map((featureInstances) => {
+        const foundInstance = featureInstances.find(
+          (instance) => instance.componentsMappings?.[componentType]
+        );
+        return foundInstance?.componentsMappings?.[componentType];
+      })
     );
   }
 
@@ -102,21 +114,33 @@ export class CmsFeaturesService {
    * @param componentType
    */
   getModule(componentType: string): NgModuleRef<any> | undefined {
-    const feature = this.componentFeatureMap.get(componentType);
+    const features = this.componentFeatureMap.get(componentType);
 
-    if (!feature) {
+    if (!features) {
       return undefined;
     }
 
     let module;
 
     // we are returning injectors only for already resolved features
-    this.featureInstances
-      .get(feature)
-      ?.subscribe((featureInstance) => {
-        module = featureInstance.moduleRef;
+    const arr$ = features
+      .map((feature) => this.featureInstances.get(feature))
+      .filter(isNotUndefined);
+
+    zip(...arr$)
+      .pipe(
+        map((featureInstances) =>
+          // only get the module which defines the CmsComponent mapping
+          featureInstances.find(
+            (instance) => instance.componentsMappings?.[componentType]
+          )
+        )
+      )
+      .subscribe((featureInstance) => {
+        module = featureInstance?.moduleRef;
       })
       .unsubscribe();
+
     return module;
   }
 
