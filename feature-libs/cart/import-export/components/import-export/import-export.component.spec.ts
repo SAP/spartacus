@@ -7,6 +7,7 @@ import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
 import {
   ActiveCartImportExportContext,
   CartTypes,
+  ExportContext,
   ImportContext,
   NewSavedCartImportContext,
   ProductData,
@@ -48,7 +49,7 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
-class MockImportExportContext implements Partial<ImportContext> {
+class MockImportExportContext {
   getEntries = () => entries$.asObservable();
 
   addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
@@ -56,7 +57,7 @@ class MockImportExportContext implements Partial<ImportContext> {
 
 class MockActiveCartImportExportContext
   extends MockImportExportContext
-  implements ImportContext
+  implements ImportContext, ExportContext
 {
   type: CartTypes.ACTIVE_CART;
 }
@@ -69,13 +70,13 @@ class MockNewSavedCartImportContext
 }
 class MockSavedCartImportExportContext
   extends MockImportExportContext
-  implements ImportContext
+  implements ImportContext, ExportContext
 {
   type: CartTypes.SAVED_CART;
 }
 class MockQuickOrderImportExportContext
   extends MockImportExportContext
-  implements ImportContext
+  implements ImportContext, ExportContext
 {
   type: CartTypes.QUICK_ORDER;
 }

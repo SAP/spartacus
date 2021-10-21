@@ -32,12 +32,12 @@ const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
-class MockImportExportContext implements Partial<ImportContext> {
+class MockImportContext implements Partial<ImportContext> {
   addEntries = () => loadProducts$.asObservable();
 }
 
 const service: ImportContext =
-  new MockImportExportContext() as unknown as ImportContext;
+  new MockImportContext() as unknown as ImportContext;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
