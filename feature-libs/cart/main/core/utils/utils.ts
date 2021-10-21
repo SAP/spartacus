@@ -4,11 +4,11 @@ import { ErrorModel, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 /**
  * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.
  */
-export function getCartIdByUserId(cart: Cart, userId: string): string {
+export function getCartIdByUserId(cart?: Cart, userId?: string): string {
   if (userId === OCC_USER_ID_ANONYMOUS) {
-    return cart.guid;
+    return cart?.guid ?? '';
   }
-  return cart.code;
+  return cart?.code ?? '';
 }
 
 /**

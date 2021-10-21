@@ -1,8 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { PromotionResult } from '@spartacus/cart/main/root';
-import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import {
+  ConverterService,
+  OrderEntryPromotionsService,
+  PRODUCT_NORMALIZER,
+} from '@spartacus/core';
 import { OccCartNormalizer } from './occ-cart-normalizer';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 class MockConverterService {
   convert() {}
 }

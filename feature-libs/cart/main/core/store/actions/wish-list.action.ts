@@ -19,7 +19,7 @@ export class CreateWishList implements Action {
   constructor(
     public payload: {
       userId: string;
-      name: string;
+      name?: string;
       description?: string;
     }
   ) {}

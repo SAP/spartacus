@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SaveCartAdapter } from '@spartacus/cart/main/core';
 import {
-  SaveCartAdapter,
+  SaveCartResult,
   SAVE_CART_NORMALIZER,
-} from '@spartacus/cart/main/core';
-import { SaveCartResult } from '@spartacus/cart/main/root';
+} from '@spartacus/cart/main/root';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -32,11 +32,11 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
   ): Observable<SaveCartResult> {
     let httpParams = new HttpParams();
 
-    if (Boolean(saveCartName)) {
+    if (saveCartName) {
       httpParams = httpParams.set('saveCartName', saveCartName);
     }
 
-    if (Boolean(saveCartDescription)) {
+    if (saveCartDescription) {
       httpParams = httpParams.set('saveCartDescription', saveCartDescription);
     }
 

@@ -21,8 +21,7 @@ import {
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
 
-// TODO: GH-13779 Remove skip and Fix test failure
-context.skip('Apparel - checkout as guest', () => {
+context('Apparel - checkout as guest', () => {
   let variantUser;
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {

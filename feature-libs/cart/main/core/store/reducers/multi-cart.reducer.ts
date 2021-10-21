@@ -7,9 +7,9 @@ export const activeCartDefaultState = '';
 export const wishListInitialState = '';
 
 export function activeCartReducer(
-  state = activeCartDefaultState,
+  state: string | null = activeCartDefaultState,
   action: CartActions.CartAction | CartActions.MultiCartActions
-): string {
+): string | null {
   switch (action.type) {
     case CartActions.LOAD_CART_SUCCESS:
     case CartActions.CREATE_CART_SUCCESS:
@@ -39,9 +39,9 @@ export function activeCartReducer(
 export const cartEntitiesInitialState = undefined;
 
 export function cartEntitiesReducer(
-  state = cartEntitiesInitialState,
+  state: Cart | undefined = cartEntitiesInitialState,
   action: StateUtils.LoaderAction
-): Cart {
+): Cart | undefined {
   switch (action.type) {
     case CartActions.LOAD_CARTS_SUCCESS:
       return action.payload;

@@ -13,7 +13,7 @@ export class CartConnector {
     return this.adapter.loadAll(userId);
   }
 
-  public load(userId: string, cartId: string): Observable<Cart> {
+  public load(userId: string, cartId: string): Observable<Cart | undefined> {
     return this.adapter.load(userId, cartId);
   }
 

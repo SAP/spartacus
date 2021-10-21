@@ -11,6 +11,7 @@
       "@spartacus/asm": ["../../dist/asm"],
       "@spartacus/asm/occ": ["../../dist/asm/occ"],
       "@spartacus/asm/root": ["../../dist/asm/root"],
+      "@spartacus/cart/main/assets": ["../../dist/cart/main/assets"],
       "@spartacus/cart/main/components": ["../../dist/cart/main/components"],
       "@spartacus/cart/main/core": ["../../dist/cart/main/core"],
       "@spartacus/cart/main": ["../../dist/cart/main"],
@@ -23,8 +24,8 @@
       "@spartacus/cart/quick-order/components": [
         "../../dist/cart/quick-order/components"
       ],
-      "@spartacus/cart/quick-order": ["../../dist/cart/quick-order"],
       "@spartacus/cart/quick-order/core": ["../../dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["../../dist/cart/quick-order"],
       "@spartacus/cart/quick-order/root": ["../../dist/cart/quick-order/root"],
       "@spartacus/cart/saved-cart/assets": [
         "../../dist/cart/saved-cart/assets"

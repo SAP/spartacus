@@ -51,8 +51,8 @@ export class WishListService implements WishListFacade {
         if (
           !Boolean(wishListId) &&
           userId !== OCC_USER_ID_ANONYMOUS &&
-          Boolean(user) &&
-          Boolean(user.customerId)
+          user &&
+          user.customerId
         ) {
           this.loadWishList(userId, user.customerId);
         }
@@ -78,11 +78,7 @@ export class WishListService implements WishListFacade {
         distinctUntilChanged(),
         withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (
-            !Boolean(wishListId) &&
-            Boolean(user) &&
-            Boolean(user.customerId)
-          ) {
+          if (!Boolean(wishListId) && user && user.customerId) {
             this.loadWishList(userId, user.customerId);
           }
         }),
@@ -100,11 +96,7 @@ export class WishListService implements WishListFacade {
         distinctUntilChanged(),
         withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (
-            !Boolean(wishListId) &&
-            Boolean(user) &&
-            Boolean(user.customerId)
-          ) {
+          if (!Boolean(wishListId) && user && user.customerId) {
             this.loadWishList(userId, user.customerId);
           }
         }),
@@ -112,7 +104,11 @@ export class WishListService implements WishListFacade {
         take(1)
       )
       .subscribe(([wishListId, userId]) =>
-        this.multiCartService.removeEntry(userId, wishListId, entry.entryNumber)
+        this.multiCartService.removeEntry(
+          userId,
+          wishListId,
+          entry.entryNumber as number
+        )
       );
   }
 

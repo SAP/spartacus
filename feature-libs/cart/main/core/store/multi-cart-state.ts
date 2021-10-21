@@ -16,7 +16,7 @@ export interface StateWithMultiCart {
 }
 
 export interface MultiCartState {
-  carts: StateUtils.EntityProcessesLoaderState<Cart>;
-  active: string;
+  carts: StateUtils.EntityProcessesLoaderState<Cart | undefined>;
+  active: string | null;
   wishList: string;
 }

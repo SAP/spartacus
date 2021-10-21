@@ -9,7 +9,7 @@
         tabindex="-1"
       >
         <cx-media
-          [container]="item.product.images?.PRIMARY"
+          [container]="item.product?.images?.PRIMARY"
           format="cartIcon"
         ></cx-media>
       </a>
@@ -19,28 +19,28 @@
       <div class="cx-info-container row">
         <!-- Item Description -->
         <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
-          <div *ngIf="item.product.name" class="cx-name">
+          <div *ngIf="item.product?.name" class="cx-name">
             <a
               class="cx-link"
               [routerLink]="
                 { cxRoute: 'product', params: item.product } | cxUrl
               "
               cxModal="dismiss"
-              ><h2>{{ item.product.name }}</h2></a
+              ><h2>{{ item.product?.name }}</h2></a
             >
           </div>
-          <div *ngIf="item.product.code" class="cx-code">
-            {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
+          <div *ngIf="item.product?.code" class="cx-code">
+            {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
           </div>
 
           <!-- Item Details Outlet -->
           <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
 
           <!-- Variants -->
-          <ng-container *ngIf="item.product.baseOptions?.length">
+          <ng-container *ngIf="item.product?.baseOptions?.length">
             <div
               *ngFor="
-                let variant of item.product.baseOptions[0]?.selected
+                let variant of item.product?.baseOptions[0]?.selected
                   ?.variantOptionQualifiers
               "
               class="cx-property"
@@ -83,7 +83,7 @@
               [readonly]="
                 !item.updateable || readonly || options.isSaveForLater
               "
-              [max]="item.product.stock?.stockLevel || 1000"
+              [max]="item.product?.stock?.stockLevel || 1000"
               [allowZero]="true"
             >
             </cx-item-counter>
@@ -104,10 +104,10 @@
               {{ 'saveForLaterItems.stock' | cxTranslate }}
             </div>
             <div
-              *ngIf="item.product?.stock?.stockLevel >= 0; else forceInstock"
+              *ngIf="item.product?.stock.stockLevel >= 0; else forceInstock"
               class="cx-value"
             >
-              {{ item.product.stock.stockLevel }}
+              {{ item.product?.stock?.stockLevel }}
             </div>
             <ng-template #forceInstock>
               <div class="cx-value">

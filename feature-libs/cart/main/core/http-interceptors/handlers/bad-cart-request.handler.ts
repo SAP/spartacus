@@ -46,7 +46,7 @@ export class BadCartRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: any) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
 }

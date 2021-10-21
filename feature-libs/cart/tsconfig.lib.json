@@ -17,15 +17,7 @@
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
     },
-    "strict": true,
-    "noImplicitAny": false, // TODO: Remove this line to enable strict mode
-    "strictNullChecks": false, // TODO: Remove this line to enable strict mode
-    "strictFunctionTypes": false, // TODO: Remove this line to enable strict mode
-    // --------
-    "noImplicitThis": false, // TODO: Remove this line to enable strict mode
-    "alwaysStrict": false, // TODO: Remove this line to enable strict mode
-    "strictBindCallApply": false, // TODO: Remove this line to enable strict mode
-    "strictPropertyInitialization": false // TODO: Remove this line to enable strict mode
+    "strict": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

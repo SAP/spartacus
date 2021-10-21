@@ -15,7 +15,7 @@ import {
 } from '../../../helpers/save-for-later';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context.skip('Save for later', () => {
+context('Save for later', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

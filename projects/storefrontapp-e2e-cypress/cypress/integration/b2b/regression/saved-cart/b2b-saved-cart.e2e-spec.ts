@@ -2,7 +2,7 @@ import * as savedCart from '../../../../helpers/b2b/b2b-saved-cart';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
 
-context.skip('B2B - Saved Cart', () => {
+context('B2B - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

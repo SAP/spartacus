@@ -1,5 +1,4 @@
 export * from './anonymous-consent-management/index';
-export * from './cart/index';
 export * from './content/index';
 export * from './misc/index';
 export * from './myaccount/index';

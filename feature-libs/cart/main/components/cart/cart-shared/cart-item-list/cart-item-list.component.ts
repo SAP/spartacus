@@ -18,7 +18,7 @@ import { ConsignmentEntry, OrderEntry, UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { CartItemComponentOptions } from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '@spartacus/cart/main/root';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -181,7 +181,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   protected getControlName(item: OrderEntry): string {
-    return item.entryNumber.toString();
+    return item.entryNumber?.toString() || '';
   }
 
   removeEntry(item: OrderEntry): void {
@@ -191,7 +191,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.multiCartService?.removeEntry(
         this.userId,
         this.cartId,
-        item.entryNumber
+        item.entryNumber as number
       );
     } else {
       this.activeCartService.removeEntry(item);
@@ -199,8 +199,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: OrderEntry): Observable<FormGroup> {
-    return this.form.get(this.getControlName(item)).valueChanges.pipe(
+  getControl(item: OrderEntry): Observable<FormGroup> | undefined {
+    return this.form.get(this.getControlName(item))?.valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {

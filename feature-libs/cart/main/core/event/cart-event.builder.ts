@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
@@ -106,16 +106,16 @@ export class CartEventBuilder {
           action.payload['cartId'] === activeCartId
       ),
       map(([action, activeCart]) =>
-        createFrom(mapping.event, {
+        createFrom(mapping.event as Type<T>, {
           ...action.payload,
           cartCode: activeCart.code,
           entry: action.payload.entry
             ? action.payload.entry
-            : activeCart.entries[Number(action.payload.entryNumber)],
+            : activeCart.entries?.[Number(action.payload.entryNumber)],
         })
       )
     );
-    return this.event.register(mapping.event, eventStream$);
+    return this.event.register(mapping.event as Type<T>, eventStream$);
   }
 
   /**

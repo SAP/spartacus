@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import {
+  CartItemComponentOptions,
+  CartItemContext,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import { OrderEntry } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
-import { CartItemComponentOptions } from '../cart-item.component';
-import { CartItemContext } from './cart-item-context.model';
 
 /**
  * Context source for `CartItemComponent`.
