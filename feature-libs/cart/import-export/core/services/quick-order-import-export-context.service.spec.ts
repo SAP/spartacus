@@ -29,7 +29,7 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-const limitExceeded$ = new BehaviorSubject<boolean>(false);
+const canAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockProductConnector implements Partial<ProductConnector> {
   get = createSpy().and.callFake((code) => of(products[code]));
@@ -38,7 +38,7 @@ class MockProductConnector implements Partial<ProductConnector> {
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   addProduct = createSpy().and.callThrough();
   getEntries = createSpy().and.returnValue(of(mockEntries));
-  getLimitExceeded = createSpy().and.returnValue(limitExceeded$.asObservable());
+  canAdd = createSpy().and.returnValue(canAdd$.asObservable());
 }
 
 describe('QuickOrderImportExportContext', () => {
