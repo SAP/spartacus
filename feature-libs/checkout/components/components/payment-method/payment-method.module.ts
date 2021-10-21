@@ -2,11 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import {
-  CardModule,
-  SpinnerModule,
-  CartValidationGuard,
-} from '@spartacus/storefront';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { PaymentFormModule } from './payment-form/payment-form.module';
@@ -27,7 +23,7 @@ import { PaymentMethodComponent } from './payment-method.component';
         CheckoutPaymentDetails: {
           component: PaymentMethodComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
