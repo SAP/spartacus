@@ -3,10 +3,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
+import { I18nTestingModule, Order } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

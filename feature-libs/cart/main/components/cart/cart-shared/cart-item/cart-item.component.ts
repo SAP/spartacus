@@ -4,12 +4,11 @@ import {
   CartItemComponentOptions,
   CartItemContext,
   CartOutlets,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
-
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',

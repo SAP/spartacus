@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -17,7 +17,6 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',

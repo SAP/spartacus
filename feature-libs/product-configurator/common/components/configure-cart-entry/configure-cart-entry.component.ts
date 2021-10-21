@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 

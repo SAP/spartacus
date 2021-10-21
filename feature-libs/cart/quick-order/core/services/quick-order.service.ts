@@ -3,6 +3,7 @@ import {
   ActiveCartFacade,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  OrderEntry,
 } from '@spartacus/cart/main/root';
 import {
   QuickOrderAddEntryEvent,
@@ -11,7 +12,6 @@ import {
 import {
   EventService,
   HttpErrorModel,
-  OrderEntry,
   Product,
   ProductAdapter,
 } from '@spartacus/core';

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
-import { OrderEntry, StateUtils, UserIdService } from '@spartacus/core';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import { StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-
 @Injectable({
   providedIn: 'root',
 })

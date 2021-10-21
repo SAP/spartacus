@@ -5,13 +5,13 @@ import {
   ActiveCartFacade,
   Cart,
   CartItemComponentOptions,
+  OrderEntry,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
   CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
-  OrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';

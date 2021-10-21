@@ -2,7 +2,12 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, PaymentType } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  OrderEntry,
+  PaymentType,
+} from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -17,7 +22,6 @@ import {
   Country,
   DeliveryMode,
   I18nTestingModule,
-  OrderEntry,
   PaymentDetails,
   UserAddressService,
   UserCostCenterService,

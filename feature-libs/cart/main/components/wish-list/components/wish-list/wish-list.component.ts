@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Cart, WishListFacade } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 
 @Component({

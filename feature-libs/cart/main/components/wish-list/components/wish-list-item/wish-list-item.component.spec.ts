@@ -6,10 +6,10 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({

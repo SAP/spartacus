@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import {
   CancelOrReturnRequestEntryInput,
   GlobalMessageService,
   GlobalMessageType,
-  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
 import { OrderReturnRequestFacade } from '@spartacus/order/root';

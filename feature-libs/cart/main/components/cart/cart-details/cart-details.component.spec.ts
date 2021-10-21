@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
@@ -13,7 +14,6 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
-  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';

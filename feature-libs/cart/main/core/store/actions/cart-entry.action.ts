@@ -1,4 +1,5 @@
-import { OrderEntry, StateUtils } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
+import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';

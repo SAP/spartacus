@@ -3,6 +3,7 @@ import {
   ActiveCartFacade,
   Cart,
   CartOutlets,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
@@ -20,7 +21,6 @@ import {
   CostCenter,
   Country,
   DeliveryMode,
-  OrderEntry,
   PaymentDetails,
   TranslationService,
   UserAddressService,

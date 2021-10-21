@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, WishListFacade } from '@spartacus/cart/main/root';
-import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { WishListComponent } from './wish-list.component';
 import createSpy = jasmine.createSpy;
