@@ -58,26 +58,21 @@ class TestEngineRunner {
     params?: {
       /** headers */
       httpHeaders?: IncomingHttpHeaders;
-      /** by default it's http */
-      protocol?: string;
-      /** used when resolving SERVER_REQUEST_URL and SERVER_REQUEST_ORIGIN */
-      app?: Application;
     }
   ): TestEngineRunner {
     const response: { [key: string]: string } = {};
     const headers = params?.httpHeaders ?? { host };
-    const app =
-      params?.app ??
-      <Partial<Application>>{
-        get:
-          (_name: string): any =>
-          (_connectionRemoteAddress: string) =>
-            true,
-      };
+    /** used when resolving SERVER_REQUEST_URL and SERVER_REQUEST_ORIGIN */
+    const app = <Partial<Application>>{
+      get:
+        (_name: string): any =>
+        (_connectionRemoteAddress: string) =>
+          true,
+    };
 
     const optionsMock = {
       req: <Partial<Request>>{
-        protocol: params?.protocol ?? 'https',
+        protocol: 'https',
         originalUrl: url,
         headers,
         get: (header: string): string | string[] | null | undefined => {
