@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { OrderEntry, ProductAdapter } from '@spartacus/core';
+import { OrderEntry, ProductConnector } from '@spartacus/core';
 import {
   ProductData,
   QuickOrderImportExportContext,
@@ -29,8 +29,8 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-class MockProductAdapter implements Partial<ProductAdapter> {
-  load = createSpy().and.callFake((code) => of(products[code]));
+class MockProductConnector implements Partial<ProductConnector> {
+  get = createSpy().and.callFake((code) => of(products[code]));
 }
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
@@ -41,18 +41,18 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
 describe('QuickOrderImportExportContext', () => {
   let service: QuickOrderImportExportContext;
   let quickOrderFacade: QuickOrderFacade;
-  let productAdapter: ProductAdapter;
+  let productConnector: ProductConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { useClass: MockQuickOrderFacade, provide: QuickOrderFacade },
-        { useClass: MockProductAdapter, provide: ProductAdapter },
+        { useClass: MockProductConnector, provide: ProductConnector },
       ],
     });
     service = TestBed.inject(QuickOrderImportExportContext);
     quickOrderFacade = TestBed.inject(QuickOrderFacade);
-    productAdapter = TestBed.inject(ProductAdapter);
+    productConnector = TestBed.inject(ProductConnector);
   });
 
   it('should be created', () => {
@@ -78,11 +78,13 @@ describe('QuickOrderImportExportContext', () => {
     it('should add entries to quick order', () => {
       service.addEntries(mockProductData).subscribe();
 
-      expect(productAdapter.load).toHaveBeenCalledTimes(mockProductData.length);
-      expect(productAdapter.load).toHaveBeenCalledWith(
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        mockProductData.length
+      );
+      expect(productConnector.get).toHaveBeenCalledWith(
         mockProductData[0].productCode
       );
-      expect(productAdapter.load).toHaveBeenCalledWith(
+      expect(productConnector.get).toHaveBeenCalledWith(
         mockProductData[1].productCode
       );
       expect(quickOrderFacade.addProduct).toHaveBeenCalledTimes(
