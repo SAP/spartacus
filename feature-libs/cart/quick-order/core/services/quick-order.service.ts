@@ -106,12 +106,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   * Get quick order list limit exceeded property
+   * Get information about the possibility to add the next product
    */
-  getLimitExceeded(): Observable<boolean> {
-    return this.entries$.pipe(
-      map((entries) => entries.length >= this.quickOrderListLimit)
-    );
+  canAdd(code: string): Observable<boolean> {
+    return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
   }
 
   /**
@@ -320,7 +318,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected addEntry(entry: OrderEntry): void {
     const entries = this.entries$.getValue() || [];
-    if (entries.length >= this.quickOrderListLimit) {
+    if (
+      entry?.product?.code &&
+      !this.isProductOnTheList(entry.product.code) &&
+      this.isLimitExceeded()
+    ) {
       return;
     }
 
@@ -362,6 +364,12 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
     );
+  }
+
+  protected isLimitExceeded(): boolean {
+    const entries = this.entries$.getValue() || [];
+
+    return entries.length >= this.quickOrderListLimit;
   }
 
   private createQuickOrderResultEvent(

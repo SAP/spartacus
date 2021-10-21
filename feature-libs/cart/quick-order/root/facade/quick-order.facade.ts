@@ -12,7 +12,7 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'addToCart',
       'clearList',
-      'getLimitExceeded',
+      'canAdd',
       'setListLimit',
       'getEntries',
       'getProductAdded',
@@ -60,9 +60,9 @@ export abstract class QuickOrderFacade {
   abstract clearList(): void;
 
   /**
-   * Get quick order list limit exceeded property
+   * Get information about the possibility to add the next product
    */
-  abstract getLimitExceeded(): Observable<boolean>;
+  abstract canAdd(code: string): Observable<boolean>;
 
   /**
    * Set quick order list limit property

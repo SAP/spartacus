@@ -49,23 +49,23 @@ export class QuickOrderImportExportContext
           from(products as Product[]).pipe(
             filter((product) => !!product),
             switchMap((product: Product) =>
-              this.quickOrderService.getLimitExceeded().pipe(
+              this.quickOrderService.canAdd(product.code).pipe(
                 take(1),
-                tap((limitExceeded: boolean) => {
+                tap((canAdd: boolean) => {
                   const productData = productsData.find(
                     (p) => p.productCode === product.code
                   ) as ProductData;
-                  if (limitExceeded) {
-                    results$.next({
-                      productCode: productData.productCode,
-                      statusCode: ProductImportStatus.LIMIT_EXCEEDED,
-                    });
-                  } else {
+                  if (canAdd) {
                     this.handleResults(product, productData, results$);
                     this.quickOrderService.addProduct(
                       product,
                       productData.quantity
                     );
+                  } else {
+                    results$.next({
+                      productCode: productData.productCode,
+                      statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                    });
                   }
                 })
               )
