@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
@@ -12,6 +12,12 @@ import {
   QuickOrderImportExportContext,
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
+
+function isExportContext(
+  service: ImportContext | ExportContext
+): service is ExportContext {
+  return (service as ExportContext)?.getEntries !== undefined;
+}
 
 @Component({
   selector: 'cx-import-export',
@@ -42,14 +48,20 @@ export class ImportExportComponent {
     protected quickOrderService: QuickOrderImportExportContext
   ) {}
 
-  context$: Observable<ImportContext | ExportContext | undefined> =
-    this.route$.pipe(map((route) => this.routesCartMapping.get(route)));
+  context$: Observable<ImportContext | ExportContext> = this.route$.pipe(
+    map(
+      (route) =>
+        this.routesCartMapping.get(route) as ImportContext | ExportContext
+    ),
+    filter((service) => service !== undefined)
+  );
 
-  entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap(
-      (service: ExportContext) =>
-        (service as ExportContext)?.getEntries() as Observable<OrderEntry[]>
-    )
+  entries$: Observable<OrderEntry[] | undefined> = this.context$.pipe(
+    switchMap((service: ImportContext | ExportContext) => {
+      if (isExportContext(service)) {
+        return service.getEntries() as Observable<OrderEntry[]>;
+      } else return of(undefined);
+    })
   );
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([
@@ -66,7 +78,8 @@ export class ImportExportComponent {
   ]).pipe(
     map(
       ([route, data, entries]) =>
-        data.exportButtonDisplayRoutes.includes(route) && entries.length > 0
+        data.exportButtonDisplayRoutes.includes(route) &&
+        (entries as OrderEntry[])?.length > 0
     )
   );
 }
