@@ -13,7 +13,7 @@ import {
 /**
  * An abstract class for contexts based on cart (active cart, saved cart) which share part of logic - mainly handle cart actions and map results.
  */
-export abstract class CartImportExportContext {
+export abstract class CartImportContext {
   protected constructor(protected actionsSubject: ActionsSubject) {}
 
   addEntries(products: ProductData[]): Observable<ProductImportInfo> {

@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
   ActiveCartImportExportContext,
   CmsImportExportComponent,
-  ImportExportContext,
-  NewSavedCartImportExportContext,
+  ImportContext,
+  ExportContext,
+  NewSavedCartImportContext,
   QuickOrderImportExportContext,
   SavedCartImportExportContext,
   OrderConfirmationExportContext,
@@ -26,7 +27,7 @@ export class ImportExportComponent {
       .pipe(map((route) => route.state?.semanticRoute as string));
   }
 
-  protected routesCartMapping = new Map<string, ImportExportContext>([
+  protected routesCartMapping = new Map<string, ImportContext | ExportContext>([
     ['cart', this.activeCartService],
     ['savedCarts', this.newSavedCartService],
     ['savedCartsDetails', this.savedCartService],
@@ -40,19 +41,30 @@ export class ImportExportComponent {
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
     protected routingService: RoutingService,
     protected activeCartService: ActiveCartImportExportContext,
-    protected newSavedCartService: NewSavedCartImportExportContext,
+    protected newSavedCartService: NewSavedCartImportContext,
     protected savedCartService: SavedCartImportExportContext,
     protected quickOrderService: QuickOrderImportExportContext,
     protected orderConfirmationService: OrderConfirmationExportContext,
     protected orderDetailsService: OrderDetailsExportContextService
   ) {}
 
-  context$: Observable<ImportExportContext | undefined> = this.route$.pipe(
-    map((route) => this.routesCartMapping.get(route))
+  context$: Observable<ImportContext | ExportContext> = this.route$.pipe(
+    map(
+      (route) =>
+        this.routesCartMapping.get(route) as ImportContext | ExportContext
+    ),
+    filter((service) => service !== undefined)
   );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap((service) => service?.getEntries() as Observable<OrderEntry[]>)
+    filter(
+      (service): service is ExportContext =>
+        (service as ExportContext)?.getEntries !== undefined
+    ),
+    switchMap(
+      (service: ExportContext) =>
+        service.getEntries() as Observable<OrderEntry[]>
+    )
   );
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([
@@ -69,7 +81,8 @@ export class ImportExportComponent {
   ]).pipe(
     map(
       ([route, data, entries]) =>
-        data.exportButtonDisplayRoutes.includes(route) && entries.length > 0
+        data.exportButtonDisplayRoutes.includes(route) &&
+        (entries as OrderEntry[])?.length > 0
     )
   );
 }
