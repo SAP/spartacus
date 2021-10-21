@@ -25,3 +25,14 @@ export const SPARTACUS_VARIANTS_ASSETS = `${SPARTACUS_VARIANTS}/assets`;
 export const VARIANTS_TRANSLATIONS = 'productVariantsTranslations';
 export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
   'productVariantsTranslationChunksConfig';
+
+export const IMAGE_ZOOM_MODULE_NAME = 'ProductImageZoom';
+export const IMAGE_ZOOM_FEATURE_NAME_CONSTANT = 'PRODUCT_IMAGE_ZOOM_FEATURE';
+export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
+export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
+export const SPARTACUS_IMAGE_ZOOM = `${SPARTACUS_PRODUCT}/image-zoom`;
+export const SPARTACUS_IMAGE_ZOOM_ROOT = `${SPARTACUS_IMAGE_ZOOM}/root`;
+export const SPARTACUS_IMAGE_ZOOM_ASSETS = `${SPARTACUS_IMAGE_ZOOM}/assets`;
+export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
+export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
+  'productImageZoomTranslationChunksConfig';
