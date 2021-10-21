@@ -44,7 +44,7 @@ export class QuickOrderImportExportContext implements ImportExportContext {
       .pipe(
         switchMap((products) =>
           from(products).pipe(
-            filter((product) => Boolean(product)),
+            filter((product) => !!product),
             switchMap((product: Product) =>
               this.quickOrderService.getLimitExceeded().pipe(
                 take(1),
