@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { CartActions } from '@spartacus/core';
 import {
   ProductData,
@@ -11,9 +11,15 @@ import { CartTypes } from '../model';
 import { CartImportContext } from './cart-import.context';
 import { ImportContext } from './import.context';
 
-const mockActionsSubject = new BehaviorSubject<Action>(null);
+const mockActionsSubject = new Subject<Action>();
+
+const mockProductsData: ProductData[] = [
+  { productCode: '693923', quantity: 1 },
+  { productCode: '232133', quantity: 2 },
+];
 
 const mockCartId = '00004546';
+const mockUserId = 'current';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +34,7 @@ class TestCartImportExportContext
 
   readonly type = 'TEST_CART' as CartTypes;
 
-  protected add(products: ProductData[]): Observable<string> {
+  protected add(_products: ProductData[]): Observable<string> {
     return of(mockCartId);
   }
 }
@@ -50,7 +56,7 @@ describe('CartImportExportContext', () => {
   describe('addEntries', () => {
     it('should return success action', () => {
       let action;
-      service.addEntries(mockProductData).subscribe((data) => (action = data));
+      service.addEntries(mockProductsData).subscribe((data) => (action = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -73,7 +79,7 @@ describe('CartImportExportContext', () => {
 
     it('should return low stock action', () => {
       let action;
-      service.addEntries(mockProductData).subscribe((data) => (action = data));
+      service.addEntries(mockProductsData).subscribe((data) => (action = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -98,7 +104,7 @@ describe('CartImportExportContext', () => {
 
     it('should return no stock action', () => {
       let action;
-      service.addEntries(mockProductData).subscribe((data) => (action = data));
+      service.addEntries(mockProductsData).subscribe((data) => (action = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -121,7 +127,7 @@ describe('CartImportExportContext', () => {
 
     it('should return Unknown Identifier Error action', () => {
       let action;
-      service.addEntries(mockProductData).subscribe((data) => (action = data));
+      service.addEntries(mockProductsData).subscribe((data) => (action = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntryFail({
@@ -141,7 +147,7 @@ describe('CartImportExportContext', () => {
 
     it('should return unknown error action', () => {
       let action;
-      service.addEntries(mockProductData).subscribe((data) => (action = data));
+      service.addEntries(mockProductsData).subscribe((data) => (action = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({

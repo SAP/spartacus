@@ -3,7 +3,6 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
 import {
   Cart,
-  CartActions,
   MultiCartService,
   StateUtils,
   UserIdService,
@@ -11,7 +10,6 @@ import {
 import {
   NewSavedCartImportContext,
   ProductData,
-  ProductImportStatus,
 } from '@spartacus/cart/import-export/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import createSpy = jasmine.createSpy;
