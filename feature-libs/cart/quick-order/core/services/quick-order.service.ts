@@ -364,7 +364,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     );
   }
 
-  protected createQuickOrderResultEvent(
+  private createQuickOrderResultEvent(
     cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
   ): QuickOrderAddEntryEvent {
     const evt: QuickOrderAddEntryEvent = {
