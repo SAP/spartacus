@@ -14,13 +14,14 @@ import {
   ReturnRequestEntryInputList,
 } from '@spartacus/core';
 import {
+  ConsignmentTracking,
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-} from '@spartacus/order/core';
-import { ConsignmentTracking, ORDER_NORMALIZER } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

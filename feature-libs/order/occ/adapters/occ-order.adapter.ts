@@ -17,15 +17,15 @@ import {
   ReturnRequestModification,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
+import { OrderAdapter } from '@spartacus/order/core';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
-  OrderAdapter,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-} from '@spartacus/order/core';
-import { ORDER_NORMALIZER } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

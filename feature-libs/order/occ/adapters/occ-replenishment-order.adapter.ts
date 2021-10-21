@@ -8,12 +8,12 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '@spartacus/core';
+import { ReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
   ORDER_HISTORY_NORMALIZER,
-  ReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
-} from '@spartacus/order/core';
-import { REPLENISHMENT_ORDER_NORMALIZER } from '@spartacus/order/root';
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

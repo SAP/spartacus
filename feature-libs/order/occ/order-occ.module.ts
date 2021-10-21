@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
+import { OrderAdapter, ReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
-  OrderAdapter,
+  ORDER_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
-  ReplenishmentOrderAdapter,
-} from '@spartacus/order/core';
-import { ORDER_NORMALIZER, REPLENISHMENT_ORDER_NORMALIZER } from '@spartacus/order/root';
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/order/root';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
@@ -38,7 +38,6 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       useExisting: OccReplenishmentOrderNormalizer,
       multi: true,
     },
-
   ],
 })
 export class OrderOccModule {}
