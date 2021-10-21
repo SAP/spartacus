@@ -7,8 +7,8 @@ import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
 import {
   ActiveCartImportExportContext,
   CartTypes,
-  ImportExportContext,
-  NewSavedCartImportExportContext,
+  ImportContext,
+  NewSavedCartImportContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
@@ -48,7 +48,7 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
-class MockImportExportContext implements Partial<ImportExportContext> {
+class MockImportExportContext implements Partial<ImportContext> {
   getEntries = () => entries$.asObservable();
 
   addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
@@ -56,26 +56,26 @@ class MockImportExportContext implements Partial<ImportExportContext> {
 
 class MockActiveCartImportExportContext
   extends MockImportExportContext
-  implements ImportExportContext
+  implements ImportContext
 {
   type: CartTypes.ACTIVE_CART;
 }
 
-class MockNewSavedCartImportExportContext
+class MockNewSavedCartImportContext
   extends MockImportExportContext
-  implements ImportExportContext
+  implements ImportContext
 {
   type: CartTypes.NEW_SAVED_CART;
 }
 class MockSavedCartImportExportContext
   extends MockImportExportContext
-  implements ImportExportContext
+  implements ImportContext
 {
   type: CartTypes.SAVED_CART;
 }
 class MockQuickOrderImportExportContext
   extends MockImportExportContext
-  implements ImportExportContext
+  implements ImportContext
 {
   type: CartTypes.QUICK_ORDER;
 }
@@ -107,7 +107,7 @@ export class MockImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  context: ImportExportContext;
+  context: ImportContext;
 }
 
 @Component({
@@ -134,8 +134,8 @@ describe('ImportExportComponent', () => {
           useClass: MockActiveCartImportExportContext,
         },
         {
-          provide: NewSavedCartImportExportContext,
-          useClass: MockNewSavedCartImportExportContext,
+          provide: NewSavedCartImportContext,
+          useClass: MockNewSavedCartImportContext,
         },
         {
           provide: SavedCartImportExportContext,

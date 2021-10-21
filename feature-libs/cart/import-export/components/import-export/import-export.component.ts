@@ -6,8 +6,9 @@ import { CmsComponentData } from '@spartacus/storefront';
 import {
   ActiveCartImportExportContext,
   CmsImportExportComponent,
-  ImportExportContext,
-  NewSavedCartImportExportContext,
+  ImportContext,
+  ExportContext,
+  NewSavedCartImportContext,
   QuickOrderImportExportContext,
   SavedCartImportExportContext,
 } from '@spartacus/cart/import-export/core';
@@ -24,7 +25,7 @@ export class ImportExportComponent {
       .pipe(map((route) => route.state?.semanticRoute as string));
   }
 
-  protected routesCartMapping = new Map<string, ImportExportContext>([
+  protected routesCartMapping = new Map<string, ImportContext | ExportContext>([
     ['cart', this.activeCartService],
     ['savedCarts', this.newSavedCartService],
     ['savedCartsDetails', this.savedCartService],
@@ -36,17 +37,19 @@ export class ImportExportComponent {
     protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
     protected routingService: RoutingService,
     protected activeCartService: ActiveCartImportExportContext,
-    protected newSavedCartService: NewSavedCartImportExportContext,
+    protected newSavedCartService: NewSavedCartImportContext,
     protected savedCartService: SavedCartImportExportContext,
     protected quickOrderService: QuickOrderImportExportContext
   ) {}
 
-  context$: Observable<ImportExportContext | undefined> = this.route$.pipe(
-    map((route) => this.routesCartMapping.get(route))
-  );
+  context$: Observable<ImportContext | ExportContext | undefined> =
+    this.route$.pipe(map((route) => this.routesCartMapping.get(route)));
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap((service) => service?.getEntries() as Observable<OrderEntry[]>)
+    switchMap(
+      (service: ExportContext) =>
+        service?.getEntries() as Observable<OrderEntry[]>
+    )
   );
 
   shouldDisplayImport$: Observable<boolean> = combineLatest([

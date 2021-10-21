@@ -10,12 +10,15 @@ import {
   ProductImportInfo,
   ProductImportStatus,
 } from '../model/import-to-cart.model';
-import { ImportExportContext } from './import-export.context';
+import { ImportContext } from './import.context';
+import { ExportContext } from './export.context';
 
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderImportExportContext implements ImportExportContext {
+export class QuickOrderImportExportContext
+  implements ImportContext, ExportContext
+{
   readonly type = CartTypes.QUICK_ORDER;
 
   constructor(

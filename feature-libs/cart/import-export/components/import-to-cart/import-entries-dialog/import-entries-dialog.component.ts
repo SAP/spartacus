@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 import {
   CartTypes,
-  ImportExportContext,
+  ImportContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
@@ -40,12 +40,13 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  context$: Observable<ImportExportContext> =
-    this.launchDialogService.data$.pipe(pluck('context'));
+  context$: Observable<ImportContext> = this.launchDialogService.data$.pipe(
+    pluck('context')
+  );
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 
-  isNewCartForm(context: ImportExportContext) {
+  isNewCartForm(context: ImportContext) {
     return context.type === CartTypes.NEW_SAVED_CART;
   }
 
@@ -54,7 +55,7 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts(
-    context: ImportExportContext,
+    context: ImportContext,
     {
       products,
       savedCartInfo,

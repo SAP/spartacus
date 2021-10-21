@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   CartTypes,
-  ImportExportContext,
+  ImportContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
@@ -32,12 +32,12 @@ const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
-class MockImportExportContext implements Partial<ImportExportContext> {
+class MockImportExportContext implements Partial<ImportContext> {
   addEntries = () => loadProducts$.asObservable();
 }
 
-const service: ImportExportContext =
-  new MockImportExportContext() as unknown as ImportExportContext;
+const service: ImportContext =
+  new MockImportExportContext() as unknown as ImportContext;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
