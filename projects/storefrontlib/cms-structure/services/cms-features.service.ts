@@ -9,6 +9,7 @@ import {
   DefaultConfigChunk,
   FeatureModuleConfig,
   FeatureModulesService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { defer, Observable, of, zip } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -30,7 +31,10 @@ export class CmsFeaturesService {
     [featureName: string]: FeatureModuleConfig | string;
   };
 
-  // maps componentType to feature
+  // maps componentType to features
+  // in most cases, one componentType only maps to one feature
+  // but it can map to multiple features as well, e.g. `CheckoutPlaceOrder`
+  // can map to features `checkout` and `order`
   private componentFeatureMap: Map<string, string[]> = new Map();
 
   /*
@@ -121,17 +125,16 @@ export class CmsFeaturesService {
     // we are returning injectors only for already resolved features
     const arr$ = features
       .map((feature) => this.featureInstances.get(feature))
-      .filter(
-        (instance) => instance !== undefined
-      ) as Observable<FeatureInstance>[];
+      .filter(isNotUndefined);
 
     zip(...arr$)
       .pipe(
-        map((featureInstances) => {
-          return featureInstances.find(
+        map((featureInstances) =>
+          // only get the module which defines the CmsComponent mapping
+          featureInstances.find(
             (instance) => instance.componentsMappings?.[componentType]
-          );
-        })
+          )
+        )
       )
       .subscribe((featureInstance) => {
         module = featureInstance?.moduleRef;
