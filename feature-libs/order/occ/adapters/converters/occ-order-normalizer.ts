@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
 import { PromotionResult } from '@spartacus/cart/main/root';
 import {
   Converter,
@@ -6,7 +7,6 @@ import {
   Occ,
   Order,
   OrderEntry,
-  OrderEntryPromotionsService,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 

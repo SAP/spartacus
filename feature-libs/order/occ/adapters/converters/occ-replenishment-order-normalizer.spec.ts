@@ -1,11 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
 import { PromotionResult } from '@spartacus/cart/main/root';
-import {
-  ConverterService,
-  OrderEntryPromotionsService,
-  Product,
-  PRODUCT_NORMALIZER,
-} from '@spartacus/core';
+import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {

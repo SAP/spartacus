@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
 import { PromotionResult } from '@spartacus/cart/main/root';
-import {
-  ConverterService,
-  OrderEntryPromotionsService,
-  Product,
-  PRODUCT_NORMALIZER,
-} from '@spartacus/core';
+import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccOrderNormalizer } from './occ-order-normalizer';
 
 const mockPromotions: PromotionResult[] = [

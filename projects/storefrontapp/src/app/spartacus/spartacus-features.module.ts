@@ -4,7 +4,6 @@ import {
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitional_4_2_Module,
@@ -59,9 +58,9 @@ import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
-import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
@@ -156,9 +155,6 @@ if (environment.digitalPayments) {
 
     // Cost Center
     CostCenterOccModule,
-
-    // Order
-    OrderOccModule,
 
     // Page Events
     NavigationEventModule,
