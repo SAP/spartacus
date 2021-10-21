@@ -10,6 +10,7 @@ import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_TYPE } from './Tab';
+import { wrapIntoBounds } from './tab.utils';
 
 @Component({
   selector: 'cx-tab',
@@ -144,16 +145,16 @@ export class TabComponent implements OnInit {
         take(1)
       )
       .subscribe((tabs) => {
-        tabNum =
-          tabNum < 0
-            ? tabs.length - 1
-            : tabNum > tabs.length - 1
-            ? (tabNum = 0)
-            : tabNum;
+        tabNum = wrapIntoBounds(tabNum, tabs.length - 1);
       });
     return tabNum;
   }
 
+  /**
+   * Returns the mode specified by the config.
+   * If unspecified mode, return 'TAB' or 'ACCORDIAN' modes responsively using the specified breakpoint in the config.
+   * If unspecified breakpoint, return 'TAB' mode by default.
+   */
   protected getMode(): Observable<TAB_TYPE> {
     return this.config.mode
       ? of<TAB_TYPE>(this.config.mode)

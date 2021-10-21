@@ -11,6 +11,9 @@ export class TabPanelComponent {
   @Input() tabNum: number;
   @Input() isOpen: boolean;
 
+  /**
+   * Returns the content type as a string of 'TemplateRef' or 'ContentSlotComponentData'.
+   */
   getContentType(
     content: TemplateRef<any> | ContentSlotComponentData
   ): string | undefined {

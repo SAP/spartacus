@@ -5,7 +5,7 @@ import { LayoutModule } from '../../../layout/layout.module';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { TabComponent } from './tab.component';
-import { TabPanelModule } from './tab-panel/tab-panel.module';
+import { TabPanelModule } from './panel/tab-panel.module';
 
 @NgModule({
   imports: [

@@ -5,13 +5,15 @@
   [attr.tabindex]="isOpen ? 0 : -1"
   [class.active]="isOpen"
   [style.display]="isOpen ? 'block' : 'none'"
+  [cxFocus]="{ focusOnEscape: true }"
 >
-  <!-- [cxFocus]="{ focusOnEscape: true }" -->
+  <!-- Render TemplateRef -->
   <ng-container
     *ngIf="getContentType(tab?.content) === 'TemplateRef'"
     [ngTemplateOutlet]="tab?.content"
   ></ng-container>
 
+  <!-- Render ContentSlotComponentData -->
   <ng-template
     *ngIf="
       getContentType(tab?.content) === 'ContentSlotComponentData' &&
@@ -19,7 +21,6 @@
     "
     [cxOutlet]="component.flexType"
     [cxOutletContext]="{}"
-    #componentTemplate
   >
     <ng-container [cxComponentWrapper]="component"></ng-container>
   </ng-template>
