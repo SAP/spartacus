@@ -30,5 +30,5 @@ export enum TabbingOrderTypes {
   CX_PRODUCT_VIEW = 'cxProductView',
   INDEX_OF_ELEMENT = 'indexOfElement',
   TEXT_AREA = 'textarea',
-  CX_PROGRESS_BUTTON = 'cx-progress-button'
+  CX_PROGRESS_BUTTON = 'cx-progress-button',
 }
