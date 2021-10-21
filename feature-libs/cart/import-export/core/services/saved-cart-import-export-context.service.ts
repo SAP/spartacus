@@ -12,15 +12,16 @@ import {
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { CartTypes } from '../model/import-export.model';
 import { ProductData } from '../model/import-to-cart.model';
-import { CartImportExportContext } from './cart-import-export.context';
-import { ImportExportContext } from './import-export.context';
+import { CartImportContext } from './cart-import.context';
+import { ImportContext } from './import.context';
+import { ExportContext } from './export.context';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SavedCartImportExportContext
-  extends CartImportExportContext
-  implements ImportExportContext
+  extends CartImportContext
+  implements ImportContext, ExportContext
 {
   readonly type = CartTypes.SAVED_CART;
 

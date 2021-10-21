@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { Observable, of, queueScheduler } from 'rxjs';
+import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
   filter,
@@ -13,22 +13,21 @@ import {
 import {
   Cart,
   MultiCartService,
-  OrderEntry,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { CartTypes } from '../model/import-export.model';
 import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
-import { CartImportExportContext } from './cart-import-export.context';
-import { ImportExportContext } from './import-export.context';
+import { CartImportContext } from './cart-import.context';
+import { ImportContext } from './import.context';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NewSavedCartImportExportContext
-  extends CartImportExportContext
-  implements ImportExportContext
+export class NewSavedCartImportContext
+  extends CartImportContext
+  implements ImportContext
 {
   readonly type = CartTypes.NEW_SAVED_CART;
 
@@ -39,10 +38,6 @@ export class NewSavedCartImportExportContext
     protected savedCartService: SavedCartFacade
   ) {
     super(actionsSubject);
-  }
-
-  getEntries(): Observable<OrderEntry[]> {
-    return of([]);
   }
 
   addEntries(

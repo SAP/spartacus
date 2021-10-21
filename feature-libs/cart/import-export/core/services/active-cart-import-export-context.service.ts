@@ -4,15 +4,16 @@ import { Observable } from 'rxjs';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { CartTypes } from '../model/import-export.model';
 import { ProductData } from '../model/import-to-cart.model';
-import { CartImportExportContext } from './cart-import-export.context';
-import { ImportExportContext } from './import-export.context';
+import { CartImportContext } from './cart-import.context';
+import { ImportContext } from './import.context';
+import { ExportContext } from './export.context';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveCartImportExportContext
-  extends CartImportExportContext
-  implements ImportExportContext
+  extends CartImportContext
+  implements ImportContext, ExportContext
 {
   readonly type = CartTypes.ACTIVE_CART;
 
