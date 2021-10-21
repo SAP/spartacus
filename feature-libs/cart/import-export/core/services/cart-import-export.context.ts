@@ -11,7 +11,7 @@ import {
 } from '../model/import-to-cart.model';
 
 /**
- * An abstract class for cart-like contexts which share part of logic - mainly handle cart actions and map results.
+ * An abstract class for contexts based on cart (active cart, saved cart) which share part of logic - mainly handle cart actions and map results.
  */
 export abstract class CartImportExportContext {
   protected constructor(protected actionsSubject: ActionsSubject) {}
@@ -24,7 +24,7 @@ export abstract class CartImportExportContext {
   }
 
   /**
-   * Add products
+   * Add products and returns cartId of context cart
    *
    * @param { ProductData[] } products
    * @returns {string} cartId - necessary to get results
@@ -32,7 +32,7 @@ export abstract class CartImportExportContext {
   protected abstract add(products: ProductData[]): Observable<string>;
 
   /**
-   * Get results of add product to cart action
+   * Get emission of add entry results from actions subject
    *
    * @param {string} cartId
    * @returns {Observable<ProductImportInfo>}
