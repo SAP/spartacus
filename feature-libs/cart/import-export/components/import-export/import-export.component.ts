@@ -48,7 +48,7 @@ export class ImportExportComponent {
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap(
       (service: ExportContext) =>
-        service?.getEntries() as Observable<OrderEntry[]>
+        (service as ExportContext)?.getEntries() as Observable<OrderEntry[]>
     )
   );
 
