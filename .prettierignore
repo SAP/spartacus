@@ -2,3 +2,4 @@ feature-libs/smartedit/assets/webApplicationInjector.js
 **/schematics/**/*.js
 **/*.md
 **/*.yml
+coverage
