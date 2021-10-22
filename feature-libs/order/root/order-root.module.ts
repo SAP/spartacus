@@ -1,9 +1,8 @@
-import { Injectable, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  OrderEntry,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -12,9 +11,8 @@ import {
   ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { map, tap } from 'rxjs/operators';
+import { OrderDetailsExportContextService } from './pages/order-details-export-context.service';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
-import { OrderFacade } from './facade';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -51,17 +49,6 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   return config;
 }
 
-@Injectable({ providedIn: 'root' })
-export class OrderDetailsImportExportContext {
-  constructor(protected orderDetailsService: OrderFacade) {}
-  getEntries() {
-    return this.orderDetailsService.getOrderDetails().pipe(
-      map((order) => order.entries as OrderEntry[]),
-      tap(console.error) // SPIKE TODO REMOVE
-    );
-  }
-}
-
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -80,7 +67,7 @@ export class OrderDetailsImportExportContext {
         data: {
           cxRoute: 'orderDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsImportExportContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsExportContextService,
           },
         },
       },

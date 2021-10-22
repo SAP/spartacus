@@ -15,14 +15,13 @@ import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 export class ImportExportComponent {
   constructor(protected routingService: RoutingService) {}
 
-  protected context$: Observable<
-    OrderEntriesContext | undefined
-  > = this.routingService
-    .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
-    .pipe(
-      tap((orderEntiresContext) => console.log({ orderEntiresContext })),
-      shareReplay({ refCount: true, bufferSize: 1 })
-    );
+  protected context$: Observable<OrderEntriesContext | undefined> =
+    this.routingService
+      .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
+      .pipe(
+        tap((orderEntriesContext) => console.log({ orderEntriesContext })),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap((orderEntriesContext) =>
