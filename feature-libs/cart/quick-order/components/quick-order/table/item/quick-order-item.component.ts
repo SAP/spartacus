@@ -25,7 +25,9 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   @Input('entry') set entry(value: OrderEntry) {
     this._entry = value;
-    this.quantityControl = new FormControl(this.entry.quantity);
+    this.quantityControl = new FormControl(this.entry.quantity, {
+      updateOn: 'blur',
+    });
   }
 
   @Input()
