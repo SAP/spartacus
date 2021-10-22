@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { WishListItemComponent } from './wish-list-item.component';
 
