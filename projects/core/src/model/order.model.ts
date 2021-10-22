@@ -100,7 +100,7 @@ export interface ReturnRequestList {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReturnRequestModification {
   status?: string;
@@ -137,7 +137,7 @@ export interface ConsignmentEntry {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface Consignment {
   code?: string;

@@ -1,6 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Consignment } from '@spartacus/core';
-import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
+import {
+  Consignment,
+  ConsignmentTracking,
+  OrderFacade,
+} from '@spartacus/order/root';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events/tracking-events.component';

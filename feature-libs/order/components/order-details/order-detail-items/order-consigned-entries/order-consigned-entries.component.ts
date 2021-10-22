@@ -4,7 +4,8 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { Consignment, Order } from '@spartacus/core';
+import { Order } from '@spartacus/core';
+import { Consignment } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-consigned-entries',
