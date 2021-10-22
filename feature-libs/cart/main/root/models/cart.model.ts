@@ -9,7 +9,6 @@ import {
   Principal,
   Product,
   Promotion,
-  PromotionOrderEntryConsumed,
 } from '@spartacus/core';
 
 export interface PromotionResult {
@@ -138,4 +137,11 @@ export interface PickupOrderEntryGroup {
   entries?: OrderEntry[];
   quantity?: number;
   totalPriceWithTax?: Price;
+}
+
+export interface PromotionOrderEntryConsumed {
+  adjustedUnitPrice?: number;
+  code?: string;
+  orderEntryNumber?: number;
+  quantity?: number;
 }

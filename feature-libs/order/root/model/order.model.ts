@@ -69,13 +69,6 @@ export interface ReturnRequestModification {
   status?: string;
 }
 
-export interface PromotionOrderEntryConsumed {
-  adjustedUnitPrice?: number;
-  code?: string;
-  orderEntryNumber?: number;
-  quantity?: number;
-}
-
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
   quantity?: number;
