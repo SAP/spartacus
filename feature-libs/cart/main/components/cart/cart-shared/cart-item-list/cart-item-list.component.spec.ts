@@ -9,13 +9,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
-  ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,

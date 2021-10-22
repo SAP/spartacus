@@ -118,7 +118,7 @@ export interface PickupOrderEntryGroup {
 }
 
 /**
- * @deprecated - (cart)
+ * @deprecated - (cart) - ready to remove
  */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
@@ -128,7 +128,7 @@ export interface PromotionOrderEntryConsumed {
 }
 
 /**
- * @deprecated - (cart)
+ * @deprecated - (cart) - ready to remove
  */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;

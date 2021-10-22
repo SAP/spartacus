@@ -1,4 +1,5 @@
 import {
+  ConsignmentEntry,
   DeliveryOrderEntryGroup,
   OrderEntry,
   PickupOrderEntryGroup,
@@ -67,12 +68,6 @@ export interface ReturnRequestList {
 
 export interface ReturnRequestModification {
   status?: string;
-}
-
-export interface ConsignmentEntry {
-  orderEntry?: OrderEntry;
-  quantity?: number;
-  shippedQuantity?: number;
 }
 
 export interface Consignment {

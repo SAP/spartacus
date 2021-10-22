@@ -145,3 +145,9 @@ export interface PromotionOrderEntryConsumed {
   orderEntryNumber?: number;
   quantity?: number;
 }
+
+export interface ConsignmentEntry {
+  orderEntry?: OrderEntry;
+  quantity?: number;
+  shippedQuantity?: number;
+}
