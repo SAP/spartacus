@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import {
-  ActiveCartImportExportContext,
-  ProductData,
-} from '@spartacus/cart/import-export/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
+import { ProductData } from '../order-entries-context/import-to-cart.model';
+import { ActiveCartImportExportContext } from './active-cart-import-export-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
