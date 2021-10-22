@@ -8,11 +8,11 @@ import {
   FormErrorsModule,
   ImportCsvFileService,
   LaunchDialogService,
+  ProductData,
 } from '@spartacus/storefront';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
-  ProductData,
 } from '@spartacus/cart/import-export/core';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';

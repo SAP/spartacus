@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { IconTestingModule, ProductImportSummary } from '@spartacus/storefront';
 import { ImportEntriesSummaryComponent } from './import-entries-summary.component';
 
 const mockSummary: ProductImportSummary = {

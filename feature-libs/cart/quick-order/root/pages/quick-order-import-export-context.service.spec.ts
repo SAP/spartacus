@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
-import {
-  ProductData,
-  QuickOrderImportExportContext,
-} from '@spartacus/cart/import-export/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { ProductData } from '@spartacus/storefront';
+import { QuickOrderFacade } from '../facade/quick-order.facade';
+import { QuickOrderImportExportContext } from './quick-order-import-export-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockProductData: ProductData[] = [
