@@ -3,16 +3,7 @@
 ## TODO (pre how to roll checkout discussion - phase 1)
 
 - check CheckoutStepsSetGuard with b2b entry point and with super query
-- outlet for order-confirmation-thank-you component (to avoid exteding)
 - multiple calls for setting cost center (user cost centers emits multiple times)
-- move clear delivery address/mode methods from checkout-connector to checkout-delivery connector
-- separate delivery address/mode to 2 services
-- why we LoadCart on failed clearDeliveryMode call
-- clearCheckoutDeliveryMode actually incremented/decremented cart process
-- type for whole checkout state (after b2b entry point)
-- normalizer for checkout details
-- create event for Cart Merge (guessing cart effect?)
-- try to remove all store dispatches from checkout services
 - JaloError retry for super query (add retry for it)
 
   ```json
@@ -26,13 +17,28 @@
   }
   ```
 
-- switch all commands and queries from getActiveCartId -> takeActiveCartId
 - unify combineLatest with userId and cartId for all c&q in checkout services
-- expose query reset events as property in classes
 - better organize code related to order type clearing (constructor in checkout.service.ts - reuse query reset events?)
+- consistent naming on facade methods returing state (should include state in name?)
+- optimize mutliple query events reloads/resets (to avoid cancelled requests)
+
+## TODO (without pair programming)
+
+- move clear delivery address/mode methods from checkout-connector to checkout-delivery connector (think about breaking changes)
+- separate delivery address/mode to 2 services
+- type for whole checkout state (after b2b entry point)
+- normalizer for checkout state
+- create event for Cart Merge (guessing cart effect?)
+- switch all commands and queries from getActiveCartId -> takeActiveCartId
+- expose query reset events as property in classes
 
 ## TODO (details nice to have in actual spartacus release of new checkout)
 
+- why we LoadCart on failed clearDeliveryMode call
+- clearCheckoutDeliveryMode actually incremented/decremented cart process
+
+- try to remove all store dispatches from checkout services
+- outlet for order-confirmation-thank-you component (to avoid exteding)
 - normalize naming of files/exported things from scheduled replenishment and b2b entry point
 - schematics for scheduled replenishment
 - clear fields in occ endpoint configs that are no longer needed
