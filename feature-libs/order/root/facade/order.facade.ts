@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  CancellationRequestEntryInputList,
-  facadeFactory,
-  Order,
-  OrderHistoryList,
-} from '@spartacus/core';
+import { facadeFactory, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
 import { ConsignmentTracking } from '../model/consignment-tracking.model';
+import {
+  CancellationRequestEntryInputList,
+  OrderHistoryList,
+} from '../model/order.model';
 
 export function orderFacadeFactory() {
   return facadeFactory({

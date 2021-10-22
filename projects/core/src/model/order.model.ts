@@ -11,7 +11,7 @@ import { PointOfService } from './point-of-service.model';
 import { Price, Product } from './product.model';
 
 /**
- * @deprecated
+ * @deprecated - (cart)
  */
 export interface DeliveryMode {
   code?: string;
@@ -41,7 +41,7 @@ export interface OrderEntry {
 }
 
 /**
- * @deprecated - done
+ * @deprecated - ready to remove
  */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
@@ -49,7 +49,7 @@ export interface CancelOrReturnRequestEntryInput {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
@@ -57,7 +57,7 @@ export interface ReturnRequestEntryInputList {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
@@ -107,7 +107,7 @@ export interface ReturnRequestModification {
 }
 
 /**
- * @deprecated
+ * @deprecated - (cart)
  */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
@@ -118,7 +118,7 @@ export interface PickupOrderEntryGroup {
 }
 
 /**
- * @deprecated
+ * @deprecated - (cart)
  */
 export interface PromotionOrderEntryConsumed {
   adjustedUnitPrice?: number;
@@ -128,7 +128,7 @@ export interface PromotionOrderEntryConsumed {
 }
 
 /**
- * @deprecated
+ * @deprecated - (cart)
  */
 export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
@@ -171,7 +171,7 @@ export interface OrderHistoryList {
 }
 
 /**
- * @deprecated
+ * @deprecated - Cart???
  */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];

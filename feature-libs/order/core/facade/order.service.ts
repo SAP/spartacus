@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  CancellationRequestEntryInputList,
   Order,
-  OrderHistoryList,
   ProcessSelectors,
   RoutingService,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
+import {
+  CancellationRequestEntryInputList,
+  ConsignmentTracking,
+  OrderFacade,
+  OrderHistoryList,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
