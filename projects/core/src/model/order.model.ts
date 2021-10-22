@@ -150,7 +150,7 @@ export interface Consignment {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface OrderHistory {
   code?: string;
