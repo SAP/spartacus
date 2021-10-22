@@ -70,7 +70,7 @@ export interface ReplenishmentOrderList {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface Trigger {
   activationTime?: string;
