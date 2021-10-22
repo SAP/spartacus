@@ -13,7 +13,8 @@ import { ImportContext } from '../order-entries-context/import.context';
 })
 export class ActiveCartImportExportContext
   extends CartImportContext
-  implements ImportContext, ExportContext {
+  implements ImportContext, ExportContext
+{
   readonly type = CartTypes.ACTIVE_CART;
 
   constructor(

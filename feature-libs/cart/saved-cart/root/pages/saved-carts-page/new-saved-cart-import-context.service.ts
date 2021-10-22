@@ -30,7 +30,8 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
 })
 export class NewSavedCartImportContext
   extends CartImportContext
-  implements ImportContext {
+  implements ImportContext
+{
   readonly type = CartTypes.NEW_SAVED_CART;
 
   constructor(

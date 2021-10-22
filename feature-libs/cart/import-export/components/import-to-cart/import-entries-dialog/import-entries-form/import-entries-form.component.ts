@@ -102,8 +102,8 @@ export class ImportEntriesFormComponent implements OnInit {
             this.separator !== undefined
               ? this.importCsvService.validateFile(control.value[0], {
                   separator: this.separator,
-                  isDataParsable: this.importToCartService
-                    .isDataParsableToProducts,
+                  isDataParsable:
+                    this.importToCartService.isDataParsableToProducts,
                   maxEntries: this.maxEntries,
                 })
               : of(null),

@@ -53,14 +53,14 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-const routerStateSubject = new BehaviorSubject<RouterState>(({
+const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
     semanticRoute: 'savedCartsDetails',
     params: {
       savedCartId: mockCartId,
     },
   },
-} as unknown) as RouterState);
+} as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(

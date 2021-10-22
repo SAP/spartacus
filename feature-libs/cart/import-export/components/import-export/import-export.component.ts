@@ -5,7 +5,7 @@ import {
   ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-export',
@@ -18,10 +18,7 @@ export class ImportExportComponent {
   protected context$: Observable<OrderEntriesContext | undefined> =
     this.routingService
       .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
-      .pipe(
-        tap((orderEntriesContext) => console.log({ orderEntriesContext })),
-        shareReplay({ refCount: true, bufferSize: 1 })
-      );
+      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap((orderEntriesContext) =>
