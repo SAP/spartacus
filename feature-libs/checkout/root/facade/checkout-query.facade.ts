@@ -1,24 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Address,
-  CostCenter,
-  DeliveryMode,
-  facadeFactory,
-  PaymentDetails,
-  PaymentType,
-  QueryState,
-} from '@spartacus/core';
+import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
-
-export interface CheckoutState {
-  deliveryAddress?: Address;
-  deliveryMode?: DeliveryMode;
-  paymentInfo?: PaymentDetails;
-  costCenter?: CostCenter; // TODO move to checkout b2b entry point and use augmentation
-  purchaseOrderNumber?: string;
-  paymentType?: PaymentType;
-}
+import { CheckoutState } from '../model/checkout-state.model';
 
 @Injectable({
   providedIn: 'root',
