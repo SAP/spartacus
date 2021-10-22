@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
   CancellationRequestEntryInputList,
+  ConsignmentTracking,
   Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from '@spartacus/core';
-import { ConsignmentTracking } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { OrderAdapter } from './order.adapter';
 
