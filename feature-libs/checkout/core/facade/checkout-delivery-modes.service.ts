@@ -33,8 +33,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
-import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
+import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
 export class CheckoutDeliveryModesService
@@ -81,7 +80,7 @@ export class CheckoutDeliveryModesService
             ) {
               throw new Error('Checkout conditions not met');
             }
-            return this.checkoutDeliveryConnector.getSupportedModes(
+            return this.checkoutDeliveryModesConnector.getSupportedModes(
               userId,
               cartId
             );
@@ -111,7 +110,7 @@ export class CheckoutDeliveryModesService
             ) {
               throw new Error('Checkout conditions not met');
             }
-            return this.checkoutDeliveryConnector
+            return this.checkoutDeliveryModesConnector
               .setMode(userId, cartId, deliveryModeCode)
               .pipe(
                 tap(() => {
@@ -155,7 +154,7 @@ export class CheckoutDeliveryModesService
             ) {
               throw new Error('Checkout conditions not met');
             }
-            return this.checkoutConnector
+            return this.checkoutDeliveryModesConnector
               .clearCheckoutDeliveryMode(userId, cartId)
               .pipe(
                 tap(() => {
@@ -199,8 +198,7 @@ export class CheckoutDeliveryModesService
     protected eventService: EventService,
     protected query: QueryService,
     protected command: CommandService,
-    protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    protected checkoutConnector: CheckoutConnector,
+    protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 

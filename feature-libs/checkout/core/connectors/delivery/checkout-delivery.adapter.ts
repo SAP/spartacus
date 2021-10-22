@@ -59,4 +59,15 @@ export abstract class CheckoutDeliveryAdapter {
     userId: string,
     cartId: string
   ): Observable<DeliveryMode[]>;
+
+  /**
+   * Abstract method used to clear checkout delivery address
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract clearCheckoutDeliveryAddress(
+    userId: string,
+    cartId: string
+  ): Observable<unknown>;
 }

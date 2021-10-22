@@ -14,7 +14,6 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'createAndSetAddress',
         'setDeliveryAddress',
         'clearCheckoutDeliveryAddress',
-        'clearCheckoutDeliveryDetails',
       ],
       async: true,
     }),
@@ -41,9 +40,4 @@ export abstract class CheckoutDeliveryFacade {
    * Clear address already setup in last checkout process
    */
   abstract clearCheckoutDeliveryAddress(): Observable<unknown>;
-
-  /**
-   * Clear address and delivery mode already setup in last checkout process
-   */
-  abstract clearCheckoutDeliveryDetails(): void;
 }

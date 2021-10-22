@@ -1,13 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  CheckoutDeliveryAdapter,
+  CheckoutDeliveryModesAdapter,
   DELIVERY_MODE_NORMALIZER,
 } from '@spartacus/checkout/core';
 import {
-  Address,
-  ADDRESS_NORMALIZER,
-  ADDRESS_SERIALIZER,
   ConverterService,
   DeliveryMode,
   normalizeHttpError,
@@ -18,35 +15,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, pluck } from 'rxjs/operators';
 
 @Injectable()
-export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
+export class OccCheckoutDeliveryModesAdapter
+  implements CheckoutDeliveryModesAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
-
-  protected getCreateDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('createDeliveryAddress', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getSetDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string,
-    addressId?: string
-  ): string {
-    return this.occEndpoints.buildUrl('setDeliveryAddress', {
-      urlParams: { userId, cartId },
-      queryParams: { addressId },
-    });
-  }
 
   protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('deliveryMode', {
@@ -77,47 +53,13 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     });
   }
 
-  protected getRemoveDeliveryAddressEndpoint(
+  protected getClearDeliveryModeEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
-      urlParams: {
-        userId,
-        cartId,
-      },
+    return this.occEndpoints.buildUrl('clearDeliveryMode', {
+      urlParams: { userId, cartId },
     });
-  }
-
-  public createAddress(
-    userId: string,
-    cartId: string,
-    address: Address
-  ): Observable<Address> {
-    address = this.converter.convert(address, ADDRESS_SERIALIZER);
-
-    return this.http
-      .post<Occ.Address>(
-        this.getCreateDeliveryAddressEndpoint(userId, cartId),
-        address,
-        {
-          headers: new HttpHeaders().set('Content-Type', 'application/json'),
-        }
-      )
-      .pipe(
-        this.converter.pipeable(ADDRESS_NORMALIZER),
-        catchError((error) => throwError(normalizeHttpError(error)))
-      );
-  }
-
-  public setAddress(
-    userId: string,
-    cartId: string,
-    addressId: string
-  ): Observable<unknown> {
-    return this.http
-      .put(this.getSetDeliveryAddressEndpoint(userId, cartId, addressId), {})
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   public setMode(
@@ -150,12 +92,12 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       );
   }
 
-  clearCheckoutDeliveryAddress(
+  clearCheckoutDeliveryMode(
     userId: string,
     cartId: string
   ): Observable<unknown> {
     return this.http
-      .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
+      .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

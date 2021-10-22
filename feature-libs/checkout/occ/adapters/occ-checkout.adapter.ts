@@ -34,27 +34,6 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     });
   }
 
-  protected getRemoveDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getClearDeliveryModeEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('clearDeliveryMode', {
-      urlParams: { userId, cartId },
-    });
-  }
-
   protected getLoadCheckoutDetailsEndpoint(
     userId: string,
     cartId: string
@@ -113,23 +92,5 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       )
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
     // TODO: Normalizer for checkout details
-  }
-
-  clearCheckoutDeliveryAddress(
-    userId: string,
-    cartId: string
-  ): Observable<unknown> {
-    return this.http
-      .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
-  }
-
-  clearCheckoutDeliveryMode(
-    userId: string,
-    cartId: string
-  ): Observable<unknown> {
-    return this.http
-      .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

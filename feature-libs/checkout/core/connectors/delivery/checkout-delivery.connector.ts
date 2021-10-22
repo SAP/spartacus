@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Address, DeliveryMode } from '@spartacus/core';
+import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 
@@ -23,22 +23,10 @@ export class CheckoutDeliveryConnector {
     return this.adapter.setAddress(userId, cartId, addressId);
   }
 
-  public setMode(
-    userId: string,
-    cartId: string,
-    deliveryModeId: string
-  ): Observable<unknown> {
-    return this.adapter.setMode(userId, cartId, deliveryModeId);
-  }
-
-  public getMode(userId: string, cartId: string): Observable<DeliveryMode> {
-    return this.adapter.getMode(userId, cartId);
-  }
-
-  public getSupportedModes(
+  public clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode[]> {
-    return this.adapter.getSupportedModes(userId, cartId);
+  ): Observable<unknown> {
+    return this.adapter.clearCheckoutDeliveryAddress(userId, cartId);
   }
 }

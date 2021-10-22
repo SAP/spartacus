@@ -25,4 +25,11 @@ export class CheckoutDeliveryModesConnector {
   ): Observable<DeliveryMode[]> {
     return this.adapter.getSupportedModes(userId, cartId);
   }
+
+  public clearCheckoutDeliveryMode(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.adapter.clearCheckoutDeliveryMode(userId, cartId);
+  }
 }

@@ -1,5 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import {
+  CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/root';
 import {
   DeleteUserAddressEvent,
   EventService,
@@ -17,6 +20,7 @@ export class CheckoutEventListener implements OnDestroy {
 
   constructor(
     protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
@@ -41,7 +45,8 @@ export class CheckoutEventListener implements OnDestroy {
           })
         )
         .subscribe((_event) => {
-          this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
+          this.checkoutDeliveryFacade.clearCheckoutDeliveryAddress();
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
         })
     );
   }
