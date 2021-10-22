@@ -1,4 +1,4 @@
-import { ScheduleReplenishmentForm } from '@spartacus/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 

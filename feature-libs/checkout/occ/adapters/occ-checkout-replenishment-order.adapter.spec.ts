@@ -3,12 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
 import {
   ConverterService,
   OccConfig,
   OccEndpoints,
   REPLENISHMENT_ORDER_NORMALIZER,
-  ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';

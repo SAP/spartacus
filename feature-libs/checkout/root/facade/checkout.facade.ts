@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  facadeFactory,
-  Order,
-  ORDER_TYPE,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+import { facadeFactory, Order } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
+import {
+  ORDER_TYPE,
+  ScheduleReplenishmentForm,
+} from '../model/checkout-step.model';
 
 @Injectable({
   providedIn: 'root',

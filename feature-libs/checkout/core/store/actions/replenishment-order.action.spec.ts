@@ -1,8 +1,5 @@
-import {
-  PROCESS_FEATURE,
-  ScheduleReplenishmentForm,
-  StateUtils,
-} from '@spartacus/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 import { CheckoutActions } from './index';

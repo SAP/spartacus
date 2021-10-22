@@ -4,11 +4,11 @@ import {
   CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
 import {
   ConverterService,
   OccEndpointsService,
   REPLENISHMENT_ORDER_NORMALIZER,
-  ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';

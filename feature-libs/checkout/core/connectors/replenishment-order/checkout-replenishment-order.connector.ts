@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ScheduleReplenishmentForm } from '@spartacus/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';

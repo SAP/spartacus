@@ -2,10 +2,12 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
-  Order,
   ORDER_TYPE,
-  PROCESS_FEATURE,
   ScheduleReplenishmentForm,
+} from '@spartacus/checkout/root';
+import {
+  Order,
+  PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';

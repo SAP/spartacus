@@ -78,7 +78,7 @@ export interface Trigger {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ScheduleReplenishmentForm {
   daysOfWeek?: DaysOfWeek[];
