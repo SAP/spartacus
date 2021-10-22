@@ -37,8 +37,7 @@
       class="cx-review-summary-card cx-review-card-address"
     >
       <cx-card
-        *ngIf="countryName$ | async as countryName"
-        [content]="getShippingAddressCard(deliveryAddress, countryName) | async"
+        [content]="getShippingAddressCard(deliveryAddress) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a

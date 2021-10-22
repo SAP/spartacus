@@ -23,7 +23,7 @@ import {
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -55,21 +55,25 @@ export class ReviewSubmitComponent {
     return this.activeCartService.getEntries();
   }
 
-  get steps$(): Observable<CheckoutStep[]> {
-    return this.checkoutStepService.steps$;
-  }
+  steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
-  get deliveryAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryService.getDeliveryAddress();
-  }
+  deliveryAddress$: Observable<Address | undefined> =
+    this.checkoutDeliveryService.getDeliveryAddress().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
-  get deliveryMode$(): Observable<DeliveryMode | undefined> {
-    return this.checkoutDeliveryService.getSelectedDeliveryMode();
-  }
+  deliveryMode$: Observable<DeliveryMode | undefined> =
+    this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
-  get paymentDetails$(): Observable<PaymentDetails | undefined> {
-    return this.checkoutPaymentService.getPaymentDetails();
-  }
+  paymentDetails$: Observable<PaymentDetails | undefined> =
+    this.checkoutPaymentService.getPaymentDetails().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
@@ -87,14 +91,12 @@ export class ReviewSubmitComponent {
 
   getShippingAddressCard(
     deliveryAddress: Address,
-    countryName: string
+    countryName?: string
   ): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('addressCard.shipTo'),
-    ]).pipe(
-      map(([textTitle]) => {
+    return this.translation.translate('addressCard.shipTo').pipe(
+      map((textTitle) => {
         if (!countryName) {
-          countryName = deliveryAddress?.country?.isocode as string;
+          countryName = deliveryAddress?.country?.name as string;
         }
 
         let region = '';
