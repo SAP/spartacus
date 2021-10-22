@@ -36,7 +36,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
   protected hardDeleteTimeout = 5000;
-
+  protected quickOrderListLimit = 0;
   private clearDeleteTimeouts: Record<string, Subscription> = {};
 
   /**
@@ -102,6 +102,24 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   clearList(): void {
     this.entries$.next([]);
+  }
+
+  /**
+   * Get information about the possibility to add the next product
+   */
+  canAdd(code?: string): Observable<boolean> {
+    if (code) {
+      return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
+    } else {
+      return of(!this.isLimitExceeded());
+    }
+  }
+
+  /**
+   * Set quick order list limit property
+   */
+  setListLimit(limit: number): void {
+    this.quickOrderListLimit = limit;
   }
 
   /**
@@ -292,7 +310,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ): OrderEntry {
     return {
       basePrice: product.price,
-      product: product,
+      product,
       quantity,
       totalPrice: product.price,
     } as OrderEntry;
@@ -302,6 +320,14 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Add single entry to the list
    */
   protected addEntry(entry: OrderEntry): void {
+    if (
+      entry?.product?.code &&
+      !this.isProductOnTheList(entry.product.code) &&
+      this.isLimitExceeded()
+    ) {
+      return;
+    }
+
     const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
@@ -341,6 +367,12 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
     );
+  }
+
+  protected isLimitExceeded(): boolean {
+    const entries = this.entries$.getValue() || [];
+
+    return entries.length >= this.quickOrderListLimit;
   }
 
   private createQuickOrderResultEvent(

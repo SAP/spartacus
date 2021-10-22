@@ -136,7 +136,7 @@
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
           [class]="'btn-block add-button'"
-          [disabled]="!entries.length || entries.length >= quickOrderListLimit"
+          [disabled]="!entries.length"
           [loading]="!(isCartStable$ | async)"
         >
           {{ 'quickOrderList.addToCart' | cxTranslate }}

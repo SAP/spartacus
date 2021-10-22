@@ -73,6 +73,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockSoftDeletedEntries$;
   }
   clearDeletedEntries(): void {}
+  setListLimit(_limit: number): void {}
 }
 
 class MockQuickOrderStatePersistenceService
