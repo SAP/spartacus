@@ -18,14 +18,6 @@ import { ImportExportComponent } from './import-export.component';
       cmsComponents: {
         ImportExportComponent: {
           component: ImportExportComponent,
-          data: {
-            importButtonDisplayRoutes: [
-              'cart',
-              'savedCarts',
-              'savedCartsDetails',
-            ],
-            exportButtonDisplayRoutes: ['savedCartsDetails', 'cart'],
-          },
         },
       },
     }),

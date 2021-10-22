@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { of, Subject } from 'rxjs';
+import {} from '@spartacus/cart/import-export/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   CartActions,
@@ -8,12 +9,9 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import {
-  NewSavedCartImportContext,
-  ProductData,
-  ProductImportStatus,
-} from '@spartacus/cart/import-export/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { ProductData, ProductImportStatus } from '@spartacus/storefront';
+import { of, Subject } from 'rxjs';
+import { NewSavedCartImportContext } from './new-saved-cart-import-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

@@ -1,3 +1,5 @@
+<cx-import-export></cx-import-export>
+
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div class="cx-saved-cart-list-header">

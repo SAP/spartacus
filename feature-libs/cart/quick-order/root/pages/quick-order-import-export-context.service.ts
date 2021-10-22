@@ -1,24 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { catchError, take, tap } from 'rxjs/operators';
-import { CartTypes } from '../model/import-export.model';
+import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
+  CartTypes,
+  ExportContext,
+  ImportContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '../model/import-to-cart.model';
-import { ImportContext } from './import.context';
-import { ExportContext } from './export.context';
+} from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuickOrderImportExportContext
-  implements ImportContext, ExportContext
-{
+  implements ImportContext, ExportContext {
   readonly type = CartTypes.QUICK_ORDER;
 
   constructor(

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Injectable, NgModule } from '@angular/core';
+import { Resolve, RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -7,11 +7,17 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import {
+  CmsPageGuard,
+  OrderEntriesContext,
+  PageLayoutComponent,
+} from '@spartacus/storefront';
 import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,
 } from './feature-name';
+import { SavedCartImportExportContext } from './pages/saved-cart-details-page/saved-cart-import-export-context.service';
+import { NewSavedCartImportContext } from './pages/saved-carts-page/new-saved-cart-import-context.service';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultCartSavedCartComponentsConfig(): CmsConfig {
@@ -33,6 +39,19 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
   return config;
 }
 
+@Injectable({ providedIn: 'root' })
+export class SavedCartsPageContextResolver
+  implements Resolve<OrderEntriesContext> {
+  constructor(protected orderEntriesContext: SavedCartImportExportContext) {}
+  resolve = () => ({ orderEntries: this.orderEntriesContext });
+}
+
+@Injectable({ providedIn: 'root' })
+export class SavedCartDetailsPageContextResolver
+  implements Resolve<OrderEntriesContext> {
+  constructor(protected orderEntriesContext: NewSavedCartImportContext) {}
+  resolve = () => ({ orderEntries: this.orderEntriesContext });
+}
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -42,6 +61,15 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'savedCartsDetails' },
+        resolve: { cxContext: SavedCartDetailsPageContextResolver },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'savedCarts' },
+        resolve: { cxContext: SavedCartsPageContextResolver },
       },
     ]),
   ],

@@ -18,10 +18,22 @@ export class RoutingParamsService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  protected readonly data$: Observable<{
+    [key: string]: string;
+  }> = this.activatedRoutesService.routes$.pipe(
+    map((routes) => this.findAllParam(routes, 'data')),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   constructor(
     protected router: Router,
     protected activatedRoutesService: ActivatedRoutesService
-  ) {}
+  ) {
+    // SPIKE TODO REMOVE:
+    this.activatedRoutesService.routes$.subscribe((activatedRoutes) =>
+      console.log({ activatedRoutes })
+    );
+  }
 
   /**
    * Get the list of all parameters of the full route. This includes
@@ -31,9 +43,20 @@ export class RoutingParamsService {
     return this.params$;
   }
 
-  protected findAllParam(routes: ActivatedRouteSnapshot[]): {
+  /**
+   * Get the list of all parameters of the full route. This includes
+   * active child routes.
+   */
+  getData(): Observable<{ [key: string]: string }> {
+    return this.data$;
+  }
+
+  protected findAllParam(
+    routes: ActivatedRouteSnapshot[],
+    key: keyof ActivatedRouteSnapshot = 'params'
+  ): {
     [key: string]: string;
   } {
-    return Object.assign({}, ...routes.map((route) => route.params));
+    return Object.assign({}, ...routes.map((route) => route[key]));
   }
 }

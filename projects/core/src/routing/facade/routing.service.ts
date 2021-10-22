@@ -38,6 +38,14 @@ export class RoutingService {
   }
 
   /**
+   * Get the list of all data of the full route. This includes
+   * active child routes.
+   */
+  getData(): Observable<{ [key: string]: string }> {
+    return this.routingParamsService?.getData();
+  }
+
+  /**
    * Get the current router state
    */
   getRouterState(): Observable<RouterState> {

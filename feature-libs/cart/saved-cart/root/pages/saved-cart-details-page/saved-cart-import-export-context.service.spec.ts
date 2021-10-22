@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import {} from '@spartacus/cart/import-export/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   MultiCartService,
@@ -9,11 +10,9 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import {
-  ProductData,
-  SavedCartImportExportContext,
-} from '@spartacus/cart/import-export/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { ProductData } from '@spartacus/storefront';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { SavedCartImportExportContext } from './saved-cart-import-export-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
@@ -54,14 +53,14 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-const routerStateSubject = new BehaviorSubject<RouterState>({
+const routerStateSubject = new BehaviorSubject<RouterState>(({
   state: {
     semanticRoute: 'savedCartsDetails',
     params: {
       savedCartId: mockCartId,
     },
   },
-} as unknown as RouterState);
+} as unknown) as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(

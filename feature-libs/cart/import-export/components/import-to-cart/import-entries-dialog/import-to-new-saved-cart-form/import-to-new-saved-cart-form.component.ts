@@ -10,19 +10,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { of } from 'rxjs';
+import {
+  CartNameGeneration,
+  CartNameSource,
+  ImportExportConfig,
+} from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
   ImportCsvFileService,
   LaunchDialogService,
-} from '@spartacus/storefront';
-import {
-  CartNameGeneration,
-  ImportExportConfig,
-  CartNameSource,
   ProductData,
-} from '@spartacus/cart/import-export/core';
+} from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
 
@@ -98,8 +98,8 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
             this.separator !== undefined
               ? this.importCsvService.validateFile(control.value[0], {
                   separator: this.separator,
-                  isDataParsable:
-                    this.importToCartService.isDataParsableToProducts,
+                  isDataParsable: this.importToCartService
+                    .isDataParsableToProducts,
                   maxEntries: this.maxEntries,
                 })
               : of(null),

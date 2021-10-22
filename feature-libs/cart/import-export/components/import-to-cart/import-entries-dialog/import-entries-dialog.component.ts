@@ -1,19 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
 import {
   CartTypes,
+  FocusConfig,
+  ICON_TYPE,
   ImportContext,
+  LaunchDialogService,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
-} from '@spartacus/cart/import-export/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
 } from '@spartacus/storefront';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',

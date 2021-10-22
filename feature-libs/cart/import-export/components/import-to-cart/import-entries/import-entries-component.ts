@@ -5,9 +5,12 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import {
+  ImportContext,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ImportContext } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-entries',

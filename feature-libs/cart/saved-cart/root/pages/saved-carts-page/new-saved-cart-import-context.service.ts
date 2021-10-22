@@ -1,5 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
+  Cart,
+  MultiCartService,
+  StateUtils,
+  UserIdService,
+} from '@spartacus/core';
+import {
+  ImportContext,
+  ProductData,
+  ProductImportInfo,
+} from '@spartacus/storefront';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -10,25 +22,15 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import {
-  Cart,
-  MultiCartService,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { CartTypes } from '../model/import-export.model';
-import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
-import { CartImportContext } from './cart-import.context';
-import { ImportContext } from './import.context';
+import { CartImportContext } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/cart-import.context';
+import { CartTypes } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/import-export.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NewSavedCartImportContext
   extends CartImportContext
-  implements ImportContext
-{
+  implements ImportContext {
   readonly type = CartTypes.NEW_SAVED_CART;
 
   constructor(

@@ -1,11 +1,10 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/core';
-import { ImportContext, ProductData } from '@spartacus/cart/import-export/core';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { OrderEntry } from '@spartacus/core';
+import { CartTypes, ImportContext, ProductData } from '@spartacus/storefront';
 import { Observable, of, Subject } from 'rxjs';
 import { CartImportContext } from './cart-import.context';
-import { CartTypes } from '../model';
-import { Injectable } from '@angular/core';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
@@ -41,8 +40,7 @@ class MockTestCartService {
 })
 class TestCartImportExportContext
   extends CartImportContext
-  implements ImportContext
-{
+  implements ImportContext {
   constructor(
     protected actionsSubject: ActionsSubject,
     protected testCartService: MockTestCartService

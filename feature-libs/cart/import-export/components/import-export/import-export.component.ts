@@ -1,17 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { OrderEntry, RoutingService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
-import {
-  ActiveCartImportExportContext,
-  CmsImportExportComponent,
-  ImportContext,
-  ExportContext,
-  NewSavedCartImportContext,
-  QuickOrderImportExportContext,
-  SavedCartImportExportContext,
-} from '@spartacus/cart/import-export/core';
+import { OrderEntriesContext } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-export',
@@ -19,54 +10,30 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportExportComponent {
-  protected get route$(): Observable<string> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map((route) => route.state?.semanticRoute as string));
-  }
+  constructor(protected routingService: RoutingService) {}
 
-  protected routesCartMapping = new Map<string, ImportContext | ExportContext>([
-    ['cart', this.activeCartService],
-    ['savedCarts', this.newSavedCartService],
-    ['savedCartsDetails', this.savedCartService],
-    ['quickOrder', this.quickOrderService],
-    ['checkoutReviewOrder', this.activeCartService],
-  ]);
-
-  constructor(
-    protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
-    protected routingService: RoutingService,
-    protected activeCartService: ActiveCartImportExportContext,
-    protected newSavedCartService: NewSavedCartImportContext,
-    protected savedCartService: SavedCartImportExportContext,
-    protected quickOrderService: QuickOrderImportExportContext
-  ) {}
-
-  context$: Observable<ImportContext | ExportContext | undefined> =
-    this.route$.pipe(map((route) => this.routesCartMapping.get(route)));
+  context$: Observable<OrderEntriesContext> = this.routingService
+    .getData()
+    .pipe(
+      tap(console.warn),
+      map(({ cxContext }) => cxContext?.orderEntries)
+    );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap(
-      (service: ExportContext) =>
-        service?.getEntries() as Observable<OrderEntry[]>
+      (service: OrderEntriesContext) =>
+        // @ts-ignore SPIKE TODO FIX
+        (service?.getEntries() as Observable<OrderEntry[]>) ?? of([])
     )
   );
 
-  shouldDisplayImport$: Observable<boolean> = combineLatest([
-    this.route$,
-    this.cmsComponent.data$,
-  ]).pipe(
-    map(([route, data]) => data.importButtonDisplayRoutes.includes(route))
+  shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
+    // @ts-ignore SPIKE TODO FIX
+    map((context) => !!context?.setEntries)
   );
 
-  shouldDisplayExport$: Observable<boolean> = combineLatest([
-    this.route$,
-    this.cmsComponent.data$,
-    this.entries$,
-  ]).pipe(
-    map(
-      ([route, data, entries]) =>
-        data.exportButtonDisplayRoutes.includes(route) && entries.length > 0
-    )
+  shouldDisplayExport$: Observable<boolean> = this.entries$.pipe(
+    // @ts-ignore SPIKE TODO FIX
+    map((entries) => !!entries.length)
   );
 }

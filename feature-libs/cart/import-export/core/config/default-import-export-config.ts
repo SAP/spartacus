@@ -1,5 +1,5 @@
-import { CartTypes } from '../model/import-export.model';
-import { CartNameSource } from '../model/import-to-cart.model';
+import { CartTypes } from '../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/import-export.model';
+import { CartNameSource } from '../model/import-entries.config';
 import { ImportExportConfig } from './import-export-config';
 
 export const defaultImportExportConfig: ImportExportConfig = {

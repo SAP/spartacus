@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   MultiCartService,
@@ -9,20 +8,22 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { CartTypes } from '../model/import-export.model';
-import { ProductData } from '../model/import-to-cart.model';
-import { CartImportContext } from './cart-import.context';
-import { ImportContext } from './import.context';
-import { ExportContext } from './export.context';
+import {
+  ExportContext,
+  ImportContext,
+  ProductData,
+} from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { CartImportContext } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/cart-import.context';
+import { CartTypes } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/import-export.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SavedCartImportExportContext
   extends CartImportContext
-  implements ImportContext, ExportContext
-{
+  implements ImportContext, ExportContext {
   readonly type = CartTypes.SAVED_CART;
 
   constructor(

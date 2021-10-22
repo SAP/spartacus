@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { CartTypes } from '../model/import-export.model';
-import { ProductData, ProductImportInfo } from '../model/import-to-cart.model';
+import { CartTypes } from './import-export.model';
+import { ProductData, ProductImportInfo } from './import-to-cart.model';
 
 /**
  * An interface for context which determinate import products destination
