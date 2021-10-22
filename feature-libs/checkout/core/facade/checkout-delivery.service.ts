@@ -49,7 +49,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       (payload) => {
         return combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           take(1),
           switchMap(([userId, cartId]) => {
@@ -95,7 +95,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         const addressId = payload.id;
         return combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           take(1),
           switchMap(([userId, cartId]) => {
@@ -136,7 +136,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       () => {
         return combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           take(1),
           switchMap(([userId, cartId]) => {
@@ -195,7 +195,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       () => {
         return combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           take(1),
           switchMap(([userId, cartId]) => {
@@ -225,7 +225,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       (deliveryModeCode) =>
         combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           switchMap(([userId, cartId]) => {
             if (
@@ -269,7 +269,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       () => {
         return combineLatest([
           this.userIdService.takeUserId(),
-          this.activeCartService.getActiveCartId(),
+          this.activeCartService.takeActiveCartId(),
         ]).pipe(
           take(1),
           switchMap(([userId, cartId]) => {

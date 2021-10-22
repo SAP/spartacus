@@ -36,7 +36,7 @@ export class CheckoutService implements CheckoutFacade {
     (payload) => {
       return combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
+        this.activeCartService.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) => {

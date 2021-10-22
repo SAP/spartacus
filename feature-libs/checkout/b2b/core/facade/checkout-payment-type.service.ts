@@ -61,7 +61,7 @@ export class CheckoutPaymentTypeService
     ({ paymentTypeCode, purchaseOrderNumber }) => {
       return combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartService.getActiveCartId(),
+        this.activeCartService.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) => {
