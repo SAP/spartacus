@@ -20,6 +20,7 @@ export const common = {
     reset: 'Reset',
     search: 'Search',
     add: 'Add',
+    breadcrumbs: 'breadcrumbs',
   },
   pageMetaResolver: {
     category: {
