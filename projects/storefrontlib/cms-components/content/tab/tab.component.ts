@@ -9,7 +9,7 @@ import {
 import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_TYPE } from './Tab';
+import { Tab, TabConfig, TAB_MODE } from './Tab';
 import { wrapIntoBounds } from './tab.utils';
 
 @Component({
@@ -22,7 +22,7 @@ export class TabComponent implements OnInit {
   @Input() config: TabConfig;
 
   openTabs$: BehaviorSubject<number[]>;
-  mode$: Observable<TAB_TYPE>;
+  mode$: Observable<TAB_MODE>;
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
@@ -40,13 +40,13 @@ export class TabComponent implements OnInit {
    * - Tab: Closes all other tabs and opens the given tab.
    * - Accordian: Toggles the given tab open or closed.
    */
-  select(tabNum: number, mode: TAB_TYPE): void {
+  select(tabNum: number, mode: TAB_MODE): void {
     this.focus(tabNum);
 
     switch (mode) {
-      case TAB_TYPE.TAB:
+      case TAB_MODE.TAB:
         return this.openTabs$.next([tabNum]);
-      case TAB_TYPE.ACCORDIAN:
+      case TAB_MODE.ACCORDIAN:
         return this.toggleTab(tabNum);
     }
   }
@@ -61,13 +61,13 @@ export class TabComponent implements OnInit {
   /**
    * Calls select or focus methods depending on the tab mode.
    */
-  selectOrFocus(tabNum: number, mode: TAB_TYPE, event: KeyboardEvent): void {
+  selectOrFocus(tabNum: number, mode: TAB_MODE, event: KeyboardEvent): void {
     event.preventDefault();
 
     switch (mode) {
-      case TAB_TYPE.TAB:
+      case TAB_MODE.TAB:
         return this.select(tabNum, mode);
-      case TAB_TYPE.ACCORDIAN:
+      case TAB_MODE.ACCORDIAN:
         return this.focus(tabNum);
     }
   }
@@ -84,7 +84,7 @@ export class TabComponent implements OnInit {
   handleKeydownEvent(
     tabNum: number,
     tabs: Tab[],
-    mode: TAB_TYPE,
+    mode: TAB_MODE,
     event: KeyboardEvent
   ): void {
     const key = event.key;
@@ -130,6 +130,20 @@ export class TabComponent implements OnInit {
     this.openTabs$.next(openTabs);
   }
 
+  /**
+   * Returns index 0 if the tab is already open, 
+   * no tabs are open and its the first tab (ie. 0), 
+   * or in 'ACCORDIAN' mode.
+   * Otherwise returns -1.
+   */
+  getTabIndex(tabNum: number, mode: TAB_MODE): number {
+    return this.isOpen(tabNum) ||
+      (tabNum === 0 && this.getOpenTabs().length === 0) ||
+      mode === 'ACCORDIAN'
+      ? 0
+      : -1;
+  }
+
   protected getOpenTabs(): number[] {
     return this.openTabs$.value;
   }
@@ -155,15 +169,15 @@ export class TabComponent implements OnInit {
    * If unspecified mode, return 'TAB' or 'ACCORDIAN' modes responsively using the specified breakpoint in the config.
    * If unspecified breakpoint, return 'TAB' mode by default.
    */
-  protected getMode(): Observable<TAB_TYPE> {
+  protected getMode(): Observable<TAB_MODE> {
     return this.config.mode
-      ? of<TAB_TYPE>(this.config.mode)
+      ? of<TAB_MODE>(this.config.mode)
       : this.config.breakpoint
       ? this.breakpointService
           .isUp(this.config.breakpoint)
           .pipe(
-            map((isUp: boolean) => (isUp ? TAB_TYPE.TAB : TAB_TYPE.ACCORDIAN))
+            map((isUp: boolean) => (isUp ? TAB_MODE.TAB : TAB_MODE.ACCORDIAN))
           )
-      : of<TAB_TYPE>(TAB_TYPE.TAB);
+      : of<TAB_MODE>(TAB_MODE.TAB);
   }
 }

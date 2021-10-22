@@ -26,7 +26,7 @@ export interface TabConfig {
   /**
    * Use this to set the tab mode. Defaults to 'TAB' when not set.
    */
-  mode?: TAB_TYPE;
+  mode?: TAB_MODE;
   /**
    * Breakpoint to switch responsively between 'TAB' and 'ACCORDIAN' modes.
    * Uses 'ACCORDIAN' mode when under the breakpoint and 'TAB' mode when over it.
@@ -50,7 +50,7 @@ export interface TabAttributes {
   role?: string;
 }
 
-export enum TAB_TYPE {
+export enum TAB_MODE {
   TAB = 'TAB',
   ACCORDIAN = 'ACCORDIAN',
 }

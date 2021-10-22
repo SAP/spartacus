@@ -14,9 +14,9 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import { Tab, TabConfig, TAB_TYPE } from '../../../../content/tab/Tab';
+import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/Tab';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
@@ -64,9 +64,10 @@ export class FacetListComponent implements AfterViewInit {
 
   tabConfig: TabConfig = {
     label: 'Product Facets',
-    mode: TAB_TYPE.ACCORDIAN,
+    mode: TAB_MODE.ACCORDIAN,
     openTabs: [0],
   };
+  
   tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
   @HostListener('click') handleClick() {
@@ -81,8 +82,13 @@ export class FacetListComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    combineLatest([this.facetsRef.changes, this.facetList$]).subscribe(
-      ([templates, list]) => {
+    this.renderFacets();
+  }
+
+  renderFacets(): void {
+    combineLatest([this.facetsRef.changes, this.facetList$])
+      .pipe(take(1))
+      .subscribe(([templates, list]) => {
         const facets = list.facets;
         const tabs = [];
         for (let i = 0; i < facets?.length; i++) {
@@ -94,8 +100,7 @@ export class FacetListComponent implements AfterViewInit {
 
         this.tabs$.next(tabs);
         this.changeDetectorRef.detectChanges();
-      }
-    );
+      });
   }
 
   /**
