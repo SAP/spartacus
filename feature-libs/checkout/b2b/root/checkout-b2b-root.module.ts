@@ -3,8 +3,11 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CHECKOUT_B2B_CORE_FEATURE, CHECKOUT_B2B_FEATURE } from '.';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
+import {
+  CHECKOUT_B2B_CORE_FEATURE,
+  CHECKOUT_B2B_FEATURE,
+} from './feature-name';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {

@@ -3,11 +3,11 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { defaultCheckoutScheduledReplenishmentRoutingConfig } from './config/default-checkout-scheduled-replenishment-routing-config';
 import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-} from '.';
-import { defaultCheckoutScheduledReplenishmentRoutingConfig } from './config/default-checkout-scheduled-replenishment-routing-config';
+} from './feature-name';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {
