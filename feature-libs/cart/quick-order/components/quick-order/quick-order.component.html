@@ -1,9 +1,27 @@
+<ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
+  <cx-message
+    *ngFor="let deletedEntry of deletedEntries | keyvalue"
+    (buttonAction)="undoDeletion(deletedEntry.value)"
+    (closeMessage)="clearDeletion(deletedEntry.value)"
+    [actionButtonText]="'quickOrderList.undo' | cxTranslate"
+    [text]="
+      'quickOrderList.productWasDeleted'
+        | cxTranslate: { name: deletedEntry.value.product?.name }
+    "
+    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+    class="quick-order-deletions-message"
+  >
+  </cx-message>
+</ng-container>
+
 <ng-container *ngIf="errors$ | async as errors">
   <cx-message
-    *ngIf="errors.length > 0"
+    *ngIf="errors.length"
     (closeMessage)="clearErrors()"
+    [accordionText]="'quickOrderList.errors.reviewErrors' | cxTranslate"
     [text]="'quickOrderList.errorProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
+    class="quick-order-errors-message"
   >
     <ul class="quick-order-errors">
       <li *ngFor="let error of errors" class="quick-order-error-item">
@@ -24,10 +42,12 @@
 
 <ng-container *ngIf="warnings$ | async as warnings">
   <cx-message
-    *ngIf="warnings.length > 0"
+    *ngIf="warnings.length"
     (closeMessage)="clearWarnings()"
+    [accordionText]="'quickOrderList.warnings.reviewWarnings' | cxTranslate"
     [text]="'quickOrderList.warningProceedingToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_WARNING"
+    class="quick-order-warnings-message"
   >
     <ul class="quick-order-warnings">
       <li *ngFor="let warning of warnings" class="quick-order-warning-item">
@@ -49,10 +69,11 @@
 
 <ng-container *ngIf="successes$ | async as successes">
   <cx-message
-    *ngIf="successes.length > 0"
+    *ngIf="successes.length"
     (closeMessage)="clearSuccesses()"
     [text]="'quickOrderList.successfullyAddedToCart' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+    class="quick-order-successes-message"
   >
     <ul class="quick-order-successes">
       <li *ngFor="let entry of successes" class="quick-order-success-item">
@@ -85,7 +106,8 @@
       <cx-quick-order-form
         [isDisabled]="entries.length >= quickOrderListLimit"
         [isLoading]="!(isCartStable$ | async)"
-      ></cx-quick-order-form>
+      >
+      </cx-quick-order-form>
     </div>
 
     <div class="quick-order-table-body">
@@ -114,7 +136,7 @@
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
           [class]="'btn-block add-button'"
-          [disabled]="!entries.length"
+          [disabled]="!entries.length || entries.length >= quickOrderListLimit"
           [loading]="!(isCartStable$ | async)"
         >
           {{ 'quickOrderList.addToCart' | cxTranslate }}

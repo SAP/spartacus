@@ -5,7 +5,7 @@ import {
   CheckoutAuthGuard,
 } from '@spartacus/checkout/components';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { CartValidationGuard, SpinnerModule } from '@spartacus/storefront';
 import { PaymentTypeComponent } from './payment-type.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { PaymentTypeComponent } from './payment-type.component';
       cmsComponents: {
         CheckoutPaymentType: {
           component: PaymentTypeComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

@@ -78,6 +78,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 
 const featureModules = [];
 
@@ -198,6 +199,7 @@ if (environment.digitalPayments) {
     OrderFeatureModule,
     QuickOrderFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
+    ImageZoomFeatureModule,
     ...featureModules,
   ],
 })

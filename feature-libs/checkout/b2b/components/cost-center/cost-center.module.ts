@@ -6,6 +6,7 @@ import {
 } from '@spartacus/checkout/components';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { CostCenterComponent } from './cost-center.component';
+import { CartValidationGuard } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CostCenterComponent } from './cost-center.component';
       cmsComponents: {
         CheckoutCostCenterComponent: {
           component: CostCenterComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

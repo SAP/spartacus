@@ -38,6 +38,7 @@ export const fontawesomeIconConfig: IconConfig = {
       LINK_OUT: 'fas fa-external-link-alt',
       SORT_DOWN: 'fas fa-sort-down',
       SORT: 'fas fa-sort',
+      EXPAND_ARROWS: 'fas fa-expand',
     },
     resources: [
       {

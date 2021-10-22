@@ -173,6 +173,179 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
 }"
 `;
 
+exports[`Spartacus Product schematics: ng-add ImageZoom feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { ProductImageZoomModule } from \\"@spartacus/product/image-zoom\\";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
+import { ProductImageZoomRootModule } from \\"@spartacus/product/image-zoom/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductImageZoomRootModule,
+    ProductImageZoomModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: productImageZoomTranslations,
+      chunks: productImageZoomTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductImageZoomFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from \\"@spartacus/product/image-zoom/assets\\";
+import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from \\"@spartacus/product/image-zoom/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductImageZoomRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_IMAGE_ZOOM_FEATURE]: {
+        module: () =>
+          import('@spartacus/product/image-zoom').then((m) => m.ProductImageZoomModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: productImageZoomTranslations,
+      chunks: productImageZoomTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class ProductImageZoomFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product\\";"`;
+
+exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
 exports[`Spartacus Product schematics: ng-add Variants feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
