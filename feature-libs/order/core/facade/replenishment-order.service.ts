@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
-  ReplenishmentOrderList,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderFacade,
+  ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

@@ -1,8 +1,9 @@
-import { Order, ReplenishmentOrderList, StateUtils } from '@spartacus/core';
+import { Order, StateUtils } from '@spartacus/core';
 import {
   ConsignmentTracking,
   OrderHistoryList,
   ReplenishmentOrder,
+  ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestList,
 } from '@spartacus/order/root';

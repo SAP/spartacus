@@ -12,7 +12,7 @@ import { CostCenter } from './org-unit.model';
 import { Price } from './product.model';
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReplenishmentOrder {
   active?: boolean;
@@ -61,7 +61,7 @@ export interface ReplenishmentOrder {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];

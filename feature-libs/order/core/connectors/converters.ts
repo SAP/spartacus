@@ -1,8 +1,9 @@
 import { InjectionToken } from '@angular/core';
-import { Converter, ReplenishmentOrderList } from '@spartacus/core';
+import { Converter } from '@spartacus/core';
 import {
   ConsignmentTracking,
   OrderHistoryList,
+  ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,

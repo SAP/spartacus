@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplenishmentOrderList } from '@spartacus/core';
-import { OrderHistoryList, ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
 import { ReplenishmentOrderConnector } from './replenishment-order.connector';
