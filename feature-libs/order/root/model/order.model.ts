@@ -1,6 +1,7 @@
 import {
   DeliveryOrderEntryGroup,
   OrderEntry,
+  PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
 } from '@spartacus/cart/main/root';
@@ -66,14 +67,6 @@ export interface ReturnRequestList {
 
 export interface ReturnRequestModification {
   status?: string;
-}
-
-export interface PickupOrderEntryGroup {
-  deliveryPointOfService?: PointOfService;
-  distance?: number;
-  entries?: OrderEntry[];
-  quantity?: number;
-  totalPriceWithTax?: Price;
 }
 
 export interface PromotionOrderEntryConsumed {

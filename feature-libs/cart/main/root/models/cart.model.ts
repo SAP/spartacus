@@ -4,7 +4,6 @@ import {
   Currency,
   DeliveryMode,
   PaymentDetails,
-  PickupOrderEntryGroup,
   PointOfService,
   Price,
   Principal,
@@ -131,4 +130,12 @@ export interface OrderEntry {
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
   promotions?: PromotionResult[];
+}
+
+export interface PickupOrderEntryGroup {
+  deliveryPointOfService?: PointOfService;
+  distance?: number;
+  entries?: OrderEntry[];
+  quantity?: number;
+  totalPriceWithTax?: Price;
 }

@@ -107,7 +107,7 @@ export interface ReturnRequestModification {
 }
 
 /**
- * @deprecated - (cart)
+ * @deprecated - (cart) - ready to remove
  */
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
@@ -162,7 +162,7 @@ export interface OrderHistory {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
