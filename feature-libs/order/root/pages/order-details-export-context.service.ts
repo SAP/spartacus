@@ -11,10 +11,10 @@ import { OrderFacade } from '../facade/order.facade';
 export class OrderDetailsExportContextService implements ExportContext {
   readonly type = CartTypes.ORDER_DETAILS;
 
-  constructor(protected orderDetailsService: OrderFacade) {}
+  constructor(protected userOrderService: OrderFacade) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.orderDetailsService
+    return this.userOrderService
       .getOrderDetails()
       .pipe(map((order: Order) => order?.entries ?? []));
   }
