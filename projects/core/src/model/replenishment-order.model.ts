@@ -76,20 +76,3 @@ export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;
 }
-
-/**
- * @deprecated
- */
-export const recurrencePeriod = {
-  DAILY: 'DAILY',
-  WEEKLY: 'WEEKLY',
-  MONTHLY: 'MONTHLY',
-};
-
-/**
- * @deprecated
- */
-export enum ORDER_TYPE {
-  PLACE_ORDER = 'PLACE_ORDER',
-  SCHEDULE_REPLENISHMENT_ORDER = 'SCHEDULE_REPLENISHMENT_ORDER',
-}

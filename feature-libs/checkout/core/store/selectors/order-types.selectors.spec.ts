@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ORDER_TYPE } from '@spartacus/core';
+import { ORDER_TYPE } from '@spartacus/checkout/root';
 import { CheckoutActions } from '../actions/index';
 import {
   CHECKOUT_FEATURE,

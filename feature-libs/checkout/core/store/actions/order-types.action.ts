@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ORDER_TYPE } from '@spartacus/core';
+import { ORDER_TYPE } from '@spartacus/checkout/root';
 
 export const SET_ORDER_TYPE = '[Checkout] Set Order Type';
 
