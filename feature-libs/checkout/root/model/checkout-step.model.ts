@@ -3,16 +3,18 @@ export enum CheckoutStepType {
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
   REVIEW_ORDER = 'reviewOrder',
+  // TODO: augment
   PAYMENT_TYPE = 'paymentType',
 }
 
-export const checkoutShippingSteps = [
+export const checkoutShippingSteps: CheckoutStepType[] = [
   CheckoutStepType.SHIPPING_ADDRESS,
   CheckoutStepType.DELIVERY_MODE,
 ];
 
-export const checkoutPaymentSteps = [
+export const checkoutPaymentSteps: CheckoutStepType[] = [
   CheckoutStepType.PAYMENT_DETAILS,
+  // TODO: augment?
   CheckoutStepType.PAYMENT_TYPE,
   CheckoutStepType.SHIPPING_ADDRESS,
 ];
