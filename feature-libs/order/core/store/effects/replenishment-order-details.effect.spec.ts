@@ -5,9 +5,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-  ReplenishmentOrder,
   Translatable,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';

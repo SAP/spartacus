@@ -5,9 +5,9 @@ import {
   Order,
   ORDER_TYPE,
   PaymentDetails,
-  ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';

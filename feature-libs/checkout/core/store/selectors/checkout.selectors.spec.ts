@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import {
-  Address,
-  DeliveryMode,
-  Order,
-  PaymentDetails,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { Address, DeliveryMode, Order, PaymentDetails } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { CheckoutActions } from '../actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';

@@ -1,6 +1,9 @@
-import { ReplenishmentOrder, ScheduleReplenishmentForm } from '@spartacus/core';
-import { PROCESS_FEATURE } from '@spartacus/core';
-import { StateUtils } from '@spartacus/core';
+import {
+  PROCESS_FEATURE,
+  ScheduleReplenishmentForm,
+  StateUtils,
+} from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
 
 export const SCHEDULE_REPLENISHMENT_ORDER =

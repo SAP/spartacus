@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ReplenishmentOrder, ReplenishmentOrderList } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { ReplenishmentOrderList } from '@spartacus/core';
+import { OrderHistoryList, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
 @Injectable()

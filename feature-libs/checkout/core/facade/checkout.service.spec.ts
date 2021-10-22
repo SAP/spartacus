@@ -5,11 +5,11 @@ import {
   Order,
   ORDER_TYPE,
   PROCESS_FEATURE,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';

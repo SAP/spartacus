@@ -11,13 +11,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
-  ReplenishmentOrder,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
 import {
   OrderFacade,
   OrderHistoryList,
+  ReplenishmentOrder,
   ReplenishmentOrderFacade,
 } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';

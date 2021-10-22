@@ -7,10 +7,10 @@ import {
 import {
   ConverterService,
   OccEndpointsService,
-  ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

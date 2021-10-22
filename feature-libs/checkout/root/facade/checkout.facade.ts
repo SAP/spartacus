@@ -3,9 +3,9 @@ import {
   facadeFactory,
   Order,
   ORDER_TYPE,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 

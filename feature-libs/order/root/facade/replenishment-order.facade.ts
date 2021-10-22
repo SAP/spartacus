@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { facadeFactory } from '@spartacus/core';
 import {
-  facadeFactory,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
 

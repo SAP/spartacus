@@ -1,10 +1,6 @@
 import { Cart } from '@spartacus/cart/main/root';
-import {
-  Address,
-  DeliveryMode,
-  Order,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { Address, DeliveryMode, Order } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 

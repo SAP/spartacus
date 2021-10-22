@@ -8,11 +8,11 @@ import {
   Order,
   ORDER_TYPE,
   ProcessSelectors,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';

@@ -8,9 +8,9 @@ import {
   DeliveryMode,
   Order,
   PaymentDetails,
-  ReplenishmentOrder,
   StateUtils,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CheckoutState,
   CheckoutStepsState,

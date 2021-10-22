@@ -7,12 +7,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
-  ReplenishmentOrder,
   ReplenishmentOrderList,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderFacade,
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';

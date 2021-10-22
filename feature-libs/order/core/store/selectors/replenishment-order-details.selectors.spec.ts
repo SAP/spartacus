@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ReplenishmentOrder, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers/index';
 import { OrderSelectors } from './index';
-
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
   purchaseOrderNumber: 'test-po',

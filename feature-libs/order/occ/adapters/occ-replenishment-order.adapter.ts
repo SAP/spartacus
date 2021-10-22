@@ -4,8 +4,6 @@ import {
   ConverterService,
   Occ,
   OccEndpointsService,
-  ReplenishmentOrder,
-  ReplenishmentOrderList,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/core';
 import {
@@ -13,7 +11,11 @@ import {
   ReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
 } from '@spartacus/order/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import {
+  OrderHistoryList,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
