@@ -108,8 +108,12 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Get information about the possibility to add the next product
    */
-  canAdd(code: string): Observable<boolean> {
-    return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
+  canAdd(code?: string): Observable<boolean> {
+    if (code) {
+      return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
+    } else {
+      return of(!this.isLimitExceeded());
+    }
   }
 
   /**

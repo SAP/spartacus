@@ -62,7 +62,7 @@ export abstract class QuickOrderFacade {
   /**
    * Get information about the possibility to add the next product
    */
-  abstract canAdd(code: string): Observable<boolean>;
+  abstract canAdd(code?: string): Observable<boolean>;
 
   /**
    * Set quick order list limit property
