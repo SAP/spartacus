@@ -42,9 +42,9 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig = {
 
 @Injectable({ providedIn: 'root' })
 export class QuickOrderPageContextResolver
-  implements Resolve<OrderEntriesContext> {
+  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
   constructor(protected orderEntriesContext: QuickOrderImportExportContext) {}
-  resolve = () => ({ orderEntries: this.orderEntriesContext });
+  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
 }
 
 @NgModule({

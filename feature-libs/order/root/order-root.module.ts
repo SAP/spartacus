@@ -1,13 +1,20 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Injectable, NgModule } from '@angular/core';
+import { Resolve, RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  OrderEntry,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import {
+  CmsPageGuard,
+  OrderEntriesContext,
+  PageLayoutComponent,
+} from '@spartacus/storefront';
+import { map, tap } from 'rxjs/operators';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
+import { OrderFacade } from './facade';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -44,6 +51,21 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   return config;
 }
 
+@Injectable({ providedIn: 'root' })
+export class OrderDetailsPageContextResolver
+  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
+  constructor(protected orderDetailsService: OrderFacade) {}
+  resolve = () => ({
+    orderEntriesContext: {
+      getEntries: () =>
+        this.orderDetailsService.getOrderDetails().pipe(
+          map((order) => order.entries as OrderEntry[]),
+          tap(console.error) // SPIKE TODO REMOVE
+        ),
+    },
+  });
+}
+
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -60,6 +82,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orderDetails' },
+        resolve: { cxContext: OrderDetailsPageContextResolver },
       },
       {
         // @ts-ignore

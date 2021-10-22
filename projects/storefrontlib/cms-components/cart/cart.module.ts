@@ -2,8 +2,9 @@ import { Injectable, NgModule } from '@angular/core';
 import { Resolve, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartModule } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { CmsPageGuard } from '../../cms-structure/guards/cms-page.guard';
 import { PAGE_LAYOUT_HANDLER } from '../../cms-structure/page/page-layout/page-layout-handler';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
 import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 import { AddToWishListModule } from './add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';
@@ -16,15 +17,13 @@ import { ExportContext } from './order-entries-context/export.context';
 import { ImportContext } from './order-entries-context/import.context';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
 
-export interface OrderEntriesContext {
-  orderEntries: Partial<ImportContext | ExportContext>;
-}
+export type OrderEntriesContext = Partial<ImportContext & ExportContext>;
 
 @Injectable({ providedIn: 'root' })
 export class ActiveCartPageContextResolver
-  implements Resolve<OrderEntriesContext> {
+  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
   constructor(protected orderEntriesContext: ActiveCartImportExportContext) {}
-  resolve = () => ({ orderEntries: this.orderEntriesContext });
+  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
 }
 
 @NgModule({

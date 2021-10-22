@@ -41,16 +41,16 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
 
 @Injectable({ providedIn: 'root' })
 export class SavedCartsPageContextResolver
-  implements Resolve<OrderEntriesContext> {
-  constructor(protected orderEntriesContext: SavedCartImportExportContext) {}
-  resolve = () => ({ orderEntries: this.orderEntriesContext });
+  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
+  constructor(protected orderEntriesContext: NewSavedCartImportContext) {}
+  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
 }
 
 @Injectable({ providedIn: 'root' })
 export class SavedCartDetailsPageContextResolver
-  implements Resolve<OrderEntriesContext> {
-  constructor(protected orderEntriesContext: NewSavedCartImportContext) {}
-  resolve = () => ({ orderEntries: this.orderEntriesContext });
+  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
+  constructor(protected orderEntriesContext: SavedCartImportExportContext) {}
+  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
 }
 @NgModule({
   imports: [

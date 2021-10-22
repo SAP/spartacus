@@ -12,28 +12,31 @@ import { map, switchMap, tap } from 'rxjs/operators';
 export class ImportExportComponent {
   constructor(protected routingService: RoutingService) {}
 
-  context$: Observable<OrderEntriesContext> = this.routingService
+  // SPIKE TODO AS ANY:
+  protected pageContext$: Observable<any> = this.routingService
     .getData()
-    .pipe(
-      tap(console.warn),
-      map(({ cxContext }) => cxContext?.orderEntries)
-    );
+    .pipe(map(({ cxContext }) => cxContext));
+
+  context$: Observable<
+    OrderEntriesContext | undefined
+  > = this.pageContext$.pipe(
+    map((pageContext) => pageContext?.orderEntriesContext),
+    tap((orderEntriesContext) => console.log({ orderEntriesContext })) // SPIKE TODO REMOVE
+  );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap(
-      (service: OrderEntriesContext) =>
-        // @ts-ignore SPIKE TODO FIX
-        (service?.getEntries() as Observable<OrderEntry[]>) ?? of([])
+    switchMap((orderEntriesContext) =>
+      typeof orderEntriesContext?.getEntries === 'function'
+        ? (orderEntriesContext?.getEntries() as Observable<OrderEntry[]>)
+        : of([])
     )
   );
 
   shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
-    // @ts-ignore SPIKE TODO FIX
-    map((context) => !!context?.setEntries)
+    map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
   );
 
   shouldDisplayExport$: Observable<boolean> = this.entries$.pipe(
-    // @ts-ignore SPIKE TODO FIX
-    map((entries) => !!entries.length)
+    map((entries) => !!entries?.length)
   );
 }
