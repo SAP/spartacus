@@ -16,6 +16,7 @@ import {
 } from '@spartacus/checkout/components';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -38,6 +39,7 @@ export class CheckoutB2BStepsSetGuard
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected router: Router
   ) {
     super(
@@ -45,6 +47,7 @@ export class CheckoutB2BStepsSetGuard
       routingConfigService,
       checkoutDeliveryService,
       checkoutPaymentService,
+      checkoutDeliveryModesService,
       router
     );
   }

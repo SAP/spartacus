@@ -9,6 +9,7 @@ import {
 } from '@spartacus/checkout/components';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -39,6 +40,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected userCostCenterService: UserCostCenterService,
     protected featureConfigService: FeatureConfigService
   ) {
@@ -50,6 +52,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
       translation,
       checkoutStepService,
       userCostCenterService,
+      checkoutDeliveryModesService,
       featureConfigService
     );
   }

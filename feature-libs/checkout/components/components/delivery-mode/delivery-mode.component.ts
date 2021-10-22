@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/root';
 import { DeliveryMode, FeatureConfigService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -38,15 +38,15 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private checkoutDeliveryService: CheckoutDeliveryFacade,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected featureConfigService: FeatureConfigService
   ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.checkoutDeliveryService
+    this.supportedDeliveryModes$ = this.checkoutDeliveryModesService
       .getSupportedDeliveryModes()
       .pipe(
         filter((deliveryModes: DeliveryMode[]) => !!deliveryModes?.length),
@@ -60,7 +60,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
         withLatestFrom(
-          this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+          this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
             filter((state) => !state.loading),
             map((state) => state.data),
             map((deliveryMode) => deliveryMode?.code)
@@ -79,13 +79,13 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         }
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
-          this.checkoutDeliveryService.setDeliveryMode(code);
+          this.checkoutDeliveryModesService.setDeliveryMode(code);
         }
       });
   }
 
   changeMode(code: string): void {
-    this.checkoutDeliveryService.setDeliveryMode(code);
+    this.checkoutDeliveryModesService.setDeliveryMode(code);
   }
 
   next(): void {

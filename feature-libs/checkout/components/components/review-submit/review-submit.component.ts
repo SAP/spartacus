@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   checkoutPaymentSteps,
   checkoutShippingSteps,
@@ -44,6 +45,7 @@ export class ReviewSubmitComponent {
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected userCostCenterService: UserCostCenterService,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected featureConfigService: FeatureConfigService
   ) {}
 
@@ -64,7 +66,7 @@ export class ReviewSubmitComponent {
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
-    this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+    this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );

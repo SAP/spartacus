@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -34,7 +35,8 @@ export class ExpressCheckoutService {
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutConfigService: CheckoutConfigService,
-    protected featureConfigService: FeatureConfigService
+    protected featureConfigService: FeatureConfigService,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -108,7 +110,7 @@ export class ExpressCheckoutService {
   protected setDeliveryMode() {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
-      this.checkoutDeliveryService.getSupportedDeliveryModesState(),
+      this.checkoutDeliveryModesService.getSupportedDeliveryModesState(),
     ]).pipe(
       debounceTime(0),
       switchMap(([addressSet, supportedDeliveryModesState]) => {
@@ -134,11 +136,11 @@ export class ExpressCheckoutService {
                 if (!deliveryMode) {
                   return of(false);
                 }
-                return this.checkoutDeliveryService
+                return this.checkoutDeliveryModesService
                   .setDeliveryMode(deliveryMode)
                   .pipe(
                     switchMap(() =>
-                      this.checkoutDeliveryService.getSelectedDeliveryMode()
+                      this.checkoutDeliveryModesService.getSelectedDeliveryMode()
                     ),
                     map((deliveryMode) => !!deliveryMode)
                   );

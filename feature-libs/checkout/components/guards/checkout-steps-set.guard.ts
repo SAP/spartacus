@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import {
   CheckoutDeliveryFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -26,6 +27,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected routingConfigService: RoutingConfigService,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected router: Router
   ) {}
 
@@ -102,7 +104,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isDeliveryModeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryService
+    return this.checkoutDeliveryModesService
       .getSelectedDeliveryMode()
       .pipe(map((mode) => (mode ? true : this.getUrl(step.routeName))));
   }
