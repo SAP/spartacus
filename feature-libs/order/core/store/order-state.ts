@@ -1,13 +1,15 @@
 import {
   Order,
-  OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-  ReturnRequest,
-  ReturnRequestList,
   StateUtils,
 } from '@spartacus/core';
-import { ConsignmentTracking } from '@spartacus/order/root';
+import {
+  ConsignmentTracking,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestList,
+} from '@spartacus/order/root';
 
 export const ORDER_FEATURE = 'order';
 

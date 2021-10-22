@@ -64,7 +64,7 @@ export interface CancellationRequestEntryInputList {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
@@ -73,7 +73,7 @@ export interface ReturnRequestEntry {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReturnRequest {
   cancellable?: boolean;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ReturnRequest } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 

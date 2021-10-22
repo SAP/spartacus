@@ -2,13 +2,15 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import {
   Order,
-  OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-  ReturnRequest,
-  ReturnRequestList,
   StateUtils,
 } from '@spartacus/core';
+import {
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestList,
+} from '@spartacus/order/root';
 import {
   ORDERS,
   OrderState,

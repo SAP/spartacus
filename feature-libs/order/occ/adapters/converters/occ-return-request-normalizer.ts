@@ -5,8 +5,8 @@ import {
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
-  ReturnRequest,
 } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReturnRequestNormalizer
