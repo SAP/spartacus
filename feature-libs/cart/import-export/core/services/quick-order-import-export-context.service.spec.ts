@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
 import {
   ProductData,
@@ -29,6 +29,8 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
+const canAdd$ = new BehaviorSubject<boolean>(true);
+
 class MockProductConnector implements Partial<ProductConnector> {
   get = createSpy().and.callFake((code) => of(products[code]));
 }
@@ -36,6 +38,7 @@ class MockProductConnector implements Partial<ProductConnector> {
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   addProduct = createSpy().and.callThrough();
   getEntries = createSpy().and.returnValue(of(mockEntries));
+  canAdd = createSpy().and.returnValue(canAdd$.asObservable());
 }
 
 describe('QuickOrderImportExportContext', () => {

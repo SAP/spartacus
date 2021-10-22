@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { forkJoin, from, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { catchError, take, tap } from 'rxjs/operators';
 import { CartTypes } from '../model/import-export.model';
 import {
   ProductData,
@@ -23,33 +23,58 @@ export class QuickOrderImportExportContext
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productService: ProductConnector
+    protected productConnector: ProductConnector
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
     return this.quickOrderService.getEntries();
   }
 
-  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+  addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
     const results$ = new Subject<ProductImportInfo>();
 
-    products.forEach((productData) => {
-      this.productService
-        .get(productData.productCode)
-        .pipe(
+    forkJoin(
+      productsData.map((productData) =>
+        this.productConnector.get(productData.productCode).pipe(
           take(1),
-          tap((product: Product) => {
-            this.handleResults(product, productData, results$);
-            this.quickOrderService.addProduct(product, productData.quantity);
-          }),
           catchError((response: HttpErrorResponse) => {
             this.handleErrors(response, productData.productCode, results$);
-            return of(response);
+            return of(null);
           })
         )
-        .subscribe();
-    });
-    return results$.pipe(take(products.length));
+      )
+    )
+      .pipe(
+        switchMap((products) =>
+          from(products as Product[]).pipe(
+            filter((product) => !!product),
+            switchMap((product: Product) =>
+              this.quickOrderService.canAdd(product.code).pipe(
+                take(1),
+                tap((canAdd: boolean) => {
+                  const productData = productsData.find(
+                    (p) => p.productCode === product.code
+                  ) as ProductData;
+                  if (canAdd) {
+                    this.handleResults(product, productData, results$);
+                    this.quickOrderService.addProduct(
+                      product,
+                      productData.quantity
+                    );
+                  } else {
+                    results$.next({
+                      productCode: productData.productCode,
+                      statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                    });
+                  }
+                })
+              )
+            )
+          )
+        )
+      )
+      .subscribe();
+    return results$.pipe(take(productsData.length));
   }
 
   protected handleResults(
