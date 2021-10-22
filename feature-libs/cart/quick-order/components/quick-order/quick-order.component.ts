@@ -45,9 +45,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
 
-  private cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
-  private cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
-  private cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
+  protected cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
+  protected cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
 
   constructor(
     protected activeCartService: ActiveCartService,
