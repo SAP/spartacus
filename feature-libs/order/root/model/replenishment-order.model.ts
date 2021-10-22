@@ -2,6 +2,7 @@ import {
   DeliveryOrderEntryGroup,
   OrderEntry,
   PaymentType,
+  PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
 } from '@spartacus/cart/main/root';
@@ -14,7 +15,7 @@ import {
   Principal,
   SortModel,
 } from '@spartacus/core';
-import { DeliveryMode, PickupOrderEntryGroup } from './order.model';
+import { DeliveryMode } from './order.model';
 
 export interface ReplenishmentOrder {
   active?: boolean;

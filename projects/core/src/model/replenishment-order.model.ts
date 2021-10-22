@@ -11,6 +11,9 @@ import { DeliveryMode, OrderEntry, PickupOrderEntryGroup } from './order.model';
 import { CostCenter } from './org-unit.model';
 import { Price } from './product.model';
 
+/**
+ * @deprecated
+ */
 export interface ReplenishmentOrder {
   active?: boolean;
   appliedOrderPromotions?: PromotionResult[];
@@ -57,17 +60,26 @@ export interface ReplenishmentOrder {
   user?: Principal;
 }
 
+/**
+ * @deprecated
+ */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
+/**
+ * @deprecated
+ */
 export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;
 }
 
+/**
+ * @deprecated
+ */
 export interface ScheduleReplenishmentForm {
   daysOfWeek?: DaysOfWeek[];
   nthDayOfMonth?: string;
@@ -77,6 +89,9 @@ export interface ScheduleReplenishmentForm {
   replenishmentStartDate?: string;
 }
 
+/**
+ * @deprecated
+ */
 export enum DaysOfWeek {
   MONDAY = 'MONDAY',
   TUESDAY = 'TUESDAY',
@@ -87,12 +102,18 @@ export enum DaysOfWeek {
   SUNDAY = 'SUNDAY',
 }
 
+/**
+ * @deprecated
+ */
 export const recurrencePeriod = {
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 };
 
+/**
+ * @deprecated
+ */
 export enum ORDER_TYPE {
   PLACE_ORDER = 'PLACE_ORDER',
   SCHEDULE_REPLENISHMENT_ORDER = 'SCHEDULE_REPLENISHMENT_ORDER',

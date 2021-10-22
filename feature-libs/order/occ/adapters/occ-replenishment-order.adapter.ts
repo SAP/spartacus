@@ -13,6 +13,7 @@ import {
   ReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
 } from '@spartacus/order/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
