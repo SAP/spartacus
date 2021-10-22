@@ -91,7 +91,7 @@ export interface ReturnRequest {
 }
 
 /**
- * @deprecated
+ * @deprecated - ready to remove
  */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
