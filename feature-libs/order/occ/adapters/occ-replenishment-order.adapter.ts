@@ -4,7 +4,6 @@ import {
   ConverterService,
   Occ,
   OccEndpointsService,
-  OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
   REPLENISHMENT_ORDER_NORMALIZER,
