@@ -229,7 +229,7 @@ export function viewOrderHistory() {
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
@@ -457,7 +457,7 @@ export function viewOrderHistoryWithCheapProduct(
     option: 'Order History',
   });
   cy.wait(`@${orderHistoryPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
