@@ -1,5 +1,5 @@
 import { Injectable, NgModule } from '@angular/core';
-import { Resolve, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   CmsPageGuard,
-  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import { map, tap } from 'rxjs/operators';
@@ -52,18 +52,14 @@ export function defaultOrderComponentsConfig(): CmsConfig {
 }
 
 @Injectable({ providedIn: 'root' })
-export class OrderDetailsPageContextResolver
-  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
+export class OrderDetailsImportExportContext {
   constructor(protected orderDetailsService: OrderFacade) {}
-  resolve = () => ({
-    orderEntriesContext: {
-      getEntries: () =>
-        this.orderDetailsService.getOrderDetails().pipe(
-          map((order) => order.entries as OrderEntry[]),
-          tap(console.error) // SPIKE TODO REMOVE
-        ),
-    },
-  });
+  getEntries() {
+    return this.orderDetailsService.getOrderDetails().pipe(
+      map((order) => order.entries as OrderEntry[]),
+      tap(console.error) // SPIKE TODO REMOVE
+    );
+  }
 }
 
 @NgModule({
@@ -81,8 +77,12 @@ export class OrderDetailsPageContextResolver
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orderDetails' },
-        resolve: { cxContext: OrderDetailsPageContextResolver },
+        data: {
+          cxRoute: 'orderDetails',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsImportExportContext,
+          },
+        },
       },
       {
         // @ts-ignore

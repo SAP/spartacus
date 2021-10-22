@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   MultiCartService,
@@ -9,14 +8,15 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  CartImportContext,
+  CartTypes,
   ExportContext,
   ImportContext,
   ProductData,
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { CartImportContext } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/cart-import.context';
-import { CartTypes } from '../../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/import-export.model';
+import { SavedCartFacade } from '../../facade/saved-cart.facade';
 
 @Injectable({
   providedIn: 'root',

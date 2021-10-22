@@ -1,5 +1,5 @@
-import { Injectable, NgModule } from '@angular/core';
-import { Resolve, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   CmsPageGuard,
-  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import { defaultQuickOrderConfig } from './config/default-quick-order.config';
@@ -40,13 +40,6 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig = {
   },
 };
 
-@Injectable({ providedIn: 'root' })
-export class QuickOrderPageContextResolver
-  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
-  constructor(protected orderEntriesContext: QuickOrderImportExportContext) {}
-  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
-}
-
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -55,8 +48,12 @@ export class QuickOrderPageContextResolver
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'quickOrder' },
-        resolve: { cxContext: QuickOrderPageContextResolver },
+        data: {
+          cxRoute: 'quickOrder',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: QuickOrderImportExportContext,
+          },
+        },
       },
     ]),
   ],

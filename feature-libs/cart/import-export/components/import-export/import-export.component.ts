@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry, RoutingService } from '@spartacus/core';
-import { OrderEntriesContext } from '@spartacus/storefront';
+import {
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-export',
@@ -12,17 +15,14 @@ import { map, switchMap, tap } from 'rxjs/operators';
 export class ImportExportComponent {
   constructor(protected routingService: RoutingService) {}
 
-  // SPIKE TODO AS ANY:
-  protected pageContext$: Observable<any> = this.routingService
-    .getData()
-    .pipe(map(({ cxContext }) => cxContext));
-
-  context$: Observable<
+  protected context$: Observable<
     OrderEntriesContext | undefined
-  > = this.pageContext$.pipe(
-    map((pageContext) => pageContext?.orderEntriesContext),
-    tap((orderEntriesContext) => console.log({ orderEntriesContext })) // SPIKE TODO REMOVE
-  );
+  > = this.routingService
+    .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
+    .pipe(
+      tap((orderEntiresContext) => console.log({ orderEntiresContext })),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap((orderEntriesContext) =>

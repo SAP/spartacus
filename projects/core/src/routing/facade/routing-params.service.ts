@@ -28,12 +28,7 @@ export class RoutingParamsService {
   constructor(
     protected router: Router,
     protected activatedRoutesService: ActivatedRoutesService
-  ) {
-    // SPIKE TODO REMOVE:
-    this.activatedRoutesService.routes$.subscribe((activatedRoutes) =>
-      console.log({ activatedRoutes })
-    );
-  }
+  ) {}
 
   /**
    * Get the list of all parameters of the full route. This includes
@@ -44,7 +39,7 @@ export class RoutingParamsService {
   }
 
   /**
-   * Get the list of all parameters of the full route. This includes
+   * Get the list of all Routes' `data` of the full route. This includes
    * active child routes.
    */
   getData(): Observable<{ [key: string]: string }> {

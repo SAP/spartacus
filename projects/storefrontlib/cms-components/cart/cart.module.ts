@@ -1,5 +1,5 @@
-import { Injectable, NgModule } from '@angular/core';
-import { Resolve, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartModule } from '@spartacus/core';
 import { CmsPageGuard } from '../../cms-structure/guards/cms-page.guard';
@@ -15,16 +15,10 @@ import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { ExportContext } from './order-entries-context/export.context';
 import { ImportContext } from './order-entries-context/import.context';
+import { ORDER_ENTRIES_CONTEXT } from './order-entries-context/order-entires.context';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
 
 export type OrderEntriesContext = Partial<ImportContext & ExportContext>;
-
-@Injectable({ providedIn: 'root' })
-export class ActiveCartPageContextResolver
-  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
-  constructor(protected orderEntriesContext: ActiveCartImportExportContext) {}
-  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
-}
 
 @NgModule({
   imports: [
@@ -39,8 +33,12 @@ export class ActiveCartPageContextResolver
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'cart' },
-        resolve: { cxContext: ActiveCartPageContextResolver },
+        data: {
+          cxRoute: 'cart',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: ActiveCartImportExportContext,
+          },
+        },
       },
     ]),
   ],

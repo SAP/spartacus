@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
   CartTypes,
@@ -12,6 +11,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
+import { QuickOrderFacade } from '../facade/quick-order.facade';
 
 @Injectable({
   providedIn: 'root',

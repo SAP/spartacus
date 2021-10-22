@@ -1,5 +1,5 @@
-import { Injectable, NgModule } from '@angular/core';
-import { Resolve, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   CmsPageGuard,
-  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import {
@@ -39,19 +39,6 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
   return config;
 }
 
-@Injectable({ providedIn: 'root' })
-export class SavedCartsPageContextResolver
-  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
-  constructor(protected orderEntriesContext: NewSavedCartImportContext) {}
-  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
-}
-
-@Injectable({ providedIn: 'root' })
-export class SavedCartDetailsPageContextResolver
-  implements Resolve<{ orderEntriesContext: OrderEntriesContext }> {
-  constructor(protected orderEntriesContext: SavedCartImportExportContext) {}
-  resolve = () => ({ orderEntriesContext: this.orderEntriesContext });
-}
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -60,16 +47,24 @@ export class SavedCartDetailsPageContextResolver
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'savedCartsDetails' },
-        resolve: { cxContext: SavedCartDetailsPageContextResolver },
+        data: {
+          cxRoute: 'savedCartsDetails',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: SavedCartImportExportContext,
+          },
+        },
       },
       {
         // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'savedCarts' },
-        resolve: { cxContext: SavedCartsPageContextResolver },
+        data: {
+          cxRoute: 'savedCarts',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: NewSavedCartImportContext,
+          },
+        },
       },
     ]),
   ],
