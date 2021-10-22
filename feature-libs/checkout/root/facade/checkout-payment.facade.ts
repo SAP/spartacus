@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CardType, facadeFactory, PaymentDetails } from '@spartacus/core';
+import {
+  CardType,
+  facadeFactory,
+  PaymentDetails,
+  QueryState,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
@@ -27,7 +32,9 @@ export abstract class CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  abstract getPaymentDetails(): Observable<PaymentDetails | undefined>;
+  abstract getPaymentDetails(): Observable<
+    QueryState<PaymentDetails | undefined>
+  >;
 
   /**
    * Create payment details using the given paymentDetails param

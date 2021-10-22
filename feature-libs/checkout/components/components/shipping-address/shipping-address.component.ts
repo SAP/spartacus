@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -58,6 +58,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   get selectedAddress$(): Observable<Address | undefined> {
     return this.checkoutDeliveryService.getDeliveryAddress().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       tap((address) => {
         if (
           address &&

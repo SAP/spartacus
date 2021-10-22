@@ -16,7 +16,6 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
         'isAccountPayment',
         'getPurchaseOrderNumber',
       ],
-      async: true,
     }),
 })
 export abstract class CheckoutPaymentTypeFacade {

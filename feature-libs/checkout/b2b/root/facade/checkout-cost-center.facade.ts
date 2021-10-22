@@ -10,7 +10,6 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
       facade: CheckoutCostCenterFacade,
       feature: CHECKOUT_B2B_CORE_FEATURE,
       methods: ['setCostCenter', 'getCostCenter'],
-      async: true,
     }),
 })
 export abstract class CheckoutCostCenterFacade {

@@ -34,7 +34,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 
@@ -346,20 +346,21 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
-    return this.checkoutQuery.getCheckoutDetailsState().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data?.deliveryMode)
-    );
+  getSelectedDeliveryMode(): Observable<QueryState<DeliveryMode | undefined>> {
+    return this.checkoutQuery
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
   }
 
   /**
    * Get delivery address
    */
-  getDeliveryAddress(): Observable<Address | undefined> {
+  getDeliveryAddress(): Observable<QueryState<Address | undefined>> {
     return this.checkoutQuery.getCheckoutDetailsState().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data?.deliveryAddress)
+      map((state) => ({
+        ...state,
+        data: state.data?.deliveryAddress,
+      }))
     );
   }
 

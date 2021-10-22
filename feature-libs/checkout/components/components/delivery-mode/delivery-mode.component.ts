@@ -60,35 +60,28 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
         withLatestFrom(
-          this.checkoutDeliveryService
-            .getSelectedDeliveryMode()
-            .pipe(
-              map(
-                (deliveryMode: DeliveryMode | null | undefined) =>
-                  deliveryMode?.code
-              )
-            )
+          this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+            filter((state) => !state.loading),
+            map((state) => state.data),
+            map((deliveryMode) => deliveryMode?.code)
+          )
         )
       )
-      .subscribe(
-        ([deliveryModes, code]: [DeliveryMode[], string | undefined]) => {
-          if (
-            !(
-              code &&
-              !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
-            )
-          ) {
-            code =
-              this.checkoutConfigService.getPreferredDeliveryMode(
-                deliveryModes
-              );
-          }
-          if (code) {
-            this.mode.controls['deliveryModeId'].setValue(code);
-            this.checkoutDeliveryService.setDeliveryMode(code);
-          }
+      .subscribe(([deliveryModes, code]) => {
+        if (
+          !(
+            code &&
+            !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+          )
+        ) {
+          code =
+            this.checkoutConfigService.getPreferredDeliveryMode(deliveryModes);
         }
-      );
+        if (code) {
+          this.mode.controls['deliveryModeId'].setValue(code);
+          this.checkoutDeliveryService.setDeliveryMode(code);
+        }
+      });
   }
 
   changeMode(code: string): void {

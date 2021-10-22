@@ -42,12 +42,14 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  abstract getSelectedDeliveryMode(): Observable<DeliveryMode | undefined>;
+  abstract getSelectedDeliveryMode(): Observable<
+    QueryState<DeliveryMode | undefined>
+  >;
 
   /**
    * Get delivery address
    */
-  abstract getDeliveryAddress(): Observable<Address | undefined>;
+  abstract getDeliveryAddress(): Observable<QueryState<Address | undefined>>;
 
   /**
    * Create and set a delivery address using the address param

@@ -30,7 +30,7 @@ import {
   SuggestedAddressDialogComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-form',
@@ -120,7 +120,12 @@ export class PaymentFormComponent implements OnInit {
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
-    this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.shippingAddress$ = this.checkoutDeliveryService
+      .getDeliveryAddress()
+      .pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data)
+      );
 
     this.showSameAsShippingAddressCheckbox$ = combineLatest([
       this.countries$,

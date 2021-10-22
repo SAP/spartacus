@@ -19,12 +19,13 @@ import {
   PaymentDetails,
   Query,
   QueryService,
+  QueryState,
   StateWithMultiCart,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 
 @Injectable()
@@ -143,11 +144,10 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  getPaymentDetails(): Observable<PaymentDetails | undefined> {
-    return this.checkoutQuery.getCheckoutDetailsState().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data?.paymentInfo)
-    );
+  getPaymentDetails(): Observable<QueryState<PaymentDetails | undefined>> {
+    return this.checkoutQuery
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.paymentInfo })));
   }
 
   /**

@@ -27,7 +27,7 @@ import {
   of,
   Subscription,
 } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
@@ -76,7 +76,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.checkoutDeliveryService
       .getDeliveryAddress()
-      .pipe(take(1))
+      .pipe(
+        filter((state) => !state.loading),
+        take(1),
+        map((state) => state.data)
+      )
       .subscribe((address) => {
         this.deliveryAddress = address;
       });
@@ -84,6 +88,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
     this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       tap((paymentInfo: any) => {
         if (paymentInfo && !!Object.keys(paymentInfo).length) {
           if (paymentInfo['hasError']) {
