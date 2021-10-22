@@ -18,6 +18,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   Query,
+  QueryNotifier,
   QueryService,
   QueryState,
   StateWithMultiCart,
@@ -30,10 +31,14 @@ import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
+  protected getCardTypesReloadEvents(): QueryNotifier[] {
+    return [LanguageSetEvent, CurrencySetEvent];
+  }
+
   protected cardTypesQuery: Query<CardType[]> = this.query.create(
     () => this.checkoutPaymentConnector.getCardTypes(),
     {
-      reloadOn: [LanguageSetEvent, CurrencySetEvent],
+      reloadOn: this.getCardTypesReloadEvents(),
     }
   );
 

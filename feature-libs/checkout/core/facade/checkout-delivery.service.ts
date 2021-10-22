@@ -26,6 +26,7 @@ import {
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
+  QueryNotifier,
   QueryService,
   QueryState,
   StateWithMultiCart,
@@ -168,6 +169,27 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       }
     );
 
+  protected getSupportedDeliveryModesReloadEvents(): QueryNotifier[] {
+    return [
+      ReloadDeliveryModesEvent,
+      // TODO: Map these events to reload event
+      LanguageSetEvent,
+      CurrencySetEvent,
+    ];
+  }
+  protected getSupportedDeliveryModesResetEvents(): QueryNotifier[] {
+    return [
+      ResetDeliveryModesEvent,
+      // TODO: Map these events to reset event
+      LogoutEvent,
+      LoginEvent,
+      DeliveryAddressSetEvent,
+      UpdateUserAddressEvent,
+      DeleteUserAddressEvent,
+      this.retrySupportedDeliveryModes$.asObservable(),
+    ];
+  }
+
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
     this.query.create<DeliveryMode[]>(
       () => {
@@ -193,22 +215,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         );
       },
       {
-        reloadOn: [
-          ReloadDeliveryModesEvent,
-          // TODO: Map these events to reload event
-          LanguageSetEvent,
-          CurrencySetEvent,
-        ],
-        resetOn: [
-          ResetDeliveryModesEvent,
-          // TODO: Map these events to reset event
-          LogoutEvent,
-          LoginEvent,
-          DeliveryAddressSetEvent,
-          UpdateUserAddressEvent,
-          DeleteUserAddressEvent,
-          this.retrySupportedDeliveryModes$.asObservable(),
-        ],
+        reloadOn: this.getSupportedDeliveryModesReloadEvents(),
+        resetOn: this.getSupportedDeliveryModesResetEvents(),
       }
     );
 

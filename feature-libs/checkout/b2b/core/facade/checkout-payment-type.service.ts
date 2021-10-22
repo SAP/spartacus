@@ -22,6 +22,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   PaymentType,
   Query,
+  QueryNotifier,
   QueryService,
   UserIdService,
 } from '@spartacus/core';
@@ -35,11 +36,18 @@ export class CheckoutPaymentTypeService
 {
   protected subscription = new Subscription();
 
+  protected getPaymentTypesQueryReloadEvents(): QueryNotifier[] {
+    return [LanguageSetEvent, CurrencySetEvent];
+  }
+  protected getPaymentTypesQueryResetEvents(): QueryNotifier[] {
+    return [LogoutEvent, LoginEvent];
+  }
+
   protected paymentTypesQuery: Query<PaymentType[]> = this.query.create(
     () => this.paymentTypeConnector.getPaymentTypes(),
     {
-      reloadOn: [LanguageSetEvent, CurrencySetEvent],
-      resetOn: [LogoutEvent, LoginEvent],
+      reloadOn: this.getPaymentTypesQueryReloadEvents(),
+      resetOn: this.getPaymentTypesQueryResetEvents(),
     }
   );
 
