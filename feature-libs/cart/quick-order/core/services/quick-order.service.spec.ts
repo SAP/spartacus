@@ -135,6 +135,7 @@ describe('QuickOrderService', () => {
   });
 
   beforeEach(() => {
+    service.setListLimit(10);
     service.clearList();
   });
 
@@ -424,5 +425,23 @@ describe('QuickOrderService', () => {
         expect(result).toEqual({});
         done();
       });
+  });
+
+  it('should verify can add product', () => {
+    let result: boolean;
+    service.setListLimit(1);
+    service.addProduct(mockProduct1);
+
+    service.canAdd(mockProduct1Code).subscribe((canAdd) => (result = canAdd));
+    expect(result).toBe(true);
+  });
+
+  it('should verify can not add product', () => {
+    let result: boolean;
+    service.setListLimit(1);
+    service.addProduct(mockProduct1);
+
+    service.canAdd(mockProduct2Code).subscribe((canAdd) => (result = canAdd));
+    expect(result).toBe(false);
   });
 });

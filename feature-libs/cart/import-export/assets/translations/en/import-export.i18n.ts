@@ -44,7 +44,8 @@ export const importEntriesDialog = {
       lowStock:
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
       noStock: '{{ productName }} is currently out of stock.',
-      unknownError: 'Unrecognized problem with "{{ productCode}}".',
+      unknownError: 'Unrecognized problem with "{{ productCode }}".',
+      limitExceeded: 'Can not add "{{ productCode }}". Limit exceeded.',
     },
     show: 'Show',
     hide: 'Hide',

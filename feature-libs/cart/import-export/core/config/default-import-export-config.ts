@@ -1,4 +1,4 @@
-import { CartTypes } from '../../../../../projects/storefrontlib/cms-components/cart/order-entries-context/import-export.model';
+import { CartTypes } from '@spartacus/storefront';
 import { CartNameSource } from '../model/import-entries.config';
 import { ImportExportConfig } from './import-export-config';
 

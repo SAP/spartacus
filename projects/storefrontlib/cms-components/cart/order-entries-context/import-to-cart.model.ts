@@ -9,6 +9,7 @@ export enum ProductImportStatus {
   NO_STOCK = 'noStock',
   UNKNOWN_IDENTIFIER = 'unknownIdentifier',
   UNKNOWN_ERROR = 'unknownError',
+  LIMIT_EXCEEDED = 'limitExceeded',
 }
 
 export interface ProductImportInfo {
