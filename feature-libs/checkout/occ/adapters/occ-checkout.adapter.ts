@@ -1,6 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CheckoutAdapter, CheckoutDetails } from '@spartacus/checkout/core';
+import {
+  CheckoutAdapter,
+  CheckoutDetails,
+  CHECKOUT_NORMALIZER,
+} from '@spartacus/checkout/core';
 import {
   ConverterService,
   InterceptorUtil,
@@ -90,7 +94,9 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
           },
         })
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
-    // TODO: Normalizer for checkout details
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CHECKOUT_NORMALIZER)
+      );
   }
 }

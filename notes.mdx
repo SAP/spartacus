@@ -22,10 +22,6 @@
 - consistent naming on facade methods returing state (should include state in name?)
 - optimize mutliple query events reloads/resets (to avoid cancelled requests)
 
-## TODO (without pair programming)
-
-- normalizer for checkout state
-
 ## TODO (details nice to have in actual spartacus release of new checkout)
 
 - why we LoadCart on failed clearDeliveryMode call
@@ -54,17 +50,9 @@
 - TODOs in:
   - feature-libs/checkout/core/facade/checkout-query.service.ts
   - constructor in feature-libs/checkout/scheduled-replenishment/core/facade/checkout-scheduled-replenishment.service.ts
+  - feature-libs/checkout/core/models/checkout.model.ts
 - infinite loop on the payment step
 - `orderType$` in `CheckoutScheduledReplenishmentService` - should it be ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER?
   - check its usages as well
 - check all e2e tests (express checkout fails since we changed delivery mode processes)
 - smooth checkout UI (loading states etc.)
-
-### Checkout lib structure
-
-- root
-- occ
-- core
-- components
-
-- b2b // augment @spartacus/checkout/root { CheckoutState }
