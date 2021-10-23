@@ -77,6 +77,7 @@ describe('QuickOrderImportExportContext', () => {
 
   describe('addEntries', () => {
     it('should add entries to quick order', () => {
+      canAdd$.next(true);
       service.addEntries(mockProductData).subscribe();
 
       expect(productConnector.get).toHaveBeenCalledTimes(
@@ -99,6 +100,13 @@ describe('QuickOrderImportExportContext', () => {
         products['232133'],
         mockProductData[1].quantity
       );
+    });
+
+    it('should not add entries due to limit', () => {
+      canAdd$.next(false);
+      service.addEntries(mockProductData).subscribe();
+
+      expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
     });
   });
 });
