@@ -12,12 +12,14 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { EventService } from '../../../event/event.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
+import { MergeCartSuccessEvent } from '../../event/cart.events';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
@@ -136,6 +138,7 @@ export class CartEffects {
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: Cart) => {
+            const cartId = getCartIdByUserId(cart, payload.userId);
             const conditionalActions = [];
             if (payload.oldCartId) {
               conditionalActions.push(
@@ -143,16 +146,27 @@ export class CartEffects {
                   extraData: payload.extraData,
                   userId: payload.userId,
                   tempCartId: payload.tempCartId,
-                  cartId: getCartIdByUserId(cart, payload.userId),
+                  cartId,
                   oldCartId: payload.oldCartId,
                 })
+              );
+              this.eventService.dispatch(
+                {
+                  cartId,
+                  cartCode: cart.code ?? cartId,
+                  userId: payload.userId,
+                  extraData: payload.extraData,
+                  tempCartId: payload.tempCartId,
+                  oldCartId: payload.oldCartId,
+                },
+                MergeCartSuccessEvent
               );
             }
             return [
               new CartActions.CreateCartSuccess({
                 ...payload,
                 cart,
-                cartId: getCartIdByUserId(cart, payload.userId),
+                cartId,
               }),
               new CartActions.SetTempCart({
                 cart,
@@ -326,6 +340,7 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
+    private store: Store<StateWithMultiCart>,
+    private eventService: EventService
   ) {}
 }

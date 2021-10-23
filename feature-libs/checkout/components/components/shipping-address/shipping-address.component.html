@@ -4,7 +4,7 @@
   </h2>
   <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">
     <ng-container
-      *ngIf="(cards?.length && !addressFormOpened); else newAddressForm"
+      *ngIf="cards?.length && !addressFormOpened; else newAddressForm"
     >
       <p class="cx-checkout-text">
         {{ 'checkoutAddress.selectYourShippingAddress' | cxTranslate }}

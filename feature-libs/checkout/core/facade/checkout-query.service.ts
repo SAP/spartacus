@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
@@ -19,11 +18,11 @@ import {
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
-  CartActions,
   CurrencySetEvent,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
+  MergeCartSuccessEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryNotifier,
   QueryService,
@@ -58,9 +57,10 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       RestoreSavedCartSuccessEvent,
       PaymentDetailsCreatedEvent,
       PaymentDetailsSetEvent,
-      // query state should be reset when checkout is finished (should be undefined after the following events)
+
+      // we should reset the query's state after the checkout is finished (should be undefined after the following events)
       OrderPlacedEvent,
-      this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
+      MergeCartSuccessEvent,
     ];
   }
 
@@ -94,8 +94,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected query: QueryService,
-    protected checkoutConnector: CheckoutConnector,
-    protected actions$: Actions
+    protected checkoutConnector: CheckoutConnector
   ) {}
 
   getCheckoutDetails(): Observable<CheckoutState | undefined> {

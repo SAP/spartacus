@@ -76,3 +76,24 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   quantity: number;
   entry: OrderEntry;
 }
+
+/**
+ * Fired when the cart has been successfully merged.
+ */
+export class MergeCartSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'MergeCartSuccessEvent';
+  /**
+   * MergeCart actions triggers CreateCart which requires this parameter, so that's why it is required.
+   */
+  tempCartId: string;
+  /**
+   * Previous cart id which was merged with new/user cart.
+   * Needed to know which obsolete entity should be removed.
+   */
+  oldCartId: string;
+  /** Extra data */
+  extraData?: { active?: boolean };
+}

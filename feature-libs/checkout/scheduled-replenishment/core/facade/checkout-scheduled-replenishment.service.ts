@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   RestoreSavedCartSuccessEvent,
@@ -29,6 +28,7 @@ import {
   EventService,
   LoginEvent,
   LogoutEvent,
+  MergeCartSuccessEvent,
   OCC_USER_ID_ANONYMOUS,
   ORDER_TYPE,
   ReplenishmentOrder,
@@ -109,27 +109,28 @@ export class CheckoutScheduledReplenishmentService
     protected command: CommandService,
     protected checkoutReplenishmentOrderConnector: CheckoutReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected actions$: Actions,
     protected checkoutService: CheckoutFacade
   ) {
     // TODO: Double check and move to some method
-    merge([
-      this.eventService.get(DeliveryAddressSetEvent),
-      this.eventService.get(LogoutEvent),
-      this.eventService.get(LoginEvent),
-      this.eventService.get(DeliveryAddressClearedEvent),
-      this.eventService.get(DeliveryModeSetEvent),
-      this.eventService.get(DeliveryModeClearedEvent),
-      this.eventService.get(SaveCartSuccessEvent),
-      this.eventService.get(RestoreSavedCartSuccessEvent),
-      this.eventService.get(PaymentDetailsCreatedEvent),
-      this.eventService.get(PaymentDetailsSetEvent),
-      this.eventService.get(OrderPlacedEvent),
-      this.eventService.get(ReplenishmentOrderScheduledEvent),
-      this.actions$.pipe(ofType(CartActions.MERGE_CART_SUCCESS)),
-    ]).subscribe(() => {
-      this.orderType$.next(ORDER_TYPE.PLACE_ORDER);
-    });
+    this.subscription.add(
+      merge([
+        this.eventService.get(DeliveryAddressSetEvent),
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent),
+        this.eventService.get(DeliveryAddressClearedEvent),
+        this.eventService.get(DeliveryModeSetEvent),
+        this.eventService.get(DeliveryModeClearedEvent),
+        this.eventService.get(SaveCartSuccessEvent),
+        this.eventService.get(RestoreSavedCartSuccessEvent),
+        this.eventService.get(PaymentDetailsCreatedEvent),
+        this.eventService.get(PaymentDetailsSetEvent),
+        this.eventService.get(OrderPlacedEvent),
+        this.eventService.get(ReplenishmentOrderScheduledEvent),
+        this.eventService.get(MergeCartSuccessEvent),
+      ]).subscribe(() => {
+        this.orderType$.next(ORDER_TYPE.PLACE_ORDER);
+      })
+    );
     this.registerResetTriggers();
   }
 

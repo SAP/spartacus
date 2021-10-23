@@ -25,7 +25,6 @@
 ## TODO (without pair programming)
 
 - normalizer for checkout state
-- create event for Cart Merge (guessing cart effect?)
 
 ## TODO (details nice to have in actual spartacus release of new checkout)
 
@@ -56,6 +55,8 @@
   - feature-libs/checkout/core/facade/checkout-query.service.ts
   - constructor in feature-libs/checkout/scheduled-replenishment/core/facade/checkout-scheduled-replenishment.service.ts
 - infinite loop on the payment step
+- `orderType$` in `CheckoutScheduledReplenishmentService` - should it be ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER?
+  - check its usages as well
 - check all e2e tests (express checkout fails since we changed delivery mode processes)
 - smooth checkout UI (loading states etc.)
 
