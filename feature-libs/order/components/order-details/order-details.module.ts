@@ -12,7 +12,6 @@ import {
 import {
   CardModule,
   OrderDetailsServiceTransitionalToken,
-  OrderOverviewModule,
   OutletModule,
   PromotionsModule,
   SpinnerModule,
@@ -25,6 +24,7 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
+import { OrderOverviewModule } from './order-overview/order-overview.module';
 
 const moduleComponents = [
   OrderDetailActionsComponent,

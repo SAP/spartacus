@@ -9,8 +9,8 @@ import {
   ReplenishmentOrder,
   TranslationService,
 } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { Card } from '../card/card.component';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({ selector: 'cx-card', template: '' })
