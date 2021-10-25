@@ -73,4 +73,3 @@ export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;
 }
-
