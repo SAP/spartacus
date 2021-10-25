@@ -1,4 +1,4 @@
-<div
+<section
   class="inner"
   *ngIf="(facetList$ | async)?.facets as facets"
   [cxFocus]="isDialog ? dialogFocusConfig : {}"
@@ -30,4 +30,4 @@
     [class.expanded]="isExpanded(facet) | async"
     [class.collapsed]="isCollapsed(facet) | async"
   ></cx-facet>
-</div>
+</section>
