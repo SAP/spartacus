@@ -71,7 +71,10 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected buildForm(): void {
     this.quickOrderForm = this.formBuilder.group({
       productCode: ['', [Validators.required]],
-      quantity: [this.minQuantityValue, [Validators.required]],
+      quantity: [
+        this.minQuantityValue,
+        { updateOn: 'blur', validators: [Validators.required] },
+      ],
     });
   }
 
