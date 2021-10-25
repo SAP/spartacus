@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PaymentDetails } from '../../../model/cart.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
@@ -83,17 +83,6 @@ export class UserPaymentMethodsEffects {
             )
           )
         );
-    })
-  );
-
-  @Effect({ dispatch: false })
-  showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
-    ofType(UserActions.DELETE_USER_PAYMENT_METHOD_SUCCESS),
-    tap(() => {
-      this.globalMessageService.add(
-        { key: 'paymentCard.deletePaymentSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
     })
   );
 
