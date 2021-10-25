@@ -7,9 +7,8 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
 } from '@spartacus/core';
-import { Consignment } from '@spartacus/order/root';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 

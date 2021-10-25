@@ -9,12 +9,11 @@ import {
 import {
   getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
-  Order,
   ProcessSelectors,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  Order,
   ProcessSelectors,
   RoutingService,
   StateWithProcess,
@@ -10,6 +9,7 @@ import {
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
+  Order,
   OrderFacade,
   OrderHistoryList,
 } from '@spartacus/order/root';

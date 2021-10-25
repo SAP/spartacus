@@ -6,9 +6,8 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
 } from '@spartacus/core';
-import { Consignment, ReplenishmentOrder } from '@spartacus/order/root';
+import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { CardModule, PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';

@@ -13,7 +13,6 @@ import {
   AuthService,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
   RoutingService,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
@@ -64,11 +63,7 @@ class MockCartItemListComponent {
   selector: 'cx-cart-coupon',
 })
 class MockCartCouponComponent {
-  @Input()
-  cart: Cart | Order;
-  @Input()
   cartIsLoading = false;
-  userId: string;
 }
 
 describe('CartDetailsComponent', () => {

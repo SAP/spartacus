@@ -1,4 +1,5 @@
-import { Order, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 import { OrderActions } from './index';
 

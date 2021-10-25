@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';

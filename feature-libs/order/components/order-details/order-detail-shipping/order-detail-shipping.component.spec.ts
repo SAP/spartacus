@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule, Order } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';

@@ -4,13 +4,12 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-  Order,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderConnector } from '../../connectors/order.connector';
 import { OrderActions } from '../actions/index';
-
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()

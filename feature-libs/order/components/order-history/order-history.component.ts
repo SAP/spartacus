@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   isNotUndefined,
-  Order,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
 import {
+  Order,
   OrderFacade,
   OrderHistoryList,
   ReplenishmentOrderFacade,

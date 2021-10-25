@@ -7,11 +7,11 @@ import {
   Address,
   AuthActions,
   DeliveryMode,
-  Order,
   PaymentDetails,
   SiteContextActions,
   UserActions,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import {

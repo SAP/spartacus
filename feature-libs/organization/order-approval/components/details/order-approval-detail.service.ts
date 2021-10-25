@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService } from '@spartacus/core';
-import { OrderApproval } from '../../core/model/order-approval.model';
-import { OrderApprovalService } from '../../core/services/order-approval.service';
+import { RoutingService } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -11,6 +10,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { OrderApproval } from '../../core/model/order-approval.model';
+import { OrderApprovalService } from '../../core/services/order-approval.service';
 
 @Injectable({
   providedIn: 'root',

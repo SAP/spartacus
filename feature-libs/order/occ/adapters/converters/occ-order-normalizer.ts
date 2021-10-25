@@ -5,9 +5,9 @@ import {
   Converter,
   ConverterService,
   Occ,
-  Order,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {

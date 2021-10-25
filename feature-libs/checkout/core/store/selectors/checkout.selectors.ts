@@ -6,11 +6,10 @@ import {
 import {
   Address,
   DeliveryMode,
-  Order,
   PaymentDetails,
   StateUtils,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CheckoutState,
   CheckoutStepsState,

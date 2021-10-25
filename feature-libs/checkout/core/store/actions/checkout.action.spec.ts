@@ -2,11 +2,11 @@ import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import {
   Address,
   DeliveryMode,
-  Order,
   PaymentDetails,
   PROCESS_FEATURE,
   StateUtils,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { CheckoutActions } from '../actions/index';
 import {
   PLACED_ORDER_PROCESS_ID,

@@ -1,13 +1,13 @@
-import { Order, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import {
   ConsignmentTracking,
+  Order,
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestList,
 } from '@spartacus/order/root';
-
 export const ORDER_FEATURE = 'order';
 
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';

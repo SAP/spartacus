@@ -2,12 +2,11 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   OCC_USER_ID_CURRENT,
-  Order,
   PROCESS_FEATURE,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

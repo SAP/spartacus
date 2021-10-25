@@ -7,7 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/main/root';
-import { Order, Price } from '@spartacus/core';
+import { Price } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';
