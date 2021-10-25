@@ -9,6 +9,8 @@ import {
   ProductService,
   RoutingService,
   UrlCommandRoute,
+  VariantOptionQualifier,
+  VariantQualifier,
   VariantType,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -30,6 +32,21 @@ const mockVariant: BaseOption = {
   options: [],
   variantType: VariantType.SIZE,
 };
+const mockProduct: Product = { name: 'TestName', code: 'test' };
+const mockQualifiers = [
+  {
+    value: 'p1555',
+    image: {
+      url: 'http://test1-thumbnail.com',
+    },
+    qualifier: VariantQualifier.SIZE,
+  },
+  {
+    value: '555',
+    qualifier: VariantQualifier.STYLE,
+  },
+];
+const mockQualifiers2 = {} as VariantOptionQualifier;
 
 @Pipe({
   name: 'cxUrl',
@@ -56,13 +73,14 @@ class MockRoutingService {
 }
 class MockProductService {
   get(): Observable<Product> {
-    return of();
+    return of(mockProduct);
   }
 }
 
 describe('ProductVariantStyleSelectorComponent', () => {
   let component: ProductVariantStyleSelectorComponent;
   let fixture: ComponentFixture<ProductVariantStyleSelectorComponent>;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -85,6 +103,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
   );
 
   beforeEach(() => {
+    routingService = TestBed.inject(RoutingService);
     fixture = TestBed.createComponent(ProductVariantStyleSelectorComponent);
     component = fixture.componentInstance;
     component.variants = mockVariant;
@@ -103,5 +122,22 @@ describe('ProductVariantStyleSelectorComponent', () => {
       mockOccBackendUrl +
         mockVariant.selected.variantOptionQualifiers[0].image.url
     );
+  });
+
+  it('should naviagate to product on changeStyle', () => {
+    spyOn(routingService, 'go').and.callThrough();
+
+    component.changeStyle('test123');
+    expect(routingService.go).toHaveBeenCalled();
+  });
+
+  it('should find variant with proper qualifier', () => {
+    const result = component.getVariantOptionValue(mockQualifiers);
+    expect(result).toEqual(mockQualifiers[1].value);
+  });
+
+  it('should not find variant', () => {
+    const result = component.getVariantOptionValue([mockQualifiers2]);
+    expect(result).toEqual('');
   });
 });
