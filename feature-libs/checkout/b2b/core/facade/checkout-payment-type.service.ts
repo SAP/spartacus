@@ -24,10 +24,11 @@ import {
   Query,
   QueryNotifier,
   QueryService,
+  QueryState,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/payment-type/checkout-payment-type.connector';
 
 @Injectable()
@@ -149,10 +150,10 @@ export class CheckoutPaymentTypeService
   /**
    * Get the selected payment type
    */
-  getSelectedPaymentType(): Observable<PaymentType | undefined> {
+  getSelectedPaymentType(): Observable<QueryState<PaymentType | undefined>> {
     return this.checkoutQuery
-      .getCheckoutDetails()
-      .pipe(map((checkoutDetails) => checkoutDetails?.paymentType));
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.paymentType })));
   }
 
   /**
@@ -160,17 +161,20 @@ export class CheckoutPaymentTypeService
    */
   isAccountPayment(): Observable<boolean> {
     return this.getSelectedPaymentType().pipe(
-      map((selected) => selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
+      filter((state) => !state.loading),
+      map((state) => state.data?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
     );
   }
 
   /**
    * Get purchase order number
    */
-  getPurchaseOrderNumber(): Observable<string | undefined> {
+  getPurchaseOrderNumber(): Observable<QueryState<string | undefined>> {
     return this.checkoutQuery
-      .getCheckoutDetails()
-      .pipe(map((checkoutDetails) => checkoutDetails?.purchaseOrderNumber));
+      .getCheckoutDetailsState()
+      .pipe(
+        map((state) => ({ ...state, data: state.data?.purchaseOrderNumber }))
+      );
   }
 
   ngOnDestroy(): void {

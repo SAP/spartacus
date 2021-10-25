@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, PaymentType } from '@spartacus/core';
+import { facadeFactory, PaymentType, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
 
@@ -37,7 +37,9 @@ export abstract class CheckoutPaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  abstract getSelectedPaymentType(): Observable<PaymentType | undefined>;
+  abstract getSelectedPaymentType(): Observable<
+    QueryState<PaymentType | undefined>
+  >;
 
   /**
    * Get whether the selected payment type is "ACCOUNT" payment
@@ -47,5 +49,5 @@ export abstract class CheckoutPaymentTypeFacade {
   /**
    * Get purchase order number
    */
-  abstract getPurchaseOrderNumber(): Observable<string | undefined>;
+  abstract getPurchaseOrderNumber(): Observable<QueryState<string | undefined>>;
 }

@@ -58,11 +58,17 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
   }
 
   get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeService.getPurchaseOrderNumber();
+    return this.checkoutPaymentTypeService.getPurchaseOrderNumber().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentType();
+    return this.checkoutPaymentTypeService.getSelectedPaymentType().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
   }
 
   get isAccountPayment$(): Observable<boolean> {

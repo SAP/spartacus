@@ -14,7 +14,7 @@ import {
   PaymentType,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-type',
@@ -34,6 +34,8 @@ export class PaymentTypeComponent {
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeService
     .getSelectedPaymentType()
     .pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       filter(isNotUndefined),
       distinctUntilChanged(),
       tap((selected) => {
@@ -49,6 +51,8 @@ export class PaymentTypeComponent {
   cartPoNumber$: Observable<string> = this.checkoutPaymentTypeService
     .getPurchaseOrderNumber()
     .pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       filter(isNotUndefined),
       tap((po) => {
         return (this.cartPoNumber = po);

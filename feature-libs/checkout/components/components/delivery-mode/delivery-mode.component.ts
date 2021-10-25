@@ -47,14 +47,13 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.supportedDeliveryModes$ = this.checkoutDeliveryModesService
-      .getSupportedDeliveryModes()
+      .getSupportedDeliveryModesState()
       .pipe(
-        filter((deliveryModes: DeliveryMode[]) => !!deliveryModes?.length),
-        distinctUntilChanged(
-          (current: DeliveryMode[], previous: DeliveryMode[]) => {
-            return JSON.stringify(current) === JSON.stringify(previous);
-          }
-        )
+        map((state) => state.data ?? []),
+        filter((deliveryModes) => !!deliveryModes?.length),
+        distinctUntilChanged((current, previous) => {
+          return JSON.stringify(current) === JSON.stringify(previous);
+        })
       );
 
     this.deliveryModeSub = this.supportedDeliveryModes$
