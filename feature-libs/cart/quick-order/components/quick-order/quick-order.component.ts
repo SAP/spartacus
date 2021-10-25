@@ -3,6 +3,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   CmsQuickOrderComponent,
@@ -21,6 +22,7 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
+import { QuickOrderFormComponent } from './form/quick-order-form.component';
 
 @Component({
   selector: 'cx-quick-order',
@@ -45,6 +47,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
   listLimitReached$: Observable<boolean>;
+
+  @ViewChild('quickOrderForm')
+  quickOrderForm: QuickOrderFormComponent;
 
   protected cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);

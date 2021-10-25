@@ -121,6 +121,7 @@ export function addToCart() {
 }
 
 export function verifyQuickOrderReachedListLimit() {
+  cy.get('.quick-order-form-input input').type(`test`);
   cy.get('.quick-order-list-limit-message').should('exist');
 }
 
