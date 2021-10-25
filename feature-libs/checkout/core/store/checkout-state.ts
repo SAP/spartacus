@@ -1,11 +1,6 @@
-import { CardType, PaymentType } from '@spartacus/cart/main/root';
+import { CardType, DeliveryMode, PaymentType } from '@spartacus/cart/main/root';
 import { ORDER_TYPE } from '@spartacus/checkout/root';
-import {
-  Address,
-  DeliveryMode,
-  PaymentDetails,
-  StateUtils,
-} from '@spartacus/core';
+import { Address, PaymentDetails, StateUtils } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';

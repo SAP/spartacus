@@ -2,7 +2,6 @@ import {
   Address,
   CostCenter,
   Currency,
-  DeliveryMode,
   PaymentDetails,
   PointOfService,
   Price,
@@ -150,4 +149,11 @@ export interface ConsignmentEntry {
   orderEntry?: OrderEntry;
   quantity?: number;
   shippedQuantity?: number;
+}
+
+export interface DeliveryMode {
+  code?: string;
+  deliveryCost?: Price;
+  description?: string;
+  name?: string;
 }

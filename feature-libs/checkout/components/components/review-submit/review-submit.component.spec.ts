@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  DeliveryMode,
   OrderEntry,
   PaymentType,
 } from '@spartacus/cart/main/root';
@@ -20,7 +21,6 @@ import {
   Address,
   CostCenter,
   Country,
-  DeliveryMode,
   I18nTestingModule,
   PaymentDetails,
   UserAddressService,

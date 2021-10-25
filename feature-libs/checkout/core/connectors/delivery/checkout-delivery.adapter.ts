@@ -1,4 +1,5 @@
-import { Address, DeliveryMode } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
+import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutDeliveryAdapter {

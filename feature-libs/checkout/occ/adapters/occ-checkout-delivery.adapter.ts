@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAdapter,
   DELIVERY_MODE_NORMALIZER,
@@ -9,7 +10,6 @@ import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
   ConverterService,
-  DeliveryMode,
   Occ,
   OccEndpointsService,
 } from '@spartacus/core';

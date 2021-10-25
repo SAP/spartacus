@@ -1,4 +1,5 @@
 import {
+  DeliveryMode,
   DeliveryOrderEntryGroup,
   OrderEntry,
   PaymentType,
@@ -15,7 +16,6 @@ import {
   Principal,
   SortModel,
 } from '@spartacus/core';
-import { DeliveryMode } from './order.model';
 
 export interface ReplenishmentOrder {
   active?: boolean;

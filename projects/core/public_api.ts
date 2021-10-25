@@ -30,7 +30,6 @@ export { ProductSearchPage, Facet } from './src/model/product-search.model';
 export { Cart } from './src/model/cart.model';
 export { CostCenter, B2BUnit, B2BUser } from './src/model/org-unit.model';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
-export { DeliveryMode } from './src/model/order.model';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 export { Config } from './src/config/config-tokens';
 export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';

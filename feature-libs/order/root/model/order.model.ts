@@ -1,5 +1,6 @@
 import {
   ConsignmentEntry,
+  DeliveryMode,
   DeliveryOrderEntryGroup,
   OrderEntry,
   PickupOrderEntryGroup,
@@ -17,13 +18,6 @@ import {
   Principal,
   SortModel,
 } from '@spartacus/core';
-
-export interface DeliveryMode {
-  code?: string;
-  deliveryCost?: Price;
-  description?: string;
-  name?: string;
-}
 
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;

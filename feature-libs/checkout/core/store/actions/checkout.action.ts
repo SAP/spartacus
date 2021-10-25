@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   Address,
-  DeliveryMode,
   PaymentDetails,
   PROCESS_FEATURE,
   StateUtils,

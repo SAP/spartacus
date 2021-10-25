@@ -1,9 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+} from '@spartacus/cart/main/root';
 import {
   Address,
-  DeliveryMode,
   PROCESS_FEATURE,
   StateUtils,
   UserIdService,

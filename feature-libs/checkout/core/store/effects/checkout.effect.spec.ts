@@ -6,7 +6,6 @@ import { CartActions } from '@spartacus/cart/main/core';
 import {
   Address,
   AuthActions,
-  DeliveryMode,
   PaymentDetails,
   SiteContextActions,
   UserActions,
