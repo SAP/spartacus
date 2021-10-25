@@ -100,6 +100,7 @@ export class CheckoutDeliveryModesService
           this.userIdService.takeUserId(),
           this.activeCartService.takeActiveCartId(),
         ]).pipe(
+          take(1),
           switchMap(([userId, cartId]) => {
             if (
               !userId ||
