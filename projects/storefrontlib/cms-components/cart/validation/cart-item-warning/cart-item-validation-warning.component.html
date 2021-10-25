@@ -1,0 +1,27 @@
+<ng-container *ngIf="cartModification$ | async as cartModification">
+  <div class="alert alert-info" *ngIf="isVisible">
+    <span class="alert-icon">
+      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+    </span>
+    <span>
+      <a
+        [routerLink]="
+          { cxRoute: 'product', params: cartModification.entry.product } | cxUrl
+        "
+      >
+        {{ cartModification.entry.product.name }}
+      </a>
+      {{
+        'validation.productQuantityLowStock'
+          | cxTranslate
+            : {
+                quantity: cartModification.quantityAdded
+              }
+      }}
+    </span>
+
+    <button class="close" type="button" (click)="isVisible = !isVisible">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+</ng-container>

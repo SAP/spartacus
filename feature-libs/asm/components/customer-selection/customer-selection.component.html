@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
     <input
+      aria-required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"
