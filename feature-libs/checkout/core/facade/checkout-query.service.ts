@@ -6,8 +6,6 @@ import {
 import {
   CheckoutQueryFacade,
   CheckoutState,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
   OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
@@ -48,8 +46,6 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       // TODO: Register reset event dispatchers for events below
       LogoutEvent,
       LoginEvent,
-      DeliveryModeSetEvent,
-      DeliveryModeClearedEvent,
       SaveCartSuccessEvent,
       RestoreSavedCartSuccessEvent,
       PaymentDetailsCreatedEvent,

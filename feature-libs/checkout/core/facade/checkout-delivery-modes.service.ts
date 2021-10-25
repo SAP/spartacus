@@ -7,6 +7,7 @@ import {
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
   ReloadDeliveryModesEvent,
+  ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
 } from '@spartacus/checkout/root';
 import {
@@ -16,7 +17,6 @@ import {
   CommandService,
   CommandStrategy,
   CurrencySetEvent,
-  DeleteUserAddressEvent,
   DeliveryMode,
   EventService,
   LanguageSetEvent,
@@ -28,7 +28,6 @@ import {
   QueryService,
   QueryState,
   StateWithMultiCart,
-  UpdateUserAddressEvent,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
@@ -58,8 +57,6 @@ export class CheckoutDeliveryModesService
       // TODO: Map these events to reset event
       LogoutEvent,
       LoginEvent,
-      UpdateUserAddressEvent,
-      DeleteUserAddressEvent,
       this.retrySupportedDeliveryModes$.asObservable(),
     ];
   }
@@ -211,6 +208,20 @@ export class CheckoutDeliveryModesService
       this.eventService
         .get(DeliveryAddressSetEvent)
         .subscribe(() => this.clearCheckoutDeliveryMode())
+    );
+    this.subscription.add(
+      this.eventService
+        .get(DeliveryModeSetEvent)
+        .subscribe(() =>
+          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+        )
+    );
+    this.subscription.add(
+      this.eventService
+        .get(DeliveryModeClearedEvent)
+        .subscribe(() =>
+          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+        )
     );
   }
 
