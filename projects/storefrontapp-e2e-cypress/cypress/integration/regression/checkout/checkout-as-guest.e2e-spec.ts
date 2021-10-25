@@ -77,11 +77,7 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
-      const shippingPage = waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
-      );
-
+      const checkoutPage = waitForPage('/checkout/*', 'getCheckoutPage');
       checkout.clickHamburger();
 
       const loginPage = waitForPage('/login', 'getLoginPage');
@@ -89,7 +85,7 @@ context('Checkout as guest', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       login(user.email, user.password);
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${checkoutPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 

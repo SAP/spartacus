@@ -75,6 +75,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       );
   }
 
+  // TODO: Remove along with ngrx checkout cleanup
   loadCheckoutDetails(
     userId: string,
     cartId: string

@@ -5,7 +5,6 @@ import {
   CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
-  DeliveryModeClearedEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -103,10 +102,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
                       address: payload,
                     },
                     DeliveryAddressSetEvent
-                  );
-                  this.eventService.dispatch(
-                    { userId, cartId },
-                    DeliveryModeClearedEvent
                   );
                 })
               );

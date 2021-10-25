@@ -3,7 +3,7 @@
 ## TODO (pre how to roll checkout discussion - phase 1)
 
 - check CheckoutStepsSetGuard with b2b entry point and with super query
-- multiple calls for setting cost center (user cost centers emits multiple times)
+- multiple calls for setting cost center (user cost centers emits multiple times) - 2 calls for setting delivery address
 - JaloError retry for super query (add retry for it)
 
   ```json
@@ -18,7 +18,6 @@
   ```
 
 - unify combineLatest with userId and cartId for all c&q in checkout services
-- better organize code related to order type clearing (constructor in checkout.service.ts - reuse query reset events?)
 - consistent naming on facade methods returing state (should include state in name?)
 - optimize mutliple query events reloads/resets (to avoid cancelled requests)
 
@@ -46,15 +45,10 @@
 
 # Next session
 
-- check the `DeliveryModeClearedEvent`
 - TODOs in:
   - feature-libs/checkout/core/facade/checkout-query.service.ts
-  - constructor in feature-libs/checkout/scheduled-replenishment/core/facade/checkout-scheduled-replenishment.service.ts
+  - constructor in feature-libs/checkout/scheduled-replenishment/core/facade/checkout-scheduled-replenishment.service.ts (events in checkout SCHEDULE_REPLENISHMENT_ORDer in constructor)
   - feature-libs/checkout/core/models/checkout.model.ts
-- infinite loop on the payment step
-- cost center shipping address doing 2 calls to set the same address
-- `orderType$` in `CheckoutScheduledReplenishmentService` - should it be ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER?
-  - check its usages as well
-- check all e2e tests (express checkout fails since we changed delivery mode processes)
+- move the events trigger between facades to checkout event listener service (clear delivery mode after address, clear delivery address after cost center)
 - smooth checkout UI (loading states etc.)
 - check my organization (creating new user in unit) - error in console (no feedback if it finished)

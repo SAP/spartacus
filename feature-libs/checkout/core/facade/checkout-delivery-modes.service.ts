@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryModesFacade,
@@ -31,14 +31,15 @@ import {
   UpdateUserAddressEvent,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
 export class CheckoutDeliveryModesService
-  implements CheckoutDeliveryModesFacade
+  implements CheckoutDeliveryModesFacade, OnDestroy
 {
+  protected subscription = new Subscription();
   protected retrySupportedDeliveryModes$: Subject<boolean> =
     new Subject<boolean>();
 
@@ -201,7 +202,17 @@ export class CheckoutDeliveryModesService
     protected command: CommandService,
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {}
+  ) {
+    this.registerEventListeners();
+  }
+
+  protected registerEventListeners(): void {
+    this.subscription.add(
+      this.eventService
+        .get(DeliveryAddressSetEvent)
+        .subscribe(() => this.clearCheckoutDeliveryMode())
+    );
+  }
 
   /**
    * Get supported delivery modes
@@ -246,5 +257,9 @@ export class CheckoutDeliveryModesService
    */
   clearCheckoutDeliveryMode(): Observable<unknown> {
     return this.clearDeliveryModeCommand.execute();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
