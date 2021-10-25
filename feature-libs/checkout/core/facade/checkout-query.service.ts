@@ -7,8 +7,6 @@ import {
   CheckoutQueryFacade,
   CheckoutState,
   OrderPlacedEvent,
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
   ReloadCheckoutQueryEvent,
   ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/root';
@@ -31,29 +29,39 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
-  protected getQueryReloadEvents(): QueryNotifier[] {
+  protected getQueryReloadTriggers(): QueryNotifier[] {
+    return [ReloadCheckoutQueryEvent, ...this.getSiteContextTriggers()];
+  }
+
+  protected getSiteContextTriggers(): QueryNotifier[] {
+    return [LanguageSetEvent, CurrencySetEvent];
+  }
+
+  protected getQueryResetTriggers(): QueryNotifier[] {
     return [
-      ReloadCheckoutQueryEvent,
-      // TODO: Register reload event dispatchers for events below
-      LanguageSetEvent,
-      CurrencySetEvent,
+      ResetCheckoutQueryEvent,
+      ...this.getAuthTriggers(),
+      ...this.getCartTriggers(),
+      ...this.getOrderTriggers(),
     ];
   }
 
-  protected getQueryResetEvents(): QueryNotifier[] {
+  protected getAuthTriggers(): QueryNotifier[] {
+    return [LogoutEvent, LoginEvent];
+  }
+
+  protected getCartTriggers(): QueryNotifier[] {
     return [
-      ResetCheckoutQueryEvent,
-      // TODO: Register reset event dispatchers for events below
-      LogoutEvent,
-      LoginEvent,
       SaveCartSuccessEvent,
       RestoreSavedCartSuccessEvent,
-      PaymentDetailsCreatedEvent,
-      PaymentDetailsSetEvent,
+      MergeCartSuccessEvent,
+    ];
+  }
 
+  protected getOrderTriggers(): QueryNotifier[] {
+    return [
       // we should reset the query's state after the checkout is finished (should be undefined after the following events)
       OrderPlacedEvent,
-      MergeCartSuccessEvent,
     ];
   }
 
@@ -78,8 +86,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       );
     },
     {
-      reloadOn: this.getQueryReloadEvents(),
-      resetOn: this.getQueryResetEvents(),
+      reloadOn: this.getQueryReloadTriggers(),
+      resetOn: this.getQueryResetTriggers(),
     }
   );
 

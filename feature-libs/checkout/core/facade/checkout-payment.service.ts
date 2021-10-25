@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
+  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -25,20 +26,24 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 
 @Injectable()
-export class CheckoutPaymentService implements CheckoutPaymentFacade {
-  protected getCardTypesReloadEvents(): QueryNotifier[] {
+export class CheckoutPaymentService
+  implements CheckoutPaymentFacade, OnDestroy
+{
+  protected subscriptions = new Subscription();
+
+  protected getCardTypesReloadTriggers(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
 
   protected cardTypesQuery: Query<CardType[]> = this.query.create(
     () => this.checkoutPaymentConnector.getCardTypes(),
     {
-      reloadOn: this.getCardTypesReloadEvents(),
+      reloadOn: this.getCardTypesReloadTriggers(),
     }
   );
 
@@ -137,7 +142,22 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected eventService: EventService,
     protected checkoutPaymentConnector: CheckoutPaymentConnector,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {}
+  ) {
+    this.registerResetTriggers();
+  }
+
+  protected registerResetTriggers(): void {
+    this.subscriptions.add(
+      this.eventService.get(PaymentDetailsCreatedEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+      })
+    );
+    this.subscriptions.add(
+      this.eventService.get(PaymentDetailsSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+      })
+    );
+  }
 
   /**
    * Get card types
@@ -169,5 +189,9 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.setPaymentMethodCommand.execute(paymentDetails);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
