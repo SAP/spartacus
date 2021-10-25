@@ -8,9 +8,9 @@ import {
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   Order,
-  ORDER_NORMALIZER,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

@@ -7,22 +7,20 @@ import {
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  Order,
-  ORDER_NORMALIZER,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import {
-  CONSIGNMENT_TRACKING_NORMALIZER,
-  OrderAdapter,
-  ORDER_HISTORY_NORMALIZER,
-  ORDER_RETURNS_NORMALIZER,
-  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
-  ORDER_RETURN_REQUEST_NORMALIZER,
-} from '@spartacus/order/core';
+import { OrderAdapter } from '@spartacus/order/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
+  CONSIGNMENT_TRACKING_NORMALIZER,
+  Order,
   OrderHistoryList,
+  ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,

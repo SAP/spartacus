@@ -35,6 +35,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReturnRequestItemsComponent',
           'ReturnRequestTotalsComponent',
           'OrderReturnRequestListComponent',
+          'CheckoutPlaceOrder',
         ],
       },
       // by default core is bundled together with components

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { PromotionResult } from '../../../../model/cart.model';
-import { Order, OrderEntry } from '../../../../model/order.model';
-import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
+import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
+import { PromotionResult } from '@spartacus/cart/main/root';
 import {
   Converter,
   ConverterService,
-} from '../../../../util/converter.service';
-import { Occ } from '../../../occ-models/occ.models';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
+  Occ,
+  Order,
+  OrderEntry,
+  PRODUCT_NORMALIZER,
+} from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {

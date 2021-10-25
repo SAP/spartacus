@@ -4,13 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
+import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import {
-  ConverterService,
-  OccConfig,
-  OccEndpoints,
+  ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
 
 const cartId = 'testCart';
