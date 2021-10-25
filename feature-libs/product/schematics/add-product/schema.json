@@ -20,16 +20,26 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Bulk-Pricing", "Product-Variants"],
+        "enum": ["Bulk-Pricing", "Product-Variants", "Image-Zoom"],
         "type": "string"
       },
-      "default": ["Product-Variants"],
+      "default": ["Product-Variants", "Image-Zoom"],
       "x-prompt": {
         "message": "Which Product features would you like to set up?",
         "type": "list",
         "items": [
-          { "value": "Bulk-Pricing", "label": "Bulk Pricing (b2b feature)" },
-          { "value": "Product-Variants", "label": "Product Variants" }
+          {
+            "value": "Bulk-Pricing",
+            "label": "Bulk Pricing (b2b feature)"
+          },
+          {
+            "value": "Product-Variants",
+            "label": "Product Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Image Zoom"
+          }
         ]
       }
     }

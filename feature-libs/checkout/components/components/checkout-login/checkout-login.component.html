@@ -5,6 +5,7 @@
         'checkoutLogin.emailAddress.label' | cxTranslate
       }}</span>
       <input
+        aria-required="true"
         type="email"
         name="email"
         class="form-control"
@@ -14,6 +15,8 @@
         }}"
       />
       <cx-form-errors
+        aria-live="assertive"
+        aria-atomic="true"
         [control]="checkoutLoginForm.get('email')"
       ></cx-form-errors>
     </label>
@@ -25,6 +28,7 @@
         'checkoutLogin.confirmEmail.label' | cxTranslate
       }}</span>
       <input
+        aria-required="true"
         type="email"
         name="emailConfirmation"
         class="form-control"
@@ -34,6 +38,8 @@
         }}"
       />
       <cx-form-errors
+        aria-live="assertive"
+        aria-atomic="true"
         [control]="checkoutLoginForm.get('emailConfirmation')"
       ></cx-form-errors>
     </label>

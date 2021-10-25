@@ -47,17 +47,19 @@ assignees: ''
 
 ### For Windows
 
-- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Get the spartacussampledata source code zips for all 1905, 2005 and 2011 CX versions (use `release/1905/next`, `release/2005/next` and `release/2011/next` branches)
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
-
+- [ ] For patch and stable releases:
+  - [ ] Remove old versions sample data and documentation.
+  - [ ] Generate compodocs (`yarn generate:docs`)
+  - [ ] Publish the new compodocs on github pages (`yarn publish:docs`)
+  - [ ] Get the spartacussampledata source code zips for versions 1905, 2005, 2011 and 2105 of CX (use `release/[version]/next` branches)
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
 
 ### For all operative systems
 

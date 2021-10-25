@@ -33,7 +33,7 @@ export const configurator = {
       id: 'ID',
       quantity: 'Qty',
       caption: 'Attributes',
-      notSupported: 'Attibute Type is not supported.',
+      notSupported: 'Attribute Type is not supported.',
       requiredAttribute: '{{param}} required',
       defaultRequiredMessage: 'Enter a value for the required field',
       singleSelectRequiredMessage: 'Select a value',
@@ -42,6 +42,7 @@ export const configurator = {
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
       deselectionNotPossible:
         'Add a different product before removing this one',
+      dropDownSelectMsg: 'Make a selection',
     },
     button: {
       previous: 'Previous',
@@ -53,6 +54,8 @@ export const configurator = {
       select: 'Select',
       add: 'Add',
       remove: 'Remove',
+      exit: 'Exit Configuration',
+      exitMobile: 'Exit',
     },
     priceSummary: {
       basePrice: 'Base Price',

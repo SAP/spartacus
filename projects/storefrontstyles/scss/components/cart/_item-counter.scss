@@ -1,5 +1,7 @@
 %cx-item-counter {
-  width: 146px;
+  @include forVersion(4.2) {
+    width: 146px;
+  }
 
   input {
     text-align: center;
@@ -21,6 +23,9 @@
     input {
       border: none;
       cursor: text;
+      @include forVersion(4.2) {
+        width: 35px;
+      }
     }
   }
 
@@ -34,7 +39,13 @@
       border-width: 0 1px;
       padding: 12px 9px;
       max-height: 48px;
-      width: 46%;
+      min-width: 48px;
+      max-width: 78px;
+
+      @include forVersion(4.2) {
+        min-width: 46%;
+        max-width: 46%;
+      }
 
       &:focus {
         background: var(--cx-color-background);
@@ -49,7 +60,12 @@
     cursor: pointer;
     margin: 0;
     max-height: 48px;
-    width: 27%;
+    min-width: 40px;
+
+    @include forVersion(4.2) {
+      min-width: 27%;
+      max-width: 27%;
+    }
 
     @include type(3);
 

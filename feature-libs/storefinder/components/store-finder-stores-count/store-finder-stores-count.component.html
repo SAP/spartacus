@@ -36,9 +36,9 @@
       </div>
     </div>
     <div class="row" *ngIf="!locations?.length">
-      <span class="cx-no-stores">{{
-        'storeFinder.noStoresMessage' | cxTranslate
-      }}</span>
+      <span class="cx-no-stores" role="alert">
+        {{ 'storeFinder.noStoresMessage' | cxTranslate }}
+      </span>
     </div>
   </div>
 </ng-container>
