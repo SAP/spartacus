@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ReplenishmentOrder } from '../../../../model/replenishment-order.model';
-import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
+import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
 import {
   Converter,
   ConverterService,
-} from '../../../../util/converter.service';
-import { Occ } from '../../../occ-models/occ.models';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
+  Occ,
+  PRODUCT_NORMALIZER,
+  ReplenishmentOrder,
+} from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer

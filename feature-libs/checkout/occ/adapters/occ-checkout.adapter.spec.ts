@@ -9,8 +9,8 @@ import {
   OccConfig,
   OccEndpoints,
   Order,
-  ORDER_NORMALIZER,
 } from '@spartacus/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const MockOccModuleConfig: OccConfig = {

@@ -8,9 +8,9 @@ import {
   ConverterService,
   OccEndpointsService,
   ReplenishmentOrder,
-  REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
+import { REPLENISHMENT_ORDER_NORMALIZER } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

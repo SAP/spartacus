@@ -11,12 +11,12 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
-} from '@spartacus/order/core';
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
