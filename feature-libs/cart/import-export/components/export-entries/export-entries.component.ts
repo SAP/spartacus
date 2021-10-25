@@ -24,7 +24,7 @@ export class ExportEntriesComponent {
       .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
       .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  entries$: Observable<OrderEntry[]> = this.context$.pipe(
+  entries$: Observable<OrderEntry[] | undefined> = this.context$.pipe(
     switchMap(
       (orderEntriesContext) =>
         orderEntriesContext?.getEntries?.() ?? of(undefined)
