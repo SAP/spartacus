@@ -29,4 +29,7 @@ export const user = {
     emailIsRequired: 'Invalid email format',
     emailsMustMatch: 'Email does not match',
   },
+  messages: {
+    signedOutSuccessfully: 'You have successfully signed out.',
+  },
 };

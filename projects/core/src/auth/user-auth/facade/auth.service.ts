@@ -10,6 +10,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 /**
  * Auth service for normal user authentication.
@@ -35,7 +36,8 @@ export class AuthService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   /**
@@ -92,6 +94,10 @@ export class AuthService {
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
+        this.globalMessageService?.add(
+          { key: 'messages.signedOutSuccessfully' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
         resolve();
       });
     });
