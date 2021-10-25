@@ -15,9 +15,7 @@ import { map, shareReplay, switchMap } from 'rxjs/operators';
 export class ImportExportComponent {
   constructor(protected routingService: RoutingService) {}
 
-  context$: Observable<
-    OrderEntriesContext | undefined
-  > = this.routingService
+  context$: Observable<OrderEntriesContext | undefined> = this.routingService
     .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
     .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
