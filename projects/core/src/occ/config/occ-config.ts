@@ -25,6 +25,7 @@ export interface BackendConfig {
     baseUrl?: string;
   };
   loadingScopes?: LoadingScopes;
+  retractTriggered?: boolean;
 }
 
 @Injectable({

@@ -10,6 +10,8 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
+
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService
@@ -103,6 +105,8 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
+    this.addRetractValue(sourceAttribute, attributeValues);
+
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
         this.convertValue(value, attributeValues)
@@ -144,6 +148,63 @@ export class OccConfiguratorVariantNormalizer
         .filter((entry) => entry.selected);
       if (selectedValues && selectedValues.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
+      }
+    }
+  }
+
+  protected isRetractValueSelected(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.domainValues &&
+      sourceAttribute.domainValues.filter((value) => value.selected).length
+      ? false
+      : true;
+  }
+
+  protected setRetractValueDisplay(
+    attributeType: Configurator.UiType,
+    value: Configurator.Value
+  ) {
+    if (
+      attributeType === Configurator.UiType.DROPDOWN ||
+      attributeType === Configurator.UiType.RADIOBUTTON
+    ) {
+      if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
+        this.translation
+          .translate('configurator.attribute.dropDownSelectMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text));
+      } else {
+        this.translation
+          .translate('configurator.attribute.noOptionSelectedMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text));
+      }
+    }
+  }
+
+  protected addRetractValue(
+    sourceAttribute: OccConfigurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (this.config.backend?.retractTriggered) {
+      const attributeType = this.convertAttributeType(
+        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
+
+      if (
+        attributeType === Configurator.UiType.RADIOBUTTON ||
+        attributeType === Configurator.UiType.DROPDOWN
+      ) {
+        const value: Configurator.Value = {
+          valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+          valueDisplay: '',
+          selected: this.isRetractValueSelected(sourceAttribute),
+        };
+
+        this.setRetractValueDisplay(attributeType, value);
+
+        values.push(value);
       }
     }
   }
