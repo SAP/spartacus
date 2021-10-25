@@ -371,7 +371,7 @@ describe('Checkout effect', () => {
     });
   });
 
-  fdescribe('setPaymentDetails$', () => {
+  describe('setPaymentDetails$', () => {
     it('should set payment details', () => {
       const action = new CheckoutActions.SetPaymentDetails({
         userId: userId,
