@@ -222,7 +222,7 @@ describe('QuickOrderComponent', () => {
       );
       spyOn(globalMessageService, 'add').and.stub();
 
-      component.addToCart([]);
+      component.addToCart([mockEntry]);
 
       expect(quickOrderService.addToCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -238,11 +238,23 @@ describe('QuickOrderComponent', () => {
         of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
       );
 
-      component.addToCart([]);
+      component.addToCart([mockEntry, mockEntry2]);
       fixture.detectChanges();
 
       expect(quickOrderService.addToCart).toHaveBeenCalled();
       expect(el.query(By.css('.quick-order-warnings-message'))).toBeTruthy();
+    });
+
+    it('and get info message that list is empty', () => {
+      spyOn(quickOrderService, 'addToCart').and.returnValue(of([[], []]));
+
+      component.addToCart([]);
+      fixture.detectChanges();
+
+      expect(quickOrderService.addToCart).not.toHaveBeenCalled();
+      expect(
+        el.query(By.css('.quick-order-add-to-cart-information-message'))
+      ).toBeTruthy();
     });
   });
 
