@@ -283,6 +283,20 @@ describe('OccConfiguratorVariantSerializer', () => {
     expect(occAttributes[0].retractTriggered).toBe(true);
   });
 
+  it('should consider that an attribute was retracted (II)', () => {
+    const attributeWithRetraction: Configurator.Attribute = {
+      name: 'attr',
+      uiType: Configurator.UiType.DROPDOWN,
+      selectedSingleValue: OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+    };
+    const occAttributes: OccConfigurator.Attribute[] = [];
+    occConfiguratorVariantSerializer.convertAttribute(
+      attributeWithRetraction,
+      occAttributes
+    );
+    expect(occAttributes[0].retractTriggered).toBe(true);
+  });
+
   it('should map ui types properly', () => {
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(

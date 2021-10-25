@@ -8,6 +8,8 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
+  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
+
   convert(
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
@@ -76,6 +78,13 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       targetAttribute.value = attribute.selectedSingleValue;
+
+      if (
+        attribute.selectedSingleValue ===
+        OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
+      ) {
+        targetAttribute.retractTriggered = true;
+      }
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       targetAttribute.value = attribute.userInput;
     } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
