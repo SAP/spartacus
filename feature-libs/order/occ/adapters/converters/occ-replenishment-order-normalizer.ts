@@ -5,8 +5,8 @@ import {
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
-  ReplenishmentOrder,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
