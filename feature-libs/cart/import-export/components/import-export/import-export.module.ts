@@ -16,7 +16,7 @@ import { ImportExportComponent } from './import-export.component';
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ImportExportComponent: {
+        ImportExportOrderEntriesComponent: {
           component: ImportExportComponent,
         },
       },

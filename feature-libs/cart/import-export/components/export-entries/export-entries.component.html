@@ -1,3 +1,7 @@
-<button class="link cx-action-link" (click)="exportCsv()">
+<button
+  *ngIf="entries$ | async as entries"
+  class="link cx-action-link"
+  (click)="exportCsv(entries)"
+>
   {{ 'exportEntries.exportToCsv' | cxTranslate }}
 </button>

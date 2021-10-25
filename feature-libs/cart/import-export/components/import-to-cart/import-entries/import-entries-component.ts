@@ -2,15 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
   ViewChild,
 } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
 import {
-  ImportContext,
   LaunchDialogService,
   LAUNCH_CALLER,
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries',
@@ -21,16 +23,20 @@ export class ImportEntriesComponent {
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
-  @Input()
-  context: ImportContext;
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected routingService: RoutingService
+  ) {}
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  context$: Observable<OrderEntriesContext | undefined> = this.routingService
+    .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
+    .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  openDialog(): void {
+  openDialog(context: OrderEntriesContext): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      { context: this.context }
+      { context }
     );
   }
 }

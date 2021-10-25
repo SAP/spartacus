@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
@@ -19,17 +19,14 @@ export class ImportExportComponent {
     .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
     .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    switchMap(
-      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([])
-    )
-  );
-
   shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
     map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
   );
 
-  shouldDisplayExport$: Observable<boolean> = this.entries$.pipe(
+  shouldDisplayExport$: Observable<boolean> = this.context$.pipe(
+    switchMap(
+      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([])
+    ),
     map((entries) => !!entries?.length)
   );
 }
