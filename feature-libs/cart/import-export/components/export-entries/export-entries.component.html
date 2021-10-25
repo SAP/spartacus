@@ -1,5 +1,5 @@
 <button
-  *ngIf="entries$ | async as entries"
+  *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
   class="link cx-action-link"
   (click)="exportCsv(entries)"
 >

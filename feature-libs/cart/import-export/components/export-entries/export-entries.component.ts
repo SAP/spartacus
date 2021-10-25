@@ -26,7 +26,8 @@ export class ExportEntriesComponent {
 
   entries$: Observable<OrderEntry[]> = this.context$.pipe(
     switchMap(
-      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([])
+      (orderEntriesContext) =>
+        orderEntriesContext?.getEntries?.() ?? of(undefined)
     )
   );
 
