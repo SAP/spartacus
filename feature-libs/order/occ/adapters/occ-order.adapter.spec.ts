@@ -10,6 +10,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import {
+  CancellationRequestEntryInputList,
   ConsignmentTracking,
   CONSIGNMENT_TRACKING_NORMALIZER,
   Order,
