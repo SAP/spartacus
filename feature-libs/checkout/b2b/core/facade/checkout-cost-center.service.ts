@@ -28,7 +28,7 @@ import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-
 export class CheckoutCostCenterService
   implements CheckoutCostCenterFacade, OnDestroy
 {
-  protected subscription = new Subscription();
+  protected subscriptions = new Subscription();
 
   protected setCostCenterCommand: Command<string, Cart> = this.command.create<
     string,
@@ -84,8 +84,8 @@ export class CheckoutCostCenterService
     this.registerResetTriggers();
   }
 
-  registerResetTriggers(): void {
-    this.subscription.add(
+  protected registerResetTriggers(): void {
+    this.subscriptions.add(
       this.eventService.get(CostCenterSetEvent).subscribe(() => {
         this.eventService.dispatch({}, ResetCheckoutQueryEvent);
         this.eventService.dispatch({}, ResetDeliveryModesEvent);
@@ -114,6 +114,6 @@ export class CheckoutCostCenterService
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

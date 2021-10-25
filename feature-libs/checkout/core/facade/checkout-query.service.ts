@@ -6,8 +6,6 @@ import {
 import {
   CheckoutQueryFacade,
   CheckoutState,
-  DeliveryAddressClearedEvent,
-  DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
   OrderPlacedEvent,
@@ -43,14 +41,13 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       CurrencySetEvent,
     ];
   }
+
   protected getQueryResetEvents(): QueryNotifier[] {
     return [
       ResetCheckoutQueryEvent,
       // TODO: Register reset event dispatchers for events below
-      DeliveryAddressSetEvent,
       LogoutEvent,
       LoginEvent,
-      DeliveryAddressClearedEvent,
       DeliveryModeSetEvent,
       DeliveryModeClearedEvent,
       SaveCartSuccessEvent,

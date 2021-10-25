@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
+  ResetCheckoutQueryEvent,
+  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -20,15 +22,17 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 
 @Injectable()
 export class CheckoutDeliveryAddressService
-  implements CheckoutDeliveryAddressFacade
+  implements CheckoutDeliveryAddressFacade, OnDestroy
 {
+  protected subscriptions = new Subscription();
+
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.command.create<Address>(
       (payload) => {
@@ -163,7 +167,23 @@ export class CheckoutDeliveryAddressService
     protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
     protected checkoutConnector: CheckoutConnector,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {}
+  ) {
+    this.registerResetTriggers();
+  }
+
+  protected registerResetTriggers(): void {
+    this.subscriptions.add(
+      this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+      })
+    );
+    this.subscriptions.add(
+      this.eventService.get(DeliveryAddressClearedEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+      })
+    );
+  }
 
   /**
    * Get delivery address
@@ -198,5 +218,9 @@ export class CheckoutDeliveryAddressService
    */
   clearCheckoutDeliveryAddress(): Observable<unknown> {
     return this.clearDeliveryAddressCommand.execute();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

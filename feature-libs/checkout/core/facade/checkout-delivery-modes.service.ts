@@ -51,13 +51,13 @@ export class CheckoutDeliveryModesService
       CurrencySetEvent,
     ];
   }
+
   protected getSupportedDeliveryModesResetEvents(): QueryNotifier[] {
     return [
       ResetDeliveryModesEvent,
       // TODO: Map these events to reset event
       LogoutEvent,
       LoginEvent,
-      DeliveryAddressSetEvent,
       UpdateUserAddressEvent,
       DeleteUserAddressEvent,
       this.retrySupportedDeliveryModes$.asObservable(),
