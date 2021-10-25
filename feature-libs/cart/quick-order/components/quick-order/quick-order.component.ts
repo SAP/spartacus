@@ -44,10 +44,12 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.activeCartService.isStable(),
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
+  listLimitReached$: Observable<boolean>;
 
   protected cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
+  protected showAddToCartInformation$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -78,6 +80,11 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
   }
+
+  get addToCartInformation$(): Observable<boolean> {
+    return this.showAddToCartInformation$.asObservable();
+  }
+
   get softDeletedEntries$(): Observable<Record<string, OrderEntry>> {
     return this.quickOrderService.getSoftDeletedEntries();
   }
@@ -93,6 +100,11 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   }
 
   addToCart(orderEntries: OrderEntry[]): void {
+    if (!orderEntries.length) {
+      this.showAddToCartInformation$.next(true);
+      return;
+    }
+
     this.clearStatuses();
 
     this.quickOrderService
@@ -130,6 +142,10 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     this.cartSuccesses$.next([]);
   }
 
+  clearAddToCartInformation(): void {
+    this.showAddToCartInformation$.next(false);
+  }
+
   undoDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
       this.quickOrderService.restoreSoftDeletedEntry(entry.product?.code);
@@ -140,6 +156,10 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     if (entry.product?.code) {
       this.quickOrderService.hardDeleteEntry(entry.product?.code);
     }
+  }
+
+  canAddProduct(): Observable<boolean> {
+    return this.quickOrderService.canAdd();
   }
 
   protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {

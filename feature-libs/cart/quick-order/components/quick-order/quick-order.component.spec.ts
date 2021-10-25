@@ -56,6 +56,7 @@ const mockSoftDeletedEntries$ = new BehaviorSubject<Record<string, OrderEntry>>(
     mockProduct2: mockEntry2,
   }
 );
+const mockCanAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
@@ -74,6 +75,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
   clearDeletedEntries(): void {}
   setListLimit(_limit: number): void {}
+  canAdd(_code?: string): Observable<boolean> {
+    return mockCanAdd$.asObservable();
+  }
 }
 
 class MockQuickOrderStatePersistenceService
@@ -291,6 +295,14 @@ describe('QuickOrderComponent', () => {
 
       component.clearDeletion(mockEmptyEntry);
       expect(quickOrderService.hardDeleteEntry).not.toHaveBeenCalled();
+    });
+  });
+
+  it('should get information if there is possible to add more products', () => {
+    spyOn(quickOrderService, 'canAdd').and.callThrough();
+
+    component.canAddProduct().subscribe((canAdd) => {
+      expect(canAdd).toBeTruthy();
     });
   });
 });

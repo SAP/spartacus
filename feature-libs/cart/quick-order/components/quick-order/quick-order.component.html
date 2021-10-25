@@ -1,3 +1,30 @@
+<ng-container *ngIf="entries$ | async as entries">
+  <ng-container *ngIf="!(canAddProduct() | async)">
+    <cx-message
+      [text]="
+        'quickOrderList.errors.listIsFull'
+          | cxTranslate: { count: entries.length }
+      "
+      [isVisibleCloseButton]="false"
+      [type]="globalMessageType.MSG_TYPE_ERROR"
+      class="quick-order-list-limit-message"
+    >
+    </cx-message>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="addToCartInformation$ | async">
+  <cx-message
+    (closeMessage)="clearAddToCartInformation()"
+    [text]="
+      'quickOrderList.informations.addProductBeforeAddingToCart' | cxTranslate
+    "
+    [type]="globalMessageType.MSG_TYPE_INFO"
+    class="quick-order-add-to-cart-information-message"
+  >
+  </cx-message>
+</ng-container>
+
 <ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
   <cx-message
     *ngFor="let deletedEntry of deletedEntries | keyvalue"
@@ -136,7 +163,6 @@
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
           [class]="'btn-block add-button'"
-          [disabled]="!entries.length"
           [loading]="!(isCartStable$ | async)"
         >
           {{ 'quickOrderList.addToCart' | cxTranslate }}
