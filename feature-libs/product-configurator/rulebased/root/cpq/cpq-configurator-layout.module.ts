@@ -7,7 +7,7 @@ import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout
  *  Contains the layout configuration for the CPQ configurator pages. This configuration is
  *  optional as of version 4.2, and reduces the components that are rendered in the header section.
  *  It needs to be explicitly imported, otherwise the default configuration
- *  from VariantConfiguratorInteractiveModule is active
+ *  from CpqConfiguratorInteractiveModule is active
  */
 @NgModule({
   providers: [

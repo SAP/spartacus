@@ -560,4 +560,18 @@ export class ActiveCartService implements OnDestroy {
       previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
   }
+
+  /**
+   * Reloads active cart
+   */
+  reloadActiveCart() {
+    combineLatest([this.getActiveCartId(), this.userIdService.takeUserId()])
+      .pipe(
+        take(1),
+        map(([cartId, userId]) => {
+          this.multiCartService.loadCart({ cartId, userId });
+        })
+      )
+      .subscribe();
+  }
 }

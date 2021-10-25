@@ -65,6 +65,7 @@
             'productReview.reviewTitle' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             #titleInput
             type="text"
             class="form-control"
@@ -83,6 +84,7 @@
             'productReview.writeYourComments' | cxTranslate
           }}</span>
           <textarea
+            aria-required="true"
             class="form-control"
             rows="3"
             formControlName="comment"
@@ -99,7 +101,12 @@
           <span class="label-content">{{
             'productReview.rating' | cxTranslate
           }}</span>
-          <input type="number" formControlName="rating" class="rating-input" />
+          <input
+            aria-required="true"
+            type="number"
+            formControlName="rating"
+            class="rating-input"
+          />
           <cx-star-rating
             (change)="setRating($event)"
             [disabled]="false"

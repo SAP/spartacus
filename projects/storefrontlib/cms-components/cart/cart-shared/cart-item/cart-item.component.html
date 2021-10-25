@@ -1,5 +1,10 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
+  <ng-container *cxFeatureLevel="'4.2'">
+    <cx-cart-item-validation-warning
+      [code]="item.product.code"
+    ></cx-cart-item-validation-warning>
+  </ng-container>
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
     <div class="col-2 cx-image-container">
@@ -83,7 +88,7 @@
               [readonly]="
                 !item.updateable || readonly || options.isSaveForLater
               "
-              [max]="item.product.stock?.stockLevel || 1000"
+              [max]="item.product.stock?.stockLevel"
               [allowZero]="true"
             >
             </cx-item-counter>
