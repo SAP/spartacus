@@ -42,23 +42,24 @@ export class CheckoutDeliveryModesService
   protected retrySupportedDeliveryModes$: Subject<boolean> =
     new Subject<boolean>();
 
-  protected getSupportedDeliveryModesReloadEvents(): QueryNotifier[] {
+  protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
+    return [ReloadDeliveryModesEvent, ...this.getSiteContextTriggers()];
+  }
+
+  protected getSiteContextTriggers(): QueryNotifier[] {
+    return [LanguageSetEvent, CurrencySetEvent];
+  }
+
+  protected getSupportedDeliveryModesResetTriggers(): QueryNotifier[] {
     return [
-      ReloadDeliveryModesEvent,
-      // TODO: Map these events to reload event
-      LanguageSetEvent,
-      CurrencySetEvent,
+      ResetDeliveryModesEvent,
+      ...this.getAuthTriggers(),
+      this.retrySupportedDeliveryModes$.asObservable(),
     ];
   }
 
-  protected getSupportedDeliveryModesResetEvents(): QueryNotifier[] {
-    return [
-      ResetDeliveryModesEvent,
-      // TODO: Map these events to reset event
-      LogoutEvent,
-      LoginEvent,
-      this.retrySupportedDeliveryModes$.asObservable(),
-    ];
+  protected getAuthTriggers(): QueryNotifier[] {
+    return [LogoutEvent, LoginEvent];
   }
 
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
@@ -86,8 +87,8 @@ export class CheckoutDeliveryModesService
         );
       },
       {
-        reloadOn: this.getSupportedDeliveryModesReloadEvents(),
-        resetOn: this.getSupportedDeliveryModesResetEvents(),
+        reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
+        resetOn: this.getSupportedDeliveryModesResetTriggers(),
       }
     );
 
@@ -200,10 +201,10 @@ export class CheckoutDeliveryModesService
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
     protected checkoutQuery: CheckoutQueryFacade
   ) {
-    this.registerEventListeners();
+    this.registerResetTriggers();
   }
 
-  protected registerEventListeners(): void {
+  protected registerResetTriggers(): void {
     this.subscription.add(
       this.eventService
         .get(DeliveryAddressSetEvent)
