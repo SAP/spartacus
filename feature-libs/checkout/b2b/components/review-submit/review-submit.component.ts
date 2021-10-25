@@ -8,7 +8,7 @@ import {
   ReviewSubmitComponent,
 } from '@spartacus/checkout/components';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
@@ -32,7 +32,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 })
 export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
   constructor(
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
@@ -45,7 +45,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     protected featureConfigService: FeatureConfigService
   ) {
     super(
-      checkoutDeliveryService,
+      checkoutDeliveryAddressService,
       checkoutPaymentService,
       userAddressService,
       activeCartService,

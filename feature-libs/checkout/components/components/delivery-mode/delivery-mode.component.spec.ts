@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/root';
 import { DeliveryMode, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
@@ -73,7 +73,7 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutDeliveryService: CheckoutDeliveryFacade;
+  let mockCheckoutDeliveryService: CheckoutDeliveryAddressFacade;
   let mockCheckoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
 
@@ -84,7 +84,7 @@ describe('DeliveryModeComponent', () => {
         declarations: [DeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
-            provide: CheckoutDeliveryFacade,
+            provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryService,
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
@@ -96,7 +96,9 @@ describe('DeliveryModeComponent', () => {
         ],
       }).compileComponents();
 
-      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryFacade);
+      mockCheckoutDeliveryService = TestBed.inject(
+        CheckoutDeliveryAddressFacade
+      );
       mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>

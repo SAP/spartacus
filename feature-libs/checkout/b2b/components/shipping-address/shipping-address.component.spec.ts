@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -137,7 +137,7 @@ class MockCardComponent {
 describe('ShippingAddressComponent', () => {
   let component: B2BShippingAddressComponent;
   let fixture: ComponentFixture<B2BShippingAddressComponent>;
-  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartService: ActiveCartService;
   let checkoutStepService: CheckoutStepService;
@@ -157,7 +157,7 @@ describe('ShippingAddressComponent', () => {
           { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: ActiveCartService, useClass: MockActiveCartService },
           {
-            provide: CheckoutDeliveryFacade,
+            provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryFacade,
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
@@ -178,7 +178,7 @@ describe('ShippingAddressComponent', () => {
         })
         .compileComponents();
 
-      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
       activeCartService = TestBed.inject(ActiveCartService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>

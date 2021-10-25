@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -91,7 +91,9 @@ class MockPaymentTypeService {
   }
 }
 
-class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+class MockCheckoutDeliveryFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   getSelectedDeliveryMode(): Observable<any> {
     return of(undefined);
   }
@@ -106,7 +108,7 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
   let paymentTypeService: PaymentTypeFacade;
-  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
 
   beforeEach(() => {
@@ -124,7 +126,7 @@ describe(`CheckoutStepsSetGuard`, () => {
           useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: CheckoutDeliveryFacade,
+          provide: CheckoutDeliveryAddressFacade,
           useClass: MockCheckoutDeliveryFacade,
         },
         {
@@ -137,7 +139,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
     paymentTypeService = TestBed.inject(PaymentTypeFacade);
-    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
   });
 

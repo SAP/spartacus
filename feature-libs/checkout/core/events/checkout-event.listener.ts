@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -19,7 +19,7 @@ export class CheckoutEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected eventService: EventService
   ) {
@@ -45,7 +45,7 @@ export class CheckoutEventListener implements OnDestroy {
           })
         )
         .subscribe((_event) => {
-          this.checkoutDeliveryFacade.clearCheckoutDeliveryAddress();
+          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
           this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
         })
     );

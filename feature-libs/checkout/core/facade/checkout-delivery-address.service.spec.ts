@@ -14,9 +14,9 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
-import { CheckoutDeliveryService } from './checkout-delivery.service';
+import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 
-describe('CheckoutDeliveryService', () => {
+describe('CheckoutDeliveryAddressService', () => {
   let activeCartService: ActiveCartService;
   let userIdService: UserIdService;
   let store: Store<CheckoutState>;
@@ -74,7 +74,7 @@ describe('CheckoutDeliveryService', () => {
           ),
         ],
         providers: [
-          CheckoutDeliveryService,
+          CheckoutDeliveryAddressService,
           { provide: UserIdService, useClass: UserIdServiceStub },
           { provide: ActiveCartService, useClass: ActiveCartServiceStub },
           {
@@ -101,8 +101,8 @@ describe('CheckoutDeliveryService', () => {
     });
 
     it('should CheckoutDeliveryService is injected', inject(
-      [CheckoutDeliveryService],
-      (checkoutService: CheckoutDeliveryService) => {
+      [CheckoutDeliveryAddressService],
+      (checkoutService: CheckoutDeliveryAddressService) => {
         expect(checkoutService).toBeTruthy();
       }
     ));

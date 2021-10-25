@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
@@ -67,7 +67,9 @@ class MockCheckoutPaymentService {
   }
   paymentProcessSuccess() {}
 }
-class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+class MockCheckoutDeliveryFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   getDeliveryAddress(): Observable<PaymentDetails | undefined> {
     return of(undefined);
   }
@@ -151,7 +153,7 @@ describe('PaymentMethodComponent', () => {
           { provide: UserPaymentService, useClass: MockUserPaymentService },
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
-            provide: CheckoutDeliveryFacade,
+            provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryFacade,
           },
           {

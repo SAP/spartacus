@@ -7,7 +7,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: CheckoutDeliveryFacade,
+      facade: CheckoutDeliveryAddressFacade,
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'getDeliveryAddress',
@@ -18,7 +18,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       async: true,
     }),
 })
-export abstract class CheckoutDeliveryFacade {
+export abstract class CheckoutDeliveryAddressFacade {
   /**
    * Get delivery address
    */

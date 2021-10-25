@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
@@ -26,7 +26,9 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-delivery.connector';
 
 @Injectable()
-export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
+export class CheckoutDeliveryAddressService
+  implements CheckoutDeliveryAddressFacade
+{
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.command.create<Address>(
       (payload) => {

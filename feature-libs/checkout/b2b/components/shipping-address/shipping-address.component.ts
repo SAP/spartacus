@@ -13,7 +13,7 @@ import {
   CheckoutStepService,
   ShippingAddressComponent,
 } from '@spartacus/checkout/components';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -43,7 +43,7 @@ export class B2BShippingAddressComponent
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -54,7 +54,7 @@ export class B2BShippingAddressComponent
   ) {
     super(
       userAddressService,
-      checkoutDeliveryService,
+      checkoutDeliveryAddressService,
       activatedRoute,
       translation,
       activeCartService,

@@ -5,11 +5,13 @@ import {
   EventService,
   UpdateUserAddressEvent,
 } from '@spartacus/core';
-import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root/facade/checkout-delivery.facade';
+import { CheckoutDeliveryAddressFacade } from 'feature-libs/checkout/root/facade/checkout-delivery-address.facade';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CheckoutEventListener } from './checkout-event.listener';
 
-class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+class MockCheckoutDeliveryFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   clearCheckoutDeliveryDetails(): void {}
 }
 
@@ -22,7 +24,7 @@ class MockEventService implements Partial<EventService> {
 }
 
 describe('CheckoutEventListener', () => {
-  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,14 +35,14 @@ describe('CheckoutEventListener', () => {
           useClass: MockEventService,
         },
         {
-          provide: CheckoutDeliveryFacade,
+          provide: CheckoutDeliveryAddressFacade,
           useClass: MockCheckoutDeliveryFacade,
         },
       ],
     });
 
     TestBed.inject(CheckoutEventListener);
-    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
   });
 
   it('Should UpdateUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {

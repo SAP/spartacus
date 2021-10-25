@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -99,7 +99,7 @@ export class PaymentFormComponent implements OnInit {
 
   constructor(
     protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
@@ -120,7 +120,7 @@ export class PaymentFormComponent implements OnInit {
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
-    this.shippingAddress$ = this.checkoutDeliveryService
+    this.shippingAddress$ = this.checkoutDeliveryAddressService
       .getDeliveryAddress()
       .pipe(
         filter((state) => !state.loading),

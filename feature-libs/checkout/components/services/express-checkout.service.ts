@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
@@ -32,7 +32,7 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutConfigService: CheckoutConfigService,
     protected featureConfigService: FeatureConfigService,
@@ -60,11 +60,11 @@ export class ExpressCheckoutService {
         const defaultAddress =
           addresses.find((address) => address.defaultAddress) || addresses[0];
         if (defaultAddress && Object.keys(defaultAddress).length) {
-          return this.checkoutDeliveryService
+          return this.checkoutDeliveryAddressService
             .setDeliveryAddress(defaultAddress)
             .pipe(
               switchMap(() => {
-                return this.checkoutDeliveryService.getDeliveryAddress();
+                return this.checkoutDeliveryAddressService.getDeliveryAddress();
               }),
               map((data) => !!(data && Object.keys(data).length)),
               catchError(() => of(false))

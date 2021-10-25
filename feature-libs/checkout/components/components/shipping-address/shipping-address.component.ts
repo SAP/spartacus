@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -37,7 +37,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -57,7 +57,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryService.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -154,13 +154,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
-    this.checkoutDeliveryService.setDeliveryAddress(address);
+    this.checkoutDeliveryAddressService.setDeliveryAddress(address);
   }
 
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {
-      this.checkoutDeliveryService.createAndSetAddress(address);
+      this.checkoutDeliveryAddressService.createAndSetAddress(address);
     } else {
       this.forceLoader = false;
       this.next();

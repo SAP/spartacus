@@ -4,7 +4,7 @@ import {
   CostCenterSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutQueryFacade,
   ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
@@ -53,7 +53,7 @@ export class CheckoutCostCenterService
             .setCostCenter(userId, cartId, payload)
             .pipe(
               tap(() => {
-                this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
+                this.checkoutDeliveryAddressService.clearCheckoutDeliveryAddress();
                 this.eventService.dispatch(
                   {
                     cartId,
@@ -77,7 +77,7 @@ export class CheckoutCostCenterService
     protected userIdService: UserIdService,
     protected command: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutQueryService: CheckoutQueryFacade,
     protected eventService: EventService
   ) {

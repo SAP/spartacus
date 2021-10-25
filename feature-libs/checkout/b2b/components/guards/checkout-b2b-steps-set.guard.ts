@@ -15,7 +15,7 @@ import {
   CheckoutStepsSetGuard,
 } from '@spartacus/checkout/components';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
@@ -37,7 +37,7 @@ export class CheckoutB2BStepsSetGuard
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected router: Router
@@ -45,7 +45,7 @@ export class CheckoutB2BStepsSetGuard
     super(
       checkoutStepService,
       routingConfigService,
-      checkoutDeliveryService,
+      checkoutDeliveryAddressService,
       checkoutPaymentService,
       checkoutDeliveryModesService,
       router
@@ -142,7 +142,7 @@ export class CheckoutB2BStepsSetGuard
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.checkoutDeliveryService.getDeliveryAddress(),
+      this.checkoutDeliveryAddressService.getDeliveryAddress(),
       this.checkoutCostCenterService.getCostCenter(),
     ]).pipe(
       map(([deliveryAddress, costCenter]) => {

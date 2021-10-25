@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
@@ -55,7 +55,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
@@ -74,7 +74,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.isGuestCheckout = true;
     }
 
-    this.checkoutDeliveryService
+    this.checkoutDeliveryAddressService
       .getDeliveryAddress()
       .pipe(
         filter((state) => !state.loading),

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   checkoutPaymentSteps,
@@ -38,7 +38,7 @@ export class ReviewSubmitComponent {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
@@ -60,7 +60,7 @@ export class ReviewSubmitComponent {
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
-    this.checkoutDeliveryService.getDeliveryAddress().pipe(
+    this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );

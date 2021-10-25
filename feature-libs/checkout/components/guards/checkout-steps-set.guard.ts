@@ -7,7 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
@@ -25,7 +25,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
     protected router: Router
@@ -90,7 +90,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isShippingAddress(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryService.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
       map((deliveryAddress) => {
         if (deliveryAddress && Object.keys(deliveryAddress).length) {
           return true;

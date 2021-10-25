@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -76,7 +76,9 @@ const mockLoadSupportedDeliveryModesResult = new BehaviorSubject({
   loading: false,
 });
 
-class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
+class MockCheckoutDeliveryFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   setDeliveryAddress() {
     return of(undefined);
   }
@@ -127,7 +129,7 @@ fdescribe('ExpressCheckoutService', () => {
   let service: ExpressCheckoutService;
   let userAddressService: UserAddressService;
   let userPaymentService: UserPaymentService;
-  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let checkoutPaymentService: CheckoutPaymentFacade;
 
   describe('without commands and queries', () => {
@@ -144,7 +146,7 @@ fdescribe('ExpressCheckoutService', () => {
             useClass: MockUserPaymentService,
           },
           {
-            provide: CheckoutDeliveryFacade,
+            provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryFacade,
           },
           {
@@ -193,7 +195,7 @@ fdescribe('ExpressCheckoutService', () => {
       service = TestBed.inject(ExpressCheckoutService);
       userAddressService = TestBed.inject(UserAddressService);
       userPaymentService = TestBed.inject(UserPaymentService);
-      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
       checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
     });
 

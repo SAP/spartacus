@@ -1,22 +1,22 @@
 import { Provider } from '@angular/core';
 import {
-  CheckoutDeliveryFacade,
+  CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
 } from '@spartacus/checkout/root';
+import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
-import { CheckoutDeliveryService } from './checkout-delivery.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
 import { CheckoutQueryService } from './checkout-query.service';
 import { CheckoutService } from './checkout.service';
 
 export const facadeProviders: Provider[] = [
-  CheckoutDeliveryService,
+  CheckoutDeliveryAddressService,
   {
-    provide: CheckoutDeliveryFacade,
-    useExisting: CheckoutDeliveryService,
+    provide: CheckoutDeliveryAddressFacade,
+    useExisting: CheckoutDeliveryAddressService,
   },
   CheckoutDeliveryModesService,
   {
