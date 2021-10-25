@@ -48,14 +48,14 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentStartOnCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.startOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
@@ -70,14 +70,16 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentNextDateCardContent(
+    isoDate: string | null
+  ): Observable<Card> {
     return this.translation.translate('orderDetails.nextOrderDate').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
@@ -92,14 +94,14 @@ export class OrderOverviewComponent {
     );
   }
 
-  getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
+  getOrderCurrentDateCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.placedOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
