@@ -31,6 +31,7 @@
                 'register.firstName.label' | cxTranslate
               }}</span>
               <input
+                aria-required="true"
                 class="form-control"
                 type="text"
                 name="firstname"
@@ -40,6 +41,8 @@
                 formControlName="firstName"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
             </label>
@@ -51,6 +54,7 @@
                 'register.lastName.label' | cxTranslate
               }}</span>
               <input
+                aria-required="true"
                 class="form-control"
                 type="text"
                 name="lastname"
@@ -60,6 +64,8 @@
                 formControlName="lastName"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
             </label>
@@ -71,6 +77,7 @@
                 'register.emailAddress.label' | cxTranslate
               }}</span>
               <input
+                aria-required="true"
                 class="form-control"
                 type="email"
                 name="email"
@@ -80,6 +87,8 @@
                 formControlName="email"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
             </label>
@@ -91,6 +100,7 @@
                 'register.password.label' | cxTranslate
               }}</span>
               <input
+                aria-required="true"
                 class="form-control"
                 type="password"
                 name="password"
@@ -100,6 +110,8 @@
                 formControlName="password"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
             </label>
@@ -111,6 +123,7 @@
                 'register.confirmPassword.label' | cxTranslate
               }}</span>
               <input
+                aria-required="true"
                 class="form-control"
                 type="password"
                 name="confirmpassword"
@@ -120,6 +133,8 @@
                 formControlName="passwordconf"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
             </label>
@@ -146,6 +161,7 @@
             <div class="form-check">
               <label>
                 <input
+                  aria-required="true"
                   type="checkbox"
                   name="termsandconditions"
                   formControlName="termsandconditions"
@@ -160,6 +176,8 @@
                   </a>
                 </span>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
               </label>

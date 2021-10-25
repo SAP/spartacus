@@ -26,6 +26,7 @@
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
+          "Image-Zoom",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
@@ -46,6 +47,7 @@
         "Checkout",
         "Saved-Cart",
         "Quick-Order",
+        "Image-Zoom",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -100,6 +102,10 @@
           {
             "value": "Product-Variants",
             "label": "Product - Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Product - Image Zoom"
           },
           {
             "value": "VC-Configurator",
