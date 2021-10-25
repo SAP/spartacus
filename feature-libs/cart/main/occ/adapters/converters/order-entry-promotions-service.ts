@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PromotionResult } from '@spartacus/cart/main/root';
-import { Occ, PromotionOrderEntryConsumed } from '@spartacus/core';
+import {
+  PromotionOrderEntryConsumed,
+  PromotionResult,
+} from '@spartacus/cart/main/root';
+import { Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OrderEntryPromotionsService {
