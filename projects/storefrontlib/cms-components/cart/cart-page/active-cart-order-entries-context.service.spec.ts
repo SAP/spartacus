@@ -3,7 +3,7 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { ProductData } from '../order-entries-context/import-to-cart.model';
-import { ActiveCartOrderEntriesContext } from './active-cart-import-export-context.service';
+import { ActiveCartOrderEntriesContext } from './active-cart-order-entries-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
