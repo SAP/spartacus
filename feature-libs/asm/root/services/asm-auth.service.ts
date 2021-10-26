@@ -111,7 +111,7 @@ export class AsmAuthService extends AuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.coreLogout());
+            return from(super.coreLogout(true));
           }
         })
       )
