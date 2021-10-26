@@ -82,8 +82,11 @@ describe('My Account - Address Book', () => {
       });
 
       it('should set the second address as the default one', () => {
+        fetchAddressesInterceptor();
         cy.get('a').contains('Set as default').click();
 
+        cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
+        alerts.getSuccessAlert().contains('You have set the default address successfully');
         const firstCard = cy.get('cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', 'N Z');
@@ -117,16 +120,7 @@ describe('My Account - Address Book', () => {
             curr: 'USD',
           },
         }).as('deleteAddress');
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/*/addresses`,
-          query: {
-            lang: 'en',
-            curr: 'USD',
-          },
-        }).as('fetchAddresses');
+        fetchAddressesInterceptor();
 
         const card = cy.get('cx-card').first();
         card.contains('Delete').click();
@@ -152,4 +146,17 @@ describe('My Account - Address Book', () => {
       });
     });
   });
+
+  function fetchAddressesInterceptor() {
+    cy.intercept({
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/*/addresses`,
+      query: {
+        lang: 'en',
+        curr: 'USD',
+      },
+    }).as('fetchAddresses');
+  }
 });
