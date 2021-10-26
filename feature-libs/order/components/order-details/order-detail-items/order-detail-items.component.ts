@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
-  completedValues
+  completedValues,
 } from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
