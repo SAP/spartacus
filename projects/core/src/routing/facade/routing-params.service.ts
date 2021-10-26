@@ -18,13 +18,6 @@ export class RoutingParamsService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
-  protected readonly data$: Observable<{
-    [key: string]: string;
-  }> = this.activatedRoutesService.routes$.pipe(
-    map((routes) => this.findAllParam(routes, 'data')),
-    shareReplay({ refCount: true, bufferSize: 1 })
-  );
-
   constructor(
     protected router: Router,
     protected activatedRoutesService: ActivatedRoutesService
@@ -38,20 +31,11 @@ export class RoutingParamsService {
     return this.params$;
   }
 
-  /**
-   * Get the list of all Routes' `data` of the full route. This includes
-   * active child routes.
-   */
-  getData(): Observable<{ [key: string]: string }> {
-    return this.data$;
-  }
-
   protected findAllParam(
-    routes: ActivatedRouteSnapshot[],
-    key: keyof ActivatedRouteSnapshot = 'params'
+    routes: ActivatedRouteSnapshot[]
   ): {
     [key: string]: string;
   } {
-    return Object.assign({}, ...routes.map((route) => route[key]));
+    return Object.assign({}, ...routes.map((route) => route['params']));
   }
 }
