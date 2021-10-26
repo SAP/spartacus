@@ -17,4 +17,5 @@ export * from './base-storefront.module';
 export { BREAKPOINT } from './layout/config/layout-config';
 export { LAUNCH_CALLER } from './layout/launch-dialog/config/launch-config';
 export { ICON_TYPE } from './cms-components/misc/icon';
+export { OrderEntriesSource } from './cms-components/cart/order-entries-context/import-export.model';
 /** AUGMENTABLE_TYPES_END */

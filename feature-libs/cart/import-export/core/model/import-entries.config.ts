@@ -18,7 +18,7 @@ export interface FileValidity {
   // size unit is MB
   maxSize?: number;
   maxEntries?: {
-    [key in OrderEntriesSource]?: number;
+    [key in OrderEntriesSource | string]?: number;
   };
   allowedTypes?: string[];
 }
