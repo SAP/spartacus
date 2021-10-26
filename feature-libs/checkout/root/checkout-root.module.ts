@@ -5,6 +5,7 @@ import {
 } from '@spartacus/core';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
+import { CheckoutEventModule } from './events/checkout-event.module';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 
@@ -40,7 +41,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [],
+  imports: [CheckoutEventModule],
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultCheckoutRoutingConfig),

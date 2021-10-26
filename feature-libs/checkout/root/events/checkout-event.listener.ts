@@ -1,9 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-} from '@spartacus/checkout/root';
-import {
   DeleteUserAddressEvent,
   EventService,
   UpdateUserAddressEvent,
@@ -11,12 +7,18 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
+import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
+import {
+  DeliveryAddressSetEvent,
+  ResetDeliveryModesEvent,
+} from './checkout.events';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutEventListener implements OnDestroy {
-  protected subscription = new Subscription();
+  protected subscriptions = new Subscription();
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -24,6 +26,7 @@ export class CheckoutEventListener implements OnDestroy {
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
+    this.onDeliveryAddressChange();
   }
 
   /**
@@ -32,26 +35,36 @@ export class CheckoutEventListener implements OnDestroy {
    *
    * Listens for UpdateUserAddressEvent or DeleteUserAddressEvent
    */
-  protected onUserAddressChange() {
-    this.subscription.add(
+  protected onUserAddressChange(): void {
+    this.subscriptions.add(
       this.eventService
         .get(UserAddressEvent)
         .pipe(
-          filter((event) => {
-            return (
+          filter(
+            (event) =>
               event instanceof UpdateUserAddressEvent ||
               event instanceof DeleteUserAddressEvent
-            );
-          })
+          )
         )
-        .subscribe((_event) => {
+        .subscribe(() => {
+          // we want to LL the checkout (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
           this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
+
+          this.eventService.dispatch({}, ResetDeliveryModesEvent);
         })
     );
   }
 
+  protected onDeliveryAddressChange(): void {
+    this.subscriptions.add(
+      this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+      })
+    );
+  }
+
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

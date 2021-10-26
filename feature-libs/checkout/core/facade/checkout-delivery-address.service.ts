@@ -6,7 +6,6 @@ import {
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -14,13 +13,11 @@ import {
   Command,
   CommandService,
   CommandStrategy,
-  DeleteUserAddressEvent,
   EventService,
   OCC_USER_ID_ANONYMOUS,
   QueryService,
   QueryState,
   StateWithMultiCart,
-  UpdateUserAddressEvent,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
@@ -177,22 +174,11 @@ export class CheckoutDeliveryAddressService
     this.subscriptions.add(
       this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
         this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
       })
     );
     this.subscriptions.add(
       this.eventService.get(DeliveryAddressClearedEvent).subscribe(() => {
         this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
-    );
-    this.subscriptions.add(
-      this.eventService.get(UpdateUserAddressEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
-      })
-    );
-    this.subscriptions.add(
-      this.eventService.get(DeleteUserAddressEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
       })
     );
   }
