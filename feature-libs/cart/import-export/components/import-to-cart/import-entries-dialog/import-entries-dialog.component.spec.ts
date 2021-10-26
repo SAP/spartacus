@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import {
   OrderEntriesSource,
   IconTestingModule,
-  ImportContext,
+  AddOrderEntriesContext,
   KeyboardFocusTestingModule,
   LaunchDialogService,
   ProductData,
@@ -30,12 +30,12 @@ const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
-class MockImportContext implements Partial<ImportContext> {
+class MockAddOrderEntriesContext implements Partial<AddOrderEntriesContext> {
   addEntries = () => loadProducts$.asObservable();
 }
 
-const service: ImportContext =
-  new MockImportContext() as unknown as ImportContext;
+const service: AddOrderEntriesContext =
+  new MockAddOrderEntriesContext() as unknown as AddOrderEntriesContext;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {

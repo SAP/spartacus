@@ -9,16 +9,18 @@ import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 import { AddToWishListModule } from './add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
-import { ActiveCartImportExportContext } from './cart-page/active-cart-import-export-context.service';
+import { ActiveCartOrderEntriesContext } from './cart-page/active-cart-import-export-context.service';
 import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
-import { ExportContext } from './order-entries-context/export.context';
-import { ImportContext } from './order-entries-context/import.context';
+import { GetOrderEntriesContext } from './order-entries-context/export.context';
+import { AddOrderEntriesContext } from './order-entries-context/import.context';
 import { ORDER_ENTRIES_CONTEXT } from './order-entries-context/order-entires.context';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
 
-export type OrderEntriesContext = Partial<ImportContext & ExportContext>;
+export type OrderEntriesContext = Partial<
+  AddOrderEntriesContext & GetOrderEntriesContext
+>;
 
 @NgModule({
   imports: [
@@ -36,7 +38,7 @@ export type OrderEntriesContext = Partial<ImportContext & ExportContext>;
         data: {
           cxRoute: 'cart',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: ActiveCartImportExportContext,
+            [ORDER_ENTRIES_CONTEXT]: ActiveCartOrderEntriesContext,
           },
         },
       },

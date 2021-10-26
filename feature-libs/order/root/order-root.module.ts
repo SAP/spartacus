@@ -11,7 +11,7 @@ import {
   ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { OrderDetailsExportContextService } from './pages/order-details-export-context.service';
+import { OrderDetailsAddOrderEntriesContext } from './pages/order-details-export-context.service';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
@@ -67,7 +67,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'orderDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsExportContextService,
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsAddOrderEntriesContext,
           },
         },
       },

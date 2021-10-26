@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import {
   OrderEntriesSource,
-  ExportContext,
-  ImportContext,
+  GetOrderEntriesContext,
+  AddOrderEntriesContext,
   PageComponentModule,
   ProductData,
   ProductImportInfo,
@@ -20,7 +20,9 @@ const mockLoadProduct: ProductImportInfo = {
   statusCode: ProductImportStatus.SUCCESS,
 };
 
-class MockImportExportContext implements ImportContext, ExportContext {
+class MockImportExportContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
+{
   getEntries = () => entries$.asObservable();
   addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
   readonly type: OrderEntriesSource;
@@ -40,7 +42,7 @@ const mockEntries: OrderEntry[] = [
 const entries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
 
 const routerContextSubject = new BehaviorSubject<
-  Partial<ImportContext & ExportContext>
+  Partial<AddOrderEntriesContext & GetOrderEntriesContext>
 >(new MockImportExportContext());
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -55,7 +57,7 @@ export class MockImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  context: ImportContext | ExportContext;
+  context: AddOrderEntriesContext | GetOrderEntriesContext;
 }
 
 @Component({

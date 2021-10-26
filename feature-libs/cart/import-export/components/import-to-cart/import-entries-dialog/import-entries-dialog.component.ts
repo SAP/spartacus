@@ -3,7 +3,7 @@ import {
   OrderEntriesSource,
   FocusConfig,
   ICON_TYPE,
-  ImportContext,
+  AddOrderEntriesContext,
   LaunchDialogService,
   ProductData,
   ProductImportInfo,
@@ -38,13 +38,12 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  context$: Observable<ImportContext> = this.launchDialogService.data$.pipe(
-    pluck('context')
-  );
+  context$: Observable<AddOrderEntriesContext> =
+    this.launchDialogService.data$.pipe(pluck('context'));
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 
-  isNewCartForm(context: ImportContext) {
+  isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;
   }
 
@@ -53,7 +52,7 @@ export class ImportEntriesDialogComponent {
   }
 
   importProducts(
-    context: ImportContext,
+    context: AddOrderEntriesContext,
     {
       products,
       savedCartInfo,

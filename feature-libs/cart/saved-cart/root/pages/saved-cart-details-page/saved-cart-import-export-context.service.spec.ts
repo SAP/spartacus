@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { SavedCartImportExportContext } from './saved-cart-import-export-context.service';
+import { SavedCartOrderEntriesContext } from './saved-cart-import-export-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
@@ -68,8 +68,8 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
-describe('SavedCartImportExportContext', () => {
-  let service: SavedCartImportExportContext;
+describe('SavedCartOrderEntriesContext', () => {
+  let service: SavedCartOrderEntriesContext;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
@@ -85,7 +85,7 @@ describe('SavedCartImportExportContext', () => {
         { useClass: MockRoutingService, provide: RoutingService },
       ],
     });
-    service = TestBed.inject(SavedCartImportExportContext);
+    service = TestBed.inject(SavedCartOrderEntriesContext);
     multiCartService = TestBed.inject(MultiCartService);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);

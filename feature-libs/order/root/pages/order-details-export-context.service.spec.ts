@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OrderDetailsExportContextService } from './order-details-export-context.service';
+import { OrderDetailsAddOrderEntriesContext } from './order-details-export-context.service';
 import { OrderFacade } from '../facade/order.facade';
 import createSpy = jasmine.createSpy;
 
@@ -16,15 +16,15 @@ class MockUserOrderService implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
-describe('OrderDetailsExportContextService', () => {
-  let service: OrderDetailsExportContextService;
+describe('OrderDetailsAddOrderEntriesContext', () => {
+  let service: OrderDetailsAddOrderEntriesContext;
   let userOrderService: OrderFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ useClass: MockUserOrderService, provide: OrderFacade }],
     });
-    service = TestBed.inject(OrderDetailsExportContextService);
+    service = TestBed.inject(OrderDetailsAddOrderEntriesContext);
     userOrderService = TestBed.inject(OrderFacade);
   });
 

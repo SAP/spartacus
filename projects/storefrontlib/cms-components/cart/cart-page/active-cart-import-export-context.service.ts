@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartImportContext } from '../order-entries-context/cart-import.context';
-import { ExportContext } from '../order-entries-context/export.context';
+import { CartAddOrderEntriesContext } from '../order-entries-context/cart-import.context';
+import { GetOrderEntriesContext } from '../order-entries-context/export.context';
 import { OrderEntriesSource } from '../order-entries-context/import-export.model';
 import { ProductData } from '../order-entries-context/import-to-cart.model';
-import { ImportContext } from '../order-entries-context/import.context';
+import { AddOrderEntriesContext } from '../order-entries-context/import.context';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartImportExportContext
-  extends CartImportContext
-  implements ImportContext, ExportContext
+export class ActiveCartOrderEntriesContext
+  extends CartAddOrderEntriesContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.ACTIVE_CART;
 

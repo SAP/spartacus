@@ -5,7 +5,7 @@ import { ProductData, ProductImportInfo } from './import-to-cart.model';
 /**
  * An interface for context which determinate import products destination
  */
-export interface ImportContext {
+export interface AddOrderEntriesContext {
   /**
    * Designates the type of cart that we handle in the context.
    * It allows for recognize used service in better way than instanceof - will works also with overridden services.

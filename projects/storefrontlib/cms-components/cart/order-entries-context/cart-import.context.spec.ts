@@ -5,11 +5,11 @@ import { Observable, of, Subject } from 'rxjs';
 import { CartActions } from '@spartacus/core';
 import {
   OrderEntriesSource,
-  ImportContext,
+  AddOrderEntriesContext,
   ProductImportStatus,
   ProductData,
 } from '@spartacus/storefront';
-import { CartImportContext } from './cart-import.context';
+import { CartAddOrderEntriesContext } from './cart-import.context';
 
 const mockActionsSubject = new Subject<Action>();
 
@@ -24,9 +24,9 @@ const mockUserId = 'current';
 @Injectable({
   providedIn: 'root',
 })
-class TestCartImportExportContext
-  extends CartImportContext
-  implements ImportContext
+class TestCartOrderEntriesContext
+  extends CartAddOrderEntriesContext
+  implements AddOrderEntriesContext
 {
   constructor(protected actionsSubject: ActionsSubject) {
     super(actionsSubject);
@@ -39,14 +39,14 @@ class TestCartImportExportContext
   }
 }
 
-describe('CartImportExportContext', () => {
-  let service: TestCartImportExportContext;
+describe('CartOrderEntriesContext', () => {
+  let service: TestCartOrderEntriesContext;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ useValue: mockActionsSubject, provide: ActionsSubject }],
     });
-    service = TestBed.inject(TestCartImportExportContext);
+    service = TestBed.inject(TestCartOrderEntriesContext);
   });
 
   it('should be created', () => {

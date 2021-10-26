@@ -7,9 +7,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  CartImportContext,
+  CartAddOrderEntriesContext,
   OrderEntriesSource,
-  ImportContext,
+  AddOrderEntriesContext,
   ProductData,
   ProductImportInfo,
 } from '@spartacus/storefront';
@@ -28,9 +28,9 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class NewSavedCartImportContext
-  extends CartImportContext
-  implements ImportContext
+export class NewSavedCartAddOrderEntriesContext
+  extends CartAddOrderEntriesContext
+  implements AddOrderEntriesContext
 {
   readonly type = OrderEntriesSource.NEW_SAVED_CART;
 

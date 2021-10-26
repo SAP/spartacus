@@ -16,8 +16,8 @@ import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,
 } from './feature-name';
-import { SavedCartImportExportContext } from './pages/saved-cart-details-page/saved-cart-import-export-context.service';
-import { NewSavedCartImportContext } from './pages/saved-carts-page/new-saved-cart-import-context.service';
+import { SavedCartOrderEntriesContext } from './pages/saved-cart-details-page/saved-cart-import-export-context.service';
+import { NewSavedCartAddOrderEntriesContext } from './pages/saved-carts-page/new-saved-cart-import-context.service';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultCartSavedCartComponentsConfig(): CmsConfig {
@@ -50,7 +50,7 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'savedCartsDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: SavedCartImportExportContext,
+            [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContext,
           },
         },
       },
@@ -62,7 +62,7 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'savedCarts',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: NewSavedCartImportContext,
+            [ORDER_ENTRIES_CONTEXT]: NewSavedCartAddOrderEntriesContext,
           },
         },
       },

@@ -3,7 +3,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
-import { QuickOrderImportExportContext } from './quick-order-import-export-context.service';
+import { QuickOrderOrderEntriesContext } from './quick-order-import-export-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockProductData: ProductData[] = [
@@ -39,8 +39,8 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   canAdd = createSpy().and.returnValue(canAdd$.asObservable());
 }
 
-describe('QuickOrderImportExportContext', () => {
-  let service: QuickOrderImportExportContext;
+describe('QuickOrderOrderEntriesContext', () => {
+  let service: QuickOrderOrderEntriesContext;
   let quickOrderFacade: QuickOrderFacade;
   let productConnector: ProductConnector;
 
@@ -51,7 +51,7 @@ describe('QuickOrderImportExportContext', () => {
         { useClass: MockProductConnector, provide: ProductConnector },
       ],
     });
-    service = TestBed.inject(QuickOrderImportExportContext);
+    service = TestBed.inject(QuickOrderOrderEntriesContext);
     quickOrderFacade = TestBed.inject(QuickOrderFacade);
     productConnector = TestBed.inject(ProductConnector);
   });

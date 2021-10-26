@@ -5,8 +5,8 @@ import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
   OrderEntriesSource,
-  ExportContext,
-  ImportContext,
+  GetOrderEntriesContext,
+  AddOrderEntriesContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
@@ -16,8 +16,8 @@ import { QuickOrderFacade } from '../facade/quick-order.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderImportExportContext
-  implements ImportContext, ExportContext
+export class QuickOrderOrderEntriesContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.QUICK_ORDER;
 
