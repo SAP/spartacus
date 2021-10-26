@@ -104,7 +104,7 @@ class MockRoutingService {
   getContext = createSpy('getContext').and.returnValue(of(contextService));
 }
 
-describe('ExportEntriesComponent', () => {
+describe('ExportOrderEntriesComponent', () => {
   let component: ExportOrderEntriesComponent;
   let fixture: ComponentFixture<ExportOrderEntriesComponent>;
   let exportEntriesService: ExportProductsToCsvService;

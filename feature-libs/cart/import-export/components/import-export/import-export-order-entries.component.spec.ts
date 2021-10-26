@@ -53,7 +53,7 @@ class MockRoutingService implements Partial<RoutingService> {
   selector: 'cx-import-order-entries',
   template: '',
 })
-export class MockImportEntriesComponent {
+export class MockImportOrderEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
@@ -64,7 +64,7 @@ export class MockImportEntriesComponent {
   selector: 'cx-export-order-entries',
   template: '',
 })
-export class MockExportEntriesComponent {
+export class MockExportOrderEntriesComponent {
   @Input()
   entries: OrderEntry[];
 }
@@ -79,8 +79,8 @@ describe('ImportExportComponent', () => {
       providers: [{ provide: RoutingService, useClass: MockRoutingService }],
       declarations: [
         ImportExportOrderEntriesComponent,
-        MockExportEntriesComponent,
-        MockImportEntriesComponent,
+        MockExportOrderEntriesComponent,
+        MockImportOrderEntriesComponent,
       ],
     }).compileComponents();
   });

@@ -25,7 +25,7 @@ class MockRoutingService {
   getContext = createSpy('getContext').and.returnValue(of(contextService));
 }
 
-describe('ImportEntriesComponent', () => {
+describe('ImportOrderEntriesComponent', () => {
   let component: ImportOrderEntriesComponent;
   let fixture: ComponentFixture<ImportOrderEntriesComponent>;
   let launchDialogService: LaunchDialogService;
