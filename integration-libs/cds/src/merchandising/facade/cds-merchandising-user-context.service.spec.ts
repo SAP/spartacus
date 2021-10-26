@@ -41,8 +41,7 @@ class ProfileTagEventServiceStub {
   getConsentReference(): Observable<string> {
     return of();
   }
-  handleConsentWithdrawn(): void {
-  }
+  handleConsentWithdrawn(): void {}
 }
 class ProfileTagLifecycleServiceStub {
   consentChanged(): Observable<ConsentChangedPushEvent> {
