@@ -422,10 +422,7 @@ describe('Consent Changed', () => {
 
 describe('verifying X-Consent-Reference header addition to occ calls', () => {
   const X_CONSENT_REFERENCE_HEADER = 'x-consent-reference';
-  const productPage = checkoutFlow.waitForProductPage(
-    '280916',
-    'getProductPage'
-  );
+  let productPage;
 
   beforeEach(() => {
     cdsHelper.setUpMocks(strategyRequestAlias);
@@ -435,6 +432,10 @@ describe('verifying X-Consent-Reference header addition to occ calls', () => {
       },
     });
     profileTagHelper.waitForCMSComponents();
+    productPage = checkoutFlow.waitForProductPage(
+      '280916',
+      'getProductPage'
+    );
   });
 
   it('should not send CR header when consent is not granted initially', () => {
