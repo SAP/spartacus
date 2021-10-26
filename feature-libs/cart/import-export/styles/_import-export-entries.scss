@@ -1,4 +1,4 @@
-cx-import-export {
+cx-import-export-order-entries {
   display: flex;
   justify-content: start;
   margin: 1.5rem 0;
@@ -19,8 +19,8 @@ cx-import-export {
       }
     }
   }
-  cx-import-entries,
-  cx-export-entries {
+  cx-import-order-entries,
+  cx-export-order-entries {
     width: auto;
     margin: 0;
   }

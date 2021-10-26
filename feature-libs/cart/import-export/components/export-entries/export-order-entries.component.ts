@@ -10,11 +10,11 @@ import { switchMap } from 'rxjs/operators';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
-  selector: 'cx-export-entries',
-  templateUrl: './export-entries.component.html',
+  selector: 'cx-export-order-entries',
+  templateUrl: './export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExportEntriesComponent {
+export class ExportOrderEntriesComponent {
   constructor(
     protected exportEntriesService: ExportProductsToCsvService,
     protected contextService: ContextService

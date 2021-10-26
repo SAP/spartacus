@@ -10,7 +10,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { ExportEntriesComponent } from './export-entries.component';
+import { ExportOrderEntriesComponent } from './export-order-entries.component';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
 
@@ -104,9 +104,9 @@ class MockRoutingService {
   getContext = createSpy('getContext').and.returnValue(of(contextService));
 }
 
-describe('ExportEntriesComponent', () => {
-  let component: ExportEntriesComponent;
-  let fixture: ComponentFixture<ExportEntriesComponent>;
+describe('ExportOrderEntriesComponent', () => {
+  let component: ExportOrderEntriesComponent;
+  let fixture: ComponentFixture<ExportOrderEntriesComponent>;
   let exportEntriesService: ExportProductsToCsvService;
 
   beforeEach(() => {
@@ -126,12 +126,12 @@ describe('ExportEntriesComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-      declarations: [ExportEntriesComponent],
+      declarations: [ExportOrderEntriesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExportEntriesComponent);
+    fixture = TestBed.createComponent(ExportOrderEntriesComponent);
     component = fixture.componentInstance;
 
     exportEntriesService = TestBed.inject(ExportProductsToCsvService);

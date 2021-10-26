@@ -9,7 +9,7 @@ import {
 import { PageComponentModule } from '@spartacus/storefront';
 import { ExportEntriesModule } from '../export-entries';
 import { ImportToCartModule } from '../import-to-cart';
-import { ImportExportComponent } from './import-export.component';
+import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { ImportExportComponent } from './import-export.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportExportOrderEntriesComponent: {
-          component: ImportExportComponent,
+          component: ImportExportOrderEntriesComponent,
         },
       },
     }),
@@ -27,7 +27,7 @@ import { ImportExportComponent } from './import-export.component';
     ExportEntriesModule,
     CommonModule,
   ],
-  exports: [ImportExportComponent],
-  declarations: [ImportExportComponent],
+  exports: [ImportExportOrderEntriesComponent],
+  declarations: [ImportExportOrderEntriesComponent],
 })
 export class ImportExportComponentModule {}

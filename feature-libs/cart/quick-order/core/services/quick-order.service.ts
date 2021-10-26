@@ -36,9 +36,8 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
   protected hardDeleteTimeout = 5000;
-
   protected quickOrderListLimit = 0;
-  private clearDeleteTimeouts: Record<string, Subscription> = {};
+  protected clearDeleteTimeouts: Record<string, Subscription> = {};
 
   /**
    * @deprecated since version 4.2
@@ -274,7 +273,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     clearTimeout: boolean = true
   ): void {
     const deletedEntries = this.softDeletedEntries$.getValue();
-    const productCode = entry.product?.code;
+    const productCode = entry?.product?.code;
 
     if (productCode) {
       deletedEntries[productCode] = entry;
@@ -321,7 +320,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Add single entry to the list
    */
   protected addEntry(entry: OrderEntry): void {
-    const entries = this.entries$.getValue() || [];
     if (
       entry?.product?.code &&
       !this.isProductOnTheList(entry.product.code) &&
@@ -330,6 +328,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return;
     }
 
+    const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
     if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {

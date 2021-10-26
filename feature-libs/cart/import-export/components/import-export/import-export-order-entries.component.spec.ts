@@ -12,7 +12,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/storefront';
-import { ImportExportComponent } from './import-export.component';
+import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;
 
 const mockLoadProduct: ProductImportInfo = {
@@ -50,10 +50,10 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 @Component({
-  selector: 'cx-import-entries',
+  selector: 'cx-import-order-entries',
   template: '',
 })
-export class MockImportEntriesComponent {
+export class MockImportOrderEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
@@ -61,32 +61,32 @@ export class MockImportEntriesComponent {
 }
 
 @Component({
-  selector: 'cx-export-entries',
+  selector: 'cx-export-order-entries',
   template: '',
 })
-export class MockExportEntriesComponent {
+export class MockExportOrderEntriesComponent {
   @Input()
   entries: OrderEntry[];
 }
 
 describe('ImportExportComponent', () => {
-  let component: ImportExportComponent;
-  let fixture: ComponentFixture<ImportExportComponent>;
+  let component: ImportExportOrderEntriesComponent;
+  let fixture: ComponentFixture<ImportExportOrderEntriesComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PageComponentModule],
       providers: [{ provide: RoutingService, useClass: MockRoutingService }],
       declarations: [
-        ImportExportComponent,
-        MockExportEntriesComponent,
-        MockImportEntriesComponent,
+        ImportExportOrderEntriesComponent,
+        MockExportOrderEntriesComponent,
+        MockImportOrderEntriesComponent,
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImportExportComponent);
+    fixture = TestBed.createComponent(ImportExportOrderEntriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
