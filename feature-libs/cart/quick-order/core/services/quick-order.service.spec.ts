@@ -427,21 +427,23 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should verify can add product', () => {
-    let result: boolean;
-    service.setListLimit(1);
-    service.addProduct(mockProduct1);
+  describe('canAdd', () => {
+    it('should verify can add a product which already exists even list limit reached', () => {
+      let result: boolean;
+      service.setListLimit(1);
+      service.addProduct(mockProduct1);
 
-    service.canAdd(mockProduct1Code).subscribe((canAdd) => (result = canAdd));
-    expect(result).toBe(true);
-  });
+      service.canAdd(mockProduct1Code).subscribe((canAdd) => (result = canAdd));
+      expect(result).toBe(true);
+    });
 
-  it('should verify can not add product', () => {
-    let result: boolean;
-    service.setListLimit(1);
-    service.addProduct(mockProduct1);
+    it('should verify cannot add next product because of limit', () => {
+      let result: boolean;
+      service.setListLimit(1);
+      service.addProduct(mockProduct1);
 
-    service.canAdd(mockProduct2Code).subscribe((canAdd) => (result = canAdd));
-    expect(result).toBe(false);
+      service.canAdd(mockProduct2Code).subscribe((canAdd) => (result = canAdd));
+      expect(result).toBe(false);
+    });
   });
 });
