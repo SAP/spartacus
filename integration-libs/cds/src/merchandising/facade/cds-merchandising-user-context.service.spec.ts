@@ -6,9 +6,6 @@ import {
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
-  ConsentService,
-  AnonymousConsent,
-  Consent,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,10 +16,17 @@ import {
 } from './../connectors/strategy/converters';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
-import { CdsConfig } from '../../config';
+import {
+  ConsentChangedPushEvent,
+  ProfileTagLifecycleService,
+} from '@spartacus/cds';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
+const consentNotGrantedEvent: ConsentChangedPushEvent =
+  new ConsentChangedPushEvent(false);
+const consentGrantedEvent: ConsentChangedPushEvent =
+  new ConsentChangedPushEvent(true);
 class RoutingServiceStub {
   getPageContext(): Observable<PageContext> {
     return of();
@@ -37,30 +41,21 @@ class ProfileTagEventServiceStub {
   getConsentReference(): Observable<string> {
     return of();
   }
-}
-class ConsentServiceStub {
-  getConsent(): Observable<AnonymousConsent | Consent> {
-    return of({});
-  }
-
-  isConsentGiven(): boolean {
-    return false;
+  handleConsentWithdrawn(): void {
   }
 }
-
+class ProfileTagLifecycleServiceStub {
+  consentChanged(): Observable<ConsentChangedPushEvent> {
+    return of(consentNotGrantedEvent);
+  }
+}
 describe('CdsMerchandisingUserContextService', () => {
   let cdsMerchandisingUserContextService: CdsMerchandisingUserContextService;
   let routingService: RoutingService;
   let productSearchService: ProductSearchService;
   let converterService: ConverterService;
   let profileTagEventService: ProfileTagEventService;
-  let consentService: ConsentService;
-
-  const mockCdsConfig: CdsConfig = {
-    cds: {
-      consentTemplateId: 'PROFILE',
-    },
-  };
+  let profileTagLifecycleService: ProfileTagLifecycleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,12 +77,8 @@ describe('CdsMerchandisingUserContextService', () => {
           useClass: ProfileTagEventServiceStub,
         },
         {
-          provide: ConsentService,
-          useClass: ConsentServiceStub,
-        },
-        {
-          provide: CdsConfig,
-          useValue: mockCdsConfig,
+          provide: ProfileTagLifecycleService,
+          useClass: ProfileTagLifecycleServiceStub,
         },
       ],
     });
@@ -98,7 +89,7 @@ describe('CdsMerchandisingUserContextService', () => {
     productSearchService = TestBed.inject(ProductSearchService);
     converterService = TestBed.inject(ConverterService);
     profileTagEventService = TestBed.inject(ProfileTagEventService);
-    consentService = TestBed.inject(ConsentService);
+    profileTagLifecycleService = TestBed.inject(ProfileTagLifecycleService);
   });
 
   it('should be created', () => {
@@ -137,8 +128,9 @@ describe('CdsMerchandisingUserContextService', () => {
     spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
       of(consentReference)
     );
-    spyOn(consentService, 'isConsentGiven').and.returnValue(true);
-
+    spyOn(profileTagLifecycleService, 'consentChanged').and.returnValue(
+      of(consentGrantedEvent)
+    );
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()

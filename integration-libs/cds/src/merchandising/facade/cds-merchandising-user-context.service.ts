@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
   Breadcrumb,
-  ConsentService,
   ConverterService,
   PageContext,
   PageType,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, merge, Observable } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -23,19 +22,38 @@ import {
 } from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
-import { CdsConfig } from '../../config';
+import { ProfileTagLifecycleService } from '../../profiletag/services';
+import { ConsentChangedPushEvent } from '../../profiletag/model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CdsMerchandisingUserContextService {
+  // TODO: Remove deprecated constructors
+  constructor(
+    routingService: RoutingService,
+    productSearchService: ProductSearchService,
+    converterService: ConverterService,
+    profileTagEventService: ProfileTagEventService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    profileTagLifecycleService?: ProfileTagLifecycleService
+  );
+  /**
+   * @deprecated since 4.2
+   */
+  constructor(
+    routingService: RoutingService,
+    productSearchService: ProductSearchService,
+    converterService: ConverterService,
+    profileTagEventService: ProfileTagEventService
+  );
+
   constructor(
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
     private converterService: ConverterService,
     private profileTagEventService: ProfileTagEventService,
-    private config: CdsConfig,
-    private consentService: ConsentService
+    @Optional() private profileTagLifecycleService?: ProfileTagLifecycleService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
@@ -66,24 +84,18 @@ export class CdsMerchandisingUserContextService {
   }
 
   private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
-    return this.consentService
-      .getConsent(this.config.cds.consentTemplateId)
-      .pipe(
-        switchMap((profileConsent) => {
-          if (this.consentService.isConsentGiven(profileConsent)) {
-            return this.profileTagEventService.getConsentReference().pipe(
-              distinctUntilChanged(),
-              map((consentReference) => ({ consentReference }))
-            );
-          } else {
-            return this.profileTagEventService.getConsentReference().pipe(
-              startWith(''),
-              distinctUntilChanged(),
-              map((consentReference) => ({ consentReference }))
-            );
-          }
-        })
-      );
+    return this.profileTagLifecycleService.consentChanged().pipe(
+      switchMap((changed: ConsentChangedPushEvent) => {
+        if (changed.data.granted) {
+          return this.profileTagEventService
+            .getConsentReference()
+            .pipe(map((consentReference) => ({ consentReference })));
+        } else {
+          this.profileTagEventService.handleConsentWithdrawn();
+          return of({ consentReference: '' });
+        }
+      })
+    );
   }
 
   private getFacetsContext(): Observable<MerchandisingUserContext> {
