@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Address, TranslationService } from '@spartacus/core';
+import { Address, GlobalMessageService, GlobalMessageType, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -21,7 +21,8 @@ export class AddressBookComponent implements OnInit {
 
   constructor(
     public service: AddressBookComponentService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +109,10 @@ export class AddressBookComponent implements OnInit {
 
   setAddressAsDefault(addressId: string): void {
     this.service.setAddressAsDefault(addressId);
+    this.globalMessageService?.add(
+      { key: 'messages.setAsDefaultSucessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   deleteAddress(addressId: string): void {
