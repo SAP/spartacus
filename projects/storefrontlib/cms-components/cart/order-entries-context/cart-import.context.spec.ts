@@ -4,7 +4,7 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { CartActions } from '@spartacus/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   ImportContext,
   ProductImportStatus,
   ProductData,
@@ -32,7 +32,7 @@ class TestCartImportExportContext
     super(actionsSubject);
   }
 
-  readonly type = 'TEST_CART' as CartTypes;
+  readonly type = 'TEST_CART' as OrderEntriesSource;
 
   protected add(_products: ProductData[]): Observable<string> {
     return of(mockCartId);

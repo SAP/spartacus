@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
 import { OrderEntry, RoutingService } from '@spartacus/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   ExportContext,
   ImportContext,
   PageComponentModule,
@@ -23,7 +23,7 @@ const mockLoadProduct: ProductImportInfo = {
 class MockImportExportContext implements ImportContext, ExportContext {
   getEntries = () => entries$.asObservable();
   addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
-  readonly type: CartTypes;
+  readonly type: OrderEntriesSource;
 }
 
 const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(

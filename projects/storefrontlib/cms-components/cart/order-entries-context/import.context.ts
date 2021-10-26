@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { CartTypes } from './import-export.model';
+import { OrderEntriesSource } from './import-export.model';
 import { ProductData, ProductImportInfo } from './import-to-cart.model';
 
 /**
@@ -10,7 +10,7 @@ export interface ImportContext {
    * Designates the type of cart that we handle in the context.
    * It allows for recognize used service in better way than instanceof - will works also with overridden services.
    */
-  readonly type: CartTypes;
+  readonly type: OrderEntriesSource;
   /**
    * Process products data to import destination.
    *

@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   CartImportContext,
-  CartTypes,
+  OrderEntriesSource,
   ExportContext,
   ImportContext,
   ProductData,
@@ -25,7 +25,7 @@ export class SavedCartImportExportContext
   extends CartImportContext
   implements ImportContext, ExportContext
 {
-  readonly type = CartTypes.SAVED_CART;
+  readonly type = OrderEntriesSource.SAVED_CART;
 
   constructor(
     protected actionsSubject: ActionsSubject,

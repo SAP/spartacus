@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   IconTestingModule,
   ImportContext,
   KeyboardFocusTestingModule,
@@ -51,7 +51,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 })
 class MockImportEntriesFormComponent {
   @Input()
-  type: CartTypes;
+  type: OrderEntriesSource;
 }
 
 describe('ImportEntriesDialogComponent', () => {

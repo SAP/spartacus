@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   FilesFormValidators,
   FormUtils,
   ImportCsvFileService,
@@ -38,7 +38,7 @@ export class ImportEntriesFormComponent implements OnInit {
   }>();
 
   @Input()
-  type: CartTypes;
+  type: OrderEntriesSource;
 
   constructor(
     protected launchDialogService: LaunchDialogService,

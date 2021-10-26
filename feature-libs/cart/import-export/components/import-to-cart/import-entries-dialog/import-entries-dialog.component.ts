@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   FocusConfig,
   ICON_TYPE,
   ImportContext,
@@ -45,7 +45,7 @@ export class ImportEntriesDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: ImportContext) {
-    return context.type === CartTypes.NEW_SAVED_CART;
+    return context.type === OrderEntriesSource.NEW_SAVED_CART;
   }
 
   close(reason: string): void {

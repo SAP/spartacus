@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import {
   CartImportContext,
-  CartTypes,
+  OrderEntriesSource,
   ImportContext,
   ProductData,
   ProductImportInfo,
@@ -32,7 +32,7 @@ export class NewSavedCartImportContext
   extends CartImportContext
   implements ImportContext
 {
-  readonly type = CartTypes.NEW_SAVED_CART;
+  readonly type = OrderEntriesSource.NEW_SAVED_CART;
 
   constructor(
     protected actionsSubject: ActionsSubject,

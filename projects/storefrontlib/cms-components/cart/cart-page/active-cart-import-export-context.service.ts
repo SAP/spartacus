@@ -4,7 +4,7 @@ import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CartImportContext } from '../order-entries-context/cart-import.context';
 import { ExportContext } from '../order-entries-context/export.context';
-import { CartTypes } from '../order-entries-context/import-export.model';
+import { OrderEntriesSource } from '../order-entries-context/import-export.model';
 import { ProductData } from '../order-entries-context/import-to-cart.model';
 import { ImportContext } from '../order-entries-context/import.context';
 
@@ -15,7 +15,7 @@ export class ActiveCartImportExportContext
   extends CartImportContext
   implements ImportContext, ExportContext
 {
-  readonly type = CartTypes.ACTIVE_CART;
+  readonly type = OrderEntriesSource.ACTIVE_CART;
 
   constructor(
     protected actionsSubject: ActionsSubject,

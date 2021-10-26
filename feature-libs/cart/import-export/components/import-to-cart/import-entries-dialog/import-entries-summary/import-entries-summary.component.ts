@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   ICON_TYPE,
   ProductImportSummary,
 } from '@spartacus/storefront';
@@ -18,7 +18,7 @@ import {
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
-  cartTypes = CartTypes;
+  orderEntriesSource = OrderEntriesSource;
 
   warningDetailsOpened: boolean = false;
   errorDetailsOpened: boolean = false;

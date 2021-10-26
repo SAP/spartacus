@@ -1,4 +1,4 @@
-import { CartTypes } from '@spartacus/storefront';
+import { OrderEntriesSource } from '@spartacus/storefront';
 
 export enum CartNameSource {
   FILE_NAME = 'fileName',
@@ -18,7 +18,7 @@ export interface FileValidity {
   // size unit is MB
   maxSize?: number;
   maxEntries?: {
-    [key in CartTypes]?: number;
+    [key in OrderEntriesSource]?: number;
   };
   allowedTypes?: string[];
 }

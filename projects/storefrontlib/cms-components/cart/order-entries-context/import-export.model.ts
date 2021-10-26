@@ -1,4 +1,4 @@
-export enum CartTypes {
+export enum OrderEntriesSource {
   ACTIVE_CART = 'ACTIVE_CART',
   NEW_SAVED_CART = 'NEW_SAVED_CART',
   QUICK_ORDER = 'QUICK_ORDER',

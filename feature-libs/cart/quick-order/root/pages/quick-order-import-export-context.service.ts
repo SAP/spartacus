@@ -4,7 +4,7 @@ import { forkJoin, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
-  CartTypes,
+  OrderEntriesSource,
   ExportContext,
   ImportContext,
   ProductData,
@@ -19,7 +19,7 @@ import { QuickOrderFacade } from '../facade/quick-order.facade';
 export class QuickOrderImportExportContext
   implements ImportContext, ExportContext
 {
-  readonly type = CartTypes.QUICK_ORDER;
+  readonly type = OrderEntriesSource.QUICK_ORDER;
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
