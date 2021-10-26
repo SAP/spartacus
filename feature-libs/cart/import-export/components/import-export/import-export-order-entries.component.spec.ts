@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
-import { OrderEntry, RoutingService } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import {
   OrderEntriesSource,
   GetOrderEntriesContext,
@@ -11,6 +11,7 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
+  ContextService,
 } from '@spartacus/storefront';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;
@@ -41,12 +42,12 @@ const mockEntries: OrderEntry[] = [
 
 const entries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
 
-const routerContextSubject = new BehaviorSubject<
+const importExportContext = new BehaviorSubject<
   Partial<AddOrderEntriesContext & GetOrderEntriesContext>
 >(new MockImportExportContext());
 
-class MockRoutingService implements Partial<RoutingService> {
-  getContext = createSpy().and.returnValue(routerContextSubject.asObservable());
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(importExportContext.asObservable());
 }
 
 @Component({
@@ -76,7 +77,7 @@ describe('ImportExportComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PageComponentModule],
-      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
+      providers: [{ provide: ContextService, useClass: MockContextService }],
       declarations: [
         ImportExportOrderEntriesComponent,
         MockExportOrderEntriesComponent,

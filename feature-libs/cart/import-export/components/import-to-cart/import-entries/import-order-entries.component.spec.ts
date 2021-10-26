@@ -1,8 +1,12 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  ContextService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportOrderEntriesComponent } from './import-order-entries.component';
 import createSpy = jasmine.createSpy;
@@ -15,14 +19,14 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {}
 }
 
-class ContextService {
-  getEntries = createSpy('addEntries');
+class MockImportExportContext {
+  addEntries = createSpy('addEntries');
 }
 
-const contextService = new ContextService();
+const contextService = new MockImportExportContext();
 
-class MockRoutingService {
-  getContext = createSpy('getContext').and.returnValue(of(contextService));
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
 }
 
 describe('ImportOrderEntriesComponent', () => {
@@ -38,8 +42,8 @@ describe('ImportOrderEntriesComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: ContextService,
+          useClass: MockContextService,
         },
       ],
     }).compileComponents();
@@ -64,7 +68,7 @@ describe('ImportOrderEntriesComponent', () => {
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
-      { context: contextService }
+      { orderEntriesContext: contextService }
     );
   });
 
