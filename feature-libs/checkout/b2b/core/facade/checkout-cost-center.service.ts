@@ -1,14 +1,9 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CostCenterSetEvent,
 } from '@spartacus/checkout/b2b/root';
-import {
-  CheckoutDeliveryAddressFacade,
-  CheckoutQueryFacade,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
-} from '@spartacus/checkout/root';
+import { CheckoutQueryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Cart,
@@ -20,16 +15,12 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
 
 @Injectable()
-export class CheckoutCostCenterService
-  implements CheckoutCostCenterFacade, OnDestroy
-{
-  protected subscriptions = new Subscription();
-
+export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   protected setCostCenterCommand: Command<string, Cart> = this.command.create<
     string,
     Cart
@@ -52,8 +43,7 @@ export class CheckoutCostCenterService
           return this.checkoutCostCenterConnector
             .setCostCenter(userId, cartId, payload)
             .pipe(
-              tap(() => {
-                this.checkoutDeliveryAddressService.clearCheckoutDeliveryAddress();
+              tap(() =>
                 this.eventService.dispatch(
                   {
                     cartId,
@@ -61,8 +51,8 @@ export class CheckoutCostCenterService
                     code: payload,
                   },
                   CostCenterSetEvent
-                );
-              })
+                )
+              )
             );
         })
       );
@@ -77,21 +67,9 @@ export class CheckoutCostCenterService
     protected userIdService: UserIdService,
     protected command: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutQueryService: CheckoutQueryFacade,
     protected eventService: EventService
-  ) {
-    this.registerResetTriggers();
-  }
-
-  protected registerResetTriggers(): void {
-    this.subscriptions.add(
-      this.eventService.get(CostCenterSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
-      })
-    );
-  }
+  ) {}
 
   /**
    * Set cost center to cart
@@ -111,9 +89,5 @@ export class CheckoutCostCenterService
         data: state?.data?.costCenter?.code,
       }))
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

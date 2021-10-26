@@ -76,6 +76,13 @@ export class DeliveryAddressSetEvent extends CheckoutEvent {
   address: Address;
 }
 
+export class ClearCheckoutDeliveryAddressEvent extends CheckoutEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ClearCheckoutDeliveryAddressEvent';
+}
+
 export class DeliveryModeSetEvent extends CheckoutEvent {
   /**
    * Event's type

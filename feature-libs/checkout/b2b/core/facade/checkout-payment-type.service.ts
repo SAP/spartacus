@@ -1,13 +1,9 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CheckoutPaymentTypeFacade,
   PaymentTypeSetEvent,
 } from '@spartacus/checkout/b2b/root';
-import {
-  CheckoutQueryFacade,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
-} from '@spartacus/checkout/root';
+import { CheckoutQueryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
@@ -27,16 +23,12 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/payment-type/checkout-payment-type.connector';
 
 @Injectable()
-export class CheckoutPaymentTypeService
-  implements CheckoutPaymentTypeFacade, OnDestroy
-{
-  protected subscription = new Subscription();
-
+export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   protected getPaymentTypesQueryReloadEvents(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
@@ -82,7 +74,7 @@ export class CheckoutPaymentTypeService
               purchaseOrderNumber
             )
             .pipe(
-              tap(() => {
+              tap(() =>
                 this.eventService.dispatch(
                   {
                     userId,
@@ -91,8 +83,8 @@ export class CheckoutPaymentTypeService
                     purchaseOrderNumber,
                   },
                   PaymentTypeSetEvent
-                );
-              })
+                )
+              )
             );
         })
       );
@@ -110,18 +102,7 @@ export class CheckoutPaymentTypeService
     protected paymentTypeConnector: CheckoutPaymentTypeConnector,
     protected eventService: EventService,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {
-    this.registerResetTriggers();
-  }
-
-  registerResetTriggers(): void {
-    this.subscription.add(
-      this.eventService.get(PaymentTypeSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
-      })
-    );
-  }
+  ) {}
 
   /**
    * Get payment types
@@ -175,9 +156,5 @@ export class CheckoutPaymentTypeService
       .pipe(
         map((state) => ({ ...state, data: state.data?.purchaseOrderNumber }))
       );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

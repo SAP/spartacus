@@ -4,6 +4,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
+import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';
 import {
   CHECKOUT_B2B_CORE_FEATURE,
   CHECKOUT_B2B_FEATURE,
@@ -28,7 +29,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [],
+  imports: [CheckoutB2BEventModule],
   providers: [
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),

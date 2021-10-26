@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
+  ClearCheckoutDeliveryAddressEvent,
   DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
   ResetCheckoutQueryEvent,
@@ -65,9 +66,19 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
 
     this.subscriptions.add(
-      this.eventService.get(DeliveryAddressClearedEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
+      this.eventService
+        .get(DeliveryAddressClearedEvent)
+        .subscribe(() =>
+          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+        )
+    );
+
+    this.subscriptions.add(
+      this.eventService
+        .get(ClearCheckoutDeliveryAddressEvent)
+        .subscribe(() =>
+          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
+        )
     );
   }
 
