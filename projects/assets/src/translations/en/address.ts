@@ -64,4 +64,7 @@ export const address = {
     editAddress: 'Edit address',
     saveAddress: 'Save address',
   },
+  messages: {
+    setAsDefaultSucessfully: 'You have successfully set the address as default'
+  },
 };
