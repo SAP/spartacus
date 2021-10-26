@@ -112,10 +112,6 @@ export interface UserState {
    */
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   regions: StateUtils.LoaderState<RegionsState>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;

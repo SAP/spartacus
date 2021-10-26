@@ -38,7 +38,6 @@ import {
   USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
-import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
@@ -88,7 +87,6 @@ export function getReducers(): ActionReducerMap<UserState> {
     ),
     countries: fromDeliveryCountries.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
-    consignmentTracking: fromConsignmentTrackingReducer.reducer,
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
       CUSTOMER_COUPONS,
       fromCustomerCouponReducer.reducer
