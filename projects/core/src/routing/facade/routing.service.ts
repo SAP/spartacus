@@ -48,6 +48,12 @@ export class RoutingService {
     return this.routingParamsService?.getData();
   }
 
+  /**
+   * Get the specified `contextKey` from `cxContent` data parameter of the full route.
+   * @param contextKey
+   *
+   * @returns instance from the injector if defined, otherwise `undefined`.
+   */
   getContext<T>(contextKey: string | symbol): Observable<T | undefined> {
     return this.getData().pipe(
       map((data) => {
