@@ -6,9 +6,9 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Card } from '../card/card.component';
 
 @Component({
   selector: 'cx-order-overview',
@@ -48,14 +48,14 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentStartOnCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.startOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
@@ -70,14 +70,16 @@ export class OrderOverviewComponent {
     );
   }
 
-  getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
+  getReplenishmentNextDateCardContent(
+    isoDate: string | null
+  ): Observable<Card> {
     return this.translation.translate('orderDetails.nextOrderDate').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
@@ -92,14 +94,14 @@ export class OrderOverviewComponent {
     );
   }
 
-  getOrderCurrentDateCardContent(isoDate: string): Observable<Card> {
+  getOrderCurrentDateCardContent(isoDate: string | null): Observable<Card> {
     return this.translation.translate('orderDetails.placedOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         return {
           title: textTitle,
           text: [isoDate],
-        };
+        } as Card;
       })
     );
   }
@@ -159,14 +161,14 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
         const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress
+          deliveryAddress.formattedAddress ?? ''
         );
 
         return {
           title: textTitle,
           textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [formattedAddress, deliveryAddress.country.name],
-        };
+          text: [formattedAddress, deliveryAddress.country?.name],
+        } as Card;
       })
     );
   }
@@ -174,16 +176,19 @@ export class OrderOverviewComponent {
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('orderDetails.shippingMethod').pipe(
       filter(() => Boolean(deliveryMode)),
-      map((textTitle) => ({
-        title: textTitle,
-        textBold: deliveryMode.name,
-        text: [
-          deliveryMode.description,
-          deliveryMode.deliveryCost?.formattedValue
-            ? deliveryMode.deliveryCost?.formattedValue
-            : '',
-        ],
-      }))
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            textBold: deliveryMode.name,
+            text: [
+              deliveryMode.description,
+              deliveryMode.deliveryCost?.formattedValue
+                ? deliveryMode.deliveryCost?.formattedValue
+                : '',
+            ],
+          } as Card)
+      )
     );
   }
 
@@ -196,22 +201,31 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
-      map(([textTitle, textExpires]) => ({
-        title: textTitle,
-        textBold: payment.accountHolderName,
-        text: [payment.cardNumber, textExpires],
-      }))
+      map(
+        ([textTitle, textExpires]) =>
+          ({
+            title: textTitle,
+            textBold: payment.accountHolderName,
+            text: [payment.cardNumber, textExpires],
+          } as Card)
+      )
     );
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
-      map((textTitle) => ({
-        title: textTitle,
-        textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-        text: [billingAddress.formattedAddress, billingAddress.country.name],
-      }))
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
+            text: [
+              billingAddress.formattedAddress,
+              billingAddress.country?.name,
+            ],
+          } as Card)
+      )
     );
   }
 

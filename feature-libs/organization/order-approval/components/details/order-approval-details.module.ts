@@ -55,7 +55,6 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
         AccountOrderDetailsApprovalDetailsComponent: {
           component: OrderDetailPermissionResultsComponent,
         },
-
         OrderApprovalDetailShippingComponent: {
           component: OrderDetailShippingComponent,
           providers: [
