@@ -8,9 +8,10 @@ import {
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
-import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import {
+  DeliveryAddressClearedEvent,
   DeliveryAddressSetEvent,
+  ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
 } from './checkout.events';
 
@@ -22,7 +23,6 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
@@ -49,7 +49,6 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
         .subscribe(() => {
           // we want to LL the checkout (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
 
           this.eventService.dispatch({}, ResetDeliveryModesEvent);
         })
@@ -60,6 +59,14 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
         this.eventService.dispatch({}, ResetDeliveryModesEvent);
+
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+      })
+    );
+
+    this.subscriptions.add(
+      this.eventService.get(DeliveryAddressClearedEvent).subscribe(() => {
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
       })
     );
   }

@@ -1,11 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -26,16 +25,12 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
 
 @Injectable()
-export class CheckoutPaymentService
-  implements CheckoutPaymentFacade, OnDestroy
-{
-  protected subscriptions = new Subscription();
-
+export class CheckoutPaymentService implements CheckoutPaymentFacade {
   protected getCardTypesReloadTriggers(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
@@ -142,22 +137,7 @@ export class CheckoutPaymentService
     protected eventService: EventService,
     protected checkoutPaymentConnector: CheckoutPaymentConnector,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {
-    this.registerResetTriggers();
-  }
-
-  protected registerResetTriggers(): void {
-    this.subscriptions.add(
-      this.eventService.get(PaymentDetailsCreatedEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
-    );
-    this.subscriptions.add(
-      this.eventService.get(PaymentDetailsSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
-    );
-  }
+  ) {}
 
   /**
    * Get card types
@@ -189,9 +169,5 @@ export class CheckoutPaymentService
    */
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.setPaymentMethodCommand.execute(paymentDetails);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

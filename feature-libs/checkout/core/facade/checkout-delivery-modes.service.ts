@@ -1,13 +1,11 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
-  DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
   ReloadDeliveryModesEvent,
-  ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
 } from '@spartacus/checkout/root';
 import {
@@ -30,15 +28,14 @@ import {
   StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
 export class CheckoutDeliveryModesService
-  implements CheckoutDeliveryModesFacade, OnDestroy
+  implements CheckoutDeliveryModesFacade
 {
-  protected subscription = new Subscription();
   protected retrySupportedDeliveryModes$: Subject<boolean> =
     new Subject<boolean>();
 
@@ -200,31 +197,7 @@ export class CheckoutDeliveryModesService
     protected command: CommandService,
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
     protected checkoutQuery: CheckoutQueryFacade
-  ) {
-    this.registerResetTriggers();
-  }
-
-  protected registerResetTriggers(): void {
-    this.subscription.add(
-      this.eventService
-        .get(DeliveryAddressSetEvent)
-        .subscribe(() => this.clearCheckoutDeliveryMode())
-    );
-    this.subscription.add(
-      this.eventService
-        .get(DeliveryModeSetEvent)
-        .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
-        )
-    );
-    this.subscription.add(
-      this.eventService
-        .get(DeliveryModeClearedEvent)
-        .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
-        )
-    );
-  }
+  ) {}
 
   /**
    * Get supported delivery modes
@@ -269,9 +242,5 @@ export class CheckoutDeliveryModesService
    */
   clearCheckoutDeliveryMode(): Observable<unknown> {
     return this.clearDeliveryModeCommand.execute();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
