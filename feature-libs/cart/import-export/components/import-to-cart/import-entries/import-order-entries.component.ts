@@ -31,11 +31,11 @@ export class ImportOrderEntriesComponent {
     OrderEntriesContext | undefined
   > = this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
-  openDialog(context: OrderEntriesContext): void {
+  openDialog(orderEntriesContext: OrderEntriesContext): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      { context }
+      { orderEntriesContext }
     );
   }
 }
