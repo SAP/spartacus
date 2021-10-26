@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
-import {
-  ProductData,
-  QuickOrderImportExportContext,
-} from '@spartacus/cart/import-export/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { ProductData } from '@spartacus/storefront';
+import { QuickOrderFacade } from '../facade/quick-order.facade';
+import { QuickOrderOrderEntriesContext } from './quick-order-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockProductData: ProductData[] = [
@@ -41,8 +39,8 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   canAdd = createSpy().and.returnValue(canAdd$.asObservable());
 }
 
-describe('QuickOrderImportExportContext', () => {
-  let service: QuickOrderImportExportContext;
+describe('QuickOrderOrderEntriesContext', () => {
+  let service: QuickOrderOrderEntriesContext;
   let quickOrderFacade: QuickOrderFacade;
   let productConnector: ProductConnector;
 
@@ -53,7 +51,7 @@ describe('QuickOrderImportExportContext', () => {
         { useClass: MockProductConnector, provide: ProductConnector },
       ],
     });
-    service = TestBed.inject(QuickOrderImportExportContext);
+    service = TestBed.inject(QuickOrderOrderEntriesContext);
     quickOrderFacade = TestBed.inject(QuickOrderFacade);
     productConnector = TestBed.inject(ProductConnector);
   });
@@ -79,6 +77,7 @@ describe('QuickOrderImportExportContext', () => {
 
   describe('addEntries', () => {
     it('should add entries to quick order', () => {
+      canAdd$.next(true);
       service.addEntries(mockProductData).subscribe();
 
       expect(productConnector.get).toHaveBeenCalledTimes(
@@ -101,6 +100,13 @@ describe('QuickOrderImportExportContext', () => {
         products['232133'],
         mockProductData[1].quantity
       );
+    });
+
+    it('should not add entries due to limit', () => {
+      canAdd$.next(false);
+      service.addEntries(mockProductData).subscribe();
+
+      expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
     });
   });
 });

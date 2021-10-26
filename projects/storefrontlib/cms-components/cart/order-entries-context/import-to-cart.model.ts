@@ -1,18 +1,7 @@
-import { CartTypes } from './import-export.model';
-
 export type ProductData = {
   productCode: string;
   quantity: number;
 };
-
-export interface FileValidity {
-  // size unit is MB
-  maxSize?: number;
-  maxEntries?: {
-    [key in CartTypes]?: number;
-  };
-  allowedTypes?: string[];
-}
 
 export enum ProductImportStatus {
   SUCCESS = 'success',
@@ -39,23 +28,4 @@ export interface ProductImportSummary {
   successesCount: number;
   warningMessages: ProductImportInfo[];
   errorMessages: ProductImportInfo[];
-}
-
-export enum CartNameSource {
-  FILE_NAME = 'fileName',
-  DATE_TIME = 'dateTime',
-}
-
-export interface CartNameGeneration {
-  source?: CartNameSource;
-  fromDateOptions?: {
-    prefix?: string;
-    suffix?: string;
-    mask?: string;
-  };
-}
-
-export interface ImportConfig {
-  fileValidity?: FileValidity;
-  cartNameGeneration?: CartNameGeneration;
 }

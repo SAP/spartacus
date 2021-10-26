@@ -1,12 +1,14 @@
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector, ProviderToken } from '@angular/core';
 import {
+  Data,
   NavigationBehaviorOptions,
   NavigationExtras,
   Router,
 } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { WindowRef } from '../../window/window-ref';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
@@ -26,7 +28,8 @@ export class RoutingService {
     protected semanticPathService: SemanticPathService,
     protected routingParamsService: RoutingParamsService,
     protected router: Router,
-    protected location: Location
+    protected location: Location,
+    protected injector: Injector
   ) {}
 
   /**
@@ -35,6 +38,29 @@ export class RoutingService {
    */
   getParams(): Observable<{ [key: string]: string }> {
     return this.routingParamsService?.getParams();
+  }
+
+  /**
+   * Get the list of all data of the full route. This includes
+   * active child routes.
+   */
+  getData(): Observable<Data> {
+    return this.routingParamsService?.getData();
+  }
+
+  /**
+   * Get the specified `contextKey` from `cxContext` data parameter of the full route.
+   * @param contextKey
+   *
+   * @returns instance from the injector if defined, otherwise `undefined`.
+   */
+  getContext<T>(contextKey: string | symbol): Observable<T | undefined> {
+    return this.getData().pipe(
+      map((data) => {
+        const injectionToken: ProviderToken<T> = data?.cxContext?.[contextKey];
+        return injectionToken ? this.injector.get(injectionToken) : undefined;
+      })
+    );
   }
 
   /**

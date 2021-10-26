@@ -1,9 +1,11 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { ImportEntriesComponent } from './import-entries-component';
+import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
@@ -11,6 +13,16 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _data?: any
   ) {}
+}
+
+class ContextService {
+  getEntries = createSpy('addEntries');
+}
+
+const contextService = new ContextService();
+
+class MockRoutingService {
+  getContext = createSpy('getContext').and.returnValue(of(contextService));
 }
 
 describe('ImportEntriesComponent', () => {
@@ -25,6 +37,10 @@ describe('ImportEntriesComponent', () => {
       declarations: [ImportEntriesComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
       ],
     }).compileComponents();
 
@@ -44,11 +60,11 @@ describe('ImportEntriesComponent', () => {
   });
 
   it('should trigger an open dialog to import CSV', () => {
-    component.openDialog();
+    component.openDialog(contextService);
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
-      { context: component.context }
+      { context: contextService }
     );
   });
 

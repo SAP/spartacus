@@ -4,12 +4,12 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { CartActions } from '@spartacus/core';
 import {
-  ProductData,
+  OrderEntriesSource,
+  AddOrderEntriesContext,
   ProductImportStatus,
-} from '@spartacus/cart/import-export/core';
-import { CartTypes } from '../model';
-import { CartImportContext } from './cart-import.context';
-import { ImportContext } from './import.context';
+  ProductData,
+} from '@spartacus/storefront';
+import { CartAddOrderEntriesContext } from './cart-import.context';
 
 const mockActionsSubject = new Subject<Action>();
 
@@ -24,29 +24,29 @@ const mockUserId = 'current';
 @Injectable({
   providedIn: 'root',
 })
-class TestCartImportExportContext
-  extends CartImportContext
-  implements ImportContext
+class TestCartOrderEntriesContext
+  extends CartAddOrderEntriesContext
+  implements AddOrderEntriesContext
 {
   constructor(protected actionsSubject: ActionsSubject) {
     super(actionsSubject);
   }
 
-  readonly type = 'TEST_CART' as CartTypes;
+  readonly type = 'TEST_CART' as OrderEntriesSource;
 
   protected add(_products: ProductData[]): Observable<string> {
     return of(mockCartId);
   }
 }
 
-describe('CartImportExportContext', () => {
-  let service: TestCartImportExportContext;
+describe('CartOrderEntriesContext', () => {
+  let service: TestCartOrderEntriesContext;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ useValue: mockActionsSubject, provide: ActionsSubject }],
     });
-    service = TestBed.inject(TestCartImportExportContext);
+    service = TestBed.inject(TestCartOrderEntriesContext);
   });
 
   it('should be created', () => {

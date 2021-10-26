@@ -5,11 +5,11 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import {
-  CartTypes,
+  OrderEntriesSource,
+  ICON_TYPE,
   ProductImportSummary,
-} from '@spartacus/cart/import-export/core';
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-import-entries-summary',
@@ -18,7 +18,7 @@ import {
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
-  cartTypes = CartTypes;
+  orderEntriesSource = OrderEntriesSource;
 
   warningDetailsOpened: boolean = false;
   errorDetailsOpened: boolean = false;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductData } from '@spartacus/cart/import-export/core';
+import { ProductData } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',

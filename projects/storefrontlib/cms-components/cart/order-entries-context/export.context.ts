@@ -4,7 +4,7 @@ import { OrderEntry } from '@spartacus/core';
 /**
  * An interface for context which determinate export products source
  */
-export interface ExportContext {
+export interface GetOrderEntriesContext {
   /**
    * Retrieve order entries from context source for export action.
    *
