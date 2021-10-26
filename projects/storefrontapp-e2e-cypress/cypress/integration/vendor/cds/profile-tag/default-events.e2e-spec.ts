@@ -432,10 +432,7 @@ describe('verifying X-Consent-Reference header addition to occ calls', () => {
       },
     });
     profileTagHelper.waitForCMSComponents();
-    productPage = checkoutFlow.waitForProductPage(
-      '280916',
-      'getProductPage'
-    );
+    productPage = checkoutFlow.waitForProductPage('280916', 'getProductPage');
   });
 
   it('should not send CR header when consent is not granted initially', () => {
