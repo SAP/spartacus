@@ -16,7 +16,7 @@ import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,
 } from './feature-name';
-import { SavedCartOrderEntriesContext } from './pages/saved-cart-details-page/saved-cart-import-export-context.service';
+import { SavedCartOrderEntriesContext } from './pages/saved-cart-details-page/saved-cart-order-entries-context.service';
 import { NewSavedCartAddOrderEntriesContext } from './pages/saved-carts-page/new-saved-cart-import-context.service';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
