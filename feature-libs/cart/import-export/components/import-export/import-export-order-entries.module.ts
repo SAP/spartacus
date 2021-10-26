@@ -7,8 +7,8 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
-import { ExportEntriesModule } from '../export-entries';
-import { ImportToCartModule } from '../import-to-cart';
+import { ExportOrderEntriesModule } from '../export-entries';
+import { ImportOrderEntriesModule } from '../import-to-cart';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 
 @NgModule({
@@ -23,11 +23,11 @@ import { ImportExportOrderEntriesComponent } from './import-export-order-entries
     }),
     I18nModule,
     UrlModule,
-    ImportToCartModule,
-    ExportEntriesModule,
+    ImportOrderEntriesModule,
+    ExportOrderEntriesModule,
     CommonModule,
   ],
   exports: [ImportExportOrderEntriesComponent],
   declarations: [ImportExportOrderEntriesComponent],
 })
-export class ImportExportComponentModule {}
+export class ImportExportOrderEntriesModule {}

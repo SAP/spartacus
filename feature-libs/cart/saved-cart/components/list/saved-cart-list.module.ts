@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ImportExportComponentModule } from '@spartacus/cart/import-export/components';
 import {
   AuthGuard,
   CmsConfig,
@@ -20,7 +19,6 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     ListNavigationModule,
     I18nModule,
     SpinnerModule,
-    ImportExportComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
