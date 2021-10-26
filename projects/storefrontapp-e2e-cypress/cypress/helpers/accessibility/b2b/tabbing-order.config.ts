@@ -383,7 +383,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Import Products', type: TabbingOrderTypes.LINK },
-    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
   ],
   savedCartDetails: [
     {
