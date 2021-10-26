@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry, RoutingService } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import {
+  ContextService,
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { shareReplay, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
@@ -16,15 +17,16 @@ import { ExportProductsToCsvService } from './export-products-to-csv.service';
 export class ExportEntriesComponent {
   constructor(
     protected exportEntriesService: ExportProductsToCsvService,
-    protected routingService: RoutingService
+    protected contextService: ContextService
   ) {}
 
-  protected context$: Observable<OrderEntriesContext | undefined> =
-    this.routingService
-      .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
-      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
+  protected orderEntriesContext$: Observable<
+    OrderEntriesContext | undefined
+  > = this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
-  entries$: Observable<OrderEntry[] | undefined> = this.context$.pipe(
+  entries$: Observable<
+    OrderEntry[] | undefined
+  > = this.orderEntriesContext$.pipe(
     switchMap(
       (orderEntriesContext) =>
         orderEntriesContext?.getEntries?.() ?? of(undefined)
