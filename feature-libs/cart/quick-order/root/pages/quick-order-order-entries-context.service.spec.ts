@@ -3,7 +3,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
-import { QuickOrderOrderEntriesContext } from 'feature-libs/cart/quick-order/root/pages/quick-order-order-entries-context.service';
+import { QuickOrderOrderEntriesContext } from './quick-order-order-entries-context.service';
 import createSpy = jasmine.createSpy;
 
 const mockProductData: ProductData[] = [
