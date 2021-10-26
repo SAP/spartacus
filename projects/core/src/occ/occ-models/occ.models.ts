@@ -4455,4 +4455,8 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
+
+  export interface CartModificationList {
+    cartModifications?: CartModification[];
+  }
 }

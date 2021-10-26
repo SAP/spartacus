@@ -6,12 +6,17 @@
       'loginForm.emailAddress.label' | cxTranslate
     }}</span>
     <input
+      aria-required="true"
       type="email"
       class="form-control"
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
-    <cx-form-errors [control]="form.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -19,20 +24,22 @@
       'loginForm.password.label' | cxTranslate
     }}</span>
     <input
+      aria-required="true"
       type="password"
       class="form-control"
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
     />
-    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('password')"
+    ></cx-form-errors>
   </label>
 
-  <a
-    [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
-    aria-controls="reset-password"
-    class="btn-link"
-    >{{ 'loginForm.forgotPassword' | cxTranslate }}</a
-  >
+  <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
+    {{ 'loginForm.forgotPassword' | cxTranslate }}
+  </a>
 
   <button
     type="submit"

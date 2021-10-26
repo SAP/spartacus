@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductImportSummary } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { IconTestingModule, ProductImportSummary } from '@spartacus/storefront';
 import { ImportEntriesSummaryComponent } from './import-entries-summary.component';
 
 const mockSummary: ProductImportSummary = {
@@ -41,5 +40,21 @@ describe('ImportEntriesFormComponent', () => {
     component.close(mockCloseReason);
 
     expect(component.closeEvent.emit).toHaveBeenCalledWith(mockCloseReason);
+  });
+
+  it('should toggleWarningList', () => {
+    component.warningDetailsOpened = false;
+    component.toggleWarningList();
+    expect(component.warningDetailsOpened).toBe(true);
+    component.toggleWarningList();
+    expect(component.warningDetailsOpened).toBe(false);
+  });
+
+  it('should toggleErrorList', () => {
+    component.errorDetailsOpened = false;
+    component.toggleErrorList();
+    expect(component.errorDetailsOpened).toBe(true);
+    component.toggleErrorList();
+    expect(component.errorDetailsOpened).toBe(false);
   });
 });

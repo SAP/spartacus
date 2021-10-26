@@ -1,13 +1,15 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
   Cart,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartTotalsComponent } from './cart-totals.component';
 
@@ -49,6 +51,12 @@ class MockActiveCartService {
   }
 }
 
+let mockRouterEvents$ = new Subject<RouterEvent>();
+class MockRouter implements Partial<Router> {
+  events = mockRouterEvents$;
+  routerState = { snapshot: { root: {} } } as any;
+}
+
 describe('CartTotalsComponent', () => {
   let component: CartTotalsComponent;
   let fixture: ComponentFixture<CartTotalsComponent>;
@@ -56,7 +64,12 @@ describe('CartTotalsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, CartCouponModule],
+        imports: [
+          RouterTestingModule,
+          I18nTestingModule,
+          CartCouponModule,
+          FeaturesConfigModule,
+        ],
         declarations: [
           CartTotalsComponent,
           MockOrderSummaryComponent,
@@ -66,6 +79,10 @@ describe('CartTotalsComponent', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
+          },
+          {
+            provide: Router,
+            useClass: MockRouter,
           },
         ],
       }).compileComponents();
@@ -95,5 +112,15 @@ describe('CartTotalsComponent', () => {
 
     component.entries$.subscribe((data: OrderEntry[]) => (entries = data));
     expect(entries).toEqual(entriesMock);
+  });
+
+  it('should disable button when checkout routing with cart validation is active and enable once navigation is over', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    component.disableButtonWhileNavigation();
+    expect(component.cartValidationInProgress).toEqual(true);
+    mockRouterEvents$.next(new NavigationEnd(null, null, null));
+    expect(component.cartValidationInProgress).toEqual(false);
   });
 });

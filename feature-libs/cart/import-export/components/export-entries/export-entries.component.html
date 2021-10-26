@@ -1,9 +1,0 @@
-<ng-container *ngIf="entries$ | async as entries">
-  <button
-    *ngIf="entries"
-    class="link cx-action-link"
-    (click)="exportToCsv(entries)"
-  >
-    {{ 'exportEntries.exportToCsv' | cxTranslate }}
-  </button>
-</ng-container>

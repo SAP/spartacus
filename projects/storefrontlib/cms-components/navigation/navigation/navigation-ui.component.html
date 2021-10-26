@@ -40,10 +40,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <span
-        [attr.aria-label]="node.title"
-        [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
-      >
+      <span [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1">
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"

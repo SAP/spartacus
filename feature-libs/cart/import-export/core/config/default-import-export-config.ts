@@ -1,4 +1,5 @@
-import { NameSource } from '../model/import-to-cart.model';
+import { OrderEntriesSource } from '@spartacus/storefront';
+import { CartNameSource } from '../model/import-entries.config';
 import { ImportExportConfig } from './import-export-config';
 
 export const defaultImportExportConfig: ImportExportConfig = {
@@ -9,7 +10,12 @@ export const defaultImportExportConfig: ImportExportConfig = {
     import: {
       fileValidity: {
         maxSize: 1,
-        maxEntries: 100,
+        maxEntries: {
+          [OrderEntriesSource.NEW_SAVED_CART]: 100,
+          [OrderEntriesSource.SAVED_CART]: 100,
+          [OrderEntriesSource.ACTIVE_CART]: 10,
+          [OrderEntriesSource.QUICK_ORDER]: 10,
+        },
         allowedTypes: [
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'application/vnd.ms-excel',
@@ -18,7 +24,7 @@ export const defaultImportExportConfig: ImportExportConfig = {
         ],
       },
       cartNameGeneration: {
-        source: NameSource.FILE_NAME,
+        source: CartNameSource.FILE_NAME,
       },
     },
     export: {

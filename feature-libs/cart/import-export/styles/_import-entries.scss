@@ -1,4 +1,5 @@
-cx-import-entries {
-  display: flex;
-  justify-content: flex-end;
+cx-import-order-entries {
+  width: 100%;
+  max-width: var(--cx-page-width-max);
+  margin: 1.25rem auto;
 }

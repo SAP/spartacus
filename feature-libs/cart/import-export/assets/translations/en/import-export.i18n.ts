@@ -30,7 +30,8 @@ export const importEntriesDialog = {
   close: 'Close',
   summary: {
     info: 'Do not close or refresh this window while products are being imported.',
-    loaded: 'Products has been loaded to cart {{ cartName }}',
+    loadedToCart: 'Products has been loaded to cart {{ cartName }}',
+    loaded: 'Products has been loaded',
     loading: 'Products are being processed... ({{ count }}/{{ total }})',
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',
@@ -43,7 +44,8 @@ export const importEntriesDialog = {
       lowStock:
         'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
       noStock: '{{ productName }} is currently out of stock.',
-      unknownError: 'Unrecognized problem with "{{ productCode}}".',
+      unknownError: 'Unrecognized problem with "{{ productCode }}".',
+      limitExceeded: 'Can not add "{{ productCode }}". Limit exceeded.',
     },
     show: 'Show',
     hide: 'Hide',

@@ -1,0 +1,7 @@
+<button
+  *ngIf="context$ | async as context"
+  class="link cx-action-link"
+  (click)="openDialog(context)"
+>
+  {{ 'importEntries.importProducts' | cxTranslate }}
+</button>

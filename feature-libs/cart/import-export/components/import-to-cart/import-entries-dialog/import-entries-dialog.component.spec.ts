@@ -1,31 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ProductImportInfo,
-  ProductImportStatus,
-  ProductsData,
-} from '@spartacus/cart/import-export/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  LaunchDialogService,
+  OrderEntriesSource,
   IconTestingModule,
+  AddOrderEntriesContext,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
+  ProductData,
+  ProductImportInfo,
+  ProductImportStatus,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ImportToCartService } from '../import-to-cart.service';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
 
-const mockFileValidity = {
-  maxSize: 1,
-  allowedTypes: [
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.ms-excel',
-    'text/csv',
-    '.csv',
-  ],
-};
-
-const mockProducts: ProductsData = [
+const mockProducts: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
@@ -41,30 +30,34 @@ const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
+class MockAddOrderEntriesContext implements Partial<AddOrderEntriesContext> {
+  addEntries = () => loadProducts$.asObservable();
+}
+
+const service: AddOrderEntriesContext =
+  new MockAddOrderEntriesContext() as unknown as AddOrderEntriesContext;
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
-    return of(mockFileValidity);
+    return of({ context: service });
   }
 
   closeDialog(_reason: string): void {}
-}
-
-class MockImportToCartService implements Partial<ImportToCartService> {
-  loadProductsToCart = () => loadProducts$.asObservable();
-  isDataParsable = () => true;
 }
 
 @Component({
   selector: 'cx-import-entries-form',
   template: '',
 })
-class MockImportEntriesFormComponent {}
+class MockImportEntriesFormComponent {
+  @Input()
+  type: OrderEntriesSource;
+}
 
 describe('ImportEntriesDialogComponent', () => {
   let component: ImportEntriesDialogComponent;
   let fixture: ComponentFixture<ImportEntriesDialogComponent>;
   let launchDialogService: LaunchDialogService;
-  let importToCartService: ImportToCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,7 +72,6 @@ describe('ImportEntriesDialogComponent', () => {
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: ImportToCartService, useClass: MockImportToCartService },
       ],
     }).compileComponents();
 
@@ -87,9 +79,8 @@ describe('ImportEntriesDialogComponent', () => {
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    importToCartService = TestBed.inject(ImportToCartService);
 
-    spyOn(importToCartService, 'loadProductsToCart').and.callThrough();
+    spyOn(service, 'addEntries').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -110,7 +101,7 @@ describe('ImportEntriesDialogComponent', () => {
   describe('importProducts', () => {
     it('should call loadProductsToCart method', () => {
       loadProducts$.next(mockLoadProduct);
-      component.importProducts({
+      component.importProducts(service, {
         products: mockProducts,
         savedCartInfo: {
           name: mockName,
@@ -118,18 +109,15 @@ describe('ImportEntriesDialogComponent', () => {
         },
       });
 
-      expect(importToCartService.loadProductsToCart).toHaveBeenCalledWith(
-        mockProducts,
-        {
-          name: mockName,
-          description: '',
-        }
-      );
+      expect(service.addEntries).toHaveBeenCalledWith(mockProducts, {
+        name: mockName,
+        description: '',
+      });
     });
 
     it('should call populateSummary when products are loaded', () => {
       spyOn<any>(component, 'populateSummary');
-      component.importProducts({
+      component.importProducts(service, {
         products: mockProducts,
         savedCartInfo: {
           name: mockName,

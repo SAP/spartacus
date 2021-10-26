@@ -1,19 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import {
+  OrderEntriesSource,
   FocusConfig,
   ICON_TYPE,
+  AddOrderEntriesContext,
   LaunchDialogService,
-} from '@spartacus/storefront';
-import {
-  ProductImportSummary,
-  ProductImportStatus,
+  ProductData,
   ProductImportInfo,
-  ProductsData,
-  ImportCartRoutes,
-} from '@spartacus/cart/import-export/core';
-import { ImportToCartService } from '../import-to-cart.service';
+  ProductImportStatus,
+  ProductImportSummary,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -40,28 +38,32 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  placement$ = this.importToCartService.placement$;
-  Placement = ImportCartRoutes;
+  context$: Observable<AddOrderEntriesContext> =
+    this.launchDialogService.data$.pipe(pluck('context'));
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportToCartService
-  ) {}
+  constructor(protected launchDialogService: LaunchDialogService) {}
+
+  isNewCartForm(context: AddOrderEntriesContext) {
+    return context.type === OrderEntriesSource.NEW_SAVED_CART;
+  }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
-  importProducts({
-    products,
-    savedCartInfo,
-  }: {
-    products: ProductsData;
-    savedCartInfo?: {
-      name: string;
-      description: string;
-    };
-  }): void {
+  importProducts(
+    context: AddOrderEntriesContext,
+    {
+      products,
+      savedCartInfo,
+    }: {
+      products: ProductData[];
+      savedCartInfo?: {
+        name: string;
+        description: string;
+      };
+    }
+  ): void {
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
@@ -69,8 +71,8 @@ export class ImportEntriesDialogComponent {
       total: products.length,
       cartName: savedCartInfo?.name,
     });
-    this.importToCartService
-      .loadProductsToCart(products, savedCartInfo)
+    context
+      .addEntries(products, savedCartInfo)
       .pipe(
         finalize(() => {
           this.summary$.next({
