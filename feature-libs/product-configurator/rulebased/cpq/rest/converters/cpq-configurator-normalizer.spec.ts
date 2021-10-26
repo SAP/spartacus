@@ -174,6 +174,8 @@ class MockTranslationService {
   translate(key: string, options: any): Observable<string> {
     if (key.endsWith('incomplete')) {
       return of(TEST_MESSAGE + options.attribute);
+    } else if (key.indexOf('dropDownSelectMsg') >= 0) {
+      return of('Make a selection');
     } else {
       return of('General');
     }
@@ -1029,4 +1031,93 @@ describe('CpqConfiguratorNormalizer', () => {
       fail();
     }
   }
+
+  describe('convert value display', () => {
+    it('should convert value display - contain cpq value display for radio-buttons', () => {
+      const cpqValue: Cpq.Value = {
+        paV_ID: 0,
+        valueDisplay: 'Blue',
+        selected: false,
+      };
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        displayAs: Cpq.DisplayAs.RADIO_BUTTON,
+        required: true,
+        values: [cpqValue],
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['convertValue'](
+        cpqValue,
+        cpqAttr,
+        CURRENCY,
+        values
+      );
+      let value = values[0];
+      cpqConfiguratorNormalizer['convertValueDisplay'](
+        cpqValue,
+        cpqAttr,
+        value
+      );
+      expect(value.valueDisplay).toEqual(cpqValue.valueDisplay);
+    });
+
+    it('should convert value display - contain drop-down select message', () => {
+      const cpqValue: Cpq.Value = {
+        paV_ID: 0,
+        valueDisplay: 'No option selected',
+        selected: true,
+      };
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        displayAs: Cpq.DisplayAs.DROPDOWN,
+        required: true,
+        values: [cpqValue],
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['convertValue'](
+        cpqValue,
+        cpqAttr,
+        CURRENCY,
+        values
+      );
+      let value = values[0];
+      cpqConfiguratorNormalizer['convertValueDisplay'](
+        cpqValue,
+        cpqAttr,
+        value
+      );
+      expect(value.valueDisplay).toEqual('Make a selection');
+    });
+
+    it('should convert value display - contain cpq value display for drop-down list', () => {
+      const cpqValue: Cpq.Value = {
+        paV_ID: 1,
+        valueDisplay: 'Blue',
+        selected: false,
+      };
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        displayAs: Cpq.DisplayAs.DROPDOWN,
+        required: true,
+        values: [cpqValue],
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['convertValue'](
+        cpqValue,
+        cpqAttr,
+        CURRENCY,
+        values
+      );
+      let value = values[0];
+      cpqConfiguratorNormalizer['convertValueDisplay'](
+        cpqValue,
+        cpqAttr,
+        value
+      );
+      expect(value.valueDisplay).toEqual(cpqValue.valueDisplay);
+    });
+  });
 });
