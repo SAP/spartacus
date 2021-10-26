@@ -49,7 +49,7 @@ export class RoutingService {
   }
 
   /**
-   * Get the specified `contextKey` from `cxContent` data parameter of the full route.
+   * Get the specified `contextKey` from `cxContext` data parameter of the full route.
    * @param contextKey
    *
    * @returns instance from the injector if defined, otherwise `undefined`.
