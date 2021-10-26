@@ -54,4 +54,4 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
   ],
   providers: [provideConfig(defaultImportEntriesLayoutConfig)],
 })
-export class ImportToCartModule {}
+export class ImportOrderEntriesModule {}
