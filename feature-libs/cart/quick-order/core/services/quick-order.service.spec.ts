@@ -337,18 +337,6 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should set added product', (done) => {
-    service.setProductAdded(mockProduct1Code);
-
-    service
-      .getProductAdded()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockProduct1Code);
-      });
-    done();
-  });
-
   it('should add deleted entry and after 5s delete it', (done) => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
@@ -437,13 +425,33 @@ describe('QuickOrderService', () => {
       expect(result).toBe(true);
     });
 
-    it('should verify cannot add next product because of limit', () => {
-      let result: boolean;
-      service.setListLimit(1);
-      service.addProduct(mockProduct1);
+    describe('should verify cannot add next product because of limit', () => {
+      it('with product code', () => {
+        let result: boolean;
+        service.setListLimit(1);
+        service.addProduct(mockProduct1);
 
-      service.canAdd(mockProduct2Code).subscribe((canAdd) => (result = canAdd));
-      expect(result).toBe(false);
+        service
+          .canAdd(mockProduct2Code)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(false);
+      });
+
+      it('without product code', () => {
+        let result: boolean;
+        service.setListLimit(1);
+        service.addProduct(mockProduct1);
+
+        service.canAdd().subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(false);
+      });
     });
+  });
+
+  it('should trigger soft deletion entry on removeEntry method', () => {
+    spyOn(service, 'softDeleteEntry').and.callThrough();
+    service.loadEntries([mockEntry1]);
+    service.removeEntry(1);
+    expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
 });

@@ -153,13 +153,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   undoDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
-      this.quickOrderService.restoreSoftDeletedEntry(entry.product?.code);
+      this.quickOrderService.restoreSoftDeletedEntry(entry.product.code);
     }
   }
 
   clearDeletion(entry: OrderEntry): void {
     if (entry.product?.code) {
-      this.quickOrderService.hardDeleteEntry(entry.product?.code);
+      this.quickOrderService.hardDeleteEntry(entry.product.code);
     }
   }
 

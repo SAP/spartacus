@@ -317,4 +317,23 @@ describe('QuickOrderComponent', () => {
       expect(canAdd).toBeTruthy();
     });
   });
+
+  describe('addToCartInformation$', () => {
+    it('should return true value for show add to cart information', () => {
+      component.addToCart([]);
+
+      component.addToCartInformation$.subscribe((value) => {
+        expect(value).toBeTruthy();
+      });
+    });
+
+    it('should emit false value to show add to cart information on clear method', () => {
+      component.addToCart([mockEntry]);
+      component.clearAddToCartInformation();
+
+      component.addToCartInformation$.subscribe((value) => {
+        expect(value).toBeFalsy();
+      });
+    });
+  });
 });

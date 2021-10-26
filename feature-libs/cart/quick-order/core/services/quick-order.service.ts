@@ -273,7 +273,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     clearTimeout: boolean = true
   ): void {
     const deletedEntries = this.softDeletedEntries$.getValue();
-    const productCode = entry.product?.code;
+    const productCode = entry?.product?.code;
 
     if (productCode) {
       deletedEntries[productCode] = entry;
