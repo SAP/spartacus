@@ -15,7 +15,7 @@ import {
   CART_QUICK_ORDER_CORE_FEATURE,
   CART_QUICK_ORDER_FEATURE,
 } from './feature-name';
-import { QuickOrderOrderEntriesContext } from './pages/quick-order-import-export-context.service';
+import { QuickOrderOrderEntriesContext } from './pages/quick-order-order-entries-context.service';
 
 export function defaultQuickOrderComponentsConfig() {
   const config = {
