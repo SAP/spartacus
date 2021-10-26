@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Breadcrumb,
   ConverterService,
@@ -29,31 +29,12 @@ import { ConsentChangedPushEvent } from '../../profiletag/model';
   providedIn: 'root',
 })
 export class CdsMerchandisingUserContextService {
-  // TODO: Remove deprecated constructors
-  constructor(
-    routingService: RoutingService,
-    productSearchService: ProductSearchService,
-    converterService: ConverterService,
-    profileTagEventService: ProfileTagEventService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    profileTagLifecycleService?: ProfileTagLifecycleService
-  );
-  /**
-   * @deprecated since 4.2
-   */
-  constructor(
-    routingService: RoutingService,
-    productSearchService: ProductSearchService,
-    converterService: ConverterService,
-    profileTagEventService: ProfileTagEventService
-  );
-
   constructor(
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
     private converterService: ConverterService,
     private profileTagEventService: ProfileTagEventService,
-    @Optional() private profileTagLifecycleService?: ProfileTagLifecycleService
+    private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
