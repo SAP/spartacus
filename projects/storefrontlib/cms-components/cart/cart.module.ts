@@ -9,7 +9,7 @@ import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 import { AddToWishListModule } from './add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
-import { ActiveCartOrderEntriesContext } from './cart-page/active-cart-order-entries-context.service';
+import { ActiveCartOrderEntriesContext } from './cart-page/active-cart-order-entries-context';
 import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';

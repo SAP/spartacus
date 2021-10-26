@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { NewSavedCartAddOrderEntriesContext } from './new-saved-cart-add-order-entries-context.service';
+import { NewSavedCartAddOrderEntriesContext } from './new-saved-cart-add-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OrderDetailsGetOrderEntriesContext } from './order-details-get-order-entries-context.service';
+import { OrderDetailsGetOrderEntriesContext } from './order-details-get-order-entries-context';
 import { OrderFacade } from '../facade/order.facade';
 import createSpy = jasmine.createSpy;
 

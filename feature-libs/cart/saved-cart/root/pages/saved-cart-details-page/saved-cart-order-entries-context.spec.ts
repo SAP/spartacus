@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { SavedCartOrderEntriesContext } from './saved-cart-order-entries-context.service';
+import { SavedCartOrderEntriesContext } from './saved-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

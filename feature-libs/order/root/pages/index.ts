@@ -1,1 +1,1 @@
-export * from './order-details-get-order-entries-context.service';
+export * from './order-details-get-order-entries-context';

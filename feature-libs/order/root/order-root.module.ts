@@ -11,7 +11,7 @@ import {
   ORDER_ENTRIES_CONTEXT,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { OrderDetailsGetOrderEntriesContext } from './pages/order-details-get-order-entries-context.service';
+import { OrderDetailsGetOrderEntriesContext } from './pages/order-details-get-order-entries-context';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
