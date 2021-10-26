@@ -6,7 +6,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';
 
 class MockSiteContextParamsService {
@@ -101,5 +101,11 @@ describe('QuickOrderStatePersistenceService', () => {
         done();
       });
     });
+  });
+
+  it('should unsubscribe on ngOnDestroy', () => {
+    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    service.ngOnDestroy();
+    expect(spyUnsubscribe).toHaveBeenCalled();
   });
 });
