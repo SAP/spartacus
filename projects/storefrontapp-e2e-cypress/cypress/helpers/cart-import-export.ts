@@ -243,7 +243,7 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
  */
 export function exportCart(expectedData?: string) {
   cy.visit('cart');
-  cy.get('cx-export-entries button').contains('Export to CSV').click();
+  cy.get('cx-export-order-entries button').contains('Export to CSV').click();
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
   }
@@ -256,7 +256,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
   loginAsMyCompanyAdmin();
 
   cy.visit('my-account/saved-carts');
-  cy.get('cx-import-entries button').contains('Import Products').click();
+  cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
     cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
   });
@@ -296,7 +296,7 @@ export function attemptUpload(csvPath: string) {
   loginAsMyCompanyAdmin();
 
   cy.visit('my-account/saved-carts');
-  cy.get('cx-import-entries button').contains('Import Products').click();
+  cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
   ).attachFile({ filePath: csvPath }, { allowEmpty: true });

@@ -8,11 +8,11 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-import-export',
-  templateUrl: './import-export.component.html',
+  selector: 'cx-import-export-order-entries',
+  templateUrl: './import-export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportExportComponent {
+export class ImportExportOrderEntriesComponent {
   constructor(protected routingService: RoutingService) {}
 
   protected context$: Observable<OrderEntriesContext | undefined> =

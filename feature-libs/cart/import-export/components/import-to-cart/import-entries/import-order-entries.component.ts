@@ -15,11 +15,11 @@ import { Observable, Subscription } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-import-entries',
-  templateUrl: './import-entries-component.html',
+  selector: 'cx-import-order-entries',
+  templateUrl: './import-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesComponent {
+export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 

@@ -18,7 +18,7 @@ import { ImportEntriesDialogComponent } from './import-entries-dialog/import-ent
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
 import { ImportToNewSavedCartFormComponent } from './import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
-import { ImportEntriesComponent } from './import-entries/import-entries-component';
+import { ImportOrderEntriesComponent } from './import-entries/import-order-entries.component';
 
 @NgModule({
   imports: [
@@ -33,20 +33,20 @@ import { ImportEntriesComponent } from './import-entries/import-entries-componen
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportOrderEntriesComponent: {
-          component: ImportEntriesComponent,
+          component: ImportOrderEntriesComponent,
         },
       },
     }),
   ],
   declarations: [
-    ImportEntriesComponent,
+    ImportOrderEntriesComponent,
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,
     ImportToNewSavedCartFormComponent,
   ],
   exports: [
-    ImportEntriesComponent,
+    ImportOrderEntriesComponent,
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,
     ImportEntriesSummaryComponent,

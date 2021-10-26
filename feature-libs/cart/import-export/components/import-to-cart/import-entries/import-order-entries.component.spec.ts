@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { ImportEntriesComponent } from './import-entries-component';
+import { ImportOrderEntriesComponent } from './import-order-entries.component';
 import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -26,15 +26,15 @@ class MockRoutingService {
 }
 
 describe('ImportEntriesComponent', () => {
-  let component: ImportEntriesComponent;
-  let fixture: ComponentFixture<ImportEntriesComponent>;
+  let component: ImportOrderEntriesComponent;
+  let fixture: ComponentFixture<ImportOrderEntriesComponent>;
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ImportEntriesComponent],
+      declarations: [ImportOrderEntriesComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -44,7 +44,7 @@ describe('ImportEntriesComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImportEntriesComponent);
+    fixture = TestBed.createComponent(ImportOrderEntriesComponent);
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
