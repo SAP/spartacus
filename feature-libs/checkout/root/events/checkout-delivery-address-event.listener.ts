@@ -17,7 +17,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutEventListener implements OnDestroy {
+export class CheckoutDeliveryAddressEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(

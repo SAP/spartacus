@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CheckoutEventListener } from './checkout-event.listener';
+import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';
+import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 
 @NgModule({})
 export class CheckoutEventModule {
-  constructor(_checkoutEventListener: CheckoutEventListener) {}
+  constructor(
+    _checkoutDeliveryAddressEventListener: CheckoutDeliveryAddressEventListener,
+    _checkoutDeliveryModeEventListener: CheckoutDeliveryModeEventListener
+  ) {}
 }
