@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import {
-  ActiveCartImportExportContext,
-  ProductData,
-} from '@spartacus/cart/import-export/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
+import { ProductData } from '../order-entries-context/import-to-cart.model';
+import { ActiveCartOrderEntriesContext } from './active-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
@@ -30,8 +28,8 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
 
-describe('ActiveCartImportExportContext', () => {
-  let service: ActiveCartImportExportContext;
+describe('ActiveCartOrderEntriesContext', () => {
+  let service: ActiveCartOrderEntriesContext;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
@@ -41,7 +39,7 @@ describe('ActiveCartImportExportContext', () => {
         { useClass: MockActiveCartService, provide: ActiveCartService },
       ],
     });
-    service = TestBed.inject(ActiveCartImportExportContext);
+    service = TestBed.inject(ActiveCartOrderEntriesContext);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 

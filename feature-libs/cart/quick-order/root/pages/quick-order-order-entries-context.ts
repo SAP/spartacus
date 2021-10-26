@@ -3,23 +3,23 @@ import { Injectable, isDevMode } from '@angular/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { CartTypes } from '../model/import-export.model';
 import {
+  OrderEntriesSource,
+  GetOrderEntriesContext,
+  AddOrderEntriesContext,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '../model/import-to-cart.model';
-import { ImportContext } from './import.context';
-import { ExportContext } from './export.context';
+} from '@spartacus/storefront';
+import { QuickOrderFacade } from '../facade/quick-order.facade';
 
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderImportExportContext
-  implements ImportContext, ExportContext
+export class QuickOrderOrderEntriesContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
 {
-  readonly type = CartTypes.QUICK_ORDER;
+  readonly type = OrderEntriesSource.QUICK_ORDER;
 
   constructor(
     protected quickOrderService: QuickOrderFacade,

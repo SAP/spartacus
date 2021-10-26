@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import {
   Cart,
   MultiCartService,
@@ -9,21 +7,25 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { CartTypes } from '../model/import-export.model';
-import { ProductData } from '../model/import-to-cart.model';
-import { CartImportContext } from './cart-import.context';
-import { ImportContext } from './import.context';
-import { ExportContext } from './export.context';
+import {
+  CartAddOrderEntriesContext,
+  OrderEntriesSource,
+  GetOrderEntriesContext,
+  AddOrderEntriesContext,
+  ProductData,
+} from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { SavedCartFacade } from '../../facade/saved-cart.facade';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SavedCartImportExportContext
-  extends CartImportContext
-  implements ImportContext, ExportContext
+export class SavedCartOrderEntriesContext
+  extends CartAddOrderEntriesContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
 {
-  readonly type = CartTypes.SAVED_CART;
+  readonly type = OrderEntriesSource.SAVED_CART;
 
   constructor(
     protected actionsSubject: ActionsSubject,

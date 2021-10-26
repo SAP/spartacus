@@ -1,17 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { OrderEntry, RoutingService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import { RoutingService } from '@spartacus/core';
 import {
-  ActiveCartImportExportContext,
-  CmsImportExportComponent,
-  ImportContext,
-  ExportContext,
-  NewSavedCartImportContext,
-  QuickOrderImportExportContext,
-  SavedCartImportExportContext,
-} from '@spartacus/cart/import-export/core';
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-export',
@@ -19,64 +13,21 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportExportComponent {
-  protected get route$(): Observable<string> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map((route) => route.state?.semanticRoute as string));
-  }
+  constructor(protected routingService: RoutingService) {}
 
-  protected routesCartMapping = new Map<string, ImportContext | ExportContext>([
-    ['cart', this.activeCartService],
-    ['savedCarts', this.newSavedCartService],
-    ['savedCartsDetails', this.savedCartService],
-    ['quickOrder', this.quickOrderService],
-    ['checkoutReviewOrder', this.activeCartService],
-  ]);
+  protected context$: Observable<OrderEntriesContext | undefined> =
+    this.routingService
+      .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
+      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  constructor(
-    protected cmsComponent: CmsComponentData<CmsImportExportComponent>,
-    protected routingService: RoutingService,
-    protected activeCartService: ActiveCartImportExportContext,
-    protected newSavedCartService: NewSavedCartImportContext,
-    protected savedCartService: SavedCartImportExportContext,
-    protected quickOrderService: QuickOrderImportExportContext
-  ) {}
-
-  context$: Observable<ImportContext | ExportContext> = this.route$.pipe(
-    map(
-      (route) =>
-        this.routesCartMapping.get(route) as ImportContext | ExportContext
-    ),
-    filter((service) => service !== undefined)
+  shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
+    map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
   );
 
-  entries$: Observable<OrderEntry[]> = this.context$.pipe(
-    filter(
-      (service): service is ExportContext =>
-        (service as ExportContext)?.getEntries !== undefined
-    ),
+  shouldDisplayExport$: Observable<boolean> = this.context$.pipe(
     switchMap(
-      (service: ExportContext) =>
-        service.getEntries() as Observable<OrderEntry[]>
-    )
-  );
-
-  shouldDisplayImport$: Observable<boolean> = combineLatest([
-    this.route$,
-    this.cmsComponent.data$,
-  ]).pipe(
-    map(([route, data]) => data.importButtonDisplayRoutes.includes(route))
-  );
-
-  shouldDisplayExport$: Observable<boolean> = combineLatest([
-    this.route$,
-    this.cmsComponent.data$,
-    this.entries$,
-  ]).pipe(
-    map(
-      ([route, data, entries]) =>
-        data.exportButtonDisplayRoutes.includes(route) &&
-        (entries as OrderEntry[])?.length > 0
-    )
+      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([])
+    ),
+    map((entries) => !!entries?.length)
   );
 }

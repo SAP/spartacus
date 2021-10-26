@@ -7,7 +7,9 @@ import {
   ImageType,
   OrderEntry,
   PriceType,
+  RoutingService,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { ExportEntriesComponent } from './export-entries.component';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 import createSpy = jasmine.createSpy;
@@ -93,6 +95,15 @@ class MockExportProductsToCsvService {
   downloadCsv = createSpy('downloadCsv');
 }
 
+class ContextService {
+  getEntries = createSpy('getEntries').and.returnValue(of(entries));
+}
+const contextService = new ContextService();
+
+class MockRoutingService {
+  getContext = createSpy('getContext').and.returnValue(of(contextService));
+}
+
 describe('ExportEntriesComponent', () => {
   let component: ExportEntriesComponent;
   let fixture: ComponentFixture<ExportEntriesComponent>;
@@ -109,6 +120,10 @@ describe('ExportEntriesComponent', () => {
         {
           provide: ExportProductsToCsvService,
           useClass: MockExportProductsToCsvService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
       ],
       declarations: [ExportEntriesComponent],
@@ -127,7 +142,6 @@ describe('ExportEntriesComponent', () => {
   });
 
   it('should display export to csv link and run downloadCsv on click', () => {
-    component.entries = entries;
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
@@ -137,7 +151,7 @@ describe('ExportEntriesComponent', () => {
 
     btn.nativeElement.click();
     fixture.whenStable().then(() => {
-      expect(exportToCsvSpy).toHaveBeenCalledWith();
+      expect(exportToCsvSpy).toHaveBeenCalledWith(entries);
       expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(entries);
     });
   });

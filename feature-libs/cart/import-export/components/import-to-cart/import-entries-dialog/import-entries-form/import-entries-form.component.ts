@@ -7,20 +7,18 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { of, Subject } from 'rxjs';
-import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { CxDatePipe } from '@spartacus/core';
 import {
+  OrderEntriesSource,
   FilesFormValidators,
   FormUtils,
   ImportCsvFileService,
   LaunchDialogService,
-} from '@spartacus/storefront';
-import {
-  CartTypes,
-  ImportExportConfig,
   ProductData,
-} from '@spartacus/cart/import-export/core';
+} from '@spartacus/storefront';
+import { of, Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 
 @Component({
@@ -40,7 +38,7 @@ export class ImportEntriesFormComponent implements OnInit {
   }>();
 
   @Input()
-  type: CartTypes;
+  type: OrderEntriesSource;
 
   constructor(
     protected launchDialogService: LaunchDialogService,

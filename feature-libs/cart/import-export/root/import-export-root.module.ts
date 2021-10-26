@@ -7,7 +7,11 @@ import { CART_IMPORT_EXPORT_FEATURE } from './feature-name';
     provideDefaultConfig({
       featureModules: {
         [CART_IMPORT_EXPORT_FEATURE]: {
-          cmsComponents: ['ImportExportComponent'],
+          cmsComponents: [
+            'ImportExportOrderEntriesComponent',
+            'ImportOrderEntriesComponent',
+            'ExportOrderEntriesComponent',
+          ],
         },
       },
     }),

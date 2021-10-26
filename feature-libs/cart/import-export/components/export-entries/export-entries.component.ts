@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrderEntry, RoutingService } from '@spartacus/core';
+import {
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { shareReplay, switchMap } from 'rxjs/operators';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
 
 @Component({
@@ -8,12 +14,24 @@ import { ExportProductsToCsvService } from './export-products-to-csv.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportEntriesComponent {
-  @Input()
-  entries: OrderEntry[];
+  constructor(
+    protected exportEntriesService: ExportProductsToCsvService,
+    protected routingService: RoutingService
+  ) {}
 
-  constructor(protected exportEntriesService: ExportProductsToCsvService) {}
+  protected context$: Observable<OrderEntriesContext | undefined> =
+    this.routingService
+      .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
+      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
-  exportCsv(): void {
-    this.exportEntriesService.downloadCsv(this.entries);
+  entries$: Observable<OrderEntry[] | undefined> = this.context$.pipe(
+    switchMap(
+      (orderEntriesContext) =>
+        orderEntriesContext?.getEntries?.() ?? of(undefined)
+    )
+  );
+
+  exportCsv(entries: OrderEntry[]): void {
+    this.exportEntriesService.downloadCsv(entries);
   }
 }

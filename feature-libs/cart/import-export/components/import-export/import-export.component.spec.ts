@@ -1,21 +1,17 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject, of } from 'rxjs';
-import { OrderEntry, RouterState, RoutingService } from '@spartacus/core';
-import { CmsComponentData, PageComponentModule } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
+import { OrderEntry, RoutingService } from '@spartacus/core';
 import {
-  ActiveCartImportExportContext,
-  CartTypes,
-  ExportContext,
-  ImportContext,
-  NewSavedCartImportContext,
+  OrderEntriesSource,
+  GetOrderEntriesContext,
+  AddOrderEntriesContext,
+  PageComponentModule,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-  QuickOrderImportExportContext,
-  SavedCartImportExportContext,
-} from '@spartacus/cart/import-export/core';
+} from '@spartacus/storefront';
 import { ImportExportComponent } from './import-export.component';
 import createSpy = jasmine.createSpy;
 
@@ -23,6 +19,14 @@ const mockLoadProduct: ProductImportInfo = {
   productCode: '123456',
   statusCode: ProductImportStatus.SUCCESS,
 };
+
+class MockImportExportContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
+{
+  getEntries = () => entries$.asObservable();
+  addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
+  readonly type: OrderEntriesSource;
+}
 
 const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
@@ -37,68 +41,13 @@ const mockEntries: OrderEntry[] = [
 
 const entries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
 
-const routerStateSubject = new BehaviorSubject<RouterState>({
-  state: {
-    semanticRoute: 'savedCarts',
-  },
-} as RouterState);
+const routerContextSubject = new BehaviorSubject<
+  Partial<AddOrderEntriesContext & GetOrderEntriesContext>
+>(new MockImportExportContext());
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
-    routerStateSubject.asObservable()
-  );
+  getContext = createSpy().and.returnValue(routerContextSubject.asObservable());
 }
-
-class MockImportExportContext {
-  getEntries = () => entries$.asObservable();
-
-  addEntries = (_products: ProductData[]) => loadProducts$.asObservable();
-}
-
-class MockActiveCartImportExportContext
-  extends MockImportExportContext
-  implements ImportContext, ExportContext
-{
-  type: CartTypes.ACTIVE_CART;
-}
-
-class MockNewSavedCartImportContext
-  extends MockImportExportContext
-  implements ImportContext
-{
-  type: CartTypes.NEW_SAVED_CART;
-}
-class MockSavedCartImportExportContext
-  extends MockImportExportContext
-  implements ImportContext, ExportContext
-{
-  type: CartTypes.SAVED_CART;
-}
-class MockQuickOrderImportExportContext
-  extends MockImportExportContext
-  implements ImportContext, ExportContext
-{
-  type: CartTypes.QUICK_ORDER;
-}
-
-const mockCmsComponentData = {
-  importButtonDisplayRoutes: [
-    'cart',
-    'savedCarts',
-    'savedCartsDetails',
-    'quickOrder',
-  ],
-  exportButtonDisplayRoutes: [
-    'savedCartsDetails',
-    'cart',
-    'checkoutReviewOrder',
-    'quickOrder',
-  ],
-};
-
-const MockCmsImportExportComponent = <CmsComponentData<any>>{
-  data$: of(mockCmsComponentData),
-};
 
 @Component({
   selector: 'cx-import-entries',
@@ -108,7 +57,7 @@ export class MockImportEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
-  context: ImportContext | ExportContext;
+  context: AddOrderEntriesContext | GetOrderEntriesContext;
 }
 
 @Component({
@@ -127,26 +76,7 @@ describe('ImportExportComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PageComponentModule],
-      providers: [
-        { provide: CmsComponentData, useValue: MockCmsImportExportComponent },
-        { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: ActiveCartImportExportContext,
-          useClass: MockActiveCartImportExportContext,
-        },
-        {
-          provide: NewSavedCartImportContext,
-          useClass: MockNewSavedCartImportContext,
-        },
-        {
-          provide: SavedCartImportExportContext,
-          useClass: MockSavedCartImportExportContext,
-        },
-        {
-          provide: QuickOrderImportExportContext,
-          useClass: MockQuickOrderImportExportContext,
-        },
-      ],
+      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
       declarations: [
         ImportExportComponent,
         MockExportEntriesComponent,

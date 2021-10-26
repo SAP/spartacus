@@ -16,16 +16,8 @@ import { ImportExportComponent } from './import-export.component';
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ImportExportComponent: {
+        ImportExportOrderEntriesComponent: {
           component: ImportExportComponent,
-          data: {
-            importButtonDisplayRoutes: [
-              'cart',
-              'savedCarts',
-              'savedCartsDetails',
-            ],
-            exportButtonDisplayRoutes: ['cart', 'savedCartsDetails'],
-          },
         },
       },
     }),

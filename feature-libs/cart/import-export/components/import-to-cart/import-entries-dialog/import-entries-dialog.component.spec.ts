@@ -1,18 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { I18nTestingModule } from '@spartacus/core';
 import {
-  CartTypes,
-  ImportContext,
+  OrderEntriesSource,
+  IconTestingModule,
+  AddOrderEntriesContext,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/import-export/core';
-import { I18nTestingModule } from '@spartacus/core';
-import {
-  IconTestingModule,
-  KeyboardFocusTestingModule,
-  LaunchDialogService,
 } from '@spartacus/storefront';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
 
@@ -32,12 +30,12 @@ const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
-class MockImportContext implements Partial<ImportContext> {
+class MockAddOrderEntriesContext implements Partial<AddOrderEntriesContext> {
   addEntries = () => loadProducts$.asObservable();
 }
 
-const service: ImportContext =
-  new MockImportContext() as unknown as ImportContext;
+const service: AddOrderEntriesContext =
+  new MockAddOrderEntriesContext() as unknown as AddOrderEntriesContext;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -53,7 +51,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 })
 class MockImportEntriesFormComponent {
   @Input()
-  type: CartTypes;
+  type: OrderEntriesSource;
 }
 
 describe('ImportEntriesDialogComponent', () => {
