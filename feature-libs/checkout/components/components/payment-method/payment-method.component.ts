@@ -169,6 +169,16 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.newPaymentFormManuallyOpened = false;
   }
 
+  getAriaLabel(title: string): Observable<string> {
+    return this.translation.translate('paymentCard.defaultPaymentMethod').pipe(
+      map((key) => {
+        return title === key
+          ? 'paymentCard.defaultPayment'
+          : 'paymentCard.additionalPaymentMethod';
+      })
+    );
+  }
+
   setPaymentDetails({
     paymentDetails,
     billingAddress,
