@@ -24,13 +24,10 @@
       tabindex="-1"
     ></cx-icon>
 
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('product')"
-    ></cx-form-errors>
-
-    <span *ngIf="isDisabled" class="list-limit-reached-text">
+    <span
+      *ngIf="!(canAddProduct() | async) && form.get('product')?.dirty"
+      class="list-limit-reached-text"
+    >
       {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
     </span>
   </div>
