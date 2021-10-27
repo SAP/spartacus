@@ -20,18 +20,16 @@ export class ExportOrderEntriesComponent {
     protected contextService: ContextService
   ) {}
 
-  protected orderEntriesContext$: Observable<
-    OrderEntriesContext | undefined
-  > = this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
+  protected orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
-  entries$: Observable<
-    OrderEntry[] | undefined
-  > = this.orderEntriesContext$.pipe(
-    switchMap(
-      (orderEntriesContext) =>
-        orderEntriesContext?.getEntries?.() ?? of(undefined)
-    )
-  );
+  entries$: Observable<OrderEntry[] | undefined> =
+    this.orderEntriesContext$.pipe(
+      switchMap(
+        (orderEntriesContext) =>
+          orderEntriesContext?.getEntries?.() ?? of(undefined)
+      )
+    );
 
   exportCsv(entries: OrderEntry[]): void {
     this.exportEntriesService.downloadCsv(entries);

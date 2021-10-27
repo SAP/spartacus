@@ -27,9 +27,8 @@ export class ImportOrderEntriesComponent {
     protected contextService: ContextService
   ) {}
 
-  orderEntriesContext$: Observable<
-    OrderEntriesContext | undefined
-  > = this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
+  orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
   openDialog(orderEntriesContext: OrderEntriesContext): void {
     this.launchDialogService.openDialogAndSubscribe(

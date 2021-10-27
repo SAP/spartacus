@@ -15,9 +15,8 @@ import { map, switchMap } from 'rxjs/operators';
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}
 
-  protected context$: Observable<
-    OrderEntriesContext | undefined
-  > = this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
+  protected context$: Observable<OrderEntriesContext | undefined> =
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
   shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
     map((orderEntriesContext) => !!orderEntriesContext?.addEntries)

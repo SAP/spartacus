@@ -38,9 +38,8 @@ export class ImportEntriesDialogComponent {
     errorMessages: [],
   });
 
-  context$: Observable<AddOrderEntriesContext> = this.launchDialogService.data$.pipe(
-    pluck('orderEntriesContext')
-  );
+  context$: Observable<AddOrderEntriesContext> =
+    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

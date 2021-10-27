@@ -16,10 +16,11 @@ export class RoutingContextService {
     protected injector: Injector
   ) {}
 
-  protected readonly routeData$: Observable<Data> = this.activatedRoutesService.routes$.pipe(
-    map((routes) => this.getRoutesData(routes)),
-    shareReplay({ refCount: true, bufferSize: 1 })
-  );
+  protected readonly routeData$: Observable<Data> =
+    this.activatedRoutesService.routes$.pipe(
+      map((routes) => this.getRoutesData(routes)),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
 
   protected getRoutesData(routes: ActivatedRouteSnapshot[]): Data {
     return Object.assign({}, ...routes.map((route) => route['data']));
