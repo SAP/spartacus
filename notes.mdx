@@ -46,50 +46,9 @@
 # Next session
 
 - TODOs in:
-- events:
-  - where to handle (currently in feature-libs/checkout/root/events/checkout-delivery-address-event.listener.ts)
-
-```ts
-this.subscriptions.add(
-  this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
-    this.eventService.dispatch({}, ResetDeliveryModesEvent);
-  })
-);
-```
-
-- where to handle (currently in feature-libs/checkout/root/events/checkout-delivery-mode-event.listener.ts)
-
-```ts
-  protected onDeliveryAddressChange(): void {
-    this.subscriptions.add(
-      this.eventService
-        .get(DeliveryAddressSetEvent)
-        .subscribe(() =>
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-        )
-    );
-  }
-```
-
-- where to handle (currently in feature-libs/checkout/b2b/root/events/checkout-cost-center-event.listener.ts)
-
-```ts
-this.subscriptions.add(
-  this.eventService.get(CostCenterSetEvent).subscribe(() => {
-    this.eventService.dispatch({}, ResetDeliveryModesEvent);
-  })
-);
-```
-
--feature-libs/checkout/b2b/root/events/checkout-payment-type-event.listener.ts
-
-- feature-libs/checkout/core/facade/checkout-delivery-address.service.ts's events to the listener
-
-- create umbrella event per step - deliveryaddressevent, deliverymodeevent, etc. all of the umbrella events should extend the checkoutevent
-
-- constructor in feature-libs/checkout/scheduled-replenishment/core/facade/checkout-scheduled-replenishment.service.ts (events in checkout SCHEDULE_REPLENISHMENT_ORDer in constructor)
-- feature-libs/checkout/core/models/checkout.model.ts
-- move the events trigger between facades to checkout event listener service (clear delivery mode after address, clear delivery address after cost center)
-- smooth checkout UI (loading states etc.)
 - check my organization (creating new user in unit) - error in console (no feedback if it finished)
-- extending enum - feature-libs/checkout/root/model/checkout-step.model.ts
+- decide on trigger events vs facade calls in event listeners (eg. clearing delivery address on cost center set)
+- decide where to handle events from another step (delivery mode in delivery address listener or vice versa)
+- create umbrella event per step - deliveryaddressevent, deliverymodeevent, etc. all of the umbrella events should extend the checkoutevent
+- scheduled replenishment events listener to add (move trigger from the scheduled-replenishment service)
+- loader buttons in components (just better UX for checkout components)

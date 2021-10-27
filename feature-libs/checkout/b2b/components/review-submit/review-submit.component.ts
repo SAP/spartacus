@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import '@spartacus/checkout/b2b/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -11,6 +12,7 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
+  CheckoutStepType,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -88,6 +90,14 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
         );
       })
     );
+  }
+
+  protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string> {
+    return [
+      CheckoutStepType.PAYMENT_DETAILS,
+      CheckoutStepType.PAYMENT_TYPE,
+      CheckoutStepType.SHIPPING_ADDRESS,
+    ];
   }
 
   getCostCenterCard(costCenter?: CostCenter): Observable<Card> {

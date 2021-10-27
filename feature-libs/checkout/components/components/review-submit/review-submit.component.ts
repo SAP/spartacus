@@ -3,8 +3,6 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
-  checkoutPaymentSteps,
-  checkoutShippingSteps,
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/root';
@@ -55,6 +53,17 @@ export class ReviewSubmitComponent {
 
   get entries$(): Observable<OrderEntry[]> {
     return this.activeCartService.getEntries();
+  }
+
+  protected getCheckoutShippingSteps(): Array<CheckoutStepType | string> {
+    return [CheckoutStepType.SHIPPING_ADDRESS, CheckoutStepType.DELIVERY_MODE];
+  }
+
+  protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string> {
+    return [
+      CheckoutStepType.PAYMENT_DETAILS,
+      CheckoutStepType.SHIPPING_ADDRESS,
+    ];
   }
 
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
@@ -188,10 +197,14 @@ export class ReviewSubmitComponent {
   }
 
   shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) => checkoutShippingSteps.includes(step.type[0]));
+    return steps.filter((step) =>
+      this.getCheckoutShippingSteps().includes(step.type[0])
+    );
   }
 
   paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) => checkoutPaymentSteps.includes(step.type[0]));
+    return steps.filter((step) =>
+      this.getCheckoutPaymentSteps().includes(step.type[0])
+    );
   }
 }
