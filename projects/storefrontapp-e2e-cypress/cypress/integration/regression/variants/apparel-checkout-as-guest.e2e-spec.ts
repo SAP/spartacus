@@ -128,9 +128,9 @@ context('Apparel - checkout as guest', () => {
         cartWithSingleVariantProduct
       );
 
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
+      const checkoutPage = checkout.waitForPage(
+        '/checkout/*',
+        'getCheckoutPage'
       );
 
       checkout.clickHamburger();
@@ -140,7 +140,7 @@ context('Apparel - checkout as guest', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       login(variantUser.email, variantUser.password);
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${checkoutPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
