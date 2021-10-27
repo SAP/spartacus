@@ -136,6 +136,7 @@ describe('QuickOrderService', () => {
 
   beforeEach(() => {
     service.clearList();
+    service.setListLimit(10);
   });
 
   it('should be created', () => {
@@ -336,18 +337,6 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should set added product', (done) => {
-    service.setProductAdded(mockProduct1Code);
-
-    service
-      .getProductAdded()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockProduct1Code);
-      });
-    done();
-  });
-
   it('should add deleted entry and after 5s delete it', (done) => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
@@ -424,5 +413,45 @@ describe('QuickOrderService', () => {
         expect(result).toEqual({});
         done();
       });
+  });
+
+  describe('canAdd', () => {
+    it('should verify can add a product which already exists even list limit reached', () => {
+      let result: boolean;
+      service.setListLimit(1);
+      service.addProduct(mockProduct1);
+
+      service.canAdd(mockProduct1Code).subscribe((canAdd) => (result = canAdd));
+      expect(result).toBe(true);
+    });
+
+    describe('should verify cannot add next product because of limit', () => {
+      it('with product code', () => {
+        let result: boolean;
+        service.setListLimit(1);
+        service.addProduct(mockProduct1);
+
+        service
+          .canAdd(mockProduct2Code)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(false);
+      });
+
+      it('without product code', () => {
+        let result: boolean;
+        service.setListLimit(1);
+        service.addProduct(mockProduct1);
+
+        service.canAdd().subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(false);
+      });
+    });
+  });
+
+  it('should trigger soft deletion entry on removeEntry method', () => {
+    spyOn(service, 'softDeleteEntry').and.callThrough();
+    service.loadEntries([mockEntry1]);
+    service.removeEntry(1);
+    expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
 });
