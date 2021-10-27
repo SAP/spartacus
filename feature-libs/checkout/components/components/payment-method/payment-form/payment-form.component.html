@@ -6,11 +6,12 @@
         <div class="form-group" formGroupName="cardType">
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
-              <label aria-required="true">
+              <label>
                 <span class="label-content required">{{
                   'paymentForm.paymentType' | cxTranslate
                 }}</span>
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="cardTypes"
@@ -21,6 +22,8 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -34,6 +37,7 @@
               'paymentForm.accountHolderName.label' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               class="form-control"
               type="text"
               placeholder="{{
@@ -42,6 +46,8 @@
               formControlName="accountHolderName"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -53,11 +59,14 @@
               'paymentForm.cardNumber' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               type="text"
               class="form-control"
               formControlName="cardNumber"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -71,6 +80,7 @@
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="months"
@@ -84,11 +94,14 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
+                  aria-required="true"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="years"
@@ -102,6 +115,8 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -121,12 +136,15 @@
                 ></cx-icon>
               </span>
               <input
+                aria-required="true"
                 type="text"
                 class="form-control"
                 id="cVVNumber"
                 formControlName="cvn"
               />
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -199,6 +217,7 @@
                         'addressForm.country' | cxTranslate
                       }}</span>
                       <ng-select
+                        aria-required="true"
                         [searchable]="true"
                         [clearable]="false"
                         [items]="countries"
@@ -212,6 +231,8 @@
                       >
                       </ng-select>
                       <cx-form-errors
+                        aria-live="assertive"
+                        aria-atomic="true"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
                     </label>
@@ -224,6 +245,7 @@
                     'addressForm.firstName.label' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     class="form-control"
                     type="text"
                     placeholder="{{
@@ -232,6 +254,8 @@
                     formControlName="firstName"
                   />
                   <cx-form-errors
+                    aria-live="assertive"
+                    aria-atomic="true"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
                 </label>
@@ -242,6 +266,7 @@
                     'addressForm.lastName.label' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
@@ -250,6 +275,8 @@
                     formControlName="lastName"
                   />
                   <cx-form-errors
+                    aria-live="assertive"
+                    aria-atomic="true"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
                 </label>
@@ -260,6 +287,7 @@
                     'addressForm.address1' | cxTranslate
                   }}</span>
                   <input
+                    aria-required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
@@ -268,6 +296,8 @@
                     formControlName="line1"
                   />
                   <cx-form-errors
+                    aria-live="assertive"
+                    aria-atomic="true"
                     [control]="billingAddressForm.get('line1')"
                   ></cx-form-errors>
                 </label>
@@ -292,6 +322,7 @@
                       'addressForm.city.label' | cxTranslate
                     }}</span>
                     <input
+                      aria-required="true"
                       type="text"
                       class="form-control"
                       placeholder="{{
@@ -300,6 +331,8 @@
                       formControlName="town"
                     />
                     <cx-form-errors
+                      aria-live="assertive"
+                      aria-atomic="true"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
                   </label>
@@ -310,6 +343,7 @@
                       'addressForm.zipCode.label' | cxTranslate
                     }}</span>
                     <input
+                      aria-required="true"
                       type="text"
                       class="form-control"
                       placeholder="{{
@@ -318,6 +352,8 @@
                       formControlName="postalCode"
                     />
                     <cx-form-errors
+                      aria-live="assertive"
+                      aria-atomic="true"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
                   </label>
@@ -333,6 +369,7 @@
                           'addressForm.state' | cxTranslate
                         }}</span>
                         <ng-select
+                          aria-required="true"
                           class="region-select"
                           formControlName="isocodeShort"
                           [searchable]="true"
@@ -350,6 +387,8 @@
                         >
                         </ng-select>
                         <cx-form-errors
+                          aria-live="assertive"
+                          aria-atomic="true"
                           [control]="
                             billingAddressForm.get('region.isocodeShort')
                           "
