@@ -10,9 +10,9 @@ export class AnchorPipe implements PipeTransform {
     protected routingService: RoutingService
   ) {}
 
-  public transform(value: string): SafeHtml {
+  public transform(html: string): SafeHtml {
     const template = this.renderer.createElement('template');
-    template.innerHTML = value.trim();
+    template.innerHTML = html.trim();
     const linkNodes: NodeList = template.content.querySelectorAll('a');
 
     Array.from(linkNodes).forEach((link: HTMLAnchorElement) => {
