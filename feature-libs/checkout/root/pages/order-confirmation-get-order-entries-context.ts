@@ -11,7 +11,7 @@ import { CheckoutFacade } from '../facade/checkout.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderConfirmationGetOrderEntries
+export class OrderConfirmationGetOrderEntriesContext
   implements GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.ORDER_CONFIRMATION;

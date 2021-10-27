@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutFacade } from '../facade/checkout.facade';
-import { OrderConfirmationGetOrderEntries } from './order-confirmation-get-order-entries-context';
+import { OrderConfirmationGetOrderEntriesContext } from './order-confirmation-get-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockEntries: OrderEntry[] = [
@@ -16,15 +16,15 @@ class MockUserOrderService implements Partial<CheckoutFacade> {
   getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
-describe('OrderConfirmationGetOrderEntries', () => {
-  let service: OrderConfirmationGetOrderEntries;
+describe('OrderConfirmationGetOrderEntriesContext', () => {
+  let service: OrderConfirmationGetOrderEntriesContext;
   let userOrderService: CheckoutFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ useClass: MockUserOrderService, provide: CheckoutFacade }],
     });
-    service = TestBed.inject(OrderConfirmationGetOrderEntries);
+    service = TestBed.inject(OrderConfirmationGetOrderEntriesContext);
     userOrderService = TestBed.inject(CheckoutFacade);
   });
 
