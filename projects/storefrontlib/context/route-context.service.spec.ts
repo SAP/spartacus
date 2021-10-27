@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoutesService } from '@spartacus/core';
 import { RoutingContextService } from '@spartacus/storefront';
+import createSpy = jasmine.createSpy;
 
 const token = 'TOKEN';
 const providerToken = 'providerToken';
@@ -16,15 +17,12 @@ class MockActivatedRoutesService implements Partial<ActivatedRoutesService> {
   routes$: Observable<ActivatedRouteSnapshot[]> = of(mockSnapshot);
 }
 
-class MockInjector implements Partial<Injector> {
-  get(_token, _params) {
-    return mockContext;
-  }
-}
+const mockInjector = {
+  get: createSpy('get').and.returnValue(mockContext),
+};
 
 describe('RoutingContextService', () => {
   let service: RoutingContextService;
-  let injector: Injector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,23 +31,20 @@ describe('RoutingContextService', () => {
           provide: ActivatedRoutesService,
           useClass: MockActivatedRoutesService,
         },
-        { provide: Injector, useClass: MockInjector },
+        { provide: Injector, useValue: mockInjector },
       ],
     });
-
-    injector = TestBed.inject(Injector);
     service = TestBed.inject(RoutingContextService);
   });
 
   describe('get', () => {
     it('should return context', () => {
-      spyOn(injector, 'get').and.returnValue(of(mockContext));
       let result;
       service
         .get(token)
         .subscribe((data) => (result = data))
         .unsubscribe();
-      // expect(injector.get).toHaveBeenCalledWith(providerToken, undefined);
+      expect(mockInjector.get).toHaveBeenCalledWith(providerToken, undefined);
       expect(result).toEqual(mockContext);
     });
   });
