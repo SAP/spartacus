@@ -2,26 +2,13 @@
 
 ## TODO (pre how to roll checkout discussion - phase 1)
 
-- multiple calls for setting cost center (user cost centers emits multiple times) - 2 calls for setting delivery address
-- JaloError retry for super query (add retry for it)
-
-  ```json
-  {
-    "errors": [
-      {
-        "message": "item 8796098958229 no longer valid (was removed): object no longer valid",
-        "type": "JaloObjectNoLongerValidError"
-      }
-    ]
-  }
-  ```
-
 - unify combineLatest with userId and cartId for all c&q in checkout services
 - consistent naming on facade methods returing state (should include state in name?)
 - optimize mutliple query events reloads/resets (to avoid cancelled requests)
 
 ## TODO (details nice to have in actual spartacus release of new checkout)
 
+- multiple calls for setting cost center (user cost centers emits multiple times) - 2 calls for setting delivery address
 - why we LoadCart on failed clearDeliveryMode call
 - clearCheckoutDeliveryMode actually incremented/decremented cart process
 
@@ -51,3 +38,27 @@
 - create umbrella event per step - deliveryaddressevent, deliverymodeevent, etc. all of the umbrella events should extend the checkoutevent
 - scheduled replenishment events listener to add (move trigger from the scheduled-replenishment service)
 - loader buttons in components (just better UX for checkout components)
+- cleanup (exponensial backoff): JaloError retry for super query (add retry for it)
+
+  ```json
+  {
+    "errors": [
+      {
+        "message": "item 8796098958229 no longer valid (was removed): object no longer valid",
+        "type": "JaloObjectNoLongerValidError"
+      }
+    ]
+  }
+  ```
+
+// jalo
+// - 1 retry -> Jalo
+// - 2 retry -> Jalo
+// - 3 retry -> succ
+
+// jalo
+// - 1 retry -> different error (is there point to keep retrying?)
+// just throw the error
+
+// different error
+// just throw without retries

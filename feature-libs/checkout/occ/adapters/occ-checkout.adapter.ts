@@ -5,8 +5,10 @@ import {
   CheckoutDetails,
   CHECKOUT_NORMALIZER,
 } from '@spartacus/checkout/core';
+import { CheckoutState } from '@spartacus/checkout/root';
 import {
   ConverterService,
+  HttpErrorModel,
   InterceptorUtil,
   normalizeHttpError,
   Occ,
@@ -16,8 +18,8 @@ import {
   ORDER_NORMALIZER,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, pipe, range, throwError, timer, zip } from 'rxjs';
+import { catchError, map, mergeMap, retryWhen } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
@@ -85,7 +87,10 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     );
   }
 
-  getCheckoutDetails(userId: string, cartId: string): Observable<any> {
+  getCheckoutDetails(
+    userId: string,
+    cartId: string
+  ): Observable<CheckoutState> {
     return this.http
       .get<any>(
         this.occEndpoints.buildUrl('getCheckoutDetails', {
@@ -97,7 +102,26 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backoffJalo(3, 500),
         this.converter.pipeable(CHECKOUT_NORMALIZER)
       );
   }
+}
+
+function backoffJalo<T>(maxTries: number, delay: number) {
+  return pipe(
+    retryWhen<T>((attempts) =>
+      zip(range(1, maxTries + 1), attempts).pipe(
+        mergeMap(([i, err]) =>
+          i > maxTries || !isJaloError(err) ? throwError(err) : of(i)
+        ),
+        map((i) => i * i),
+        mergeMap((v) => timer(v * delay))
+      )
+    )
+  );
+}
+
+function isJaloError(err: HttpErrorModel) {
+  return err.details?.[0]?.type === 'JaloObjectNoLongerValidError';
 }
