@@ -7,7 +7,6 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import {
-  Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestList,
@@ -30,7 +29,6 @@ import {
   USER_CONSENTS,
   USER_COST_CENTERS,
   USER_ORDERS,
-  USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
   USER_REPLENISHMENT_ORDERS,
   USER_REPLENISHMENT_ORDER_DETAILS,
@@ -41,7 +39,6 @@ import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
-import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
@@ -71,10 +68,6 @@ export function getReducers(): ActionReducerMap<UserState> {
     orders: loaderReducer<OrderHistoryList>(
       USER_ORDERS,
       fromUserOrdersReducer.reducer
-    ),
-    order: loaderReducer<Order>(
-      USER_ORDER_DETAILS,
-      fromOrderDetailsReducer.reducer
     ),
     replenishmentOrders: loaderReducer<ReplenishmentOrderList>(
       USER_REPLENISHMENT_ORDERS,

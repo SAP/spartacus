@@ -3,7 +3,6 @@ export * from './customer-coupons.selectors';
 export * from './delivery-countries.selectors';
 export * from './feature.selector';
 export * from './notification-preference.selectors';
-export * from './order-details.selectors';
 export * from './order-return-request.selectors';
 export * from './payment-methods.selectors';
 export * from './product-interests.selectors';

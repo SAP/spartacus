@@ -3,7 +3,6 @@ import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 import { CustomerCouponEffects } from './customer-coupon.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
 import { NotificationPreferenceEffects } from './notification-preference.effect';
-import { OrderDetailsEffect } from './order-details.effect';
 import { OrderReturnRequestEffect } from './order-return-request.effect';
 import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { ProductInterestsEffect } from './product-interests.effect';
@@ -22,7 +21,6 @@ export const effects: any[] = [
   UserAddressesEffects,
   UserPaymentMethodsEffects,
   UserOrdersEffect,
-  OrderDetailsEffect,
   BillingCountriesEffect,
   UserConsentsEffect,
   CustomerCouponEffects,

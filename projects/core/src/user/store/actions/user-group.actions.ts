@@ -2,7 +2,6 @@ export * from './billing-countries.action';
 export * from './customer-coupon.action';
 export * from './delivery-countries.action';
 export * from './notification-preference.action';
-export * from './order-details.action';
 export * from './order-return-request.action';
 export * from './payment-methods.action';
 export * from './product-interests.actions';
