@@ -1,0 +1,372 @@
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Product } from '@spartacus/core';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { Observable, of } from 'rxjs';
+import { VerticalCarouselComponent } from './vertical-carousel.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  template: ` <div id="templateEl"></div> `,
+})
+class MockTemplateComponent {}
+
+@Component({
+  template: ` <div id="headerTemplateEl"></div> `,
+})
+class MockHeaderTemplateComponent {}
+
+describe('VerticalCarousel Component', () => {
+  let component: VerticalCarouselComponent;
+  let fixture: ComponentFixture<VerticalCarouselComponent>;
+
+  let templateFixture: ComponentFixture<MockTemplateComponent>;
+  let template: any;
+  let headerTemplateFixture: ComponentFixture<MockHeaderTemplateComponent>;
+  let headerTemplate: any;
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          VerticalCarouselComponent,
+          MockCxIconComponent,
+          MockHeaderTemplateComponent,
+          MockTemplateComponent,
+        ],
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(VerticalCarouselComponent);
+    component = fixture.componentInstance;
+
+    headerTemplateFixture = TestBed.createComponent(
+      MockHeaderTemplateComponent
+    );
+    const compiledHeaderTemplate =
+      headerTemplateFixture.debugElement.nativeElement;
+    headerTemplate = compiledHeaderTemplate.querySelector('#headerTemplateEl');
+
+    templateFixture = TestBed.createComponent(MockTemplateComponent);
+    const compiledTemplate = templateFixture.debugElement.nativeElement;
+    template = compiledTemplate.querySelector('#templateEl');
+  });
+
+  describe('component tests', () => {
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should log an error when there is no header template given', () => {
+      spyOn(console, 'error');
+      component.template = template;
+      component.ngOnInit();
+      expect(console.error).toHaveBeenCalledWith(
+        'No template reference provided to render the header for the `cx-vertical-carousel`'
+      );
+    });
+
+    it('should log an error when there is no template given', () => {
+      spyOn(console, 'error');
+      component.headerTemplate = headerTemplate;
+      component.ngOnInit();
+      expect(console.error).toHaveBeenCalledWith(
+        'No template reference provided to render the items for the `cx-vertical-carousel`'
+      );
+    });
+
+    it('should default to 10 items per slide', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      component.ngOnInit();
+
+      expect(component.itemsPerSlide).toEqual(10);
+    });
+
+    it('should default to first activeSlideStart', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      component.ngOnInit();
+      expect(component.activeSlideStartIndex).toEqual(0);
+    });
+
+    it('should default hideIndicators to false', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      expect(component.hideIndicators).toEqual(false);
+    });
+
+    it('indicatorIcon should default to "CIRCLE"', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      component.ngOnInit();
+      component.ngOnInit();
+      expect(component.indicatorIcon).toEqual('CIRCLE');
+    });
+
+    it('indicatorIcon should default to "CARET_LEFT"', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      component.ngOnInit();
+      expect(component.previousIcon).toEqual('CARET_LEFT');
+    });
+
+    it('indicatorIcon should default to "CARET_RIGHT"', () => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+      component.ngOnInit();
+      expect(component.nextIcon).toEqual('CARET_RIGHT');
+    });
+  });
+
+  describe('(UI tests)', () => {
+    beforeEach(() => {
+      component.headerTemplate = headerTemplate;
+      component.template = template;
+    });
+    describe('carousel title', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 1;
+        component.items = [of()];
+      });
+
+      it('should have h3 with title', () => {
+        component.title = 'test carousel with title';
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const el = fixture.debugElement.query(By.css('h3'));
+        expect(el.nativeElement).toBeTruthy();
+
+        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+          'test carousel with title'
+        );
+      });
+
+      it('should not have a h3', () => {
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const el = fixture.debugElement.query(By.css('h3'));
+        expect(el).toBeNull();
+      });
+    });
+
+    describe('carousel buttons', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 4;
+        component.items = [of(), of(), of(), of(), of()];
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should have previous button', () => {
+        const el = fixture.debugElement.query(By.css('button.previous'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have next button', () => {
+        const el = fixture.debugElement.query(By.css('button.next'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have disabled previous button on slide 1', () => {
+        const el = fixture.debugElement.query(
+          By.css('button.previous[disabled]')
+        );
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have enabled next button on slide 1', () => {
+        const el = fixture.debugElement.query(By.css('button.next[disabled]'));
+        expect(el).toBeNull();
+      });
+
+      it('should have disabled state after clicking on next button', () => {
+        const el = fixture.debugElement.query(By.css('button.next'));
+        (<HTMLElement>el.nativeElement).click();
+        fixture.detectChanges();
+        expect(el.nativeElement.disabled).toBe(true);
+      });
+
+      it('should enabled previous button after clicking on next button', () => {
+        const prevButton = fixture.debugElement.query(
+          By.css('button.previous')
+        );
+        expect(prevButton.nativeElement.disabled).toBe(true);
+
+        const nextButton = fixture.debugElement.query(By.css('button.next'));
+        (<HTMLElement>nextButton.nativeElement).click();
+
+        fixture.detectChanges();
+        expect(prevButton.nativeElement.disabled).toBe(false);
+      });
+
+      it('should toggle disabled state of previous/next buttons after navigating to next slide', () => {
+        const prevButton = fixture.debugElement.query(
+          By.css('button.previous')
+        );
+        const nextButton = fixture.debugElement.query(By.css('button.next'));
+        (<HTMLElement>nextButton.nativeElement).click();
+
+        fixture.detectChanges();
+        expect(prevButton.nativeElement.disabled).toBe(false);
+        expect(nextButton.nativeElement.disabled).toBe(true);
+      });
+
+      it('should have 2 slide indicators', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el.length).toEqual(2);
+      });
+
+      it('should have disabled indicator', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el[0].nativeElement.disabled).toEqual(true);
+      });
+
+      it('should have enabled indicator', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el[1].nativeElement.disabled).toEqual(false);
+      });
+
+      it('should toggle disabled state after navigating with the slide indicators', () => {
+        const indicators = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        indicators[1].nativeElement.click();
+
+        fixture.detectChanges();
+
+        expect(indicators[0].nativeElement.disabled).toBe(true);
+        expect(indicators[1].nativeElement.disabled).toBe(false);
+      });
+    });
+
+    describe('carousel with 5 items divided by 2 slides', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 4;
+        component.items = [of(), of(), of(), of(), of()];
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should have previous button', () => {
+        const el = fixture.debugElement.query(By.css('button.previous'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have next button', () => {
+        const el = fixture.debugElement.query(By.css('button.next'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have 2 indicators', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el.length).toEqual(2);
+      });
+    });
+
+    describe('carousel with 7 items divided by 3 slides', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 3;
+        component.title = 'test carousel with title';
+        component.items = [of(), of(), of(), of(), of(), of(), of()];
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should have previous button', () => {
+        const el = fixture.debugElement.query(By.css('button.previous'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have next button', () => {
+        const el = fixture.debugElement.query(By.css('button.next'));
+        expect(el.nativeElement).toBeTruthy();
+      });
+
+      it('should have 3 slide indicators', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el.length).toEqual(3);
+      });
+    });
+
+    describe('carousel with 3 items divided by 1 slide', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 3;
+        component.title = 'test carousel with title';
+        component.items = [of(), of(), of()];
+        component.ngOnInit();
+        fixture.detectChanges();
+      });
+
+      it('should not have a previous button', () => {
+        const el = fixture.debugElement.query(By.css('button.previous'));
+        expect(el).toBeNull();
+      });
+
+      it('should not have a next button', () => {
+        const el = fixture.debugElement.query(By.css('button.next'));
+        expect(el).toBeNull();
+      });
+
+      it('should have no slide indicators ', () => {
+        const el = fixture.debugElement.queryAll(
+          By.css('div.indicators button.slide-indicator')
+        );
+        expect(el.length).toEqual(0);
+      });
+    });
+
+    describe('empty carousel', () => {
+      beforeEach(() => {
+        component.itemsPerSlide = 1;
+        component.items = [];
+      });
+
+      it('should not render the carousel', () => {
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const el = fixture.debugElement.query(By.css('div.carousel-panel'));
+        expect(el).toBeNull();
+      });
+    });
+
+    describe('new input items', () => {
+      const mockProduct: Product = {
+        name: 'mockProduct',
+        code: 'code1',
+        stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
+      };
+
+      it('should reset slider', () => {
+        component.activeSlideStartIndex = 1;
+        const mockProductArr: Observable<Product>[] = [of(mockProduct)];
+        component.items = mockProductArr;
+        expect(component.activeSlideStartIndex).toEqual(0);
+      });
+    });
+  });
+});

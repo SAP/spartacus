@@ -16,6 +16,11 @@
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js"
             },
+            "optimization": {
+              "styles": {
+                "inlineCritical": false
+              }
+            },
             "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
@@ -598,6 +603,43 @@
             "lintFilePatterns": [
               "integration-libs/digital-payments/**/*.ts",
               "integration-libs/digital-payments/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "epd-visualization": {
+      "projectType": "library",
+      "root": "integration-libs/epd-visualization",
+      "sourceRoot": "integration-libs/epd-visualization/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.json",
+            "project": "integration-libs/epd-visualization/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/epd-visualization/src/test.ts",
+            "tsConfig": "integration-libs/epd-visualization/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/epd-visualization/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "integration-libs/epd-visualization/**/*.ts",
+              "integration-libs/epd-visualization/**/*.html"
             ]
           }
         }
