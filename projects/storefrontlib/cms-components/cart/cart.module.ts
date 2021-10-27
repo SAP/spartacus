@@ -13,8 +13,8 @@ import { ActiveCartOrderEntriesContext } from './cart-page/active-cart-order-ent
 import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
-import { GetOrderEntriesContext } from './order-entries-context/export.context';
-import { AddOrderEntriesContext } from './order-entries-context/import.context';
+import { AddOrderEntriesContext } from './order-entries-context/add-order-entries.context';
+import { GetOrderEntriesContext } from './order-entries-context/get-order-entries.context';
 import { ORDER_ENTRIES_CONTEXT } from './order-entries-context/order-entires.context';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
 
