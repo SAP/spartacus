@@ -6,12 +6,9 @@ import { NotificationPreferenceEffects } from './notification-preference.effect'
 import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { ProductInterestsEffect } from './product-interests.effect';
 import { RegionsEffects } from './regions.effect';
-import { ReplenishmentOrderDetailsEffect } from './replenishment-order-details.effect';
 import { UserAddressesEffects } from './user-addresses.effect';
 import { UserConsentsEffect } from './user-consents.effect';
 import { UserCostCenterEffects } from './user-cost-center.effect';
-import { UserOrdersEffect } from './user-orders.effect';
-import { UserReplenishmentOrdersEffect } from './user-replenishment-orders.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,
@@ -19,15 +16,12 @@ export const effects: any[] = [
   RegionsEffects,
   UserAddressesEffects,
   UserPaymentMethodsEffects,
-  UserOrdersEffect,
   BillingCountriesEffect,
   UserConsentsEffect,
   CustomerCouponEffects,
   NotificationPreferenceEffects,
   ProductInterestsEffect,
   UserCostCenterEffects,
-  ReplenishmentOrderDetailsEffect,
-  UserReplenishmentOrdersEffect,
 ];
 
 export * from './billing-countries.effect';
@@ -38,8 +32,5 @@ export * from './notification-preference.effect';
 export * from './payment-methods.effect';
 export * from './product-interests.effect';
 export * from './regions.effect';
-export * from './replenishment-order-details.effect';
 export * from './user-addresses.effect';
 export * from './user-consents.effect';
-export * from './user-orders.effect';
-export * from './user-replenishment-orders.effect';

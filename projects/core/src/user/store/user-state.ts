@@ -4,13 +4,9 @@ import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
-import { OrderHistoryList, ReturnRequest } from '../../model/order.model';
+import { ReturnRequest } from '../../model/order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
-import {
-  ReplenishmentOrder,
-  ReplenishmentOrderList,
-} from '../../model/replenishment-order.model';
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
@@ -86,27 +82,12 @@ export interface UserState {
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState<PaymentDetails[]>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orders: StateUtils.LoaderState<OrderHistoryList>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
   regions: StateUtils.LoaderState<RegionsState>;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
   costCenters: StateUtils.LoaderState<CostCenter[]>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
 }
 
 export interface RegionsState {
