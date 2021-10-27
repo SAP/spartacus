@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { ContextToken } from './context.model';
 
 /**
@@ -47,7 +47,6 @@ export class RoutingContextService {
    */
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
     return this.contextTokenMapping$.pipe(
-      tap(console.log), // TODO REMOVE
       map((contextMapping) => {
         const providerToken =
           contextMapping?.[
