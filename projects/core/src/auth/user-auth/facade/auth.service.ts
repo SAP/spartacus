@@ -89,7 +89,9 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    * @param showGlobalMsg show a successful global message upon sign out.
    */
-  coreLogout(showGlobalMsg?: boolean): Promise<void> {
+  coreLogout(showGlobalMsg = "default"): Promise<void> {
+    console.log(showGlobalMsg);
+
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {

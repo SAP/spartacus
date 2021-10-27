@@ -7,6 +7,8 @@ import {
   PageType,
   ProtectedRoutesService,
   SemanticPathService,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -28,7 +30,8 @@ export class LogoutGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -59,6 +62,10 @@ export class LogoutGuard implements CanActivate {
   }
 
   protected logout(): Promise<any> {
+    this.globalMessageService?.add(
+      { key: 'authMessages.signedOutSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
     return this.auth.coreLogout();
   }
 
