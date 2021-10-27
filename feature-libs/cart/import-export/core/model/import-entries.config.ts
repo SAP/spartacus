@@ -8,34 +8,52 @@ export enum CartNameSource {
   FILE_NAME = 'fileName',
   DATE_TIME = 'dateTime',
 }
+
 /**
- *  If `source` is set as `DATE_TIME`, it means that by default
- *  new saved cart name will be set as current date according to `fromDateOptions` property.
- *
- * `prefix` - adds text before the import date.
- * `suffix` - adds text after the import date.
- * `mask` - transforms current date according to specified format.
+ * Specifies cart name generation details.
  */
 export interface CartNameGeneration {
+  /**
+   *  If `source` is set as `DATE_TIME`, it means that by default
+   *  new saved cart name will be set as current date according to `fromDateOptions` property.
+   */
   source?: CartNameSource;
   fromDateOptions?: {
+    /**
+     * Adds text before the import date.
+     */
     prefix?: string;
+
+    /**
+     * Adds text after the import date.
+     */
     suffix?: string;
+
+    /**
+     * Transforms current date according to specified format.
+     */
     mask?: string;
   };
 }
 /**
  * Allows to specify file validation attributes.
- *
- * `maxSize` - maximum imported file size in megabytes.
- * `maxEntries` - maximum number for imported entries per place specified as key from `OrderEntriesSource`.
- * `allowedTypes` - string array with types allowed to be imported.
  */
 export interface FileValidity {
+  /**
+   * Maximum imported file size in megabytes.
+   */
   maxSize?: number;
+
+  /**
+   * Maximum number for imported entries per place specified as key from `OrderEntriesSource`.
+   */
   maxEntries?: {
     [key in OrderEntriesSource]?: number;
   };
+
+  /**
+   * String array with file types/extensions allowed for import.
+   */
   allowedTypes?: string[];
 }
 /**
