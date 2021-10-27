@@ -11,7 +11,7 @@ import {
 import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ExportOrderEntriesComponent } from './export-order-entries.component';
-import { ExportProductsToCsvService } from './export-products-to-csv.service';
+import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
@@ -107,7 +107,7 @@ class MockContextService implements Partial<ContextService> {
 describe('ExportOrderEntriesComponent', () => {
   let component: ExportOrderEntriesComponent;
   let fixture: ComponentFixture<ExportOrderEntriesComponent>;
-  let exportEntriesService: ExportProductsToCsvService;
+  let exportEntriesService: ExportOrderEntriesToCsvService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -118,7 +118,7 @@ describe('ExportOrderEntriesComponent', () => {
       ],
       providers: [
         {
-          provide: ExportProductsToCsvService,
+          provide: ExportOrderEntriesToCsvService,
           useClass: MockExportProductsToCsvService,
         },
         {
@@ -134,7 +134,7 @@ describe('ExportOrderEntriesComponent', () => {
     fixture = TestBed.createComponent(ExportOrderEntriesComponent);
     component = fixture.componentInstance;
 
-    exportEntriesService = TestBed.inject(ExportProductsToCsvService);
+    exportEntriesService = TestBed.inject(ExportOrderEntriesToCsvService);
   });
 
   it('should create', () => {

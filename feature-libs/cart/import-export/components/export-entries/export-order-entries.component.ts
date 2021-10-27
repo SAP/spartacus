@@ -7,7 +7,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ExportProductsToCsvService } from './export-products-to-csv.service';
+import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 
 @Component({
   selector: 'cx-export-order-entries',
@@ -16,7 +16,7 @@ import { ExportProductsToCsvService } from './export-products-to-csv.service';
 })
 export class ExportOrderEntriesComponent {
   constructor(
-    protected exportEntriesService: ExportProductsToCsvService,
+    protected exportEntriesService: ExportOrderEntriesToCsvService,
     protected contextService: ContextService
   ) {}
 

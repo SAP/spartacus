@@ -16,7 +16,7 @@ import {
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 
-import { ExportProductsToCsvService } from './export-products-to-csv.service';
+import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 import createSpy = jasmine.createSpy;
 
 const csvData = [
@@ -114,8 +114,8 @@ class MockExportCsvFileService implements Partial<ExportCsvFileService> {
   download = createSpy().and.callThrough();
 }
 
-describe('ExportProductsToCsvService', () => {
-  let service: ExportProductsToCsvService;
+describe('ExportOrderEntriesToCsvService', () => {
+  let service: ExportOrderEntriesToCsvService;
   let translationService: TranslationService;
   let exportCsvFileService: ExportCsvFileService;
 
@@ -131,7 +131,7 @@ describe('ExportProductsToCsvService', () => {
         },
       ],
     });
-    service = TestBed.inject(ExportProductsToCsvService);
+    service = TestBed.inject(ExportOrderEntriesToCsvService);
     translationService = TestBed.inject(TranslationService);
     exportCsvFileService = TestBed.inject(ExportCsvFileService);
 

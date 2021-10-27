@@ -17,7 +17,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ExportProductsToCsvService {
+export class ExportOrderEntriesToCsvService {
   constructor(
     protected exportCsvFileService: ExportCsvFileService,
     protected importExportConfig: ImportExportConfig,
