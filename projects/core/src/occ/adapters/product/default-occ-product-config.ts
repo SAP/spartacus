@@ -34,6 +34,5 @@ export const defaultOccProductConfig: OccConfig = {
         },
       },
     },
-    retractTriggered: false,
   },
 };
