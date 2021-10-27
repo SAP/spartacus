@@ -12,7 +12,7 @@ import {
   Translatable,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
@@ -37,6 +37,7 @@ const mockResetIconElement = {
   className: 'quick-order-form-reset-icon',
 } as Element;
 const mockEmptyElement = {} as Element;
+const mockCanAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   searchProducts(_query: string, _maxProducts?: number): Observable<Product[]> {
@@ -47,6 +48,9 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return new Subject<string>();
   }
   addProduct(_product: Product): void {}
+  canAdd(_code?: string): Observable<boolean> {
+    return mockCanAdd$.asObservable();
+  }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -109,6 +113,11 @@ describe('QuickOrderFormComponent', () => {
   });
 
   describe('should add new product on addProduct method', () => {
+    beforeEach(() => {
+      mockCanAdd$.next(true);
+      fixture.detectChanges();
+    });
+
     it('first on the list', () => {
       spyOn(component, 'add').and.callThrough();
       component.setResults([mockProduct]);
@@ -281,13 +290,23 @@ describe('QuickOrderFormComponent', () => {
     });
   });
 
-  it('should disable form control with isDisabled flag', () => {
-    component.isDisabled = true;
-    expect(component.form.get('product')?.disabled).toBeTruthy();
-  });
+  describe('should verify list limit', () => {
+    it('and allow to add new product', () => {
+      mockCanAdd$.next(true);
+      fixture.detectChanges();
 
-  it('should disable form control with isLoading flag', () => {
-    component.isLoading = true;
-    expect(component.form.get('product')?.disabled).toBeTruthy();
+      let result;
+      component.canAddProduct().subscribe((canAdd) => (result = canAdd));
+      expect(result).toBeTruthy();
+    });
+
+    it('and not allow to add new product', () => {
+      mockCanAdd$.next(false);
+      fixture.detectChanges();
+
+      let result;
+      component.canAddProduct().subscribe((canAdd) => (result = canAdd));
+      expect(result).toBeFalsy();
+    });
   });
 });
