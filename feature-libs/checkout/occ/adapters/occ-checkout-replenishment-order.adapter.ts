@@ -4,13 +4,12 @@ import {
   CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
-  ConverterService,
-  OccEndpointsService,
   ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
-import { REPLENISHMENT_ORDER_NORMALIZER } from '@spartacus/order/root';
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

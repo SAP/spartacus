@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   Address,
   CostCenter,
-  DeliveryMode,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';

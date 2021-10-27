@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, OrderEntry } from '@spartacus/cart/main/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
-  OrderEntry,
   PROCESS_FEATURE,
   StateUtils,
   UserIdService,

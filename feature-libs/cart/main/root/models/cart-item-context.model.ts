@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { OrderEntry } from '../models/cart.model';
 import { CartItemComponentOptions, PromotionLocation } from './cart.model';
 
 /**

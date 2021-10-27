@@ -1,19 +1,22 @@
-import { Address } from './address.model';
 import {
+  DeliveryMode,
   DeliveryOrderEntryGroup,
-  PaymentDetails,
+  OrderEntry,
   PaymentType,
+  PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
-} from './cart.model';
-import { PaginationModel, Principal, SortModel } from './misc.model';
-import { DeliveryMode, OrderEntry, PickupOrderEntryGroup } from './order.model';
-import { CostCenter } from './org-unit.model';
-import { Price } from './product.model';
+} from '@spartacus/cart/main/root';
+import {
+  Address,
+  CostCenter,
+  PaginationModel,
+  PaymentDetails,
+  Price,
+  Principal,
+  SortModel,
+} from '@spartacus/core';
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReplenishmentOrder {
   active?: boolean;
   appliedOrderPromotions?: PromotionResult[];
@@ -60,18 +63,12 @@ export interface ReplenishmentOrder {
   user?: Principal;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReplenishmentOrderList {
   replenishmentOrders?: ReplenishmentOrder[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;

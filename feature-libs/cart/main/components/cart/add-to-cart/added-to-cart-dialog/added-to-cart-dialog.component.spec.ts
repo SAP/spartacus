@@ -13,13 +13,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  OrderEntry,
   RouterState,
   RoutingService,
 } from '@spartacus/core';

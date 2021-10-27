@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import {
+  CheckoutFacade,
+  ORDER_TYPE,
+  ScheduleReplenishmentForm,
+} from '@spartacus/checkout/root';
 import {
   getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
-  Order,
-  ORDER_TYPE,
   ProcessSelectors,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';

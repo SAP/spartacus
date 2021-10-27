@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
@@ -12,8 +13,6 @@ import {
   AuthService,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
-  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
@@ -64,11 +63,7 @@ class MockCartItemListComponent {
   selector: 'cx-cart-coupon',
 })
 class MockCartCouponComponent {
-  @Input()
-  cart: Cart | Order;
-  @Input()
   cartIsLoading = false;
-  userId: string;
 }
 
 describe('CartDetailsComponent', () => {

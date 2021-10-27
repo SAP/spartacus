@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WishListFacade } from '@spartacus/cart/main/root';
-import {
-  AuthService,
-  isNotNullable,
-  OrderEntry,
-  Product,
-} from '@spartacus/core';
+import { OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { AuthService, isNotNullable, Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';

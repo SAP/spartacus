@@ -2,8 +2,11 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/main/components';
-import { CartItemContext, PromotionLocation } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import {

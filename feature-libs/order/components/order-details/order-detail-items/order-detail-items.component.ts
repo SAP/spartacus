@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
-import { Consignment, Order } from '@spartacus/core';
+import { Consignment, Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';

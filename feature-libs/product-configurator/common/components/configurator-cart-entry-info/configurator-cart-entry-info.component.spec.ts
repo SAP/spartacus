@@ -6,13 +6,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
-  FeaturesConfigModule,
-  I18nTestingModule,
+  CartItemContext,
   OrderEntry,
-} from '@spartacus/core';
-import { CartItemContext } from '@spartacus/cart/main/root';
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';

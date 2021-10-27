@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ReplenishmentOrder, RoutingService } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+import { RoutingService } from '@spartacus/core';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderFacade,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,

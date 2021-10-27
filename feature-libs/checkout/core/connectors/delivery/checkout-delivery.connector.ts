@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Address, DeliveryMode } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
+import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 

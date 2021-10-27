@@ -4,12 +4,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PromotionLocation } from '@spartacus/cart/main/root';
 import {
-  Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
 } from '@spartacus/core';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 

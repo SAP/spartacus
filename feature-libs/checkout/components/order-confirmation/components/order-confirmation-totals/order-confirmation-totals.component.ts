@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

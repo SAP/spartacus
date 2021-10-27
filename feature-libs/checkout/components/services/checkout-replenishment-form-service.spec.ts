@@ -1,5 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ScheduleReplenishmentForm } from '@spartacus/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form-service';
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {

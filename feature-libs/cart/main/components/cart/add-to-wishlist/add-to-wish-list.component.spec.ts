@@ -9,18 +9,12 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart, WishListFacade } from '@spartacus/cart/main/root';
-import {
-  AuthService,
-  I18nTestingModule,
-  OrderEntry,
-  Product,
-} from '@spartacus/core';
+import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
-
 const mockProduct: Product = {
   code: 'xxx',
   name: 'product',

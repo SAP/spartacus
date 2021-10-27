@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
-import { CmsParagraphComponent, CmsService, OrderEntry } from '@spartacus/core';
+import { CmsParagraphComponent, CmsService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',

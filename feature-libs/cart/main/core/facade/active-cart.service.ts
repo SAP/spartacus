@@ -1,13 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
 import {
   EMAIL_PATTERN,
   getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
-  OrderEntry,
   StateUtils,
   User,
   UserIdService,

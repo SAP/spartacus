@@ -4,8 +4,8 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';

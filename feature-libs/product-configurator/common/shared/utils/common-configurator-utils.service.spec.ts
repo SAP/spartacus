@@ -5,13 +5,10 @@ import { CartItemContextSource } from '@spartacus/cart/main/components';
 import {
   Cart,
   CartItemContext,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OrderEntry,
-  UserIdService,
-} from '@spartacus/core';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
