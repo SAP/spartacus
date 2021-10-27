@@ -13,13 +13,22 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  skip,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -48,6 +57,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService,
     protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
     protected checkoutCostCenterService?: CheckoutCostCenterFacade
@@ -167,6 +177,18 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     if (!this.isGuestCheckout && !this.isAccountPayment) {
       this.userAddressService.loadAddresses();
     }
+
+    this.subscriptions.add(
+      this.checkoutDeliveryService
+        .getSetDeliveryAddressProcess()
+        .pipe(
+          filter((shippingAddressState) => shippingAddressState.success),
+          skip(1)
+        )
+        .subscribe((shippingAddressState) =>
+          this.onSelectAddressComplete(shippingAddressState.success)
+        )
+    );
   }
 
   getCardContent(
@@ -200,6 +222,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
+  onSelectAddressComplete(success: boolean): void {
+    if (success) {
+      this.globalMessageService.add(
+        {
+          key: 'checkoutAddress.selectShippingAddressSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
+  }
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {
