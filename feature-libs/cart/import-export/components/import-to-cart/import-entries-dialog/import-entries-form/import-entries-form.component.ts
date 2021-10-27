@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { CxDatePipe } from '@spartacus/core';
 import {
   OrderEntriesSource,
   FilesFormValidators,
@@ -25,7 +24,6 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CxDatePipe],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: FormGroup;
