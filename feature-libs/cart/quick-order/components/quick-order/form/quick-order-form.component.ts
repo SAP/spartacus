@@ -104,6 +104,16 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   add(product: Product, event: Event): void {
     event?.preventDefault();
+
+    // Check if product is purchasable / non multidimensional
+    if (product.multidimensional) {
+      this.quickOrderService.setNonPurchasableProductError(product);
+      this.clear();
+      return;
+    } else {
+      this.quickOrderService.clearNonPurchasableProductError();
+    }
+
     this.quickOrderService.addProduct(product);
   }
 
