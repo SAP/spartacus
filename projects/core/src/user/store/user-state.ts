@@ -4,11 +4,7 @@ import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
-import {
-  OrderHistoryList,
-  ReturnRequest,
-  ReturnRequestList,
-} from '../../model/order.model';
+import { OrderHistoryList, ReturnRequest } from '../../model/order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 import {
@@ -102,10 +98,6 @@ export interface UserState {
    * @deprecated since 4.2 - use order lib instead
    */
   orderReturn: StateUtils.LoaderState<ReturnRequest>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   regions: StateUtils.LoaderState<RegionsState>;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;

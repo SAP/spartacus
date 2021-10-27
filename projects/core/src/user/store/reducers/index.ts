@@ -6,11 +6,7 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import {
-  OrderHistoryList,
-  ReturnRequest,
-  ReturnRequestList,
-} from '../../../model/order.model';
+import { OrderHistoryList, ReturnRequest } from '../../../model/order.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import {
@@ -32,14 +28,12 @@ import {
   USER_PAYMENT_METHODS,
   USER_REPLENISHMENT_ORDERS,
   USER_REPLENISHMENT_ORDER_DETAILS,
-  USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
-import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
@@ -74,10 +68,6 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromUserReplenishmentOrdersReducer.reducer
     ),
     orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
-    orderReturnList: loaderReducer<ReturnRequestList>(
-      USER_RETURN_REQUESTS,
-      fromOrderReturnRequestReducer.reducer
-    ),
     countries: fromDeliveryCountries.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
