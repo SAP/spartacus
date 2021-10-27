@@ -10,7 +10,8 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 
 /**
  * Auth service for normal user authentication.
@@ -89,9 +90,7 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    * @param showGlobalMsg show a successful global message upon sign out.
    */
-  coreLogout(showGlobalMsg = "default"): Promise<void> {
-    console.log(showGlobalMsg);
-
+  coreLogout(showGlobalMsg = true): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
