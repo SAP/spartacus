@@ -191,8 +191,10 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getCheckoutStepUrl(stepType: CheckoutStepType): string | undefined {
-    const step = this.checkoutStepService.getCheckoutStep(stepType);
+  getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
+    const step = this.checkoutStepService.getCheckoutStep(
+      stepType as CheckoutStepType
+    );
     return step?.routeName;
   }
 

@@ -29,7 +29,7 @@ import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-deliv
 export class CheckoutDeliveryAddressService
   implements CheckoutDeliveryAddressFacade
 {
-  protected checkoutPreconditions() {
+  protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartService.takeActiveCartId(),

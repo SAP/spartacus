@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import '@spartacus/checkout/b2b/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
