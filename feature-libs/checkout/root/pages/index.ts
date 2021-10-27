@@ -1,1 +1,1 @@
-export * from './order-confirmation-get-order-entries-context';
+export * from './order-confirmation-order-entries-context.service';

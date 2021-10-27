@@ -28,7 +28,7 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class NewSavedCartAddOrderEntriesContext
+export class NewSavedCartOrderEntriesContext
   extends CartAddOrderEntriesContext
   implements AddOrderEntriesContext
 {

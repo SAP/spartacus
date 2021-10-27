@@ -11,9 +11,7 @@ import { OrderFacade } from '../facade/order.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderDetailsGetOrderEntriesContext
-  implements GetOrderEntriesContext
-{
+export class OrderDetailsOrderEntriesContext implements GetOrderEntriesContext {
   readonly type = OrderEntriesSource.ORDER_DETAILS;
 
   constructor(protected userOrderService: OrderFacade) {}

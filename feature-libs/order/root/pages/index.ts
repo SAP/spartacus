@@ -1,1 +1,1 @@
-export * from './order-details-get-order-entries-context';
+export * from './order-details-order-entries-context';

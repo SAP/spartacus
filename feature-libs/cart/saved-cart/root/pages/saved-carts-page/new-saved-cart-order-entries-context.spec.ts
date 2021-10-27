@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { ProductData } from '@spartacus/storefront';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { NewSavedCartAddOrderEntriesContext } from './new-saved-cart-add-order-entries-context';
+import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();
@@ -43,8 +43,8 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
-describe('NewSavedCartAddOrderEntriesContext', () => {
-  let service: NewSavedCartAddOrderEntriesContext;
+describe('NewSavedCartOrderEntriesContext', () => {
+  let service: NewSavedCartOrderEntriesContext;
   let multiCartService: MultiCartService;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
@@ -58,7 +58,7 @@ describe('NewSavedCartAddOrderEntriesContext', () => {
         { useClass: MockUserIdService, provide: UserIdService },
       ],
     });
-    service = TestBed.inject(NewSavedCartAddOrderEntriesContext);
+    service = TestBed.inject(NewSavedCartOrderEntriesContext);
     multiCartService = TestBed.inject(MultiCartService);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);

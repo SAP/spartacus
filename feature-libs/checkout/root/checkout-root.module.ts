@@ -13,7 +13,7 @@ import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationGetOrderEntriesContext } from './pages/order-confirmation-get-order-entries-context';
+import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context.service';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {
@@ -62,7 +62,7 @@ export function defaultCheckoutComponentsConfig() {
         data: {
           cxRoute: 'orderConfirmation',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationGetOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContext,
           },
         },
       },
