@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  CartAddOrderEntriesContext,
+  CartOrderEntriesContext,
   OrderEntriesSource,
   AddOrderEntriesContext,
   ProductData,
@@ -29,7 +29,7 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
   providedIn: 'root',
 })
 export class NewSavedCartOrderEntriesContext
-  extends CartAddOrderEntriesContext
+  extends CartOrderEntriesContext
   implements AddOrderEntriesContext
 {
   readonly type = OrderEntriesSource.NEW_SAVED_CART;

@@ -9,7 +9,7 @@ import {
   ProductImportStatus,
   ProductData,
 } from '@spartacus/storefront';
-import { CartAddOrderEntriesContext } from './cart-import.context';
+import { CartOrderEntriesContext } from './cart-order-entries.context';
 
 const mockActionsSubject = new Subject<Action>();
 
@@ -25,7 +25,7 @@ const mockUserId = 'current';
   providedIn: 'root',
 })
 class TestCartOrderEntriesContext
-  extends CartAddOrderEntriesContext
+  extends CartOrderEntriesContext
   implements AddOrderEntriesContext
 {
   constructor(protected actionsSubject: ActionsSubject) {

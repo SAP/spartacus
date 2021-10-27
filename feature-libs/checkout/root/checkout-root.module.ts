@@ -13,7 +13,7 @@ import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context.service';
+import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {

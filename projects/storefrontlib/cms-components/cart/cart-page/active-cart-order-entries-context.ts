@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartAddOrderEntriesContext } from '../order-entries-context/cart-import.context';
+import { CartOrderEntriesContext } from '../order-entries-context/cart-order-entries.context';
 import { GetOrderEntriesContext } from '../order-entries-context/export.context';
 import { OrderEntriesSource } from '../order-entries-context/import-export.model';
 import { ProductData } from '../order-entries-context/import-to-cart.model';
@@ -12,7 +12,7 @@ import { AddOrderEntriesContext } from '../order-entries-context/import.context'
   providedIn: 'root',
 })
 export class ActiveCartOrderEntriesContext
-  extends CartAddOrderEntriesContext
+  extends CartOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.ACTIVE_CART;
