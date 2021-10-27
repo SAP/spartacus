@@ -3,7 +3,6 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
-import { ReturnRequest } from '../../model/order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 import { StateUtils } from '../../state/utils/index';
@@ -44,7 +43,6 @@ export interface UserState {
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState<PaymentDetails[]>;
-  orderReturn: StateUtils.LoaderState<ReturnRequest>;
   regions: StateUtils.LoaderState<RegionsState>;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;

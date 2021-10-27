@@ -6,7 +6,6 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import { ReturnRequest } from '../../../model/order.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
@@ -21,7 +20,6 @@ import {
   USER_CONSENTS,
   USER_COST_CENTERS,
   USER_PAYMENT_METHODS,
-  USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
@@ -49,7 +47,6 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_PAYMENT_METHODS,
       fromPaymentReducer.reducer
     ),
-    orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
     countries: fromDeliveryCountries.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
