@@ -17,23 +17,23 @@ export class RoutingContextService {
   ) {}
 
   /**
-   * Combined context mapping consisting of all mappings defined in currently
+   * Combined context token mapping consisting of all mappings defined in currently
    * Activated Angular Routes.
    *
-   * The context mapping is read from each Route's property `data.cxContext`.
+   * The context token mapping is read from each Route's property `data.cxContext`.
    */
-  protected readonly routeContextMapping$: Observable<
+  protected readonly contextTokenMapping$: Observable<
     Record<ContextToken, any>
   > = this.activatedRoutesService.routes$.pipe(
-    map((routes) => this.getRoutesContextsMapping(routes)),
+    map((routes) => this.getRoutesContextTokenMapping(routes)),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
   /**
-   * Returns the merged context mapping, consisting of context mappings
+   * Returns the merged context token mapping, consisting of mappings
    * defined in all Activated Angular Routes.
    */
-  protected getRoutesContextsMapping(
+  protected getRoutesContextTokenMapping(
     routes: ActivatedRouteSnapshot[]
   ): Record<ContextToken, any> {
     return Object.assign({}, ...routes.map((route) => route?.data?.cxContext));
@@ -46,11 +46,11 @@ export class RoutingContextService {
    * @returns instance from the root injector if defined, otherwise `undefined`.
    */
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
-    return this.routeContextMapping$.pipe(
+    return this.contextTokenMapping$.pipe(
       tap(console.log), // TODO REMOVE
-      map((contextTokenMapping) => {
+      map((contextMapping) => {
         const providerToken =
-          contextTokenMapping?.[
+          contextMapping?.[
             // TODO: remove 'as any' after upgrading TypeScript to v4.4
             // See: https://github.com/Microsoft/TypeScript/issues/24587
             contextToken as any
