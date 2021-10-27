@@ -35,6 +35,7 @@ export interface CartNameGeneration {
     mask?: string;
   };
 }
+
 /**
  * Allows to specify file validation attributes.
  */
