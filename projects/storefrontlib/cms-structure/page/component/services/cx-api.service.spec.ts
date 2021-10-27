@@ -44,10 +44,10 @@ class MockBaseSiteService {}
 class MockUserService {}
 class MockUserAddressService {}
 class MockUserConsentService {}
-class MockUserOrderService {}
 class MockUserPaymentService {}
 class MockUserNotificationPreferenceService {}
 class MockUserInterestsService {}
+
 describe('CxApiService', () => {
   let authService: AuthService;
   let cmsService: CmsService;

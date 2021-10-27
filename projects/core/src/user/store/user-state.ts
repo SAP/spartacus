@@ -5,7 +5,6 @@ import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import {
-  Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestList,
@@ -95,10 +94,6 @@ export interface UserState {
    * @deprecated since 4.2 - use order lib instead
    */
   orders: StateUtils.LoaderState<OrderHistoryList>;
-  /**
-   * @deprecated since 4.2 - use order lib instead
-   */
-  order: StateUtils.LoaderState<Order>;
   /**
    * @deprecated since 4.2 - use order lib instead
    */
