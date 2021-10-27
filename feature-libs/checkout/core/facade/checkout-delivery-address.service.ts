@@ -29,23 +29,31 @@ import { CheckoutDeliveryConnector } from '../connectors/delivery/checkout-deliv
 export class CheckoutDeliveryAddressService
   implements CheckoutDeliveryAddressFacade
 {
+  protected checkoutPreconditions() {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartService.takeActiveCartId(),
+    ]).pipe(
+      take(1),
+      map(([userId, cartId]) => {
+        if (
+          !userId ||
+          !cartId ||
+          (userId === OCC_USER_ID_ANONYMOUS &&
+            !this.activeCartService.isGuestCart())
+        ) {
+          throw new Error('Checkout conditions not met');
+        }
+        return [userId, cartId];
+      })
+    );
+  }
+
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.command.create<Address>(
       (payload) => {
-        return combineLatest([
-          this.userIdService.takeUserId(),
-          this.activeCartService.takeActiveCartId(),
-        ]).pipe(
-          take(1),
+        return this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            if (
-              !userId ||
-              !cartId ||
-              (userId === OCC_USER_ID_ANONYMOUS &&
-                !this.activeCartService.isGuestCart())
-            ) {
-              throw new Error('Checkout conditions not met');
-            }
             return this.checkoutDeliveryConnector
               .createAddress(userId, cartId, payload)
               .pipe(
@@ -78,19 +86,9 @@ export class CheckoutDeliveryAddressService
     this.command.create<Address>(
       (payload) => {
         const addressId = payload.id;
-        return combineLatest([
-          this.userIdService.takeUserId(),
-          this.activeCartService.takeActiveCartId(),
-        ]).pipe(
-          take(1),
+        return this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            if (
-              !userId ||
-              !cartId ||
-              !addressId ||
-              (userId === OCC_USER_ID_ANONYMOUS &&
-                !this.activeCartService.isGuestCart())
-            ) {
+            if (!addressId) {
               throw new Error('Checkout conditions not met');
             }
             return this.checkoutDeliveryConnector
@@ -118,20 +116,8 @@ export class CheckoutDeliveryAddressService
   protected clearDeliveryAddressCommand: Command<void, unknown> =
     this.command.create<void>(
       () => {
-        return combineLatest([
-          this.userIdService.takeUserId(),
-          this.activeCartService.takeActiveCartId(),
-        ]).pipe(
-          take(1),
+        return this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            if (
-              !userId ||
-              !cartId ||
-              (userId === OCC_USER_ID_ANONYMOUS &&
-                !this.activeCartService.isGuestCart())
-            ) {
-              throw new Error('Checkout conditions not met');
-            }
             return this.checkoutDeliveryConnector
               .clearCheckoutDeliveryAddress(userId, cartId)
               .pipe(

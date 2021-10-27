@@ -2,7 +2,6 @@
 
 ## TODO (pre how to roll checkout discussion - phase 1)
 
-- unify combineLatest with userId and cartId for all c&q in checkout services
 - consistent naming on facade methods returing state (should include state in name?)
 - optimize mutliple query events reloads/resets (to avoid cancelled requests)
 
@@ -38,6 +37,7 @@
 - create umbrella event per step - deliveryaddressevent, deliverymodeevent, etc. all of the umbrella events should extend the checkoutevent
 - scheduled replenishment events listener to add (move trigger from the scheduled-replenishment service)
 - loader buttons in components (just better UX for checkout components)
+- unify combineLatest with userId and cartId for all c&q in checkout services
 - cleanup (exponensial backoff): JaloError retry for super query (add retry for it)
 
   ```json
