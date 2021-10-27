@@ -6,6 +6,7 @@ import { OrderActions } from '../actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers/index';
 import { OrderSelectors } from './index';
+
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
   purchaseOrderNumber: 'test-po',

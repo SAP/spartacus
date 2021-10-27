@@ -21,6 +21,7 @@ import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
+
 interface ItemListContext {
   readonly?: boolean;
   hasHeader?: boolean;

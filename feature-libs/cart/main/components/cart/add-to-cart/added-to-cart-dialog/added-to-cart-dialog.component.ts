@@ -17,6 +17,7 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
+
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
