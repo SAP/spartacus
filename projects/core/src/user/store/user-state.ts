@@ -1,7 +1,6 @@
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
-import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { ReturnRequest } from '../../model/order.model';
@@ -109,11 +108,4 @@ export interface DeliveryCountryEntities {
 
 export interface DeliveryCountriesState {
   entities: DeliveryCountryEntities;
-}
-
-/**
- * @deprecated since 4.2 - use order lib instead
- */
-export interface ConsignmentTrackingState {
-  tracking?: ConsignmentTracking;
 }

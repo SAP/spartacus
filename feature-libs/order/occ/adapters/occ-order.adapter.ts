@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   CancellationRequestEntryInputList,
-  ConsignmentTracking,
   ConverterService,
   InterceptorUtil,
   Occ,
@@ -19,6 +18,7 @@ import {
 } from '@spartacus/core';
 import { OrderAdapter } from '@spartacus/order/core';
 import {
+  ConsignmentTracking,
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
