@@ -7,14 +7,15 @@ import {
   ProductScope,
   Translatable,
 } from '@spartacus/core';
+
+import { VisualizationInfo } from '../../../../src/models/visualizations/visualization-info';
 import {
-  EpdVisualizationConfig,
-  VisualizationInfo,
   VisualizationLoadInfo,
   VisualizationLoadResult,
-} from '@spartacus/epd-visualization';
+} from '../../../../src/components/visual-viewer/models/visualization-load-info';
 import { CurrentProductService } from '@spartacus/storefront';
-import { getValidConfig } from 'integration-libs/epd-visualization/src/config/epd-visualization-test-config';
+import { EpdVisualizationConfig } from '../../../../src/config/epd-visualization-config';
+import { getValidConfig } from '../../../../src/config/epd-visualization-test-config';
 import { from, Observable, of } from 'rxjs';
 import { ContentType } from '../../visual-viewer';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';

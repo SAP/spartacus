@@ -5,7 +5,7 @@ import { TranslationService, LanguageService } from '@spartacus/core';
 import { DirectionService } from '../../../../../../../projects/storefrontlib/layout/direction/direction.service';
 import { DirectionMode } from '../../../../../../../projects/storefrontlib/layout/direction/config/direction.model';
 import { Observable, of } from 'rxjs';
-import { EventListenerUtils } from 'integration-libs/epd-visualization/src/util';
+import { EventListenerUtils } from '../../../../util/event-listener-utils';
 
 class MockRenderer2 {}
 

@@ -1,4 +1,4 @@
-import { ContentType } from '@spartacus/epd-visualization';
+import { ContentType } from './content-type';
 import { SceneLoadState } from './scene-load-state';
 
 export interface LoadedSceneInfo {

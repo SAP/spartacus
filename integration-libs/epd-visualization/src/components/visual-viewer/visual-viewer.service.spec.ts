@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ContentType,
-  EpdVisualizationConfig,
-  SceneNodeToProductLookupService,
-  SelectionMode,
-  VisualizationLookupService,
-} from '@spartacus/epd-visualization';
+import { ContentType } from './models/content-type';
+import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
+import { SceneNodeToProductLookupService } from '../../services/scene-node-to-product-lookup/scene-node-to-product-lookup.service';
+import { SelectionMode } from './models/selection-mode';
+import { VisualizationLookupService } from '../../services/visualization-lookup/visualization-lookup.service';
 import { Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';

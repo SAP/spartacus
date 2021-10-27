@@ -9,13 +9,13 @@ import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
 import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.module';
 import { getValidConfig } from '../../config/epd-visualization-test-config';
+import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
+import { NavigationMode } from '../../components/visual-viewer/models/navigation-mode';
 import {
-  EpdVisualizationConfig,
-  NavigationMode,
   VisualizationLoadInfo,
   VisualizationLoadResult,
-  VisualViewerAnimationSliderComponent,
-} from '@spartacus/epd-visualization';
+} from '../../components/visual-viewer/models/visualization-load-info';
+import { VisualViewerAnimationSliderComponent } from '../../components/visual-viewer/toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
 import { Observable, of } from 'rxjs';
 import { VisualViewerService } from './visual-viewer.service';
 import { Component, ElementRef, EventEmitter } from '@angular/core';

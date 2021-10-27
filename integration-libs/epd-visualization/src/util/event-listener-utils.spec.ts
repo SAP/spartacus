@@ -1,6 +1,6 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EventListenerUtils } from '@spartacus/epd-visualization';
+import { EventListenerUtils } from '../util/event-listener-utils';
 
 class MockRenderer {
   endListenCallback: () => void;

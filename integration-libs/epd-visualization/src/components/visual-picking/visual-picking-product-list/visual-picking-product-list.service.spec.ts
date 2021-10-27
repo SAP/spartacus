@@ -7,8 +7,8 @@ import {
 } from '@spartacus/core';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { CurrentProductService } from '@spartacus/storefront';
-import { EpdVisualizationConfig } from 'integration-libs/epd-visualization/src/config/epd-visualization-config';
-import { getValidConfig } from 'integration-libs/epd-visualization/src/config/epd-visualization-test-config';
+import { EpdVisualizationConfig } from '../../../config/epd-visualization-config';
+import { getValidConfig } from '../../../config/epd-visualization-test-config';
 
 import { Observable, of } from 'rxjs';
 import { VisualPickingProductFilterService } from '../visual-picking-product-filter/visual-picking-product-filter.service';
