@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { ActivatedRouteSnapshot, Data } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { ContextToken } from './context.service';
+import { ContextToken } from './context.model';
 
 /**
  * Resolves the context for the specific route, based on the property `data.cxContext`
@@ -16,27 +16,44 @@ export class RoutingContextService {
     protected injector: Injector
   ) {}
 
-  protected readonly routeData$: Observable<Data> =
-    this.activatedRoutesService.routes$.pipe(
-      map((routes) => this.getRoutesData(routes)),
-      shareReplay({ refCount: true, bufferSize: 1 })
-    );
+  /**
+   * Combined context token mapping consisting of all mappings defined in currently
+   * Activated Angular Routes.
+   *
+   * The context token mapping is read from each Route's property `data.cxContext`.
+   */
+  protected readonly contextTokenMapping$: Observable<
+    Record<ContextToken, any>
+  > = this.activatedRoutesService.routes$.pipe(
+    map((routes) => this.getRoutesContextTokenMapping(routes)),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
 
-  protected getRoutesData(routes: ActivatedRouteSnapshot[]): Data {
-    return Object.assign({}, ...routes.map((route) => route['data']));
+  /**
+   * Returns the merged context token mapping, consisting of mappings
+   * defined in all Activated Angular Routes.
+   */
+  protected getRoutesContextTokenMapping(
+    routes: ActivatedRouteSnapshot[]
+  ): Record<ContextToken, any> {
+    return Object.assign({}, ...routes.map((route) => route?.data?.cxContext));
   }
 
   /**
    * Resolves the specified `contextToken` from `cxContext` data parameter of the activated Angular Routes.
-   * @param contextKey
+   * @param contextToken
    *
    * @returns instance from the root injector if defined, otherwise `undefined`.
    */
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
-    return this.routeData$.pipe(
-      map((data) => data?.cxContext),
-      map((contextTokenMapping) => {
-        const providerToken = contextTokenMapping?.[contextToken];
+    return this.contextTokenMapping$.pipe(
+      map((contextMapping) => {
+        const providerToken =
+          contextMapping?.[
+            // TODO: remove 'as any' after upgrading TypeScript to v4.4
+            // See: https://github.com/Microsoft/TypeScript/issues/24587
+            contextToken as any
+          ];
         return this.injector.get(providerToken, undefined);
       })
     );
