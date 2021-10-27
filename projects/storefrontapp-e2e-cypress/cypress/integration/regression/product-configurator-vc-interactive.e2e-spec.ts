@@ -1,4 +1,4 @@
-import { OccConfig } from '@spartacus/core';
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../helpers/product-configurator-vc';
@@ -288,22 +288,22 @@ context('Product Configuration', () => {
 });
 
 context('Retract mode for Product Configuration', () => {
-  let config: OccConfig;
+  let configUISettings: ConfiguratorUISettingsConfig;
 
   beforeEach(() => {
-    config = {
-      backend: {
-        retractTriggered: true, // enable retract triggered
+    configUISettings = {
+      productConfigurator: {
+        addRetractOption: true, // enable retract triggered
       },
     };
-    cy.cxConfig(config);
+    cy.cxConfig(configUISettings);
   });
 
   afterEach(() => {
-    config.backend.retractTriggered = false; // disable retract triggered
+    configUISettings.productConfigurator.addRetractOption = false; // disable retract triggered
   });
 
-  describe.only('Enable retract mode', () => {
+  describe('Enable retract mode', () => {
     it('should retract a value', () => {
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
