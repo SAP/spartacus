@@ -13,7 +13,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(@Optional() protected outlet?: OutletContextData<Cart>) {}
+  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {
     if (this.outlet?.context$) {
