@@ -16,7 +16,7 @@ const mockRenderer2 = {
     document.createElement(type)
   ),
   setProperty: createSpy('setProperty').and.callFake(
-    (el: HTMLAnchorElement, prop: string, val: string) => (el[prop] = val)
+    (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
   ),
 };
 
@@ -42,7 +42,7 @@ const expectedHtml = `<ul>
   <h1 id="head1">head1</h1>
 </ul>`;
 
-fdescribe('AnchorPipe', () => {
+describe('AnchorPipe', () => {
   let pipe: AnchorPipe;
   let renderer: Renderer2;
   let sanitizer: DomSanitizer;
