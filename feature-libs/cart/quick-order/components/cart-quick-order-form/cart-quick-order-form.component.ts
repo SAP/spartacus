@@ -30,9 +30,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart> = this.activeCartService.getActive();
   min = 1;
 
-  private subscription: Subscription = new Subscription();
-  private cartEventsSubscription: Subscription = new Subscription();
-  private minQuantityValue: number = 1;
+  protected subscription: Subscription = new Subscription();
+  protected cartEventsSubscription: Subscription = new Subscription();
+  protected minQuantityValue: number = 1;
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -145,7 +145,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getValidCount(value: number) {
+  protected getValidCount(value: number) {
     if (value < this.min || !value) {
       value = this.min;
     }
