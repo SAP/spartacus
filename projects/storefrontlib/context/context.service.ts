@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, shareReplay } from 'rxjs/operators';
-import { RoutingContextService } from './route-context.service';
+import { RoutingContextService } from './routing-context.service';
 
 export type ContextToken = string | symbol;
 
