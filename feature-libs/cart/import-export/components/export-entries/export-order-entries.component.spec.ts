@@ -7,8 +7,8 @@ import {
   ImageType,
   OrderEntry,
   PriceType,
-  RoutingService,
 } from '@spartacus/core';
+import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ExportOrderEntriesComponent } from './export-order-entries.component';
 import { ExportProductsToCsvService } from './export-products-to-csv.service';
@@ -95,13 +95,13 @@ class MockExportProductsToCsvService {
   downloadCsv = createSpy('downloadCsv');
 }
 
-class ContextService {
+class MockImportExportContext {
   getEntries = createSpy('getEntries').and.returnValue(of(entries));
 }
-const contextService = new ContextService();
+const contextService = new MockImportExportContext();
 
-class MockRoutingService {
-  getContext = createSpy('getContext').and.returnValue(of(contextService));
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
 }
 
 describe('ExportOrderEntriesComponent', () => {
@@ -122,8 +122,8 @@ describe('ExportOrderEntriesComponent', () => {
           useClass: MockExportProductsToCsvService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: ContextService,
+          useClass: MockContextService,
         },
       ],
       declarations: [ExportOrderEntriesComponent],

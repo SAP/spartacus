@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  OrderEntriesSource,
+  AddOrderEntriesContext,
   FocusConfig,
   ICON_TYPE,
-  AddOrderEntriesContext,
   LaunchDialogService,
+  OrderEntriesSource,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
@@ -39,7 +39,7 @@ export class ImportEntriesDialogComponent {
   });
 
   context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(pluck('context'));
+    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

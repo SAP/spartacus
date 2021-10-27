@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import {
+  ContextService,
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-export-order-entries',
@@ -13,12 +13,10 @@ import { map, shareReplay, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportExportOrderEntriesComponent {
-  constructor(protected routingService: RoutingService) {}
+  constructor(protected contextService: ContextService) {}
 
   protected context$: Observable<OrderEntriesContext | undefined> =
-    this.routingService
-      .getContext<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT)
-      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
   shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
     map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
