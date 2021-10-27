@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   Address,
-  DeliveryMode,
   getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  OrderEntry,
   StateWithProcess,
   User,
   UserIdService,

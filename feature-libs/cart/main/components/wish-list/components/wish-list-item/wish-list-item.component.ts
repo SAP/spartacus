@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
 
 @Component({
   selector: 'cx-wish-list-item',

@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { OrderPlacedEvent } from '@spartacus/checkout/root';
-import { EventService, Order } from '@spartacus/core';
+import { EventService } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/index';

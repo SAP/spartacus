@@ -3,10 +3,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   OCC_USER_ID_CURRENT,
   PROCESS_FEATURE,
-  ReturnRequestList,
   StateWithUser,
   UserIdService,
 } from '@spartacus/core';
+import { ReturnRequestList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions';

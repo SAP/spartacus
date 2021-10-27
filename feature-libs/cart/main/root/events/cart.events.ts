@@ -1,4 +1,5 @@
-import { CxEvent, OrderEntry } from '@spartacus/core';
+import { CxEvent } from '@spartacus/core';
+import { OrderEntry } from '../models/cart.model';
 
 /**
  * Base cart event. Most cart events should have these properties.

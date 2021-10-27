@@ -1,14 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   Address,
-  DeliveryMode,
   I18nTestingModule,
-  Order,
   PaymentDetails,
-  ReplenishmentOrder,
   TranslationService,
 } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderOverviewComponent } from './order-overview.component';

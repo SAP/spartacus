@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {

@@ -3,9 +3,9 @@ import { FormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   CartItemContext,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { OrderEntry } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
 
 /**

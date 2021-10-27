@@ -3,13 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
-import {
-  EventService,
   OrderEntry,
-  Product,
-  ProductAdapter,
-} from '@spartacus/core';
+} from '@spartacus/cart/main/root';
+import { EventService, Product, ProductAdapter } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';

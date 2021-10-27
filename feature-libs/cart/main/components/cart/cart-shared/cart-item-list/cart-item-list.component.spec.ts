@@ -8,21 +8,21 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
+  CartItemComponentOptions,
+  ConsignmentEntry,
   MultiCartFacade,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import {
-  ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
-  OrderEntry,
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CartItemComponentOptions } from '@spartacus/cart/main/root';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {

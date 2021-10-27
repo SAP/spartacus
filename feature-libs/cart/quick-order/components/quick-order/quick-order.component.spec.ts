@@ -1,7 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/main/root';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
@@ -10,7 +10,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  OrderEntry,
   Product,
   Translatable,
 } from '@spartacus/core';

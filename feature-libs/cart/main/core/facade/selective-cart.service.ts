@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Cart, SelectiveCartFacade } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  OrderEntry,
+  SelectiveCartFacade,
+} from '@spartacus/cart/main/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
-  OrderEntry,
   StateUtils,
   UserIdService,
   UserService,

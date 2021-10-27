@@ -1,80 +1,44 @@
-import { Address } from './address.model';
 import {
+  ConsignmentEntry,
+  DeliveryMode,
   DeliveryOrderEntryGroup,
-  PaymentDetails,
+  OrderEntry,
+  PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
-} from './cart.model';
-import { PaginationModel, Principal, SortModel } from './misc.model';
-import { B2BUser, CostCenter } from './org-unit.model';
-import { PointOfService } from './point-of-service.model';
-import { Price, Product } from './product.model';
+} from '@spartacus/cart/main/root';
+import {
+  Address,
+  B2BUser,
+  CostCenter,
+  PaginationModel,
+  PaymentDetails,
+  PointOfService,
+  Price,
+  Principal,
+  SortModel,
+} from '@spartacus/core';
 
-/**
- * @deprecated - (cart)
- */
-export interface DeliveryMode {
-  code?: string;
-  deliveryCost?: Price;
-  description?: string;
-  name?: string;
-}
-
-/**
- * @deprecated - done
- */
-export interface OrderEntry {
-  orderCode?: string;
-  basePrice?: Price;
-  deliveryMode?: DeliveryMode;
-  deliveryPointOfService?: PointOfService;
-  entryNumber?: number;
-  product?: Product;
-  quantity?: number;
-  totalPrice?: Price;
-  updateable?: boolean;
-  returnedItemsPrice?: Price;
-  returnableQuantity?: number;
-  cancelledItemsPrice?: Price;
-  cancellableQuantity?: number;
-  promotions?: PromotionResult[];
-}
-
-/**
- * @deprecated - ready to remove
- */
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
   quantity?: number;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface CancellationRequestEntryInputList {
   cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReturnRequestEntry {
   orderEntry?: OrderEntry;
   expectedQuantity?: number;
   refundAmount?: Price;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReturnRequest {
   cancellable?: boolean;
   code?: string;
@@ -90,55 +54,16 @@ export interface ReturnRequest {
   totalPrice?: Price;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReturnRequestList {
   returnRequests?: ReturnRequest[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface ReturnRequestModification {
   status?: string;
 }
 
-/**
- * @deprecated - (cart) - ready to remove
- */
-export interface PickupOrderEntryGroup {
-  deliveryPointOfService?: PointOfService;
-  distance?: number;
-  entries?: OrderEntry[];
-  quantity?: number;
-  totalPriceWithTax?: Price;
-}
-
-/**
- * @deprecated - (cart) - ready to remove
- */
-export interface PromotionOrderEntryConsumed {
-  adjustedUnitPrice?: number;
-  code?: string;
-  orderEntryNumber?: number;
-  quantity?: number;
-}
-
-/**
- * @deprecated - (cart) - ready to remove
- */
-export interface ConsignmentEntry {
-  orderEntry?: OrderEntry;
-  quantity?: number;
-  shippedQuantity?: number;
-}
-
-/**
- * @deprecated - ready to remove
- */
 export interface Consignment {
   code?: string;
   deliveryPointOfService?: PointOfService;
@@ -149,9 +74,6 @@ export interface Consignment {
   trackingID?: string;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface OrderHistory {
   code?: string;
   guid?: string;
@@ -161,18 +83,12 @@ export interface OrderHistory {
   total?: Price;
 }
 
-/**
- * @deprecated - ready to remove
- */
 export interface OrderHistoryList {
   orders?: OrderHistory[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
-/**
- * @deprecated - Cart???
- */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];

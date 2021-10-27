@@ -2,11 +2,9 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
-import {
-  normalizeHttpError,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/root';
+import { normalizeHttpError } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CheckoutReplenishmentOrderConnector } from '../../connectors/index';

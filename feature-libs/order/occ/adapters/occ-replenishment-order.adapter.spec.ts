@@ -8,12 +8,12 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
-  OrderHistoryList,
-  ReplenishmentOrder,
-  ReplenishmentOrderList,
 } from '@spartacus/core';
 import {
+  OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';

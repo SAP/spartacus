@@ -2,14 +2,15 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
-  Order,
   ORDER_TYPE,
-  PROCESS_FEATURE,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
+} from '@spartacus/checkout/root';
+import {
+  PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
