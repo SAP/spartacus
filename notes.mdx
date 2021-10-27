@@ -2,7 +2,6 @@
 
 ## TODO (pre how to roll checkout discussion - phase 1)
 
-- check CheckoutStepsSetGuard with b2b entry point and with super query
 - multiple calls for setting cost center (user cost centers emits multiple times) - 2 calls for setting delivery address
 - JaloError retry for super query (add retry for it)
 
@@ -42,11 +41,11 @@
 - ask Bill about desired express checkout behaviour (should we always assign defaults or should we preserve user's selected options)
 - should we rename checkout events with `Checkout` prefix?
 - paymentTypes.\* translations in assets (should be in feature libs?)
+- check my organization (creating new user in unit) - error in console (no feedback if it finished)
 
-# Next session
+# Next session (not pair programming - near future)
 
 - TODOs in:
-- check my organization (creating new user in unit) - error in console (no feedback if it finished)
 - decide on trigger events vs facade calls in event listeners (eg. clearing delivery address on cost center set)
 - decide where to handle events from another step (delivery mode in delivery address listener or vice versa)
 - create umbrella event per step - deliveryaddressevent, deliverymodeevent, etc. all of the umbrella events should extend the checkoutevent

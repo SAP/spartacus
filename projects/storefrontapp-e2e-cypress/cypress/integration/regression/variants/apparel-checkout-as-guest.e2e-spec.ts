@@ -129,7 +129,7 @@ context('Apparel - checkout as guest', () => {
       );
 
       const checkoutPage = checkout.waitForPage(
-        '/checkout/*',
+        '/checkout/shipping-address',
         'getCheckoutPage'
       );
 

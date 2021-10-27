@@ -77,7 +77,10 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
-      const checkoutPage = waitForPage('/checkout/*', 'getCheckoutPage');
+      const checkoutPage = waitForPage(
+        '/checkout/shipping-address',
+        'getCheckoutPage'
+      );
       checkout.clickHamburger();
 
       const loginPage = waitForPage('/login', 'getLoginPage');

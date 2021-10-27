@@ -23,7 +23,7 @@ import {
 } from '@spartacus/checkout/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -127,6 +127,8 @@ export class CheckoutB2BStepsSetGuard
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
     return this.checkoutPaymentTypeService.getSelectedPaymentType().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       map((paymentType) => {
         if (Boolean(paymentType)) {
           return true;
@@ -142,8 +144,14 @@ export class CheckoutB2BStepsSetGuard
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.checkoutDeliveryAddressService.getDeliveryAddress(),
-      this.checkoutCostCenterService.getCostCenter(),
+      this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data)
+      ),
+      this.checkoutCostCenterService.getCostCenter().pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data)
+      ),
     ]).pipe(
       map(([deliveryAddress, costCenter]) => {
         if (isAccountPayment) {

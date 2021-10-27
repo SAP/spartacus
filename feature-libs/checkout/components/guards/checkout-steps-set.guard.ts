@@ -15,7 +15,7 @@ import {
 } from '@spartacus/checkout/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
@@ -91,6 +91,8 @@ export class CheckoutStepsSetGuard implements CanActivate {
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
     return this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
       map((deliveryAddress) => {
         if (deliveryAddress && Object.keys(deliveryAddress).length) {
           return true;
@@ -104,23 +106,25 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isDeliveryModeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryModesService
-      .getSelectedDeliveryMode()
-      .pipe(map((mode) => (mode ? true : this.getUrl(step.routeName))));
+    return this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      map((mode) => (mode ? true : this.getUrl(step.routeName)))
+    );
   }
 
   protected isPaymentDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutPaymentService
-      .getPaymentDetails()
-      .pipe(
-        map((paymentDetails) =>
-          paymentDetails && Object.keys(paymentDetails).length !== 0
-            ? true
-            : this.getUrl(step.routeName)
-        )
-      );
+    return this.checkoutPaymentService.getPaymentDetails().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      map((paymentDetails) =>
+        paymentDetails && Object.keys(paymentDetails).length !== 0
+          ? true
+          : this.getUrl(step.routeName)
+      )
+    );
   }
 
   protected getUrl(routeName: string): UrlTree {
