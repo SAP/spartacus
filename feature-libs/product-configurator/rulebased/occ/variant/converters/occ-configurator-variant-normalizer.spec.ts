@@ -5,6 +5,7 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
+import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -294,13 +295,19 @@ const MockOccModuleConfig: OccConfig = {
     media: {
       baseUrl: 'https://mediaBackendBaseUrl/',
     },
-    retractTriggered: true,
+  },
+};
+
+const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+  productConfigurator: {
+    addRetractOption: false,
   },
 };
 
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
   let occConfig: OccConfig;
+  let configUISettingsConfig: ConfiguratorUISettingsConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -309,6 +316,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         { provide: ConverterService, useClass: MockConverterService },
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: MockConfiguratorUISettingsConfig,
+        },
       ],
     });
 
@@ -316,6 +327,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
     occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
+    configUISettingsConfig = TestBed.inject(
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
+    );
     groups = [];
     flatGroups = [];
   });
@@ -362,7 +376,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attribute.selectedSingleValue).toBe(valueKey2);
     expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
     const values = attribute.values;
-    expect(values?.length).toBe(3);
+    expect(values?.length).toBe(2);
   });
 
   it('should convert values', () => {
@@ -933,12 +947,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('addRetractValue', () => {
-    afterEach(() => {
-      MockOccModuleConfig.backend.retractTriggered = true;
+    beforeEach(() => {
+      if (
+        configUISettingsConfig?.productConfigurator?.addRetractOption !==
+        undefined
+      ) {
+        configUISettingsConfig.productConfigurator.addRetractOption = true;
+      }
     });
 
     it('should not add a retract value to the list of values because the retract mode is not activated', () => {
-      MockOccModuleConfig.backend.retractTriggered = false;
+      if (
+        configUISettingsConfig?.productConfigurator?.addRetractOption !==
+        undefined
+      ) {
+        configUISettingsConfig.productConfigurator.addRetractOption = false;
+      }
       const values: Configurator.Value[] = [];
       const sourceAttribute = createOccAttribute(
         'key',

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
+import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
@@ -14,7 +15,8 @@ export class OccConfiguratorVariantNormalizer
 
   constructor(
     protected config: OccConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected uiSettingsConfig: ConfiguratorUISettingsConfig
   ) {}
 
   convert(
@@ -187,7 +189,7 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     values: Configurator.Value[]
   ) {
-    if (this.config.backend?.retractTriggered) {
+    if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
       const attributeType = this.convertAttributeType(
         sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
       );
