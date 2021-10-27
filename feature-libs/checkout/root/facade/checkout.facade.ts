@@ -3,10 +3,7 @@ import { facadeFactory } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
-import {
-  ORDER_TYPE,
-  ScheduleReplenishmentForm,
-} from '../model/checkout-step.model';
+import { ORDER_TYPE, ScheduleReplenishmentForm } from '../model/checkout.model';
 
 @Injectable({
   providedIn: 'root',
