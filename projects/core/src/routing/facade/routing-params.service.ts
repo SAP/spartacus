@@ -34,6 +34,6 @@ export class RoutingParamsService {
   protected findAllParam(routes: ActivatedRouteSnapshot[]): {
     [key: string]: string;
   } {
-    return Object.assign({}, ...routes.map((route) => route['params']));
+    return Object.assign({}, ...routes.map((route) => route.params));
   }
 }
