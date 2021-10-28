@@ -1,15 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-
-import { Query, QueryService, QueryState } from './query.service';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CxEvent, EventService } from '@spartacus/core';
 import { defer, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CxEvent, EventService } from '@spartacus/core';
+import { Query, QueryService, QueryState } from './query.service';
 
 class ReloadEvent extends CxEvent {
   static readonly type = 'TestingEvent';
 }
 
-describe('QueryService', () => {
+fdescribe('QueryService', () => {
   let service: QueryService;
   let eventService: EventService;
 
@@ -30,6 +29,8 @@ describe('QueryService', () => {
     expect(query.get).toBeDefined();
     expect(query.getState).toBeDefined();
   });
+
+  const loadDebounce = 100;
 
   describe('query', () => {
     let query: Query<string>;
@@ -60,12 +61,11 @@ describe('QueryService', () => {
       expect(loaderFactoryCalls).toBe(0);
     });
 
-    it('should load on subscription', (done) => {
+    it('should load on subscription', fakeAsync(() => {
       const data = query.getState();
       const emissions: QueryState<string>[] = [];
       data.pipe(take(2)).subscribe((state) => {
         emissions.push(state);
-
         if (emissions.length === 2) {
           expect(loaderFactoryCalls).toBe(1);
           expect(emissions).toEqual([
@@ -81,17 +81,18 @@ describe('QueryService', () => {
               data: 'value',
             },
           ]);
-          done();
         }
+        tick(loadDebounce);
       });
 
       loadingStream$.next('value');
-    });
+    }));
 
-    it('should return state from previous subscription after resubscription', (done) => {
+    it('should return state from previous subscription after resubscription', fakeAsync(() => {
       const data = query.getState();
       const emissions: QueryState<string>[] = [];
       data.pipe(take(2)).subscribe((state) => {
+        tick(loadDebounce);
         emissions.push(state);
       });
 
@@ -120,12 +121,11 @@ describe('QueryService', () => {
               data: 'value',
             },
           ]);
-          done();
         }
       });
-    });
+    }));
 
-    it('should load once again if it was cancelled by unsubscribe', (done) => {
+    it('should load once again if it was cancelled by unsubscribe', fakeAsync(() => {
       const data = query.getState();
       const emissions: QueryState<string>[] = [];
       data.pipe(take(1)).subscribe((state) => {
@@ -136,9 +136,9 @@ describe('QueryService', () => {
 
       data.pipe(take(2)).subscribe((state) => {
         emissions.push(state);
-
+        tick(loadDebounce);
         if (emissions.length === 3) {
-          expect(loaderFactoryCalls).toBe(2);
+          expect(loaderFactoryCalls).toBe(1);
           expect(emissions).toEqual([
             {
               loading: true,
@@ -158,20 +158,41 @@ describe('QueryService', () => {
               data: 'new-value',
             },
           ]);
-          done();
         }
       });
 
       loadingStream$.next('new-value');
-    });
+    }));
 
-    it('should clear value on error', (done) => {
+    it('should not load when it is instantly unsubscribed', fakeAsync(() => {
+      const data = query.getState();
+      const emissions: QueryState<string>[] = [];
+      data.pipe(take(1)).subscribe((state) => {
+        emissions.push(state);
+        expect(emissions).toEqual([
+          {
+            loading: true,
+            error: false,
+            data: undefined,
+          },
+        ]);
+      });
+      tick(loadDebounce);
+      expect(loaderFactoryCalls).toBe(0);
+    }));
+
+    fit('should clear value on error', fakeAsync(() => {
       const data = query.getState();
       const emissions: QueryState<string>[] = [];
 
+      // subscribe
+      // after 100ms i get `value`
+      // reload
+      // after 100ms I
+
       data.pipe(take(4)).subscribe((state) => {
         emissions.push(state);
-
+        tick(loadDebounce);
         if (emissions.length === 4) {
           expect(emissions).toEqual([
             {
@@ -197,14 +218,14 @@ describe('QueryService', () => {
               data: undefined,
             },
           ]);
-          done();
         }
       });
 
       loadingStream$.next('value');
+      tick(loadDebounce);
       eventService.dispatch(new ReloadEvent());
       loadingStream$.error(new Error('error'));
-    });
+    }));
 
     it('should clear error on successful emission', (done) => {
       const data = query.getState();

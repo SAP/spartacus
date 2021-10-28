@@ -12,6 +12,7 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   distinctUntilChanged,
   pluck,
   share,
@@ -68,10 +69,80 @@ export class QueryService implements OnDestroy {
       ...(options?.resetOn ?? []),
     ]);
 
+    // Use case
+    // single step checkout
+    // - set delivery address (loading)
+    // - response for address (loading: false, data)
+    // - set mode
+    // - set payment (loading: false, data)
+    // --
+    // (loading: false, new-data)
+    // 3 events causing reload
+    // we actually only need to reload after all completes
+
+    // state needs to be in case of reset cleared immediately!
+    // we want to trigger the reload to happen after some "free" time
+
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
+    // pass te first trigger, but debounce the triggers that happen right after it
+    // response and in the previous tick we got new reload event
+    /*
+    - subscription
+    {
+      loading: true,
+      data: undefined
+    }
+    - 1 tick happens
+    - load (async call)
+    - response
+    {
+      loading: false,
+      data: value
+    }
+
+
+    - subscription
+    {
+      loading: true,
+      data: undefined
+    }
+    - 1 tick happens
+    - load (async call)
+    - reload event
+    {
+      loading: true,
+      data: value
+    }
+    - response
+    {
+      loading: false,
+      data: value
+    }
+    - 1 tick happens
+    {
+      loading: true,
+      data: value
+    }
+    - load (async call)
+    - response
+    {
+      loading: false,
+      data: new-value
+    }
+
+    setDeliveryAddress(), switchMap(query),filter(loading)
+
+
+    */
     const load$ = loadTrigger$.pipe(
+      tap(() => {
+        if (!state$.value.loading) {
+          state$.next({ ...state$.value, loading: true });
+        }
+      }),
+      debounceTime(1), // 1,2,3,4  -> one emission
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
