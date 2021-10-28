@@ -1,1 +1,4 @@
-<p *ngIf="component.data$ | async as data" [innerHTML]="data.content | cxAnchor"></p>
+<p
+  *ngIf="component.data$ | async as data"
+  [innerHTML]="data.content | cxAnchor"
+></p>
