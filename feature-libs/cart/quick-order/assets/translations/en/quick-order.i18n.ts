@@ -18,7 +18,7 @@ export const quickOrderCartForm = {
 
 export const quickOrderForm = {
   placeholder: 'Enter Product name or SKU',
-  listLimitReached: 'The product limit has beed reached.',
+  listLimitReached: 'The product limit has been reached.',
   id: 'ID {{ id }}',
   noResults: 'We could not find any results',
 };
@@ -36,6 +36,7 @@ export const quickOrderList = {
     reviewErrors: 'Please review these errors',
     listIsFull:
       'The list is full, add these {{ count }} products to Cart in order to continue.',
+    nonPurchasableError: 'Product {{ name }} cannot be purchased',
   },
   warnings: {
     productWasReduced:

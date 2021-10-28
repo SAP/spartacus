@@ -164,6 +164,10 @@ export function verifyQuickOrderPageHasNotDeletionMessage() {
   cy.get('.quick-order-deletions').should('not.exist');
 }
 
+export function verifyQuickOrderPageShowErrorMessageNonPurchasableProduct() {
+  cy.get('.quick-order-add-to-cart-information-message').should('not.exist');
+}
+
 export function verifyEmptyListButtonIsHidden() {
   cy.get('.quick-order-footer clear-button').should('not.exist');
 }
