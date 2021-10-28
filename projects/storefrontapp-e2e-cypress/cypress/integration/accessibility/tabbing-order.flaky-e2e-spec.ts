@@ -38,7 +38,6 @@ import {
   addressBookFormTabbingOrder,
   setupForAddressBookTests,
 } from '../../helpers/accessibility/tabbing-order/my-account/address-book';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
 import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
@@ -370,12 +369,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Notification preference', () => {
     it('should allow to navigate with tab key', () => {
       notificationPreferenceTabbingOrder(config.notificationPreference);
-    });
-  });
-
-  context('Change password', () => {
-    it('should allow to navigate with tab key', () => {
-      changePasswordTabbingOrder(config.changePassword);
     });
   });
 

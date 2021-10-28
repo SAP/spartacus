@@ -254,28 +254,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Move To Cart', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
   ],
-  changePassword: [
-    {
-      value: 'oldPassword',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'newPassword',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'newPasswordConfirm',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'Cancel',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Save',
-      type: TabbingOrderTypes.BUTTON,
-    },
-  ],
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
