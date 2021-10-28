@@ -16,11 +16,6 @@
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js"
             },
-            "optimization": {
-              "styles": {
-                "inlineCritical": false
-              }
-            },
             "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
