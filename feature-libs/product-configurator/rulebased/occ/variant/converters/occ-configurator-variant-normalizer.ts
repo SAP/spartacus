@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
@@ -13,23 +13,10 @@ export class OccConfiguratorVariantNormalizer
 {
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
-  // TODO: make ConfiguratorUISettingsConfig a required dependency
-  constructor(
-    config: OccConfig,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    uiSettingsConfig: ConfiguratorUISettingsConfig
-  );
-
-  /**
-   * @deprecated since 4.2
-   */
-  constructor(config: OccConfig, translation: TranslationService);
-
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService,
-    @Optional() protected uiSettingsConfig?: ConfiguratorUISettingsConfig
+    protected uiSettingsConfig: ConfiguratorUISettingsConfig
   ) {}
 
   convert(
