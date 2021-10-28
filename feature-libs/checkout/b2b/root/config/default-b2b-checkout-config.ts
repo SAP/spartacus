@@ -1,4 +1,3 @@
-import '@spartacus/checkout/b2b/root';
 import {
   CheckoutConfig,
   CheckoutStepType,
