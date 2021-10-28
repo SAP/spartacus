@@ -6,7 +6,6 @@ export * from './customer-coupon.model';
 export * from './image.model';
 export * from './misc.model';
 export * from './notification-preference.model';
-export * from './order.model';
 export * from './org-unit.model';
 export * from './point-of-service.model';
 export * from './product-interest.model';
