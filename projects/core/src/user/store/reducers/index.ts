@@ -2,7 +2,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';

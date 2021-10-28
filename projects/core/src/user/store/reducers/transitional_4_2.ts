@@ -1,7 +1,7 @@
 import { Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
