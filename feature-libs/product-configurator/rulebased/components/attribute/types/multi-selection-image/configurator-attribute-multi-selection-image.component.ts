@@ -79,9 +79,9 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
     return {
-      quantity: value?.quantity,
-      price: value?.valuePrice,
-      priceTotal: value?.valuePriceTotal,
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
   }

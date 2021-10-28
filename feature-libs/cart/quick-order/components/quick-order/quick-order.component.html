@@ -27,6 +27,19 @@
   </cx-message>
 </ng-container>
 
+<ng-container *ngIf="nonPurchasableError$ | async as nonPurchasableError">
+  <cx-message
+    (closeMessage)="clearNonPurchasableError()"
+    [text]="
+      'quickOrderList.errors.nonPurchasableError'
+        | cxTranslate: { name: nonPurchasableError.name }
+    "
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    class="quick-order-non-purchasable-product-error-message"
+  >
+  </cx-message>
+</ng-container>
+
 <ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
   <cx-message
     *ngFor="let deletedEntry of deletedEntries | keyvalue"

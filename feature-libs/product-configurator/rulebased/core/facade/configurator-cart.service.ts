@@ -239,8 +239,8 @@ export class ConfiguratorCartService {
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {
-    const configId: String = configuration?.configId;
-    return configId !== undefined && configId.length !== 0;
+    const configId: String = configuration.configId;
+    return configId.length !== 0;
   }
 
   protected configurationNeedsReading(
