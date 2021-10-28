@@ -1,0 +1,33 @@
+<form *ngIf="form" [formGroup]="form" (submit)="formSubmitSubject$.next()">
+  <p class="cx-import-entries-subtitle">
+    {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
+  </p>
+  <p>
+    {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
+  </p>
+  <label>
+    <cx-file-upload [formControl]="form.get('file')" [accept]="allowedTypes">
+      {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+    </cx-file-upload>
+    <cx-form-errors
+      [control]="form.get('file')"
+      prefix="formErrors.file"
+    ></cx-form-errors>
+  </label>
+  <div class="cx-import-entries-footer">
+    <button
+      (click)="close('Close Import Products Dialog')"
+      class="btn btn-action"
+      type="button"
+    >
+      {{ 'importEntriesDialog.cancel' | cxTranslate }}
+    </button>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="form.get('file')?.status === 'PENDING'"
+    >
+      {{ 'importEntriesDialog.upload' | cxTranslate }}
+    </button>
+  </div>
+</form>
