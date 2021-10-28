@@ -12,5 +12,4 @@ export * from './point-of-service.model';
 export * from './product-interest.model';
 export * from './product-search.model';
 export * from './product.model';
-export * from './replenishment-order.model';
 export * from './scoped-data';
