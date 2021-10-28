@@ -28,11 +28,11 @@
     "@angular/core": "^12.0.5",
     "@angular/router": "^12.0.5",
     "@ngrx/store": "^12.1.0",
-    "@spartacus/checkout": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/tracking": "4.1.0-next.0",
+    "@spartacus/checkout": "0.0.0-PLACEHOLDER",
+    "@spartacus/core": "0.0.0-PLACEHOLDER",
+    "@spartacus/schematics": "0.0.0-PLACEHOLDER",
+    "@spartacus/storefront": "0.0.0-PLACEHOLDER",
+    "@spartacus/tracking": "0.0.0-PLACEHOLDER",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

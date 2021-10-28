@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/checkout",
-  "version": "4.1.0-next.0",
+  "version": "0.0.0-PLACEHOLDER",
   "description": "Checkout feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,12 +28,12 @@
     "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@spartacus/cart": "0.0.0-PLACEHOLDER",
+    "@spartacus/core": "0.0.0-PLACEHOLDER",
+    "@spartacus/schematics": "0.0.0-PLACEHOLDER",
+    "@spartacus/storefront": "0.0.0-PLACEHOLDER",
+    "@spartacus/styles": "0.0.0-PLACEHOLDER",
+    "@spartacus/user": "0.0.0-PLACEHOLDER",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
