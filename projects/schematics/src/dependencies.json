@@ -51,6 +51,7 @@
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/order": "4.2.0",
     "@spartacus/user": "4.1.0-next.0"
   },
   "@spartacus/asm": {
