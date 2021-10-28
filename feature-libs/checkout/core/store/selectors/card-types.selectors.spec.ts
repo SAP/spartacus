@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { CardType } from '@spartacus/cart/main/root';
+import { CardType } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
