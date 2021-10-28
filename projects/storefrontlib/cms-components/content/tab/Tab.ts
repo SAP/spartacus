@@ -16,6 +16,7 @@ export interface Tab {
    */
   content?: TemplateRef<any> | ContentSlotComponentData;
   id?: string;
+  attributes?: TabAttributes;
 }
 
 export interface TabConfig {
@@ -23,6 +24,7 @@ export interface TabConfig {
    *
    */
   label?: string;
+  attributes?: TabAttributes;
   /**
    * Use this to set the tab mode. Defaults to 'TAB' when not set.
    */
@@ -44,6 +46,7 @@ export interface TabAttributes {
   ariaExpanded?: boolean;
   ariaControls?: string;
   ariaLabelledBy?: string;
+  ariaLabel?: string;
   tabIndex?: number;
   id?: string;
   active?: boolean;
