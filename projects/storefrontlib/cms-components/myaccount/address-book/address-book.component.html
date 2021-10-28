@@ -29,7 +29,7 @@
           [fitToContainer]="true"
           [content]="getCardContent(address) | async"
           (editCard)="editAddressButtonHandle(address)"
-          (setDefaultCard)="setAddressAsDefault(address.id)"
+          (setDefaultCard)="setAddressAsDefault(address)"
           (deleteCard)="setEdit(address.id)"
           [editMode]="address.id === editCard"
           (cancelCard)="cancelCard()"

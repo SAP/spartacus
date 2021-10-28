@@ -107,10 +107,10 @@ export class AddressBookComponent implements OnInit {
     );
   }
 
-  setAddressAsDefault(addressId: string): void {
-    this.service.setAddressAsDefault(addressId);
+  setAddressAsDefault(address: Address): void {
+    this.service.setAddressAsDefault(address.id!);
     this.globalMessageService?.add(
-      { key: 'messages.setAsDefaultSucessfully' },
+      { key: 'messages.setAsDefaultSucessfully', params:  { streetAddress: address.line1 } },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
