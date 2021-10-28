@@ -1,5 +1,5 @@
 export * from './address.model';
-export * from './cart.model';
+export * from './payment.model';
 export * from './cms.model';
 export * from './consent.model';
 export * from './customer-coupon.model';
