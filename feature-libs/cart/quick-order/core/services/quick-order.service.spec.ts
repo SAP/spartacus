@@ -454,4 +454,30 @@ describe('QuickOrderService', () => {
     service.removeEntry(1);
     expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
+
+  describe('Non purchasable product', () => {
+    it('should return null if there is no error set up', (done) => {
+      service.getNonPurchasableProductError().subscribe((value) => {
+        expect(value).toBeNull();
+        done();
+      });
+    });
+
+    it('should set error and return it', (done) => {
+      service.setNonPurchasableProductError(mockProduct1);
+      service.getNonPurchasableProductError().subscribe((value) => {
+        expect(value).toEqual(mockProduct1);
+        done();
+      });
+    });
+
+    it('should clear error', (done) => {
+      service.setNonPurchasableProductError(mockProduct1);
+      service.clearNonPurchasableProductError();
+      service.getNonPurchasableProductError().subscribe((value) => {
+        expect(value).toBeNull();
+        done();
+      });
+    });
+  });
 });
