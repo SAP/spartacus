@@ -104,6 +104,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   add(product: Product, event: Event): void {
     event?.preventDefault();
+
+    // TODO change to nonpurchasable flag once we will support multidimensional products in search and when the purchasable flag will be available in search product response
+
+    // Check if product is purchasable / non multidimensional
+    if (product.multidimensional) {
+      this.quickOrderService.setNonPurchasableProductError(product);
+      this.clear();
+      return;
+    } else {
+      this.quickOrderService.clearNonPurchasableProductError();
+    }
+
     this.quickOrderService.addProduct(product);
   }
 
