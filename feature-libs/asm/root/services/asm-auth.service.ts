@@ -98,6 +98,7 @@ export class AsmAuthService extends AuthService {
   /**
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
+   *  * @param showGlobalMsg show a successful global message upon sign out.
    */
   coreLogout(showGlobalMsg = true): Promise<any> {
     return this.userIdService
