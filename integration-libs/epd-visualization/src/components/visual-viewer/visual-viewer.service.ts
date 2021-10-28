@@ -7,7 +7,11 @@ import {
   Injectable,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
+import {
+  EpdVisualizationConfig,
+  Ui5Config,
+  VisualizationApiConfig,
+} from '../../config/epd-visualization-config';
 import { SceneNodeToProductLookupService } from '../../services/scene-node-to-product-lookup/scene-node-to-product-lookup.service';
 import { VisualizationLookupService } from '../../services/visualization-lookup/visualization-lookup.service';
 
@@ -44,8 +48,9 @@ import {
 import { SelectionDisplayMode } from './models/selection-display-mode';
 import { ZoomTo } from './models/zoom-to';
 
-class VisualContentLoadFinishedEvent {
-  constructor(public content: any, public failureReason: any) {}
+interface VisualContentLoadFinishedEvent {
+  content: any;
+  failureReason: any;
 }
 
 @Injectable({
@@ -68,7 +73,7 @@ export class VisualViewerService {
       mergeMap(this.addViewport.bind(this)),
       shareReplay()
     );
-    this.executeWhenSceneLoaded(this.applyPropertyDefaults.bind(this));
+    this.executeWhenSceneLoaded(this.setInitialPropertyValues.bind(this));
   }
 
   protected _ui5: ui5;
@@ -184,14 +189,6 @@ export class VisualViewerService {
   }
   private set viewPriorToIsolateViewInfo(value: any) {
     this._viewPriorToIsolateViewInfo = value;
-  }
-
-  private _isolateSelectedIsolateFirstNodeOnly = true;
-  private get isolateSelectedIsolateFirstNodeOnly() {
-    return this._isolateSelectedIsolateFirstNodeOnly;
-  }
-  private set isolateSelectedIsolateFirstNodeOnly(value) {
-    this._isolateSelectedIsolateFirstNodeOnly = value;
   }
 
   private _viewportAdded$: Observable<void>;
@@ -453,6 +450,10 @@ export class VisualViewerService {
   _animationTime: number;
   @Output() animationTimeChange = new EventEmitter<number>();
 
+  /**
+   * The total duration of the animation in seconds.
+   * Returns 0 when there is no animation present (or when a scene has not been loaded).
+   */
   get animationTotalDuration(): number {
     if (this.animationPlayer) {
       return this.animationPlayer.getTotalDuration();
@@ -499,7 +500,6 @@ export class VisualViewerService {
         this.animationPlayer.stop();
       }
       this.animationPlayingChange.emit(animationPlaying);
-      this.changeDetectorRef.detectChanges();
     });
   }
   get animationPlaying(): boolean {
@@ -664,7 +664,7 @@ export class VisualViewerService {
   private contentLoadFinished =
     new EventEmitter<VisualContentLoadFinishedEvent>();
 
-  private applyPropertyDefaults() {
+  private setInitialPropertyValues() {
     this.backgroundTopColor =
       this.backgroundTopColor ?? this.DEFAULT_BACKGROUND_TOP_COLOR;
     this.backgroundBottomColor =
@@ -785,11 +785,8 @@ export class VisualViewerService {
   }
 
   private isolateNodes(nodeRefsToIsolate: object[]): void {
-    if (this.isolateSelectedIsolateFirstNodeOnly) {
-      nodeRefsToIsolate = nodeRefsToIsolate.length
-        ? [nodeRefsToIsolate[0]]
-        : [];
-    }
+    // isolate just the first selected node
+    nodeRefsToIsolate = nodeRefsToIsolate.length ? [nodeRefsToIsolate[0]] : [];
 
     this.viewport.zoomTo(
       ZoomTo.Node,
@@ -902,7 +899,7 @@ export class VisualViewerService {
   }
 
   private getCore(): Core {
-    return sap?.ui?.getCore();
+    return sap.ui.getCore();
   }
 
   private bootstrapUi5(scriptElementId: string): Observable<void> {
@@ -928,7 +925,7 @@ export class VisualViewerService {
       script.type = 'text/javascript';
       script.setAttribute('data-sap-ui-theme', 'sap-fiori-3');
       script.setAttribute('data-sap-ui-compatVersion', 'edge');
-      script.src = this.epdVisualizationConfig?.ui5?.bootstrapUrl ?? '';
+      script.src = (this.epdVisualizationConfig.ui5 as Ui5Config).bootstrapUrl;
     });
   }
 
@@ -1006,9 +1003,10 @@ export class VisualViewerService {
       this.viewport.attachNodesPicked(this.onNodesPicked, this);
     }
 
-    this.contentLoadFinished.emit(
-      new VisualContentLoadFinishedEvent(content, failureReason)
-    );
+    this.contentLoadFinished.emit({
+      content: content,
+      failureReason: failureReason,
+    });
   }
 
   private onNodesPicked(event: any) {
@@ -1293,10 +1291,14 @@ export class VisualViewerService {
           sceneLoadState: SceneLoadState.Loading,
         });
 
+        const baseUrl: string = (
+          this.epdVisualizationConfig.apis as VisualizationApiConfig
+        ).baseUrl;
+
         const contentResource: ContentResource = new ContentResource({
           useSecureConnection: false,
           sourceType: this.is2D ? 'stream2d' : 'stream',
-          source: `${this.epdVisualizationConfig.apis?.baseUrl}/vis/public/storage/v1`,
+          source: `${baseUrl}/vis/public/storage/v1`,
           veid: sceneId,
         });
 
