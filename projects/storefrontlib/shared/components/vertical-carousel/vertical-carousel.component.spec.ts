@@ -1,10 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Product } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { VerticalCarouselComponent } from './vertical-carousel.component';
 
 @Component({
@@ -16,14 +15,26 @@ class MockCxIconComponent {
 }
 
 @Component({
-  template: ` <div id="templateEl"></div> `,
+  template: `
+    <ng-template #itemTemplate>
+      <div id="templateEl"></div>
+    </ng-template>
+  `,
 })
-class MockTemplateComponent {}
+class MockTemplateComponent {
+  @ViewChild('itemTemplate') template: TemplateRef<any>;
+}
 
 @Component({
-  template: ` <div id="headerTemplateEl"></div> `,
+  template: `
+    <ng-template #headerTemplate>
+      <div id="headerTemplateEl"></div>
+    </ng-template>
+  `,
 })
-class MockHeaderTemplateComponent {}
+class MockHeaderTemplateComponent {
+  @ViewChild('headerTemplate') template: TemplateRef<any>;
+}
 
 describe('VerticalCarousel Component', () => {
   let component: VerticalCarouselComponent;
@@ -54,13 +65,12 @@ describe('VerticalCarousel Component', () => {
     headerTemplateFixture = TestBed.createComponent(
       MockHeaderTemplateComponent
     );
-    const compiledHeaderTemplate =
-      headerTemplateFixture.debugElement.nativeElement;
-    headerTemplate = compiledHeaderTemplate.querySelector('#headerTemplateEl');
+    headerTemplateFixture.detectChanges();
+    headerTemplate = headerTemplateFixture.componentInstance.template;
 
     templateFixture = TestBed.createComponent(MockTemplateComponent);
-    const compiledTemplate = templateFixture.debugElement.nativeElement;
-    template = compiledTemplate.querySelector('#templateEl');
+    templateFixture.detectChanges();
+    template = templateFixture.componentInstance.template;
   });
 
   describe('component tests', () => {
@@ -250,12 +260,15 @@ describe('VerticalCarousel Component', () => {
         const indicators = fixture.debugElement.queryAll(
           By.css('div.indicators button.slide-indicator')
         );
+        expect(indicators[0].nativeElement.disabled).toBe(true);
+        expect(indicators[1].nativeElement.disabled).toBe(false);
+
         indicators[1].nativeElement.click();
 
         fixture.detectChanges();
 
-        expect(indicators[0].nativeElement.disabled).toBe(true);
-        expect(indicators[1].nativeElement.disabled).toBe(false);
+        expect(indicators[0].nativeElement.disabled).toBe(false);
+        expect(indicators[1].nativeElement.disabled).toBe(true);
       });
     });
 
@@ -351,21 +364,6 @@ describe('VerticalCarousel Component', () => {
 
         const el = fixture.debugElement.query(By.css('div.carousel-panel'));
         expect(el).toBeNull();
-      });
-    });
-
-    describe('new input items', () => {
-      const mockProduct: Product = {
-        name: 'mockProduct',
-        code: 'code1',
-        stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
-      };
-
-      it('should reset slider', () => {
-        component.activeSlideStartIndex = 1;
-        const mockProductArr: Observable<Product>[] = [of(mockProduct)];
-        component.items = mockProductArr;
-        expect(component.activeSlideStartIndex).toEqual(0);
       });
     });
   });
