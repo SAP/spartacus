@@ -161,11 +161,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  resetPassword: [
-    { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
-    { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
-  ],
   productConfigurationPage: [
     {
       type: TabbingOrderTypes.GENERIC_ELEMENT,
