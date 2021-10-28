@@ -10,6 +10,7 @@ import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';
 import { getValidConfig } from '../../config/epd-visualization-test-config';
 import { VisualViewerService } from './visual-viewer.service';
+import { NavigationMode } from './models/navigation-mode';
 
 type NodeRef = any;
 
@@ -608,6 +609,28 @@ describe('VisualViewerService', () => {
     });
   });
 
+  describe('animationTotalDuration', () => {
+    it('should return 0 when animationPlayer not set', () => {
+      const animationPlayer = visualViewerService['animationPlayer'];
+      expect(animationPlayer).toEqual(undefined); // does not get populated until a scene is loaded
+
+      expect(visualViewerService.animationTotalDuration).toEqual(0);
+    });
+
+    it('should return animationPlayer.getTotalDuration() when animationPlayer set', () => {
+      const mockAnimationPlayer = {
+        getTotalDuration: () => 5,
+      };
+
+      const getAnimationPlayerPropertySpy = spyOnProperty<any>(
+        visualViewerService,
+        'animationPlayer'
+      ).and.returnValue(mockAnimationPlayer);
+      expect(visualViewerService.animationTotalDuration).toEqual(5);
+      expect(getAnimationPlayerPropertySpy).toHaveBeenCalled();
+    });
+  });
+
   describe('animationPosition', () => {
     it('should not do anything when value has not changed', () => {
       expect(visualViewerService.animationPosition).toEqual(0);
@@ -671,6 +694,186 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.animationPlaying).toEqual(false);
 
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('when the value is being set to true and the animation position is at end of animation, play from the beginning', () => {
+      expect(visualViewerService.animationPlaying).toEqual(false);
+      const mockExecuteWhenSceneLoaded = (callback: () => void) => {
+        callback();
+      };
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      ).and.callFake(mockExecuteWhenSceneLoaded);
+
+      const getAnimationPositionPropertySpy = spyOnProperty(
+        visualViewerService,
+        'animationPosition',
+        'get'
+      ).and.returnValue(1); // at end position
+
+      const getAnimationPlayerSetTimeSpy = spyOn<any>(
+        visualViewerService,
+        'animationPlayerSetTime'
+      );
+
+      const mockAnimationPlayer = {
+        play: () => {},
+        stop: () => {},
+      };
+
+      const getAnimationPlayerProperty = spyOnProperty<any>(
+        visualViewerService,
+        'animationPlayer',
+        'get'
+      ).and.returnValue(mockAnimationPlayer);
+
+      const playSpy = spyOn(mockAnimationPlayer, 'play');
+      const stopSpy = spyOn(mockAnimationPlayer, 'stop');
+
+      const animationPlayingChangeEmitSpy = spyOn(
+        visualViewerService.animationPlayingChange,
+        'emit'
+      );
+
+      visualViewerService.animationPlaying = true;
+      expect(visualViewerService.animationPlaying).toEqual(true);
+
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
+
+      expect(getAnimationPositionPropertySpy).toHaveBeenCalledTimes(1);
+      expect(getAnimationPlayerProperty).toHaveBeenCalled();
+      expect(getAnimationPlayerSetTimeSpy).toHaveBeenCalledTimes(1);
+      expect(getAnimationPlayerSetTimeSpy).toHaveBeenCalledWith(0, false); // Set to start position
+      expect(playSpy).toHaveBeenCalledTimes(1);
+      expect(stopSpy).toHaveBeenCalledTimes(0);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledTimes(1);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('when the value is being set to true and the animation position is not at end of animation, play from the current position', () => {
+      expect(visualViewerService.animationPlaying).toEqual(false);
+      const mockExecuteWhenSceneLoaded = (callback: () => void) => {
+        callback();
+      };
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      ).and.callFake(mockExecuteWhenSceneLoaded);
+
+      const getAnimationPositionPropertySpy = spyOnProperty(
+        visualViewerService,
+        'animationPosition',
+        'get'
+      ).and.returnValue(0.75);
+
+      const getAnimationPlayerSetTimeSpy = spyOn<any>(
+        visualViewerService,
+        'animationPlayerSetTime'
+      );
+
+      const mockAnimationPlayer = {
+        play: () => {},
+        stop: () => {},
+      };
+
+      const getAnimationPlayerProperty = spyOnProperty<any>(
+        visualViewerService,
+        'animationPlayer',
+        'get'
+      ).and.returnValue(mockAnimationPlayer);
+
+      const playSpy = spyOn(mockAnimationPlayer, 'play');
+      const stopSpy = spyOn(mockAnimationPlayer, 'stop');
+
+      const animationPlayingChangeEmitSpy = spyOn(
+        visualViewerService.animationPlayingChange,
+        'emit'
+      );
+
+      visualViewerService.animationPlaying = true;
+      expect(visualViewerService.animationPlaying).toEqual(true);
+
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
+
+      expect(getAnimationPositionPropertySpy).toHaveBeenCalledTimes(1);
+      expect(getAnimationPlayerProperty).toHaveBeenCalled();
+      expect(getAnimationPlayerSetTimeSpy).toHaveBeenCalledTimes(0);
+      expect(playSpy).toHaveBeenCalledTimes(1);
+      expect(stopSpy).toHaveBeenCalledTimes(0);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledTimes(1);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('when the value is being set to false, pause the animation playback', () => {
+      visualViewerService['_animationPlaying'] = true;
+      expect(visualViewerService.animationPlaying).toEqual(true);
+
+      const mockExecuteWhenSceneLoaded = (callback: () => void) => {
+        callback();
+      };
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      ).and.callFake(mockExecuteWhenSceneLoaded);
+
+      const getAnimationPositionPropertySpy = spyOnProperty(
+        visualViewerService,
+        'animationPosition',
+        'get'
+      ).and.returnValue(0.75);
+
+      const getAnimationPlayerSetTimeSpy = spyOn<any>(
+        visualViewerService,
+        'animationPlayerSetTime'
+      );
+
+      const mockAnimationPlayer = {
+        play: () => {},
+        stop: () => {},
+      };
+
+      const getAnimationPlayerProperty = spyOnProperty<any>(
+        visualViewerService,
+        'animationPlayer',
+        'get'
+      ).and.returnValue(mockAnimationPlayer);
+
+      const playSpy = spyOn(mockAnimationPlayer, 'play');
+      const stopSpy = spyOn(mockAnimationPlayer, 'stop');
+
+      const animationPlayingChangeEmitSpy = spyOn(
+        visualViewerService.animationPlayingChange,
+        'emit'
+      );
+
+      visualViewerService.animationPlaying = false;
+      expect(visualViewerService.animationPlaying).toEqual(false);
+
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
+
+      expect(getAnimationPositionPropertySpy).toHaveBeenCalledTimes(0);
+      expect(getAnimationPlayerProperty).toHaveBeenCalled();
+      expect(getAnimationPlayerSetTimeSpy).toHaveBeenCalledTimes(0);
+      expect(playSpy).toHaveBeenCalledTimes(0);
+      expect(stopSpy).toHaveBeenCalledTimes(1);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledTimes(1);
+      expect(animationPlayingChangeEmitSpy).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('navigationMode', () => {
+    it('should not do anything when the value has not changed', () => {
+      visualViewerService['_navigationMode'] = NavigationMode.Zoom;
+      expect(visualViewerService.navigationMode).toEqual(NavigationMode.Zoom);
+
+      const spyOnExecuteWhenSceneLoaded = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      visualViewerService.navigationMode = NavigationMode.Zoom;
+
+      expect(spyOnExecuteWhenSceneLoaded).toHaveBeenCalledTimes(0);
     });
   });
 
