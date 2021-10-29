@@ -194,7 +194,7 @@ export function goToProductPage(product: TestProduct) {
   getWishListItem(product.name).within(() => {
     cy.get('.cx-name>.cx-link').click({ force: true });
   });
-  cy.wait(`@${productPage}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function checkoutFromWishList(checkoutProducts: TestProduct[]) {

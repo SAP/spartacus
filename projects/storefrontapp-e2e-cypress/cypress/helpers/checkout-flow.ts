@@ -170,7 +170,7 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').scrollIntoView().click({force: true});
   cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
