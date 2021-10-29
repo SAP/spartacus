@@ -10,8 +10,6 @@
 <cx-active-facets></cx-active-facets>
 
 <cx-facet-list
-  role="region"
-  [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
   *ngIf="isOpen$ | async"
   [isDialog]="hasTrigger"
   (closeList)="close()"
