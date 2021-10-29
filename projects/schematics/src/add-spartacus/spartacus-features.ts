@@ -117,8 +117,8 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: [
-                'UserTransitional_4_2_Module',
-                'UserOccTransitional_4_2_Module',
+                'UserModule',
+                'UserOccModule',
               ],
             },
             {
