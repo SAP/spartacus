@@ -1,0 +1,77 @@
+<form *ngIf="form" [formGroup]="form" (submit)="formSubmitSubject$.next()">
+  <p class="cx-import-entries-subtitle">
+    {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
+  </p>
+  <p>
+    {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
+  </p>
+  <label>
+    <cx-file-upload
+      [formControl]="form.get('file')"
+      (update)="updateCartName()"
+      [accept]="allowedTypes"
+    >
+      {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+    </cx-file-upload>
+    <cx-form-errors
+      [control]="form.get('file')"
+      prefix="formErrors.file"
+    ></cx-form-errors>
+  </label>
+  <div class="cx-import-entries-row">
+    <label>
+      <span class="cx-import-entries-label label-content">
+        {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
+      </span>
+      <input
+        [maxLength]="nameMaxLength"
+        class="form-control"
+        formControlName="name"
+        required
+        type="text"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="cx-import-entries-row">
+    <label>
+      <span class="cx-import-entries-label label-content">
+        {{ 'importEntriesDialog.savedCartDescription' | cxTranslate }}
+        <span class="cx-import-entries-label-optional">
+          ({{ 'importEntriesDialog.optional' | cxTranslate }})
+        </span></span
+      >
+      <textarea
+        [maxLength]="descriptionMaxLength"
+        class="form-control"
+        formControlName="description"
+        rows="5"
+      ></textarea>
+      <cx-form-errors [control]="form.get('description')"></cx-form-errors>
+
+      <p class="cx-import-entries-input-hint">
+        {{
+          'importEntriesDialog.charactersLeft'
+            | cxTranslate: { count: descriptionsCharacterLeft }
+        }}
+      </p>
+    </label>
+  </div>
+  <div class="cx-import-entries-footer">
+    <button
+      (click)="close('Close Import Products Dialog')"
+      class="btn btn-action"
+      type="button"
+    >
+      {{ 'importEntriesDialog.cancel' | cxTranslate }}
+    </button>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="form.get('file')?.status === 'PENDING'"
+    >
+      {{ 'importEntriesDialog.upload' | cxTranslate }}
+    </button>
+  </div>
+</form>
