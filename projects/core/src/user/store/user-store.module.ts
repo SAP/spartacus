@@ -4,21 +4,19 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
-import { effects } from './effects/index';
-import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { effectsTransitional_4_2 } from './effects/transitional_4_2';
+import { metaReducers, reducerToken } from './reducers/index';
+import { reducerTransitional_4_2_Provider } from './reducers/transitional_4_2';
 import { USER_FEATURE } from './user-state';
 
-/**
- * @deprecated since 3.2, moved to the `@spartacus/user` package.
- */
 @NgModule({
   imports: [
     CommonModule,
     StateModule,
     StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects),
+    EffectsModule.forFeature(effectsTransitional_4_2),
     RouterModule,
   ],
-  providers: [reducerProvider],
+  providers: [reducerTransitional_4_2_Provider],
 })
 export class UserStoreModule {}

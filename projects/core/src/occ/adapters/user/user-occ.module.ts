@@ -63,4 +63,4 @@ import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
     },
   ],
 })
-export class UserOccTransitional_4_2_Module {}
+export class UserOccModule {}
