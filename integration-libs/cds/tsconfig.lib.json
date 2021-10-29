@@ -16,6 +16,7 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/checkout/assets": ["dist/checkout/assets"],
+      "@spartacus/checkout/base/components": ["dist/checkout/base/components"],
       "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
       "@spartacus/checkout/base": ["dist/checkout/base"],
       "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],

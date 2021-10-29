@@ -101,6 +101,9 @@
       "@spartacus/checkout/assets": [
         "feature-libs/checkout/assets/public_api"
       ],
+      "@spartacus/checkout/base/components": [
+        "feature-libs/checkout/base/components/public_api"
+      ],
       "@spartacus/checkout/base/core": [
         "feature-libs/checkout/base/core/public_api"
       ],
