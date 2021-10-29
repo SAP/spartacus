@@ -6,26 +6,27 @@
 const fs = require('fs');
 
 const libs = [
+  'projects/assets',
   'projects/core',
   'projects/storefrontlib',
   'projects/storefrontstyles',
-  'projects/assets',
   'projects/schematics',
   'core-libs/setup',
   'feature-libs/asm',
-  'feature-libs/organization',
-  'feature-libs/storefinder',
+  'feature-libs/cart',
   'feature-libs/checkout',
-  'feature-libs/smartedit',
+  'feature-libs/order',
+  'feature-libs/organization',
   'feature-libs/product',
   'feature-libs/product-configurator',
   'feature-libs/qualtrics',
-  'feature-libs/cart',
-  'feature-libs/order',
-  'feature-libs/user',
+  'feature-libs/smartedit',
+  'feature-libs/storefinder',
   'feature-libs/tracking',
+  'feature-libs/user',
   'integration-libs/cds',
   'integration-libs/cdc',
+  'integration-libs/digital-payments',
 ];
 
 function assignVersion(lib) {
