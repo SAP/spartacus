@@ -36,6 +36,7 @@
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
       "@spartacus/checkout/assets": ["dist/checkout/assets"],
+      "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
       "@spartacus/checkout/base": ["dist/checkout/base"],
       "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
       "@spartacus/checkout/components": ["dist/checkout/components"],

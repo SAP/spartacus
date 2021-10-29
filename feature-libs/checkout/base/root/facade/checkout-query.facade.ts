@@ -10,11 +10,9 @@ import { CheckoutState } from '../model/checkout-state.model';
     facadeFactory({
       facade: CheckoutQueryFacade,
       feature: CHECKOUT_CORE_FEATURE,
-      methods: ['getCheckoutDetails', 'getCheckoutDetailsState'],
+      methods: ['getCheckoutDetailsState'],
     }),
 })
 export abstract class CheckoutQueryFacade {
-  abstract getCheckoutDetails(): Observable<CheckoutState | undefined>;
-
   abstract getCheckoutDetailsState(): Observable<QueryState<CheckoutState>>;
 }

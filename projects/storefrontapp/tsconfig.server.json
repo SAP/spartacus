@@ -68,6 +68,9 @@
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"
       ],
+      "@spartacus/checkout/base/core": [
+        "../../feature-libs/checkout/base/core/public_api"
+      ],
       "@spartacus/checkout/base": [
         "../../feature-libs/checkout/base/public_api"
       ],
