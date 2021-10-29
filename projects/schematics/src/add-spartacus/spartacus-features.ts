@@ -101,8 +101,8 @@ function configureSpartacusModules(
 
       [
         `// User Core,
-        UserTransitional_4_2_Module,`,
-        'UserOccTransitional_4_2_Module,',
+        UserModule,`,
+        'UserOccModule,',
         `// User UI,
         AddressBookModule,`,
         'PaymentMethodsModule,',
