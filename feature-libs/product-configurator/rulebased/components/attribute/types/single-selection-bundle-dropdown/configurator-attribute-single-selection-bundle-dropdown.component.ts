@@ -25,7 +25,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   @Input() group: string;
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     const values = this.attribute.values;
     if (values && values.length > 0) {
