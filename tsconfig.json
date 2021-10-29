@@ -111,6 +111,9 @@
       "@spartacus/checkout/base": [
         "feature-libs/checkout/base/public_api"
       ],
+      "@spartacus/checkout/base/occ": [
+        "feature-libs/checkout/base/occ/public_api"
+      ],
       "@spartacus/checkout/base/root": [
         "feature-libs/checkout/base/root/public_api"
       ],
