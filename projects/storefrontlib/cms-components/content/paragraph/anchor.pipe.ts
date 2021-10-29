@@ -10,9 +10,9 @@ export class AnchorPipe implements PipeTransform {
     protected winRef: WindowRef
   ) {}
 
-  protected getPath(id: string): string {
+  protected getPath(anchorId: string): string {
     const { pathname, search } = this.winRef.location;
-    return pathname + search + id;
+    return `${pathname}${search}${anchorId}`;
   }
 
   public transform(html: string): SafeHtml {
