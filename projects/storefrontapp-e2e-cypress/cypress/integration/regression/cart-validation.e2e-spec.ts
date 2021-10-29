@@ -16,6 +16,14 @@ context('Cart validation', () => {
     beforeEach(() => {
       clearAllStorage();
       cy.requireLoggedIn(standardUser);
+
+      cy.cxConfig({
+        cart: {
+          validation: {
+            enabled: true,
+          },
+        },
+      });
     });
 
     describe('As logged in', () => {
