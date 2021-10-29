@@ -1,14 +1,19 @@
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { RoutingService } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 
 @Pipe({ name: 'cxAnchor' })
 export class AnchorPipe implements PipeTransform {
   constructor(
     protected renderer: Renderer2,
     protected sanitizer: DomSanitizer,
-    protected routingService: RoutingService
+    protected winRef: WindowRef
   ) {}
+
+  protected getPath(id: string): string {
+    const { pathname, search } = this.winRef.location;
+    return pathname + search + id;
+  }
 
   public transform(html: string): SafeHtml {
     const template = this.renderer.createElement('template');
@@ -18,11 +23,7 @@ export class AnchorPipe implements PipeTransform {
     Array.from(linkNodes).forEach((link: HTMLAnchorElement) => {
       const href = link.getAttribute('href');
       if (href?.indexOf('#') === 0) {
-        this.renderer.setProperty(
-          link,
-          'href',
-          `${this.routingService.getUrl({})}${href}`
-        );
+        this.renderer.setProperty(link, 'href', this.getPath(href));
       }
     });
     return this.sanitizer.bypassSecurityTrustHtml(template.innerHTML);
