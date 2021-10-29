@@ -116,10 +116,7 @@ function configureSpartacusModules(
           import: [
             {
               moduleSpecifier: SPARTACUS_CORE,
-              namedImports: [
-                'UserModule',
-                'UserOccModule',
-              ],
+              namedImports: ['UserModule', 'UserOccModule'],
             },
             {
               moduleSpecifier: SPARTACUS_STOREFRONTLIB,
