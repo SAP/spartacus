@@ -2,6 +2,9 @@ import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 
+/* Enriches anchor links with the current location (path and query params).
+ * Useful for cms-provided content injected via innerHTML.
+ */
 @Pipe({ name: 'cxAnchor' })
 export class AnchorPipe implements PipeTransform {
   constructor(
