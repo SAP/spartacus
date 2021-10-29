@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
-} from '@spartacus/checkout/assets';
-import { CheckoutRootModule, CHECKOUT_FEATURE } from '@spartacus/checkout/root';
+} from '@spartacus/checkout/base/assets';
+import {
+  CheckoutRootModule,
+  CHECKOUT_FEATURE,
+} from '@spartacus/checkout/base/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
