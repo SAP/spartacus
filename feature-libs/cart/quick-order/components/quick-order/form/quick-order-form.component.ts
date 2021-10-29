@@ -15,11 +15,12 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  switchMap,
   take,
 } from 'rxjs/operators';
 
@@ -35,23 +36,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
-  get isDisabled(): boolean {
-    return this._disabled;
-  }
+  @Input()
+  isDisabled = false;
 
-  @Input('isDisabled') set isDisabled(value: boolean) {
-    this._disabled = value;
-    this.validateProductControl(value);
-  }
-
-  get isLoading(): boolean {
-    return this._loading;
-  }
-
-  @Input('isLoading') set isLoading(value: boolean) {
-    this._loading = value;
-    this.validateProductControl(value);
-  }
+  @Input()
+  isLoading = false;
 
   protected subscription = new Subscription();
   protected _disabled: boolean = false;
@@ -115,20 +104,39 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   add(product: Product, event: Event): void {
     event?.preventDefault();
+
+    // TODO change to nonpurchasable flag once we will support multidimensional products in search and when the purchasable flag will be available in search product response
+
+    // Check if product is purchasable / non multidimensional
+    if (product.multidimensional) {
+      this.quickOrderService.setNonPurchasableProductError(product);
+      this.clear();
+      return;
+    } else {
+      this.quickOrderService.clearNonPurchasableProductError();
+    }
+
     this.quickOrderService.addProduct(product);
   }
 
   addProduct(event: Event): void {
-    const activeProductIndex = this.getFocusedElementIndex();
+    this.quickOrderService
+      .canAdd()
+      .pipe(take(1))
+      .subscribe((canAdd: boolean) => {
+        if (canAdd) {
+          const activeProductIndex = this.getFocusedElementIndex();
 
-    // Add product if there is focus on it
-    if (activeProductIndex !== null) {
-      const product = this.results[activeProductIndex];
-      this.add(product, event);
-      // Add product if there is only one in the result list
-    } else if (this.results.length === 1) {
-      this.add(this.results[0], event);
-    }
+          // Add product if there is focus on it
+          if (activeProductIndex !== null) {
+            const product = this.results[activeProductIndex];
+            this.add(product, event);
+            // Add product if there is only one in the result list
+          } else if (this.results.length === 1) {
+            this.add(this.results[0], event);
+          }
+        }
+      });
   }
 
   focusNextChild(): void {
@@ -178,6 +186,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this._focusedElementIndex = value;
   }
 
+  canAddProduct(): Observable<boolean> {
+    return this.quickOrderService.canAdd();
+  }
+
   protected resetFocusedElementIndex(): void {
     this._focusedElementIndex = null;
   }
@@ -204,7 +216,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     form.setControl('product', new FormControl(null));
 
     this.form = form;
-    this.validateProductControl(this.isDisabled);
   }
 
   protected isEmpty(string?: string): boolean {
@@ -240,9 +251,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchProducts(query: string): void {
-    this.quickOrderService
-      .searchProducts(query, this.config?.quickOrder?.searchForm?.maxProducts)
-      .pipe(take(1))
+    this.canAddProduct()
+      .pipe(
+        filter(Boolean),
+        switchMap(() =>
+          this.quickOrderService
+            .searchProducts(
+              query,
+              this.config?.quickOrder?.searchForm?.maxProducts
+            )
+            .pipe(take(1))
+        )
+      )
       .subscribe((products) => {
         this.results = products;
 
@@ -272,14 +292,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     return this.quickOrderService
       .getProductAdded()
       .subscribe(() => this.clear());
-  }
-
-  protected validateProductControl(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.form?.get('product')?.disable();
-    } else {
-      this.form?.get('product')?.enable();
-    }
   }
 
   ngOnDestroy(): void {

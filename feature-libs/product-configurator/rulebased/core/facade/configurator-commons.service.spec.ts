@@ -102,7 +102,7 @@ class MockconfiguratorUtilsService {
     return productConfiguration;
   }
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    const configId: String = configuration?.configId;
+    const configId: String = configuration.configId;
     return configId !== undefined && configId.length !== 0;
   }
   getConfigurationFromState(
