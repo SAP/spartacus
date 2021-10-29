@@ -11,9 +11,7 @@ export function defaultCartComponentsConfig() {
     featureModules: {
       [CART_FEATURE]: {
         cmsComponents: [
-          'WishListComponent',
           'ProductAddToCartComponent',
-          'AddToWishListComponent',
           'CartApplyCouponComponent',
           'CartComponent',
           'CartTotalsComponent',

@@ -5,21 +5,16 @@ import { StoreModule } from '@ngrx/store';
 import { StateModule } from '@spartacus/core';
 import { effects } from './effects/index';
 import { MULTI_CART_FEATURE } from './multi-cart-state';
-import {
-  multiCartMetaReducers,
-  multiCartReducerProvider,
-  multiCartReducerToken,
-} from './reducers/index';
+import { multiCartMetaReducers, multiCartReducers } from './reducers/index';
 
 @NgModule({
   imports: [
     CommonModule,
     StateModule,
-    StoreModule.forFeature(MULTI_CART_FEATURE, multiCartReducerToken, {
+    StoreModule.forFeature(MULTI_CART_FEATURE, multiCartReducers, {
       metaReducers: multiCartMetaReducers,
     }),
     EffectsModule.forFeature(effects),
   ],
-  providers: [multiCartReducerProvider],
 })
 export class MultiCartStoreModule {}

@@ -37,6 +37,13 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
+      "@spartacus/cart/wish-list/assets": ["../../dist/cart/wish-list/assets"],
+      "@spartacus/cart/wish-list/components": [
+        "../../dist/cart/wish-list/components"
+      ],
+      "@spartacus/cart/wish-list/core": ["../../dist/cart/wish-list/core"],
+      "@spartacus/cart/wish-list": ["../../dist/cart/wish-list"],
+      "@spartacus/cart/wish-list/root": ["../../dist/cart/wish-list/root"],
       "@spartacus/checkout/assets": ["../../dist/checkout/assets"],
       "@spartacus/checkout/components": ["../../dist/checkout/components"],
       "@spartacus/checkout/core": ["../../dist/checkout/core"],
