@@ -1,7 +1,7 @@
 import * as productSearchFlow from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Product search', () => {
+// describe('Product search', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.visit('/');
@@ -10,6 +10,11 @@ context('Product search', () => {
     describe('Search results', () => {
       it('should be able to search and get results', () => {
         productSearchFlow.searchResult();
+      });
+
+      it('should check keyboard accessibility', () => {
+        cy.get('cx-product-facet-navigation');
+        cy.tabScreenshot({ container: 'main', scenario: 'list' });
       });
     });
 
@@ -31,11 +36,21 @@ context('Product search', () => {
       it('should be able to switch to grid mode', () => {
         productSearchFlow.viewMode();
       });
+
+      it('should check keyboard accessibility', () => {
+        cy.get('main');
+        cy.tabScreenshot({ container: 'main', scenario: 'grid' });
+      });
     });
 
     describe('Facets', () => {
       it('should filter results using facet filtering', () => {
         productSearchFlow.filterUsingFacetFiltering();
+      });
+
+      it('should check keyboard accessibility', () => {
+        cy.get('main');
+        cy.tabScreenshot({ container: 'main', scenario: 'facets' });
       });
 
       it('should be able to clear active facet', () => {
@@ -77,4 +92,4 @@ context('Product search', () => {
       });
     });
   });
-});
+// });
