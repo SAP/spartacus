@@ -35,6 +35,9 @@ import {
         selectiveCart: {
           enabled: true,
         },
+        validation: {
+          enabled: true,
+        },
       },
     }),
   ],
