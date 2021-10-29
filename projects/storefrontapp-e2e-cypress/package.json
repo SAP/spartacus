@@ -21,6 +21,7 @@
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.1",
     "@testing-library/cypress": "^8.0.1",
-    "cypress": "^8.5.0"
+    "cypress": "^8.5.0",
+    "cypress-file-upload": "^5.0.8"
   }
 }
