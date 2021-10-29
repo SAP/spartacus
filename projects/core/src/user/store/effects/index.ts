@@ -23,14 +23,3 @@ export const effects: any[] = [
   ProductInterestsEffect,
   UserCostCenterEffects,
 ];
-
-export * from './billing-countries.effect';
-export * from './clear-miscs-data.effect';
-export * from './customer-coupon.effect';
-export * from './delivery-countries.effect';
-export * from './notification-preference.effect';
-export * from './payment-methods.effect';
-export * from './product-interests.effect';
-export * from './regions.effect';
-export * from './user-addresses.effect';
-export * from './user-consents.effect';
