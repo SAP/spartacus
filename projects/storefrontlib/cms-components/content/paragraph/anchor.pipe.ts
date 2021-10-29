@@ -29,6 +29,7 @@ export class AnchorPipe implements PipeTransform {
         this.renderer.setProperty(link, 'href', this.getPath(href));
       }
     });
+    // Required in order not to lose the name/id attributes
     return this.sanitizer.bypassSecurityTrustHtml(template.innerHTML);
   }
 }
