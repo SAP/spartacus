@@ -17,6 +17,14 @@ context('Cart validation', () => {
       cy.window().then((win) => win.localStorage.clear());
       cy.clearLocalStorageMemory();
       cy.requireLoggedIn(standardUser);
+
+      cy.cxConfig({
+        cart: {
+          validation: {
+            enabled: true,
+          },
+        },
+      });
     });
 
     describe('As logged in', () => {
