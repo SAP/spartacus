@@ -108,7 +108,7 @@ class MockVisualViewerService {
   get excludedOpacity(): number {
     return this._excludedOpacity;
   }
-  _excludedOpacity = 0.2;
+  private _excludedOpacity = 0.2;
 
   set animationTime(animationTime: number) {
     this._animationTime = animationTime;
@@ -116,7 +116,7 @@ class MockVisualViewerService {
   get animationTime(): number {
     return this._animationTime;
   }
-  _animationTime: number;
+  private _animationTime: number;
   animationTimeChange = new EventEmitter<number>();
 
   get animationTotalDuration(): number {
@@ -155,24 +155,24 @@ class MockVisualViewerService {
   get isolateModeEnabled(): boolean {
     return this._isolateModeEnabled;
   }
-  _isolateModeEnabled = false;
+  private _isolateModeEnabled = false;
   isolateModeEnabledChange = new EventEmitter<boolean>();
 
-  set is2D(is2D: boolean) {
-    this._is2D = is2D;
-  }
   get is2D(): boolean {
     return this._is2D;
   }
-  _is2D = false;
+  setIs2D(is2D: boolean) {
+    this._is2D = is2D;
+  }
+  private _is2D = false;
 
-  set viewportReady(viewportReady: boolean) {
+  setViewportReady(viewportReady: boolean) {
     this._viewportReady = viewportReady;
   }
   get viewportReady(): boolean {
     return this._viewportReady;
   }
-  _viewportReady = false;
+  private _viewportReady = false;
   viewportReadyChange = new EventEmitter<boolean>();
 
   public activateHomeView() {}

@@ -45,7 +45,6 @@ import {
   VisualizationLoadInfo,
   VisualizationLoadResult,
 } from './models/visualization-load-info';
-import { SelectionDisplayMode } from './models/selection-display-mode';
 import { ZoomTo } from './models/zoom-to';
 
 interface VisualContentLoadFinishedEvent {
@@ -200,10 +199,10 @@ export class VisualViewerService {
   }
 
   private _selectedNodeIds$ = new Subject<string[]>();
-  public get selectedNodeIds$() {
+  private get selectedNodeIds$() {
     return this._selectedNodeIds$;
   }
-  public set selectedNodeIds$(value) {
+  private set selectedNodeIds$(value) {
     this._selectedNodeIds$ = value;
   }
 
@@ -223,15 +222,27 @@ export class VisualViewerService {
   protected readonly DEFAULT_ZOOM_TO_MARGIN = 0.2;
   protected readonly DEFAULT_FLY_TO_DURATION = 1;
 
-  protected flyToDurationInSeconds = this.DEFAULT_FLY_TO_DURATION;
-  protected zoomToMargin = this.DEFAULT_ZOOM_TO_MARGIN;
+  private _flyToDurationInSeconds = this.DEFAULT_FLY_TO_DURATION;
+  private get flyToDurationInSeconds() {
+    return this._flyToDurationInSeconds;
+  }
+  private set flyToDurationInSeconds(value) {
+    this._flyToDurationInSeconds = value;
+  }
+  private _zoomToMargin = this.DEFAULT_ZOOM_TO_MARGIN;
+  private get zoomToMargin() {
+    return this._zoomToMargin;
+  }
+  private set zoomToMargin(value) {
+    this._zoomToMargin = value;
+  }
 
   /**
    * The top colour of the background gradient.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
   @Input()
-  set backgroundTopColor(backgroundTopColor: string) {
+  public set backgroundTopColor(backgroundTopColor: string) {
     if (this._backgroundTopColor === backgroundTopColor) {
       return;
     }
@@ -240,7 +251,7 @@ export class VisualViewerService {
       this.viewport.setBackgroundColorTop(this.getCSSColor(backgroundTopColor));
     });
   }
-  get backgroundTopColor() {
+  public get backgroundTopColor(): string {
     return this._backgroundTopColor;
   }
   private _backgroundTopColor: string;
@@ -250,7 +261,7 @@ export class VisualViewerService {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
   @Input()
-  set backgroundBottomColor(backgroundBottomColor: string) {
+  public set backgroundBottomColor(backgroundBottomColor: string) {
     if (this._backgroundBottomColor === backgroundBottomColor) {
       return;
     }
@@ -261,7 +272,7 @@ export class VisualViewerService {
       );
     });
   }
-  get backgroundBottomColor(): string {
+  public get backgroundBottomColor(): string {
     return this._backgroundBottomColor;
   }
   private _backgroundBottomColor: string;
@@ -271,7 +282,7 @@ export class VisualViewerService {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   @Input()
-  set hotspotSelectionColor(hotspotSelectionColor: string) {
+  public set hotspotSelectionColor(hotspotSelectionColor: string) {
     if (this._hotspotSelectionColor === hotspotSelectionColor) {
       return;
     }
@@ -282,7 +293,7 @@ export class VisualViewerService {
       );
     });
   }
-  get hotspotSelectionColor(): string {
+  public get hotspotSelectionColor(): string {
     return this._hotspotSelectionColor;
   }
   private _hotspotSelectionColor: string;
@@ -291,7 +302,7 @@ export class VisualViewerService {
    * Highlights all hotspots in 2D content that are included in the includedProductCodes property using the colour specified by the showAllHotspotsColor property.
    */
   @Input()
-  set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
+  public set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
     if (this._showAllHotspotsEnabled === showAllHotspotsEnabled) {
       return;
     }
@@ -300,7 +311,7 @@ export class VisualViewerService {
       this.applyInclusionStyle(this._includedProductCodes);
     });
   }
-  get showAllHotspotsEnabled(): boolean {
+  public get showAllHotspotsEnabled(): boolean {
     return this._showAllHotspotsEnabled;
   }
   private _showAllHotspotsEnabled: boolean;
@@ -310,7 +321,7 @@ export class VisualViewerService {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   @Input()
-  set showAllHotspotsColor(showAllHotspotsColor: string) {
+  public set showAllHotspotsColor(showAllHotspotsColor: string) {
     if (this._showAllHotspotsColor === showAllHotspotsColor) {
       return;
     }
@@ -320,7 +331,7 @@ export class VisualViewerService {
       this.viewport.setShowAllHotspotsTintColor(cssColor);
     });
   }
-  get showAllHotspotsColor(): string {
+  public get showAllHotspotsColor(): string {
     return this._showAllHotspotsColor;
   }
   private _showAllHotspotsColor: string;
@@ -330,7 +341,7 @@ export class VisualViewerService {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   @Input()
-  set outlineColor(outlineColor: string) {
+  public set outlineColor(outlineColor: string) {
     if (this._outlineColor === outlineColor) {
       return;
     }
@@ -339,7 +350,7 @@ export class VisualViewerService {
       this.viewStateManager.setOutlineColor(this.getCSSColor(outlineColor));
     });
   }
-  get outlineColor(): string {
+  public get outlineColor(): string {
     return this._outlineColor;
   }
   private _outlineColor: string;
@@ -348,7 +359,7 @@ export class VisualViewerService {
    * The width of the outline used to indicate selected objects in 3D content.
    */
   @Input()
-  set outlineWidth(outlineWidth: number) {
+  public set outlineWidth(outlineWidth: number) {
     if (this._outlineWidth === outlineWidth) {
       return;
     }
@@ -357,7 +368,7 @@ export class VisualViewerService {
       this.viewStateManager.setOutlineWidth(outlineWidth);
     });
   }
-  get outlineWidth(): number {
+  public get outlineWidth(): number {
     return this._outlineWidth;
   }
   private _outlineWidth: number;
@@ -369,7 +380,7 @@ export class VisualViewerService {
    * Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.
    */
   @Input()
-  set selectionMode(selectionMode: SelectionMode) {
+  public set selectionMode(selectionMode: SelectionMode) {
     if (this._selectionMode === selectionMode) {
       return;
     }
@@ -378,7 +389,7 @@ export class VisualViewerService {
       this.viewport.setSelectionMode(selectionMode);
     });
   }
-  get selectionMode(): SelectionMode {
+  public get selectionMode(): SelectionMode {
     return this._selectionMode;
   }
   private _selectionMode: SelectionMode;
@@ -389,7 +400,7 @@ export class VisualViewerService {
    * Sets the selection set based on the set of supplied product codes.
    */
   @Input()
-  set selectedProductCodes(selectedProductCodes: string[]) {
+  public set selectedProductCodes(selectedProductCodes: string[]) {
     this._selectedProductCodes = selectedProductCodes;
     this.sceneNodeToProductLookupService
       .lookupNodeIds(selectedProductCodes)
@@ -397,7 +408,7 @@ export class VisualViewerService {
         this.selectedNodeIds$.next(selectedNodeIds)
       );
   }
-  get selectedProductCodes(): string[] {
+  public get selectedProductCodes(): string[] {
     return this._selectedProductCodes;
   }
   private _selectedProductCodes: string[];
@@ -414,13 +425,13 @@ export class VisualViewerService {
    * - hotspots that are not included will not be selectable or visible
    */
   @Input()
-  set includedProductCodes(includedProductCodes: string[]) {
+  public set includedProductCodes(includedProductCodes: string[]) {
     this._includedProductCodes = includedProductCodes;
     this.executeWhenSceneLoaded(() => {
       this.applyInclusionStyle(includedProductCodes);
     });
   }
-  get includedProductCodes(): string[] {
+  public get includedProductCodes(): string[] {
     return this._includedProductCodes;
   }
   private _includedProductCodes: string[];
@@ -429,32 +440,32 @@ export class VisualViewerService {
    * Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property.
    */
   @Input()
-  set excludedOpacity(excludedOpacity: number) {
+  public set excludedOpacity(excludedOpacity: number) {
     this._excludedOpacity = excludedOpacity;
   }
-  get excludedOpacity(): number {
+  public get excludedOpacity(): number {
     return this._excludedOpacity;
   }
-  _excludedOpacity: number = this.DEFAULT_EXCLUDED_OPACITY;
+  private _excludedOpacity: number = this.DEFAULT_EXCLUDED_OPACITY;
 
   /**
    * The current time position in seconds in the animation (if there is one).
    */
   @Input()
-  set animationTime(animationTime: number) {
+  public set animationTime(animationTime: number) {
     this._animationTime = animationTime;
   }
-  get animationTime(): number {
+  public get animationTime(): number {
     return this._animationTime;
   }
-  _animationTime: number;
+  private _animationTime: number;
   @Output() animationTimeChange = new EventEmitter<number>();
 
   /**
    * The total duration of the animation in seconds.
    * Returns 0 when there is no animation present (or when a scene has not been loaded).
    */
-  get animationTotalDuration(): number {
+  public get animationTotalDuration(): number {
     if (this.animationPlayer) {
       return this.animationPlayer.getTotalDuration();
     }
@@ -465,7 +476,7 @@ export class VisualViewerService {
    * The animation playback position as a fractional value between 0 (start) and 1 (end).
    */
   @Input()
-  set animationPosition(position: number) {
+  public set animationPosition(position: number) {
     if (this._animationPosition === position) {
       return;
     }
@@ -475,7 +486,7 @@ export class VisualViewerService {
       this.animationPlayerSetTime(time, false);
     });
   }
-  get animationPosition() {
+  public get animationPosition(): number {
     return this._animationPosition;
   }
   private _animationPosition: number = 0;
@@ -485,7 +496,7 @@ export class VisualViewerService {
    * Gets/sets whether the animation (if there is one) is currently playing.
    */
   @Input()
-  set animationPlaying(animationPlaying: boolean) {
+  public set animationPlaying(animationPlaying: boolean) {
     if (this._animationPlaying === animationPlaying) {
       return;
     }
@@ -502,7 +513,7 @@ export class VisualViewerService {
       this.animationPlayingChange.emit(animationPlaying);
     });
   }
-  get animationPlaying(): boolean {
+  public get animationPlaying(): boolean {
     return this._animationPlaying;
   }
   private _animationPlaying: boolean = false;
@@ -515,7 +526,7 @@ export class VisualViewerService {
    * Zoom: A left mouse drag zooms the camera in the viewport in or out
    */
   @Input()
-  set navigationMode(navigationMode: NavigationMode) {
+  public set navigationMode(navigationMode: NavigationMode) {
     if (this._navigationMode === navigationMode) {
       return;
     }
@@ -523,6 +534,7 @@ export class VisualViewerService {
     this._navigationMode = navigationMode;
     this.executeWhenSceneLoaded(() => {
       if (this.drawerToolbar && this.viewport) {
+        // sap.ui.vk library will have a public API to set the navigation mode in a future UI5 version
         (this.drawerToolbar as any)._activateGesture(
           (this.viewport as any).getImplementation(),
           navigationMode
@@ -530,7 +542,7 @@ export class VisualViewerService {
       }
     });
   }
-  get navigationMode(): NavigationMode {
+  public get navigationMode(): NavigationMode {
     return this._navigationMode;
   }
   private _navigationMode: NavigationMode;
@@ -539,7 +551,7 @@ export class VisualViewerService {
    * Isolate mode allows a single object to be viewed in isolation.
    */
   @Input()
-  set isolateModeEnabled(isolateModeEnabled: boolean) {
+  public set isolateModeEnabled(isolateModeEnabled: boolean) {
     if (this._isolateModeEnabled === isolateModeEnabled) {
       return;
     }
@@ -572,60 +584,45 @@ export class VisualViewerService {
       }
 
       this.isolateModeEnabledChange.emit(this.isolateModeEnabled);
-      this.changeDetectorRef.detectChanges();
     });
   }
-  get isolateModeEnabled(): boolean {
+  public get isolateModeEnabled(): boolean {
     return this._isolateModeEnabled;
   }
-  _isolateModeEnabled = false;
+  private _isolateModeEnabled = false;
   @Output() isolateModeEnabledChange = new EventEmitter<boolean>();
 
   /**
    * Gets whether the viewport is displaying 2D content.
    */
-  set is2D(is2D: boolean) {
-    this._is2D = is2D;
-  }
-  get is2D(): boolean {
+  public get is2D(): boolean {
     return this._is2D;
   }
-  _is2D: boolean;
+  private setIs2D(is2D: boolean) {
+    this._is2D = is2D;
+  }
+  private _is2D: boolean;
 
   /**
    * Indicates that a scene has been loaded and the viewport is ready for interaction.
    */
-  set viewportReady(viewportReady: boolean) {
-    this._viewportReady = viewportReady;
-  }
-  get viewportReady(): boolean {
+  public get viewportReady(): boolean {
     return this._viewportReady;
   }
-  _viewportReady = false;
-  @Output() viewportReadyChange = new EventEmitter<boolean>();
-
-  /**
-   * Controls the way that selection is displayed (outlining or a color applied to the surface of the object)
-   */
-  private set selectionDisplayMode(selectionDisplayMode: SelectionDisplayMode) {
-    if (this._selectionDisplayMode === selectionDisplayMode) {
+  private setViewportReady(viewportReady: boolean) {
+    if (this._viewportReady === viewportReady) {
       return;
     }
-    this._selectionDisplayMode = selectionDisplayMode;
-    this.executeWhenSceneLoaded(() => {
-      this.viewport.setSelectionDisplayMode(selectionDisplayMode);
-      this._selectionDisplayMode = selectionDisplayMode;
-    });
+    this._viewportReady = viewportReady;
+    this.viewportReadyChange.emit(viewportReady);
   }
-  private get selectionDisplayMode() {
-    return this._selectionDisplayMode;
-  }
-  private _selectionDisplayMode: SelectionDisplayMode;
+  private _viewportReady = false;
+  @Output() viewportReadyChange = new EventEmitter<boolean>();
 
   /**
    * Returns the user to the initial camera position used when a scene was first loaded.
    */
-  public activateHomeView() {
+  public activateHomeView(): void {
     if (this.is2D) {
       this.viewport.zoomTo(
         ZoomTo.All,
@@ -633,7 +630,7 @@ export class VisualViewerService {
         this.flyToDurationInSeconds,
         this.zoomToMargin
       );
-    } else if (this.initialViewInfo) {
+    } else {
       this.viewport.setViewInfo(
         this.initialViewInfo,
         this.flyToDurationInSeconds
@@ -641,9 +638,10 @@ export class VisualViewerService {
     }
 
     if (this.isolateModeEnabled) {
+      // Exit out of the isolate mode but don't restore the view that was
+      // saved before entering isolate mode
       this._isolateModeEnabled = false;
-      this.isolateModeEnabledChange.emit(this.isolateModeEnabled);
-      this.changeDetectorRef.detectChanges();
+      this.isolateModeEnabledChange.emit(false);
     }
   }
 
@@ -664,36 +662,59 @@ export class VisualViewerService {
   private contentLoadFinished =
     new EventEmitter<VisualContentLoadFinishedEvent>();
 
-  private setInitialPropertyValues() {
-    this.backgroundTopColor =
-      this.backgroundTopColor ?? this.DEFAULT_BACKGROUND_TOP_COLOR;
-    this.backgroundBottomColor =
-      this.backgroundBottomColor ?? this.DEFAULT_BACKGROUND_BOTTOM_COLOR;
-    this.hotspotSelectionColor =
-      this.hotspotSelectionColor ??
-      this.DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR;
-    this.showAllHotspotsColor =
-      this.showAllHotspotsColor ?? this.DEFAULT_SHOW_ALL_HOTSPOTS_COLOR;
-    this.outlineColor = this.outlineColor ?? this.DEFAULT_OUTLINE_COLOR;
-    this.outlineWidth = this.outlineWidth ?? this.DEFAULT_OUTLINE_WIDTH;
-    this.selectionMode = this.selectionMode ?? this.DEFAULT_SELECTION_MODE;
-    this.showAllHotspotsEnabled =
-      this.showAllHotspotsEnabled ?? this.DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED;
+  private setInitialPropertyValues(): void {
+    if (this.backgroundTopColor === undefined) {
+      this.backgroundTopColor = this.DEFAULT_BACKGROUND_TOP_COLOR;
+    }
 
-    this.navigationMode = this.is2D
-      ? NavigationMode.Pan
-      : this.navigationMode ?? NavigationMode.Turntable;
+    if (this.backgroundBottomColor === undefined) {
+      this.backgroundBottomColor = this.DEFAULT_BACKGROUND_BOTTOM_COLOR;
+    }
 
-    this.selectionDisplayMode = this.is2D
-      ? SelectionDisplayMode.Highlight
-      : SelectionDisplayMode.Outline;
+    if (this.hotspotSelectionColor === undefined) {
+      this.hotspotSelectionColor =
+        this.DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR;
+    }
 
-    this.selectedProductCodes = [];
+    if (this.showAllHotspotsColor === undefined) {
+      this.showAllHotspotsColor = this.DEFAULT_SHOW_ALL_HOTSPOTS_COLOR;
+    }
+
+    if (this.outlineColor === undefined) {
+      this.outlineColor = this.DEFAULT_OUTLINE_COLOR;
+    }
+
+    if (this.outlineWidth === undefined) {
+      this.outlineWidth = this.DEFAULT_OUTLINE_WIDTH;
+    }
+
+    if (this.selectionMode === undefined) {
+      this.selectionMode = this.DEFAULT_SELECTION_MODE;
+    }
+
+    if (this.showAllHotspotsEnabled === undefined) {
+      this.showAllHotspotsEnabled = this.DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED;
+    }
+
+    if (this.is2D) {
+      if (
+        this.navigationMode === undefined ||
+        this.navigationMode === NavigationMode.Turntable
+      ) {
+        this.navigationMode = NavigationMode.Pan;
+      }
+    } else if (this.navigationMode === undefined) {
+      this.navigationMode = NavigationMode.Turntable;
+    }
+
+    if (this.selectedProductCodes === undefined) {
+      this.selectedProductCodes = [];
+    }
   }
 
   protected executeWhenSceneLoaded(
     callback: (loadedSceneInfo: LoadedSceneInfo) => void
-  ) {
+  ): void {
     this.sceneLoadInfo$
       .pipe(
         filter(
@@ -706,7 +727,7 @@ export class VisualViewerService {
       });
   }
 
-  private applyInclusionStyle(productCodes: string[]) {
+  private applyInclusionStyle(productCodes: string[]): void {
     if (productCodes === undefined) {
       return;
     }
@@ -814,7 +835,7 @@ export class VisualViewerService {
     );
   }
 
-  private animationPlayerSetTime(time: number, blockEvents: boolean) {
+  private animationPlayerSetTime(time: number, blockEvents: boolean): void {
     // bug workaround
     // the overload with no sequence number parameter blows up
     (this.animationPlayer as any).setTime(time, undefined, blockEvents);
@@ -854,6 +875,9 @@ export class VisualViewerService {
     }
 
     if (changes) {
+      // This is needed for the animation slider handle position to get updated
+      // while an animation is playing.
+      // Otherwise it typically only moves once the animation playback has paused.
       this.changeDetectorRef.detectChanges();
     }
   }
@@ -923,7 +947,6 @@ export class VisualViewerService {
       };
       script.id = 'sap-ui-bootstrap';
       script.type = 'text/javascript';
-      script.setAttribute('data-sap-ui-theme', 'sap-fiori-3');
       script.setAttribute('data-sap-ui-compatVersion', 'edge');
       script.src = (this.epdVisualizationConfig.ui5 as Ui5Config).bootstrapUrl;
     });
@@ -1009,7 +1032,7 @@ export class VisualViewerService {
     });
   }
 
-  private onNodesPicked(event: any) {
+  private onNodesPicked(event: any): void {
     if (this.is2D) {
       this.onNodesPicked2D(event);
     } else {
@@ -1017,7 +1040,7 @@ export class VisualViewerService {
     }
   }
 
-  private isNodeIncluded(nodeRef: NodeRef) {
+  private isNodeIncluded(nodeRef: NodeRef): boolean {
     const sid = this.nodeRefToPersistentId(nodeRef);
     if (!sid) {
       return false;
@@ -1034,7 +1057,7 @@ export class VisualViewerService {
     );
   }
 
-  private onNodesPicked2D(event: any) {
+  private onNodesPicked2D(event: any): void {
     const pickedNodes = event.getParameter('picked');
     if (pickedNodes.length === 0) {
       return;
@@ -1058,7 +1081,7 @@ export class VisualViewerService {
     );
   }
 
-  private onNodesPicked3D(event: any) {
+  private onNodesPicked3D(event: any): void {
     const picked: NodeRef[] = event.getParameter('picked');
     const src: NodeRef[] = picked.splice(0, picked.length);
 
@@ -1157,7 +1180,7 @@ export class VisualViewerService {
     });
   }
 
-  private getCSSPropertyValue(cssPropertyName: string) {
+  private getCSSPropertyValue(cssPropertyName: string): string {
     const storefrontElement = document.getElementsByTagName('cx-storefront')[0];
     return getComputedStyle(storefrontElement).getPropertyValue(
       cssPropertyName
@@ -1200,8 +1223,10 @@ export class VisualViewerService {
       );
   }
 
-  private persistentIdToNodeRef(sids: string | string[]): NodeRef | NodeRef[] {
-    return (this.scene as any).persistentIdToNodeRef(sids);
+  private persistentIdToNodeRef(
+    nodeIds: string | string[]
+  ): NodeRef | NodeRef[] {
+    return (this.scene as any).persistentIdToNodeRef(nodeIds);
   }
 
   private nodeRefToPersistentId(
@@ -1214,11 +1239,11 @@ export class VisualViewerService {
     return (this.viewStateManager as any).getImplementation();
   }
 
-  private subscribeSelectedSceneNodeIds() {
+  private subscribeSelectedSceneNodeIds(): void {
     this.selectedNodeIds$.subscribe(this.handleSelectedNodeIds.bind(this));
   }
 
-  private handleSelectedNodeIds(nodeIds: string[]) {
+  private handleSelectedNodeIds(nodeIds: string[]): void {
     const nodeRefs = this.persistentIdToNodeRef(nodeIds);
 
     if (this.is2D) {
@@ -1230,10 +1255,12 @@ export class VisualViewerService {
     if (this.isolateModeEnabled && nodeRefs.length > 0) {
       this.isolateNodes(nodeRefs);
     }
+    // Need to ensure a frame render occurs since we are blocking events
+    // when changing selection/outlining
     this.setShouldRenderFrame();
   }
 
-  private handleSelectedNodes2D(selectedNodes: NodeRef[]) {
+  private handleSelectedNodes2D(selectedNodes: NodeRef[]): void {
     const existingSelection: NodeRef[] = [];
     this.viewStateManager.enumerateSelection((nodeRef: NodeRef) =>
       existingSelection.push(nodeRef)
@@ -1247,7 +1274,7 @@ export class VisualViewerService {
     this.viewStateManager.setSelectionStates(selectedNodes, [], false, true);
   }
 
-  private handleSelectedNodes3D(selectedNodes: NodeRef[]) {
+  private handleSelectedNodes3D(selectedNodes: NodeRef[]): void {
     const existingOutlinedNodeRefs: NodeRef[] = [];
     this.viewStateManager.enumerateOutlinedNodes((nodeRef: NodeRef) =>
       existingOutlinedNodeRefs.push(nodeRef)
@@ -1266,7 +1293,7 @@ export class VisualViewerService {
     );
   }
 
-  private setShouldRenderFrame() {
+  private setShouldRenderFrame(): void {
     (this.viewport as any).setShouldRenderFrame();
   }
 
@@ -1279,11 +1306,10 @@ export class VisualViewerService {
     contentType: ContentType
   ): Observable<SceneLoadInfo> {
     if (this.viewportReady) {
-      this.viewportReady = false;
-      this.viewportReadyChange.emit(false);
+      this.setViewportReady(false);
     }
 
-    this.is2D = this.is2DContentType(contentType);
+    this.setIs2D(this.is2DContentType(contentType));
 
     return new Observable((subscriber) => {
       sap.ui.require(['sap/ui/vk/ContentResource'], (ContentResource: any) => {
@@ -1306,9 +1332,7 @@ export class VisualViewerService {
           const succeeded = !!visualContentLoadFinished.content;
           let sceneLoadInfo: SceneLoadInfo;
           if (succeeded) {
-            this.viewportReady = true;
-            this.viewportReadyChange.emit(true);
-            this.changeDetectorRef.detectChanges();
+            this.setViewportReady(true);
 
             sceneLoadInfo = <SceneLoadInfo>{
               sceneLoadState: SceneLoadState.Loaded,
