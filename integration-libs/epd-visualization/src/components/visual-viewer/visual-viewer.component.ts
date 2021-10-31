@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { NavigationMode } from './models/navigation-mode';
@@ -10,6 +10,7 @@ import { VisualViewerService } from './visual-viewer.service';
   selector: 'cx-visual-viewer',
   templateUrl: './visual-viewer.component.html',
   providers: [VisualViewerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualViewerComponent {
   constructor(protected visualViewerService: VisualViewerService) {}

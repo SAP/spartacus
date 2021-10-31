@@ -6,6 +6,7 @@ import {
   ViewChild,
   ElementRef,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
@@ -14,6 +15,7 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
   selector: 'cx-visual-viewer-animation-slider',
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

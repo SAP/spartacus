@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
@@ -7,6 +7,7 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
   selector: 'cx-visual-picking-product-list',
   templateUrl: './visual-picking-product-list.component.html',
   providers: [VisualPickingProductListService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(

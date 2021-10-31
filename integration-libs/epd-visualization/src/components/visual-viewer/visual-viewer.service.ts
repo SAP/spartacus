@@ -1313,6 +1313,10 @@ export class VisualViewerService {
           sceneLoadState: SceneLoadState.Loading,
         });
 
+        this.viewport.setSelectionDisplayMode(
+          this.is2D ? 'Highlight' : 'Outline'
+        );
+
         const baseUrl: string = (
           this.epdVisualizationConfig.apis as VisualizationApiConfig
         ).baseUrl;
