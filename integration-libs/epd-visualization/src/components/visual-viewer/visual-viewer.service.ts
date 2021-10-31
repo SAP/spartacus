@@ -1010,13 +1010,10 @@ export class VisualViewerService {
   }
 
   private onContentChangesStarted(): void {
-    this.viewport.setBusy(true);
     this.viewport.detachNodesPicked(this.onNodesPicked);
   }
 
   private onContentChangesFinished(event: any): void {
-    this.viewport.setBusy(false);
-
     const content = event.getParameter('content');
     const failureReason = event.getParameter('failureReason');
     if (!failureReason) {
@@ -1125,7 +1122,7 @@ export class VisualViewerService {
             uiArea.destroyContent();
           }
 
-          this.viewport = new Viewport();
+          this.viewport = new Viewport({ visible: false });
           this.viewport.placeAt(this.elementRef.nativeElement);
 
           this.contentConnector = new ContentConnector();
@@ -1332,6 +1329,10 @@ export class VisualViewerService {
           let sceneLoadInfo: SceneLoadInfo;
           if (succeeded) {
             this.setViewportReady(true);
+            // Ensure that the spinner is hidden before the viewport becomes visible.
+            // Otherwise the position of the spinner changes
+            this.changeDetectorRef.detectChanges();
+            this.viewport.setVisible(true);
 
             sceneLoadInfo = <SceneLoadInfo>{
               sceneLoadState: SceneLoadState.Loaded,
