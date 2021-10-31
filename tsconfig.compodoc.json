@@ -152,6 +152,24 @@
       "@spartacus/checkout/root": [
         "feature-libs/checkout/root/public_api"
       ],
+      "@spartacus/checkout/scheduled-replenishment/assets": [
+        "feature-libs/checkout/scheduled-replenishment/assets/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/components": [
+        "feature-libs/checkout/scheduled-replenishment/components/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/core": [
+        "feature-libs/checkout/scheduled-replenishment/core/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment": [
+        "feature-libs/checkout/scheduled-replenishment/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/occ": [
+        "feature-libs/checkout/scheduled-replenishment/occ/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/root": [
+        "feature-libs/checkout/scheduled-replenishment/root/public_api"
+      ],
       "@spartacus/order/assets": [
         "feature-libs/order/assets/public_api"
       ],
