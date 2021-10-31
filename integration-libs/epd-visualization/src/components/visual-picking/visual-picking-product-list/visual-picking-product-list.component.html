@@ -64,27 +64,38 @@
 
     <!-- Add to Cart -->
     <div class="cx-add-to-cart col-2 flex-column">
-      <div
+      <ng-container
+        #canAddToCart
         *ngIf="
-          item.product.stock.stockLevelStatus !== 'outOfStock';
-          else outOfStock
+          item.product.price !== undefined &&
+          item.product.stock.stockLevelStatus !== 'outOfStock'
         "
-        (click)="addToCartComponent.addToCart(); $event.preventDefault()"
       >
-        <cx-compact-add-to-cart
-          #addToCartComponent
-          [showQuantity]="false"
-          [product]="item.product"
-        ></cx-compact-add-to-cart>
-      </div>
+        <div (click)="addToCartComponent.addToCart(); $event.preventDefault()">
+          <cx-compact-add-to-cart
+            #addToCartComponent
+            [showQuantity]="false"
+            [product]="item.product"
+          ></cx-compact-add-to-cart>
+        </div>
+      </ng-container>
 
-      <ng-template #outOfStock>
+      <ng-container #noPrice *ngIf="item.product.price === undefined">
+      </ng-container>
+
+      <ng-container
+        #outOfStock
+        *ngIf="
+          item.product.price !== undefined &&
+          item.product.stock.stockLevelStatus === 'outOfStock'
+        "
+      >
         <div class="cx-out-of-stock">
           {{
             'visualPicking.visualPickingProductList.outOfStock' | cxTranslate
           }}
         </div>
-      </ng-template>
+      </ng-container>
     </div>
   </div>
 </ng-template>
