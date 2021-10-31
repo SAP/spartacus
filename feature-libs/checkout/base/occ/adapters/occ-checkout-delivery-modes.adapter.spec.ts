@@ -3,8 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/base/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
-import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/core';
 import {
   Cart,
   ConverterService,

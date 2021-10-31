@@ -48,9 +48,7 @@
   },
   "@spartacus/setup": {
     "@angular/core": "^12.0.5",
-    "@spartacus/checkout": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0"
+    "@spartacus/core": "4.1.0-next.0"
   },
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^12.0.5",

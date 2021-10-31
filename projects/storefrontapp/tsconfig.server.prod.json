@@ -45,6 +45,14 @@
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
       "@spartacus/checkout/assets": ["../../dist/checkout/assets"],
+      "@spartacus/checkout/b2b/assets": ["../../dist/checkout/b2b/assets"],
+      "@spartacus/checkout/b2b/components": [
+        "../../dist/checkout/b2b/components"
+      ],
+      "@spartacus/checkout/b2b/core": ["../../dist/checkout/b2b/core"],
+      "@spartacus/checkout/b2b": ["../../dist/checkout/b2b"],
+      "@spartacus/checkout/b2b/occ": ["../../dist/checkout/b2b/occ"],
+      "@spartacus/checkout/b2b/root": ["../../dist/checkout/b2b/root"],
       "@spartacus/checkout/base/assets": ["../../dist/checkout/base/assets"],
       "@spartacus/checkout/base/components": [
         "../../dist/checkout/base/components"

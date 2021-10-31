@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  CheckoutState,
 } from '@spartacus/checkout/base/root';
-import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   Address,
   DeliveryMode,
@@ -16,7 +16,7 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { ExpressCheckoutService } from './express-checkout.service';
 
-const mockDetails: CheckoutDetails = {
+const mockDetails: CheckoutState = {
   deliveryAddress: {
     firstName: 'firstName',
   },
