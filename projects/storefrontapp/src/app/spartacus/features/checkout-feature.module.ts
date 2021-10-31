@@ -16,7 +16,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CHECKOUT_FEATURE]: {
           module: () =>
-            import('@spartacus/checkout').then((m) => m.CheckoutModule),
+            import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
         },
       },
       i18n: {
