@@ -1152,7 +1152,6 @@ export class VisualViewerService {
           this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
 
           this.viewManager = new ViewManager({
-            autoPlayAnimation: false,
             contentConnector: this.contentConnector,
             animationPlayer: this.animationPlayer,
           });
