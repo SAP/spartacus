@@ -94,7 +94,6 @@ export function selectAccountPayment() {
   );
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
-  cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
