@@ -45,9 +45,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
     this.command.create<PaymentDetails>(
       (paymentDetails) =>
-        this.checkoutPreconditions(paymentDetails).pipe(
-          switchMap(([userId, cartId]) =>
-            this.checkoutPaymentConnector
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) => {
+            if (!paymentDetails) {
+              throw new Error('Checkout conditions not met');
+            }
+
+            return this.checkoutPaymentConnector
               .create(userId, cartId, paymentDetails)
               .pipe(
                 tap((response) => {
@@ -65,8 +69,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                     );
                   }
                 })
-              )
-          )
+              );
+          })
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
@@ -76,10 +80,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   protected setPaymentMethodCommand: Command<PaymentDetails, unknown> =
     this.command.create<PaymentDetails>(
       (paymentDetails) =>
-        this.checkoutPreconditions(paymentDetails).pipe(
+        this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const paymentDetailsId = paymentDetails.id!;
+            const paymentDetailsId = paymentDetails?.id;
+            if (!paymentDetailsId) {
+              throw new Error('Checkout conditions not met');
+            }
+
             return this.checkoutPaymentConnector
               .set(userId, cartId, paymentDetailsId)
               .pipe(
@@ -112,9 +119,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
-  protected checkoutPreconditions(
-    paymentDetails: PaymentDetails
-  ): Observable<[string, string]> {
+  protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartService.takeActiveCartId(),
@@ -124,7 +129,6 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         if (
           !userId ||
           !cartId ||
-          !paymentDetails.id ||
           (userId === OCC_USER_ID_ANONYMOUS &&
             !this.activeCartService.isGuestCart())
         ) {
