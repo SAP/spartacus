@@ -6,4 +6,4 @@ export * from './occ-user-consent.adapter';
 export * from './occ-user-interests.adapter';
 export * from './occ-user-notification-preference.adapter';
 export * from './occ-user-payment.adapter';
-export * from './user-occ-transitional_4_2.module';
+export * from './user-occ.module';
