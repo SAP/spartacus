@@ -7,6 +7,9 @@ import {
   ResetCheckoutQueryEvent,
 } from './checkout.events';
 
+/**
+ * Checkout payment event listener.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +20,9 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     this.onPaymentChange();
   }
 
+  /**
+   * Registers events for the payment change events.
+   */
   protected onPaymentChange(): void {
     this.subscriptions.add(
       this.eventService.get(PaymentDetailsCreatedEvent).subscribe(() => {
