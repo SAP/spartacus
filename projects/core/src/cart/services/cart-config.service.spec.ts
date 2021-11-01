@@ -27,4 +27,15 @@ describe('CartConfigService', () => {
       expect(service.isSelectiveCartEnabled()).toBeFalsy();
     });
   });
+
+  describe('isCartValidationEnabled', () => {
+    it('should return true if cart validation enabled is set to true', () => {
+      mockCartConfig.cart = { validation: { enabled: true } };
+      expect(service.isCartValidationEnabled()).toBeTruthy();
+    });
+
+    it('should return false if cart validation enabled is set to false', () => {
+      expect(service.isCartValidationEnabled()).toBeFalsy();
+    });
+  });
 });

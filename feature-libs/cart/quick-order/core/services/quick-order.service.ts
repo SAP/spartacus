@@ -13,7 +13,7 @@ import {
   OrderEntry,
   Product,
   ProductAdapter,
-  ProductSearchAdapter,
+  ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
@@ -35,13 +35,15 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   >([]);
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
+  protected nonPurchasableProductError$: BehaviorSubject<Product | null> =
+    new BehaviorSubject<Product | null>(null);
   protected hardDeleteTimeout = 5000;
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
 
   /**
    * @deprecated since version 4.2
-   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchAdapter: ProductSearchAdapter); instead
+   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
    */
   // TODO(#14059): Remove deprecated constructor
   constructor(
@@ -54,7 +56,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     protected activeCartService: ActiveCartService,
     protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
     protected eventService: EventService,
-    protected productSearchAdapter?: ProductSearchAdapter //TODO(#14059): Make it required
+    protected productSearchConnector?: ProductSearchConnector //TODO(#14059): Make it required
   ) {}
 
   ngOnDestroy(): void {
@@ -81,13 +83,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
     // TODO(#14059): Remove condition
-    if (this.productSearchAdapter) {
+    if (this.productSearchConnector) {
       const searchConfig: SearchConfig = {
         pageSize:
           maxProducts ||
           defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
       };
-      return this.productSearchAdapter
+      return this.productSearchConnector
         .search(query, searchConfig)
         .pipe(
           map((searchPage: ProductSearchPage) => searchPage.products || [])
@@ -263,6 +265,27 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
     this.softDeletedEntries$.next({});
     this.clearDeleteTimeouts = {};
+  }
+
+  /**
+   *  Return non purchasable product error
+   */
+  getNonPurchasableProductError(): Observable<Product | null> {
+    return this.nonPurchasableProductError$;
+  }
+
+  /**
+   * Set error that selected product is not purchasable
+   */
+  setNonPurchasableProductError(product: Product): void {
+    this.nonPurchasableProductError$.next(product);
+  }
+
+  /**
+   * Clear not purchasable product error
+   */
+  clearNonPurchasableProductError(): void {
+    this.nonPurchasableProductError$.next(null);
   }
 
   /**

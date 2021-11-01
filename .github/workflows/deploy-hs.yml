@@ -5,7 +5,7 @@ on:
       - 'develop'
       - 'feature/GH-**'
       - 'epic/**'
-      - '!release/4.1.x'
+      - '!release/4.2.x'
   push:
     branches:
       - develop
