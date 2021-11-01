@@ -342,6 +342,9 @@
       "@spartacus/digital-payments": [
         "integration-libs/digital-payments/public_api"
       ],
+      "@spartacus/epd-visualization": [
+        "integration-libs/epd-visualization/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],

@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <cx-visual-viewer [(selectedProductCodes)]="selectedProductCodes">
+  </cx-visual-viewer>
+
+  <div class="visual-picking-product-list-container">
+    <cx-visual-picking-product-filter></cx-visual-picking-product-filter>
+
+    <cx-visual-picking-product-list
+      [(selectedProductCodes)]="selectedProductCodes"
+    >
+    </cx-visual-picking-product-list>
+  </div>
+</div>
