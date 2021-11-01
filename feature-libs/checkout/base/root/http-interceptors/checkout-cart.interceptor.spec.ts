@@ -5,8 +5,14 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MultiCartService, RoutingService } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
+import { NavigationExtras } from '@angular/router';
+import {
+  MultiCartService,
+  RouterState,
+  RoutingService,
+  UrlCommands,
+} from '@spartacus/core';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
 
@@ -22,16 +28,18 @@ const cartNotFoundError = {
   ],
 };
 
-class MockRoutingService {
-  go() {}
+class MockRoutingService implements Partial<RoutingService> {
+  go(_commands: UrlCommands, _extras?: NavigationExtras): Promise<boolean> {
+    return EMPTY.toPromise();
+  }
 
-  getRouterState() {
+  getRouterState(): Observable<RouterState> {
     return of();
   }
 }
 
-class MultiCartServiceStub {
-  reloadCart() {}
+class MultiCartServiceStub implements Partial<MultiCartService> {
+  reloadCart(_cartId: string, _extraData?: { active: boolean }): void {}
 }
 
 describe('CheckoutCartInterceptor', () => {
