@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature - No compilerOptions in tsconfig eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@spartacus/epd-visualization\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    EpdVisualizationModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: epdVisualizationTranslations,
+      chunks: epdVisualizationTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<EpdVisualizationConfig>{
+    ui5: {
+      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/1.95.0/resources/sap-ui-core.js\\"
+    },
+
+    usageIds: {
+      folderUsageId: {
+        name: \\"CommerceCloud-Folder\\",
+        keys: [{
+          name: \\"Function\\",
+          value: \\"Online\\"
+        }]
+      },
+
+      productUsageId: {
+        name: \\"CommerceCloud-SparePart\\",
+        source: \\"CommerceCloud\\",
+        category: \\"SpareParts\\",
+        keyName: \\"ProductCode\\"
+      }
+    },
+
+    apis: {
+      baseUrl: \\"https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com\\"
+    }
+  })
+  ]
+})
+export class EpdVisualizationFeatureModule { }
+"
+`;
+
+exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@spartacus/epd-visualization\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    EpdVisualizationModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: epdVisualizationTranslations,
+      chunks: epdVisualizationTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<EpdVisualizationConfig>{
+    ui5: {
+      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/1.95.0/resources/sap-ui-core.js\\"
+    },
+
+    usageIds: {
+      folderUsageId: {
+        name: \\"CommerceCloud-Folder\\",
+        keys: [{
+          name: \\"Function\\",
+          value: \\"Online\\"
+        }]
+      },
+
+      productUsageId: {
+        name: \\"CommerceCloud-SparePart\\",
+        source: \\"CommerceCloud\\",
+        category: \\"SpareParts\\",
+        keyName: \\"ProductCode\\"
+      }
+    },
+
+    apis: {
+      baseUrl: \\"https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com\\"
+    }
+  })
+  ]
+})
+export class EpdVisualizationFeatureModule { }
+"
+`;
