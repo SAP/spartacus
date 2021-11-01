@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { CardType } from '@spartacus/cart/main/root';
+import { CardType } from '@spartacus/core';
 import {
   CardTypesState,
   CheckoutState,

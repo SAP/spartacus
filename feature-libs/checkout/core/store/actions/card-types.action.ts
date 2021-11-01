@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CardType } from '@spartacus/cart/main/root';
+import { CardType } from '@spartacus/core';
 
 export const LOAD_CARD_TYPES = '[Checkout] Load Card Types';
 export const LOAD_CARD_TYPES_FAIL = '[Checkout] Load Card Fail';
