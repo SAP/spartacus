@@ -109,20 +109,6 @@ export interface OccEndpoints {
    */
   paymentDetail?: string | OccEndpoint;
   /**
-   * Endpoint for the list of one user's orders
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  orderHistory?: string | OccEndpoint;
-  /**
-   * Endpoint for the details of one user's order
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  orderDetail?: string | OccEndpoint;
-  /**
    * Endpoint for anonymous consent templates
    *
    * @member {string}
@@ -233,13 +219,6 @@ export interface OccEndpoints {
    */
   getVariantConfigurationOverview?: string;
   /**
-   * Endpoint for consignment tracking
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  consignmentTracking?: string | OccEndpoint;
-  /**
    * Endpoint for coupons
    *
    * @member {string}
@@ -275,66 +254,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   getProductInterests?: string | OccEndpoint;
-  /**
-   * Endpoint for cancel an order
-   * @deprecated since 4.2 - use order lib instead
-   */
-  cancelOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for creating order return request
-   * @deprecated since 4.2 - use order lib instead
-   */
-  returnOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for user's order return requests
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orderReturns?: string | OccEndpoint;
-  /**
-   * Endpoint for order return request details
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orderReturnDetail?: string | OccEndpoint;
-  /**
-   * Endpoint for cancelling return request
-   * @deprecated since 4.2 - use order lib instead
-   */
-  cancelReturn?: string | OccEndpoint;
-  /**
-   * Endpoint to schedule a replenishment order
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  scheduleReplenishmentOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for the list of one user's replenishment orders
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order details
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderDetails?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderDetailsHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  cancelReplenishmentOrder?: string | OccEndpoint;
   /**
    * Endpoint for getting all base sites
    *

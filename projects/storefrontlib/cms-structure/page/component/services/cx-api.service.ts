@@ -20,7 +20,6 @@ import {
   UserConsentService,
   UserInterestsService,
   UserNotificationPreferenceService,
-  UserOrderService,
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
@@ -62,7 +61,6 @@ export class CxApiService {
     @Optional() public user: UserService,
     @Optional() public userAddress: UserAddressService,
     @Optional() public userConsent: UserConsentService,
-    @Optional() public userOrder: UserOrderService,
     @Optional() public userPayment: UserPaymentService,
     @Optional()
     public userNotificationPreferenceService: UserNotificationPreferenceService,
