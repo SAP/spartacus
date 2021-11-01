@@ -13,5 +13,6 @@ export const cartTranslationChunksConfig: TranslationChunksConfig = {
     'voucher',
     'wishlist',
     'saveForLaterItems',
+    'validation',
   ],
 };

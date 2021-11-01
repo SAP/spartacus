@@ -1,0 +1,30 @@
+<ng-container *ngIf="mainImage$ | async as main">
+  <cx-media [container]="main" (click)="triggerZoom(true)"></cx-media>
+  <cx-product-image-zoom-trigger
+    [expandImage]="expandImage.value"
+    [galleryIndex]="selectedIndex"
+    (dialogClose)="triggerZoom(false)"
+  ></cx-product-image-zoom-trigger>
+</ng-container>
+
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    itemWidth="120px"
+    [hideIndicators]="false"
+    [template]="thumb"
+  ></cx-carousel>
+</ng-container>
+
+<ng-template #thumb let-item="item">
+  <cx-media
+    [container]="item.container"
+    tabindex="0"
+    (focus)="openImage(item.container)"
+    [class.is-active]="isActive(item.container) | async"
+    format="product"
+  >
+  </cx-media>
+</ng-template>

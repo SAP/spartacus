@@ -18,6 +18,7 @@ export const defaultOccCartConfig: OccConfig = {
         cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
         saveCart:
           '/users/${userId}/carts/${cartId}/save?saveCartName=${saveCartName}&saveCartDescription=${saveCartDescription}',
+        validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
         /* eslint-enable */
       },
     },

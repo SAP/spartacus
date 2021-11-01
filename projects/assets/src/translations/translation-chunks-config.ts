@@ -15,6 +15,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'skipLink',
     'formErrors',
     'errorHandlers',
+    'carousel',
   ],
   address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes'],
