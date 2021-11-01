@@ -206,9 +206,15 @@ export class VisualViewerService {
     this._selectedNodeIds$ = value;
   }
 
-  private sceneLoadInfo$ = new BehaviorSubject<SceneLoadInfo>({
+  private _sceneLoadInfo$ = new BehaviorSubject<SceneLoadInfo>({
     sceneLoadState: SceneLoadState.NotStarted,
   });
+  private get sceneLoadInfo$() {
+    return this._sceneLoadInfo$;
+  }
+  private set sceneLoadInfo$(value) {
+    this._sceneLoadInfo$ = value;
+  }
 
   protected readonly DEFAULT_BACKGROUND_TOP_COLOR = '--cx-color-inverse';
   protected readonly DEFAULT_BACKGROUND_BOTTOM_COLOR = '--cx-color-inverse';
@@ -807,7 +813,7 @@ export class VisualViewerService {
 
   private isolateNodes(nodeRefsToIsolate: object[]): void {
     // isolate just the first selected node
-    nodeRefsToIsolate = nodeRefsToIsolate.length ? [nodeRefsToIsolate[0]] : [];
+    nodeRefsToIsolate = nodeRefsToIsolate.slice(0, 1);
 
     this.viewport.zoomTo(
       ZoomTo.Node,

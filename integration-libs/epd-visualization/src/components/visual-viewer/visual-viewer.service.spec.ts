@@ -5,7 +5,7 @@ import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
 import { SceneNodeToProductLookupService } from '../../services/scene-node-to-product-lookup/scene-node-to-product-lookup.service';
 import { SelectionMode } from './models/selection-mode';
 import { VisualizationLookupService } from '../../services/visualization-lookup/visualization-lookup.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { from, Observable, of, Subscription } from 'rxjs';
 import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';
 import { getValidConfig } from '../../config/epd-visualization-test-config';
@@ -13,8 +13,16 @@ import { VisualViewerService } from './visual-viewer.service';
 import { NavigationMode } from './models/navigation-mode';
 import VisibilityMode from 'sap/ui/vk/VisibilityMode';
 import { ZoomTo } from './models/zoom-to';
+import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
+import { SceneLoadState } from './models/scene-load-state';
 
 type NodeRef = any;
+
+interface FakeNodeRef {
+  id: string;
+  children: FakeNodeRef[];
+  closed: boolean;
+}
 
 class MockSceneNodeToProductLookupService {
   lookupProductCodes$: Observable<string[]>;
@@ -1843,6 +1851,205 @@ describe('VisualViewerService', () => {
       expect(
         setVisualViewerServiceSelectedProductCodesPropertySpy
       ).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('executeWhenSceneLoaded', () => {
+    it('should invoke callback when sceneLoadInfo$ produces a SceneLoadInfo with a sceneLoadState of SceneLoadState.Loaded', (done) => {
+      const notStartedSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.NotStarted,
+      };
+      const loadingSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.Loading,
+      };
+      const loadedSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.Loaded,
+        loadedSceneInfo: <LoadedSceneInfo>{
+          sceneId: 'sceneId',
+          contentType: ContentType.Model3D,
+        },
+      };
+      const sceneLoadInfos = [
+        notStartedSceneLoadInfo,
+        loadingSceneLoadInfo,
+        loadedSceneLoadInfo,
+      ];
+      const getSceneLoadInfo$PropertySpy = spyOnProperty<any>(
+        visualViewerService,
+        'sceneLoadInfo$',
+        'get'
+      ).and.returnValue(from(sceneLoadInfos));
+
+      visualViewerService['executeWhenSceneLoaded'](
+        (loadedSceneLoadInfo: LoadedSceneInfo) => {
+          expect(loadedSceneLoadInfo).toEqual(loadedSceneLoadInfo);
+          done();
+        }
+      );
+
+      expect(getSceneLoadInfo$PropertySpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not invoke callback when sceneLoadInfo$ does not produce a SceneLoadInfo with a sceneLoadState of SceneLoadState.Loaded', () => {
+      const notStartedSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.NotStarted,
+      };
+      const loadingSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.Loading,
+      };
+      const loadedSceneLoadInfo = <SceneLoadInfo>{
+        sceneLoadState: SceneLoadState.Failed,
+        errorMessage: 'something went wrong',
+      };
+      const sceneLoadInfos = [
+        notStartedSceneLoadInfo,
+        loadingSceneLoadInfo,
+        loadedSceneLoadInfo,
+      ];
+      const getSceneLoadInfo$PropertySpy = spyOnProperty<any>(
+        visualViewerService,
+        'sceneLoadInfo$',
+        'get'
+      ).and.returnValue(from(sceneLoadInfos));
+
+      visualViewerService['executeWhenSceneLoaded'](
+        (_loadedSceneLoadInfo: LoadedSceneInfo) => {
+          fail('not expecting callback to be invoked');
+        }
+      );
+
+      expect(getSceneLoadInfo$PropertySpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getLeafDescendants', () => {
+    it('should return leaf level descendant NodeRefs (treating closed nodes as nodes without children)', () => {
+      const mockNodeRef: FakeNodeRef = {
+        id: 'a',
+        closed: false,
+        children: [
+          {
+            id: 'b',
+            closed: false,
+            children: [
+              {
+                id: 'c',
+                closed: true,
+                children: [
+                  {
+                    id: 'f',
+                    closed: false,
+                    children: [],
+                  },
+                ],
+              },
+              {
+                id: 'd',
+                children: [],
+                closed: false,
+              },
+            ],
+          },
+          {
+            id: 'e',
+            children: [],
+            closed: false,
+          },
+        ],
+      };
+
+      const mockNodeHierarchy = {
+        getChildren: (nodeRef: FakeNodeRef, stepIntoClosedNodes: boolean) => {
+          return stepIntoClosedNodes || !nodeRef.closed
+            ? nodeRef.children.slice()
+            : [];
+        },
+      };
+
+      spyOnProperty<any>(
+        visualViewerService,
+        'nodeHierarchy',
+        'get'
+      ).and.returnValue(mockNodeHierarchy);
+
+      const leafNodeRefs = [];
+      const descendentLeafNodesRefs = visualViewerService['getLeafDescendants'](
+        mockNodeRef,
+        leafNodeRefs
+      );
+
+      expect(descendentLeafNodesRefs).toEqual(leafNodeRefs);
+      expect(descendentLeafNodesRefs.length).toEqual(3);
+      expect(descendentLeafNodesRefs[0].id).toEqual('c');
+      expect(descendentLeafNodesRefs[1].id).toEqual('d');
+      expect(descendentLeafNodesRefs[2].id).toEqual('e');
+    });
+  });
+
+  describe('getAllLeafNodeRefs', () => {
+    it('should get all leaf level descendant NodeRefs (treating closed nodes as nodes without children) for a node hierarchy', () => {
+      const mockNodeRef: FakeNodeRef = {
+        id: 'a',
+        closed: false,
+        children: [
+          {
+            id: 'b',
+            closed: false,
+            children: [
+              {
+                id: 'c',
+                closed: true,
+                children: [
+                  {
+                    id: 'f',
+                    closed: false,
+                    children: [],
+                  },
+                ],
+              },
+              {
+                id: 'd',
+                children: [],
+                closed: false,
+              },
+            ],
+          },
+          {
+            id: 'e',
+            children: [],
+            closed: false,
+          },
+        ],
+      };
+
+      const mockNodeHierarchy = {
+        getChildren: (nodeRef: FakeNodeRef, stepIntoClosedNodes: boolean) => {
+          if (nodeRef === undefined) {
+            nodeRef = mockNodeRef;
+          }
+          if (stepIntoClosedNodes === undefined) {
+            stepIntoClosedNodes = false;
+          }
+
+          return stepIntoClosedNodes || !nodeRef.closed
+            ? nodeRef.children.slice()
+            : [];
+        },
+      };
+
+      spyOnProperty<any>(
+        visualViewerService,
+        'nodeHierarchy',
+        'get'
+      ).and.returnValue(mockNodeHierarchy);
+
+      const descendentLeafNodesRefs =
+        visualViewerService['getAllLeafNodeRefs']();
+
+      expect(descendentLeafNodesRefs.length).toEqual(3);
+      expect(descendentLeafNodesRefs[0].id).toEqual('c');
+      expect(descendentLeafNodesRefs[1].id).toEqual('d');
+      expect(descendentLeafNodesRefs[2].id).toEqual('e');
     });
   });
 

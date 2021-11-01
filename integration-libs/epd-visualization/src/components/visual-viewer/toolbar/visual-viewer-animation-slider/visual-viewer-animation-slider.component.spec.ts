@@ -44,4 +44,17 @@ describe('VisualViewerAnimationSliderComponent', () => {
   it('should create animation slider component', () => {
     expect(visualViewerAnimationSliderComponent).toBeTruthy();
   });
+
+  it('should return value that was set', () => {
+    visualViewerAnimationSliderComponent.value = 0.5;
+    expect(visualViewerAnimationSliderComponent.value).toEqual(0.5);
+  });
+
+  it('should return disabled value that was set', () => {
+    visualViewerAnimationSliderComponent.disabled = true;
+    expect(visualViewerAnimationSliderComponent.disabled).toEqual(true);
+
+    visualViewerAnimationSliderComponent.disabled = false;
+    expect(visualViewerAnimationSliderComponent.disabled).toEqual(false);
+  });
 });
