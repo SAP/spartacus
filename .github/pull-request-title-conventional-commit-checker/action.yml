@@ -1,11 +1,6 @@
-name: 'Release'
-description: 'Release bot'
-inputs:
-  changelogtest:
-    description: 'test'
-    required: true
+name: 'Pull request checker'
+description: 'Pull request checker bot to enforce conventional commits'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.changelogtest }}
+

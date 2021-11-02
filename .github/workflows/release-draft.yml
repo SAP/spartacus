@@ -33,7 +33,7 @@ jobs:
       - name: Publish pre-release
         uses: ./.github/publish-pre-release
         with:
-          changelogtest: ${{ steps.changelog.outputs.changelog }}
+          changelog: ${{ steps.changelog.outputs.changelog }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGELOG: ${{ steps.changelog.outputs.changelog }}

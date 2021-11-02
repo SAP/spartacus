@@ -1,11 +1,11 @@
-name: 'Release'
-description: 'Release bot'
+name: 'Release Draft'
+description: 'Publishing release draft'
 inputs:
-  changelogtest:
-    description: 'test'
+  changelog:
+    description: 'Given changelog to publish as release notes draft'
     required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.changelogtest }}
+    - ${{ inputs.changelog }}

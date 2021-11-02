@@ -1,11 +1,5 @@
-name: 'Release'
-description: 'Release bot'
-inputs:
-  changelogtest:
-    description: 'test'
-    required: true
+name: 'Create changelog'
+description: 'Creating changelog for releases'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.changelogtest }}
