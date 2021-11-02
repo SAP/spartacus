@@ -10,7 +10,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { KeyboardFocusModule } from '@spartacus/storefront';
 import {
   ItemCounterModule,
   ModalModule,
@@ -34,7 +33,6 @@ import { CompactAddToCartComponent } from './compact-add-to-cart.component';
     IconModule,
     I18nModule,
     ItemCounterModule,
-    KeyboardFocusModule,
     ModalModule,
     AddToCartModule,
   ],
