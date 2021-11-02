@@ -73,15 +73,14 @@ context('Cart Import/Export', () => {
     });
 
     describe('Multiple products with varied quantities', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,2,Photosmart E317 Digital Camera,$228.24\r\n3470545,3,EASYSHARE M381,"$1,112.16"`;
+      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
       it('should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[1].code);
         importExport.addProductToCart(cart.products[1].code);
-        importExport.addProductToCart(cart.products[2].code);
-        importExport.addProductToCart(cart.products[2].code);
-        importExport.addProductToCart(cart.products[2].code);
+        importExport.addProductToCart(cart.products[1].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
@@ -91,8 +90,8 @@ context('Cart Import/Export', () => {
           description:
             'A test description for Multi-Product Cart with varied quantities.',
           saveTime: importExport.getSavedDate(),
-          quantity: 6,
-          total: '$1,420.25',
+          quantity: 5,
+          total: '$522.06',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
         });
