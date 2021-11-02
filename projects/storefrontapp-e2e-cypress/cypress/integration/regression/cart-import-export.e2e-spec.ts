@@ -218,9 +218,6 @@ context('Cart Import/Export', () => {
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File should not be empty'
         );
-        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File is not parsable'
-        );
       });
 
       it('should NOT import malformed csv file', () => {
