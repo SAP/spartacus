@@ -62,7 +62,7 @@ class TestEngineRunner {
   ): TestEngineRunner {
     const response: { [key: string]: string } = {};
     const headers = params?.httpHeaders ?? { host };
-    /** used when resolving SERVER_REQUEST_URL and SERVER_REQUEST_ORIGIN */
+    /** used when resolving getRequestUrl() and getRequestOrigin() */
     const app = <Partial<Application>>{
       get:
         (_name: string): any =>
