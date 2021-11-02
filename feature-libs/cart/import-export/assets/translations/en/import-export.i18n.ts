@@ -16,7 +16,8 @@ export const importEntries = {
 
 export const importEntriesDialog = {
   importProducts: 'Import Products',
-  importProductsSubtitle:
+  importProductsSubtitle: 'Add products by importing a .CSV file.',
+  importProductsNewSavedCartSubtitle:
     'Add products by importing a .CSV file and creating a new saved cart.',
   importProductFileDetails:
     'Text file should contain list of products with required columns separated by comma: SKU and quantity.',
