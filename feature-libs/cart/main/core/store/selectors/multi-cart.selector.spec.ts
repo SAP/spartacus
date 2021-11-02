@@ -92,7 +92,7 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual({
         active: '',
-        wishList: '',
+        index: {},
         carts: {
           entities: {},
         },
@@ -102,7 +102,7 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual({
         active: testCart.code,
-        wishList: '',
+        index: {},
         carts: {
           entities: {
             [testCart.code]: {

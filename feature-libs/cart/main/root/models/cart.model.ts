@@ -157,3 +157,8 @@ export interface DeliveryMode {
   description?: string;
   name?: string;
 }
+
+export enum CartType {
+  ACTIVE = 'Active',
+  WISH_LIST = 'WishList',
+}

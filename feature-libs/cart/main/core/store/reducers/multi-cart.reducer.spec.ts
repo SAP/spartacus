@@ -1,5 +1,4 @@
 import { Cart } from '@spartacus/cart/main/root';
-import { getCartIdByUserId } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import * as fromMultiCart from './multi-cart.reducer';
 
@@ -271,48 +270,6 @@ describe('Multi Cart reducer', () => {
         const action = { type: 'other', payload: { code: 'code' } } as any;
         const state = fromMultiCart.cartEntitiesReducer(previousState, action);
         expect(state).toEqual(previousState);
-      });
-    });
-  });
-
-  describe('wishListReducer', () => {
-    describe('CREATE_WISH_LIST_SUCCESS action', () => {
-      it('should set wish list code', () => {
-        const { wishListInitialState } = fromMultiCart;
-        const payload = {
-          cart: testCart,
-          userId: 'userId',
-        };
-        const action = new CartActions.CreateWishListSuccess(payload);
-        const state = fromMultiCart.wishListReducer(
-          wishListInitialState,
-          action
-        );
-        expect(state).toEqual(code);
-      });
-    });
-    describe('LOAD_WISH_LIST_SUCCESS action', () => {
-      it('should set wish list code', () => {
-        const { wishListInitialState } = fromMultiCart;
-        const payload = {
-          cart: testCart,
-          userId: 'userId',
-          cartId: getCartIdByUserId(testCart, 'userId'),
-        };
-        const action = new CartActions.LoadWishListSuccess(payload);
-        const state = fromMultiCart.wishListReducer(
-          wishListInitialState,
-          action
-        );
-        expect(state).toEqual(code);
-      });
-    });
-    describe('CLEAR_MULTI_CART_STATE action', () => {
-      it('should clear wishlist id', () => {
-        const initialState = 'wishlistId';
-        const action = new CartActions.ClearCartState();
-        const state = fromMultiCart.wishListReducer(initialState, action);
-        expect(state).toEqual(fromMultiCart.wishListInitialState);
       });
     });
   });

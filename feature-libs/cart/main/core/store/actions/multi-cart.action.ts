@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
@@ -11,6 +11,9 @@ export const CART_PROCESSES_DECREMENT = '[Cart] Cart Processes Decrement';
 export const SET_ACTIVE_CART_ID = '[Cart] Set Active Cart Id';
 
 export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
+
+export const SET_CART_TYPE_INDEX = '[Cart] Set cart type index';
+export const SET_CART_DATA = '[Cart] Set cart data';
 
 /**
  * To keep track of cart creation process we use cart with `temp-${uuid}` id.
@@ -68,9 +71,20 @@ export class ClearCartState extends StateUtils.EntityRemoveAllAction {
   }
 }
 
+export class SetCartTypeIndex implements Action {
+  readonly type = SET_CART_TYPE_INDEX;
+  constructor(public payload: { cartType: CartType; cartId: string }) {}
+}
+
+export class SetCartData implements Action {
+  readonly type = SET_CART_DATA;
+  constructor(public payload: { cart: Cart }) {}
+}
+
 export type MultiCartActions =
   | SetTempCart
   | CartProcessesIncrement
   | CartProcessesDecrement
   | SetActiveCartId
-  | ClearCartState;
+  | ClearCartState
+  | SetCartTypeIndex;

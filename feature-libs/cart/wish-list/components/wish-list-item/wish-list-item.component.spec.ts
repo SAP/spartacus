@@ -125,12 +125,6 @@ describe('WishListItemComponent', () => {
     ).not.toBeNull();
   });
 
-  it('should display add to cart component', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).not.toBeNull();
-  });
-
   it('should call remove', () => {
     spyOn(component, 'removeEntry');
     el.query(By.css('.cx-return-button button')).nativeElement.click();
@@ -144,16 +138,6 @@ describe('WishListItemComponent', () => {
     expect(
       el.query(By.css('.cx-return-button button')).nativeElement.disabled
     ).toBeTruthy();
-  });
-
-  it('should not display add to cart component when product is out of stock', () => {
-    component.cartEntry.product.stock.stockLevelStatus = 'outOfStock';
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).toBeNull();
-    expect(el.query(By.css('.cx-out-of-stock')).nativeElement).toBeTruthy();
   });
 
   describe('variants', () => {

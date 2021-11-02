@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StateWithMultiCart } from '@spartacus/cart/main/core';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  CartType,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -19,7 +24,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { WishListActions } from '../store/actions/index';
-import { WishListSelectors } from '../store/selectors/index';
 import { getWishlistName } from '../utils/utils';
 
 @Injectable({
@@ -120,6 +124,6 @@ export class WishListService implements WishListFacade {
   }
 
   protected getWishListId(): Observable<string> {
-    return this.store.pipe(select(WishListSelectors.getWishListId));
+    return this.multiCartFacade.getCartIdByType(CartType.WISH_LIST);
   }
 }

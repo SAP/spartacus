@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart, OrderEntry } from '@spartacus/cart/main/root';
-import { User, UserIdService, UserService } from '@spartacus/core';
-import { of } from 'rxjs';
-import { CartActions } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
 import {
+  getMultiCartReducers,
   MULTI_CART_FEATURE,
   StateWithMultiCart,
-} from '../store/wish-list-state';
+} from '@spartacus/cart/main/core';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import { User, UserIdService, UserService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { WishListActions } from '../store/actions/index';
 import { getCartIdByUserId, getWishlistName } from '../utils/utils';
-import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -52,38 +52,38 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(user));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();
   isStable = createSpy().and.returnValue(of(true));
+  getCartIdByType(): Observable<string> {
+    return of(cartCode);
+  }
 }
 
 describe('WishListService', () => {
   let service: WishListService;
   let store: Store<StateWithMultiCart>;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
-        ),
+        StoreModule.forFeature(MULTI_CART_FEATURE, getMultiCartReducers()),
       ],
       providers: [
         WishListService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserService, useClass: MockUserService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(WishListService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -97,7 +97,7 @@ describe('WishListService', () => {
       };
       service.createWishList(payload.userId, payload.name, payload.description);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CreateWishList(payload)
+        new WishListActions.CreateWishList(payload)
       );
     });
   });
@@ -109,16 +109,6 @@ describe('WishListService', () => {
         result = id;
       });
 
-      expect(result).toEqual('');
-
-      store.dispatch(
-        new CartActions.LoadWishListSuccess({
-          cart: testCart,
-          userId,
-          cartId: getCartIdByUserId(testCart, userId),
-        })
-      );
-
       expect(result).toEqual(cartCode);
       done();
     });
@@ -126,6 +116,7 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
+      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
@@ -134,7 +125,7 @@ describe('WishListService', () => {
       service.getWishList().subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload)
       );
     });
     it('should return wish list if loaded', (done) => {
@@ -142,7 +133,7 @@ describe('WishListService', () => {
       let result;
 
       store.dispatch(
-        new CartActions.LoadWishListSuccess({
+        new WishListActions.LoadWishListSuccess({
           cart: testCart,
           userId,
           cartId: getCartIdByUserId(testCart, userId),
@@ -167,7 +158,7 @@ describe('WishListService', () => {
 
       service.loadWishList(userId, customerId);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload)
       );
     });
   });
@@ -175,7 +166,7 @@ describe('WishListService', () => {
   describe('addEntry', () => {
     it('should dispatch CartAddEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({
+        new WishListActions.LoadWishListSuccess({
           cart: testCart,
           userId,
           cartId: getCartIdByUserId(testCart, userId),
@@ -192,6 +183,7 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
+      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
@@ -200,7 +192,7 @@ describe('WishListService', () => {
       service.addEntry(productCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload)
       );
     });
   });
@@ -208,7 +200,7 @@ describe('WishListService', () => {
   describe('removeEntry', () => {
     it('should dispatch CartRemoveEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({
+        new WishListActions.LoadWishListSuccess({
           cart: testCart,
           userId,
           cartId: getCartIdByUserId(testCart, userId),
@@ -223,6 +215,7 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
+      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
@@ -231,7 +224,7 @@ describe('WishListService', () => {
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload)
       );
     });
   });

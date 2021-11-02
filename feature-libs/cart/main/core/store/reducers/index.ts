@@ -1,8 +1,13 @@
+import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/main/root';
 import { AuthActions, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
-import { activeCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
+import {
+  activeCartReducer,
+  cartEntitiesReducer,
+  cartTypeIndexReducer,
+} from './multi-cart.reducer';
 
 export function clearMultiCartState(
   reducer: ActionReducer<any>
@@ -18,13 +23,22 @@ export function clearMultiCartState(
 
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
-export const multiCartReducers: ActionReducerMap<
-  Partial<MultiCartState>,
-  any
-> = {
-  carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
-    MULTI_CART_DATA,
-    cartEntitiesReducer
-  ),
-  active: activeCartReducer,
+export const multiCartReducerToken: InjectionToken<
+  ActionReducerMap<MultiCartState>
+> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
+
+export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
+  return {
+    carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
+      MULTI_CART_DATA,
+      cartEntitiesReducer
+    ),
+    active: activeCartReducer,
+    index: cartTypeIndexReducer,
+  };
+}
+
+export const multiCartReducerProvider: Provider = {
+  provide: multiCartReducerToken,
+  useFactory: getMultiCartReducers,
 };

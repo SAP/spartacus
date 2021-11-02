@@ -9,7 +9,8 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';

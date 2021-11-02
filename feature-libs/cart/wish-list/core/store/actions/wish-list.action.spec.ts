@@ -1,8 +1,8 @@
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
-import { MULTI_CART_DATA } from '../wish-list-state';
-import { CartActions } from './index';
+import { WishListActions } from './index';
 
 const userId = 'userId';
 const cartId = 'xxx';
@@ -24,9 +24,9 @@ describe('WishList Actions', () => {
           customerId,
           tempCartId: getWishlistName(customerId),
         };
-        const action = new CartActions.LoadWishList(payload);
+        const action = new WishListActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_WISH_LIST,
+          type: WishListActions.LOAD_WISH_LIST,
           payload,
           meta: StateUtils.entityLoadMeta(MULTI_CART_DATA, payload.tempCartId),
         });
@@ -40,9 +40,9 @@ describe('WishList Actions', () => {
           userId,
           cartId: getCartIdByUserId(testCart, userId),
         };
-        const action = new CartActions.LoadWishListSuccess(payload);
+        const action = new WishListActions.LoadWishListSuccess(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_WISH_LIST_SUCCESS,
+          type: WishListActions.LOAD_WISH_LIST_SUCCESS,
           payload,
           meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
         });
@@ -56,9 +56,9 @@ describe('WishList Actions', () => {
           cartId: getCartIdByUserId(testCart, userId),
           error: 'anyError',
         };
-        const action = new CartActions.LoadWishListFail(payload);
+        const action = new WishListActions.LoadWishListFail(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_WISH_LIST_FAIL,
+          type: WishListActions.LOAD_WISH_LIST_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,
@@ -74,9 +74,9 @@ describe('WishList Actions', () => {
     describe('CreateWishList', () => {
       it('should create the action', () => {
         const payload = { userId, name: 'name' };
-        const action = new CartActions.CreateWishList(payload);
+        const action = new WishListActions.CreateWishList(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_WISH_LIST,
+          type: WishListActions.CREATE_WISH_LIST,
           payload,
         });
       });
@@ -88,9 +88,9 @@ describe('WishList Actions', () => {
           cart: testCart,
           userId,
         };
-        const action = new CartActions.CreateWishListSuccess(payload);
+        const action = new WishListActions.CreateWishListSuccess(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_WISH_LIST_SUCCESS,
+          type: WishListActions.CREATE_WISH_LIST_SUCCESS,
           payload,
           meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
         });
@@ -100,9 +100,9 @@ describe('WishList Actions', () => {
     describe('CreateWishListFail', () => {
       it('should create the action', () => {
         const payload = { cartId, error: 'error' };
-        const action = new CartActions.CreateWishListFail(payload);
+        const action = new WishListActions.CreateWishListFail(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_WISH_LIST_FAIL,
+          type: WishListActions.CREATE_WISH_LIST_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,

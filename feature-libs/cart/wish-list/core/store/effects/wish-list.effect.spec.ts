@@ -1,18 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart, SaveCartResult } from '@spartacus/cart/main/root';
+import {
+  CartActions,
+  CartConnector,
+  getMultiCartReducers,
+  MULTI_CART_FEATURE,
+  SaveCartConnector,
+  StateWithMultiCart,
+} from '@spartacus/cart/main/core';
+import { Cart, CartType, SaveCartResult } from '@spartacus/cart/main/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CartConnector } from '../../connectors';
-import { SaveCartConnector } from '../../connectors/save-cart';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
-import { CartActions } from '../actions';
-import * as fromReducers from '../reducers/index';
-import { MULTI_CART_FEATURE, StateWithMultiCart } from '../wish-list-state';
+import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -75,10 +80,7 @@ describe('Wish List Effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
-        ),
+        StoreModule.forFeature(MULTI_CART_FEATURE, getMultiCartReducers()),
       ],
       providers: [
         { provide: CartConnector, useClass: MockCartConnector },
@@ -98,16 +100,17 @@ describe('Wish List Effect', () => {
 
   describe('createWishList$', () => {
     it('should create new cart and save it', () => {
-      const action = new CartActions.CreateWishList({
+      const action = new WishListActions.CreateWishList({
         userId,
         name: cartName,
         description: cartDescription,
       });
 
-      const createWishListCompletion = new CartActions.CreateWishListSuccess({
-        cart: saveCartResult.savedCartData,
-        userId,
-      });
+      const createWishListCompletion =
+        new WishListActions.CreateWishListSuccess({
+          cart: saveCartResult.savedCartData,
+          userId,
+        });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: createWishListCompletion });
@@ -126,9 +129,9 @@ describe('Wish List Effect', () => {
 
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
-      const action = new CartActions.LoadWishList(payload);
+      const action = new WishListActions.LoadWishList(payload);
 
-      const createWishListAction = new CartActions.CreateWishList({
+      const createWishListAction = new WishListActions.CreateWishList({
         userId,
         name: getWishlistName(customerId),
       });
@@ -147,15 +150,17 @@ describe('Wish List Effect', () => {
 
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
-      const action = new CartActions.LoadWishList(payload);
+      const action = new WishListActions.LoadWishList(payload);
 
-      const loadWishListSuccessAction = new CartActions.LoadWishListSuccess({
-        cart: wishList,
-        userId,
-        cartId: getCartIdByUserId(wishList, userId),
-        tempCartId: getWishlistName(customerId),
-        customerId,
-      });
+      const loadWishListSuccessAction = new WishListActions.LoadWishListSuccess(
+        {
+          cart: wishList,
+          userId,
+          cartId: getCartIdByUserId(wishList, userId),
+          tempCartId: getWishlistName(customerId),
+          customerId,
+        }
+      );
 
       const removeCartAction = new CartActions.RemoveCart({
         cartId: getWishlistName(customerId),
@@ -174,10 +179,9 @@ describe('Wish List Effect', () => {
   describe('resetWishList$', () => {
     it('should load wish list from id', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({
-          cart: testCart,
-          userId,
-          cartId: getCartIdByUserId(testCart, userId),
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.WISH_LIST,
+          cartId: getCartIdByUserId(wishList, userId),
         })
       );
 
@@ -186,7 +190,7 @@ describe('Wish List Effect', () => {
         current: 'current',
       });
 
-      const resetWishListAction = new CartActions.LoadWishListSuccess({
+      const resetWishListAction = new WishListActions.LoadWishListSuccess({
         cart: wishList,
         userId,
         cartId: getCartIdByUserId(wishList, userId),

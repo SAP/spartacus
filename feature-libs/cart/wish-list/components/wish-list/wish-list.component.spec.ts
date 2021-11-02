@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { WishListComponent } from './wish-list.component';
