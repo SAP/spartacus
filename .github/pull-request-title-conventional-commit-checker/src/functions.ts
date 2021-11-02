@@ -14,7 +14,7 @@ export function checkPullRequestTitle(
   const typeRegex = new RegExp(`${commonTypeRegex}:`);
   // Most likely changing to split on first word instead of regex as it is heavy maintenance
   const scopeRegex = new RegExp(
-    `${commonTypeRegex}(: |((?<scope>(@spartacus\/core\)|\(@spartacus\/storefront\)|\(@spartacus\/styles\)|\(@spartacus\/assets\)|\(@spartacus\/schematics\)|\(@spartacus\/incubator\)|\(@spartacus\/user\)|\(@spartacus\/cds\)|\(@spartacus\/organization\)|\(@spartacus\/product\)|\(@spartacus\/product-configurator\)|\(@spartacus\/storefinder\)|\(@spartacus\/checkout\)|\(@spartacus\/asm\)|\(@spartacus\/smartedit\)|\(@spartacus\/cdc\)|\(@spartacus\/digital-payments\)|\(@spartacus\/tracking\)|\(@spartacus\/cart\)|\(@spartacus\/order\)|\(@spartacus\/setup\)|\(@spartacus\/core\)|\(@spartacus\/qualtrics\))): ))`
+    `${commonTypeRegex}(: |((?<scope>\(@spartacus\/core\)|\(@spartacus\/storefront\)|\(@spartacus\/styles\)|\(@spartacus\/assets\)|\(@spartacus\/schematics\)|\(@spartacus\/incubator\)|\(@spartacus\/user\)|\(@spartacus\/cds\)|\(@spartacus\/organization\)|\(@spartacus\/product\)|\(@spartacus\/product-configurator\)|\(@spartacus\/storefinder\)|\(@spartacus\/checkout\)|\(@spartacus\/asm\)|\(@spartacus\/smartedit\)|\(@spartacus\/cdc\)|\(@spartacus\/digital-payments\)|\(@spartacus\/tracking\)|\(@spartacus\/cart\)|\(@spartacus\/order\)|\(@spartacus\/setup\)|\(@spartacus\/core\)|\(@spartacus\/qualtrics\))): )`
   );
 
   const isTypeValid = typeRegex.test(title);
