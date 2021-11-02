@@ -8,7 +8,7 @@ import {
   OrderEntry,
   Product,
   ProductAdapter,
-  ProductSearchAdapter,
+  ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
@@ -79,7 +79,7 @@ class MockProductAdapter implements Partial<ProductAdapter> {
   }
 }
 
-class MockProductSearchAdapter implements Partial<ProductSearchAdapter> {
+class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   search(
     _query: string,
     _searchConfig?: SearchConfig
@@ -107,7 +107,7 @@ class MockEventService implements Partial<EventService> {
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productAdapter: ProductAdapter;
-  let productSearchAdapter: ProductSearchAdapter;
+  let productSearchConnector: ProductSearchConnector;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
@@ -124,13 +124,16 @@ describe('QuickOrderService', () => {
           useClass: MockEventService,
         },
         { provide: ProductAdapter, useClass: MockProductAdapter },
-        { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
+        {
+          provide: ProductSearchConnector,
+          useClass: MockProductSearchConnector,
+        },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
     productAdapter = TestBed.inject(ProductAdapter);
-    productSearchAdapter = TestBed.inject(ProductSearchAdapter);
+    productSearchConnector = TestBed.inject(ProductSearchConnector);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 
@@ -192,7 +195,7 @@ describe('QuickOrderService', () => {
 
   describe('should trigger search products', () => {
     beforeEach(() => {
-      spyOn(productSearchAdapter, 'search').and.returnValue(
+      spyOn(productSearchConnector, 'search').and.returnValue(
         of(mockProductSearchPage)
       );
     });
@@ -202,7 +205,7 @@ describe('QuickOrderService', () => {
         .searchProducts(mockProduct1Code, mockMaxProducts)
         .pipe(take(1))
         .subscribe(() => {
-          expect(productSearchAdapter.search).toHaveBeenCalledWith(
+          expect(productSearchConnector.search).toHaveBeenCalledWith(
             mockProduct1Code,
             mockSearchConfig
           );
@@ -215,7 +218,7 @@ describe('QuickOrderService', () => {
         .searchProducts(mockProduct1Code)
         .pipe(take(1))
         .subscribe(() => {
-          expect(productSearchAdapter.search).toHaveBeenCalledWith(
+          expect(productSearchConnector.search).toHaveBeenCalledWith(
             mockProduct1Code,
             mockDefaultSearchConfig
           );
