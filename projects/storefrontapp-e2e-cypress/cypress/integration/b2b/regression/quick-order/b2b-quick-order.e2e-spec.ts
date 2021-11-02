@@ -72,13 +72,26 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been cleared`);
       });
 
-      it('should limit the list and block form for adding more products', () => {
+      it('should limit the list and show error message', () => {
         quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
-        quickOrder.verifyQuickOrderFormIsDisabled();
+        quickOrder.verifyQuickOrderReachedListLimit();
+      });
+
+      it('should show info message to add product to the list before clicking add to cart', () => {
+        quickOrder.addToCart();
+        quickOrder.verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart();
       });
 
       it('should hide "Empty List" button if list has no entries', () => {
         quickOrder.verifyEmptyListButtonIsHidden();
+      });
+
+      it('should show error message after trying to add non purchasable product to the list', () => {
+        quickOrder.addProductToTheList(
+          sampleData.b2bNonPurchasableProduct.code
+        );
+        quickOrder.verifyQuickOrderListQuantity(0);
+        quickOrder.verifyQuickOrderPageShowErrorMessageNonPurchasableProduct();
       });
 
       it('should show error message after adding to cart with out of stock information', () => {

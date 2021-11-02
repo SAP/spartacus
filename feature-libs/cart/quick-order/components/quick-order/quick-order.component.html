@@ -1,3 +1,45 @@
+<ng-container *ngIf="entries$ | async as entries">
+  <ng-container *ngIf="!(canAddProduct() | async)">
+    <ng-container *ngIf="quickOrderForm?.form?.get('product')?.dirty">
+      <cx-message
+        [text]="
+          'quickOrderList.errors.listIsFull'
+            | cxTranslate: { count: entries.length }
+        "
+        [isVisibleCloseButton]="false"
+        [type]="globalMessageType.MSG_TYPE_ERROR"
+        class="quick-order-list-limit-message"
+      >
+      </cx-message>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="addToCartInformation$ | async">
+  <cx-message
+    (closeMessage)="clearAddToCartInformation()"
+    [text]="
+      'quickOrderList.informations.addProductBeforeAddingToCart' | cxTranslate
+    "
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    class="quick-order-add-to-cart-information-message"
+  >
+  </cx-message>
+</ng-container>
+
+<ng-container *ngIf="nonPurchasableError$ | async as nonPurchasableError">
+  <cx-message
+    (closeMessage)="clearNonPurchasableError()"
+    [text]="
+      'quickOrderList.errors.nonPurchasableError'
+        | cxTranslate: { name: nonPurchasableError.name }
+    "
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    class="quick-order-non-purchasable-product-error-message"
+  >
+  </cx-message>
+</ng-container>
+
 <ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
   <cx-message
     *ngFor="let deletedEntry of deletedEntries | keyvalue"
@@ -104,6 +146,7 @@
 
     <div class="quick-order-form-body">
       <cx-quick-order-form
+        #quickOrderForm
         [isDisabled]="entries.length >= quickOrderListLimit"
         [isLoading]="!(isCartStable$ | async)"
       >
@@ -136,7 +179,6 @@
           (clikEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"
           [class]="'btn-block add-button'"
-          [disabled]="!entries.length || entries.length >= quickOrderListLimit"
           [loading]="!(isCartStable$ | async)"
         >
           {{ 'quickOrderList.addToCart' | cxTranslate }}
