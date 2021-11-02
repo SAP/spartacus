@@ -137,6 +137,10 @@
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
+
+    .cx-value {
+      word-break: break-word;
+    }
   }
 
   @include forVersion(4.2) {
