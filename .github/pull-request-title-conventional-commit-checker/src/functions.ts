@@ -1,5 +1,5 @@
-import { Context } from '@actions/github/lib/context';
 import * as core from '@actions/core';
+import { Context } from '@actions/github/lib/context';
 const COMMENT_HEADER = '## Pull request checker: Conventional commits';
 
 export function checkPullRequestTitle(
@@ -8,13 +8,12 @@ export function checkPullRequestTitle(
   isTypeValid: boolean;
   isScopeValid: boolean;
 } {
-  const commonTypeRegex = '^(?<type>feat|fix|perf|refactor|style|test|chore|docs)';
-  const typeRegex = new RegExp(
-    `^${commonTypeRegex}:`
-  );
+  const commonTypeRegex =
+    '^(?<type>feat|fix|perf|refactor|style|test|chore|docs)';
+  const typeRegex = new RegExp(`^${commonTypeRegex}:`);
   // Most likely changing to split on first word instead of this as it is heavy maintenance
   const scopeRegex = new RegExp(
-    `^${commonTypeRegex}((?<scope>\(@spartacus\/core\)|\(@spartacus\/storefront\)|\(@spartacus\/styles\)|\(@spartacus\/assets\)|\(@spartacus\/schematics\)|\(@spartacus\/incubator\)|\(@spartacus\/user\)|\(@spartacus\/cds\)|\(@spartacus\/organization\)|\(@spartacus\/product\)|\(@spartacus\/product-configurator\)|\(@spartacus\/storefinder\)|\(@spartacus\/checkout\)|\(@spartacus\/asm\)|\(@spartacus\/smartedit\)|\(@spartacus\/cdc\)|\(@spartacus\/digital-payments\)|\(@spartacus\/tracking\)|\(@spartacus\/cart\)|\(@spartacus\/order\)|\(@spartacus\/setup\)|\(@spartacus\/core\)|\(@spartacus\/qualtrics\)): )`
+    `^${commonTypeRegex}(: |((?<scope>(@spartacus\/core\)|\(@spartacus\/storefront\)|\(@spartacus\/styles\)|\(@spartacus\/assets\)|\(@spartacus\/schematics\)|\(@spartacus\/incubator\)|\(@spartacus\/user\)|\(@spartacus\/cds\)|\(@spartacus\/organization\)|\(@spartacus\/product\)|\(@spartacus\/product-configurator\)|\(@spartacus\/storefinder\)|\(@spartacus\/checkout\)|\(@spartacus\/asm\)|\(@spartacus\/smartedit\)|\(@spartacus\/cdc\)|\(@spartacus\/digital-payments\)|\(@spartacus\/tracking\)|\(@spartacus\/cart\)|\(@spartacus\/order\)|\(@spartacus\/setup\)|\(@spartacus\/core\)|\(@spartacus\/qualtrics\))): ))`
   );
 
   const isTypeValid = typeRegex.test(title);
@@ -30,7 +29,7 @@ function generateTextForType(isTypeValid: boolean): string {
     body = `No **type** format error`;
   } else {
     body = `
-    :boom: **type** must be one of the following:
+    **type** must be one of the following:
       - feat
       - fix
       - perf
@@ -54,7 +53,7 @@ function generateTextForScope(isScopeValid: boolean): string {
     body = `No **scope** format error and **scope** is optional`;
   } else {
     body = `
-    :boom: **scope** must be one of the following right after the type between (scope):
+    **scope** must be one of the following right after the type between (scope):
      - @spartacus/core
      - @spartacus/storefront
      - @spartacus/styles
