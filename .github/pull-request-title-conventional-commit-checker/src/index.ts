@@ -9,7 +9,7 @@ async function run() {
   }
 
   const octoKit = github.getOctokit(GITHUB_TOKEN);
-  const context = octoKit.context;
+  const context = github.context;
 
   if (!context.payload.pull_request) {
     throw new Error('Not triggered by a pull request');
@@ -21,7 +21,7 @@ async function run() {
 
   await addCommentToPR(
     octoKit,
-    context.pull_request,
+    context.payload.pull_request,
     context,
     isTypeValid,
     isScopeValid
