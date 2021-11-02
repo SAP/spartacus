@@ -70,7 +70,7 @@ Cypress.Commands.add(
     const DRAFT_FILE = `cypress/fixtures/a11y/tab/drafts/${FILE_NAME}`;
     const CONFIG_FILE = `cypress/fixtures/a11y/tab/configs/${FILE_NAME}`;
     const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify with screenshots that keyboard accessibility is correct and move to '${CONFIG_FILE}' to pass assertion.`;
-    
+
     cy.document().then((document) => {
       const focusable = Array.from(
         <NodeListOf<HTMLElement>>(
@@ -92,6 +92,31 @@ Cypress.Commands.add(
             console.log(`Tab screenshot verified for: '${FILE_NAME}''`);
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
+              // console.log(
+              //   `FIRST:::::   ${JSON.stringify(json)} ${
+              //     JSON.stringify(json).length
+              //   }`,
+              //   `\n\nSECOND:::::    ${JSON.stringify(focusable)} ${
+              //     JSON.stringify(focusable).length
+              //   }`,
+              //   JSON.stringify(json) === JSON.stringify(focusable)
+              // );
+
+              function getDifference(a, b) {
+                var i = 0;
+                var j = 0;
+                var result = '';
+
+                while (j < b.length) {
+                  if (a[i] != b[j] || i == a.length) result += b[j];
+                  else i++;
+                  j++;
+                }
+                return result;
+              }
+              console.log(
+                getDifference(JSON.stringify(json), JSON.stringify(focusable))
+              );
               throw new Error(`DOM not matching config. ${GENERATION_MESSAGE}`);
             });
           }

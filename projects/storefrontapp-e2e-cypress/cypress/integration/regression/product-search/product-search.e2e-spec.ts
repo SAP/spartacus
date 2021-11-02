@@ -14,6 +14,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
       it('should check keyboard accessibility', () => {
         cy.get('cx-product-facet-navigation');
+        cy.wait(5000);
         cy.tabScreenshot({ container: 'main', scenario: 'list' });
       });
     });
