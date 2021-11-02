@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
 name: "Pull Request Checker for Conventional commits"
 jobs:
   pullRequestChecker:
@@ -15,4 +15,4 @@ jobs:
       - name: Pull request checker bot
         uses: ./.github/pull-request-title-conventional-commit-checker
         env:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
