@@ -54,7 +54,7 @@ function generateTextForScope(isScopeValid: boolean): string {
     body = `No **scope** format error and **scope** is optional`;
   } else {
     body = `
-    **scope** must be one of the following right after the type between (scope):
+    **scope** is optional, but choose one of the following:
      - @spartacus/core
      - @spartacus/storefront
      - @spartacus/styles
@@ -82,7 +82,7 @@ function generateTextForScope(isScopeValid: boolean): string {
     core.setFailed('Scope is not proper');
   }
 
-  return `## Is the pull request **type** text valid\n${body}`;
+  return `## Is the pull request **scope** text valid\n${body}`;
 }
 
 function generateCommentBody(
@@ -123,17 +123,11 @@ async function printReport(
     repo,
   });
 
-  const botComment = comments.data.filter((comment: any) => {
-    console.log('1', comment.body);
-    console.log('2', comment.body.includes(COMMENT_HEADER));
-
-    return (
+  const botComment = comments.data.filter(
+    (comment: any) =>
       comment.body.includes(COMMENT_HEADER) &&
       comment.user.login === 'github-actions[bot]'
-    );
-  });
-
-  console.log('3', botComment);
+  );
 
   if (botComment && botComment.length) {
     await ghClient.issues.deleteComment({
