@@ -1,3 +1,3 @@
-# Release deployment bot
+# Pull request checker bot
 
-Creates pre-releases with release notes draft
+Verifies if pull request conforms to the conventional commits.

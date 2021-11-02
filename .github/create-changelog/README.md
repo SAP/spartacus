@@ -1,3 +1,3 @@
-# Release deployment bot
+# Create changelog
 
-Creates pre-releases with release notes draft
+Generates changelog given a fromTag and toTag. If no toTag is given, it defaults to 'HEAD"

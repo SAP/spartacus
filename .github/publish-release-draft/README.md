@@ -1,3 +1,3 @@
-# Release deployment bot
+# Release Draft
 
-Creates pre-releases with release notes draft
+Creates pre-releases with release notes draft and publishes it for viewing
