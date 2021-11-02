@@ -12,7 +12,7 @@
     %>
 <a href="https://github.com/SAP/spartacus/commit/<%= hash %>"><img
    align="top"
-   title="Feature" src="https://img.shields.io/badge/<%= shortSha %>-feat-blue.svg" />
+   title="Bug fix" src="https://img.shields.io/badge/<%= shortSha %>-<%= type %>-green.svg" />
 </a><%
   } %>
   </td>
@@ -31,6 +31,7 @@
         const owner = reference.owner || 'SAP';
         const repository = reference.repository || 'spartacus';
         %>
+
 <a href="https://github.com/<%= owner %>/<%= repository %>/issues/<%= issue %>">
   [Closes #<%= issue %>]<br />
 </a>

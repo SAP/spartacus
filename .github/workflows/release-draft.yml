@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - develop
+name: "Publish Release Draft notes"
+jobs:
+  setup: 
+    name: setup dependencies
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Set Spartacusbot
+        run: |
+          git config user.name "Spartacus[bot]"
+          git config user.email "spartacus-sap@github.com"
+  preReleaseDraft:
+    name: Create pre-release draft
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create changelogs
+        id: changelog
+        uses: ./.github/create-changelog
+        with:
+          fromTag: 'user-4.1.1'
+          toTag: 'HEAD'
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish pre-release
+        uses: ./.github/publish-pre-release
+        with:
+          changelogtest: ${{ steps.changelog.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}

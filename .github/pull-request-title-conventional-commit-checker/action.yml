@@ -1,0 +1,11 @@
+name: 'Release'
+description: 'Release bot'
+inputs:
+  changelogtest:
+    description: 'test'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.changelogtest }}

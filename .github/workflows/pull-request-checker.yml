@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+name: "Pull Request Checker for Conventional commits"
+jobs:
+  pullRequestChecker:
+    name: Pull request checker bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2    
+      - name: Pull request checker bot
+        uses: ./.github/pull-request-title-conventional-commit-checker
+        env:
+          access_token: ${{ secrets.GITHUB_TOKEN }}

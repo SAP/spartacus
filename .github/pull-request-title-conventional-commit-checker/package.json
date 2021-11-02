@@ -1,0 +1,19 @@
+{
+  "name": "deploy-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/github": "^4.0.0",
+    "@types/node": "^12.11.1",
+    "@actions/core": "^1.2.6"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}

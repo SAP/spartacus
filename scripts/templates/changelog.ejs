@@ -58,13 +58,6 @@
   ];
 %>
 # Commits
-<table>
-<tbody>
-  <tr>
-    <td><b>Commit</b>
-    <td><b>Description</b>
-    <td><b>Notes</b>
-  </tr>
 <%
   // Get unique scopes.
   const scopes = commits.map(x => x.scope)
@@ -82,18 +75,42 @@
     const scopeCommits = [
       ...allScopeCommits.filter(x => x.type === 'feat'),
       ...allScopeCommits.filter(x => x.type === 'fix'),
+      ...allScopeCommits.filter(x => x.type === 'perf'),
+      ...allScopeCommits.filter(x => x.type === 'refactor'),
+      ...allScopeCommits.filter(x => x.type === 'style'),
+      ...allScopeCommits.filter(x => x.type === 'test'),
+      ...allScopeCommits.filter(x => x.type === 'chore'),
+      ...allScopeCommits.filter(x => x.type === 'docs'),
     ];
     if (scopeCommits.length == 0) {
         continue;
     }
 %>
+<table>
+<tbody>
+  <tr><td colspan=3><h1>
+    
+<% if (scope) { %> 
+<%= scope %> 
+<% } else { %>
+Others
+<% } %>
+      
+  </h1></td></tr>
+  <tr>
+    <td><b>Commit</b>
+    <td><b>Description</b>
+    <td><b>Notes</b>
+  </tr>
   <%
       let nbRows = 0;
       for (const commit of scopeCommits) {
           nbRows++;
-          switch (commit.type) {
-              case 'fix': %><%- include('./changelog-fix', commit) %><% break;
-              case 'feat': %><%- include('./changelog-feat', commit) %><% break;
+
+          if (commit.type) {
+  %>        
+            <%- include('./changelog-commits', commit) %>
+  <%
           }
       }
       // Add an empty row to get the alternating colors in sync.
