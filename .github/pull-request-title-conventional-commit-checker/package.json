@@ -1,5 +1,5 @@
 {
-  "name": "deploy-action",
+  "name": "pull-request-checker-action",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

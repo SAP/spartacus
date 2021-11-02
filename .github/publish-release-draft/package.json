@@ -1,5 +1,5 @@
 {
-  "name": "deploy-action",
+  "name": "publish-release-draft-action",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

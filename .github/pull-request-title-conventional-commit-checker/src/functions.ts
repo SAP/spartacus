@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { Context } from '@actions/github/lib/context';
+
 const COMMENT_HEADER = '## Pull request checker: Conventional commits';
 
 export function checkPullRequestTitle(
@@ -11,7 +12,7 @@ export function checkPullRequestTitle(
   const commonTypeRegex =
     '^(?<type>feat|fix|perf|refactor|style|test|chore|docs)';
   const typeRegex = new RegExp(`^${commonTypeRegex}:`);
-  // Most likely changing to split on first word instead of this as it is heavy maintenance
+  // Most likely changing to split on first word instead of regex as it is heavy maintenance
   const scopeRegex = new RegExp(
     `^${commonTypeRegex}(: |((?<scope>(@spartacus\/core\)|\(@spartacus\/storefront\)|\(@spartacus\/styles\)|\(@spartacus\/assets\)|\(@spartacus\/schematics\)|\(@spartacus\/incubator\)|\(@spartacus\/user\)|\(@spartacus\/cds\)|\(@spartacus\/organization\)|\(@spartacus\/product\)|\(@spartacus\/product-configurator\)|\(@spartacus\/storefinder\)|\(@spartacus\/checkout\)|\(@spartacus\/asm\)|\(@spartacus\/smartedit\)|\(@spartacus\/cdc\)|\(@spartacus\/digital-payments\)|\(@spartacus\/tracking\)|\(@spartacus\/cart\)|\(@spartacus\/order\)|\(@spartacus\/setup\)|\(@spartacus\/core\)|\(@spartacus\/qualtrics\))): ))`
   );
@@ -89,7 +90,7 @@ function generateCommentBody(
   isScopeValid: boolean
 ): string {
   const content = `
-  # Please remember to follow the conventional commits format as explained in here https://sap.github.io/spartacus-docs/commit-guidelines/#commit-message-format
+  ## Please remember to follow the conventional commits format as explained in here https://sap.github.io/spartacus-docs/commit-guidelines/#commit-message-format
   - Make sure the pull request title and commit header matches as well
   - Do not forget to put meaning commit body messages
   - Do not forgot to put **closes GH-issueNumber** in the pull request body and commit footer 
@@ -122,11 +123,17 @@ async function printReport(
     repo,
   });
 
-  const botComment = comments.data.filter(
-    (comment: any) =>
+  const botComment = comments.data.filter((comment: any) => {
+    console.log('1', comment.body);
+    console.log('2', comment.body.includes(COMMENT_HEADER));
+
+    return (
       comment.body.includes(COMMENT_HEADER) &&
       comment.user.login === 'github-actions[bot]'
-  );
+    );
+  });
+
+  console.log('3', botComment);
 
   if (botComment && botComment.length) {
     await ghClient.issues.deleteComment({
