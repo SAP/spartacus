@@ -64,7 +64,7 @@ export function getSavedDate(): string {
 }
 
 export const nonDefaultImportExportConfig = {
-  importExport: {
+  cartImportExport: {
     file: {
       // Alternative separator
       separator: ' 8=D ',
@@ -112,7 +112,7 @@ export const nonDefaultImportExportConfig = {
 };
 
 export const configurableProductConfig = {
-  importExport: {
+  cartImportExport: {
     export: {
       additionalColumns: [
         {
