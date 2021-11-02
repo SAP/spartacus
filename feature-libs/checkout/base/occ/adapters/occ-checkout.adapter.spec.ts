@@ -37,7 +37,7 @@ const userId = '123';
 const cartId = '456';
 const termsChecked = true;
 
-const orderData: Order = {
+const orderData: Partial<Order> = {
   site: 'electronics',
   calculated: true,
   code: '00001004',
@@ -74,9 +74,10 @@ describe('OccCheckoutAdapter', () => {
   });
 
   describe('place order', () => {
-    it('should be able to place order for the cart', () => {
+    it('should be able to place order for the cart', (done) => {
       service.placeOrder(userId, cartId, termsChecked).subscribe((result) => {
         expect(result).toEqual(orderData);
+        done();
       });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -92,8 +93,10 @@ describe('OccCheckoutAdapter', () => {
       mockReq.flush(orderData);
     });
 
-    it('should use converter', () => {
-      service.placeOrder(userId, cartId, termsChecked).subscribe();
+    it('should use converter', (done) => {
+      service.placeOrder(userId, cartId, termsChecked).subscribe(() => {
+        done();
+      });
       httpMock
         .expectOne(
           (req) =>
@@ -107,9 +110,10 @@ describe('OccCheckoutAdapter', () => {
   });
 
   describe('get checkout details', () => {
-    it('should get checkout details data for given userId, cartId', () => {
+    it('should get checkout details data for given userId, cartId', (done) => {
       service.getCheckoutDetails(userId, cartId).subscribe((result) => {
         expect(result).toEqual(checkoutData as CheckoutState);
+        done();
       });
 
       const mockReq = httpMock.expectOne((req) => {
