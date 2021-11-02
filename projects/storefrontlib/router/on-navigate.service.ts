@@ -71,7 +71,7 @@ export class OnNavigateService {
               return;
             }
 
-            this.viewportScroller.scrollToPosition([0, 0]);
+            setTimeout(() => this.viewportScroller.scrollToPosition([0, 0]));
           }
 
           this.hostComponent?.location?.nativeElement.focus();
