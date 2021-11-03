@@ -6,7 +6,7 @@ import { viewportContext } from '../../helpers/viewport-context';
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Single product', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
+      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
       it('should export cart', () => {
         importExport.addProductToCart(cart.products[2].code);
@@ -19,7 +19,7 @@ context('Cart Import/Export', () => {
           description: 'A test description for Single Product Cart.',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
-          total: '$370.72',
+          total: '$114.12',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
         });
