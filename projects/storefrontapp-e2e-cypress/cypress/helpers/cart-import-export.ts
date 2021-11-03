@@ -67,7 +67,7 @@ export const nonDefaultImportExportConfig = {
   cartImportExport: {
     file: {
       // Alternative separator
-      separator: ' 8=D ',
+      separator: '|',
     },
     export: {
       additionalColumns: [
