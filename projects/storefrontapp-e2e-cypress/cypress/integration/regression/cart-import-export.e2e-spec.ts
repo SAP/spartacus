@@ -157,30 +157,30 @@ context('Cart Import/Export', () => {
     });
 
     // TODO: Enable and improve once importing configurable products is supported (#13456)
-    // describe('Configurable products', () => {
-    //   const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
+    xdescribe('Configurable products', () => {
+      const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
 
-    //   beforeEach(() => {
-    //     cy.cxConfig(importExport.configurableProductConfig);
-    //   });
+      beforeEach(() => {
+        cy.cxConfig(importExport.configurableProductConfig);
+      });
 
-    //   it('should export cart', () => {
-    //     importExport.addProductToCart(cart.products[0].code);
-    //     importExport.exportCart(EXPECTED_CSV);
-    //   });
+      it('should export cart', () => {
+        importExport.addProductToCart(cart.products[0].code);
+        importExport.exportCart(EXPECTED_CSV);
+      });
 
-    //   it('should import cart', () => {
-    //     importExport.importCartTestFromConfig({
-    //       name: 'Configurable products Cart',
-    //       description: 'A test description for Configurable products Cart.',
-    //       saveTime: importExport.getSavedDate(),
-    //       quantity: 1,
-    //       total: '$99.85',
-    //       headers: importExport.getCsvHeaders(EXPECTED_CSV),
-    //       expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-    //     });
-    //   });
-    // });
+      it('should import cart', () => {
+        importExport.importCartTestFromConfig({
+          name: 'Configurable products Cart',
+          description: 'A test description for Configurable products Cart.',
+          saveTime: importExport.getSavedDate(),
+          quantity: 1,
+          total: '$99.85',
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
+      });
+    });
 
     describe('Variable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
