@@ -71,26 +71,19 @@ export const nonDefaultImportExportConfig = {
     },
     export: {
       additionalColumns: [
-        // String value with invalid key
         {
+          // Display `manufacturer` value property instead of name
           name: {
-            key: 'manufacturer',
+            key: 'name',
           },
           value: 'product.manufacturer',
         },
-        // Boolean value with valid (non-relevant) key
+        // Display boolean value instead of price
         {
           name: {
-            key: 'availableForPickup',
+            key: 'price',
           },
           value: 'product.availableForPickup',
-        },
-        // Deep value with invalid key
-        {
-          name: {
-            key: 'primaryImageFormat',
-          },
-          value: 'product.images.PRIMARY.thumbnail.format',
         },
       ],
     },

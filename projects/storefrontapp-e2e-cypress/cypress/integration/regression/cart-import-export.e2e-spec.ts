@@ -131,7 +131,7 @@ context('Cart Import/Export', () => {
     });
 
     describe('Non-default export configuration', () => {
-      const EXPECTED_CSV = `Code|Quantity| | | \r\n1934793|1|Canon|true|thumbnail\r\n300938|1|HP|true|thumbnail\r\n`;
+      const EXPECTED_CSV = `Code|Quantity|Name|Price\r\n1934793|1|Canon|true\r\n300938|1|HP|true\r\n`;
 
       beforeEach(() => {
         cy.cxConfig(importExport.nonDefaultImportExportConfig);
