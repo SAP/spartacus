@@ -17,6 +17,7 @@
       "items": {
         "enum": [
           "ASM",
+          "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
@@ -45,6 +46,7 @@
       "default": [
         "ASM",
         "Checkout",
+        "Import-Export",
         "Saved-Cart",
         "Quick-Order",
         "Image-Zoom",
@@ -62,6 +64,10 @@
           {
             "value": "ASM",
             "label": "Assisted Services Module"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
           },
           {
             "value": "Saved-Cart",

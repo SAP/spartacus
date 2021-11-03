@@ -86,6 +86,14 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyEmptyListButtonIsHidden();
       });
 
+      it('should show error message after trying to add non purchasable product to the list', () => {
+        quickOrder.addProductToTheList(
+          sampleData.b2bNonPurchasableProduct.code
+        );
+        quickOrder.verifyQuickOrderListQuantity(0);
+        quickOrder.verifyQuickOrderPageShowErrorMessageNonPurchasableProduct();
+      });
+
       it('should show error message after adding to cart with out of stock information', () => {
         quickOrder.addProductToTheListAndModifyQuantity(
           sampleData.b2bProduct.code,
