@@ -28,7 +28,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
-  @ViewChild('expandBtn') btn: ElementRef;
+  @ViewChild('expandButton') expandButton: ElementRef;
 
   @Input() galleryIndex: number;
   @Input() set expandImage(expand: boolean) {
@@ -65,7 +65,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
               this.launchDialogService.clear(LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM);
               comp?.destroy();
               this.dialogClose.emit();
-              this.btn.nativeElement.focus();
+              this.expandButton.nativeElement.focus();
             })
           )
           .subscribe()
