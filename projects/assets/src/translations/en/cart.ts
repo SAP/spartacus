@@ -51,12 +51,17 @@ export const cart = {
   },
   validation: {
     cartEntriesChangeDuringCheckout:
-      'During checkout availability of entries in your cart has changed. Please review your cart.',
+      'During checkout we found problems with your entries. Please review your cart.',
     cartEntryRemoved:
       '{{name}} was removed from the cart due to being out of stock.',
     productOutOfStock:
       '{{name}} has been removed from the cart due to insufficient stock.',
-    productQuantityLowStock:
-      '{{name}} quantity has reduced to {{quantity}} due to insufficient stock.',
+    lowStock: 'Quantity has reduced to {{quantity}} due to insufficient stock.',
+    reviewConfiguration:
+      'Resolve the issues in the configuration for cart entry first.',
+    pricingError:
+      'Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.',
+    unresolvableIssues:
+      'The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.',
   },
 };
