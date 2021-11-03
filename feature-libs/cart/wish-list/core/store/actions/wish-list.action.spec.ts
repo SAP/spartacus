@@ -1,7 +1,7 @@
-import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { getCartIdByUserId, MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
-import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
+import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from './index';
 
 const userId = 'userId';

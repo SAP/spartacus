@@ -1,15 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  getMultiCartReducers,
+  getCartIdByUserId,
   MULTI_CART_FEATURE,
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
 import { User, UserIdService, UserService } from '@spartacus/core';
+import { getMultiCartReducers } from 'feature-libs/cart/main/core/store/reducers';
 import { Observable, of } from 'rxjs';
 import { WishListActions } from '../store/actions/index';
-import { getCartIdByUserId, getWishlistName } from '../utils/utils';
+import { getWishlistName } from '../utils/utils';
 import { WishListService } from './wish-list.service';
 
 import createSpy = jasmine.createSpy;

@@ -4,6 +4,7 @@ import { Action, select, Store } from '@ngrx/store';
 import {
   CartActions,
   CartConnector,
+  getCartIdByUserId,
   MultiCartSelectors,
   SaveCartConnector,
   StateWithMultiCart,
@@ -24,7 +25,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
+import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from '../actions';
 
 @Injectable()

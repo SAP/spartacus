@@ -20,9 +20,6 @@ export function defaultCartWishListComponentsConfig() {
 
 @NgModule({
   imports: [],
-  providers: [
-    provideDefaultConfigFactory(defaultCartWishListComponentsConfig),
-    //provideDefaultConfig(defaultCartRoutingConfig),
-  ],
+  providers: [provideDefaultConfigFactory(defaultCartWishListComponentsConfig)],
 })
 export class WishListRootModule {}

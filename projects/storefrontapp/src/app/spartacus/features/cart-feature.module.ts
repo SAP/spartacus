@@ -5,6 +5,10 @@ import {
 } from '@spartacus/cart/main/assets';
 import { CartRootModule, CART_FEATURE } from '@spartacus/cart/main/root';
 import {
+  wishListTranslationChunksConfig,
+  wishListTranslations,
+} from '@spartacus/cart/wish-list/assets';
+import {
   CART_WISH_LIST_FEATURE,
   WishListRootModule,
 } from '@spartacus/cart/wish-list/root';
@@ -21,6 +25,13 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         },
       },
     }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: cartTranslations,
+        chunks: cartTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
     provideConfig({
       featureModules: {
         [CART_WISH_LIST_FEATURE]: {
@@ -32,8 +43,8 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: cartTranslations,
-        chunks: cartTranslationChunksConfig,
+        resources: wishListTranslations,
+        chunks: wishListTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

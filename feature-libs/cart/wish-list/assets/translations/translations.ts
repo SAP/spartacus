@@ -1,17 +1,10 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const cartTranslations: TranslationResources = {
+export const wishListTranslations: TranslationResources = {
   en,
 };
 
-export const cartTranslationChunksConfig: TranslationChunksConfig = {
-  cart: [
-    'cartDetails',
-    'cartItems',
-    'orderCost',
-    'voucher',
-    'wishlist',
-    'saveForLaterItems',
-  ],
+export const wishListTranslationChunksConfig: TranslationChunksConfig = {
+  wishlist: ['empty'],
 };

@@ -4,16 +4,17 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   CartActions,
   CartConnector,
-  getMultiCartReducers,
+  getCartIdByUserId,
   MULTI_CART_FEATURE,
   SaveCartConnector,
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
 import { Cart, CartType, SaveCartResult } from '@spartacus/cart/main/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
+import { getMultiCartReducers } from 'feature-libs/cart/main/core/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
+import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';

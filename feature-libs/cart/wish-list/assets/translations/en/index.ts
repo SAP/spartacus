@@ -1,5 +1,5 @@
-import { cart } from './cart.i18n';
+import { wishlist } from './wish-list.i18n';
 
 export const en = {
-  cart,
+  wishlist,
 };
