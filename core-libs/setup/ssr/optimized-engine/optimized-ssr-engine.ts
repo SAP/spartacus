@@ -12,10 +12,9 @@ import {
 } from './ssr-optimization-options';
 
 /**
- * Returns the default resolver key.
- * Used only if `renderKeyResolver` option is not provided.
+ * Returns the full url for the given SSR Request.
  */
-export const getDefaultResolverKey = getRequestUrl;
+export const getDefaultRenderKey = getRequestUrl;
 
 export type SsrCallbackFn = (
   /**
@@ -75,7 +74,7 @@ export class OptimizedSsrEngine {
   protected getRenderingKey(request: Request): string {
     return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
-      : getDefaultResolverKey(request);
+      : getDefaultRenderKey(request);
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {
