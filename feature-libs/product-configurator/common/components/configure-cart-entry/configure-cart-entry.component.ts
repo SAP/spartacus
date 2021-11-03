@@ -84,6 +84,15 @@ export class ConfigureCartEntryComponent {
     return this.readOnly ? false : this.disabled;
   }
 
+  /**
+   * Retrieves the additional resolve issues description.
+   *
+   * @returns {string | undefined} - If there is a 'resolve issues' link, the ID to the element with additional description will be returned.
+   */
+  getResolveIssuesMsg(): string | undefined {
+    return !this.readOnly && this.msgBanner ? 'cx-error-msg': undefined;
+  }
+
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}

@@ -202,4 +202,28 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
   });
+
+  describe('getResolveIssuesMsg', () => {
+    it('should return \'undefined\'', ()=> {
+      component.readOnly = true;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      expect(component.getResolveIssuesMsg()).toBeUndefined();
+    });
+
+    it('should return \'cx-error-msg\'', ()=> {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      expect(component.getResolveIssuesMsg()).toEqual('cx-error-msg');
+    });
+  });
 });
