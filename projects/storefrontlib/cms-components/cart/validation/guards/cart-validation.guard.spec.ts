@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
+  CartConfigService,
   CartModification,
   CartModificationList,
   CartValidationService,
@@ -74,6 +75,11 @@ class MockCartValidationStateService
     this.cartValidationResult$.next([]);
   }
 }
+class MockCartConfigService implements Partial<CartConfigService> {
+  isCartValidationEnabled() {
+    return true;
+  }
+}
 
 describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
@@ -91,6 +97,10 @@ describe(`CartValidationGuard`, () => {
         {
           provide: CartValidationStateService,
           useClass: MockCartValidationStateService,
+        },
+        {
+          provide: CartConfigService,
+          useClass: MockCartConfigService,
         },
       ],
       imports: [RouterTestingModule],
