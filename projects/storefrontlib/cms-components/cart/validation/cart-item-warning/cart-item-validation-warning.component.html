@@ -4,15 +4,8 @@
       <cx-icon [type]="iconTypes.INFO"></cx-icon>
     </span>
     <span>
-      <a
-        [routerLink]="
-          { cxRoute: 'product', params: cartModification.entry.product } | cxUrl
-        "
-      >
-        {{ cartModification.entry.product.name }}
-      </a>
       {{
-        'validation.productQuantityLowStock'
+        'validation.' + cartModification.statusCode
           | cxTranslate
             : {
                 quantity: cartModification.quantityAdded

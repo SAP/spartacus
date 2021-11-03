@@ -13,12 +13,12 @@ export function validateStock(mockResponse = {}, alias = 'validate') {
 export function checkProductAvailabilityMessage() {
   cy.get('cx-global-message').should(
     'contain',
-    `During checkout availability of entries in your cart has changed. Please review your cart.`
+    `During checkout we found problems with your entries. Please review your cart.`
   );
 }
 
 export function checkReducedQuantity(product) {
   cy.get('cx-cart-item-list')
-    .contains('cx-cart-item-validation-warning span', product.name)
-    .should('contain', `quantity has reduced to 1 due to insufficient stock.`);
+    .contains('cx-cart-item', product.name)
+    .should('contain', `Quantity has reduced to 1 due to insufficient stock.`);
 }
