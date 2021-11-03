@@ -378,7 +378,8 @@ export class OptimizedSsrEngine {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
-          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+          false
         );
         return;
       }
