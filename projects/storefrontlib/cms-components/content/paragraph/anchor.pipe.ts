@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 
 /* Enriches anchor links with the current location (path and query params).
@@ -7,18 +6,14 @@ import { WindowRef } from '@spartacus/core';
  */
 @Pipe({ name: 'cxAnchor' })
 export class AnchorPipe implements PipeTransform {
-  constructor(
-    protected renderer: Renderer2,
-    protected sanitizer: DomSanitizer,
-    protected winRef: WindowRef
-  ) {}
+  constructor(protected renderer: Renderer2, protected winRef: WindowRef) {}
 
   protected getPath(anchorId: string): string {
     const { pathname, search } = this.winRef.location;
     return `${pathname}${search}${anchorId}`;
   }
 
-  public transform(html: string): SafeHtml {
+  public transform(html: string): string {
     const template = this.renderer.createElement('template');
     template.innerHTML = html.trim();
     const linkNodes: NodeList = template.content.querySelectorAll('a');
@@ -29,7 +24,6 @@ export class AnchorPipe implements PipeTransform {
         this.renderer.setProperty(link, 'href', this.getPath(href));
       }
     });
-    // Required in order not to lose the name/id attributes
-    return this.sanitizer.bypassSecurityTrustHtml(template.innerHTML);
+    return template.innerHTML;
   }
 }

@@ -1,6 +1,5 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { AnchorPipe } from './anchor.pipe';
 import createSpy = jasmine.createSpy;
@@ -24,12 +23,6 @@ const mockRenderer2 = {
   ),
 };
 
-class MockSanitizer implements Partial<DomSanitizer> {
-  bypassSecurityTrustHtml = createSpy('bypassSecurityTrustHtml').and.callFake(
-    (html: string) => html.replace(/&amp;/g, '&') as SafeHtml
-  );
-}
-
 const mockHtml = `<ul>
   <li><a href="#head1">link1</a></li>
   <li><a>link2</a></li>
@@ -39,7 +32,7 @@ const mockHtml = `<ul>
 </ul>`;
 
 const expectedHtml = `<ul>
-  <li><a href="${pathname}${search}#head1">link1</a></li>
+  <li><a href="/electronics-spa/en/USD/faq?query=param&amp;and=other#head1">link1</a></li>
   <li><a>link2</a></li>
   <li><a href="http://external.route.com">link3</a></li>
   <li><a href="http://external.route.com#anchor">link4</a></li>
@@ -49,18 +42,15 @@ const expectedHtml = `<ul>
 describe('AnchorPipe', () => {
   let pipe: AnchorPipe;
   let renderer: Renderer2;
-  let sanitizer: DomSanitizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useValue: mockWindowRef },
         { provide: Renderer2, useValue: mockRenderer2 },
-        { provide: DomSanitizer, useClass: MockSanitizer },
         AnchorPipe,
       ],
     });
-    sanitizer = TestBed.inject(DomSanitizer);
     renderer = TestBed.inject(Renderer2);
     pipe = TestBed.inject(AnchorPipe);
   });
@@ -77,9 +67,6 @@ describe('AnchorPipe', () => {
         mockLink,
         'href',
         `${pathname}${search}#head1`
-      );
-      expect(sanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-        expectedHtml.replace(/&/g, '&amp;')
       );
     });
   });
