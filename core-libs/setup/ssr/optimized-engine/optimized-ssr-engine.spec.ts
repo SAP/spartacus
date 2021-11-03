@@ -610,7 +610,8 @@ describe('OptimizedSsrEngine', () => {
 
       tick(fiveMinutes + 101);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+        `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+        false
       );
       expect(engineRunner.renders).toEqual(['']);
 
