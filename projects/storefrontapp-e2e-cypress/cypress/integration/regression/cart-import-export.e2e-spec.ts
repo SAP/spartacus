@@ -130,7 +130,7 @@ context('Cart Import/Export', () => {
       });
     });
 
-    xdescribe('Non-default export configuration', () => {
+    describe('Non-default export configuration', () => {
       const EXPECTED_CSV = `Code 8=D Quantity 8=D Name 8=D [importExport:exportEntries.columnNames.manufacturer] 8=D Price 8=D [importExport:exportEntries.columnNames.primaryImageFormat] 8=D [importExport:exportEntries.columnNames.invalidKey]\r\n1934793 8=D 1 8=D PowerShot A480 8=D Canon 8=D true 8=D thumbnail 8=D \r\n300938 8=D 1 8=D Photosmart E317 Digital Camera 8=D HP 8=D true 8=D thumbnail 8=D \r\n`;
 
       beforeEach(() => {
@@ -157,30 +157,30 @@ context('Cart Import/Export', () => {
     });
 
     // TODO: Enable and improve once importing configurable products is supported (#13456)
-    xdescribe('Configurable products', () => {
-      const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
+    // describe('Configurable products', () => {
+    //   const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
 
-      beforeEach(() => {
-        cy.cxConfig(importExport.configurableProductConfig);
-      });
+    //   beforeEach(() => {
+    //     cy.cxConfig(importExport.configurableProductConfig);
+    //   });
 
-      it('should export cart', () => {
-        importExport.addProductToCart(cart.products[0].code);
-        importExport.exportCart(EXPECTED_CSV);
-      });
+    //   it('should export cart', () => {
+    //     importExport.addProductToCart(cart.products[0].code);
+    //     importExport.exportCart(EXPECTED_CSV);
+    //   });
 
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Configurable products Cart',
-          description: 'A test description for Configurable products Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 1,
-          total: '$99.85',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
+    //   it('should import cart', () => {
+    //     importExport.importCartTestFromConfig({
+    //       name: 'Configurable products Cart',
+    //       description: 'A test description for Configurable products Cart.',
+    //       saveTime: importExport.getSavedDate(),
+    //       quantity: 1,
+    //       total: '$99.85',
+    //       headers: importExport.getCsvHeaders(EXPECTED_CSV),
+    //       expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+    //     });
+    //   });
+    // });
 
     describe('Variable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
