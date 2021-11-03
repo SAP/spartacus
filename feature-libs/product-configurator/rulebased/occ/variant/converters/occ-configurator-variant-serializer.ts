@@ -57,6 +57,13 @@ export class OccConfiguratorVariantSerializer
     occGroups.push(group);
   }
 
+  protected isRetractValue(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.selectedSingleValue ===
+      OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
+    );
+  }
+
   convertAttribute(
     attribute: Configurator.Attribute,
     occAttributes: OccConfigurator.Attribute[]
@@ -77,12 +84,9 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      targetAttribute.value = attribute.selectedSingleValue;
-
-      if (
-        attribute.selectedSingleValue ===
-        OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
-      ) {
+      if (!this.isRetractValue(attribute)) {
+        targetAttribute.value = attribute.selectedSingleValue;
+      } else {
         targetAttribute.retractTriggered = true;
       }
     } else if (attribute.uiType === Configurator.UiType.STRING) {
