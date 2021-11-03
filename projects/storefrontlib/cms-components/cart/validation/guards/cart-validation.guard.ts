@@ -27,6 +27,8 @@ export class CartValidationGuard implements CanActivate {
     protected cartConfigService: CartConfigService
   ) {}
 
+  protected GLOBAL_MESSAGE_TIMEOUT = 10000;
+
   canActivate(): Observable<boolean | UrlTree> {
     return !this.cartConfigService.isCartValidationEnabled()
       ? of(true)
@@ -64,7 +66,7 @@ export class CartValidationGuard implements CanActivate {
               this.globalMessageService.add(
                 validationResultMessage,
                 GlobalMessageType.MSG_TYPE_ERROR,
-                10000
+                this.GLOBAL_MESSAGE_TIMEOUT
               );
               this.activeCartService.reloadActiveCart();
               return this.router.parseUrl(this.semanticPathService.get('cart'));
