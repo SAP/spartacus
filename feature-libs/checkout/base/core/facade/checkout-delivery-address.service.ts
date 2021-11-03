@@ -23,7 +23,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
-import { CheckoutDeliveryConnector } from '../connectors/delivery-address/checkout-delivery.connector';
+import { CheckoutDeliveryAddressConnector } from '../connectors/delivery-address/checkout-delivery-address.connector';
 
 @Injectable()
 export class CheckoutDeliveryAddressService
@@ -123,7 +123,7 @@ export class CheckoutDeliveryAddressService
     protected eventService: EventService,
     protected query: QueryService,
     protected command: CommandService,
-    protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    protected checkoutDeliveryConnector: CheckoutDeliveryAddressConnector,
     protected checkoutConnector: CheckoutConnector,
     protected checkoutQuery: CheckoutQueryFacade
   ) {}

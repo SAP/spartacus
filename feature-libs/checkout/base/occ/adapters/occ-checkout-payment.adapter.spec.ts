@@ -178,7 +178,7 @@ const html =
   '</div>' +
   '</form>';
 
-fdescribe('OccCheckoutPaymentAdapter', () => {
+describe('OccCheckoutPaymentAdapter', () => {
   let service: OccCheckoutPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;

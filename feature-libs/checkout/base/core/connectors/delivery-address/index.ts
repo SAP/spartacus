@@ -1,2 +1,2 @@
 export * from './checkout-delivery-address.adapter';
-export * from './checkout-delivery.connector';
+export * from './checkout-delivery-address.connector';
