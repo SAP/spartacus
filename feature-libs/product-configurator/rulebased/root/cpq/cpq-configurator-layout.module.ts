@@ -16,10 +16,10 @@ import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout
         CpqConfigurationTemplate: {
           header: {
             md: {
-              slots: ['SiteLogo', 'VariantConfigExitButton', 'MiniCart'],
+              slots: ['SiteLogo', 'CpqConfigExitButton', 'MiniCart'],
             },
             xs: {
-              slots: ['SiteLogo', 'VariantConfigExitButton', 'MiniCart'],
+              slots: ['SiteLogo', 'CpqConfigExitButton', 'MiniCart'],
             },
           },
 
