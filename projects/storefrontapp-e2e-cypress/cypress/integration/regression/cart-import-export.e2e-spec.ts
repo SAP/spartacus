@@ -5,11 +5,16 @@ import { viewportContext } from '../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
+    });
+
     describe('Single product', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
       it('should export cart', () => {
-        importExport.addProductToCart(cart.products[2].code);
+        importExport.addProductToCart(cart.products[1].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
