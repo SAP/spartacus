@@ -64,47 +64,26 @@ export function getSavedDate(): string {
 }
 
 export const nonDefaultImportExportConfig = {
-  importExport: {
+  cartImportExport: {
     file: {
       // Alternative separator
-      separator: ' 8=D ',
+      separator: '|',
     },
     export: {
       additionalColumns: [
-        // Regular key and value
         {
+          // Display `manufacturer` value property instead of name
           name: {
             key: 'name',
           },
-          value: 'product.name',
-        },
-        // String value with invalid key
-        {
-          name: {
-            key: 'manufacturer',
-          },
           value: 'product.manufacturer',
         },
-        // Boolean value with valid (non-relevant) key
+        // Display boolean value instead of price
         {
           name: {
             key: 'price',
           },
           value: 'product.availableForPickup',
-        },
-        // Deep value with invalid key
-        {
-          name: {
-            key: 'primaryImageFormat',
-          },
-          value: 'product.images.PRIMARY.thumbnail.format',
-        },
-        // Invalid key and value
-        {
-          name: {
-            key: 'invalidKey',
-          },
-          value: 'invalidValue',
         },
       ],
     },
@@ -112,7 +91,7 @@ export const nonDefaultImportExportConfig = {
 };
 
 export const configurableProductConfig = {
-  importExport: {
+  cartImportExport: {
     export: {
       additionalColumns: [
         {
