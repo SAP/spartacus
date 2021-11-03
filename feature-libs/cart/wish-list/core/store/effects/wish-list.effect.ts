@@ -199,6 +199,7 @@ export class WishListEffects {
           case WishListActions.LOAD_WISH_LIST_SUCCESS: {
             return new CartActions.SetCartData({
               cart: action.payload.cart,
+              userId: action.payload.userId,
             });
           }
         }
