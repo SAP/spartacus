@@ -8,6 +8,7 @@ import {
   ActiveCartService,
   GlobalMessageType,
   CartConfigService,
+  CartValidationStatusCode,
 } from '@spartacus/core';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { CartValidationStateService } from '../cart-validation-state.service';
@@ -42,7 +43,10 @@ export class CartValidationGuard implements CanActivate {
               if (
                 cartEntries.length === 1 &&
                 cartEntries[0].product.code ===
-                  cartModificationList?.cartModifications[0].entry.product.code
+                  cartModificationList?.cartModifications[0].entry.product
+                    .code &&
+                cartModificationList?.cartModifications[0].statusCode ===
+                  CartValidationStatusCode.NO_STOCK
               ) {
                 validationResultMessage = {
                   key: 'validation.cartEntryRemoved',
@@ -56,9 +60,11 @@ export class CartValidationGuard implements CanActivate {
                   key: 'validation.cartEntriesChangeDuringCheckout',
                 };
               }
+
               this.globalMessageService.add(
                 validationResultMessage,
-                GlobalMessageType.MSG_TYPE_ERROR
+                GlobalMessageType.MSG_TYPE_ERROR,
+                10000
               );
               this.activeCartService.reloadActiveCart();
               return this.router.parseUrl(this.semanticPathService.get('cart'));
