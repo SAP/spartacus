@@ -71,17 +71,13 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.watchQueryChange());
   }
 
-  onBlur(element?: Element): void {
-    if (element) {
-      if (
-        (element.className || '').includes('quick-order-results-products') ||
-        (element.className || '').includes('quick-order-form-reset-icon')
-      ) {
-        return;
+  onBlur(event: UIEvent): void {
+    // Use timeout to detect changes
+    setTimeout(() => {
+      if (!this.isSuggestionFocused()) {
+        this.blurSuggestionBox(event);
       }
-    }
-
-    this.close();
+    });
   }
 
   clear(event?: Event): void {
@@ -125,53 +121,54 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((canAdd: boolean) => {
         if (canAdd) {
-          const activeProductIndex = this.getFocusedElementIndex();
-
-          // Add product if there is focus on it
-          if (activeProductIndex !== null) {
-            const product = this.results[activeProductIndex];
-            this.add(product, event);
-            // Add product if there is only one in the result list
-          } else if (this.results.length === 1) {
+          // Add product if there is only one in the result list
+          if (this.results.length === 1) {
             this.add(this.results[0], event);
           }
         }
       });
   }
 
-  focusNextChild(): void {
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
     if (!this.results.length) {
       return;
     }
 
-    const activeFocusedElementIndex = this.getFocusedElementIndex();
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
 
-    if (
-      activeFocusedElementIndex === null ||
-      this.results.length - 1 === activeFocusedElementIndex
-    ) {
-      this.setFocusedElementIndex(0);
-    } else {
-      this.setFocusedElementIndex(activeFocusedElementIndex + 1);
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedIndex >= results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
     }
   }
 
-  focusPreviousChild(): void {
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
     if (!this.results.length) {
       return;
     }
 
-    const activeFocusedElementIndex = this.getFocusedElementIndex();
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
 
-    if (activeFocusedElementIndex === null || activeFocusedElementIndex === 0) {
-      this.setFocusedElementIndex(this.results.length - 1);
-    } else {
-      this.setFocusedElementIndex(activeFocusedElementIndex - 1);
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex < 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
     }
-  }
-
-  getFocusedElementIndex(): number | null {
-    return this._focusedElementIndex;
   }
 
   isResultsBoxOpen(): boolean {
@@ -190,12 +187,44 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     return this.quickOrderService.canAdd();
   }
 
-  protected resetFocusedElementIndex(): void {
-    this._focusedElementIndex = null;
+  open(): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', true);
   }
 
-  protected open(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', true);
+  // Return result list as HTMLElement array
+  protected getResultElements(): HTMLElement[] {
+    if (this.winRef) {
+      return Array.from(
+        this.winRef.document.querySelectorAll(
+          '.quick-order-results-products > li button'
+        )
+      );
+    } else {
+      return [];
+    }
+  }
+
+  protected blurSuggestionBox(event: UIEvent): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+
+    if (event && event.target) {
+      (<HTMLElement>event.target).blur();
+    }
+  }
+
+  // Return focused element as HTMLElement
+  protected getFocusedElement(): HTMLElement | any {
+    if (this.winRef) {
+      return <HTMLElement>this.winRef.document.activeElement;
+    }
+  }
+
+  protected getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  protected isSuggestionFocused(): boolean {
+    return this.getResultElements().includes(this.getFocusedElement());
   }
 
   protected toggleBodyClass(className: string, add?: boolean) {
@@ -273,7 +302,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
         }
 
         this.open();
-        this.resetFocusedElementIndex();
         this.cd?.detectChanges();
       });
   }
@@ -283,7 +311,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
-    this.resetFocusedElementIndex();
     this.clearResults();
     this.noResults = false;
   }
