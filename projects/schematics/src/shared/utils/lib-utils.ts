@@ -404,9 +404,9 @@ function addRootModule(
     }
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleName = createModuleFileName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -432,7 +432,7 @@ function addFeatureModule(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (options.lazy) {
           let lazyLoadingChunkName = config.moduleName;
           if (config.lazyLoadingChunk) {
@@ -483,7 +483,7 @@ function addFeatureTranslations(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.i18n) {
           addModuleProvider(sourceFile, {
             import: [
@@ -521,7 +521,7 @@ function addCustomConfig(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.customConfig) {
           const customConfigs = ([] as CustomConfig[]).concat(
             config.customConfig
