@@ -7,6 +7,8 @@ import {
   OnDestroy,
   Output,
   ViewContainerRef,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import {
   ICON_TYPE,
@@ -25,6 +27,8 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
+
+  @ViewChild('expandBtn') btn: ElementRef;
 
   @Input() galleryIndex: number;
   @Input() set expandImage(expand: boolean) {
@@ -61,6 +65,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
               this.launchDialogService.clear(LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM);
               comp?.destroy();
               this.dialogClose.emit();
+              this.btn.nativeElement.focus();
             })
           )
           .subscribe()
