@@ -53,8 +53,11 @@ export class OnNavigateService {
         .subscribe((event) => {
           const previousRoute = event[0];
           const currentRoute = event[1];
+          this.hostComponent?.location?.nativeElement.focus();
+          console.log('host', this.hostComponent);
 
           if (currentRoute.position) {
+            console.log('browser controls', event);
             // allow the pages to be repainted before scrolling to proper position
             setTimeout(() =>
               this.viewportScroller.scrollToPosition(currentRoute.position)
@@ -70,11 +73,9 @@ export class OnNavigateService {
             if (this.isChildRoute(currentRoute)) {
               return;
             }
-
-            setTimeout(() => this.viewportScroller.scrollToPosition([0, 0]));
+            console.log('page routes', event);
+            this.viewportScroller.scrollToPosition([0, 0]);
           }
-
-          this.hostComponent?.location?.nativeElement.focus();
         });
     }
   }
