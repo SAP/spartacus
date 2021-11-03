@@ -131,7 +131,7 @@ context('Cart Import/Export', () => {
     });
 
     describe('Non-default export configuration', () => {
-      const EXPECTED_CSV = `Code|Quantity|Name|[importExport:exportEntries.columnNames.manufacturer]|Price|[importExport:exportEntries.columnNames.primaryImageFormat]|[importExport:exportEntries.columnNames.invalidKey]\r\n1934793|1|PowerShot A480|Canon|true|thumbnail|\r\n300938|1|Photosmart E317 Digital Camera|HP|true|thumbnail|\r\n`;
+      const EXPECTED_CSV = `Code|Quantity| | | \r\n1934793|1|Canon|true|thumbnail\r\n300938|1|HP|true|thumbnail\r\n`;
 
       beforeEach(() => {
         cy.cxConfig(importExport.nonDefaultImportExportConfig);

@@ -71,13 +71,6 @@ export const nonDefaultImportExportConfig = {
     },
     export: {
       additionalColumns: [
-        // Regular key and value
-        {
-          name: {
-            key: 'name',
-          },
-          value: 'product.name',
-        },
         // String value with invalid key
         {
           name: {
@@ -88,7 +81,7 @@ export const nonDefaultImportExportConfig = {
         // Boolean value with valid (non-relevant) key
         {
           name: {
-            key: 'price',
+            key: 'availableForPickup',
           },
           value: 'product.availableForPickup',
         },
@@ -98,13 +91,6 @@ export const nonDefaultImportExportConfig = {
             key: 'primaryImageFormat',
           },
           value: 'product.images.PRIMARY.thumbnail.format',
-        },
-        // Invalid key and value
-        {
-          name: {
-            key: 'invalidKey',
-          },
-          value: 'invalidValue',
         },
       ],
     },
