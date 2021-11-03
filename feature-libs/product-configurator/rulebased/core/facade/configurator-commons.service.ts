@@ -6,8 +6,17 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  startWith,
+  switchMap,
+  switchMapTo,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
+import { ghostConfiguration } from '../model/configurator.ghostdata';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
@@ -71,7 +80,8 @@ export class ConfiguratorCommonsService {
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
         this.configuratorUtils.isConfigurationCreated(configuration)
-      )
+      ),
+      startWith(ghostConfiguration)
     );
   }
 
@@ -180,7 +190,8 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter((config) => this.hasConfigurationOverview(config))
+      filter((config) => this.hasConfigurationOverview(config)),
+      startWith(ghostConfiguration)
     );
   }
 
@@ -264,7 +275,8 @@ export class ConfiguratorCommonsService {
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
         this.configuratorUtils.getConfigurationFromState(configurationState)
-      )
+      ),
+      startWith(ghostConfiguration)
     );
   }
 

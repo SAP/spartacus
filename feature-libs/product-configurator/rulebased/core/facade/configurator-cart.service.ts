@@ -12,8 +12,9 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
+import { delayWhen, filter, map, startWith, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
+import { ghostConfiguration } from '../model/configurator.ghostdata';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
@@ -90,7 +91,8 @@ export class ConfiguratorCartService {
         this.configuratorUtilsService.getConfigurationFromState(
           configurationState
         )
-      )
+      ),
+      startWith(ghostConfiguration)
     );
   }
   /**
@@ -136,7 +138,8 @@ export class ConfiguratorCartService {
         this.configuratorUtilsService.getConfigurationFromState(
           configurationState
         )
-      )
+      ),
+      startWith(ghostConfiguration)
     );
   }
 
