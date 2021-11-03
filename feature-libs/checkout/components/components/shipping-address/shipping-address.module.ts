@@ -6,7 +6,6 @@ import {
   AddressFormModule,
   CardModule,
   SpinnerModule,
-  CartValidationGuard,
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
@@ -26,7 +25,7 @@ import { ShippingAddressComponent } from './shipping-address.component';
       cmsComponents: {
         CheckoutShippingAddress: {
           component: ShippingAddressComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

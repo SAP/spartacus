@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   CartValidationService,
   SemanticPathService,
@@ -27,9 +27,7 @@ export class CartValidationGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return !this.cartConfigService.isCartValidationEnabled()
-      ? of(true)
-      : this.cartValidationService.validateCart().pipe(
+    return this.cartValidationService.validateCart().pipe(
           withLatestFrom(this.activeCartService.getEntries()),
           map(([cartModificationList, cartEntries]) => {
             this.cartValidationStateService.updateValidationResultAndRoutingId(
