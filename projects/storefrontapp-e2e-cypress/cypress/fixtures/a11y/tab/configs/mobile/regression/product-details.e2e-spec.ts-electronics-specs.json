@@ -1,0 +1,12 @@
+[
+  {
+    "element": "<button class=\"\"> Product Details </button>",
+    "child": " Product Details "
+  },
+  {
+    "element": "<button class=\"active\"> Specs </button>",
+    "child": " Specs "
+  },
+  { "element": "<button> Reviews </button>", "child": " Reviews " },
+  { "element": "<button> Shipping </button>", "child": " Shipping " }
+]

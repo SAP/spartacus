@@ -1,0 +1,55 @@
+[
+  {
+    "element": "<button class=\"\"> Product Details </button>",
+    "child": " Product Details "
+  },
+  { "element": "<button class=\"\"> Specs </button>", "child": " Specs " },
+  {
+    "element": "<button class=\"active\"> Reviews </button>",
+    "child": " Reviews "
+  },
+  {
+    "element": "<button class=\"\"> Shipping </button>",
+    "child": " Shipping "
+  },
+  {
+    "element": "<input type=\"text\" formcontrolname=\"title\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"title\">",
+    "child": ""
+  },
+  {
+    "element": "<textarea rows=\"3\" formcontrolname=\"comment\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"comment\"></textarea>",
+    "child": ""
+  },
+  {
+    "element": "<cx-icon class=\"star cx-icon fas fa-star\" ng-reflect-type=\"STAR\" tabindex=\"0\"></cx-icon>",
+    "child": ""
+  },
+  {
+    "element": "<cx-icon class=\"star cx-icon fas fa-star\" ng-reflect-type=\"STAR\" tabindex=\"0\"></cx-icon>",
+    "child": ""
+  },
+  {
+    "element": "<cx-icon class=\"star cx-icon fas fa-star\" ng-reflect-type=\"STAR\" tabindex=\"0\"></cx-icon>",
+    "child": ""
+  },
+  {
+    "element": "<cx-icon class=\"star cx-icon fas fa-star\" ng-reflect-type=\"STAR\" tabindex=\"0\"></cx-icon>",
+    "child": ""
+  },
+  {
+    "element": "<cx-icon class=\"star cx-icon fas fa-star\" ng-reflect-type=\"STAR\" tabindex=\"0\"></cx-icon>",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"text\" formcontrolname=\"reviewerName\" class=\"form-control ng-untouched ng-pristine ng-valid\" ng-reflect-name=\"reviewerName\">",
+    "child": ""
+  },
+  {
+    "element": "<button type=\"button\" class=\"btn btn-block btn-secondary\"> Cancel </button>",
+    "child": " Cancel "
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-block btn-primary\"> Submit </button>",
+    "child": " Submit "
+  }
+]

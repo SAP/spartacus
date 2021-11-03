@@ -1,5 +1,5 @@
 import * as productDetails from '../../helpers/product-details';
-import { formats } from '../../sample-data/viewports';
+import { viewportContext } from '../../helpers/viewport-context';
 
 function productDetailsTest() {
   it('should contain correct product details', () => {
@@ -62,37 +62,25 @@ function configureApparelProduct() {
 }
 
 context('Product details', () => {
-  describe('Electronics', () => {
-    before(configureDefaultProduct);
+  viewportContext(['desktop', 'mobile'], () => {
+    describe('Electronics', () => {
+      before(configureDefaultProduct);
 
-    productDetailsTest();
-  });
+      productDetailsTest();
 
-  describe('Apparel', () => {
-    before(configureApparelProduct);
+      it('should check keyboard accessibility', () => {
+        cy.tabScreenshot({ container: 'main', scenario: 'electronics' });
+      });
+    });
 
-    apparelProductDetailsTest();
-  });
-});
+    describe('Apparel', () => {
+      before(configureApparelProduct);
 
-//TODO split this test in two files (one for mobile)
-context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
-  before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  beforeEach(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
+      apparelProductDetailsTest();
 
-  describe('Electronics', () => {
-    before(configureDefaultProduct);
-
-    productDetailsTest();
-  });
-
-  describe('Apparel', () => {
-    before(configureApparelProduct);
-
-    apparelProductDetailsTest();
+      it('should check keyboard accessibility', () => {
+        cy.tabScreenshot({ container: 'main', scenario: 'apparel' });
+      });
+    });
   });
 });

@@ -49,15 +49,60 @@ export function verifyTextInTabs() {
       'Can be switched to 10-watt or 20-watt settings (NP-FM50 batteries can only be used at 10-watt setting).'
     )
     .should('contain', 'Includes shoe adaptor for increased functionality.');
+
+  cy.tabScreenshot({
+    container: 'cx-tab-paragraph-container',
+    scenario: 'electronics-details',
+  });
   cy.get(tabsHeaderList).eq(1).click();
   cy.get(activeTabContainer)
     .should('contain', 'Weight & dimensions')
     .should('contain', 'Colour')
     .should('contain', 'Technical details');
+  cy.tabScreenshot({
+    container: 'cx-tab-paragraph-container',
+    scenario: 'electronics-specs',
+  });
   cy.get(tabsHeaderList).eq(2).click();
   cy.get(activeTabContainer).should('contain', 'Overall Rating');
+  checkTabbingOrderForReviews();
   cy.get(tabsHeaderList).eq(3).click();
   cy.get(shippingTabActive).should('contain', 'Lorem ipsum dolor sit amet,');
+  cy.tabScreenshot({
+    container: 'cx-tab-paragraph-container',
+    scenario: 'electronics-shipping',
+  });
+}
+
+/**
+ * Because reviews keep being added every test run, the DOM will always changing with every test making `cy.tabScreenshot()` fail due to outdating configs.
+ * Therefore, we need to use a custom method for testing keyboard tabbing for product reviews.
+ */
+function checkTabbingOrderForReviews() {
+  cy.get('cx-tab-paragraph-container button')
+    .contains('Write a Review')
+    .focus();
+
+  // cy.pressTab();
+  // cy.focused().should('contain', 'Write a Review');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Ronald Reviewer');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Roger Reviewer');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Honda Reviewer');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Adam Reviewer');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Steve Reviewer');
+
+  cy.pressTab();
+  cy.focused().should('contain', 'Show More Reviews');
 }
 
 export function verifyContentInReviewTab() {
@@ -76,6 +121,12 @@ export function verifyReviewForm() {
   cy.get(writeAReviewButton).click();
   cy.get(writeAReviewForm).should('be.visible');
   cy.get(writeAReviewForm).findByText('Cancel').should('be.not.disabled');
+
+  cy.tabScreenshot({
+    container: 'cx-tab-paragraph-container',
+    scenario: 'electronics-write-review',
+  });
+
   cy.get(`${writeAReviewForm} input`).eq(0).type('My review title');
   cy.get(`${writeAReviewForm} textarea`).type(
     'My best comment I have ever posted'
