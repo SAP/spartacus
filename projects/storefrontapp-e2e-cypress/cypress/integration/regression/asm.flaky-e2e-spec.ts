@@ -8,6 +8,7 @@ import * as loginHelper from '../../helpers/login';
 import * as profile from '../../helpers/update-profile';
 import { viewportContext } from '../../helpers/viewport-context';
 import { getSampleUser } from '../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../support/utils/clear-all-storage';
 
 let customer: any;
 
@@ -16,9 +17,8 @@ context('ASM e2e Test', () => {
     let isMobile: boolean;
 
     before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.window().then((win) => win.localStorage.clear());
-      cy.clearLocalStorageMemory();
+      clearAllStorage();
+
       checkout.visitHomePage();
       cy.onMobile(() => {
         isMobile = true;
