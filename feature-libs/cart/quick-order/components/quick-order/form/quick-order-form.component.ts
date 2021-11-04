@@ -40,9 +40,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   protected subscription = new Subscription();
-  protected _disabled: boolean = false;
-  protected _loading: boolean = false;
-  protected _focusedElementIndex: number | null = null;
 
   /**
    * @deprecated since version 4.2
@@ -121,6 +118,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
           // Add product if there is only one in the result list
           if (this.results.length === 1) {
             this.add(this.results[0], event);
+            // Add product if there is focus on it
+          } else if (this.getFocusedIndex() !== -1) {
+            const product = this.results[this.getFocusedIndex()];
+            this.add(product, event);
           }
         }
       });
@@ -169,15 +170,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   isResultsBoxOpen(): boolean {
-    return !!(this.results.length || this.noResults);
-  }
-
-  setResults(results: Product[]): void {
-    this.results = results;
-  }
-
-  setFocusedElementIndex(value: number | null): void {
-    this._focusedElementIndex = value;
+    return this.winRef
+      ? !!this.winRef.document.querySelector('.quick-order-searchbox-is-active')
+      : false;
   }
 
   canAddProduct(): Observable<boolean> {
@@ -294,11 +289,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
         if (this.results.length) {
           this.noResults = false;
+          this.open();
         } else {
           this.noResults = true;
         }
 
-        this.open();
         this.cd?.detectChanges();
       });
   }

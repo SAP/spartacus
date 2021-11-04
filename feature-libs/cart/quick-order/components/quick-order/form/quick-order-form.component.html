@@ -15,7 +15,7 @@
     />
 
     <button
-      *ngIf="isResultsBoxOpen(); else searchIcon"
+      *ngIf="form.get('product')?.value; else searchIcon"
       (click)="clear($event)"
       (keydown.enter)="clear($event)"
       [attr.aria-label]="'common.reset' | cxTranslate"
@@ -43,10 +43,7 @@
   </div>
 
   <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">
-    <ul
-      *ngIf="results.length; else noResults"
-      class="quick-order-results-products"
-    >
+    <ul *ngIf="results.length" class="quick-order-results-products">
       <li
         *ngFor="let product of results; let i = index"
         class="quick-order-results-product-container"
@@ -56,6 +53,7 @@
           (click)="add(product, $event)"
           (keydown.arrowdown)="focusNextChild($event)"
           (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.enter)="add(product, $event)"
           (keydown.escape)="clear($event)"
           [attr.aria-label]="
             'quickOrderForm.addProduct' | cxTranslate: { product: product.name }
@@ -87,10 +85,8 @@
       </li>
     </ul>
 
-    <ng-template #noResults>
-      <span class="quick-order-no-results">
-        {{ 'quickOrderForm.noResults' | cxTranslate }}
-      </span>
-    </ng-template>
+    <span *ngIf="noResults" class="quick-order-no-results">
+      {{ 'quickOrderForm.noResults' | cxTranslate }}
+    </span>
   </div>
 </form>
