@@ -5,11 +5,16 @@ import { viewportContext } from '../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
+    });
+
     describe('Single product', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
       it('should export cart', () => {
-        importExport.addProductToCart();
+        importExport.addProductToCart(cart.products[1].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
@@ -73,15 +78,14 @@ context('Cart Import/Export', () => {
     });
 
     describe('Multiple products with varied quantities', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,2,Photosmart E317 Digital Camera,$228.24\r\n3470545,3,EASYSHARE M381,"$1,112.16"`;
+      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
       it('should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
+        importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[1].code);
         importExport.addProductToCart(cart.products[1].code);
-        importExport.addProductToCart(cart.products[2].code);
-        importExport.addProductToCart(cart.products[2].code);
-        importExport.addProductToCart(cart.products[2].code);
+        importExport.addProductToCart(cart.products[1].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
@@ -91,8 +95,8 @@ context('Cart Import/Export', () => {
           description:
             'A test description for Multi-Product Cart with varied quantities.',
           saveTime: importExport.getSavedDate(),
-          quantity: 6,
-          total: '$1,420.25',
+          quantity: 5,
+          total: '$522.06',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
         });
@@ -127,7 +131,7 @@ context('Cart Import/Export', () => {
     });
 
     describe('Non-default export configuration', () => {
-      const EXPECTED_CSV = `Code 8=D Quantity 8=D Name 8=D [importExport:exportEntries.columnNames.manufacturer] 8=D Price 8=D [importExport:exportEntries.columnNames.primaryImageFormat] 8=D [importExport:exportEntries.columnNames.invalidKey]\r\n1934793 8=D 1 8=D PowerShot A480 8=D Canon 8=D true 8=D thumbnail 8=D \r\n300938 8=D 1 8=D Photosmart E317 Digital Camera 8=D HP 8=D true 8=D thumbnail 8=D \r\n`;
+      const EXPECTED_CSV = `Code|Quantity|Name|Price\r\n1934793|1|Canon|true\r\n300938|1|HP|true\r\n`;
 
       beforeEach(() => {
         cy.cxConfig(importExport.nonDefaultImportExportConfig);
@@ -217,9 +221,6 @@ context('Cart Import/Export', () => {
 
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File should not be empty'
-        );
-        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File is not parsable'
         );
       });
 
