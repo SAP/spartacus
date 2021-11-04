@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AnchorPipe } from './anchor.pipe';
-import { ParagraphComponent } from './paragraph.component';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.module';
+import { ParagraphComponent } from './paragraph.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, SupplementHashAnchorsModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -18,7 +18,7 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
       },
     }),
   ],
-  declarations: [ParagraphComponent, AnchorPipe],
-  exports: [ParagraphComponent, AnchorPipe],
+  declarations: [ParagraphComponent],
+  exports: [ParagraphComponent],
 })
 export class CmsParagraphModule {}

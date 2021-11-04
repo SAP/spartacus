@@ -6,7 +6,7 @@ import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
 import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 
-@Pipe({ name: 'cxAnchor' })
+@Pipe({ name: 'cxSupplementHashAnchors' })
 export class MockAnchorPipe implements PipeTransform {
   public transform(html: string): SafeHtml {
     return html as SafeHtml;

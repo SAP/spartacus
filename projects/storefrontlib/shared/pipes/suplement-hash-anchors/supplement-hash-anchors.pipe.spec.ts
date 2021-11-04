@@ -1,7 +1,7 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { AnchorPipe } from './anchor.pipe';
+import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
 import createSpy = jasmine.createSpy;
 
 const pathname = '/electronics-spa/en/USD/faq';
@@ -40,7 +40,7 @@ const expectedHtml = `<ul>
 </ul>`;
 
 describe('AnchorPipe', () => {
-  let pipe: AnchorPipe;
+  let pipe: SupplementHashAnchorsPipe;
   let renderer: Renderer2;
 
   beforeEach(() => {
@@ -48,11 +48,11 @@ describe('AnchorPipe', () => {
       providers: [
         { provide: WindowRef, useValue: mockWindowRef },
         { provide: Renderer2, useValue: mockRenderer2 },
-        AnchorPipe,
+        SupplementHashAnchorsPipe,
       ],
     });
     renderer = TestBed.inject(Renderer2);
-    pipe = TestBed.inject(AnchorPipe);
+    pipe = TestBed.inject(SupplementHashAnchorsPipe);
   });
 
   describe('transform', () => {

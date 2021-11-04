@@ -4,8 +4,8 @@ import { WindowRef } from '@spartacus/core';
 /* Enriches anchor links with the current location (path and query params).
  * Useful for cms-provided content injected via innerHTML.
  */
-@Pipe({ name: 'cxAnchor' })
-export class AnchorPipe implements PipeTransform {
+@Pipe({ name: 'cxSupplementHashAnchors' })
+export class SupplementHashAnchorsPipe implements PipeTransform {
   constructor(protected renderer: Renderer2, protected winRef: WindowRef) {}
 
   protected getPath(anchorId: string): string {
