@@ -1,8 +1,16 @@
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
-/* Enriches anchor links with the current location (path and query params).
- * Useful for cms-provided content injected via innerHTML.
+/* 
+ * Supplements the anchor links that contain only the hash fragment in the `href` attribute,
+ * (e.g. `<a href="#someId">`), by prepending the current location (path and query params),
+ * so it becomes a link to a full url
+ * e.g. `<a href="https://domain.com/current/path?and=query-params#someId">`.
+ *
+ * This helps to avoid the undesirable navigation to the homepage URL (`/#someId`)
+ * when clicking the original link.
+ *
+ * It's useful for example for cms-provided content passed to the [innerHTML] directive.
  */
 @Pipe({ name: 'cxSupplementHashAnchors' })
 export class SupplementHashAnchorsPipe implements PipeTransform {
