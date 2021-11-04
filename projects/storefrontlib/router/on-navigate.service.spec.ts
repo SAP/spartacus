@@ -51,7 +51,7 @@ function emitPairScrollEvent(
   );
 }
 
-describe('OnNavigateService', () => {
+fdescribe('OnNavigateService', () => {
   let service: OnNavigateService;
   let config: OnNavigateConfig;
   let viewportScroller: ViewportScroller;
@@ -113,7 +113,7 @@ describe('OnNavigateService', () => {
 
       emitPairScrollEvent(null);
 
-      tick();
+      tick(100);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     }));
@@ -149,7 +149,7 @@ describe('OnNavigateService', () => {
 
       emitPairScrollEvent(null, '/test3');
 
-      tick();
+      tick(100);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
     }));
@@ -159,7 +159,7 @@ describe('OnNavigateService', () => {
 
       emitPairScrollEvent([1000, 500]);
 
-      tick();
+      tick(100);
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000, 500,

@@ -6,7 +6,6 @@ import {
   Injector,
 } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
@@ -25,8 +24,7 @@ export class OnNavigateService {
     protected config: OnNavigateConfig,
     protected router: Router,
     protected viewportScroller: ViewportScroller,
-    protected injector: Injector,
-    protected winRef: WindowRef
+    protected injector: Injector
   ) {}
 
   /**
@@ -55,16 +53,8 @@ export class OnNavigateService {
         .subscribe((event) => {
           const previousRoute = event[0];
           const currentRoute = event[1];
-          console.log('1', this.hostComponent?.location?.nativeElement);
-          console.log(this.winRef?.document?.activeElement?.tagName);
-          console.log(this.winRef?.document?.activeElement);
-          this.hostComponent?.location?.nativeElement.focus();
-          console.log('2', this.hostComponent?.location?.nativeElement);
-          console.log(this.winRef?.document?.activeElement?.tagName);
-          console.log(this.winRef?.document?.activeElement);
 
           if (currentRoute.position) {
-            console.log('browser controls', event);
             // allow the pages to be repainted before scrolling to proper position
             setTimeout(() =>
               this.viewportScroller.scrollToPosition(currentRoute.position)
@@ -81,12 +71,13 @@ export class OnNavigateService {
               return;
             }
 
-            console.log('page routes', event);
             setTimeout(
               () => this.viewportScroller.scrollToPosition([0, 0]),
               100
             );
           }
+
+          this.hostComponent?.location?.nativeElement.focus();
         });
     }
   }
