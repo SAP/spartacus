@@ -203,4 +203,56 @@ describe('Wish List Effect', () => {
       expect(wishListEffect.resetWishList$).toBeObservable(expected);
     });
   });
+
+  describe('setWishListId$', () => {
+    it('should set wishlist id to state', () => {
+      const action = new WishListActions.CreateWishListSuccess({
+        cart: wishList,
+        userId,
+      });
+
+      const setWishListIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.WISH_LIST,
+        cartId: wishList.code as string,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setWishListIdAction });
+
+      expect(wishListEffect.setWishListId$).toBeObservable(expected);
+    });
+
+    it('should clear wishlist id', () => {
+      const action = new CartActions.ClearCartState();
+
+      const setWishListIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.WISH_LIST,
+        cartId: '',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setWishListIdAction });
+
+      expect(wishListEffect.setWishListId$).toBeObservable(expected);
+    });
+  });
+
+  describe('setWishListData$', () => {
+    it('should set wishlist data to state', () => {
+      const action = new WishListActions.CreateWishListSuccess({
+        cart: wishList,
+        userId,
+      });
+
+      const setWishListDataAction = new CartActions.SetCartData({
+        cart: wishList,
+        userId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setWishListDataAction });
+
+      expect(wishListEffect.setWishListData$).toBeObservable(expected);
+    });
+  });
 });

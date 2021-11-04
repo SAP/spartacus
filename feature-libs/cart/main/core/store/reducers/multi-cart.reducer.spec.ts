@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { CartActions } from '../actions/index';
 import * as fromMultiCart from './multi-cart.reducer';
 
@@ -231,7 +231,7 @@ describe('Multi Cart reducer', () => {
       });
     });
 
-    describe('CREATE_MULTI_CART_SUCCESS action', () => {
+    describe('CREATE_CART_SUCCESS action', () => {
       it('should set cart in state', () => {
         const initialState = {};
         const cart = {
@@ -264,11 +264,49 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('SET_CART_DATA action', () => {
+      it('should set cart in state', () => {
+        const initialState = {};
+        const cart = {
+          code: 'cartCode',
+        };
+        const action = new CartActions.SetCartData({
+          cart,
+          userId: 'testUserId',
+        });
+        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        expect(state).toEqual(cart);
+      });
+    });
+
     describe('other actions', () => {
       it('should return the default state', () => {
         const previousState = { code: 'otherCode' };
         const action = { type: 'other', payload: { code: 'code' } } as any;
         const state = fromMultiCart.cartEntitiesReducer(previousState, action);
+        expect(state).toEqual(previousState);
+      });
+    });
+  });
+
+  describe('cartTypeIndexReducer', () => {
+    describe('SET_CART_TYPE_INDEX action', () => {
+      it('should set cart type index in state', () => {
+        const initialState = {};
+        const action = new CartActions.SetCartTypeIndex({
+          cartType: CartType.ACTIVE,
+          cartId: 'testCartId',
+        });
+        const state = fromMultiCart.cartTypeIndexReducer(initialState, action);
+        expect(state).toEqual({ Active: 'testCartId' });
+      });
+    });
+
+    describe('other actions', () => {
+      it('should return the default state', () => {
+        const previousState = { Active: 'testCartId' };
+        const action = { type: 'other' } as any;
+        const state = fromMultiCart.cartTypeIndexReducer(previousState, action);
         expect(state).toEqual(previousState);
       });
     });

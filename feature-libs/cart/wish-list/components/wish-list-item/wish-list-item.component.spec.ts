@@ -2,15 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/main/root';
 import { I18nTestingModule } from '@spartacus/core';
+import {
+  ProductListItemContext,
+  ProductListItemContextSource,
+} from '@spartacus/storefront';
 import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({
@@ -69,6 +75,7 @@ describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
   let el: DebugElement;
+  let componentInjector: Injector;
 
   beforeEach(
     waitForAsync(() => {
@@ -92,6 +99,7 @@ describe('WishListItemComponent', () => {
     fixture = TestBed.createComponent(WishListItemComponent);
     component = fixture.componentInstance;
     component.cartEntry = mockCartEntry;
+    componentInjector = fixture.debugElement.injector;
     el = fixture.debugElement;
 
     fixture.detectChanges();
@@ -155,6 +163,36 @@ describe('WishListItemComponent', () => {
       fixture.detectChanges();
 
       expect(el.query(By.css('.cx-property'))).toBeNull();
+    });
+  });
+
+  describe('ProductListItemContext', () => {
+    it('should have defined instance of list item context', () => {
+      expect(component['productListItemContextSource']).toBeDefined();
+    });
+
+    it('should provide ProductListItemContextSource', () => {
+      expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
+    });
+
+    it('should provide ProductListItemContext', () => {
+      expect(componentInjector.get(ProductListItemContext)).toBe(
+        componentInjector.get(ProductListItemContextSource)
+      );
+    });
+
+    it('should push changes of input"product" to context', () => {
+      const contextSource: ProductListItemContextSource = componentInjector.get(
+        ProductListItemContextSource
+      );
+      spyOn(contextSource.product$, 'next');
+      component.cartEntry = { product: { code: 'testProduct' } };
+      component.ngOnChanges({
+        cartEntry: { currentValue: component.cartEntry } as SimpleChange,
+      });
+      expect(contextSource.product$.next).toHaveBeenCalledWith({
+        code: 'testProduct',
+      });
     });
   });
 });

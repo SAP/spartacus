@@ -14,7 +14,6 @@ export function clearMultiCartState(
 ): ActionReducer<any> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
-      console.log(state);
       state = undefined;
     }
     return reducer(state, action);

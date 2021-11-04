@@ -90,4 +90,5 @@ export type MultiCartActions =
   | CartProcessesDecrement
   | SetActiveCartId
   | ClearCartState
-  | SetCartTypeIndex;
+  | SetCartTypeIndex
+  | SetCartData;

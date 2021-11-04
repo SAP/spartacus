@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { MultiCartSelectors } from '.';
 import { CartActions } from '../actions';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
@@ -297,6 +297,50 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual(testCart.code);
+    });
+  });
+
+  describe('getCartTypeIndex', () => {
+    it('should return cartTypeIndex state', () => {
+      let result;
+      store
+        .pipe(select(MultiCartSelectors.getCartTypeIndex))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.ACTIVE,
+          cartId: 'testId',
+        })
+      );
+
+      expect(result).toEqual({
+        Active: 'testId',
+      });
+    });
+  });
+
+  describe('getCartIdByTypeFactory', () => {
+    it('should return cartId by cart type', () => {
+      let result;
+      store
+        .pipe(
+          select(MultiCartSelectors.getCartIdByTypeFactory(CartType.ACTIVE))
+        )
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.ACTIVE,
+          cartId: 'testId',
+        })
+      );
+
+      expect(result).toEqual('testId');
     });
   });
 });
