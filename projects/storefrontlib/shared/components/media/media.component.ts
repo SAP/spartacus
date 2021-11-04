@@ -40,14 +40,11 @@ export class MediaComponent implements OnChanges {
    */
   @Input() role: string;
 
-  // TODO: Remove type forcing of `this.loadingStrategy` (ie. <ImageLoadingStrategy | null>) in 5.0
   /**
    * Set the loading strategy of the media. Defaults to global loading strategy.
    * Use 'lazy' or 'eager' strategies.
    */
-  @Input() loading: ImageLoadingStrategy | null = <ImageLoadingStrategy | null>(
-    this.loadingStrategy
-  );
+  @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
    * Once the media is loaded, we emit an event.
@@ -111,12 +108,10 @@ export class MediaComponent implements OnChanges {
     this.loaded.emit(true);
   }
 
-  // TODO: Remove string return type
   /**
    * Indicates whether the browser should lazy load the image.
-   * @deprecated since 4.2. use ImageLoadingStrategy or null return types only
    */
-  get loadingStrategy(): string | ImageLoadingStrategy | null {
+  get loadingStrategy(): ImageLoadingStrategy | null {
     return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
       ? ImageLoadingStrategy.LAZY
       : null;
