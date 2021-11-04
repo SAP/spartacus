@@ -30,6 +30,9 @@ const mockHtml = `<ul>
   <li><a>link2</a></li>
   <li><a href="http://external.route.com">link3</a></li>
   <li><a href="http://external.route.com#anchor">link4</a></li>
+  <li><a href="#head5">link5</a></li>
+  <li><a href="#">link6</a></li>
+  <li><a href="/other-route/#head7">link7</a></li>
   <h1 id="head1">head1</h1>
 </ul>`;
 
@@ -38,6 +41,9 @@ const expectedHtml = `<ul>
   <li><a>link2</a></li>
   <li><a href="http://external.route.com">link3</a></li>
   <li><a href="http://external.route.com#anchor">link4</a></li>
+  <li><a href="https://domain.com${pathname}?query=param&amp;and=other#head5">link5</a></li>
+  <li><a href="https://domain.com${pathname}?query=param&amp;and=other#">link6</a></li>
+  <li><a href="/other-route/#head7">link7</a></li>
   <h1 id="head1">head1</h1>
 </ul>`;
 
@@ -59,16 +65,34 @@ describe('AnchorPipe', () => {
 
   describe('transform', () => {
     it('should return html with proper anchors', () => {
-      const mockLink = document.createElement('a');
-      mockLink.href = `${currentUrlWithoutFragment}#head1`;
-      mockLink.innerText = `link1`;
+      const mockLink1 = document.createElement('a');
+      const mockLink5 = document.createElement('a');
+      const mockLink6 = document.createElement('a');
+      mockLink1.href = `${currentUrlWithoutFragment}#head1`;
+      mockLink5.href = `${currentUrlWithoutFragment}#head5`;
+      mockLink6.href = `${currentUrlWithoutFragment}#`;
+      mockLink1.innerText = `link1`;
+      mockLink5.innerText = `link5`;
+      mockLink6.innerText = `link6`;
+
       expect(pipe.transform(mockHtml)).toBe(expectedHtml);
       expect(renderer.createElement).toHaveBeenCalledWith('template');
-      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+      expect(renderer.setProperty).toHaveBeenCalledTimes(3);
+
       expect(renderer.setProperty).toHaveBeenCalledWith(
-        mockLink,
+        mockLink1,
         'href',
         `${currentUrlWithoutFragment}#head1`
+      );
+      expect(renderer.setProperty).toHaveBeenCalledWith(
+        mockLink5,
+        'href',
+        `${currentUrlWithoutFragment}#head5`
+      );
+      expect(renderer.setProperty).toHaveBeenCalledWith(
+        mockLink6,
+        'href',
+        `${currentUrlWithoutFragment}#`
       );
     });
   });
