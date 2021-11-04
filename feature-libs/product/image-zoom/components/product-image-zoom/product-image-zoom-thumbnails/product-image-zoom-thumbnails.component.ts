@@ -42,7 +42,7 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
 
   openImage(image: ImageGroup): void {
     this.mainMediaContainer.next(image);
-    if (image.zoom?.galleryIndex) {
+    if (typeof image.zoom?.galleryIndex === 'number') {
       this.productImage.emit({ image, index: image.zoom.galleryIndex });
     }
   }
