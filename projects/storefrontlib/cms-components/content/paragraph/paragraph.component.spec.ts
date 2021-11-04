@@ -1,6 +1,6 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By, SafeHtml } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -8,8 +8,8 @@ import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 
 @Pipe({ name: 'cxSupplementHashAnchors' })
 export class MockAnchorPipe implements PipeTransform {
-  public transform(html: string): SafeHtml {
-    return html as SafeHtml;
+  public transform(html: string): string {
+    return html;
   }
 }
 
