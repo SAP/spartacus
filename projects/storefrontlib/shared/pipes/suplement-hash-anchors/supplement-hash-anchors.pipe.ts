@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
-/* 
+/*
  * Supplements the anchor links that contain only the hash fragment in the `href` attribute,
  * (e.g. `<a href="#someId">`), by prepending the current location (path and query params),
  * so it becomes a link to a full url
