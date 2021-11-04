@@ -58,7 +58,7 @@ export class OnNavigateService {
           console.log('1', this.hostComponent?.location?.nativeElement);
           console.log(this.winRef?.document?.activeElement?.tagName);
           console.log(this.winRef?.document?.activeElement);
-          // this.hostComponent?.location?.nativeElement.focus();
+          this.hostComponent?.location?.nativeElement.focus();
           console.log('2', this.hostComponent?.location?.nativeElement);
           console.log(this.winRef?.document?.activeElement?.tagName);
           console.log(this.winRef?.document?.activeElement);
@@ -81,7 +81,7 @@ export class OnNavigateService {
               return;
             }
             console.log('page routes', event);
-            this.viewportScroller.scrollToPosition([0, 0]);
+            this.winRef.document.body.scrollIntoView();
           }
         });
     }
