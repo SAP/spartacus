@@ -52,7 +52,10 @@ export class WishListEffects {
               switchMap((saveCartResult) => [
                 new WishListActions.CreateWishListSuccess({
                   cart: saveCartResult.savedCartData as Cart,
-                  userId: payload.userId,
+                  cartId: getCartIdByUserId(
+                    saveCartResult.savedCartData as Cart,
+                    payload.userId
+                  ),
                 }),
               ]),
               catchError((error) =>
@@ -79,38 +82,31 @@ export class WishListEffects {
     ofType(WishListActions.LOAD_WISH_LIST),
     map((action: WishListActions.LoadWishList) => action.payload),
     concatMap((payload) => {
-      const { userId, customerId, tempCartId } = payload;
+      const { userId, customerId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap((carts) => {
-          const wishList = carts.find(
-            (cart) => cart.name === getWishlistName(customerId)
+          const wishListName = getWishlistName(customerId);
+          const wishList = carts.find((cart) => cart.name === wishListName);
+          const actions = [];
+          actions.push(
+            wishList
+              ? new WishListActions.LoadWishListSuccess({
+                  cart: wishList,
+                  cartId: getCartIdByUserId(wishList, userId),
+                })
+              : new WishListActions.CreateWishList({
+                  userId,
+                  name: wishListName,
+                })
           );
-          if (wishList) {
-            return [
-              new WishListActions.LoadWishListSuccess({
-                cart: wishList,
-                userId,
-                tempCartId,
-                customerId,
-                cartId: getCartIdByUserId(wishList, userId),
-              }),
-              new CartActions.RemoveCart({ cartId: tempCartId }),
-            ];
-          } else {
-            return [
-              new WishListActions.CreateWishList({
-                userId,
-                name: getWishlistName(customerId),
-              }),
-            ];
-          }
+          // remove temp wishlist, which id is name
+          actions.push(new CartActions.RemoveCart({ cartId: wishListName }));
+          return actions;
         }),
         catchError((error) =>
           from([
             new WishListActions.LoadWishListFail({
-              userId,
-              cartId: tempCartId,
-              customerId,
+              cartId: getWishlistName(customerId),
               error: normalizeHttpError(error),
             }),
           ])
@@ -140,14 +136,12 @@ export class WishListEffects {
           switchMap((wishList) => [
             new WishListActions.LoadWishListSuccess({
               cart: wishList ?? {},
-              userId,
               cartId: getCartIdByUserId(wishList, userId),
             }),
           ]),
           catchError((error) =>
             from([
               new WishListActions.LoadWishListFail({
-                userId,
                 cartId: wishListId,
                 error: normalizeHttpError(error),
               }),
@@ -199,7 +193,7 @@ export class WishListEffects {
           case WishListActions.LOAD_WISH_LIST_SUCCESS: {
             return new CartActions.SetCartData({
               cart: action.payload.cart,
-              userId: action.payload.userId,
+              cartId: action.payload.cartId,
             });
           }
         }

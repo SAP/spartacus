@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
-import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const SET_TEMP_CART = '[Cart] Set Temp Cart';
@@ -79,8 +78,8 @@ export class SetCartTypeIndex implements Action {
 
 export class SetCartData extends StateUtils.EntitySuccessAction {
   readonly type = SET_CART_DATA;
-  constructor(public payload: { cart: Cart; userId: string }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  constructor(public payload: { cart: Cart; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

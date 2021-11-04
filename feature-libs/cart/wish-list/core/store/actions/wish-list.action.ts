@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
-import { getCartIdByUserId, MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
+import { getWishlistName } from '../../utils/utils';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -10,8 +11,6 @@ export const CREATE_WISH_LIST_SUCCESS = '[Wish List] Create Wish List Success';
 export const LOAD_WISH_LIST = '[Wish List] Load Wish List';
 export const LOAD_WISH_LIST_SUCCESS = '[Wish List] Load Wish List Success';
 export const LOAD_WISH_LIST_FAIL = '[Wish List] Load Wish List Fail';
-
-export const RESET_WISH_LIST_DETAILS = '[Wish List] Reset Wish List';
 
 export class CreateWishList implements Action {
   readonly type = CREATE_WISH_LIST;
@@ -26,8 +25,8 @@ export class CreateWishList implements Action {
 
 export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_WISH_LIST_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  constructor(public payload: { cart: Cart; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
@@ -44,54 +43,26 @@ interface LoadWishListPayload {
    * Used to compute wishlist cart name and find it in list of all carts.
    */
   customerId: string;
-  /**
-   * When we try load wishlist for the first time we don't know cart id.
-   * Instead we create temporary cart with id equal to wishlist name to keep track of loading/error state.
-   */
-  tempCartId: string;
 }
 
+/**
+ * When we try load wishlist for the first time we don't know cart id.
+ * Instead we create temporary cart with id equal to wishlist name to keep track of loading/error state.
+ */
 export class LoadWishList extends StateUtils.EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
   constructor(public payload: LoadWishListPayload) {
-    super(MULTI_CART_DATA, payload.tempCartId);
+    super(MULTI_CART_DATA, getWishlistName(payload.customerId));
   }
 }
-
-interface LoadWishListSuccessPayload {
-  cart: Cart;
-  userId: string;
-  /**
-   * When LoadWishListSuccess action was dispatched as an completion to LoadWishList action
-   * we get temporary cartId that was used to keep track of loading state.
-   * In case of loading wish list with known cartId this property will be empty.
-   */
-  tempCartId?: string;
-  /**
-   * Used to compute wishlist cart name and find it in list of all carts.
-   * In case of loading wish list with known cartId this property will be empty.
-   */
-  customerId?: string;
-  /**
-   * Wish list cart id. Extracted from cart content (code property).
-   */
-  cartId: string;
-}
-
 export class LoadWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
-  constructor(public payload: LoadWishListSuccessPayload) {
+  constructor(public payload: { cart: Cart; cartId: string }) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 interface LoadWishListFailPayload {
-  userId: string;
-  /**
-   * Used to compute wishlist cart name and find it in list of all carts.
-   * In case of loading wish list with known cartId this property will be empty.
-   */
-  customerId?: string;
   /**
    * Cart id used as a store entity key. This could point either to some
    * temporary cart used to track loading/error state or to normal wish list entity.

@@ -24,7 +24,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { WishListActions } from '../store/actions/index';
-import { getWishlistName } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -70,49 +69,24 @@ export class WishListService implements WishListFacade {
       new WishListActions.LoadWishList({
         userId,
         customerId,
-        tempCartId: getWishlistName(customerId),
       })
     );
   }
 
   addEntry(productCode: string): void {
-    this.getWishListId()
-      .pipe(
-        distinctUntilChanged(),
-        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
-        tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId) && user && user.customerId) {
-            this.loadWishList(userId, user.customerId);
-          }
-        }),
-        filter(([wishListId]) => Boolean(wishListId)),
-        take(1)
-      )
-      .subscribe(([wishListId, userId]) =>
-        this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
-      );
+    this.getWishlistForEntryAction().subscribe(([wishListId, userId]) =>
+      this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
+    );
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.getWishListId()
-      .pipe(
-        distinctUntilChanged(),
-        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
-        tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId) && user && user.customerId) {
-            this.loadWishList(userId, user.customerId);
-          }
-        }),
-        filter(([wishListId]) => Boolean(wishListId)),
-        take(1)
+    this.getWishlistForEntryAction().subscribe(([wishListId, userId]) =>
+      this.multiCartFacade.removeEntry(
+        userId,
+        wishListId,
+        entry.entryNumber as number
       )
-      .subscribe(([wishListId, userId]) =>
-        this.multiCartFacade.removeEntry(
-          userId,
-          wishListId,
-          entry.entryNumber as number
-        )
-      );
+    );
   }
 
   getWishListLoading(): Observable<boolean> {
@@ -125,5 +99,20 @@ export class WishListService implements WishListFacade {
 
   protected getWishListId(): Observable<string> {
     return this.multiCartFacade.getCartIdByType(CartType.WISH_LIST);
+  }
+
+  private getWishlistForEntryAction(): Observable<string[]> {
+    return this.getWishListId().pipe(
+      distinctUntilChanged(),
+      withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
+      tap(([wishListId, userId, user]) => {
+        if (!Boolean(wishListId) && user && user.customerId) {
+          this.loadWishList(userId, user.customerId);
+        }
+      }),
+      filter(([wishListId]) => Boolean(wishListId)),
+      map(([wishListId, userId]) => [wishListId, userId]),
+      take(1)
+    );
   }
 }
