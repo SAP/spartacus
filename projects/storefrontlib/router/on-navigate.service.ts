@@ -82,7 +82,10 @@ export class OnNavigateService {
             }
             console.log('using winref instead of viewportscroller');
             console.log('page routes', event);
-            this.winRef.document.body.scrollIntoView();
+            setTimeout(
+              () => this.viewportScroller.scrollToPosition([0, 0]),
+              500
+            );
           }
         });
     }
