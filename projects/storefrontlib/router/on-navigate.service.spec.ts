@@ -51,7 +51,7 @@ function emitPairScrollEvent(
   );
 }
 
-fdescribe('OnNavigateService', () => {
+describe('OnNavigateService', () => {
   let service: OnNavigateService;
   let config: OnNavigateConfig;
   let viewportScroller: ViewportScroller;
