@@ -80,7 +80,7 @@ export class OnNavigateService {
             if (this.isChildRoute(currentRoute)) {
               return;
             }
-            console.log('using winref instead of viewportscroller');
+
             console.log('page routes', event);
             setTimeout(
               () => this.viewportScroller.scrollToPosition([0, 0]),
