@@ -90,7 +90,7 @@ export class ConfigureCartEntryComponent {
    * @returns {string | undefined} - If there is a 'resolve issues' link, the ID to the element with additional description will be returned.
    */
   getResolveIssuesMsg(): string | undefined {
-    return !this.readOnly && this.msgBanner ? 'cx-error-msg': undefined;
+    return !this.readOnly && this.msgBanner ? 'cx-error-msg' : undefined;
   }
 
   constructor(

@@ -1,12 +1,16 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
     <ng-container *ngIf="numberOfLineItems$ | async as numberOfItems">
-      <div class="cx-number-items">
+      <div id="cx-number-items">
         {{
           'configurator.header.items' | cxTranslate: { count: numberOfItems }
         }}
       </div>
-      <button (click)="toggleItems()">
+      <button
+        (click)="toggleItems()"
+        [attr.aria-expanded]="!this.hideItems"
+        aria-describedby="cx-number-items"
+      >
         <div class="cx-toggle-hide-items">
           <ng-container *ngIf="hideItems">
             {{ 'configurator.header.show' | cxTranslate }}

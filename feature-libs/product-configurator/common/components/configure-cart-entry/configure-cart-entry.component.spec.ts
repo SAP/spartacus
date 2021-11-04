@@ -204,7 +204,7 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getResolveIssuesMsg', () => {
-    it('should return \'undefined\'', ()=> {
+    it("should return 'undefined'", () => {
       component.readOnly = true;
       component.msgBanner = true;
       component.cartEntry = {
@@ -215,7 +215,7 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component.getResolveIssuesMsg()).toBeUndefined();
     });
 
-    it('should return \'cx-error-msg\'', ()=> {
+    it("should return 'cx-error-msg'", () => {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {

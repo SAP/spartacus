@@ -334,7 +334,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-number-items'
+          '#cx-number-items'
         );
       });
 
@@ -380,7 +380,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-number-items'
+          '#cx-number-items'
         );
 
         const expectedText = 'configurator.header.items count:' + numberOfItems;
@@ -388,7 +388,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
-          '.cx-number-items',
+          '#cx-number-items',
           expectedText
         );
       });
