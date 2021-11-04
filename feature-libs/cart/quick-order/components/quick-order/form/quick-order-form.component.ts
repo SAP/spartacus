@@ -37,9 +37,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   results: Product[] = [];
 
   @Input()
-  isDisabled = false;
-
-  @Input()
   isLoading = false;
 
   protected subscription = new Subscription();

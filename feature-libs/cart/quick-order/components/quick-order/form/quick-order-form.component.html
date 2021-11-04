@@ -16,16 +16,20 @@
 
     <button
       *ngIf="isResultsBoxOpen(); else searchIcon"
-      [attr.aria-label]="'common.reset' | cxTranslate"
-      (keydown.enter)="clear($event)"
       (click)="clear($event)"
+      (keydown.enter)="clear($event)"
+      [attr.aria-label]="'common.reset' | cxTranslate"
       class="quick-order-form-reset-icon"
     >
       <cx-icon [type]="iconTypes.RESET"></cx-icon>
     </button>
 
     <ng-template #searchIcon>
-      <button class="quick-order-form-search-icon" tabindex="-1">
+      <button
+        [attr.aria-label]="'common.search' | cxTranslate"
+        class="quick-order-form-search-icon"
+        tabindex="-1"
+      >
         <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
       </button>
     </ng-template>
@@ -52,8 +56,10 @@
           (click)="add(product, $event)"
           (keydown.arrowdown)="focusNextChild($event)"
           (keydown.arrowup)="focusPreviousChild($event)"
-          (keydown.enter)="add(product, $event)"
           (keydown.escape)="clear($event)"
+          [attr.aria-label]="
+            'quickOrderForm.addProduct' | cxTranslate: { product: product.name }
+          "
           [class.has-media]="
             config?.quickOrder?.searchForm?.displayProductImages
           "
