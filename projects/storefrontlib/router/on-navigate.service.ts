@@ -84,7 +84,7 @@ export class OnNavigateService {
             console.log('page routes', event);
             setTimeout(
               () => this.viewportScroller.scrollToPosition([0, 0]),
-              500
+              100
             );
           }
         });
