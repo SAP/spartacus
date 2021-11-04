@@ -17,8 +17,10 @@ export class SupplementHashAnchorsPipe implements PipeTransform {
   constructor(protected renderer: Renderer2, protected winRef: WindowRef) {}
 
   protected getPath(anchorId: string): string {
-    const currentUrlWithoutFragment =
-      this.winRef.document.location.href.replace(/#.*$/, '');
+    const currentUrlWithoutFragment = this.winRef.location.href.replace(
+      /#.*$/,
+      ''
+    );
     return `${currentUrlWithoutFragment}${anchorId}`;
   }
 

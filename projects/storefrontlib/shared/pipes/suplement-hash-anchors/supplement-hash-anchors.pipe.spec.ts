@@ -6,9 +6,11 @@ import createSpy = jasmine.createSpy;
 
 const pathname = '/electronics-spa/en/USD/faq';
 const search = '?query=param&and=other';
+const currentUrlWithoutFragment = `https://domain.com${pathname}${search}`;
 
 const mockWindowRef = {
   location: {
+    href: currentUrlWithoutFragment,
     pathname,
     search,
   },
@@ -32,7 +34,7 @@ const mockHtml = `<ul>
 </ul>`;
 
 const expectedHtml = `<ul>
-  <li><a href="/electronics-spa/en/USD/faq?query=param&amp;and=other#head1">link1</a></li>
+  <li><a href="https://domain.com${pathname}?query=param&amp;and=other#head1">link1</a></li>
   <li><a>link2</a></li>
   <li><a href="http://external.route.com">link3</a></li>
   <li><a href="http://external.route.com#anchor">link4</a></li>
@@ -58,7 +60,7 @@ describe('AnchorPipe', () => {
   describe('transform', () => {
     it('should return html with proper anchors', () => {
       const mockLink = document.createElement('a');
-      mockLink.href = `${pathname}${search}#head1`;
+      mockLink.href = `${currentUrlWithoutFragment}#head1`;
       mockLink.innerText = `link1`;
       expect(pipe.transform(mockHtml)).toBe(expectedHtml);
       expect(renderer.createElement).toHaveBeenCalledWith('template');
@@ -66,7 +68,7 @@ describe('AnchorPipe', () => {
       expect(renderer.setProperty).toHaveBeenCalledWith(
         mockLink,
         'href',
-        `${pathname}${search}#head1`
+        `${currentUrlWithoutFragment}#head1`
       );
     });
   });
