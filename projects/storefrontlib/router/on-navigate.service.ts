@@ -80,6 +80,7 @@ export class OnNavigateService {
             if (this.isChildRoute(currentRoute)) {
               return;
             }
+            console.log('using winref instead of viewportscroller');
             console.log('page routes', event);
             this.winRef.document.body.scrollIntoView();
           }
