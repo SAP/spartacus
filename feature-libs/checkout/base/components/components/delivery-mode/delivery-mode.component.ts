@@ -45,7 +45,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     protected featureConfigService: FeatureConfigService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.supportedDeliveryModes$ = this.checkoutDeliveryModesService
       .getSupportedDeliveryModesState()
       .pipe(
