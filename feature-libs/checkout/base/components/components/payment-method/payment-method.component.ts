@@ -87,24 +87,26 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
-    this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      tap((paymentInfo: any) => {
-        if (paymentInfo && !!Object.keys(paymentInfo).length) {
-          if (paymentInfo['hasError']) {
-            Object.keys(paymentInfo).forEach((key) => {
-              if (key.startsWith('InvalidField')) {
-                this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
-              }
-            });
-            // TODO: this.checkoutService.clearCheckoutStep(3);
-          } else if (this.shouldRedirect) {
-            this.next();
+    this.selectedMethod$ = this.checkoutPaymentService
+      .getPaymentDetailsState()
+      .pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
+        tap((paymentInfo: any) => {
+          if (paymentInfo && !!Object.keys(paymentInfo).length) {
+            if (paymentInfo['hasError']) {
+              Object.keys(paymentInfo).forEach((key) => {
+                if (key.startsWith('InvalidField')) {
+                  this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
+                }
+              });
+              // TODO: this.checkoutService.clearCheckoutStep(3);
+            } else if (this.shouldRedirect) {
+              this.next();
+            }
           }
-        }
-      })
-    );
+        })
+      );
 
     this.cards$ = combineLatest([
       this.existingPaymentMethods$.pipe(

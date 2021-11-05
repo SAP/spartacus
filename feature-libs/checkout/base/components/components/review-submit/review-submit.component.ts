@@ -81,7 +81,7 @@ export class ReviewSubmitComponent {
     );
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
-    this.checkoutPaymentService.getPaymentDetails().pipe(
+    this.checkoutPaymentService.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
