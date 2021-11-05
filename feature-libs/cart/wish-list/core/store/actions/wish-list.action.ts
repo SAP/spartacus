@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
-import { getWishlistName } from '../../utils/utils';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -40,9 +39,9 @@ export class CreateWishListFail extends StateUtils.EntityFailAction {
 interface LoadWishListPayload {
   userId: string;
   /**
-   * Used to compute wishlist cart name and find it in list of all carts.
+   * which is computed from wishlist name
    */
-  customerId: string;
+  cartId: string;
 }
 
 /**
@@ -52,7 +51,7 @@ interface LoadWishListPayload {
 export class LoadWishList extends StateUtils.EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
   constructor(public payload: LoadWishListPayload) {
-    super(MULTI_CART_DATA, getWishlistName(payload.customerId));
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 export class LoadWishListSuccess extends StateUtils.EntitySuccessAction {

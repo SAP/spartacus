@@ -25,7 +25,6 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from '../actions';
 
 @Injectable()
@@ -82,10 +81,10 @@ export class WishListEffects {
     ofType(WishListActions.LOAD_WISH_LIST),
     map((action: WishListActions.LoadWishList) => action.payload),
     concatMap((payload) => {
-      const { userId, customerId } = payload;
+      const { userId, cartId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap((carts) => {
-          const wishListName = getWishlistName(customerId);
+          const wishListName = cartId;
           const wishList = carts.find((cart) => cart.name === wishListName);
           const actions = [];
           actions.push(
@@ -106,7 +105,7 @@ export class WishListEffects {
         catchError((error) =>
           from([
             new WishListActions.LoadWishListFail({
-              cartId: getWishlistName(customerId),
+              cartId: cartId,
               error: normalizeHttpError(error),
             }),
           ])

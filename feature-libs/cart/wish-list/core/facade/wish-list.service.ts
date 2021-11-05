@@ -24,6 +24,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { WishListActions } from '../store/actions/index';
+import { getWishlistName } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,7 @@ export class WishListService implements WishListFacade {
           user &&
           user.customerId
         ) {
-          this.loadWishList(userId, user.customerId);
+          this.loadWishList(userId, getWishlistName(user.customerId));
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
@@ -64,11 +65,11 @@ export class WishListService implements WishListFacade {
     );
   }
 
-  loadWishList(userId: string, customerId: string): void {
+  loadWishList(userId: string, cartId: string): void {
     this.store.dispatch(
       new WishListActions.LoadWishList({
         userId,
-        customerId,
+        cartId,
       })
     );
   }
@@ -107,7 +108,7 @@ export class WishListService implements WishListFacade {
       withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
       tap(([wishListId, userId, user]) => {
         if (!Boolean(wishListId) && user && user.customerId) {
-          this.loadWishList(userId, user.customerId);
+          this.loadWishList(userId, getWishlistName(user.customerId));
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
