@@ -28,6 +28,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
+  //Expose the expand button so it can gain focus on closing the zoom window
   @ViewChild('expandButton') expandButton: ElementRef;
 
   @Input() galleryIndex: number;
