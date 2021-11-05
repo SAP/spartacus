@@ -39,6 +39,7 @@ export class CheckoutService implements CheckoutFacade {
         switchMap(([userId, cartId]) =>
           this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
             tap((order) => {
+              // TODO:#checkout - if we decide to keep this, test it
               this.order$.next(order);
               /**
                * TODO: We have to keep this here, since the cart feature is still ngrx-based.
@@ -96,14 +97,17 @@ export class CheckoutService implements CheckoutFacade {
     );
   }
 
+  // TODO:#checkout - if we decide to keep this, test it
   getOrder(): Observable<Order | undefined> {
     return this.order$.asObservable();
   }
 
+  // TODO:#checkout - if we decide to keep this, test it
   clearOrder(): void {
     this.order$.next(undefined);
   }
 
+  // TODO:#checkout - if we decide to keep this, test it
   setOrder(order: Order): void {
     this.order$.next(order);
   }
