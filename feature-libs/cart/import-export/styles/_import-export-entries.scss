@@ -1,0 +1,27 @@
+cx-import-export-order-entries {
+  display: flex;
+  justify-content: start;
+  margin: 1.5rem 0;
+  max-width: var(--cx-page-width-max);
+  > * {
+    align-self: flex-start;
+    &:before {
+      content: '|';
+      color: var(--cx-color-light);
+      display: inline-block;
+      text-decoration: none;
+      margin-inline-start: 0.313rem;
+      margin-inline-end: 0.313rem;
+    }
+    &:first-child {
+      &:before {
+        display: none;
+      }
+    }
+  }
+  cx-import-order-entries,
+  cx-export-order-entries {
+    width: auto;
+    margin: 0;
+  }
+}
