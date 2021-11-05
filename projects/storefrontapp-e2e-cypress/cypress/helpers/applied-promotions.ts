@@ -93,7 +93,7 @@ export function checkAppliedPromotions() {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedPromotions();
 
-    cy.get('.cart-details-wrapper > :nth-child(1)').then(($cart) => {
+    cy.get('.cart-details-wrapper > .cx-total').then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.log(`CartId: ${cartId}`);
       cy.window()
