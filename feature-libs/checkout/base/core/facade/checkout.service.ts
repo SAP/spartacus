@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   CheckoutFacade,
-  CheckoutQueryFacade,
   OrderPlacedEvent,
 } from '@spartacus/checkout/base/root';
 import {
@@ -25,6 +23,9 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
+  // TODO:#checkout - check the types
+  // TODO:#checkout - can it be a Subject?
+  // TODO:#checkout - remove? check the recordings with Marcin
   protected order$ = new BehaviorSubject<
     Order | ReplenishmentOrder | undefined
   >(undefined);
@@ -39,6 +40,11 @@ export class CheckoutService implements CheckoutFacade {
           this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
             tap((order) => {
               this.order$.next(order);
+              /**
+               * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+               * Remove once it is switched from ngrx to c&q.
+               * We should dispatch an event, which will load the cart$ query.
+               */
               this.store.dispatch(new CartActions.RemoveCart({ cartId }));
               this.eventService.dispatch(
                 {
@@ -58,16 +64,18 @@ export class CheckoutService implements CheckoutFacade {
   );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected command: CommandService,
     protected checkoutConnector: CheckoutConnector,
-    protected eventService: EventService,
-    protected actions$: Actions,
-    protected checkoutQuery: CheckoutQueryFacade
+    protected eventService: EventService
   ) {}
 
+  /**
+   * Performs the necessary checkout preconditions.
+   */
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
@@ -100,19 +108,7 @@ export class CheckoutService implements CheckoutFacade {
     this.order$.next(order);
   }
 
-  /**
-   * Places an order
-   */
   placeOrder(termsChecked: boolean): Observable<Order> {
     return this.placeOrderCommand.execute(termsChecked);
-  }
-
-  /**
-   * Check if checkout details are stable (no longer loading)
-   */
-  isLoading(): Observable<boolean> {
-    return this.checkoutQuery
-      .getCheckoutDetailsState()
-      .pipe(map((state) => state.loading));
   }
 }
