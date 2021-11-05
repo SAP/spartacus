@@ -36,7 +36,7 @@ import {
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { getCartIdByUserId, isTempCartId } from '../utils/utils';
+import { getCartIdByUserId, isEmpty, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
 @Injectable({
@@ -128,19 +128,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
-      filter(({ isStable, cart }) => isStable || this.isEmpty(cart))
+      filter(({ isStable, cart }) => isStable || isEmpty(cart))
     );
 
     // Responsible for loading cart when it's not (eg. app initialization when we have only cart id)
     const activeCartLoading$ = activeCartValue$.pipe(
       withLatestFrom(this.activeCartId$, this.userIdService.getUserId()),
       tap(([{ cart, loaded, isStable }, cartId, userId]) => {
-        if (
-          isStable &&
-          this.isEmpty(cart) &&
-          !loaded &&
-          !isTempCartId(cartId)
-        ) {
+        if (isStable && isEmpty(cart) && !loaded && !isTempCartId(cartId)) {
           this.load(cartId, userId);
         }
       })
@@ -352,7 +347,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       withLatestFrom(this.userIdService.getUserId()),
       tap(([cartState, userId]) => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
-        if (this.isEmpty(cartState.value) && userId !== OCC_USER_ID_ANONYMOUS) {
+        if (isEmpty(cartState.value) && userId !== OCC_USER_ID_ANONYMOUS) {
           this.load(OCC_CART_ID_CURRENT, userId);
         }
       }),
@@ -370,7 +365,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       ),
       take(1),
       tap(([cartState, userId]) => {
-        if (this.isEmpty(cartState.value)) {
+        if (isEmpty(cartState.value)) {
           this.multiCartService.createCart({
             userId,
             extraData: {
@@ -388,7 +383,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       withLatestFrom(this.activeCartId$),
       filter(([cartState, cartId]) => !this.isCartCreating(cartState, cartId)),
       map(([cartState]) => cartState),
-      filter((cartState) => !this.isEmpty(cartState.value)),
+      filter((cartState) => !isEmpty(cartState.value)),
       take(1)
     );
   }
@@ -551,16 +546,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
         this.addEntriesGuestMerge(cartEntries);
       });
-  }
-
-  /**
-   * Indicates if given cart is empty.
-   * Returns true is cart is undefined, null or is an empty object.
-   */
-  protected isEmpty(cart?: Cart): boolean {
-    return (
-      !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
-    );
   }
 
   /**

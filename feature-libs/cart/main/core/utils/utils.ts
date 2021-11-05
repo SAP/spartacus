@@ -55,3 +55,11 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
 export function isTempCartId(cartId: string): boolean {
   return cartId.startsWith('temp-');
 }
+
+/**
+ * Indicates if given cart is empty.
+ * Returns true is cart is undefined, null or is an empty object.
+ */
+export function isEmpty(cart?: Cart): boolean {
+  return !cart || (typeof cart === 'object' && Object.keys(cart).length === 0);
+}

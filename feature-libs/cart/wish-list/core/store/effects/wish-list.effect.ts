@@ -173,7 +173,7 @@ export class WishListEffects {
           case CartActions.CLEAR_CART_STATE:
             return new CartActions.SetCartTypeIndex({
               cartType: CartType.WISH_LIST,
-              cartId: '',
+              cartId: undefined,
             });
         }
       })

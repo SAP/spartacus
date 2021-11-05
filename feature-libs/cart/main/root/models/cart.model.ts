@@ -161,4 +161,5 @@ export interface DeliveryMode {
 export enum CartType {
   ACTIVE = 'Active',
   WISH_LIST = 'WishList',
+  SELECTIVE = 'Selective',
 }

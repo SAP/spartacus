@@ -44,7 +44,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
               ])
             : cart.totalItems
             ? exclude(slots, ['EmptyCartMiddleContent'])
-            : selectiveCart.totalItems
+            : selectiveCart?.totalItems
             ? exclude(slots, [
                 'EmptyCartMiddleContent',
                 'CenterRightContentSlot',
