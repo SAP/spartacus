@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -36,10 +35,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
-  @Input()
-  isLoading = false;
-
   protected subscription = new Subscription();
+  protected searchSubscription = new Subscription();
 
   /**
    * @deprecated since version 4.2
@@ -79,17 +76,17 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass('quick-order-searchbox-is-active', false);
-
-      let product = this.form.get('product')?.value;
-
-      if (!!product) {
-        this.form.reset();
-      }
-
-      // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
-      this.close();
-      this.cd?.detectChanges();
     }
+
+    let product = this.form.get('product')?.value;
+
+    if (!!product) {
+      this.form.reset();
+    }
+
+    // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
+    this.close();
+    this.cd?.detectChanges();
   }
 
   add(product: Product, event: Event): void {
@@ -272,30 +269,32 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchProducts(query: string): void {
-    this.canAddProduct()
-      .pipe(
-        filter(Boolean),
-        switchMap(() =>
-          this.quickOrderService
-            .searchProducts(
-              query,
-              this.config?.quickOrder?.searchForm?.maxProducts
-            )
-            .pipe(take(1))
+    this.searchSubscription.add(
+      this.canAddProduct()
+        .pipe(
+          filter(Boolean),
+          switchMap(() =>
+            this.quickOrderService
+              .searchProducts(
+                query,
+                this.config?.quickOrder?.searchForm?.maxProducts
+              )
+              .pipe(take(1))
+          )
         )
-      )
-      .subscribe((products) => {
-        this.results = products;
+        .subscribe((products) => {
+          this.results = products;
 
-        if (this.results.length) {
-          this.noResults = false;
-          this.open();
-        } else {
-          this.noResults = true;
-        }
+          if (this.results.length) {
+            this.noResults = false;
+            this.open();
+          } else {
+            this.noResults = true;
+          }
 
-        this.cd?.detectChanges();
-      });
+          this.cd?.detectChanges();
+        })
+    );
   }
 
   protected clearResults(): void {
@@ -303,8 +302,14 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
+    this.resetSearchSubscription();
     this.clearResults();
     this.noResults = false;
+  }
+
+  protected resetSearchSubscription(): void {
+    this.searchSubscription.unsubscribe();
+    this.searchSubscription = new Subscription();
   }
 
   protected watchProductAdd(): Subscription {
