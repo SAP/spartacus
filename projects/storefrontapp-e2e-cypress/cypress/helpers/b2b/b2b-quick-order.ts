@@ -52,7 +52,7 @@ export function addProductToTheList(query: string) {
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   cy.get('.quick-order-results-products').should('exist');
-  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
+  cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
 }
 
 export function addWrongProductQuery(query: string) {
@@ -71,7 +71,7 @@ export function addProductToTheListAndModifyQuantity(
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   cy.get('.quick-order-results-products').should('exist');
-  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
+  cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
 
   this.modifyProductQuantityInQuickOrderList(quantity);
 }
@@ -116,8 +116,13 @@ export function restoreDeletedEntry() {
     .click();
 }
 
-export function addToCart() {
+export function addToCartClick() {
   cy.get(`.quick-order-footer .add-button`).click();
+}
+
+export function addToCart() {
+  cy.get('cx-quick-order').find('.cx-quick-order-table-row').should('exist');
+  this.addToCartClick();
 }
 
 export function verifyQuickOrderReachedListLimit() {
