@@ -6,180 +6,171 @@ import * as consent from '../../helpers/consent-management';
 import { getErrorAlert } from '../../helpers/global-message';
 import * as loginHelper from '../../helpers/login';
 import * as profile from '../../helpers/update-profile';
-import { viewportContext } from '../../helpers/viewport-context';
 import { getSampleUser } from '../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../support/utils/clear-all-storage';
 
 let customer: any;
 
 context('ASM e2e Test', () => {
-  viewportContext(['mobile', 'desktop'], () => {
-    let isMobile: boolean;
+  let isMobile: boolean;
 
-    before(() => {
-      clearAllStorage();
+  before(() => {
+    clearAllStorage();
 
+    cy.visit('/');
+
+    customer = getSampleUser();
+    checkout.registerUser(false, customer);
+  });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
+  describe('UI display.', () => {
+    it('storefront should have ASM UI disabled by default', () => {
       checkout.visitHomePage();
-      cy.onMobile(() => {
-        isMobile = true;
-        checkout.clickHamburger();
-      });
-      cy.onDesktop(() => {
-        isMobile = false;
-      });
-      customer = getSampleUser();
-      checkout.registerUser(false, customer);
+      cy.get('cx-asm-main-ui').should('not.exist');
+    });
+  });
+
+  describe('Customer Support Agent - Start Emulation', () => {
+    it('agent should see the asm UI when ?asm=true is passed to the url', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
     });
 
-    beforeEach(() => {
-      cy.restoreLocalStorage();
+    it('agent should authenticate.', () => {
+      agentLogin();
     });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
+    it('agent should start customer emulation.', () => {
+      startCustomerEmulation();
+    });
+  });
+
+  describe('Customer Emulation - My Account', () => {
+    it('agent should update personal details.', () => {
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+        isMobile,
+      });
+      profile.updateProfile();
+      customer.firstName = profile.newFirstName;
+      customer.lastName = profile.newLastName;
+      customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+      customer.titleCode = profile.newTitle;
     });
 
-    describe('UI display.', () => {
-      it('storefront should have ASM UI disabled by default', () => {
-        checkout.visitHomePage();
-        cy.get('cx-asm-main-ui').should('not.exist');
+    it('agent should create new address', () => {
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+        isMobile,
       });
+      cy.get('cx-card').should('have.length', 0);
+      fillShippingAddress(addressBook.newAddress);
+      cy.get('cx-card').should('have.length', 1);
+      addressBook.verifyNewAddress();
     });
 
-    describe('Customer Support Agent - Start Emulation', () => {
-      it('agent should see the asm UI when ?asm=true is passed to the url', () => {
-        checkout.visitHomePage('asm=true');
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
+    it('agent should add a consent', () => {
+      cy.selectUserMenuOption({
+        option: 'Consent Management',
+        isMobile,
       });
+      consent.giveConsent();
+    });
+  });
 
-      it('agent should authenticate.', () => {
-        agentLogin();
-      });
-
-      it('agent should start customer emulation.', () => {
-        startCustomerEmulation();
-      });
+  describe('Customer Support Agent - End', () => {
+    it('agent should stop customer emulation using My Account -> Sign Out.', () => {
+      checkout.signOutUser();
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
     });
 
-    describe('Customer Emulation - My Account', () => {
-      it('agent should update personal details.', () => {
-        cy.selectUserMenuOption({
-          option: 'Personal Details',
-          isMobile,
-        });
-        profile.updateProfile();
-        customer.firstName = profile.newFirstName;
-        customer.lastName = profile.newLastName;
-        customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
-        customer.titleCode = profile.newTitle;
-      });
-
-      it('agent should create new address', () => {
-        cy.selectUserMenuOption({
-          option: 'Address Book',
-          isMobile,
-        });
-        cy.get('cx-card').should('have.length', 0);
-        fillShippingAddress(addressBook.newAddress);
-        cy.get('cx-card').should('have.length', 1);
-        addressBook.verifyNewAddress();
-      });
-
-      it('agent should add a consent', () => {
-        cy.selectUserMenuOption({
-          option: 'Consent Management',
-          isMobile,
-        });
-        consent.giveConsent();
-      });
+    it('agent session should be intact and should be able to start another customer emulation', () => {
+      startCustomerEmulation();
     });
 
-    describe('Customer Support Agent - End', () => {
-      it('agent should stop customer emulation using My Account -> Sign Out.', () => {
-        checkout.signOutUser();
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
-      });
-
-      it('agent session should be intact and should be able to start another customer emulation', () => {
-        startCustomerEmulation();
-      });
-
-      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
-        cy.get('cx-customer-emulation button').click();
-        cy.get('cx-customer-emulation').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
-      });
-
-      it('agent should sign out.', () => {
-        agentSignOut();
-      });
-
-      it('agent should close the ASM UI.', () => {
-        cy.get('button[title="Close ASM"]').click();
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('not.be.visible');
-      });
+    it('agent should stop customer emulation using the end session button in the ASM UI', () => {
+      cy.get('cx-customer-emulation button').click();
+      cy.get('cx-customer-emulation').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
     });
 
-    describe('Customer Self Verification', () => {
-      it('customer should sign in.', () => {
-        cy.visit('/login');
-        loginCustomerInStorefront();
-        assertCustomerIsSignedIn(isMobile);
-      });
-
-      it('customer should see personal details updated by the agent.', () => {
-        cy.selectUserMenuOption({
-          option: 'Personal Details',
-          isMobile,
-        });
-        profile.verifyUpdatedProfile();
-      });
-
-      it('customer should see the address created by the agent.', () => {
-        cy.selectUserMenuOption({
-          option: 'Address Book',
-          isMobile,
-        });
-        cy.get('cx-card').should('have.length', 1);
-        addressBook.verifyNewAddress();
-      });
-
-      it('customer should see the consent given by agent', () => {
-        cy.selectUserMenuOption({
-          option: 'Consent Management',
-          isMobile,
-        });
-        cy.get('input[type="checkbox"]').first().should('be.checked');
-      });
-
-      it('customer should sign out.', () => {
-        checkout.signOutUser();
-      });
+    it('agent should sign out.', () => {
+      agentSignOut();
     });
 
-    describe('When a regular customer session and an asm agent session are both active', () => {
-      it('Customer should not be able to login when there is an active CS agent session.', () => {
-        const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-        cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
-        agentLogin();
-        login(customer.email, customer.password);
-        getErrorAlert().should(
-          'contain',
-          'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
-        );
-      });
-
-      // TODO(#9445): Add e2e test for this scenario
-      it.skip('agent login when user is logged in should start this user emulation', () => {});
-
-      // TODO(#9445): Add e2e test for this scenario
-      it.skip('agent logout when user was logged and emulated should restore the session', () => {});
+    it('agent should close the ASM UI.', () => {
+      cy.get('button[title="Close ASM"]').click();
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('not.be.visible');
     });
+  });
+
+  describe('Customer Self Verification', () => {
+    it('customer should sign in.', () => {
+      cy.visit('/login');
+      loginCustomerInStorefront();
+      assertCustomerIsSignedIn(isMobile);
+    });
+
+    it('customer should see personal details updated by the agent.', () => {
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+        isMobile,
+      });
+      profile.verifyUpdatedProfile();
+    });
+
+    it('customer should see the address created by the agent.', () => {
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+        isMobile,
+      });
+      cy.get('cx-card').should('have.length', 1);
+      addressBook.verifyNewAddress();
+    });
+
+    it('customer should see the consent given by agent', () => {
+      cy.selectUserMenuOption({
+        option: 'Consent Management',
+        isMobile,
+      });
+      cy.get('input[type="checkbox"]').first().should('be.checked');
+    });
+
+    it('customer should sign out.', () => {
+      checkout.signOutUser();
+    });
+  });
+
+  describe('When a regular customer session and an asm agent session are both active', () => {
+    it('Customer should not be able to login when there is an active CS agent session.', () => {
+      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+      cy.visit('/login?asm=true');
+      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+      agentLogin();
+      login(customer.email, customer.password);
+      getErrorAlert().should(
+        'contain',
+        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
+      );
+    });
+
+    // TODO(#9445): Add e2e test for this scenario
+    it.skip('agent login when user is logged in should start this user emulation', () => {});
+
+    // TODO(#9445): Add e2e test for this scenario
+    it.skip('agent logout when user was logged and emulated should restore the session', () => {});
   });
 });
 
