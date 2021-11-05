@@ -29,8 +29,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantityOnAttributeLevel(): boolean {
     return (
-      this.quantityService?.withQuantityOnAttributeLevel(this.attribute) ??
-      false
+      this.quantityService.withQuantityOnAttributeLevel(this.attribute) ?? false
     );
   }
 
@@ -42,9 +41,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantity(): boolean {
     return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.quantityService.withQuantity(
+        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
       ) ?? false
     );
   }
