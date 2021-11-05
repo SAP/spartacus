@@ -134,14 +134,12 @@ export function removeCartEntry() {
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
-  it('Should add two products to the cart', () => {
-    cy.visit(`/product/${batteryProductCode}`);
-    addProductToCart();
-    cy.visit(`/product/${batteryProductCode}`);
-    addProductToCart();
-  });
-
   it('Should display promotions for cart quantities increase/decrease', () => {
+    cy.visit(`/product/${batteryProductCode}`);
+    addProductToCart();
+    cy.visit(`/product/${batteryProductCode}`);
+    addProductToCart();
+
     registerCartPageRoute();
     cy.intercept({
       method: 'GET',
