@@ -57,7 +57,7 @@ class MockFacetService {
   toggleExpand() {}
 }
 
-fdescribe('FacetListComponent', () => {
+describe('FacetListComponent', () => {
   let component: FacetListComponent;
   let fixture: ComponentFixture<FacetListComponent>;
   let element: DebugElement;
