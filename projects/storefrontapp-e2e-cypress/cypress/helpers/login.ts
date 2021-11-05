@@ -59,7 +59,11 @@ export function loginWithBadCredentials() {
   cy.get(loginLinkSelector).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
+  listenForTokenAuthenticationRequest();
+
   login(user.email, 'Password321');
+
+  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
 
   cy.get(userGreetSelector).should('not.exist');
 
