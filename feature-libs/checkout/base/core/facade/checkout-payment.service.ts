@@ -119,6 +119,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,

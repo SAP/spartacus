@@ -31,44 +31,60 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
+  /**
+   * Returns the reload triggers for the checkout query.
+   */
   protected getQueryReloadTriggers(): QueryNotifier[] {
-    return [ReloadCheckoutQueryEvent, ...this.getSiteContextTriggers()];
+    return [
+      ReloadCheckoutQueryEvent,
+      ...this.getCheckoutQuerySiteContextReloadTriggers(),
+    ];
   }
-
-  protected getSiteContextTriggers(): QueryNotifier[] {
+  /**
+   * Returns the site-context reload triggers for the checkout query.
+   */
+  protected getCheckoutQuerySiteContextReloadTriggers(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
-
+  /**
+   * Returns the reset triggers for the checkout query.
+   */
   protected getQueryResetTriggers(): QueryNotifier[] {
     return [
       ResetCheckoutQueryEvent,
-      ...this.getAuthTriggers(),
-      ...this.getCartTriggers(),
-      ...this.getOrderTriggers(),
+      ...this.getCheckoutQueryResetAuthTriggers(),
+      ...this.getCheckoutQueryResetCartTriggers(),
+      ...this.getCheckoutQueryResetOrderTriggers(),
     ];
   }
-
-  protected getAuthTriggers(): QueryNotifier[] {
+  /**
+   * Returns the auth reset triggers for the checkout query.
+   */
+  protected getCheckoutQueryResetAuthTriggers(): QueryNotifier[] {
     return [LogoutEvent, LoginEvent];
   }
-
-  protected getCartTriggers(): QueryNotifier[] {
+  /**
+   * Returns the cart reset triggers for the checkout query.
+   */
+  protected getCheckoutQueryResetCartTriggers(): QueryNotifier[] {
     return [
       SaveCartSuccessEvent,
       RestoreSavedCartSuccessEvent,
       MergeCartSuccessEvent,
     ];
   }
-
-  protected getOrderTriggers(): QueryNotifier[] {
+  /**
+   * Returns the order reset triggers for the checkout query.
+   */
+  protected getCheckoutQueryResetOrderTriggers(): QueryNotifier[] {
     return [
-      // we should reset the query's state after the checkout is finished (should be undefined after the following events)
+      // we need to reset the query's state after the checkout is finished
       OrderPlacedEvent,
     ];
   }
 
-  protected checkoutQuery$: Query<CheckoutState> =
-    this.query.create<CheckoutState>(
+  protected checkoutQuery$: Query<CheckoutState | undefined> =
+    this.query.create<CheckoutState | undefined>(
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -89,6 +105,9 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     protected checkoutConnector: CheckoutConnector
   ) {}
 
+  /**
+   * Performs the necessary checkout preconditions.
+   */
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
@@ -109,7 +128,10 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     );
   }
 
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
+  /**
+   * Returns the checkout details state.
+   */
+  getCheckoutDetailsState(): Observable<QueryState<CheckoutState | undefined>> {
     return this.checkoutQuery$.getState();
   }
 }

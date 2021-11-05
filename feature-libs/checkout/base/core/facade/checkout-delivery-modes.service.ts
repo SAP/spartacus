@@ -43,28 +43,28 @@ export class CheckoutDeliveryModesService
   protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
     return [
       ReloadDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQuerySiteContextTriggers(),
+      ...this.getSupportedDeliveryModesQueryReloadSiteContextTriggers(),
     ];
   }
   /**
-   * Returns the site-context triggers for the supportedDeliveryModes query
+   * Returns the site-context reload triggers for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesQuerySiteContextTriggers(): QueryNotifier[] {
+  protected getSupportedDeliveryModesQueryReloadSiteContextTriggers(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
   /**
    * Return the reset triggers for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesResetTriggers(): QueryNotifier[] {
+  protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
     return [
       ResetDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQueryAuthTriggers(),
+      ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
     ];
   }
   /**
-   * Returns the auth triggers for the supportedDeliveryModes query
+   * Returns the auth reset triggers for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesQueryAuthTriggers(): QueryNotifier[] {
+  protected getSupportedDeliveryModesQueryResetAuthTriggers(): QueryNotifier[] {
     return [LogoutEvent, LoginEvent];
   }
 
@@ -81,7 +81,7 @@ export class CheckoutDeliveryModesService
         ),
       {
         reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
-        resetOn: this.getSupportedDeliveryModesResetTriggers(),
+        resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
         retryOn: { shouldRetry: isJaloError },
       }
     );

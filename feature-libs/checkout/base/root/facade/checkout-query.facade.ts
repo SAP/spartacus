@@ -14,5 +14,7 @@ import { CheckoutState } from '../model/checkout-state.model';
     }),
 })
 export abstract class CheckoutQueryFacade {
-  abstract getCheckoutDetailsState(): Observable<QueryState<CheckoutState>>;
+  abstract getCheckoutDetailsState(): Observable<
+    QueryState<CheckoutState | undefined>
+  >;
 }
