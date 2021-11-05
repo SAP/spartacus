@@ -69,13 +69,13 @@ export class ReviewSubmitComponent {
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
-    this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+    this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
-    this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
+    this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );

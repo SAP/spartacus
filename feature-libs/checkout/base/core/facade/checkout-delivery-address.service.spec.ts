@@ -130,7 +130,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
 
       service
-        .getDeliveryAddress()
+        .getDeliveryAddressState()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(<QueryState<Address | undefined>>{

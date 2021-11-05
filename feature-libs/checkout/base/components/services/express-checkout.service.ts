@@ -63,9 +63,11 @@ export class ExpressCheckoutService {
           return this.checkoutDeliveryAddressService
             .setDeliveryAddress(defaultAddress)
             .pipe(
-              switchMap(() => {
-                return this.checkoutDeliveryAddressService.getDeliveryAddress();
-              }),
+              switchMap(() =>
+                this.checkoutDeliveryAddressService.getDeliveryAddressState()
+              ),
+              filter((state) => !state.error && !state.loading),
+              map((state) => state.data),
               map((data) => !!(data && Object.keys(data).length)),
               catchError(() => of(false))
             );
@@ -75,39 +77,7 @@ export class ExpressCheckoutService {
     );
   }
 
-  protected setPaymentMethod() {
-    this.paymentMethodSet$ = combineLatest([
-      this.userPaymentService.getPaymentMethods(),
-      this.userPaymentService.getPaymentMethodsLoadedSuccess(),
-    ]).pipe(
-      debounceTime(0),
-      tap(([, paymentMethodsLoadedSuccess]) => {
-        if (!paymentMethodsLoadedSuccess) {
-          this.userPaymentService.loadPaymentMethods();
-        }
-      }),
-      filter(([, success]) => success),
-      switchMap(([payments]) => {
-        const defaultPayment =
-          payments.find((address) => address.defaultPayment) || payments[0];
-        if (!defaultPayment || Object.keys(defaultPayment).length === 0) {
-          return of(false);
-        }
-        return this.checkoutPaymentService
-          .setPaymentDetails(defaultPayment)
-          .pipe(
-            switchMap(() => {
-              return this.checkoutPaymentService
-                .getPaymentDetails()
-                .pipe(map((data) => !!(data && Object.keys(data).length)));
-            }),
-            catchError(() => of(false))
-          );
-      })
-    );
-  }
-
-  protected setDeliveryMode() {
+  protected setDeliveryMode(): void {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
       this.checkoutDeliveryModesService.getSupportedDeliveryModesState(),
@@ -142,12 +112,47 @@ export class ExpressCheckoutService {
                     switchMap(() =>
                       this.checkoutDeliveryModesService.getSelectedDeliveryModeState()
                     ),
-                    map((deliveryMode) => !!deliveryMode)
+                    filter((state) => !state.error && !state.loading),
+                    map((state) => state.data),
+                    map((data) => !!(data && Object.keys(data).length))
                   );
               })
             );
           })
         );
+      })
+    );
+  }
+
+  protected setPaymentMethod(): void {
+    this.paymentMethodSet$ = combineLatest([
+      this.userPaymentService.getPaymentMethods(),
+      this.userPaymentService.getPaymentMethodsLoadedSuccess(),
+    ]).pipe(
+      debounceTime(0),
+      tap(([, paymentMethodsLoadedSuccess]) => {
+        if (!paymentMethodsLoadedSuccess) {
+          this.userPaymentService.loadPaymentMethods();
+        }
+      }),
+      filter(([, success]) => success),
+      switchMap(([payments]) => {
+        const defaultPayment =
+          payments.find((address) => address.defaultPayment) || payments[0];
+        if (!defaultPayment || Object.keys(defaultPayment).length === 0) {
+          return of(false);
+        }
+        return this.checkoutPaymentService
+          .setPaymentDetails(defaultPayment)
+          .pipe(
+            switchMap(() =>
+              this.checkoutPaymentService.getPaymentDetailsState()
+            ),
+            filter((state) => !state.error && !state.loading),
+            map((state) => state.data),
+            map((data) => !!(data && Object.keys(data).length)),
+            catchError(() => of(false))
+          );
       })
     );
   }

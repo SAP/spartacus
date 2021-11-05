@@ -158,7 +158,7 @@ export class CheckoutDeliveryAddressService
   /**
    * Get delivery address
    */
-  getDeliveryAddress(): Observable<QueryState<Address | undefined>> {
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return this.checkoutQuery.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,

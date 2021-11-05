@@ -149,7 +149,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  getPaymentDetails(): Observable<QueryState<PaymentDetails | undefined>> {
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentInfo })));

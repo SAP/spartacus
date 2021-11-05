@@ -10,7 +10,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutDeliveryAddressFacade,
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
-        'getDeliveryAddress',
+        'getDeliveryAddressState',
         'createAndSetAddress',
         'setDeliveryAddress',
         'clearCheckoutDeliveryAddress',
@@ -22,7 +22,9 @@ export abstract class CheckoutDeliveryAddressFacade {
   /**
    * Get delivery address
    */
-  abstract getDeliveryAddress(): Observable<QueryState<Address | undefined>>;
+  abstract getDeliveryAddressState(): Observable<
+    QueryState<Address | undefined>
+  >;
 
   /**
    * Create and set a delivery address using the address param

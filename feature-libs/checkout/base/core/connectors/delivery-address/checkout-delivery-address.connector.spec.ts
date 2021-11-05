@@ -9,6 +9,7 @@ class MockCheckoutDeliveryAdapter implements CheckoutDeliveryAddressAdapter {
   setAddress = createSpy().and.returnValue(of({}));
   clearCheckoutDeliveryAddress = createSpy().and.returnValue(of({}));
 }
+
 describe('CheckoutDeliveryAddressConnector', () => {
   let service: CheckoutDeliveryAddressConnector;
 

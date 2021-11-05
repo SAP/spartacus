@@ -16,7 +16,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'getCardTypes',
-        'getPaymentDetails',
+        'getPaymentDetailsState',
         'createPaymentDetails',
         'setPaymentDetails',
       ],
@@ -32,7 +32,7 @@ export abstract class CheckoutPaymentFacade {
   /**
    * Get payment details
    */
-  abstract getPaymentDetails(): Observable<
+  abstract getPaymentDetailsState(): Observable<
     QueryState<PaymentDetails | undefined>
   >;
 

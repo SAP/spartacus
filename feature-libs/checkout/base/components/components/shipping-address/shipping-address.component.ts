@@ -30,7 +30,7 @@ export interface CardWithAddress {
 export class ShippingAddressComponent implements OnInit, OnDestroy {
   addressFormOpened = false;
   forceLoader = false; // this helps with smoother steps transition
-  selectedAddress: Address;
+  selectedAddress: Address | undefined;
   doneAutoSelect = false;
 
   protected subscriptions = new Subscription();
@@ -57,7 +57,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -157,9 +157,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryAddressService.setDeliveryAddress(address);
   }
 
-  addAddress(address: Address): void {
+  addAddress(address: Address | undefined): void {
     this.forceLoader = true;
-    if (Boolean(address)) {
+    if (address) {
       this.checkoutDeliveryAddressService.createAndSetAddress(address);
     } else {
       this.forceLoader = false;

@@ -75,7 +75,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     }
 
     this.checkoutDeliveryAddressService
-      .getDeliveryAddress()
+      .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
         take(1),
@@ -207,11 +207,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.shouldRedirect = true;
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-    this.paymentSavingInProgress$.next(false);
-  }
-
   protected getCardIcon(code: string): string {
     let ccIcon: string;
     if (code === 'visa') {
@@ -270,5 +265,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.paymentSavingInProgress$.next(false);
   }
 }

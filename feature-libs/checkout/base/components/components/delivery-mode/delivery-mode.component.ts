@@ -59,7 +59,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
         withLatestFrom(
-          this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
+          this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
             filter((state) => !state.loading),
             map((state) => state.data),
             map((deliveryMode) => deliveryMode?.code)

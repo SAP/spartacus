@@ -121,7 +121,7 @@ export class PaymentFormComponent implements OnInit {
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
 
     this.shippingAddress$ = this.checkoutDeliveryAddressService
-      .getDeliveryAddress()
+      .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
