@@ -1,0 +1,93 @@
+cx-product-image-zoom-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .cx-main-image-group {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1em;
+
+    // Landscape phones
+    @media only screen and (max-width: 900px) and (orientation: landscape) {
+      height: 100%;
+    }
+
+    .cx-navigate-image {
+      display: none;
+
+      @include media-breakpoint-up(sm) {
+        display: flex;
+      }
+
+      button {
+        align-self: center;
+        font-size: 2rem;
+      }
+    }
+
+    .cx-default-image-zoom {
+      display: flex;
+      justify-content: center;
+      max-height: calc(90vh - 200px);
+
+      @include media-breakpoint-up(lg) {
+        height: calc(90vh - 200px);
+      }
+
+      // Landscape phones
+      @media only screen and (max-width: 900px) and (orientation: landscape) {
+        height: 100%;
+        max-height: 100%;
+      }
+
+      &:hover {
+        cursor: zoom-in;
+      }
+    }
+  }
+
+  .cx-zoom-container {
+    width: 100%;
+    height: calc(90vh - 200px);
+    overflow: hidden;
+
+    // Landscape phones
+    @media only screen and (max-width: 900px) and (orientation: landscape) {
+      height: 100%;
+    }
+
+    .cx-image-zoomed {
+      height: 100%;
+      width: 100%;
+      padding: 1em;
+      -webkit-touch-callout: none;
+
+      &:hover {
+        cursor: zoom-out;
+      }
+
+      img {
+        transform: scale(2);
+        position: relative;
+        transition: background-position 0.25s;
+        object-fit: cover;
+      }
+    }
+  }
+
+  cx-product-image-zoom-thumbnails {
+    .thumbs {
+      flex: auto;
+
+      cx-media {
+        width: 70px;
+        height: 70px;
+      }
+
+      @media only screen and (max-width: 900px) and (orientation: landscape) {
+        display: none;
+      }
+    }
+  }
+}

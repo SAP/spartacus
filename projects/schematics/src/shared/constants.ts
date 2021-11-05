@@ -1075,6 +1075,8 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 export const CLI_ASM_FEATURE = 'ASM';
 
+export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
+
 export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 
 export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
@@ -1089,6 +1091,7 @@ export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
 
 export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
 export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
 
 export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
 export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =

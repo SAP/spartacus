@@ -1,3 +1,9 @@
+import * as login from './login';
+import * as configurationCartVc from './product-configurator-cart-vc';
+//import * as configurationCart from './product-configurator-cart';
+import * as productSearch from './product-search';
+import { verifyGlobalMessageAfterRegistration } from './register';
+
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
@@ -480,4 +486,51 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-shipping-address').should('be.visible');
     });
+}
+
+/**
+ * Searches for a product by a product name.
+ *
+ * @param {string} productName - Product name
+ */
+export function searchForProduct(productName: string): void {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/suggestions?term=${productName}*`,
+  }).as('productSearch');
+  productSearch.searchForProduct(productName);
+  cy.wait('@productSearch');
+}
+
+/**
+ * Orders a product:
+ * (1) Registers a new user,
+ * (2) Logs in with the credentials of the newly registered user,
+ * (3) Searches for a corresponding product by a product name,
+ * (4) Adds a searched product to the cart,
+ * (5) Orders a product,
+ * (6) Verifies whether the order history contains the ordered product and
+ * (7) Navigates to the order details of the product via 'Display Configuration' link.
+ *
+ * @param {string} productName - Product name
+ */
+export function completeOrderProcess(productName: string): void {
+  login.registerUser();
+  verifyGlobalMessageAfterRegistration();
+  const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
+  login.loginUser();
+  cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
+  this.searchForProduct(productName);
+  this.clickOnAddToCartBtnOnPD();
+  this.clickOnProceedToCheckoutBtnOnPD();
+  configurationCartVc.checkout();
+  //TODO: activate after 22.05
+  //configurationCart.navigateToOrderDetails();
+  //don't check the order history aspect because this part is flaky
+  //configuration.selectOrderByOrderNumberAlias();
+  const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+  login.signOutUser();
+  cy.wait(tokenRevocationRequestAlias);
 }
