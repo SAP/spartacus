@@ -16,6 +16,7 @@ import {
   PaymentDetails,
   PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 
 const userId = '123';
@@ -208,10 +209,13 @@ describe('OccCheckoutPaymentAdapter', () => {
     it('should set payment details for given user id, cart id and payment details id', (done) => {
       const paymentDetailsId = '999';
 
-      service.set(userId, cartId, paymentDetailsId).subscribe((result) => {
-        expect(result).toEqual(cartData);
-        done();
-      });
+      service
+        .set(userId, cartId, paymentDetailsId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -229,10 +233,13 @@ describe('OccCheckoutPaymentAdapter', () => {
 
   describe('create payment', () => {
     it('should create payment', (done) => {
-      service.create(userId, cartId, mockPaymentDetails).subscribe((result) => {
-        expect(result).toEqual(mockPaymentDetails);
-        done();
-      });
+      service
+        .create(userId, cartId, mockPaymentDetails)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockPaymentDetails);
+          done();
+        });
 
       httpMock
         .expectOne((req) => {
@@ -274,10 +281,12 @@ describe('OccCheckoutPaymentAdapter', () => {
   describe('get payment provider subscription info', () => {
     it('should get payment provider subscription info for given user id and cart id', (done) => {
       // testing protected method
-      service['getProviderSubInfo'](userId, cartId).subscribe((result) => {
-        expect(result).toEqual(cartData);
-        done();
-      });
+      service['getProviderSubInfo'](userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -302,10 +311,12 @@ describe('OccCheckoutPaymentAdapter', () => {
       const mockPaymentProvider = 'mockPaymentProvider';
 
       // testing protected method
-      service['createSubWithProvider'](mockUrl, params).subscribe((result) => {
-        expect(result).toEqual(mockPaymentProvider);
-        done();
-      });
+      service['createSubWithProvider'](mockUrl, params)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockPaymentProvider);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === mockUrl;
@@ -332,10 +343,12 @@ describe('OccCheckoutPaymentAdapter', () => {
       const mockPaymentProvider = 'mockPaymentProvider';
 
       // testing protected method
-      service['createSubWithProvider'](mockUrl, params).subscribe((result) => {
-        expect(result).toEqual(mockPaymentProvider);
-        done();
-      });
+      service['createSubWithProvider'](mockUrl, params)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockPaymentProvider);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === mockUrl;
@@ -360,12 +373,12 @@ describe('OccCheckoutPaymentAdapter', () => {
       };
 
       // testing protected method
-      service['createDetailsWithParameters'](userId, cartId, params).subscribe(
-        (result) => {
+      service['createDetailsWithParameters'](userId, cartId, params)
+        .pipe(take(1))
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentDetails);
           done();
-        }
-      );
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -392,12 +405,12 @@ describe('OccCheckoutPaymentAdapter', () => {
       };
 
       // testing protected method
-      service['createDetailsWithParameters'](userId, cartId, params).subscribe(
-        (result) => {
+      service['createDetailsWithParameters'](userId, cartId, params)
+        .pipe(take(1))
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentDetails);
           done();
-        }
-      );
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -432,10 +445,13 @@ describe('OccCheckoutPaymentAdapter', () => {
         ],
       };
 
-      service.loadCardTypes().subscribe((result) => {
-        expect(result).toEqual(cardTypesList.cardTypes);
-        done();
-      });
+      service
+        .loadCardTypes()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cardTypesList.cardTypes);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'cardtypes';
@@ -447,9 +463,12 @@ describe('OccCheckoutPaymentAdapter', () => {
     });
 
     it('should use converter', (done) => {
-      service.loadCardTypes().subscribe(() => {
-        done();
-      });
+      service
+        .loadCardTypes()
+        .pipe(take(1))
+        .subscribe(() => {
+          done();
+        });
       httpMock.expectOne('cardtypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
     });

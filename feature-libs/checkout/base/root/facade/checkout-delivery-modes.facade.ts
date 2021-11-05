@@ -10,10 +10,9 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutDeliveryModesFacade,
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
-        'getSupportedDeliveryModes',
         'getSupportedDeliveryModesState',
         'setDeliveryMode',
-        'getSelectedDeliveryMode',
+        'getSelectedDeliveryModeState',
         'clearCheckoutDeliveryMode',
       ],
       async: true,
@@ -21,10 +20,8 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 })
 export abstract class CheckoutDeliveryModesFacade {
   /**
-   * Get supported delivery modes
+   * Get the supported delivery modes state.
    */
-  abstract getSupportedDeliveryModes(): Observable<DeliveryMode[]>;
-
   abstract getSupportedDeliveryModesState(): Observable<
     QueryState<DeliveryMode[]>
   >;
@@ -32,7 +29,7 @@ export abstract class CheckoutDeliveryModesFacade {
   /**
    * Get selected delivery mode
    */
-  abstract getSelectedDeliveryMode(): Observable<
+  abstract getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   >;
 

@@ -11,7 +11,7 @@ describe('backOff', () => {
       const initialValue = 'xxx';
 
       const source$ = of(initialValue);
-      const test$ = source$.pipe(backOff(doBackOff));
+      const test$ = source$.pipe(backOff({ shouldRetry: doBackOff }));
 
       test$.subscribe((result) => {
         expect(result).toEqual(initialValue);
@@ -25,7 +25,7 @@ describe('backOff', () => {
       describe('evaluates to false', () => {
         it('should not retry and just re-throw the error', (done) => {
           const source$ = throwError('error');
-          const test$ = source$.pipe(backOff(() => false));
+          const test$ = source$.pipe(backOff({ shouldRetry: () => false }));
 
           test$.subscribe({
             error: (result) => {
@@ -42,14 +42,18 @@ describe('backOff', () => {
             const initialError = 'error';
 
             const source$ = throwError(initialError);
-            const test$ = source$.pipe(backOff(doBackOff));
+            const test$ = source$.pipe(backOff({ shouldRetry: doBackOff }));
 
             let result: string | undefined;
-            test$.subscribe({ error: (err) => (result = err) });
+            const subscription = test$.subscribe({
+              error: (err) => (result = err),
+            });
             // when using default options: 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
             tick(4200);
 
             expect(result).toEqual(initialError);
+
+            subscription.unsubscribe();
           }));
         });
 
@@ -69,10 +73,12 @@ describe('backOff', () => {
 
             let errorResult: string | undefined;
             let result: string | undefined;
-            source$.pipe(backOff(doBackOff)).subscribe({
-              next: (value) => (result = value),
-              error: (value) => (errorResult = value),
-            });
+            const subscription = source$
+              .pipe(backOff({ shouldRetry: doBackOff }))
+              .subscribe({
+                next: (value) => (result = value),
+                error: (value) => (errorResult = value),
+              });
 
             // some time passed, and while waiting to retry, the source$ was able to recover
             tick(200);
@@ -83,11 +89,13 @@ describe('backOff', () => {
 
             expect(result).toEqual(recoveredValue);
             expect(errorResult).toBeFalsy();
+
+            subscription.unsubscribe();
           }));
         });
       });
 
-      describe('when it should retry for a specific error, but then another happens', () => {
+      describe('when it should retry for a specific error, but another error occurs', () => {
         it('should stop retrying and re-throw', fakeAsync(() => {
           const initialError = 'jalo error';
           const differentError = '500 internal server error';
@@ -97,12 +105,12 @@ describe('backOff', () => {
 
           let errorResult: string | undefined;
           let result: string | undefined;
-          source$
+          const subscription = source$
             .pipe(
-              backOff(
+              backOff({
                 // we want to handle only the jalo error
-                (err) => err === initialError
-              )
+                shouldRetry: (err) => err === initialError,
+              })
             )
             .subscribe({
               next: (value) => (result = value),
@@ -117,6 +125,8 @@ describe('backOff', () => {
 
           expect(errorResult).toEqual(differentError);
           expect(result).toBeFalsy();
+
+          subscription.unsubscribe();
         }));
       });
     });
@@ -126,28 +136,40 @@ describe('backOff', () => {
         const initialError = 'error';
 
         const source$ = throwError(initialError);
-        const test$ = source$.pipe(backOff(doBackOff, { maxTries: 2 }));
+        const test$ = source$.pipe(
+          backOff({ shouldRetry: doBackOff, maxTries: 2 })
+        );
 
         let result: string | undefined;
-        test$.subscribe({ error: (err) => (result = err) });
+        const subscription = test$.subscribe({
+          error: (err) => (result = err),
+        });
         // when using default options: 1*1*300 + 2*2*300 = 1500ms
         tick(1500);
 
         expect(result).toEqual(initialError);
+
+        subscription.unsubscribe();
       }));
 
       it('should use the provided delay option', fakeAsync(() => {
         const initialError = 'error';
 
         const source$ = throwError(initialError);
-        const test$ = source$.pipe(backOff(doBackOff, { delay: 100 }));
+        const test$ = source$.pipe(
+          backOff({ shouldRetry: doBackOff, delay: 100 })
+        );
 
         let result: string | undefined;
-        test$.subscribe({ error: (err) => (result = err) });
+        const subscription = test$.subscribe({
+          error: (err) => (result = err),
+        });
         // when using default options: 1*1*100 + 2*2*100 + 3*3*100 = 1400ms
         tick(1400);
 
         expect(result).toEqual(initialError);
+
+        subscription.unsubscribe();
       }));
 
       it('should use both the provided maxTries and delay options', fakeAsync(() => {
@@ -155,15 +177,19 @@ describe('backOff', () => {
 
         const source$ = throwError(initialError);
         const test$ = source$.pipe(
-          backOff(doBackOff, { maxTries: 2, delay: 100 })
+          backOff({ shouldRetry: doBackOff, maxTries: 2, delay: 100 })
         );
 
         let result: string | undefined;
-        test$.subscribe({ error: (err) => (result = err) });
+        const subscription = test$.subscribe({
+          error: (err) => (result = err),
+        });
         // when using default options: 1*1*100 + 2*2*100 = 500ms
         tick(500);
 
         expect(result).toEqual(initialError);
+
+        subscription.unsubscribe();
       }));
     });
   });

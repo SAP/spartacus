@@ -140,7 +140,7 @@ export class ExpressCheckoutService {
                   .setDeliveryMode(deliveryMode)
                   .pipe(
                     switchMap(() =>
-                      this.checkoutDeliveryModesService.getSelectedDeliveryMode()
+                      this.checkoutDeliveryModesService.getSelectedDeliveryModeState()
                     ),
                     map((deliveryMode) => !!deliveryMode)
                   );

@@ -1,3 +1,19 @@
+## b2b
+
+- feature-libs/checkout/base/components/components/shipping-address/shipping-address.component.spec.ts contained some b2b-related tests
+- feature-libs/checkout/base/components/components/review-submit/review-submit.component.spec.ts
+
+## scheduled replenishment
+
+- feature-libs/checkout/base/components/components/place-order/place-order.component.spec.ts
+
+## other-to-merge-with-later
+
+1. Handle Jalo error everywhere? When can it happen? Is there a doc for it?
+2. go through all the queries, and add a back-off operator? we did this in the feature-libs/checkout/base/core/facade/checkout-delivery-modes.service.ts
+3. append "state" to all facade methods that do return the state
+4. fix xit('should exponentially retry and should be able to recover', fakeAsync(() => {
+
 # Checkout TO DO list
 
 1. implement unit tests

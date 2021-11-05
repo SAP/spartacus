@@ -12,8 +12,8 @@ import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver
     ...facadeProviders,
     CheckoutDeliveryAddressConnector,
     CheckoutDeliveryModesConnector,
-    CheckoutConnector,
     CheckoutPaymentConnector,
+    CheckoutConnector,
     CheckoutPageMetaResolver,
     {
       provide: PageMetaResolver,

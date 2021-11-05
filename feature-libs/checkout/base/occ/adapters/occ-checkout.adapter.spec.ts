@@ -11,6 +11,7 @@ import {
   Order,
   ORDER_NORMALIZER,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -75,10 +76,13 @@ describe('OccCheckoutAdapter', () => {
 
   describe('place order', () => {
     it('should be able to place order for the cart', (done) => {
-      service.placeOrder(userId, cartId, termsChecked).subscribe((result) => {
-        expect(result).toEqual(orderData);
-        done();
-      });
+      service
+        .placeOrder(userId, cartId, termsChecked)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(orderData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -94,9 +98,12 @@ describe('OccCheckoutAdapter', () => {
     });
 
     it('should use converter', (done) => {
-      service.placeOrder(userId, cartId, termsChecked).subscribe(() => {
-        done();
-      });
+      service
+        .placeOrder(userId, cartId, termsChecked)
+        .pipe(take(1))
+        .subscribe(() => {
+          done();
+        });
       httpMock
         .expectOne(
           (req) =>
@@ -111,10 +118,13 @@ describe('OccCheckoutAdapter', () => {
 
   describe('get checkout details', () => {
     it('should get checkout details data for given userId, cartId', (done) => {
-      service.getCheckoutDetails(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(checkoutData as CheckoutState);
-        done();
-      });
+      service
+        .getCheckoutDetails(userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(checkoutData as CheckoutState);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (

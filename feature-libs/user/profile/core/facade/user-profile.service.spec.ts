@@ -5,12 +5,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
-
-import { UserPasswordService } from './user-password.service';
-import { UserProfileService } from './user-profile.service';
 import { Title } from '@spartacus/user/profile/root';
+import { Observable, of } from 'rxjs';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
+import { UserProfileService } from './user-profile.service';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
@@ -63,8 +62,8 @@ describe('UserProfileService', () => {
 
   it('should inject UserProfileService', inject(
     [UserProfileService],
-    (userPasswordService: UserPasswordService) => {
-      expect(userPasswordService).toBeTruthy();
+    (UserProfileService: UserProfileService) => {
+      expect(UserProfileService).toBeTruthy();
     }
   ));
 
@@ -87,7 +86,7 @@ describe('UserProfileService', () => {
   });
 
   it('should be able to get titles data', () => {
-    let titles: Title[];
+    let titles: Title[] | undefined;
     service
       .getTitles()
       .subscribe((data) => {

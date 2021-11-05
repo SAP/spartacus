@@ -13,6 +13,7 @@ import {
 import {
   ActiveCartService,
   CurrencySetEvent,
+  isJaloError,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -77,6 +78,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       {
         reloadOn: this.getQueryReloadTriggers(),
         resetOn: this.getQueryResetTriggers(),
+        retryOn: { shouldRetry: isJaloError },
       }
     );
 
