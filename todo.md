@@ -12,7 +12,7 @@
 1. Handle Jalo error everywhere? When can it happen? Is there a doc for it?
 2. go through all the queries, and add a back-off operator? we did this in the feature-libs/checkout/base/core/facade/checkout-delivery-modes.service.ts
 3. append "state" to all facade methods that do return the state
-4. fix xit('should exponentially retry and should be able to recover', fakeAsync(() => {
+4. fix xit in projects/core/src/util/command-query/query.service.spec.ts and feature-libs/checkout/base/core/facade/checkout-payment.service.spec.ts
 
 # Checkout TO DO list
 

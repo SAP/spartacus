@@ -15,6 +15,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutPaymentFacade,
       feature: CHECKOUT_CORE_FEATURE,
       methods: [
+        'getCardTypesState',
         'getCardTypes',
         'getPaymentDetailsState',
         'createPaymentDetails',
@@ -24,6 +25,11 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
     }),
 })
 export abstract class CheckoutPaymentFacade {
+  /**
+   * Get card types state
+   */
+  abstract getCardTypesState(): Observable<QueryState<CardType[] | undefined>>;
+
   /**
    * Get card types
    */

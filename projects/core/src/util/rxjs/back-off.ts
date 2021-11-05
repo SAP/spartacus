@@ -46,8 +46,8 @@ export function backOff<T>(options: BackOffOptions): OperatorFunction<T, T> {
   return (source$) =>
     source$.pipe(
       // retries the source stream in case of an error.
-      retryWhen<T>((sourceError$: Observable<HttpErrorModel>) =>
-        // combines the emissions of both `maxRetryRange$` and `sourceError$`
+      retryWhen<T>((sourceError$: Observable<HttpErrorModel | Error>) =>
+        // emits only when both emit at the same time. In practice, this means emit when retried and the error happens again
         zip(maxRetryRange$, sourceError$).pipe(
           mergeMap(([currentRetry, sourceError]) => {
             // if we've re-tried more than the maxTries, OR
