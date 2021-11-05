@@ -147,6 +147,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
         'BASE_SITE'
       )}/users/*/customercoupons`,
     }).as('customer_coupons');
+
     goToCartDetailsViewFromCartDialog();
     cy.wait('@cart_page');
     cy.wait('@customer_coupons');
