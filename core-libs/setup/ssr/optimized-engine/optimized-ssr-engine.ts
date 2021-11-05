@@ -1,12 +1,20 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import {
+  getRequestUrl,
+  NgExpressEngineInstance,
+} from '../engine-decorator/ng-express-engine-decorator';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
+
+/**
+ * Returns the full url for the given SSR Request.
+ */
+export const getDefaultRenderKey = getRequestUrl;
 
 export type SsrCallbackFn = (
   /**
@@ -66,7 +74,7 @@ export class OptimizedSsrEngine {
   protected getRenderingKey(request: Request): string {
     return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
-      : request.originalUrl;
+      : getDefaultRenderKey(request);
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {
@@ -204,8 +212,6 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    const renderingKey = this.getRenderingKey(request);
-
     let requestTimeout: NodeJS.Timeout | undefined;
     if (this.shouldTimeout(request)) {
       // establish timeout for rendering
@@ -225,7 +231,8 @@ export class OptimizedSsrEngine {
       this.fallbackToCsr(response, filePath, callback);
     }
 
-    const renderCallback: SsrCallbackFn = (err, html) => {
+    const renderingKey = this.getRenderingKey(request);
+    const renderCallback: SsrCallbackFn = (err, html): void => {
       if (requestTimeout) {
         // if request is still waiting for render, return it
         clearTimeout(requestTimeout);
@@ -378,7 +385,8 @@ export class OptimizedSsrEngine {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
-          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+          `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+          false
         );
         return;
       }
