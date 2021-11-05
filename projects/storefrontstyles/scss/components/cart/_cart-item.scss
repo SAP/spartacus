@@ -133,7 +133,6 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 0;
-    text-align: end;
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;

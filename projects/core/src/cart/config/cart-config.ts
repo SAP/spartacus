@@ -10,6 +10,9 @@ export abstract class CartConfig {
     selectiveCart?: {
       enabled?: boolean;
     };
+    validation?: {
+      enabled?: boolean;
+    };
   };
 }
 

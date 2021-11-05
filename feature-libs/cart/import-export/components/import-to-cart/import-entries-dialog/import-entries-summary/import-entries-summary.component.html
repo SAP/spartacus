@@ -1,0 +1,91 @@
+<div class="cx-import-entries-summary-status">
+  <p *ngIf="!summary.loading; else loading" [ngSwitch]="type">
+    <ng-container *ngSwitchCase="orderEntriesSource.QUICK_ORDER">
+      {{ 'importEntriesDialog.summary.loaded' | cxTranslate: summary }}
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      {{ 'importEntriesDialog.summary.loadedToCart' | cxTranslate: summary }}
+    </ng-container>
+  </p>
+  <ng-template #loading>
+    <p>
+      {{ 'importEntriesDialog.summary.loading' | cxTranslate: summary }}
+    </p>
+  </ng-template>
+</div>
+<p
+  *ngIf="summary.successesCount > 0"
+  class="cx-import-entries-summary-successes"
+>
+  <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+  {{ 'importEntriesDialog.summary.successes' | cxTranslate: summary }}
+</p>
+<div
+  *ngIf="summary.warningMessages.length > 0"
+  class="cx-import-entries-summary-warnings"
+>
+  <p>
+    <cx-icon class="warning" [type]="iconTypes.ERROR"></cx-icon>
+    {{
+      'importEntriesDialog.summary.warning'
+        | cxTranslate: { count: summary.warningMessages.length }
+    }}
+    <button class="link cx-action-link" (click)="toggleWarningList()">
+      {{
+        (warningDetailsOpened
+          ? 'importEntriesDialog.summary.hide'
+          : 'importEntriesDialog.summary.show'
+        ) | cxTranslate
+      }}
+    </button>
+  </p>
+  <ul *ngIf="warningDetailsOpened">
+    <li *ngFor="let message of summary.warningMessages">
+      {{
+        'importEntriesDialog.summary.messages.' + message.statusCode
+          | cxTranslate: message
+      }}
+    </li>
+  </ul>
+</div>
+<div
+  *ngIf="summary.errorMessages.length > 0"
+  class="cx-import-entries-summary-errors"
+>
+  <p>
+    <cx-icon class="error" [type]="iconTypes.RESET"></cx-icon>
+    {{
+      'importEntriesDialog.summary.error'
+        | cxTranslate: { count: summary.errorMessages.length }
+    }}
+    <button class="link cx-action-link" (click)="toggleErrorList()">
+      {{
+        (errorDetailsOpened
+          ? 'importEntriesDialog.summary.hide'
+          : 'importEntriesDialog.summary.show'
+        ) | cxTranslate
+      }}
+    </button>
+  </p>
+  <ul *ngIf="errorDetailsOpened">
+    <li *ngFor="let message of summary.errorMessages">
+      {{
+        'importEntriesDialog.summary.messages.' + message.statusCode
+          | cxTranslate: message
+      }}
+    </li>
+  </ul>
+</div>
+<div class="cx-import-entries-summary-footer">
+  <button
+    *ngIf="!summary.loading; else info"
+    (click)="close('Close Import Products Dialog')"
+    class="btn btn-action"
+    type="button"
+  >
+    {{ 'importEntriesDialog.close' | cxTranslate }}
+  </button>
+  <ng-template #info>
+    <p>{{ 'importEntriesDialog.summary.info' | cxTranslate }}</p>
+  </ng-template>
+</div>

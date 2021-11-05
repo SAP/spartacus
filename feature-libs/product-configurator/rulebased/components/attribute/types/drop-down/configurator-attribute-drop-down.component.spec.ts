@@ -112,7 +112,7 @@ describe('ConfigAttributeDropDownComponent', () => {
   it('should call emit of selectionChange onSelect', () => {
     component.ownerKey = ownerKey;
     spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onSelect(component.attributeDropDownForm?.value);
+    component.onSelect(component.attributeDropDownForm.value);
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
         ownerKey: ownerKey,
