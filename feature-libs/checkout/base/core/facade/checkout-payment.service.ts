@@ -153,41 +153,24 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
   }
 
-  /**
-   * Get card types
-   */
   getCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
     return this.cardTypesQuery.getState();
   }
 
-  /**
-   * Get card types
-   */
   getCardTypes(): Observable<CardType[]> {
     return this.getCardTypesState().pipe(map((state) => state.data ?? []));
   }
 
-  /**
-   * Get payment details
-   */
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentInfo })));
   }
 
-  /**
-   * Create payment details using the given paymentDetails param
-   * @param paymentDetails: the PaymentDetails to be created
-   */
   createPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.createPaymentMethodCommand.execute(paymentDetails);
   }
 
-  /**
-   * Set payment details
-   * @param paymentDetails : the PaymentDetails to be set
-   */
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.setPaymentMethodCommand.execute(paymentDetails);
   }

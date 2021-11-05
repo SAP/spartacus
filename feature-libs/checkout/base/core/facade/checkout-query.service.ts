@@ -128,9 +128,6 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     );
   }
 
-  /**
-   * Returns the checkout details state.
-   */
   getCheckoutDetailsState(): Observable<QueryState<CheckoutState | undefined>> {
     return this.checkoutQuery$.getState();
   }

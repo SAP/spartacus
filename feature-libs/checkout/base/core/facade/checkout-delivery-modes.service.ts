@@ -212,16 +212,10 @@ export class CheckoutDeliveryModesService
     );
   }
 
-  /**
-   * Returns the supported delivery modes for the current cart.
-   */
   getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
     return this.supportedDeliveryModesQuery.getState();
   }
 
-  /**
-   * Get selected delivery mode
-   */
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
@@ -230,17 +224,10 @@ export class CheckoutDeliveryModesService
       .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
   }
 
-  /**
-   * Set delivery mode
-   * @param mode : The delivery mode to be set
-   */
   setDeliveryMode(mode: string): Observable<unknown> {
     return this.setDeliveryModeCommand.execute(mode);
   }
 
-  /**
-   * Clear selected delivery mode setup in last checkout process
-   */
   clearCheckoutDeliveryMode(): Observable<unknown> {
     return this.clearDeliveryModeCommand.execute();
   }

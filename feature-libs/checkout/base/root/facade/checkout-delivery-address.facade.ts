@@ -20,26 +20,21 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 })
 export abstract class CheckoutDeliveryAddressFacade {
   /**
-   * Get delivery address
+   * Returns the delivery address state
    */
   abstract getDeliveryAddressState(): Observable<
     QueryState<Address | undefined>
   >;
-
   /**
-   * Create and set a delivery address using the address param
-   * @param address : the Address to be created and set
+   * Creates and sets the delivery address using the provided address
    */
   abstract createAndSetAddress(address: Address): Observable<unknown>;
-
   /**
-   * Set delivery address
-   * @param address : The address to be set
+   * Sets the delivery address to the cart
    */
   abstract setDeliveryAddress(address: Address): Observable<unknown>;
-
   /**
-   * Clear address already setup in last checkout process
+   * Clears the delivery address set in the cart
    */
   abstract clearCheckoutDeliveryAddress(): Observable<unknown>;
 }

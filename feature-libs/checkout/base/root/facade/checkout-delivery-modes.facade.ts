@@ -20,27 +20,23 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 })
 export abstract class CheckoutDeliveryModesFacade {
   /**
-   * Get the supported delivery modes state.
+   * Returns the supported delivery modes state.
    */
   abstract getSupportedDeliveryModesState(): Observable<
     QueryState<DeliveryMode[]>
   >;
-
   /**
-   * Get selected delivery mode
+   * Returns the selected delivery mode
    */
   abstract getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   >;
-
   /**
-   * Set delivery mode
-   * @param mode : The delivery mode to be set
+   * Sets the provided delivery mode to the current cart
    */
   abstract setDeliveryMode(mode: string): Observable<unknown>;
-
   /**
-   * Clear selected delivery mode setup in last checkout process
+   * Clears the selected delivery mode from the current cart
    */
   abstract clearCheckoutDeliveryMode(): Observable<unknown>;
 }

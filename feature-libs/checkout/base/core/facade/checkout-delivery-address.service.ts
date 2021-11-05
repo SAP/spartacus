@@ -155,9 +155,6 @@ export class CheckoutDeliveryAddressService
     );
   }
 
-  /**
-   * Get delivery address
-   */
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return this.checkoutQuery.getCheckoutDetailsState().pipe(
       map((state) => ({
@@ -167,25 +164,14 @@ export class CheckoutDeliveryAddressService
     );
   }
 
-  /**
-   * Create and set a delivery address using the address param
-   * @param address : the Address to be created and set
-   */
   createAndSetAddress(address: Address): Observable<unknown> {
     return this.createDeliveryAddressCommand.execute(address);
   }
 
-  /**
-   * Set delivery address
-   * @param address : The address to be set
-   */
   setDeliveryAddress(address: Address): Observable<unknown> {
     return this.setDeliveryAddressCommand.execute(address);
   }
 
-  /**
-   * Clear address already setup in last checkout process
-   */
   clearCheckoutDeliveryAddress(): Observable<unknown> {
     return this.clearDeliveryAddressCommand.execute();
   }

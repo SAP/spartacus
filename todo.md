@@ -14,7 +14,7 @@
 3. append "state" to all facade methods that do return the state
 4. fix xit in projects/core/src/util/command-query/query.service.spec.ts and feature-libs/checkout/base/core/facade/checkout-payment.service.spec.ts
 5. search for "// TODO:#checkout"
-6. move the service impl's jsdoc comments to the facade layer
+
 
 # Checkout TO DO list
 

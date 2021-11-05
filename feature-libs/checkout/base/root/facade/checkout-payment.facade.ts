@@ -26,33 +26,27 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 })
 export abstract class CheckoutPaymentFacade {
   /**
-   * Get card types state
+   * Returns the card types state
    */
   abstract getCardTypesState(): Observable<QueryState<CardType[] | undefined>>;
-
   /**
-   * Get card types
+   * Returns the card types
    */
   abstract getCardTypes(): Observable<CardType[]>;
-
   /**
-   * Get payment details
+   * Returns the payment details state
    */
   abstract getPaymentDetailsState(): Observable<
     QueryState<PaymentDetails | undefined>
   >;
-
   /**
-   * Create payment details using the given paymentDetails param
-   * @param paymentDetails: the PaymentDetails to be created
+   * Creates the payment details using the provided paymentDetails
    */
   abstract createPaymentDetails(
     paymentDetails: PaymentDetails
   ): Observable<unknown>;
-
   /**
-   * Set payment details
-   * @param paymentDetails : the PaymentDetails to be set
+   * Sets the payment details to the current cart
    */
   abstract setPaymentDetails(
     paymentDetails: PaymentDetails
