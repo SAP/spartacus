@@ -114,7 +114,8 @@ export class ExpressCheckoutService {
                     ),
                     filter((state) => !state.error && !state.loading),
                     map((state) => state.data),
-                    map((data) => !!(data && Object.keys(data).length))
+                    map((data) => !!(data && Object.keys(data).length)),
+                    catchError(() => of(false))
                   );
               })
             );
@@ -159,8 +160,9 @@ export class ExpressCheckoutService {
 
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
     return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      map(([deliveryModeSet, paymentMethodSet]) =>
-        Boolean(deliveryModeSet && paymentMethodSet)
+      map(
+        ([deliveryModeSet, paymentMethodSet]) =>
+          deliveryModeSet && paymentMethodSet
       )
     );
   }
