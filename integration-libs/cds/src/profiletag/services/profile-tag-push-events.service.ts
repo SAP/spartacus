@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
+import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,

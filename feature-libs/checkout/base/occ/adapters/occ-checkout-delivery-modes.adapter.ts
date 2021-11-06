@@ -24,6 +24,12 @@ export class OccCheckoutDeliveryModesAdapter
     protected converter: ConverterService
   ) {}
 
+  public getMode(userId: string, cartId: string): Observable<any> {
+    return this.http
+      .get(this.getDeliveryModeEndpoint(userId, cartId))
+      .pipe(this.converter.pipeable(DELIVERY_MODE_NORMALIZER));
+  }
+
   protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('deliveryMode', {
       urlParams: {
@@ -31,6 +37,16 @@ export class OccCheckoutDeliveryModesAdapter
         cartId,
       },
     });
+  }
+
+  public setMode(
+    userId: string,
+    cartId: string,
+    deliveryModeId: string
+  ): Observable<unknown> {
+    return this.http
+      .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getSetDeliveryModeEndpoint(
@@ -47,37 +63,6 @@ export class OccCheckoutDeliveryModesAdapter
     });
   }
 
-  protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.buildUrl('deliveryModes', {
-      urlParams: { userId, cartId },
-    });
-  }
-
-  protected getClearDeliveryModeEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('clearDeliveryMode', {
-      urlParams: { userId, cartId },
-    });
-  }
-
-  public setMode(
-    userId: string,
-    cartId: string,
-    deliveryModeId: string
-  ): Observable<unknown> {
-    return this.http
-      .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
-  }
-
-  public getMode(userId: string, cartId: string): Observable<any> {
-    return this.http
-      .get(this.getDeliveryModeEndpoint(userId, cartId))
-      .pipe(this.converter.pipeable(DELIVERY_MODE_NORMALIZER));
-  }
-
   public getSupportedModes(
     userId: string,
     cartId: string
@@ -92,6 +77,12 @@ export class OccCheckoutDeliveryModesAdapter
       );
   }
 
+  protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl('deliveryModes', {
+      urlParams: { userId, cartId },
+    });
+  }
+
   clearCheckoutDeliveryMode(
     userId: string,
     cartId: string
@@ -99,5 +90,14 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+  }
+
+  protected getClearDeliveryModeEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('clearDeliveryMode', {
+      urlParams: { userId, cartId },
+    });
   }
 }

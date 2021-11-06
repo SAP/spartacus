@@ -12,13 +12,11 @@ import {
   Cart,
   Country,
   DeliveryMode,
-  FeatureConfigService,
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
   TranslationService,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -42,9 +40,7 @@ export class ReviewSubmitComponent {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
-    protected featureConfigService: FeatureConfigService
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -69,19 +65,19 @@ export class ReviewSubmitComponent {
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
-    this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+    this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
-    this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
+    this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
-    this.checkoutPaymentService.getPaymentDetails().pipe(
+    this.checkoutPaymentService.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );

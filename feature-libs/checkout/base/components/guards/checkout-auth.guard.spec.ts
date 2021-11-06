@@ -7,7 +7,6 @@ import {
   AuthService,
   B2BUserRole,
   GlobalMessageService,
-  GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
@@ -68,7 +67,6 @@ describe('CheckoutAuthGuard', () => {
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
   let userService: UserAccountFacade;
-  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -111,7 +109,6 @@ describe('CheckoutAuthGuard', () => {
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     userService = TestBed.inject(UserAccountFacade);
-    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -242,22 +239,6 @@ describe('CheckoutAuthGuard', () => {
           .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
-      });
-
-      it('should return to /home when user roles does not have b2bcustomergroup', () => {
-        spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
-        );
-        let result: boolean | UrlTree | undefined;
-        checkoutGuard
-          .canActivate()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-        expect(result?.toString()).toBe('/home');
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'checkout.invalid.accountType' },
-          GlobalMessageType.MSG_TYPE_WARNING
-        );
       });
     });
   });

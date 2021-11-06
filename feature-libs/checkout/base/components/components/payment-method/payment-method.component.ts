@@ -7,7 +7,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryAddressFacade,
-  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
@@ -54,7 +53,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
@@ -64,7 +62,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
@@ -75,7 +73,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     }
 
     this.checkoutDeliveryAddressService
-      .getDeliveryAddress()
+      .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
         take(1),
@@ -87,24 +85,26 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
-    this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      tap((paymentInfo: any) => {
-        if (paymentInfo && !!Object.keys(paymentInfo).length) {
-          if (paymentInfo['hasError']) {
-            Object.keys(paymentInfo).forEach((key) => {
-              if (key.startsWith('InvalidField')) {
-                this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
-              }
-            });
-            // TODO: this.checkoutService.clearCheckoutStep(3);
-          } else if (this.shouldRedirect) {
-            this.next();
+    this.selectedMethod$ = this.checkoutPaymentService
+      .getPaymentDetailsState()
+      .pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
+        tap((paymentInfo: any) => {
+          if (paymentInfo && !!Object.keys(paymentInfo).length) {
+            if (paymentInfo['hasError']) {
+              Object.keys(paymentInfo).forEach((key) => {
+                if (key.startsWith('InvalidField')) {
+                  this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
+                }
+              });
+              // TODO: this.checkoutService.clearCheckoutStep(3);
+            } else if (this.shouldRedirect) {
+              this.next();
+            }
           }
-        }
-      })
-    );
+        })
+      );
 
     this.cards$ = combineLatest([
       this.existingPaymentMethods$.pipe(
@@ -207,11 +207,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.shouldRedirect = true;
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-    this.paymentSavingInProgress$.next(false);
-  }
-
   protected getCardIcon(code: string): string {
     let ccIcon: string;
     if (code === 'visa') {
@@ -270,5 +265,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.paymentSavingInProgress$.next(false);
   }
 }

@@ -43,22 +43,20 @@ export class PlaceOrderComponent implements OnDestroy {
       );
       this.checkoutService.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {
-          if (this.placedOrder) {
-            this.placedOrder
-              .subscribe((component) => {
-                this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                );
-                if (component) {
-                  component.destroy();
-                }
-              })
-              .unsubscribe();
+          if (!this.placedOrder) {
+            return;
           }
+
+          this.placedOrder
+            .subscribe((component) => {
+              this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+              if (component) {
+                component.destroy();
+              }
+            })
+            .unsubscribe();
         },
-        next: () => {
-          this.onSuccess();
-        },
+        next: () => this.onSuccess(),
       });
     } else {
       this.checkoutSubmitForm.markAllAsTouched();

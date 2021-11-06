@@ -17,19 +17,19 @@ const mockCart: Cart = {
   totalItems: 5,
 };
 
-class MockActiveCartService {
+class MockActiveCartService implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
 }
 
-class MockCmsService {}
+class MockCmsService implements Partial<CmsService> {}
 
-class MockBasePageMetaResolver {
+class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveDescription(): Observable<string> {
     return of();
   }
-  resolveRobots() {
+  resolveRobots(): Observable<PageRobotsMeta[]> {
     return of();
   }
 }

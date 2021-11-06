@@ -17,6 +17,7 @@ import {
   CurrencySetEvent,
   DeliveryMode,
   EventService,
+  isJaloError,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -28,7 +29,7 @@ import {
   StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/checkout-delivery-modes.connector';
 
@@ -36,26 +37,34 @@ import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/che
 export class CheckoutDeliveryModesService
   implements CheckoutDeliveryModesFacade
 {
-  protected retrySupportedDeliveryModes$: Subject<boolean> =
-    new Subject<boolean>();
-
+  /**
+   * Returns the reload triggers for the supportedDeliveryModes query
+   */
   protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
-    return [ReloadDeliveryModesEvent, ...this.getSiteContextTriggers()];
-  }
-
-  protected getSiteContextTriggers(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
-  }
-
-  protected getSupportedDeliveryModesResetTriggers(): QueryNotifier[] {
     return [
-      ResetDeliveryModesEvent,
-      ...this.getAuthTriggers(),
-      this.retrySupportedDeliveryModes$.asObservable(),
+      ReloadDeliveryModesEvent,
+      ...this.getSupportedDeliveryModesQueryReloadSiteContextTriggers(),
     ];
   }
-
-  protected getAuthTriggers(): QueryNotifier[] {
+  /**
+   * Returns the site-context reload triggers for the supportedDeliveryModes query
+   */
+  protected getSupportedDeliveryModesQueryReloadSiteContextTriggers(): QueryNotifier[] {
+    return [LanguageSetEvent, CurrencySetEvent];
+  }
+  /**
+   * Return the reset triggers for the supportedDeliveryModes query
+   */
+  protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
+    return [
+      ResetDeliveryModesEvent,
+      ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
+    ];
+  }
+  /**
+   * Returns the auth reset triggers for the supportedDeliveryModes query
+   */
+  protected getSupportedDeliveryModesQueryResetAuthTriggers(): QueryNotifier[] {
     return [LogoutEvent, LoginEvent];
   }
 
@@ -72,7 +81,8 @@ export class CheckoutDeliveryModesService
         ),
       {
         reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
-        resetOn: this.getSupportedDeliveryModesResetTriggers(),
+        resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
+        retryOn: { shouldRetry: isJaloError },
       }
     );
 
@@ -97,6 +107,11 @@ export class CheckoutDeliveryModesService
                     },
                     DeliveryModeSetEvent
                   );
+                  /**
+                   * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will load the cart$ query.
+                   */
                   this.store.dispatch(
                     new CartActions.LoadCart({
                       userId,
@@ -128,6 +143,11 @@ export class CheckoutDeliveryModesService
                     },
                     DeliveryModeClearedEvent
                   );
+                  /**
+                   * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will reload the cart$ query.
+                   */
                   this.store.dispatch(
                     new CartActions.LoadCart({
                       cartId,
@@ -135,15 +155,19 @@ export class CheckoutDeliveryModesService
                     })
                   );
                 }),
-                catchError((err) => {
-                  // TODO: Why we do it?
+                catchError((error) => {
+                  /**
+                   * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will reload the cart$ query.
+                   */
                   this.store.dispatch(
                     new CartActions.LoadCart({
                       cartId,
                       userId,
                     })
                   );
-                  throw err;
+                  return throwError(error);
                 })
               )
           )
@@ -154,6 +178,7 @@ export class CheckoutDeliveryModesService
     );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
@@ -164,6 +189,9 @@ export class CheckoutDeliveryModesService
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
+  /**
+   * Performs the necessary checkout preconditions.
+   */
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
@@ -184,47 +212,22 @@ export class CheckoutDeliveryModesService
     );
   }
 
-  /**
-   * Get supported delivery modes
-   */
-  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.getSupportedDeliveryModesState().pipe(
-      map((deliveryModesState) => deliveryModesState.data ?? [])
-    );
-  }
-
   getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
-    return this.supportedDeliveryModesQuery.getState().pipe(
-      // TODO: check if we need to do error handling here. This mimics the behaviour from delivery-mode.component.ts' ngOnInit().
-      tap((deliveryModesState) => {
-        if (deliveryModesState.error && !deliveryModesState.loading) {
-          this.retrySupportedDeliveryModes$.next();
-          // TODO: Add fancy exponential back-off retry query as example of how not to do infinite loop
-        }
-      })
-    );
+    return this.supportedDeliveryModesQuery.getState();
   }
 
-  /**
-   * Get selected delivery mode
-   */
-  getSelectedDeliveryMode(): Observable<QueryState<DeliveryMode | undefined>> {
+  getSelectedDeliveryModeState(): Observable<
+    QueryState<DeliveryMode | undefined>
+  > {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
   }
 
-  /**
-   * Set delivery mode
-   * @param mode : The delivery mode to be set
-   */
   setDeliveryMode(mode: string): Observable<unknown> {
     return this.setDeliveryModeCommand.execute(mode);
   }
 
-  /**
-   * Clear selected delivery mode setup in last checkout process
-   */
   clearCheckoutDeliveryMode(): Observable<unknown> {
     return this.clearDeliveryModeCommand.execute();
   }

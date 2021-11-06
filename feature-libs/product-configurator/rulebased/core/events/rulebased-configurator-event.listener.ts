@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
+import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ConfiguratorCartService } from '../facade/configurator-cart.service';

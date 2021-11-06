@@ -13,7 +13,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PAYMENT_TYPE],
+    type: [CheckoutStepType.PAYMENT_DETAILS],
   },
   {
     id: 'step1',
@@ -29,7 +29,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
   },
 ];
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );

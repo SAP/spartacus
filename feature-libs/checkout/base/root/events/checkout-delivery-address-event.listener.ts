@@ -16,6 +16,9 @@ import {
   ResetDeliveryModesEvent,
 } from './checkout.events';
 
+/**
+ * Checkout delivery address event listener.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -31,10 +34,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
   }
 
   /**
-   * Clears the checkout delivery info when an address in the address book is
-   * changed ( updated, set as default or deleted )
-   *
-   * Listens for UpdateUserAddressEvent or DeleteUserAddressEvent
+   * Registers listeners for the User address events.
    */
   protected onUserAddressChange(): void {
     this.subscriptions.add(
@@ -56,6 +56,9 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
   }
 
+  /**
+   * Registers listeners on the Delivery address set event
+   */
   protected onDeliveryAddressChange(): void {
     this.subscriptions.add(
       this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {

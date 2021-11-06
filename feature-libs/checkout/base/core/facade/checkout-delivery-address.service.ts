@@ -14,7 +14,6 @@ import {
   CommandStrategy,
   EventService,
   OCC_USER_ID_ANONYMOUS,
-  QueryService,
   QueryState,
   StateWithMultiCart,
   UserActions,
@@ -22,8 +21,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
-import { CheckoutDeliveryConnector } from '../connectors/delivery-address/checkout-delivery.connector';
+import { CheckoutDeliveryAddressConnector } from '../connectors/delivery-address/checkout-delivery-address.connector';
 
 @Injectable()
 export class CheckoutDeliveryAddressService
@@ -31,28 +29,35 @@ export class CheckoutDeliveryAddressService
 {
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.command.create<Address>(
-      (address) =>
+      (payload) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
             return this.checkoutDeliveryConnector
-              .createAddress(userId, cartId, address)
+              .createAddress(userId, cartId, payload)
               .pipe(
                 tap(() => {
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
+                    /**
+                     * TODO: We have to keep this here, since the user address feature is still ngrx-based.
+                     * Remove once it is switched from ngrx to c&q.
+                     * We should dispatch an event, which will reload the userAddress$ query.
+                     */
                     this.store.dispatch(
                       new UserActions.LoadUserAddresses(userId)
                     );
                   }
                 }),
-                switchMap((address) => {
-                  address['titleCode'] = address.titleCode;
-                  if (address.region?.isocodeShort) {
-                    Object.assign(address.region, {
-                      isocodeShort: address.region.isocodeShort,
-                    });
+                map((address) => {
+                  address.titleCode = payload.titleCode;
+                  if (payload.region?.isocodeShort) {
+                    address.region = {
+                      ...address.region,
+                      isocodeShort: payload.region.isocodeShort,
+                    };
                   }
-                  return this.setDeliveryAddress(address);
-                })
+                  return address;
+                }),
+                switchMap((address) => this.setDeliveryAddress(address))
               );
           })
         ),
@@ -117,17 +122,19 @@ export class CheckoutDeliveryAddressService
     );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected eventService: EventService,
-    protected query: QueryService,
     protected command: CommandService,
-    protected checkoutDeliveryConnector: CheckoutDeliveryConnector,
-    protected checkoutConnector: CheckoutConnector,
+    protected checkoutDeliveryConnector: CheckoutDeliveryAddressConnector,
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
+  /**
+   * Performs the necessary checkout preconditions.
+   */
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
@@ -148,10 +155,7 @@ export class CheckoutDeliveryAddressService
     );
   }
 
-  /**
-   * Get delivery address
-   */
-  getDeliveryAddress(): Observable<QueryState<Address | undefined>> {
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return this.checkoutQuery.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
@@ -160,25 +164,14 @@ export class CheckoutDeliveryAddressService
     );
   }
 
-  /**
-   * Create and set a delivery address using the address param
-   * @param address : the Address to be created and set
-   */
   createAndSetAddress(address: Address): Observable<unknown> {
     return this.createDeliveryAddressCommand.execute(address);
   }
 
-  /**
-   * Set delivery address
-   * @param address : The address to be set
-   */
   setDeliveryAddress(address: Address): Observable<unknown> {
     return this.setDeliveryAddressCommand.execute(address);
   }
 
-  /**
-   * Clear address already setup in last checkout process
-   */
   clearCheckoutDeliveryAddress(): Observable<unknown> {
     return this.clearDeliveryAddressCommand.execute();
   }

@@ -4,15 +4,13 @@ import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import { CheckoutPaymentConnector } from './checkout-payment.connector';
 import createSpy = jasmine.createSpy;
 
+class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
+  create = createSpy().and.returnValue(of({}));
+  set = createSpy().and.returnValue(of({}));
+  loadCardTypes = createSpy().and.returnValue(of([]));
+}
+
 describe('CheckoutPaymentConnector', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
-    create = createSpy().and.returnValue(of({}));
-    set = createSpy().and.returnValue(of({}));
-    loadCardTypes = createSpy().and.returnValue(of([]));
-  }
-
   let service: CheckoutPaymentConnector;
   let adapter: CheckoutPaymentAdapter;
 

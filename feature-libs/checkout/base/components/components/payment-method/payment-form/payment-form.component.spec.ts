@@ -14,6 +14,7 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  QueryState,
   Region,
   UserAddressService,
   UserPaymentService,
@@ -116,7 +117,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockCheckoutPaymentService {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
     return of();
@@ -127,9 +128,11 @@ class MockCheckoutPaymentService {
   }
 }
 
-class MockCheckoutDeliveryService {
-  getDeliveryAddress(): Observable<Address> {
-    return of(null);
+class MockCheckoutDeliveryService
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({ loading: false, error: false, data: undefined });
   }
   getAddressVerificationResults(): Observable<AddressValidation> {
     return of();
@@ -140,14 +143,14 @@ class MockCheckoutDeliveryService {
   clearAddressVerificationResults(): void {}
 }
 
-class MockUserPaymentService {
+class MockUserPaymentService implements Partial<UserPaymentService> {
   loadBillingCountries = createSpy();
   getAllBillingCountries(): Observable<Country[]> {
     return new BehaviorSubject(mockBillingCountries);
   }
 }
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
@@ -161,13 +164,13 @@ const mockSuggestedAddressModalRef: any = {
   }),
 };
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   open(): any {
     return mockSuggestedAddressModalRef;
   }
 }
 
-class MockUserAddressService {
+class MockUserAddressService implements Partial<UserAddressService> {
   getRegions(): Observable<Region[]> {
     return of([]);
   }
@@ -273,14 +276,15 @@ describe('PaymentFormComponent', () => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
       of(mockCardTypes)
     );
-    spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
-      of(mockAddress)
-    );
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getDeliveryAddressState'
+    ).and.returnValue(of({ loading: false, error: false, data: mockAddress }));
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
       expect(cardTypes).toBe(mockCardTypes);
     });
-    component.shippingAddress$.subscribe((address: Address) => {
+    component.shippingAddress$.subscribe((address) => {
       expect(address).toBe(mockAddress);
     });
   });
@@ -404,8 +408,11 @@ describe('PaymentFormComponent', () => {
       spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
-        of(mockAddress)
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getDeliveryAddressState'
+      ).and.returnValue(
+        of({ loading: false, error: false, data: mockAddress })
       );
       spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)
@@ -456,8 +463,11 @@ describe('PaymentFormComponent', () => {
       spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
-        of(mockAddress)
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getDeliveryAddressState'
+      ).and.returnValue(
+        of({ loading: false, error: false, data: mockAddress })
       );
       spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)

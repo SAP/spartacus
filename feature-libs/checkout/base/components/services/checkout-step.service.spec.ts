@@ -1,20 +1,23 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import {
+  CheckoutConfig,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/base/root';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from './checkout-step.service';
-
 import createSpy = jasmine.createSpy;
 
-const checkoutConfig = {
+const checkoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
         id: 'step0',
         name: 'step 0',
         routeName: 'route0',
-        type: [CheckoutStepType.PAYMENT_TYPE],
+        type: [CheckoutStepType.PAYMENT_DETAILS],
       },
       {
         id: 'step1',
@@ -33,7 +36,7 @@ const checkoutConfig = {
 };
 
 class MockRoutingConfigService {
-  getRouteConfig(stepRoute) {
+  getRouteConfig(stepRoute: string) {
     if (stepRoute === 'route0') {
       return { paths: ['checkout/route0'] };
     } else if (stepRoute === 'route1') {
@@ -45,7 +48,7 @@ class MockRoutingConfigService {
   }
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = createSpy();
   getRouterState(): Observable<any> {
     return of({
@@ -122,9 +125,9 @@ describe('CheckoutStepService', () => {
   });
 
   it('should be able to reset the steps', () => {
-    let steps = [];
+    let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, true);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     // reset
@@ -135,15 +138,15 @@ describe('CheckoutStepService', () => {
   });
 
   it('should be able to disable/enable step', () => {
-    let steps = [];
+    let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, true);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
-    service.disableEnableStep(CheckoutStepType.PAYMENT_TYPE, false);
+    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, false);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');
@@ -151,19 +154,19 @@ describe('CheckoutStepService', () => {
 
   it('should get checkout step by type', () => {
     expect(service.getCheckoutStep(CheckoutStepType.SHIPPING_ADDRESS)).toEqual(
-      checkoutConfig.checkout.steps[1]
+      checkoutConfig.checkout?.steps?.[1]
     );
   });
 
   it('should get checkout step route by type', () => {
     expect(
       service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
-    ).toEqual(checkoutConfig.checkout.steps[1].routeName);
+    ).toEqual(checkoutConfig.checkout?.steps?.[1].routeName);
   });
 
   it('should get first checkout step route', () => {
     expect(service.getFirstCheckoutStepRoute()).toEqual(
-      checkoutConfig.checkout.steps[0].routeName
+      checkoutConfig.checkout?.steps?.[0].routeName
     );
   });
 
