@@ -12,6 +12,7 @@ import {
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutDeliveryModesAdapter } from './occ-checkout-delivery-modes.adapter';
 
 const checkoutData: Partial<CheckoutState> = {
@@ -22,7 +23,7 @@ const checkoutData: Partial<CheckoutState> = {
 
 const userId = '123';
 const cartId = '456';
-const cartData: Cart = {
+const cartData: Partial<Cart> = {
   store: 'electronics',
   guid: '1212121',
 };
@@ -33,12 +34,9 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
-        setDeliveryAddress:
-          'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-        createDeliveryAddress:
-          'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         setDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        clearDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
       } as OccEndpoints,
     },
@@ -75,14 +73,18 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
   });
 
   describe('get all supported delivery modes for cart', () => {
-    it('should get all supported delivery modes for cart for given user id and cart id', () => {
+    it('should get all supported delivery modes for cart for given user id and cart id', (done) => {
       const mockDeliveryModes: Occ.DeliveryModeList = {
         deliveryModes: [{ name: 'mockDeliveryMode' }],
       };
 
-      service.getSupportedModes(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(mockDeliveryModes.deliveryModes);
-      });
+      service
+        .getSupportedModes(userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockDeliveryModes.deliveryModes);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -101,10 +103,14 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
   });
 
   describe('get delivery mode for cart', () => {
-    it('should delivery modes for cart for given user id and cart id', () => {
-      service.getMode(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(cartData);
-      });
+    it('should delivery modes for cart for given user id and cart id', (done) => {
+      service
+        .getMode(userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -121,12 +127,16 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
   });
 
   describe('set delivery mode for cart', () => {
-    it('should set modes for cart for given user id, cart id and delivery mode id', () => {
+    it('should set modes for cart for given user id, cart id and delivery mode id', (done) => {
       const deliveryModeId = 'deliveryModeId';
 
-      service.setMode(userId, cartId, deliveryModeId).subscribe((result) => {
-        expect(result).toEqual(cartData);
-      });
+      service
+        .setMode(userId, cartId, deliveryModeId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -143,10 +153,14 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
   });
 
   describe('clear checkout delivery mode', () => {
-    it('should clear checkout delivery mode for given userId, cartId', () => {
-      service.clearCheckoutDeliveryMode(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(checkoutData);
-      });
+    it('should clear checkout delivery mode for given userId, cartId', (done) => {
+      service
+        .clearCheckoutDeliveryMode(userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(checkoutData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (

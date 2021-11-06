@@ -2,25 +2,21 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutCostCenterFacade,
-  CheckoutDeliveryAddressFacade,
-  PaymentTypeFacade,
-} from '@spartacus/checkout/base/root';
+import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   Address,
   I18nTestingModule,
+  QueryState,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { ShippingAddressComponent } from './shipping-address.component';
 import createSpy = jasmine.createSpy;
 
-class MockUserAddressService {
+class MockUserAddressService implements Partial<UserAddressService> {
   getAddresses(): Observable<Address[]> {
     return of(mockAddresses);
   }
@@ -30,44 +26,27 @@ class MockUserAddressService {
   loadAddresses(): void {}
 }
 
-class MockActiveCartService {
-  isGuestCart(): Boolean {
+class MockActiveCartService implements Partial<ActiveCartService> {
+  isGuestCart(): boolean {
     return false;
   }
 }
 
-class MockCheckoutDeliveryFacade {
+class MockCheckoutDeliveryAddressFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   createAndSetAddress = createSpy();
   setDeliveryAddress = createSpy();
-  getDeliveryAddress(): Observable<Address> {
-    return of(null);
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({ loading: false, error: false, data: undefined });
   }
 }
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText(): string {
     return 'common.back';
-  }
-}
-
-const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-class MockPaymentTypeService {
-  isAccountPayment(): Observable<boolean> {
-    return isAccount;
-  }
-}
-
-class MockUserCostCenterService {
-  getCostCenterAddresses() {
-    return of(mockAddresses);
-  }
-}
-
-class MockCheckoutCostCenterService {
-  getCostCenter() {
-    return of('test-cost-center');
   }
 }
 
@@ -137,11 +116,10 @@ class MockCardComponent {
 describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
-  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
+  let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartService: ActiveCartService;
   let checkoutStepService: CheckoutStepService;
-  let userCostCenterService: UserCostCenterService;
 
   beforeEach(
     waitForAsync(() => {
@@ -158,19 +136,10 @@ describe('ShippingAddressComponent', () => {
           { provide: ActiveCartService, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryFacade,
+            useClass: MockCheckoutDeliveryAddressFacade,
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: PaymentTypeFacade, useClass: MockPaymentTypeService },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
-          },
-          {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
-          },
         ],
       })
         .overrideComponent(ShippingAddressComponent, {
@@ -178,13 +147,14 @@ describe('ShippingAddressComponent', () => {
         })
         .compileComponents();
 
-      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
+      checkoutDeliveryAddressFacade = TestBed.inject(
+        CheckoutDeliveryAddressFacade
+      );
       activeCartService = TestBed.inject(ActiveCartService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
       userAddressService = TestBed.inject(UserAddressService);
-      userCostCenterService = TestBed.inject(UserCostCenterService);
     })
   );
 
@@ -204,39 +174,10 @@ describe('ShippingAddressComponent', () => {
     expect(component.isGuestCheckout).toBeFalsy();
   });
 
-  it('should get isAccountPayment', () => {
-    isAccount.next(false);
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeFalsy();
-
-    isAccount.next(true);
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeTruthy();
-  });
-
   describe('should call ngOnInit', () => {
-    it('for login user, should load user addresses if payment type is card', () => {
-      spyOn(userAddressService, 'loadAddresses').and.stub();
-      isAccount.next(false);
-
-      component.ngOnInit();
-      expect(component.isAccountPayment).toBeFalsy();
-      expect(userAddressService.loadAddresses).toHaveBeenCalled();
-    });
-
-    it('for login user, should not load user addresses if payment type is account', () => {
-      spyOn(userAddressService, 'loadAddresses').and.stub();
-      isAccount.next(true);
-
-      component.ngOnInit();
-      expect(component.isAccountPayment).toBeTruthy();
-      expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
-    });
-
     it('for guest user, should not load user addresses', () => {
       spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
       spyOn(userAddressService, 'loadAddresses').and.stub();
-      isAccount.next(false);
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -244,7 +185,9 @@ describe('ShippingAddressComponent', () => {
 
     it('should not invoke addAddress when address is undefined/ not modified.', () => {
       component.addAddress(undefined);
-      expect(checkoutDeliveryFacade.createAndSetAddress).not.toHaveBeenCalled();
+      expect(
+        checkoutDeliveryAddressFacade.createAndSetAddress
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -278,13 +221,17 @@ describe('ShippingAddressComponent', () => {
 
   it('should be able to select address', () => {
     component.selectAddress({});
-    expect(checkoutDeliveryFacade.setDeliveryAddress).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryAddressFacade.setDeliveryAddress
+    ).toHaveBeenCalledWith({});
   });
 
   it('should be able to add address', () => {
     component.addAddress({});
     expect(component.forceLoader).toBeTruthy();
-    expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryAddressFacade.createAndSetAddress
+    ).toHaveBeenCalledWith({});
   });
 
   it('should be able to get card content', () => {
@@ -304,47 +251,6 @@ describe('ShippingAddressComponent', () => {
       'zip',
       undefined,
     ]);
-  });
-
-  describe('selectDefaultAddress', () => {
-    describe('Account Payment', () => {
-      it('should automatically select default shipping address when there is ONLY ONE', () => {
-        isAccount.next(true);
-        component.ngOnInit();
-        component.selectDefaultAddress([mockAddress1], undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
-      });
-    });
-
-    describe('Credit Card Payment', () => {
-      it('should automatically select default shipping address when there is no current selection', () => {
-        component.doneAutoSelect = false;
-        component.selectDefaultAddress(mockAddresses, undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-      });
-    });
-  });
-
-  describe('should be able to get supported address', () => {
-    it('for ACCOUNT payment', () => {
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
-        of([])
-      );
-      isAccount.next(true);
-      component.ngOnInit();
-      component.getSupportedAddresses().subscribe();
-      expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
-        'test-cost-center'
-      );
-    });
-
-    it('for CARD payment', () => {
-      spyOn(userAddressService, 'getAddresses').and.stub();
-      isAccount.next(false);
-      component.ngOnInit();
-      component.getSupportedAddresses();
-      expect(userAddressService.getAddresses).toHaveBeenCalled();
-    });
   });
 
   describe('UI continue button', () => {
@@ -381,7 +287,7 @@ describe('ShippingAddressComponent', () => {
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back').and.callThrough();
       fixture.detectChanges();
-      getBackBtn().nativeElement.click();
+      getBackBtn()?.nativeElement.click();
       expect(component.back).toHaveBeenCalled();
     });
   });
@@ -431,7 +337,7 @@ describe('ShippingAddressComponent', () => {
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
 
-      getAddNewAddressBtn().nativeElement.click();
+      getAddNewAddressBtn()?.nativeElement.click();
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeTruthy();
     });

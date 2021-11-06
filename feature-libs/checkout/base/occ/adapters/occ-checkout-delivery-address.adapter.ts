@@ -23,41 +23,6 @@ export class OccCheckoutDeliveryAddressAdapter
     protected converter: ConverterService
   ) {}
 
-  protected getCreateDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('createDeliveryAddress', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getSetDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string,
-    addressId?: string
-  ): string {
-    return this.occEndpoints.buildUrl('setDeliveryAddress', {
-      urlParams: { userId, cartId },
-      queryParams: { addressId },
-    });
-  }
-
-  protected getRemoveDeliveryAddressEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
   public createAddress(
     userId: string,
     cartId: string,
@@ -79,14 +44,40 @@ export class OccCheckoutDeliveryAddressAdapter
       );
   }
 
+  protected getCreateDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('createDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
   public setAddress(
     userId: string,
     cartId: string,
     addressId: string
   ): Observable<unknown> {
     return this.http
-      .put(this.getSetDeliveryAddressEndpoint(userId, cartId, addressId), {})
+      .put<unknown>(
+        this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
+        {}
+      )
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+  }
+
+  protected getSetDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string,
+    addressId?: string
+  ): string {
+    return this.occEndpoints.buildUrl('setDeliveryAddress', {
+      urlParams: { userId, cartId },
+      queryParams: { addressId },
+    });
   }
 
   clearCheckoutDeliveryAddress(
@@ -96,5 +87,17 @@ export class OccCheckoutDeliveryAddressAdapter
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+  }
+
+  protected getRemoveDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 }

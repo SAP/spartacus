@@ -14,8 +14,6 @@ import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
-import createSpy = jasmine.createSpy;
-
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
   @Input() items: OrderEntry[];
@@ -23,10 +21,8 @@ class MockReviewSubmitComponent {
   @Input() promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }
 
-class MockCheckoutService {
-  clearCheckoutData = createSpy();
-
-  getOrderDetails(): Observable<Order> {
+class MockCheckoutService implements Partial<CheckoutFacade> {
+  getOrder(): Observable<Order> {
     return of({
       entries: [
         {

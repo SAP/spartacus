@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CheckoutDeliveryAddressAdapter } from './checkout-delivery-address.adapter';
 
 @Injectable()
-export class CheckoutDeliveryConnector {
+export class CheckoutDeliveryAddressConnector {
   constructor(protected adapter: CheckoutDeliveryAddressAdapter) {}
 
   public createAddress(

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -13,16 +8,12 @@ import { Observable } from 'rxjs';
   templateUrl: './order-confirmation-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
-  order$: Observable<Order | undefined>;
+export class OrderConfirmationOverviewComponent implements OnDestroy {
+  order$: Observable<Order | undefined> = this.checkoutService.getOrder();
 
   constructor(protected checkoutService: CheckoutFacade) {}
 
-  ngOnInit() {
-    this.order$ = this.checkoutService.getOrder();
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.checkoutService.clearOrder();
   }
 }

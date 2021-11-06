@@ -3,7 +3,6 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import {
@@ -31,10 +30,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected router: Router
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    _: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;
     const currentRouteUrl = '/' + route.url.join('/');
 
@@ -90,7 +86,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isShippingAddress(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((deliveryAddress) => {
@@ -106,17 +102,19 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isDeliveryModeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryModesService.getSelectedDeliveryMode().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      map((mode) => (mode ? true : this.getUrl(step.routeName)))
-    );
+    return this.checkoutDeliveryModesService
+      .getSelectedDeliveryModeState()
+      .pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
+        map((mode) => (mode ? true : this.getUrl(step.routeName)))
+      );
   }
 
   protected isPaymentDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutPaymentService.getPaymentDetails().pipe(
+    return this.checkoutPaymentService.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((paymentDetails) =>

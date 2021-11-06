@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-import { ActiveCartService, I18nTestingModule } from '@spartacus/core';
+import { ActiveCartService, Cart, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../../services/checkout-step.service';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
@@ -13,7 +13,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PAYMENT_TYPE],
+    type: [CheckoutStepType.PAYMENT_DETAILS],
   },
   {
     id: 'step1',
@@ -29,22 +29,22 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
   },
 ];
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
   activeStepIndex$: Observable<number> = of(0);
 }
 
-const mockActiveCart = {
+const mockActiveCart: Partial<Cart> = {
   totalItems: 5,
   subTotal: {
     formattedValue: '148,98$',
   },
 };
 
-class MockActiveCartService {
-  getActive(): Observable<any> {
+class MockActiveCartService implements Partial<ActiveCartService> {
+  getActive(): Observable<Cart> {
     return of(mockActiveCart);
   }
 }
@@ -92,7 +92,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
     expect(steps.innerText).toContain('step 0');
 
     expect(steps.innerText).toContain(
-      mockActiveCart.subTotal.formattedValue && mockActiveCart.totalItems
+      mockActiveCart.subTotal?.formattedValue && mockActiveCart.totalItems
     );
   });
 });

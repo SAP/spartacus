@@ -1,6 +1,6 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
+import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
 import { ConfiguratorCartService } from '../facade/configurator-cart.service';

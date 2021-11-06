@@ -1,14 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CheckoutCostCenterFacade,
   CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-  PaymentTypeFacade,
 } from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
+import {
+  Address,
+  DeliveryMode,
+  PaymentDetails,
+  QueryState,
+  RoutingConfigService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
@@ -16,7 +21,7 @@ import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService {
-  getRouteConfig(stepRoute) {
+  getRouteConfig(stepRoute: string) {
     if (stepRoute === 'route0') {
       return { paths: ['checkout/route0'] };
     } else if (stepRoute === 'route1') {
@@ -39,7 +44,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PAYMENT_TYPE],
+    type: [CheckoutStepType.PAYMENT_DETAILS],
   },
   {
     id: 'step1',
@@ -67,49 +72,41 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
   },
 ];
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
   disableEnableStep = createSpy();
 }
 
-class MockCheckoutCostCenterService {
-  getCostCenter(): Observable<string> {
-    return of(null);
-  }
-}
-
-// initial it as ACCOUNT payment
-const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-class MockPaymentTypeService {
-  isAccountPayment(): Observable<boolean> {
-    return isAccount;
-  }
-  getSelectedPaymentType(): Observable<string> {
-    return of(null);
-  }
-}
-
-class MockCheckoutDeliveryFacade
+class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getSelectedDeliveryMode(): Observable<any> {
-    return of(undefined);
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({ loading: false, error: false, data: undefined });
+  }
+}
+
+class MockCheckoutDeliveryModesFacade
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  getSelectedDeliveryModeState(): Observable<
+    QueryState<DeliveryMode | undefined>
+  > {
+    return of({ loading: false, error: false, data: undefined });
   }
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetails(): Observable<any> {
-    return of(null);
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails>> {
+    return of({ loading: false, error: false, data: undefined });
   }
 }
 
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
-  let paymentTypeService: PaymentTypeFacade;
-  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
-  let checkoutPaymentFacade: CheckoutPaymentFacade;
+  let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -118,16 +115,12 @@ describe(`CheckoutStepsSetGuard`, () => {
         CheckoutStepsSetGuard,
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
-          provide: PaymentTypeFacade,
-          useClass: MockPaymentTypeService,
-        },
-        {
-          provide: CheckoutCostCenterFacade,
-          useClass: MockCheckoutCostCenterService,
-        },
-        {
           provide: CheckoutDeliveryAddressFacade,
-          useClass: MockCheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
         },
         {
           provide: CheckoutPaymentFacade,
@@ -138,260 +131,109 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
-    paymentTypeService = TestBed.inject(PaymentTypeFacade);
-    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
-    checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+    checkoutDeliveryAddressFacade = TestBed.inject(
+      CheckoutDeliveryAddressFacade
+    );
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
   });
 
-  describe('When CARD payment', () => {
-    beforeEach(() => {
-      isAccount.next(false);
-    });
+  beforeEach(() => {
+    if (mockCheckoutSteps[3].type[0] === CheckoutStepType.PAYMENT_DETAILS) {
+      mockCheckoutSteps.splice(3, 1);
+    }
+  });
 
-    describe('there is no checkout data set yet', () => {
-      it('go to step1 (shipping address), should return true (no need cost center for CARD)', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
-      });
-
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step1 (shipping address) data set', () => {
-      beforeEach(() => {
-        spyOn(checkoutDeliveryFacade, 'getDeliveryAddress').and.returnValue(
-          of({ id: 'test-address' })
-        );
-      });
-
-      it('go to step2 (delivery mode), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step2 (delivery mode) data set', () => {
-      beforeEach(() => {
-        spyOn(
-          checkoutDeliveryFacade,
-          'getSelectedDeliveryMode'
-        ).and.returnValue(of({ code: 'test-delivery-mode' }));
-      });
-
-      it('go to step3 (payment details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step3 (payment details) data set', () => {
-      beforeEach(() => {
-        spyOn(checkoutPaymentFacade, 'getPaymentDetails').and.returnValue(
-          of({ id: 'test-details' })
-        );
-      });
-
-      it('go to step4 (review details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
+  describe('PAYMENT_DETAILS is not valid any more', () => {
+    it('go to step3 (payment details), should return to checkout', (done) => {
+      spyOn(console, 'warn');
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route3'] })
+        .subscribe((result) => {
+          expect(result.toString()).toEqual('/checkout');
+          done();
+        });
     });
   });
 
-  describe('When ACCOUNT payment', () => {
+  describe('there is no checkout data set yet', () => {
+    it('go to step1 (shipping address), should return step0', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route1'] })
+        .subscribe((result) => {
+          expect(result.toString()).toEqual('/checkout/route0');
+          done();
+        });
+    });
+
+    it('go to step2 (delivery mode), should return step1', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route2'] })
+        .subscribe((result) => {
+          expect(result.toString()).toEqual('/checkout/route1');
+          done();
+        });
+    });
+
+    it('go to step4 (review details), should return step2', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route4'] })
+        .subscribe((result) => {
+          expect(result.toString()).toEqual('/checkout/route2');
+          done();
+        });
+    });
+  });
+
+  describe('step1 (shipping address) data set', () => {
     beforeEach(() => {
-      isAccount.next(true);
-      if (mockCheckoutSteps[3].type[0] === CheckoutStepType.PAYMENT_DETAILS) {
-        mockCheckoutSteps.splice(3, 1);
-      }
+      spyOn(
+        checkoutDeliveryAddressFacade,
+        'getDeliveryAddressState'
+      ).and.returnValue(
+        of({ loading: false, error: false, data: { id: 'test-address' } })
+      );
     });
 
-    describe('PAYMENT_DETAILS is not valid any more', () => {
-      it('go to step3 (payment details), should return to checkout', (done) => {
-        spyOn(console, 'warn');
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout');
-            done();
-          });
-      });
+    it('go to step2 (delivery mode), should return true', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route2'] })
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          done();
+        });
     });
 
-    describe('there is no checkout data set yet', () => {
-      it('go to step1 (shipping address), should return step0', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route0');
-            done();
-          });
-      });
+    it('go to step4 (review details), should return step3', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route4'] })
+        .subscribe((result) => {
+          expect(result.toString()).toEqual('/checkout/route2');
+          done();
+        });
+    });
+  });
 
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
+  describe('step2 (delivery mode) data set', () => {
+    beforeEach(() => {
+      spyOn(
+        checkoutDeliveryModesFacade,
+        'getSelectedDeliveryModeState'
+      ).and.returnValue(
+        of({
+          loading: false,
+          error: false,
+          data: { code: 'test-delivery-mode' },
+        })
+      );
     });
 
-    describe('step0 (payment type) data set', () => {
-      beforeEach(() => {
-        spyOn(paymentTypeService, 'getSelectedPaymentType').and.returnValue(
-          of('test-cost-center')
-        );
-      });
-
-      it('go to step1 (shipping address), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-    });
-
-    describe('step1 (shipping address) data set', () => {
-      beforeEach(() => {
-        spyOn(checkoutDeliveryFacade, 'getDeliveryAddress').and.returnValue(
-          of({ id: 'test-address' })
-        );
-      });
-
-      it('go to step2 (delivery mode), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-    });
-
-    describe('step2 (delivery mode) data set', () => {
-      beforeEach(() => {
-        spyOn(
-          checkoutDeliveryFacade,
-          'getSelectedDeliveryMode'
-        ).and.returnValue(of({ code: 'test-delivery-mode' }));
-      });
-
-      it('go to step4 (review details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] }, undefined)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
+    it('go to step4 (review details), should return true', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route4'] })
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          done();
+        });
     });
   });
 });

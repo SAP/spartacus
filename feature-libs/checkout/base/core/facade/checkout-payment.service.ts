@@ -14,6 +14,7 @@ import {
   CommandStrategy,
   CurrencySetEvent,
   EventService,
+  isJaloError,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
@@ -31,6 +32,9 @@ import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
+  /**
+   * Returns the reload triggers for the cardTypes query
+   */
   protected getCardTypesReloadTriggers(): QueryNotifier[] {
     return [LanguageSetEvent, CurrencySetEvent];
   }
@@ -39,6 +43,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     () => this.checkoutPaymentConnector.getCardTypes(),
     {
       reloadOn: this.getCardTypesReloadTriggers(),
+      retryOn: { shouldRetry: isJaloError },
     }
   );
 
@@ -65,6 +70,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                   );
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.store.dispatch(
+                      /**
+                       * TODO: We have to keep this here, since the user payment feature is still ngrx-based.
+                       * Remove once it is switched from ngrx to c&q.
+                       * We should dispatch an event, which will load the userPayment$ query.
+                       */
                       new UserActions.LoadUserPaymentMethods(userId)
                     );
                   }
@@ -109,6 +119,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
@@ -119,6 +130,9 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected checkoutQuery: CheckoutQueryFacade
   ) {}
 
+  /**
+   * Performs the necessary checkout preconditions.
+   */
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
@@ -139,34 +153,24 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
   }
 
-  /**
-   * Get card types
-   */
-  getCardTypes(): Observable<CardType[]> {
-    return this.cardTypesQuery.get().pipe(map((cardTypes) => cardTypes ?? []));
+  getCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
+    return this.cardTypesQuery.getState();
   }
 
-  /**
-   * Get payment details
-   */
-  getPaymentDetails(): Observable<QueryState<PaymentDetails | undefined>> {
+  getCardTypes(): Observable<CardType[]> {
+    return this.getCardTypesState().pipe(map((state) => state.data ?? []));
+  }
+
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentInfo })));
   }
 
-  /**
-   * Create payment details using the given paymentDetails param
-   * @param paymentDetails: the PaymentDetails to be created
-   */
   createPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.createPaymentMethodCommand.execute(paymentDetails);
   }
 
-  /**
-   * Set payment details
-   * @param paymentDetails : the PaymentDetails to be set
-   */
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.setPaymentMethodCommand.execute(paymentDetails);
   }

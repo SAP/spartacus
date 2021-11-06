@@ -13,6 +13,7 @@ import {
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutDeliveryAddressAdapter } from './occ-checkout-delivery-address.adapter';
 
 const checkoutData: Partial<CheckoutState> = {
@@ -23,7 +24,7 @@ const checkoutData: Partial<CheckoutState> = {
 
 const userId = '123';
 const cartId = '456';
-const cartData: Cart = {
+const cartData: Partial<Cart> = {
   store: 'electronics',
   guid: '1212121',
 };
@@ -38,9 +39,8 @@ const MockOccModuleConfig: OccConfig = {
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         createDeliveryAddress:
           'users/${userId}/carts/${cartId}/addresses/delivery',
-        deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
-        setDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
-        deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
+        removeDeliveryAddress:
+          'users/${userId}/carts/${cartId}/addresses/delivery',
       } as OccEndpoints,
     },
   },
@@ -76,15 +76,19 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
   });
 
   describe('create an address for cart', () => {
-    it('should create address for cart for given user id, cart id and address', () => {
+    it('should create address for cart for given user id, cart id and address', (done) => {
       const mockAddress: Address = {
         firstName: 'Mock',
         lastName: 'Address',
       };
 
-      service.createAddress(userId, cartId, mockAddress).subscribe((result) => {
-        expect(result).toEqual(mockAddress);
-      });
+      service
+        .createAddress(userId, cartId, mockAddress)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockAddress);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -105,12 +109,16 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
   });
 
   describe('set an address for cart', () => {
-    it('should set address for cart for given user id, cart id and address id', () => {
+    it('should set address for cart for given user id, cart id and address id', (done) => {
       const addressId = 'addressId';
 
-      service.setAddress(userId, cartId, addressId).subscribe((result) => {
-        expect(result).toEqual(cartData);
-      });
+      service
+        .setAddress(userId, cartId, addressId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -127,14 +135,17 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
   });
 
   describe('clear checkout delivery address', () => {
-    it('should clear checkout delivery address for given userId, cartId', () => {
+    it('should clear checkout delivery address for given userId, cartId', (done) => {
       service
         .clearCheckoutDeliveryAddress(userId, cartId)
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(checkoutData);
+          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
+        console.log('test URL: ', req.url);
         return (
           req.method === 'DELETE' &&
           req.url === `users/${userId}/carts/${cartId}/addresses/delivery`
