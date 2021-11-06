@@ -4,11 +4,7 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import {
-  FeatureConfigService,
-  UserAddressService,
-  UserPaymentService,
-} from '@spartacus/core';
+import { UserAddressService, UserPaymentService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -35,7 +31,6 @@ export class ExpressCheckoutService {
     protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutConfigService: CheckoutConfigService,
-    protected featureConfigService: FeatureConfigService,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {
     this.setShippingAddress();
