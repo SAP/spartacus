@@ -66,9 +66,9 @@ export class B2BShippingAddressComponent
     return this.checkoutPaymentTypeService.isAccountPayment().pipe(
       switchMap((isAccountPayment) => {
         return isAccountPayment
-          ? this.checkoutCostCenterService.getCostCenter().pipe(
-              filter((costCenterState) => !costCenterState.loading),
-              map((costCenterState) => costCenterState.data),
+          ? this.checkoutCostCenterService.getCostCenterState().pipe(
+              filter((state) => !state.loading),
+              map((state) => state.data),
               distinctUntilChanged(),
               switchMap((costCenterCode) => {
                 this.doneAutoSelect = false;

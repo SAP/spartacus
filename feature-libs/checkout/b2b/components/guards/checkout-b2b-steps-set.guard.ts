@@ -122,7 +122,7 @@ export class CheckoutB2BStepsSetGuard
   protected isPaymentTypeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentType().pipe(
+    return this.checkoutPaymentTypeService.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((paymentType) => {
@@ -144,7 +144,7 @@ export class CheckoutB2BStepsSetGuard
         filter((state) => !state.loading),
         map((state) => state.data)
       ),
-      this.checkoutCostCenterService.getCostCenter().pipe(
+      this.checkoutCostCenterService.getCostCenterState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
       ),

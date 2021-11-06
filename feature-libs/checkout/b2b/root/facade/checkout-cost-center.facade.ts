@@ -9,7 +9,7 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
     facadeFactory({
       facade: CheckoutCostCenterFacade,
       feature: CHECKOUT_B2B_CORE_FEATURE,
-      methods: ['setCostCenter', 'getCostCenter'],
+      methods: ['setCostCenter', 'getCostCenterState'],
     }),
 })
 export abstract class CheckoutCostCenterFacade {
@@ -22,5 +22,5 @@ export abstract class CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  abstract getCostCenter(): Observable<QueryState<string>>;
+  abstract getCostCenterState(): Observable<QueryState<string>>;
 }

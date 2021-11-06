@@ -138,7 +138,9 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  getSelectedPaymentType(): Observable<QueryState<PaymentType | undefined>> {
+  getSelectedPaymentTypeState(): Observable<
+    QueryState<PaymentType | undefined>
+  > {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentType })));
@@ -148,7 +150,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
    * Get whether the selected payment type is "ACCOUNT" payment
    */
   isAccountPayment(): Observable<boolean> {
-    return this.getSelectedPaymentType().pipe(
+    return this.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
     );
@@ -157,7 +159,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   /**
    * Get purchase order number
    */
-  getPurchaseOrderNumber(): Observable<QueryState<string | undefined>> {
+  getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()
       .pipe(

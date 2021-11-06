@@ -55,14 +55,14 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
   }
 
   get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeService.getPurchaseOrderNumber().pipe(
+    return this.checkoutPaymentTypeService.getPurchaseOrderNumberState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentType().pipe(
+    return this.checkoutPaymentTypeService.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
@@ -74,15 +74,13 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   get costCenter$(): Observable<CostCenter | undefined> {
     return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => Boolean(costCenters)),
+      filter((costCenters) => !!costCenters),
       switchMap((costCenters) => {
-        return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((checkoutCostCenterState) => {
-            return costCenters.find(
-              (cc) => cc.code === checkoutCostCenterState?.data
-            );
-          })
-        );
+        return this.checkoutCostCenterService
+          .getCostCenterState()
+          .pipe(
+            map((state) => costCenters.find((cc) => cc.code === state?.data))
+          );
       })
     );
   }

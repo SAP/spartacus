@@ -89,7 +89,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  getCostCenter(): Observable<QueryState<string>> {
+  getCostCenterState(): Observable<QueryState<string>> {
     return this.checkoutQueryService.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,

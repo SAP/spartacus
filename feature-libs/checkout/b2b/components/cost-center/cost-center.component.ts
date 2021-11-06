@@ -30,9 +30,9 @@ export class CostCenterComponent {
       this.userCostCenterService
         .getActiveCostCenters()
         .pipe(filter((costCenters) => !!costCenters)),
-      this.checkoutCostCenterService.getCostCenter().pipe(
-        filter((checkoutCostCenterState) => !checkoutCostCenterState.loading),
-        map((checkoutCostCenterState) => checkoutCostCenterState.data),
+      this.checkoutCostCenterService.getCostCenterState().pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
         distinctUntilChanged()
       ),
     ]).pipe(
