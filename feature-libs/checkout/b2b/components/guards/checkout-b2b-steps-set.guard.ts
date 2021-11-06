@@ -3,7 +3,6 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import {
@@ -52,10 +51,7 @@ export class CheckoutB2BStepsSetGuard
     );
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    _: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;
     const currentRouteUrl = '/' + route.url.join('/');
 
@@ -144,7 +140,7 @@ export class CheckoutB2BStepsSetGuard
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.checkoutDeliveryAddressService.getDeliveryAddress().pipe(
+      this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
       ),
