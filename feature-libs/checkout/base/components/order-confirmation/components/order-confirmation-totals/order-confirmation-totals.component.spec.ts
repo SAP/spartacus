@@ -6,18 +6,14 @@ import { Cart, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 
-import createSpy = jasmine.createSpy;
-
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
   cart: Cart;
 }
 
-class MockCheckoutService {
-  clearCheckoutData = createSpy();
-
-  getOrderDetails(): Observable<Order> {
+class MockCheckoutService implements Partial<CheckoutFacade> {
+  getOrder(): Observable<Order> {
     return of({
       code: 'test-code-412',
     });
