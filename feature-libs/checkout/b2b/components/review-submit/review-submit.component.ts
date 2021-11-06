@@ -16,7 +16,6 @@ import {
 import {
   ActiveCartService,
   CostCenter,
-  FeatureConfigService,
   PaymentType,
   TranslationService,
   UserAddressService,
@@ -42,8 +41,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
-    protected userCostCenterService: UserCostCenterService,
-    protected featureConfigService: FeatureConfigService
+    protected userCostCenterService: UserCostCenterService
   ) {
     super(
       checkoutDeliveryAddressService,
@@ -52,9 +50,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
       activeCartService,
       translation,
       checkoutStepService,
-      userCostCenterService,
-      checkoutDeliveryModesService,
-      featureConfigService
+      checkoutDeliveryModesService
     );
   }
 
