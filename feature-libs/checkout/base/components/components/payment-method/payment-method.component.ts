@@ -7,7 +7,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryAddressFacade,
-  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
@@ -54,7 +53,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
@@ -64,7 +62,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 

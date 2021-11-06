@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutDeliveryAddressFacade,
-  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
@@ -14,10 +13,11 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   PaymentDetails,
+  QueryState,
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentMethodComponent } from './payment-method.component';
 
@@ -44,7 +44,7 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-class MockUserPaymentService {
+class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
@@ -53,29 +53,32 @@ class MockUserPaymentService {
     return of();
   }
 }
-class MockCheckoutService {
-  clearCheckoutStep = createSpy();
-}
 
-class MockCheckoutPaymentService {
-  setPaymentDetails = createSpy('setPaymentDetails', () => {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
+  setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
     return of();
-  });
-  createPaymentDetails = createSpy();
+  }
+  createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
+    return of();
+  }
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
   paymentProcessSuccess() {}
+
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
+    return of();
+  }
 }
 class MockCheckoutDeliveryFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddress(): Observable<PaymentDetails | undefined> {
-    return of(undefined);
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({ loading: false, error: false, data: undefined });
   }
 }
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText(): string {
@@ -89,11 +92,11 @@ const mockActivatedRoute = {
   },
 };
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockActiveCartService {
+class MockActiveCartService implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return false;
   }
@@ -151,7 +154,6 @@ describe('PaymentMethodComponent', () => {
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
-          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryFacade,
@@ -197,9 +199,10 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(null)
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -212,7 +215,7 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should select default payment method when nothing is selected', () => {
-      const mockPayments = [
+      const mockPayments: PaymentDetails[] = [
         {
           id: 'non default method',
           accountHolderName: 'Name',
@@ -242,9 +245,11 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(null)
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(of({ loading: false, error: false, data: undefined }));
+      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -261,9 +266,10 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(undefined)
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -278,19 +284,27 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should create and select new payment method and redirect', () => {
-      const selectedPaymentMethod = new BehaviorSubject<PaymentDetails>(null);
+      const selectedPaymentMethod$ = new Subject<
+        QueryState<PaymentDetails | undefined>
+      >();
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        selectedPaymentMethod.asObservable()
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(selectedPaymentMethod$);
+      spyOn(
+        mockCheckoutPaymentService,
+        'createPaymentDetails'
+      ).and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
+
       component.setPaymentDetails({
         paymentDetails: mockPaymentDetails,
         billingAddress: mockAddress,
@@ -302,7 +316,11 @@ describe('PaymentMethodComponent', () => {
         ...mockPaymentDetails,
         billingAddress: mockAddress,
       });
-      selectedPaymentMethod.next(mockPaymentDetails);
+      selectedPaymentMethod$.next({
+        loading: false,
+        error: false,
+        data: mockPaymentDetails,
+      });
       expect(checkoutStepService.next).toHaveBeenCalledWith(
         <any>mockActivatedRoute
       );
@@ -315,9 +333,10 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(null)
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -346,28 +365,39 @@ describe('PaymentMethodComponent', () => {
             (btn) => btn.nativeElement.innerText === 'common.continue'
           )[0];
       };
-      const selectedPaymentMethod = new BehaviorSubject<PaymentDetails>(null);
+      const selectedPaymentMethod$ = new BehaviorSubject<
+        QueryState<PaymentDetails | undefined>
+      >({
+        loading: false,
+        error: false,
+        data: undefined,
+      });
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        selectedPaymentMethod.asObservable()
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(selectedPaymentMethod$);
 
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(getContinueButton().nativeElement.disabled).toBeTruthy();
-      selectedPaymentMethod.next(mockPaymentDetails);
+      selectedPaymentMethod$.next({
+        loading: false,
+        error: false,
+        data: mockPaymentDetails,
+      });
       fixture.detectChanges();
       expect(getContinueButton().nativeElement.disabled).toBeFalsy();
     });
 
     it('should display credit card info correctly', () => {
-      const selectedPaymentMethod = {
+      const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
         accountHolderName: 'Name',
         cardNumber: '123456789',
@@ -403,7 +433,7 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should after each payment method selection change that in backend', () => {
-      const mockPayments = [
+      const mockPayments: PaymentDetails[] = [
         mockPaymentDetails,
         {
           id: 'default payment method',
@@ -422,9 +452,13 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(
+        of({ loading: false, error: false, data: mockPaymentDetails })
       );
+      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -451,7 +485,7 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should show selected card, when there was previously selected method', () => {
-      const mockPayments = [
+      const mockPayments: PaymentDetails[] = [
         mockPaymentDetails,
         {
           id: 'default payment method',
@@ -470,9 +504,13 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(
+        of({ loading: false, error: false, data: mockPaymentDetails })
       );
+      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -489,9 +527,10 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
-        of(null)
-      );
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -513,11 +552,18 @@ describe('PaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).and.returnValue(
         of({
-          ...mockPaymentDetails,
-          hasError: true,
-          InvalidFieldCVV: 'cvv',
+          loading: false,
+          error: false,
+          data: {
+            ...mockPaymentDetails,
+            hasError: true,
+            InvalidFieldCVV: 'cvv',
+          },
         })
       );
 

@@ -12,13 +12,11 @@ import {
   Cart,
   Country,
   DeliveryMode,
-  FeatureConfigService,
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
   TranslationService,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -42,9 +40,7 @@ export class ReviewSubmitComponent {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
-    protected featureConfigService: FeatureConfigService
+    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {

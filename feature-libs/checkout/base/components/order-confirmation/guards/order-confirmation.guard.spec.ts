@@ -5,14 +5,14 @@ import { Order, RoutingService, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 
-class MockCheckoutService {
-  getOrderDetails(): Observable<Order> {
-    return of(null);
+class MockCheckoutService implements Partial<CheckoutFacade> {
+  getOrder(): Observable<Order | undefined> {
+    return of(undefined);
   }
 }
 
 class MockSemanticPageService {
-  get(route: string): string {
+  get(route: string): string | undefined {
     if (route === 'orders') {
       return '/my-account/orders';
     }
@@ -43,7 +43,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
+      spyOn(mockCheckoutService, 'getOrder').and.returnValue(of({}));
 
       guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual('/my-account/orders');
@@ -54,7 +54,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
+      spyOn(mockCheckoutService, 'getOrder').and.returnValue(
         of({ code: 'test order' })
       );
 
