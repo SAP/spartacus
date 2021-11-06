@@ -1,22 +1,21 @@
-import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   CheckoutStepService,
   PaymentMethodComponent as CorePaymentMethodComponent,
-} from '@spartacus/checkout/components';
+} from '@spartacus/checkout/base/components';
 import {
-  UserPaymentService,
-  GlobalMessageService,
-  TranslationService,
-  ActiveCartService,
-  PaymentDetails,
-} from '@spartacus/core';
-import {
-  CheckoutService,
-  CheckoutDeliveryService,
+  CheckoutDeliveryAddressService,
   CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+} from '@spartacus/checkout/base/core';
+import {
+  ActiveCartService,
+  GlobalMessageService,
+  PaymentDetails,
+  TranslationService,
+  UserPaymentService,
+} from '@spartacus/core';
+import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
   selector: 'cx-payment-method',
@@ -49,10 +48,10 @@ export class DpPaymentMethodComponent
     this.next();
   }
 
+  // TODO:#checkout - handle breaking changes
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
@@ -62,8 +61,7 @@ export class DpPaymentMethodComponent
   ) {
     super(
       userPaymentService,
-      checkoutService,
-      checkoutDeliveryService,
+      checkoutDeliveryAddressService,
       checkoutPaymentService,
       globalMessageService,
       activatedRoute,
