@@ -61,6 +61,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization-feature.module';
@@ -186,7 +187,7 @@ if (environment.epdVisualization) {
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
     JsonLdBuilderModule,
 
-    /************************* External features *************************/
+    /************************* Feature libraries *************************/
     UserFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
@@ -198,6 +199,7 @@ if (environment.epdVisualization) {
     SavedCartFeatureModule,
     OrderFeatureModule,
     QuickOrderFeatureModule,
+    ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
     ...featureModules,

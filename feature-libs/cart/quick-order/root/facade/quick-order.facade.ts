@@ -26,6 +26,9 @@ export function quickOrderFacadeFactory() {
       'restoreSoftDeletedEntry',
       'hardDeleteEntry',
       'clearDeletedEntries',
+      'getNonPurchasableProductError',
+      'setNonPurchasableProductError',
+      'clearNonPurchasableProductError',
     ],
   });
 }
@@ -128,4 +131,19 @@ export abstract class QuickOrderFacade {
    * Clear all deleted entries and timeout subscriptions
    */
   abstract clearDeletedEntries(): void;
+
+  /**
+   *  Return non purchasable product error
+   */
+  abstract getNonPurchasableProductError(): Observable<Product | null>;
+
+  /**
+   * Set error that selected product is not purchasable
+   */
+  abstract setNonPurchasableProductError(product: Product): void;
+
+  /**
+   * Clear not purchasable product error
+   */
+  abstract clearNonPurchasableProductError(): void;
 }
