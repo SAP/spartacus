@@ -33,19 +33,20 @@ export class SceneNodeToProductLookupService {
     this.nodeIdProductCodeTuples$.subscribe(() => {});
   }
 
-  private sceneIdLoaded$ = new EventEmitter<string>();
+  private resolvedSceneId$ = new EventEmitter<string>();
   private usageId;
 
   /**
-   * Called when a scene has been loaded to populate the maps with the data for the loaded scene.
+   * Called to populate the maps with the data for the given scene.
+   * This can be done before the scene has been loaded since this just involves a storage service API call
    * @param sceneId The scene id of the loaded scene.
    */
-  public handleSceneLoaded(sceneId: string): void {
-    this.sceneIdLoaded$.emit(sceneId);
+  public populateMapsForScene(sceneId: string): void {
+    this.resolvedSceneId$.emit(sceneId);
   }
 
   protected nodeIdProductCodeTuples$: Observable<NodeIdProductCodes[]> =
-    this.sceneIdLoaded$.pipe(
+    this.resolvedSceneId$.pipe(
       mergeMap((sceneId: string) =>
         this.storageService.getNodes(
           sceneId,

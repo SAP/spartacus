@@ -1,4 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { VisualViewerComponent } from '../../visual-viewer/visual-viewer.component';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListComponent } from '../visual-picking-product-list/visual-picking-product-list.component';
@@ -30,4 +35,16 @@ export class VisualPickingTabComponent implements AfterViewInit {
     read: VisualPickingProductListService,
   })
   visualPickingProductListService: VisualPickingProductListService;
+
+  public get hideNoProductReferencesIndicator() {
+    return this.visualPickingTabService.hideNoProductReferencesText;
+  }
+
+  public get hideProductList() {
+    return this.visualPickingTabService.hideProductList;
+  }
+
+  public get hideViewport() {
+    return this.visualPickingTabService.hideViewport;
+  }
 }

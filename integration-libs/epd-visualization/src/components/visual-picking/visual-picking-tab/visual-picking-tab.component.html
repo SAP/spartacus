@@ -1,8 +1,23 @@
-<div class="container-fluid">
-  <cx-visual-viewer [(selectedProductCodes)]="selectedProductCodes">
+<div [class.container-fluid]="!hideViewport" [class.container]="hideViewport">
+  <div
+    [hidden]="hideNoProductReferencesIndicator"
+  >
+    <span>{{
+      'visualPicking.visualPickingTab.noProductReferences' | cxTranslate
+    }}</span>
+  </div>
+
+  <cx-visual-viewer
+    [(selectedProductCodes)]="selectedProductCodes"
+    [hidden]="hideViewport"
+  >
   </cx-visual-viewer>
 
-  <div class="visual-picking-product-list-container">
+  <div
+    class="visual-picking-product-list-container"
+    [hidden]="hideProductList"
+    [class.viewportHidden]="hideViewport"
+  >
     <cx-visual-picking-product-filter></cx-visual-picking-product-filter>
 
     <cx-visual-picking-product-list
