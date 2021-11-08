@@ -33,7 +33,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 describe('ActiveCartOrderEntriesContext', () => {
   let service: ActiveCartOrderEntriesContext;
-  let ActiveCartFacade: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,7 +43,7 @@ describe('ActiveCartOrderEntriesContext', () => {
       ],
     });
     service = TestBed.inject(ActiveCartOrderEntriesContext);
-    ActiveCartFacade = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   it('should be created', () => {
@@ -54,11 +54,11 @@ describe('ActiveCartOrderEntriesContext', () => {
     it('addEntries for active cart', () => {
       service.addEntries(mockProductData).subscribe().unsubscribe();
 
-      expect(ActiveCartFacade.addEntries).toHaveBeenCalledWith([
+      expect(activeCartFacade.addEntries).toHaveBeenCalledWith([
         { product: { code: '693923' }, quantity: 1 },
         { product: { code: '232133' }, quantity: 2 },
       ]);
-      expect(ActiveCartFacade.getActiveCartId).toHaveBeenCalledWith();
+      expect(activeCartFacade.getActiveCartId).toHaveBeenCalledWith();
     });
   });
 
@@ -72,7 +72,7 @@ describe('ActiveCartOrderEntriesContext', () => {
         })
         .unsubscribe();
 
-      expect(ActiveCartFacade.getEntries).toHaveBeenCalledWith();
+      expect(activeCartFacade.getEntries).toHaveBeenCalledWith();
       expect(entries).toEqual(mockEntries);
     });
   });
