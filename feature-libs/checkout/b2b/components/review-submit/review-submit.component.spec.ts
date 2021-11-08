@@ -4,11 +4,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutCostCenterFacade,
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-  PaymentTypeFacade,
 } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
@@ -22,13 +25,13 @@ import {
   PaymentDetails,
   PaymentType,
   PromotionLocation,
+  QueryState,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
+import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { IconTestingModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { CheckoutStepService } from '../../services/index';
 import { B2BReviewSubmitComponent } from './review-submit.component';
 
 import createSpy = jasmine.createSpy;
@@ -39,7 +42,7 @@ const mockCart: Cart = {
   deliveryItemsQuantity: 123,
   totalPrice: { formattedValue: '$999.98' },
 };
-
+const mockCountry: Country = { isocode: 'JP', name: 'Japan' };
 const mockAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
@@ -49,9 +52,9 @@ const mockAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP', name: 'Japan' },
+  country: mockCountry,
 };
-const addressBS = new BehaviorSubject<Country>(mockAddress.country);
+const addressBS = new BehaviorSubject<Country>(mockCountry);
 
 const mockDeliveryMode: DeliveryMode = {
   name: 'standard-gross',
@@ -160,21 +163,33 @@ class MockCheckoutStepService {
   }
 }
 
-class MockPaymentTypeService {
+class MockCheckoutPaymentTypeFacade
+  implements Partial<CheckoutPaymentTypeFacade>
+{
   getPoNumber(): Observable<string> {
     return of('test-po');
   }
-  getSelectedPaymentType(): Observable<string> {
-    return of(mockPaymentTypes[0].code);
+  getSelectedPaymentType(): Observable<QueryState<PaymentType | undefined>> {
+    return of({
+      loading: false,
+      error: false,
+      data: { code: mockPaymentTypes[0].code },
+    });
   }
   isAccountPayment(): Observable<boolean> {
     return of(true);
   }
 }
 
-class MockCheckoutCostCenterService {
-  getCostCenter(): Observable<string> {
-    return of(mockCostCenter.code);
+class MockCheckoutCostCenterService
+  implements Partial<CheckoutCostCenterFacade>
+{
+  getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
+    return of({
+      loading: false,
+      error: false,
+      data: mockCostCenter,
+    });
   }
 }
 
@@ -226,8 +241,8 @@ describe('ReviewSubmitComponent', () => {
             useClass: MockCheckoutStepService,
           },
           {
-            provide: PaymentTypeFacade,
-            useClass: MockPaymentTypeService,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
           },
           {
             provide: CheckoutCostCenterFacade,
@@ -246,7 +261,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(B2BReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    addressBS.next(mockAddress.country);
+    addressBS.next(mockCountry);
     deliveryModeBS.next(mockDeliveryMode);
   });
 
@@ -255,7 +270,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get cart', () => {
-    let cart: Cart;
+    let cart: Cart | undefined;
     component.cart$.subscribe((data: Cart) => {
       cart = data;
     });
@@ -264,7 +279,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get entries', () => {
-    let entries: OrderEntry[];
+    let entries: OrderEntry[] | undefined;
     component.entries$.subscribe((data: OrderEntry[]) => {
       entries = data;
     });
@@ -273,16 +288,16 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get steps', () => {
-    let steps: CheckoutStep[];
+    let steps: CheckoutStep[] | undefined;
     component.steps$.subscribe((data) => (steps = data));
 
-    expect(steps[0]).toEqual({
+    expect(steps?.[0]).toEqual({
       id: 'step1',
       name: 'step1',
       routeName: 'route1',
       type: [CheckoutStepType.PAYMENT_TYPE],
     });
-    expect(steps[1]).toEqual({
+    expect(steps?.[1]).toEqual({
       id: 'step2',
       name: 'step2',
       routeName: 'route2',
@@ -291,8 +306,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get deliveryAddress', () => {
-    let deliveryAddress: Address;
-    component.deliveryAddress$.subscribe((data: Address) => {
+    let deliveryAddress: Address | undefined;
+    component.deliveryAddress$.subscribe((data) => {
       deliveryAddress = data;
     });
 
@@ -300,8 +315,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get paymentDetails', () => {
-    let paymentDetails: PaymentDetails;
-    component.paymentDetails$.subscribe((data: PaymentDetails) => {
+    let paymentDetails: PaymentDetails | undefined;
+    component.paymentDetails$.subscribe((data) => {
       paymentDetails = data;
     });
 
@@ -309,8 +324,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get deliveryMode if a mode is selected', () => {
-    let deliveryMode: DeliveryMode;
-    component.deliveryMode$.subscribe((data: DeliveryMode) => {
+    let deliveryMode: DeliveryMode | undefined;
+    component.deliveryMode$.subscribe((data) => {
       deliveryMode = data;
     });
 
@@ -318,17 +333,17 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get country', () => {
-    let countryName: string;
-    component.countryName$.subscribe((data: string) => {
+    let countryName: string | undefined;
+    component.countryName$.subscribe((data) => {
       countryName = data;
     });
 
-    expect(countryName).toEqual(mockAddress.country.name);
+    expect(countryName).toEqual(mockCountry.name);
   });
 
   it('should be able to get po number', () => {
-    let po: string;
-    component.poNumber$.subscribe((data: string) => {
+    let po: string | undefined;
+    component.poNumber$.subscribe((data) => {
       po = data;
     });
 
@@ -336,8 +351,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should be able to get cost center', () => {
-    let costCenter: CostCenter;
-    component.costCenter$.subscribe((data: CostCenter) => {
+    let costCenter: CostCenter | undefined;
+    component.costCenter$.subscribe((data) => {
       costCenter = data;
     });
 
@@ -345,12 +360,12 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should get selected payment type', () => {
-    let paymentType: string;
-    component.paymentType$.subscribe((data: string) => {
+    let paymentType: PaymentType | undefined;
+    component.paymentType$.subscribe((data) => {
       paymentType = data;
     });
 
-    expect(paymentType).toEqual(mockPaymentTypes[0].code);
+    expect(paymentType).toEqual(mockPaymentTypes[0]);
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
@@ -407,12 +422,12 @@ describe('ReviewSubmitComponent', () => {
     component.getCostCenterCard(mockCostCenter).subscribe((card) => {
       expect(card.title).toEqual('checkoutPO.costCenter');
       expect(card.textBold).toEqual(mockCostCenter.name);
-      expect(card.text).toEqual(['(' + mockCostCenter.unit.name + ')']);
+      expect(card.text).toEqual(['(' + mockCostCenter.unit?.name + ')']);
     });
   });
 
   it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
-    component.getPaymentTypeCard(mockPaymentTypes[0].code).subscribe((card) => {
+    component.getPaymentTypeCard(mockPaymentTypes[0]).subscribe((card) => {
       expect(card.title).toEqual('checkoutProgress.methodOfPayment');
       expect(card.textBold).toEqual('paymentTypes.paymentType_test-account');
     });

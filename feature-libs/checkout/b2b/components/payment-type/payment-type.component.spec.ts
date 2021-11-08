@@ -1,10 +1,8 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutStepType,
-  PaymentTypeFacade,
-} from '@spartacus/checkout/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, PaymentType } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../../components/services/checkout-step.service';
@@ -54,7 +52,7 @@ describe('PaymentTypeComponent', () => {
   let component: PaymentTypeComponent;
   let fixture: ComponentFixture<PaymentTypeComponent>;
 
-  let paymentTypeService: PaymentTypeFacade;
+  let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -64,7 +62,7 @@ describe('PaymentTypeComponent', () => {
         declarations: [PaymentTypeComponent, MockSpinnerComponent],
         providers: [
           {
-            provide: PaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
             useClass: MockPaymentTypeService,
           },
           {
@@ -75,14 +73,14 @@ describe('PaymentTypeComponent', () => {
         ],
       }).compileComponents();
 
-      paymentTypeService = TestBed.inject(
-        PaymentTypeFacade as Type<PaymentTypeFacade>
+      checkoutPaymentTypeFacade = TestBed.inject(
+        CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>
       );
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
 
-      spyOn(paymentTypeService, 'getPaymentTypes').and.returnValue(
+      spyOn(checkoutPaymentTypeFacade, 'getPaymentTypes').and.returnValue(
         of(mockPaymentTypes)
       );
     })
@@ -107,13 +105,13 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should get selected payment type', () => {
-    let selected: string;
+    let selected: PaymentType | undefined;
     component.typeSelected$
       .subscribe((data) => {
         selected = data;
       })
       .unsubscribe();
-    expect(selected).toBe('ACCOUNT');
+    expect(selected).toBe({ code: 'ACCOUNT' });
     expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.PAYMENT_DETAILS,
       true
@@ -121,7 +119,7 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should get po number from cart', () => {
-    let cartPoNumber: string;
+    let cartPoNumber: string | undefined;
 
     component.cartPoNumber$
       .subscribe((data) => {
@@ -134,13 +132,15 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should set payment type when changeType is called', () => {
-    spyOn(paymentTypeService, 'setPaymentType').and.callThrough();
+    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
     component.changeType('ACCOUNT');
-    expect(paymentTypeService.setPaymentType).toHaveBeenCalledWith('ACCOUNT');
+    expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalledWith(
+      'ACCOUNT'
+    );
   });
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {
-    spyOn(paymentTypeService, 'setPaymentType').and.callThrough();
+    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
 
     component.typeSelected = 'test-code';
     component['_poNumberInput'].nativeElement.value = 'test-po';
@@ -151,11 +151,11 @@ describe('PaymentTypeComponent', () => {
     expect(checkoutStepService.next).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
-    expect(paymentTypeService.setPaymentType).toHaveBeenCalled();
+    expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalled();
   });
 
   it('should NOT set po number to cart if the cart po number does match when calling next()', () => {
-    spyOn(paymentTypeService, 'setPaymentType').and.callThrough();
+    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
 
     component.typeSelected = 'test-code';
     component['_poNumberInput'].nativeElement.value = 'test-po';
@@ -166,7 +166,7 @@ describe('PaymentTypeComponent', () => {
     expect(checkoutStepService.next).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
-    expect(paymentTypeService.setPaymentType).not.toHaveBeenCalled();
+    expect(checkoutPaymentTypeFacade.setPaymentType).not.toHaveBeenCalled();
   });
 
   it('should go back to the previous checkout step', () => {
