@@ -111,22 +111,14 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     );
   }
 
-  /**
-   * Get payment types
-   */
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.paymentTypesQuery
       .get()
       .pipe(map((paymentTypes) => paymentTypes ?? []));
   }
 
-  /**
-   * Set payment type to cart
-   * @param paymentTypeCode
-   * @param purchaseOrderNumber
-   */
   setPaymentType(
-    paymentTypeCode: string,
+    paymentTypeCode: B2BPaymentTypeEnum,
     purchaseOrderNumber?: string
   ): Observable<unknown> {
     return this.setPaymentTypeCommand.execute({
@@ -135,9 +127,6 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     });
   }
 
-  /**
-   * Get the selected payment type
-   */
   getSelectedPaymentTypeState(): Observable<
     QueryState<PaymentType | undefined>
   > {
@@ -146,9 +135,6 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
       .pipe(map((state) => ({ ...state, data: state.data?.paymentType })));
   }
 
-  /**
-   * Get whether the selected payment type is "ACCOUNT" payment
-   */
   isAccountPayment(): Observable<boolean> {
     return this.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
@@ -156,9 +142,8 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     );
   }
 
-  /**
-   * Get purchase order number
-   */
+  // TODO:#checkout - add isCreditCardPayment()?
+
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()

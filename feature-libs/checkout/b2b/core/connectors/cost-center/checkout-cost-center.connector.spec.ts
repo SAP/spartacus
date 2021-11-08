@@ -5,12 +5,14 @@ import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 import { CheckoutCostCenterConnector } from './checkout-cost-center.connector';
 import createSpy = jasmine.createSpy;
 
+class MockCheckoutCostCenterAdapter
+  implements Partial<CheckoutCostCenterAdapter>
+{
+  setCostCenter = createSpy().and.returnValue(of({}));
+}
+
 describe('CheckoutCostCenterConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
-
-  class MockCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
-    setCostCenter = createSpy().and.returnValue(of({}));
-  }
 
   let service: CheckoutCostCenterConnector;
   let adapter: CheckoutCostCenterAdapter;

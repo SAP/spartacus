@@ -230,8 +230,7 @@ describe(`CheckoutDeliveryModesService`, () => {
   });
 
   describe(`setDeliveryMode`, () => {
-    it(`should call checkoutDeliveryModesConnector
-    .setMode`, () => {
+    it(`should call checkoutDeliveryModesConnector.setMode`, () => {
       spyOn(connector, 'setMode').and.stub();
 
       service.setDeliveryMode(mockDeliveryModeCode);
@@ -271,8 +270,7 @@ describe(`CheckoutDeliveryModesService`, () => {
   });
 
   describe(`clearCheckoutDeliveryMode`, () => {
-    it(`should call checkoutDeliveryModesConnector
-    .clearCheckoutDeliveryMode`, () => {
+    it(`should call checkoutDeliveryModesConnector.clearCheckoutDeliveryMode`, () => {
       spyOn(connector, 'clearCheckoutDeliveryMode').and.stub();
 
       service.clearCheckoutDeliveryMode();

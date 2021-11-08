@@ -40,7 +40,6 @@ export abstract class CheckoutPaymentTypeFacade {
   abstract getSelectedPaymentTypeState(): Observable<
     QueryState<PaymentType | undefined>
   >;
-
   /**
    * Get whether the selected payment type is "ACCOUNT" payment
    */
