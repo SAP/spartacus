@@ -13,12 +13,15 @@ import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
 import { NavigationMode } from '../../components/visual-viewer/models/navigation-mode';
 import {
   VisualizationLoadInfo,
-  VisualizationLoadResult,
+  VisualizationLoadStatus,
+  VisualizationLookupResult,
 } from '../../components/visual-viewer/models/visualization-load-info';
 import { VisualViewerAnimationSliderComponent } from '../../components/visual-viewer/toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { VisualViewerService } from './visual-viewer.service';
 import { Component, ElementRef, EventEmitter } from '@angular/core';
+import { SceneLoadInfo } from './models/scene-load-info';
+import { SpinnerModule } from '@spartacus/storefront';
 
 class MockVisualViewerService {
   set backgroundTopColor(backgroundTopColor: string) {
@@ -92,7 +95,7 @@ class MockVisualViewerService {
     return this._selectedProductCodes;
   }
   private _selectedProductCodes: string[];
-  selectedProductCodesChange = new EventEmitter<boolean>();
+  selectedProductCodesChange = new EventEmitter<string[]>();
 
   set includedProductCodes(includedProductCodes: string[]) {
     this._includedProductCodes = includedProductCodes;
@@ -184,10 +187,13 @@ class MockVisualViewerService {
   public loadVisualization(
     _productCode: string
   ): Observable<VisualizationLoadInfo> {
-    return of(<VisualizationLoadInfo>{
-      result: VisualizationLoadResult.Success,
+    return of({
+      lookupResult: VisualizationLookupResult.UniqueMatchFound,
+      loadStatus: VisualizationLoadStatus.Loaded,
     });
   }
+
+  public sceneLoadInfo$ = new Subject<SceneLoadInfo>();
 }
 
 @Component({
@@ -248,6 +254,7 @@ describe('VisualViewerComponent', () => {
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
+          SpinnerModule,
         ],
         declarations: [VisualViewerComponent],
         providers: [

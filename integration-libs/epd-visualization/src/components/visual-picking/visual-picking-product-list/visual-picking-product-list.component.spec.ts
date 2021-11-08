@@ -18,7 +18,7 @@ import {
 } from '@spartacus/storefront';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { Actions } from '@ngrx/effects';
 
@@ -67,6 +67,10 @@ const emptySelection: VisualPickingProductListItem[] = [
   },
 ];
 
+const currentProduct: Product = {
+  code: 'currentProduct',
+};
+
 class MockVisualPickingProductListService {
   initialize() {}
 
@@ -88,6 +92,7 @@ class MockVisualPickingProductListService {
     return this._selectedProductCodes;
   }
   _selectedProductCodes: string[] = [];
+  public selectedProductCodesChange = new EventEmitter<string[]>();
 
   get itemsPerSlide(): number {
     return this._itemsPerSlide;
@@ -104,6 +109,8 @@ class MockVisualPickingProductListService {
     this._activeSlideStartIndex = activeSlideStartIndex;
   }
   _activeSlideStartIndex = 0;
+
+  currentProduct$: Observable<Product> = of(currentProduct);
 }
 
 @Component({

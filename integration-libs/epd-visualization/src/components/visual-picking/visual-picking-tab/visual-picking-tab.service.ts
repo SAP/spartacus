@@ -1,14 +1,16 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   Product,
+  Translatable,
 } from '@spartacus/core';
 import { ProductReference } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import {
   VisualizationLoadInfo,
-  VisualizationLoadResult,
+  VisualizationLoadStatus,
+  VisualizationLookupResult,
 } from '../../visual-viewer/models/visualization-load-info';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from '../visual-picking-product-list/visual-picking-product-list.service';
@@ -19,7 +21,8 @@ import { VisualPickingProductListService } from '../visual-picking-product-list/
 export class VisualPickingTabService {
   constructor(
     protected currentProductService: CurrentProductService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected changeDetectorRef: ChangeDetectorRef
   ) {}
 
   /**
@@ -34,70 +37,139 @@ export class VisualPickingTabService {
     this.visualViewerService = visualViewerService;
     this.visualPickingProductListService = visualPickingProductListService;
 
-    this.currentProductService.getProduct().subscribe((currentProduct) => {
-      if (!currentProduct || !currentProduct.code) {
-        return;
-      }
-      this.visualViewerService
-        .loadVisualization((currentProduct as Product).code as string)
-        .subscribe((visualizationLoadInfo: VisualizationLoadInfo) =>
-          this.handleLoadVisualizationResult(
-            visualizationLoadInfo,
-            currentProduct as Product
-          )
-        );
-    });
+    this.visualViewerService.visualizationLoadInfoChange.subscribe(
+      this.handleLoadVisualizationInfoChange.bind(this)
+    );
+
+    this.visualPickingProductListService
+      .getProductReferences$()
+      .subscribe((productReferences: ProductReference[]) => {
+        this.setProductReferences(productReferences);
+        if (productReferences.length > 0) {
+          this.visualPickingProductListService.currentProduct$.subscribe(
+            (currentProduct: Product) => {
+              this.visualViewerService
+                .loadVisualization(currentProduct.code as string)
+                .subscribe();
+            }
+          );
+        }
+      });
   }
-  public loadComplete = new EventEmitter<VisualizationLoadInfo>();
 
-  private handleLoadVisualizationResult(
-    visualizationLoadInfo: VisualizationLoadInfo,
-    currentProduct: Product
-  ): void {
-    switch (visualizationLoadInfo.result) {
-      case VisualizationLoadResult.Success:
-        this.visualPickingProductListService
-          .getFilteredProductReferences$()
-          .subscribe((productReferences: ProductReference[]) => {
-            const productCodes: string[] = productReferences.map(
-              (productReference) =>
-                (productReference.target as Product).code as string
-            );
+  /**
+   * When true, error messages will be shown when visualization load/lookup failures occur.
+   */
+  protected showErrorMessages: boolean = true;
 
-            this.visualViewerService.includedProductCodes = productCodes;
-            this.loadComplete.emit(visualizationLoadInfo);
-          });
-        break;
+  private _productReferences: ProductReference[];
+  private get productReferences(): ProductReference[] {
+    return this._productReferences;
+  }
+  private setProductReferences(value: ProductReference[]) {
+    this._productReferences = value;
+  }
 
-      case VisualizationLoadResult.NoMatchFound:
-        this.globalMessageService.add(
-          { key: 'errors.visualLoad.noMatchingVisualFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
+  private get visualizationLoadStatus(): VisualizationLoadStatus {
+    return (
+      this.visualViewerService.visualizationLoadInfo?.loadStatus ??
+      VisualizationLoadStatus.NotStarted
+    );
+  }
+
+  public get hideNoProductReferencesText() {
+    return (
+      this.productReferences === undefined ||
+      (this.productReferences as ProductReference[]).length > 0
+    );
+  }
+
+  public get hideProductList() {
+    return (
+      this.productReferences === undefined ||
+      (this.productReferences as ProductReference[]).length === 0
+    );
+  }
+
+  public get hideViewport() {
+    return (
+      this.productReferences === undefined ||
+      (this.productReferences as ProductReference[]).length === 0 ||
+      !(
+        this.visualizationLoadStatus === VisualizationLoadStatus.Loading ||
+        this.visualizationLoadStatus === VisualizationLoadStatus.Loaded
+      )
+    );
+  }
+
+  private setupVisualFilteringSubscription(): void {
+    this.visualPickingProductListService
+      .getFilteredProductReferences$()
+      .subscribe((productReferences: ProductReference[]) => {
+        const productCodes: string[] = productReferences.map(
+          (productReference) =>
+            (productReference.target as Product).code as string
         );
-        this.loadComplete.emit(visualizationLoadInfo);
-        break;
 
-      case VisualizationLoadResult.MultipleMatchesFound:
-        this.globalMessageService.add(
-          { key: 'errors.visualLoad.multipleMatchingVisualsFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.loadComplete.emit(visualizationLoadInfo);
-        break;
+        this.visualViewerService.includedProductCodes = productCodes;
+      });
+  }
 
-      case VisualizationLoadResult.UnexpectedError:
-        console.error(
-          `Visualization load failed for product code ${currentProduct.code}: ${visualizationLoadInfo.errorMessage}`
-        );
-        this.globalMessageService.add(
-          { key: 'errors.visualLoad.unexpectedLoadError' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.loadComplete.emit(visualizationLoadInfo);
-        break;
+  private showErrorMessage(message: string | Translatable) {
+    if (this.showErrorMessages) {
+      this.globalMessageService.add(message, GlobalMessageType.MSG_TYPE_ERROR);
     }
   }
 
-  private visualViewerService: VisualViewerService;
-  private visualPickingProductListService: VisualPickingProductListService;
+  private handleLoadVisualizationInfoChange(
+    visualizationLoadInfo: VisualizationLoadInfo
+  ): void {
+    switch (visualizationLoadInfo.lookupResult) {
+      case VisualizationLookupResult.UniqueMatchFound:
+        switch (visualizationLoadInfo.loadStatus) {
+          case VisualizationLoadStatus.Loading:
+            this.setupVisualFilteringSubscription();
+            break;
+
+          case VisualizationLoadStatus.UnexpectedError:
+            this.showErrorMessage({
+              key: 'errors.visualLoad.unexpectedLoadError',
+            });
+            break;
+        }
+        break;
+
+      case VisualizationLookupResult.NoMatchFound:
+        break;
+
+      case VisualizationLookupResult.MultipleMatchesFound:
+        this.showErrorMessage({
+          key: 'errors.visualLoad.multipleMatchingVisualsFound',
+        });
+        break;
+
+      case VisualizationLookupResult.UnexpectedError:
+        this.showErrorMessage({ key: 'errors.visualLoad.unexpectedLoadError' });
+        break;
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _visualViewerService: VisualViewerService;
+  public get visualViewerService(): VisualViewerService {
+    return this._visualViewerService;
+  }
+  public set visualViewerService(value: VisualViewerService) {
+    this._visualViewerService = value;
+  }
+
+  private _visualPickingProductListService: VisualPickingProductListService;
+  public get visualPickingProductListService(): VisualPickingProductListService {
+    return this._visualPickingProductListService;
+  }
+  public set visualPickingProductListService(
+    value: VisualPickingProductListService
+  ) {
+    this._visualPickingProductListService = value;
+  }
 }

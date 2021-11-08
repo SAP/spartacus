@@ -6,7 +6,14 @@ import {
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductFilterService } from '../visual-picking-product-filter/visual-picking-product-filter.service';
 import {
@@ -49,25 +56,37 @@ export class VisualPickingProductListService {
     this.epdVisualizationConfig.visualPicking as VisualPickingConfig
   ).productReferenceType as string;
 
+  public currentProduct$: Observable<Product> = this.currentProductService
+    .getProduct()
+    .pipe(
+      filter((product) => !!product && !!product.code),
+      map((product) => product as Product),
+      shareReplay()
+    );
+
   /**
    * Returns an Observable that produces the spare part product references for the current product.
    * @returns An Observable that produces the spare part product references for the current product.
    */
-  public getCurrentProductReferences$(): Observable<ProductReference[]> {
-    return this.currentProductService.getProduct().pipe(
-      filter((product) => !!product && !!product.code),
-      tap((product) =>
+  public getProductReferences$(): Observable<ProductReference[]> {
+    return this.currentProduct$.pipe(
+      tap((product: Product) =>
         this.productReferenceService.loadProductReferences(
-          (product as Product).code as string,
+          product.code as string,
           this.productReferenceType
         )
       ),
       switchMap((product) =>
         this.productReferenceService.getProductReferences(
-          (product as Product).code as string,
+          product.code as string,
           this.productReferenceType
         )
       ),
+      filter(
+        (productReferences: ProductReference[]) =>
+          productReferences !== undefined
+      ),
+      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
       shareReplay()
     );
   }
@@ -79,22 +98,22 @@ export class VisualPickingProductListService {
    */
   public getFilteredProductReferences$(): Observable<ProductReference[]> {
     return this.visualPickingProductFilterService
-      .getFilteredProducts$(this.getCurrentProductReferences$())
+      .getFilteredProducts$(this.getProductReferences$())
       .pipe(shareReplay());
   }
 
-  activeSlideStartIndex = 0;
-  itemsPerSlide = this.DEFAULT_ITEMS_PER_SLIDE;
+  public activeSlideStartIndex = 0;
+  public itemsPerSlide = this.DEFAULT_ITEMS_PER_SLIDE;
 
-  set selectedProductCodes(selectedProductCodes: string[]) {
+  public set selectedProductCodes(selectedProductCodes: string[]) {
     this._selectedProductCodes = selectedProductCodes;
     this.selectedProductCodesChange.next(selectedProductCodes);
   }
-  get selectedProductCodes(): string[] {
+  public get selectedProductCodes(): string[] {
     return this._selectedProductCodes;
   }
-  _selectedProductCodes: string[];
-  selectedProductCodesChange = new EventEmitter<string[]>();
+  private _selectedProductCodes: string[];
+  public selectedProductCodesChange = new EventEmitter<string[]>();
 
   /**
    * Used to create the list item model data for the visual picking product list.
@@ -135,7 +154,7 @@ export class VisualPickingProductListService {
     );
   }
 
-  filteredItems$: Observable<VisualPickingProductListItem[]> =
+  public filteredItems$: Observable<VisualPickingProductListItem[]> =
     this.getVisualPickingProductListItems$(
       this.getFilteredProductReferences$(),
       this.selectedProductCodesChange

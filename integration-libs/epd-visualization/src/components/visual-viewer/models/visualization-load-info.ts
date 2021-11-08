@@ -1,17 +1,25 @@
 import { VisualizationInfo } from '../../../models/visualizations/visualization-info';
 
-export enum VisualizationLoadResult {
-  Success,
-  NoMatchFound,
-  MultipleMatchesFound,
-  UnexpectedError,
+export enum VisualizationLookupResult {
+  UniqueMatchFound = 'UniqueMatchFound',
+  NoMatchFound = 'NoMatchFound',
+  MultipleMatchesFound = 'MultipleMatchesFound',
+  UnexpectedError = 'UnexpectedError',
+}
+
+export enum VisualizationLoadStatus {
+  NotStarted = 'NotStarted',
+  Loading = 'Loading',
+  Loaded = 'Loaded',
+  UnexpectedError = 'UnexpectedError',
 }
 
 /**
  * Information relating to an attempt to resolve and load a visualization.
  */
 export interface VisualizationLoadInfo {
-  result: VisualizationLoadResult;
+  lookupResult: VisualizationLookupResult;
+  loadStatus: VisualizationLoadStatus;
   matches?: VisualizationInfo[];
   visualization?: VisualizationInfo;
   errorMessage?: string;

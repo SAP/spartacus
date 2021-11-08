@@ -6,13 +6,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  Product,
+  TranslationService,
+  UrlModule,
+} from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ProductReference } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { VisualPickingTabComponent } from './visual-picking-tab.component';
 import { VisualPickingProductFilterModule } from '../visual-picking-product-filter/visual-picking-product-filter.module';
-import { VisualViewerModule } from '../../visual-viewer';
+import {
+  VisualizationLoadInfo,
+  VisualViewerComponent,
+  VisualViewerModule,
+} from '../../visual-viewer';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from '../visual-picking-product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
@@ -23,7 +32,12 @@ import {
 } from '../visual-picking-product-list';
 import { VisualPickingProductFilterService } from '../visual-picking-product-filter/visual-picking-product-filter.service';
 import { VisualPickingProductFilterComponent } from '../visual-picking-product-filter/visual-picking-product-filter.component';
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
+import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
+
+const currentProduct: Product = {
+  code: 'currentProduct',
+};
 
 class MockVisualPickingTabService {
   visualViewerService: VisualViewerService;
@@ -46,6 +60,8 @@ class MockVisualPickingProductFilterService {
 }
 
 class MockVisualPickingProductListService {
+  public initialize() {}
+
   public getCurrentProductReferences$(): Observable<ProductReference[]> {
     return of([]);
   }
@@ -57,6 +73,21 @@ class MockVisualPickingProductListService {
   public get filteredItems$(): Observable<VisualPickingProductListItem[]> {
     return of([]);
   }
+
+  currentProduct$: Observable<Product> = of(currentProduct);
+
+  public selectedProductCodes: string[];
+  public selectedProductCodesChange = new EventEmitter<string[]>();
+}
+
+class MockTranslationService {
+  translate(_key: string, _options?: any, _whitespaceUntilLoaded?: boolean) {
+    return of('');
+  }
+
+  loadChunks(_chunkNames: string | string[]) {
+    return of([]);
+  }
 }
 
 @Component({
@@ -65,16 +96,34 @@ class MockVisualPickingProductListService {
 })
 class MockPageLayoutComponent {}
 
+class MockVisualViewerService {
+  loadVisualizationResponse: Observable<VisualizationLoadInfo>;
+
+  public loadVisualization(
+    _productCode: string
+  ): Observable<VisualizationLoadInfo> {
+    return this.loadVisualizationResponse;
+  }
+
+  public includedProductCodes: string[];
+
+  public sceneLoadInfo$ = new Subject<SceneLoadInfo>();
+
+  public selectedProductCodes: string[];
+  public selectedProductCodesChange = new EventEmitter<string[]>();
+}
+
 describe('VisualPickingTabComponent', () => {
   let visualPickingTabComponent: VisualPickingTabComponent;
   let fixture: ComponentFixture<VisualPickingTabComponent>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [VisualPickingTabComponent, MockTranslatePipe],
       imports: [
         CommonModule,
         IconModule,
         FormsModule,
-        I18nModule,
         UrlModule,
         RouterTestingModule.withRoutes([
           {
@@ -87,7 +136,23 @@ describe('VisualPickingTabComponent', () => {
         VisualPickingProductListModule,
         VisualPickingProductFilterModule,
       ],
+      providers: [
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+      ],
     })
+      .overrideComponent(VisualViewerComponent, {
+        set: {
+          providers: [
+            {
+              provide: VisualViewerService,
+              useClass: MockVisualViewerService,
+            },
+          ],
+        },
+      })
       .overrideModule(VisualPickingProductFilterModule, {
         set: {
           providers: [
@@ -135,6 +200,7 @@ describe('VisualPickingTabComponent', () => {
     visualPickingTabComponent = fixture.componentInstance;
     fixture.detectChanges();
   });
+
   it('should create visual picking tab component', () => {
     expect(visualPickingTabComponent).toBeTruthy();
   });

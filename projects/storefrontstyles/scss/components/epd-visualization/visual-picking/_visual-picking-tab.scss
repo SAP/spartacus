@@ -33,7 +33,7 @@
       }
     }
 
-    .visual-picking-product-list-container {
+    .visual-picking-product-list-container:not(.viewportHidden) {
       width: 100%;
 
       @include media-breakpoint-up(md) {
@@ -43,6 +43,10 @@
       @include media-breakpoint-up(lg) {
         width: calc(40% - 0.5em);
       }
+    }
+
+    .visual-picking-product-list-container.viewportHidden {
+      width: 100%;
     }
 
     cx-visual-picking-product-filter {

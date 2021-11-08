@@ -63,12 +63,8 @@
   }
 
   .thumbnail {
-    width: calc(
-      var(--cx-thumbnail-width) + 2 * var(--cx-highlight-border-width)
-    );
-    height: calc(
-      var(--cx-thumbnail-height) + 2 * var(--cx-highlight-border-width)
-    );
+    width: calc(var(--cx-thumbnail-width) + 2 * var(--cx-highlight-border-width));
+    height: calc(var(--cx-thumbnail-height) + 2 * var(--cx-highlight-border-width));
     border-style: solid;
     border-color: transparent;
     border-width: var(--cx-highlight-border-width);
@@ -81,10 +77,15 @@
     }
 
     cx-media {
+
       // Can insert an image when the thumbnail is missing
       &.is-missing {
         width: var(--cx-thumbnail-width);
         height: var(--cx-thumbnail-height);
+
+        img {
+          display: none;
+        }
       }
     }
   }
