@@ -224,7 +224,7 @@ describe('SceneNodeToProductLookupService', () => {
           done();
         });
 
-      sceneNodeToProductLookupService.handleSceneLoaded('some scene id');
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
@@ -259,7 +259,7 @@ describe('SceneNodeToProductLookupService', () => {
           done();
         });
 
-      sceneNodeToProductLookupService.handleSceneLoaded('some scene id');
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
   });
 
@@ -302,7 +302,7 @@ describe('SceneNodeToProductLookupService', () => {
           done();
         });
 
-      sceneNodeToProductLookupService.handleSceneLoaded('some scene id');
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
@@ -351,7 +351,7 @@ describe('SceneNodeToProductLookupService', () => {
           done();
         });
 
-      sceneNodeToProductLookupService.handleSceneLoaded('some scene id');
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
   });
 });

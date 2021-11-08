@@ -39,11 +39,12 @@ import { SceneLoadState } from './models/scene-load-state';
 import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
 import { ContentType } from './models/content-type';
 import NodeHierarchy from 'sap/ui/vk/NodeHierarchy';
-import { filter, mergeMap, shareReplay } from 'rxjs/operators';
+import { catchError, filter, mergeMap, shareReplay } from 'rxjs/operators';
 import { VisualizationInfo } from '../../models/visualizations/visualization-info';
 import {
   VisualizationLoadInfo,
-  VisualizationLoadResult,
+  VisualizationLoadStatus,
+  VisualizationLookupResult,
 } from './models/visualization-load-info';
 import { ZoomTo } from './models/zoom-to';
 
@@ -209,11 +210,8 @@ export class VisualViewerService {
   private _sceneLoadInfo$ = new BehaviorSubject<SceneLoadInfo>({
     sceneLoadState: SceneLoadState.NotStarted,
   });
-  private get sceneLoadInfo$() {
+  public get sceneLoadInfo$() {
     return this._sceneLoadInfo$;
-  }
-  private set sceneLoadInfo$(value) {
-    this._sceneLoadInfo$ = value;
   }
 
   protected readonly DEFAULT_BACKGROUND_TOP_COLOR = '--cx-color-inverse';
@@ -888,6 +886,20 @@ export class VisualViewerService {
     }
   }
 
+  private setVisualizationLoadInfo(
+    visualizationLoadInfo: VisualizationLoadInfo
+  ) {
+    this._visualizationLoadInfo = visualizationLoadInfo;
+    this.visualizationLoadInfoChange.emit(visualizationLoadInfo);
+    this.changeDetectorRef.detectChanges();
+  }
+  public get visualizationLoadInfo(): VisualizationLoadInfo {
+    return this._visualizationLoadInfo;
+  }
+  private _visualizationLoadInfo: VisualizationLoadInfo;
+  public visualizationLoadInfoChange =
+    new EventEmitter<VisualizationLoadInfo>();
+
   public loadVisualization(
     productCode: string
   ): Observable<VisualizationLoadInfo> {
@@ -896,23 +908,36 @@ export class VisualViewerService {
         this.resolveVisualization(productCode).pipe(
           mergeMap((visualizationLoadInfo: VisualizationLoadInfo) => {
             if (
-              visualizationLoadInfo.result === VisualizationLoadResult.Success
+              visualizationLoadInfo.lookupResult ===
+              VisualizationLookupResult.UniqueMatchFound
             ) {
-              this.sceneNodeToProductLookupService.handleSceneLoaded(
+              this.sceneNodeToProductLookupService.populateMapsForScene(
                 this.sceneId
               );
+
+              let mergedVisualizationLoadInfo: VisualizationLoadInfo = {
+                ...visualizationLoadInfo,
+                loadStatus: VisualizationLoadStatus.Loading,
+              };
+              this.setVisualizationLoadInfo(mergedVisualizationLoadInfo);
 
               return this.loadScene(this.sceneId, this.contentType).pipe(
                 mergeMap((sceneLoadInfo: SceneLoadInfo) => {
                   if (sceneLoadInfo.sceneLoadState === SceneLoadState.Failed) {
-                    return of(<VisualizationLoadInfo>{
-                      result: VisualizationLoadResult.UnexpectedError,
+                    mergedVisualizationLoadInfo = {
+                      ...visualizationLoadInfo,
+                      loadStatus: VisualizationLoadStatus.UnexpectedError,
                       errorMessage: sceneLoadInfo.errorMessage,
-                    });
+                    };
                   } else {
                     this.subscribeSelectedSceneNodeIds();
-                    return of(visualizationLoadInfo);
+                    mergedVisualizationLoadInfo = {
+                      ...visualizationLoadInfo,
+                      loadStatus: VisualizationLoadStatus.Loaded,
+                    };
                   }
+                  this.setVisualizationLoadInfo(mergedVisualizationLoadInfo);
+                  return of(mergedVisualizationLoadInfo);
                 })
               );
             } else {
@@ -1200,27 +1225,44 @@ export class VisualViewerService {
       .findMatchingVisualizations(productCode)
       .pipe(
         mergeMap((matches: VisualizationInfo[]) => {
+          let visualizationLoadInfo: VisualizationLoadInfo;
           switch (matches.length) {
             case 0:
-              return of(<VisualizationLoadInfo>{
-                result: VisualizationLoadResult.NoMatchFound,
+              visualizationLoadInfo = {
+                lookupResult: VisualizationLookupResult.NoMatchFound,
+                loadStatus: VisualizationLoadStatus.NotStarted,
                 matches: matches,
-              });
+              };
+              break;
             case 1:
               const matchingVisualization = matches[0];
               this.sceneId = matchingVisualization.sceneId;
               this.contentType = matchingVisualization.contentType;
-              return of(<VisualizationLoadInfo>{
-                result: VisualizationLoadResult.Success,
+              visualizationLoadInfo = {
+                lookupResult: VisualizationLookupResult.UniqueMatchFound,
+                loadStatus: VisualizationLoadStatus.NotStarted,
                 matches: matches,
                 visualization: matchingVisualization,
-              });
+              };
+              break;
             default:
-              return of(<VisualizationLoadInfo>{
-                result: VisualizationLoadResult.MultipleMatchesFound,
+              visualizationLoadInfo = {
+                lookupResult: VisualizationLookupResult.MultipleMatchesFound,
+                loadStatus: VisualizationLoadStatus.NotStarted,
                 matches: matches,
-              });
+              };
+              break;
           }
+          this.setVisualizationLoadInfo(visualizationLoadInfo);
+          return of(visualizationLoadInfo);
+        }),
+        catchError(() => {
+          let visualizationLoadInfo = {
+            lookupResult: VisualizationLookupResult.UnexpectedError,
+            loadStatus: VisualizationLoadStatus.NotStarted,
+          };
+          this.setVisualizationLoadInfo(visualizationLoadInfo);
+          return of(visualizationLoadInfo);
         })
       );
   }

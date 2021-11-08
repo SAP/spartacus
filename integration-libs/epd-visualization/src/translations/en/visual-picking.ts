@@ -1,5 +1,8 @@
 export const visualPicking = {
   visualPicking: {
+    visualPickingTab: {
+      noProductReferences: 'No spare parts are available for this product.',
+    },
     visualPickingProductList: {
       description: 'Description',
       itemPrice: 'Price',

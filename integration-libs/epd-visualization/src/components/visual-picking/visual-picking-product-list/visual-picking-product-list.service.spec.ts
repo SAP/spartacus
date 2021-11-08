@@ -10,7 +10,7 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { EpdVisualizationConfig } from '../../../config/epd-visualization-config';
 import { getValidConfig } from '../../../config/epd-visualization-test-config';
 
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { VisualPickingProductFilterService } from '../visual-picking-product-filter/visual-picking-product-filter.service';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 import { skip } from 'rxjs/operators';
@@ -137,10 +137,76 @@ describe('VisualPickingProductListService', () => {
     );
   });
 
+  describe('getProductReferences$()', () => {
+    it('should filter out undefined values returned by ProductReferenceService', (done) => {
+      visualPickingProductListService['currentProduct$'] = of(currentProduct);
+
+      spyOn(
+        visualPickingProductListService['productReferenceService'],
+        'loadProductReferences'
+      );
+
+      const fromValues: ArrayLike<ProductReference[] | undefined> = [
+        undefined,
+        productReferences,
+      ];
+
+      spyOn(
+        visualPickingProductListService['productReferenceService'],
+        'getProductReferences'
+      ).and.returnValue(from(fromValues));
+
+      visualPickingProductListService
+        .getProductReferences$()
+        .subscribe((productRefs: ProductReference[]) => {
+          expect(productRefs).toEqual(productReferences);
+          done();
+        });
+    });
+
+    it('should produce one value for each distinct set of product references', (done) => {
+      visualPickingProductListService['currentProduct$'] = of(currentProduct);
+
+      spyOn(
+        visualPickingProductListService['productReferenceService'],
+        'loadProductReferences'
+      );
+
+      const oneProductReference = [sparePart1];
+
+      const fromValues: ArrayLike<ProductReference[]> = [
+        [],
+        [],
+        oneProductReference,
+        oneProductReference,
+        productReferences,
+      ];
+      spyOn(
+        visualPickingProductListService['productReferenceService'],
+        'getProductReferences'
+      ).and.returnValue(from(fromValues));
+
+      let count = 0;
+      visualPickingProductListService
+        .getProductReferences$()
+        .subscribe((productRefs: ProductReference[]) => {
+          if (count === 0) {
+            expect(productRefs).toEqual([]);
+          } else if (count === 1) {
+            expect(productRefs).toEqual(oneProductReference);
+          } else {
+            expect(productRefs).toEqual(productReferences);
+            done();
+          }
+          count++;
+        });
+    });
+  });
+
   describe('getCurrentProductReferences$', () => {
     it('should produce product references for the current product', (done) => {
       visualPickingProductListService
-        .getCurrentProductReferences$()
+        .getProductReferences$()
         .subscribe((productReferences: ProductReference[]) => {
           expect(productReferences).toBeTruthy();
           expect(productReferences.length).toBe(3);
