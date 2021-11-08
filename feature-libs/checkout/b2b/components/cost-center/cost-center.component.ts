@@ -36,11 +36,11 @@ export class CostCenterComponent {
         distinctUntilChanged()
       ),
     ]).pipe(
-      tap(([costCenters, costCenterCode]) => {
-        if (!Boolean(costCenterCode)) {
+      tap(([costCenters, costCenter]) => {
+        if (!costCenter) {
           this.setCostCenter(costCenters[0].code as string);
         } else {
-          this.costCenterId = costCenterCode;
+          this.costCenterId = costCenter.code;
         }
       }),
       map(([costCenters]) => costCenters)

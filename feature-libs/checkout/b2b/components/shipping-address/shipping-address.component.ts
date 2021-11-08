@@ -70,11 +70,11 @@ export class B2BShippingAddressComponent
               filter((state) => !state.loading),
               map((state) => state.data),
               distinctUntilChanged(),
-              switchMap((costCenterCode) => {
+              switchMap((costCenter) => {
                 this.doneAutoSelect = false;
-                return costCenterCode
+                return costCenter?.code
                   ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenterCode
+                      costCenter.code
                     )
                   : of([]);
               })

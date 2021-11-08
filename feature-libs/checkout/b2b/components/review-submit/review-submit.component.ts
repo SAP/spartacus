@@ -72,16 +72,22 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     return this.checkoutPaymentTypeService.isAccountPayment();
   }
 
+  /**
+   *  TODO:#checkout - since the `getCostCenterState` returns the actual cost center,
+   * there's no need to use userCostCenterService.getActiveCostCenters()?
+   */
   get costCenter$(): Observable<CostCenter | undefined> {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => !!costCenters),
-      switchMap((costCenters) => {
-        return this.checkoutCostCenterService
+      switchMap((costCenters) =>
+        this.checkoutCostCenterService
           .getCostCenterState()
           .pipe(
-            map((state) => costCenters.find((cc) => cc.code === state?.data))
-          );
-      })
+            map((state) =>
+              costCenters.find((cc) => cc.code === state?.data?.code)
+            )
+          )
+      )
     );
   }
 

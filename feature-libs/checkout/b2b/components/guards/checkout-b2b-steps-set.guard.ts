@@ -154,7 +154,7 @@ export class CheckoutB2BStepsSetGuard
           if (
             deliveryAddress &&
             Object.keys(deliveryAddress).length &&
-            Boolean(costCenter)
+            !!costCenter
           ) {
             return true;
           } else {
