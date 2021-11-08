@@ -1,16 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { forkJoin, from, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
+import {
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
+} from '@spartacus/cart/main/components';
 import {
   OrderEntriesSource,
-  GetOrderEntriesContext,
-  AddOrderEntriesContext,
+  OrderEntry,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/root';
+import { Product, ProductConnector } from '@spartacus/core';
+import { forkJoin, from, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
 
 @Injectable({

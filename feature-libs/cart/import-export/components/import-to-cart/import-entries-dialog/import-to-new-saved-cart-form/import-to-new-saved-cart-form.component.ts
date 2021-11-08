@@ -15,12 +15,12 @@ import {
   CartNameSource,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
+import { ProductData } from '@spartacus/cart/main/root';
 import { CxDatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
   ImportCsvFileService,
   LaunchDialogService,
-  ProductData,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';

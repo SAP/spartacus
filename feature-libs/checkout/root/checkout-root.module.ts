@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  PageLayoutComponent,
-  ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';

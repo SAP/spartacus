@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
-  Cart,
-  MultiCartService,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
-import {
-  CartOrderEntriesContext,
-  OrderEntriesSource,
   AddOrderEntriesContext,
+  CartOrderEntriesContext,
+} from '@spartacus/cart/main/components';
+import {
+  Cart,
+  MultiCartFacade,
+  OrderEntriesSource,
   ProductData,
   ProductImportInfo,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/root';
+import { StateUtils, UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -37,7 +36,7 @@ export class NewSavedCartOrderEntriesContext
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService,
+    protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade
   ) {
     super(actionsSubject);

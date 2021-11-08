@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  CartModification,
+  CartValidationStatusCode,
+} from '@spartacus/cart/main/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { CartModification, CartValidationStatusCode } from '@spartacus/core';
 import { CartValidationStateService } from '../cart-validation-state.service';
-import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
   selector: 'cx-cart-validation-warnings',

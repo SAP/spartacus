@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
-import {
-  ContextService,
-  OrderEntriesContext,
-  ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/storefront';
+import { OrderEntriesContext } from '@spartacus/cart/main/components';
+import { OrderEntry, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';

@@ -1,8 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
+import {
+  ActiveCartFacade,
+  OrderEntry,
+  ProductData,
+} from '@spartacus/cart/main/root';
 import { of, Subject } from 'rxjs';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { ProductData } from '../order-entries-context/import-to-cart.model';
 import { ActiveCartOrderEntriesContext } from './active-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
 
@@ -22,7 +25,7 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   addEntries = createSpy().and.callThrough();
   getEntries = createSpy().and.returnValue(of(mockEntries));
   getActiveCartId = createSpy().and.returnValue(of(mockCartId));
@@ -30,17 +33,17 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 
 describe('ActiveCartOrderEntriesContext', () => {
   let service: ActiveCartOrderEntriesContext;
-  let activeCartService: ActiveCartService;
+  let ActiveCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { useValue: mockActionsSubject, provide: ActionsSubject },
-        { useClass: MockActiveCartService, provide: ActiveCartService },
+        { useClass: MockActiveCartFacade, provide: ActiveCartFacade },
       ],
     });
     service = TestBed.inject(ActiveCartOrderEntriesContext);
-    activeCartService = TestBed.inject(ActiveCartService);
+    ActiveCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   it('should be created', () => {
@@ -51,11 +54,11 @@ describe('ActiveCartOrderEntriesContext', () => {
     it('addEntries for active cart', () => {
       service.addEntries(mockProductData).subscribe().unsubscribe();
 
-      expect(activeCartService.addEntries).toHaveBeenCalledWith([
+      expect(ActiveCartFacade.addEntries).toHaveBeenCalledWith([
         { product: { code: '693923' }, quantity: 1 },
         { product: { code: '232133' }, quantity: 2 },
       ]);
-      expect(activeCartService.getActiveCartId).toHaveBeenCalledWith();
+      expect(ActiveCartFacade.getActiveCartId).toHaveBeenCalledWith();
     });
   });
 
@@ -69,7 +72,7 @@ describe('ActiveCartOrderEntriesContext', () => {
         })
         .unsubscribe();
 
-      expect(activeCartService.getEntries).toHaveBeenCalledWith();
+      expect(ActiveCartFacade.getEntries).toHaveBeenCalledWith();
       expect(entries).toEqual(mockEntries);
     });
   });

@@ -11,7 +11,7 @@ import {
   RouterState,
   SemanticPathService,
 } from '@spartacus/core';
-import { CartValidationGuard } from '@spartacus/storefront';
+import { CartValidationGuard } from './cart-validation.guard';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from '../cart-validation-state.service';
 import createSpy = jasmine.createSpy;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -7,11 +8,7 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,

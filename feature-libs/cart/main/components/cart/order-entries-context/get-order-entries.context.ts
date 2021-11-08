@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
 
 /**
  * An interface for context which determinate export products source

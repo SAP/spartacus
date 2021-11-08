@@ -1,14 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { of, Subject } from 'rxjs';
-import {
-  Cart,
-  MultiCartService,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
-import { ProductData } from '@spartacus/storefront';
+import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { StateUtils, UserIdService } from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
 
@@ -32,7 +27,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
   createCart = createSpy().and.returnValue(of(mockCartData));
   addEntries = createSpy().and.callThrough();
 }
@@ -45,7 +40,7 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
 
 describe('NewSavedCartOrderEntriesContext', () => {
   let service: NewSavedCartOrderEntriesContext;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
 
@@ -54,12 +49,12 @@ describe('NewSavedCartOrderEntriesContext', () => {
       providers: [
         { useValue: mockActionsSubject, provide: ActionsSubject },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
-        { useClass: MockMultiCartService, provide: MultiCartService },
+        { useClass: MockMultiCartFacade, provide: MultiCartFacade },
         { useClass: MockUserIdService, provide: UserIdService },
       ],
     });
     service = TestBed.inject(NewSavedCartOrderEntriesContext);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
   });

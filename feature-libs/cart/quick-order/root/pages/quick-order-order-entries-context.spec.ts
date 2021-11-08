@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { OrderEntry, ProductData } from '@spartacus/cart/main/root';
+import { ProductConnector } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { OrderEntry, ProductConnector } from '@spartacus/core';
-import { ProductData } from '@spartacus/storefront';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries-context';
 import createSpy = jasmine.createSpy;

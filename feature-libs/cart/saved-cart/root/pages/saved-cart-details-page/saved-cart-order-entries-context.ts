@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
-  Cart,
-  MultiCartService,
-  OrderEntry,
-  RoutingService,
-  UserIdService,
-} from '@spartacus/core';
-import {
-  CartOrderEntriesContext,
-  OrderEntriesSource,
-  GetOrderEntriesContext,
   AddOrderEntriesContext,
+  CartOrderEntriesContext,
+  GetOrderEntriesContext,
+} from '@spartacus/cart/main/components';
+import {
+  Cart,
+  MultiCartFacade,
+  OrderEntriesSource,
+  OrderEntry,
   ProductData,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/root';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { SavedCartFacade } from '../../facade/saved-cart.facade';
@@ -30,7 +29,7 @@ export class SavedCartOrderEntriesContext
   constructor(
     protected actionsSubject: ActionsSubject,
     protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService,
+    protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService
   ) {

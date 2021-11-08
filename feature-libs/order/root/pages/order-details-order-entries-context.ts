@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { GetOrderEntriesContext } from '@spartacus/cart/main/components';
+import { OrderEntriesSource, OrderEntry } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Order, OrderEntry } from '@spartacus/core';
-import {
-  OrderEntriesSource,
-  GetOrderEntriesContext,
-} from '@spartacus/storefront';
 import { OrderFacade } from '../facade/order.facade';
+import { Order } from '../model/order.model';
 
 @Injectable({
   providedIn: 'root',

@@ -3,15 +3,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-  FeaturesConfigModule,
 } from '@spartacus/core';
+import { ProgressButtonModule } from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartTotalsComponent } from './cart-totals.component';
-import { ProgressButtonModule } from '../../../shared/components/progress-button/progress-button.module';
 
 @NgModule({
   imports: [

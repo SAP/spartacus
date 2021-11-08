@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { CartValidationService } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  CartValidationService,
-  SemanticPathService,
   GlobalMessageService,
-  ActiveCartService,
   GlobalMessageType,
-  CartConfigService,
+  SemanticPathService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { CartConfigService } from '../../../services/cart-config.service';
 import { CartValidationStateService } from '../cart-validation-state.service';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class CartValidationGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected globalMessageService: GlobalMessageService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected cartValidationStateService: CartValidationStateService,
     protected cartConfigService: CartConfigService
   ) {}
@@ -33,22 +33,26 @@ export class CartValidationGuard implements CanActivate {
           withLatestFrom(this.activeCartService.getEntries()),
           map(([cartModificationList, cartEntries]) => {
             this.cartValidationStateService.updateValidationResultAndRoutingId(
-              cartModificationList?.cartModifications
+              cartModificationList?.cartModifications ?? []
             );
 
-            if (cartModificationList?.cartModifications?.length !== 0) {
+            if (
+              cartModificationList !== undefined &&
+              cartModificationList.cartModifications !== undefined &&
+              cartModificationList.cartModifications.length !== 0
+            ) {
               let validationResultMessage;
 
               if (
                 cartEntries.length === 1 &&
-                cartEntries[0].product.code ===
-                  cartModificationList?.cartModifications[0].entry.product.code
+                cartEntries[0].product?.code ===
+                  cartModificationList.cartModifications[0].entry?.product?.code
               ) {
                 validationResultMessage = {
                   key: 'validation.cartEntryRemoved',
                   params: {
-                    name: cartModificationList?.cartModifications[0].entry
-                      .product.name,
+                    name: cartModificationList.cartModifications[0].entry
+                      ?.product?.name,
                   },
                 };
               } else {

@@ -8,19 +8,29 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartModification, CartValidationStatusCode } from '@spartacus/core';
+import {
+  CartModification,
+  CartValidationStatusCode,
+} from '@spartacus/cart/main/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from '../cart-validation-state.service';
-import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
+import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
 
-const mockCode = 'productCode1';
 const mockData = [
   {
-    statusCode: CartValidationStatusCode.LOW_STOCK,
+    statusCode: CartValidationStatusCode.NO_STOCK,
     entry: {
       product: {
-        code: mockCode,
+        code: 'productCode1',
+      },
+    },
+  },
+  {
+    statusCode: CartValidationStatusCode.NO_STOCK,
+    entry: {
+      product: {
+        code: 'productCode2',
       },
     },
   },
@@ -28,7 +38,7 @@ const mockData = [
     statusCode: CartValidationStatusCode.LOW_STOCK,
     entry: {
       product: {
-        code: 'productCode2',
+        code: 'productCode3',
       },
     },
   },
@@ -64,9 +74,9 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('CartItemValidationWarningComponent', () => {
-  let component: CartItemValidationWarningComponent;
-  let fixture: ComponentFixture<CartItemValidationWarningComponent>;
+describe('CartValidationWarningsComponent', () => {
+  let component: CartValidationWarningsComponent;
+  let fixture: ComponentFixture<CartValidationWarningsComponent>;
   let mockCartValidationStateService: CartValidationStateService;
   let el: DebugElement;
 
@@ -74,7 +84,7 @@ describe('CartItemValidationWarningComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [
-        CartItemValidationWarningComponent,
+        CartValidationWarningsComponent,
         MockCxIconComponent,
         MockTranslatePipe,
         MockUrlPipe,
@@ -87,7 +97,7 @@ describe('CartItemValidationWarningComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CartItemValidationWarningComponent);
+    fixture = TestBed.createComponent(CartValidationWarningsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     mockCartValidationStateService = TestBed.inject(CartValidationStateService);
@@ -96,8 +106,7 @@ describe('CartItemValidationWarningComponent', () => {
       mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
         CartModification[]
       >
-    ).next([]);
-    component.code = mockCode;
+    ).next(mockData);
 
     fixture.detectChanges();
   });
@@ -112,32 +121,27 @@ describe('CartItemValidationWarningComponent', () => {
         CartModification[]
       >
     ).next(mockData);
-    let result;
 
-    component.cartModification$.subscribe((value) => (result = value));
+    component.cartModifications$.subscribe();
 
-    expect(result.entry.product.code).toEqual(mockCode);
+    expect(Object.keys(component.visibleWarnings).length).toEqual(2);
   });
 
-  it('should close / hide warning when clicked icon', () => {
-    let button = el.query(By.css('.close')) as any;
-    expect(button).toBeNull();
-
-    (
-      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
-        CartModification[]
-      >
-    ).next(mockData);
-    fixture.detectChanges();
-
-    button = el.query(By.css('.close')).nativeElement;
-    expect(button).toBeDefined();
-    button.click();
+  it('should close / hide warning when clicked icon for certain product', () => {
+    spyOn(component, 'removeMessage').and.callThrough();
+    let alerts = el.queryAll(By.css('div.alert'));
+    expect(alerts.length).toEqual(2);
+    let closeButton = el.queryAll(By.css('button.close'));
+    closeButton[0].nativeElement.click();
 
     fixture.detectChanges();
 
-    expect(component.isVisible).toEqual(false);
-    const alert = el.query(By.css('.alert'));
-    expect(alert).toBeNull();
+    expect(component.visibleWarnings[mockData[0].entry.product.code]).toEqual(
+      false
+    );
+    expect(component.visibleWarnings[mockData[1].entry.product.code]).toEqual(
+      true
+    );
+    expect(component.removeMessage).toHaveBeenCalledWith(mockData[0]);
   });
 });

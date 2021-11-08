@@ -1,16 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {} from '@spartacus/cart/import-export/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  MultiCartService,
+  MultiCartFacade,
   OrderEntry,
-  RouterState,
-  RoutingService,
-  UserIdService,
-} from '@spartacus/core';
-import { ProductData } from '@spartacus/storefront';
+  ProductData,
+} from '@spartacus/cart/main/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { SavedCartOrderEntriesContext } from './saved-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
@@ -42,7 +40,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   addEntries = createSpy().and.callThrough();
 }
 
@@ -70,7 +68,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 describe('SavedCartOrderEntriesContext', () => {
   let service: SavedCartOrderEntriesContext;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
   let routingService: RoutingService;
@@ -80,13 +78,13 @@ describe('SavedCartOrderEntriesContext', () => {
       providers: [
         { useValue: mockActionsSubject, provide: ActionsSubject },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
-        { useClass: MockMultiCartService, provide: MultiCartService },
+        { useClass: MockMultiCartService, provide: MultiCartFacade },
         { useClass: MockUserIdService, provide: UserIdService },
         { useClass: MockRoutingService, provide: RoutingService },
       ],
     });
     service = TestBed.inject(SavedCartOrderEntriesContext);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);

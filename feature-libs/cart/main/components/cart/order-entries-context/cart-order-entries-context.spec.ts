@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Observable, of, Subject } from 'rxjs';
-import { CartActions } from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/main/core';
 import {
   OrderEntriesSource,
-  AddOrderEntriesContext,
-  ProductImportStatus,
   ProductData,
-} from '@spartacus/storefront';
+  ProductImportStatus,
+} from '@spartacus/cart/main/root';
+import { Observable, of, Subject } from 'rxjs';
+import { AddOrderEntriesContext } from './add-order-entries.context';
 import { CartOrderEntriesContext } from './cart-order-entries.context';
 
 const mockActionsSubject = new Subject<Action>();

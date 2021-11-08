@@ -2,9 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartModification,
   CartValidationStatusCode,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+} from '@spartacus/cart/main/root';
+import { RouterState, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from './cart-validation-state.service';
 

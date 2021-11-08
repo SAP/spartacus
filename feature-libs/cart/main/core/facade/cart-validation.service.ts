@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { CartModificationList } from '../../model/cart.model';
+import {
+  ActiveCartFacade,
+  CartModificationList,
+} from '@spartacus/cart/main/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-} from '../../util/command-query/command.service';
+  UserIdService,
+} from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
-import { ActiveCartService } from './active-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +40,7 @@ export class CartValidationService {
     protected cartValidationConnector: CartValidationConnector,
     protected command: CommandService,
     protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   /**

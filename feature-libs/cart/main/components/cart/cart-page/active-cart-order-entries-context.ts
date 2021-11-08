@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  OrderEntriesSource,
+  OrderEntry,
+  ProductData,
+} from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { CartOrderEntriesContext } from '../order-entries-context/cart-order-entries.context';
-import { OrderEntriesSource } from '../order-entries-context/import-export.model';
-import { ProductData } from '../order-entries-context/import-to-cart.model';
 import { AddOrderEntriesContext } from '../order-entries-context/add-order-entries.context';
+import { CartOrderEntriesContext } from '../order-entries-context/cart-order-entries.context';
 import { GetOrderEntriesContext } from '../order-entries-context/get-order-entries.context';
 
 @Injectable({
@@ -19,18 +22,18 @@ export class ActiveCartOrderEntriesContext
 
   constructor(
     protected actionsSubject: ActionsSubject,
-    protected activeCartService: ActiveCartService
+    protected ActiveCartFacade: ActiveCartFacade
   ) {
     super(actionsSubject);
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.activeCartService.getEntries();
+    return this.ActiveCartFacade.getEntries();
   }
 
   protected add(products: ProductData[]): Observable<string> {
-    this.activeCartService.addEntries(this.mapProductsToOrderEntries(products));
-    return this.activeCartService.getActiveCartId();
+    this.ActiveCartFacade.addEntries(this.mapProductsToOrderEntries(products));
+    return this.ActiveCartFacade.getActiveCartId();
   }
 
   protected mapProductsToOrderEntries(products: ProductData[]): OrderEntry[] {

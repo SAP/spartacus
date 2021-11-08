@@ -2,7 +2,7 @@
 <ng-template [cxOutlet]="CartOutlets.ITEM">
   <ng-container *cxFeatureLevel="'4.2'">
     <cx-cart-item-validation-warning
-      [code]="item.product.code"
+      [code]="item.product?.code"
     ></cx-cart-item-validation-warning>
   </ng-container>
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
