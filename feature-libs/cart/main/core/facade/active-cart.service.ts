@@ -230,23 +230,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     userId: string,
     previousUserId: string
   ): void {
-    if (cartId === OCC_CART_ID_CURRENT) {
-      this.multiCartService.loadCart({
-        userId,
-        cartId: OCC_CART_ID_CURRENT,
-        extraData: {
-          active: true,
-        },
-      });
-    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
-      this.guestCartMerge(cartId);
-    } else if (
-      userId !== previousUserId &&
-      userId !== OCC_USER_ID_ANONYMOUS &&
-      previousUserId !== OCC_USER_ID_ANONYMOUS
-    ) {
+    if (
+      cartId === OCC_CART_ID_CURRENT ||
       // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
       // Similarly when you are logged in as asm user and you logout and want to resume previous user session
+      (userId !== previousUserId &&
+        userId !== OCC_USER_ID_ANONYMOUS &&
+        previousUserId !== OCC_USER_ID_ANONYMOUS)
+    ) {
       this.multiCartService.loadCart({
         userId,
         cartId,
@@ -254,6 +245,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           active: true,
         },
       });
+    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
+      this.guestCartMerge(cartId);
     } else {
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
       this.multiCartService.mergeToCurrentCart({

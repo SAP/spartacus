@@ -48,7 +48,7 @@ export function cartTypeIndexReducer(
     case CartActions.SET_CART_TYPE_INDEX:
       return {
         ...state,
-        [action.payload.cartType]: action.payload.cartId,
+        [action.payload.cartType]: action.payload.cartId as string,
       };
   }
   return state;
