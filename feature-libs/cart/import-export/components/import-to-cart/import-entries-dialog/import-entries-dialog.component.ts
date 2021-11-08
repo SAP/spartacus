@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { AddOrderEntriesContext } from '@spartacus/cart/main/components';
 import {
   OrderEntriesSource,
   ProductData,
@@ -12,10 +8,10 @@ import {
   ProductImportSummary,
 } from '@spartacus/cart/main/root';
 import {
-  AddOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-
-
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 
