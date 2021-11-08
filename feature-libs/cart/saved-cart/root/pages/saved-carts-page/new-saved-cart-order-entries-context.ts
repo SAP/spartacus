@@ -64,9 +64,7 @@ export class NewSavedCartOrderEntriesContext
             extraData: { active: false },
           })
           .pipe(
-            filter((cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-              Boolean(cartData.value?.code)
-            ),
+            filter((cartData: any) => Boolean(cartData.value?.code)),
             map(
               (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
                 cartData.value?.code as string
