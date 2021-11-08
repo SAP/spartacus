@@ -7,7 +7,9 @@
   <div class="cx-count container">
     <div class="row" *ngIf="locations?.length">
       <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
-        {{ 'storeFinder.resultsFound' | cxTranslate: {count: locations?.length} }}
+        {{
+          'storeFinder.resultsFound' | cxTranslate: { count: locations?.length }
+        }}
       </div>
       <div
         *ngFor="let country of locations"
