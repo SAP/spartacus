@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -36,16 +35,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
-  @Input()
-  isDisabled = false;
-
-  @Input()
-  isLoading = false;
-
   protected subscription = new Subscription();
-  protected _disabled: boolean = false;
-  protected _loading: boolean = false;
-  protected _focusedElementIndex: number | null = null;
+  protected searchSubscription = new Subscription();
 
   /**
    * @deprecated since version 4.2
@@ -71,17 +62,13 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.watchQueryChange());
   }
 
-  onBlur(element?: Element): void {
-    if (element) {
-      if (
-        (element.className || '').includes('quick-order-results-products') ||
-        (element.className || '').includes('quick-order-form-reset-icon')
-      ) {
-        return;
+  onBlur(event: UIEvent): void {
+    // Use timeout to detect changes
+    setTimeout(() => {
+      if (!this.isSuggestionFocused()) {
+        this.blurSuggestionBox(event);
       }
-    }
-
-    this.close();
+    });
   }
 
   clear(event?: Event): void {
@@ -89,17 +76,17 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass('quick-order-searchbox-is-active', false);
-
-      let product = this.form.get('product')?.value;
-
-      if (!!product) {
-        this.form.reset();
-      }
-
-      // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
-      this.close();
-      this.cd?.detectChanges();
     }
+
+    let product = this.form.get('product')?.value;
+
+    if (!!product) {
+      this.form.reset();
+    }
+
+    // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
+    this.close();
+    this.cd?.detectChanges();
   }
 
   add(product: Product, event: Event): void {
@@ -125,77 +112,108 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((canAdd: boolean) => {
         if (canAdd) {
-          const activeProductIndex = this.getFocusedElementIndex();
-
-          // Add product if there is focus on it
-          if (activeProductIndex !== null) {
-            const product = this.results[activeProductIndex];
-            this.add(product, event);
-            // Add product if there is only one in the result list
-          } else if (this.results.length === 1) {
+          // Add product if there is only one in the result list
+          if (this.results.length === 1) {
             this.add(this.results[0], event);
+            // Add product if there is focus on it
+          } else if (this.getFocusedIndex() !== -1) {
+            const product = this.results[this.getFocusedIndex()];
+            this.add(product, event);
           }
         }
       });
   }
 
-  focusNextChild(): void {
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
     if (!this.results.length) {
       return;
     }
 
-    const activeFocusedElementIndex = this.getFocusedElementIndex();
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
 
-    if (
-      activeFocusedElementIndex === null ||
-      this.results.length - 1 === activeFocusedElementIndex
-    ) {
-      this.setFocusedElementIndex(0);
-    } else {
-      this.setFocusedElementIndex(activeFocusedElementIndex + 1);
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedIndex >= results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
     }
   }
 
-  focusPreviousChild(): void {
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
     if (!this.results.length) {
       return;
     }
 
-    const activeFocusedElementIndex = this.getFocusedElementIndex();
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
 
-    if (activeFocusedElementIndex === null || activeFocusedElementIndex === 0) {
-      this.setFocusedElementIndex(this.results.length - 1);
-    } else {
-      this.setFocusedElementIndex(activeFocusedElementIndex - 1);
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex < 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
     }
-  }
-
-  getFocusedElementIndex(): number | null {
-    return this._focusedElementIndex;
   }
 
   isResultsBoxOpen(): boolean {
-    return !!(this.results.length || this.noResults);
-  }
-
-  setResults(results: Product[]): void {
-    this.results = results;
-  }
-
-  setFocusedElementIndex(value: number | null): void {
-    this._focusedElementIndex = value;
+    return this.winRef
+      ? !!this.winRef.document.querySelector('.quick-order-searchbox-is-active')
+      : false;
   }
 
   canAddProduct(): Observable<boolean> {
     return this.quickOrderService.canAdd();
   }
 
-  protected resetFocusedElementIndex(): void {
-    this._focusedElementIndex = null;
+  open(): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', true);
   }
 
-  protected open(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', true);
+  // Return result list as HTMLElement array
+  protected getResultElements(): HTMLElement[] {
+    if (this.winRef) {
+      return Array.from(
+        this.winRef.document.querySelectorAll(
+          '.quick-order-results-products > li button'
+        )
+      );
+    } else {
+      return [];
+    }
+  }
+
+  protected blurSuggestionBox(event: UIEvent): void {
+    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+
+    if (event && event.target) {
+      (<HTMLElement>event.target).blur();
+    }
+  }
+
+  // Return focused element as HTMLElement
+  protected getFocusedElement(): HTMLElement | any {
+    if (this.winRef) {
+      return <HTMLElement>this.winRef.document.activeElement;
+    }
+  }
+
+  protected getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  protected isSuggestionFocused(): boolean {
+    return this.getResultElements().includes(this.getFocusedElement());
   }
 
   protected toggleBodyClass(className: string, add?: boolean) {
@@ -251,31 +269,32 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchProducts(query: string): void {
-    this.canAddProduct()
-      .pipe(
-        filter(Boolean),
-        switchMap(() =>
-          this.quickOrderService
-            .searchProducts(
-              query,
-              this.config?.quickOrder?.searchForm?.maxProducts
-            )
-            .pipe(take(1))
+    this.searchSubscription.add(
+      this.canAddProduct()
+        .pipe(
+          filter(Boolean),
+          switchMap(() =>
+            this.quickOrderService
+              .searchProducts(
+                query,
+                this.config?.quickOrder?.searchForm?.maxProducts
+              )
+              .pipe(take(1))
+          )
         )
-      )
-      .subscribe((products) => {
-        this.results = products;
+        .subscribe((products) => {
+          this.results = products;
 
-        if (this.results.length) {
-          this.noResults = false;
-        } else {
-          this.noResults = true;
-        }
+          if (this.results.length) {
+            this.noResults = false;
+            this.open();
+          } else {
+            this.noResults = true;
+          }
 
-        this.open();
-        this.resetFocusedElementIndex();
-        this.cd?.detectChanges();
-      });
+          this.cd?.detectChanges();
+        })
+    );
   }
 
   protected clearResults(): void {
@@ -283,9 +302,14 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
-    this.resetFocusedElementIndex();
+    this.resetSearchSubscription();
     this.clearResults();
     this.noResults = false;
+  }
+
+  protected resetSearchSubscription(): void {
+    this.searchSubscription.unsubscribe();
+    this.searchSubscription = new Subscription();
   }
 
   protected watchProductAdd(): Subscription {
