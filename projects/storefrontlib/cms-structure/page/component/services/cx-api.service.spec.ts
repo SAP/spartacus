@@ -20,7 +20,6 @@ import {
   UserConsentService,
   UserInterestsService,
   UserNotificationPreferenceService,
-  UserOrderService,
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
@@ -45,10 +44,10 @@ class MockBaseSiteService {}
 class MockUserService {}
 class MockUserAddressService {}
 class MockUserConsentService {}
-class MockUserOrderService {}
 class MockUserPaymentService {}
 class MockUserNotificationPreferenceService {}
 class MockUserInterestsService {}
+
 describe('CxApiService', () => {
   let authService: AuthService;
   let cmsService: CmsService;
@@ -91,7 +90,6 @@ describe('CxApiService', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: UserConsentService, useClass: MockUserConsentService },
-        { provide: UserOrderService, useClass: MockUserOrderService },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: UserNotificationPreferenceService,

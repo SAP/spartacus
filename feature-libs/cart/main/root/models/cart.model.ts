@@ -44,11 +44,6 @@ export interface DeliveryOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-export interface CardType {
-  code?: string;
-  name?: string;
-}
-
 export interface PaymentType {
   code?: string;
   displayName?: string;

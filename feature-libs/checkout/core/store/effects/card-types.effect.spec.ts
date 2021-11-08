@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { CardType } from '@spartacus/cart/main/root';
+import { CardType } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CheckoutPaymentAdapter } from '../../connectors/payment/checkout-payment.adapter';

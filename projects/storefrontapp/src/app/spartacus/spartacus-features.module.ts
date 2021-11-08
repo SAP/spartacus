@@ -6,8 +6,8 @@ import {
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitional_4_2_Module,
-  UserTransitional_4_2_Module,
+  UserOccModule,
+  UserModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -119,8 +119,8 @@ if (environment.digitalPayments) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitional_4_2_Module,
-    UserOccTransitional_4_2_Module,
+    UserModule,
+    UserOccModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
