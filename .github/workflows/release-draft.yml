@@ -1,39 +1,54 @@
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  # push: to remove above once test is ove
+  #   branches:
+  #     - develop
+  workflow_dispatch:
+    inputs:
+      FROM_TAG:
+        description: 'previous release tag version'
+        required: true
+        default: '3.0.0-test'
+      TO_TAG:
+        description: 'current release tag version'
+        required: true
+        default: '5.0.0-test'
 name: "Publish Release Draft notes"
 jobs:
-  setup: 
-    name: setup dependencies
+  preReleaseDraft:
+    name: Create pre-release draft
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Set Spartacusbot
+      - name: Yarn
+        run: yarn install
+      - name: npx changelog
+        id: coolio
+        run: | 
+          npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0
+          please=$(npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0)
+          echo "::set-output name=CHANGELOG"
+      - name: test output
         run: |
-          git config user.name "Spartacus[bot]"
-          git config user.email "spartacus-sap@github.com"
-  preReleaseDraft:
-    name: Create pre-release draft
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create changelogs
-        id: changelog
-        uses: ./.github/create-changelog
-        with:
-          fromTag: 'user-4.1.1'
-          toTag: 'HEAD'
-        env:
-          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish pre-release
-        uses: ./.github/publish-pre-release
-        with:
-          changelog: ${{ steps.changelog.outputs.changelog }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+          echo ${{ steps.coolio.outputs.CHANGELOG }}
+      # - name: Create changelogs
+      #   id: changelog
+      #   uses: ./.github/generate-changelog
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     FROM_TAG: ${{ github.event.inputs.FROM_TAG }}
+      #     TO_TAG: ${{ github.event.inputs.TO_TAG }}
+      # - name: Create release draft
+      #   uses: ./.github/publish-release-draft
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+      #     TO_TAG: ${{ steps.changelog.outputs.toTag }}
+      # - name: release draft
+      #   run: |
+      #     echo "cool ${{ steps.changelog.utputs.changelog }}"
+      #     echo ${{ steps.changelog.utputs.changelog }}

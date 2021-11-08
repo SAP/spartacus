@@ -10,7 +10,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@actions/github": "^4.0.0",
-    "@types/node": "^12.11.1"
+    "@types/node": "^12.11.1",
+    "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4"
   },
   "devDependencies": {
     "typescript": "^4.2.4",

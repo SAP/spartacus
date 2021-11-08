@@ -4,6 +4,17 @@
   }
 
   const shortSha = hash && hash.slice(0, 7);
+
+  const badgeColor = {
+    feat: 'blue',
+    fix: 'green',
+    perf: 'brightgreen',
+    refactor: 'yellowgreen',
+    style: '9cf',
+    test: 'important',
+    chore: 'lightgrey',
+    docs: 'ff69b4'
+  };
 %>
 <tr>
   <%# Commit: %>
@@ -11,8 +22,7 @@
   if (shortSha) {
     %>
 <a href="https://github.com/SAP/spartacus/commit/<%= hash %>"><img
-   align="top"
-   title="Bug fix" src="https://img.shields.io/badge/<%= shortSha %>-<%= type %>-green.svg" />
+   align="top" src="https://img.shields.io/badge/<%= shortSha %>-<%= type %>-<%= badgeColor[type] %>.svg" />
 </a><%
   } %>
   </td>
