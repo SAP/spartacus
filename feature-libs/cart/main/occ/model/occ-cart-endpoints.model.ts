@@ -62,6 +62,10 @@ export interface CartOccEndpoints {
    * @member {string}
    */
   cartVoucher?: string | OccEndpoint;
+  /**
+   * Get cart validation results
+   */
+  validate?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
