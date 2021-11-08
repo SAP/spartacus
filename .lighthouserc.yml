@@ -9,6 +9,7 @@ ci:
   assert:
     preset: lighthouse:recommended
     assertions:
+      aria-allowed-attr: 'warn'
       bootup-time:
         - warn
         - minScore: 0.44
@@ -68,3 +69,4 @@ ci:
       uses-webp-images: 'warn'
       valid-source-maps: 'warn'
       uses-text-compression: 'warn'
+      inspector-issues: 'warn'

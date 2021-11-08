@@ -34,6 +34,15 @@
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [
