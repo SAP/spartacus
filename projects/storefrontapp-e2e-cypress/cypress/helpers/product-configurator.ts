@@ -178,7 +178,7 @@ export function checkAttributeNotDisplayed(
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
-export function replaceAllCharacters(
+export function maskCharacter(
   searchValue: string,
   character: string
 ): string {
@@ -207,7 +207,7 @@ export function checkAttrValueDisplayed(
   if (uiType.startsWith('dropdown')) {
     valueLocator = `#${attributeId} [value="${valueName}"]`;
   } else {
-    valueName = this.replaceAllCharacters(valueName, '#');
+    valueName = this.maskCharacter(valueName, '#');
     valueLocator = `#${attributeId}--${valueName}`;
   }
   console.log('value locator: ' + valueLocator);
@@ -274,7 +274,7 @@ export function selectAttribute(
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
   let valueId = `${attributeId}--${valueName}`;
-  valueId = this.replaceAllCharacters(valueId, '#');
+  valueId = this.maskCharacter(valueId, '#');
   cy.log('valueId: ' + valueId);
 
   switch (uiType) {
@@ -354,7 +354,7 @@ export function checkValueSelected(
       valueId = `${attributeId} [value="${valueName}"]`;
     }
 
-    valueId = this.replaceAllCharacters(valueId, '#');
+    valueId = this.maskCharacter(valueId, '#');
 
     cy.get(`#${valueId}`).should('be.checked');
   }
