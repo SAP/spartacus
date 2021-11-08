@@ -64,6 +64,24 @@ export class OccConfiguratorVariantSerializer
     );
   }
 
+  protected getRetractedValue(
+    attribute: Configurator.Attribute
+  ): string | undefined {
+    return attribute.values?.find((value) => value?.selected)?.valueCode;
+  }
+
+  protected retractValue(
+    attribute: Configurator.Attribute,
+    targetAttribute: OccConfigurator.Attribute
+  ) {
+    if (!this.isRetractValue(attribute)) {
+      targetAttribute.value = attribute.selectedSingleValue;
+    } else {
+      targetAttribute.value = this.getRetractedValue(attribute);
+      targetAttribute.retractTriggered = true;
+    }
+  }
+
   convertAttribute(
     attribute: Configurator.Attribute,
     occAttributes: OccConfigurator.Attribute[]
@@ -84,11 +102,7 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      if (!this.isRetractValue(attribute)) {
-        targetAttribute.value = attribute.selectedSingleValue;
-      } else {
-        targetAttribute.retractTriggered = true;
-      }
+      this.retractValue(attribute, targetAttribute);
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       targetAttribute.value = attribute.userInput;
     } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
