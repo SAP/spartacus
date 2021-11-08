@@ -109,7 +109,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -184,8 +184,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:21</a></div>
                 </td>
             </tr>
 
@@ -264,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:43</a></div>
                 </td>
             </tr>
 
@@ -332,8 +332,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-overview-normalizer.ts:81</a></div>
                 </td>
             </tr>
 
@@ -399,7 +399,8 @@ import { VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER } from &#x27;./../variant
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccConfiguratorVariantOverviewNormalizer
-  implements Converter&lt;OccConfigurator.Overview, Configurator.Overview&gt; {
+  implements Converter&lt;OccConfigurator.Overview, Configurator.Overview&gt;
+{
   constructor(
     protected translation: TranslationService,
     protected converterService: ConverterService
@@ -443,7 +444,9 @@ export class OccConfiguratorVariantOverviewNormalizer
         ? characteristicValues.map((characteristic) &#x3D;&gt; {
             return {
               attribute: characteristic.characteristic,
+              attributeId: characteristic.characteristicId,
               value: characteristic.value,
+              valueId: characteristic.valueId,
             };
           })
         : [],

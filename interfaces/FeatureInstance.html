@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-structure/services/cms-features.service.ts</code>
+            <code>projects/storefrontlib/cms-structure/services/cms-features.service.ts</code>
         </p>
 
 
@@ -233,10 +233,8 @@ export class CmsFeaturesService {
    * Contains either FeatureInstance or FeatureInstance resolver for not yet
    * resolved feature modules
    */
-  private featureInstances: Map&lt;
-    string,
-    Observable&lt;FeatureInstance&gt;
-  &gt; &#x3D; new Map();
+  private featureInstances: Map&lt;string, Observable&lt;FeatureInstance&gt;&gt; &#x3D;
+    new Map();
 
   constructor(
     protected configInitializer: ConfigInitializerService,

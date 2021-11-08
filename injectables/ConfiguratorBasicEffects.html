@@ -422,9 +422,8 @@ as this is an illegal state</p>
         .createConfiguration(action.payload)
         .pipe(
           switchMap((configuration: Configurator.Configuration) &#x3D;&gt; {
-            const currentGroup &#x3D; this.getGroupWithAttributesForConfiguration(
-              configuration
-            );
+            const currentGroup &#x3D;
+              this.getGroupWithAttributesForConfiguration(configuration);
             this.store.dispatch(
               new ConfiguratorActions.UpdatePriceSummary({
                 ...configuration,
@@ -524,7 +523,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:158</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="157" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -725,7 +724,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -791,7 +790,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:96</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -818,28 +817,28 @@ as this is an illegal state</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
-    map(
-      (action: ConfiguratorActions.UpdateConfigurationFail) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.store.pipe(
-        select(
-          ConfiguratorSelectors.hasPendingChanges(
-            payload.configuration.owner.key
-          )
-        ),
-        take(1),
-        filter((hasPendingChanges) &#x3D;&gt; hasPendingChanges &#x3D;&#x3D;&#x3D; false),
-        map(
-          () &#x3D;&gt;
-            new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-              payload.configuration
+      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
+      map(
+        (action: ConfiguratorActions.UpdateConfigurationFail) &#x3D;&gt; action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.store.pipe(
+          select(
+            ConfiguratorSelectors.hasPendingChanges(
+              payload.configuration.owner.key
             )
-        )
-      );
-    })
-  )</code>
+          ),
+          take(1),
+          filter((hasPendingChanges) &#x3D;&gt; hasPendingChanges &#x3D;&#x3D;&#x3D; false),
+          map(
+            () &#x3D;&gt;
+              new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                payload.configuration
+              )
+          )
+        );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -853,7 +852,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:259</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:258</a></div>
                         </td>
                     </tr>
 
@@ -894,17 +893,17 @@ as this is an illegal state</p>
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
             map((currentGroupId) &#x3D;&gt; {
-              const groupIdFromPayload &#x3D; this.getGroupWithAttributesForConfiguration(
-                payload
-              );
-              const parentGroupFromPayload &#x3D; this.configuratorGroupUtilsService.getParentGroup(
-                payload.groups,
-                this.configuratorGroupUtilsService.getGroupById(
+              const groupIdFromPayload &#x3D;
+                this.getGroupWithAttributesForConfiguration(payload);
+              const parentGroupFromPayload &#x3D;
+                this.configuratorGroupUtilsService.getParentGroup(
                   payload.groups,
-                  groupIdFromPayload
-                ),
-                undefined
-              );
+                  this.configuratorGroupUtilsService.getGroupById(
+                    payload.groups,
+                    groupIdFromPayload
+                  ),
+                  undefined
+                );
               return {
                 currentGroupId,
                 groupIdFromPayload,
@@ -914,17 +913,17 @@ as this is an illegal state</p>
             switchMap((container) &#x3D;&gt; {
               //changeGroup because in cases where a queue of updates exists with a group navigation in between,
               //we need to ensure that the last update determines the current group.
-              const updateFinalizeSuccessAction &#x3D; new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                payload
-              );
-              const updatePriceSummaryAction &#x3D; new ConfiguratorActions.UpdatePriceSummary(
-                {
+              const updateFinalizeSuccessAction &#x3D;
+                new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                  payload
+                );
+              const updatePriceSummaryAction &#x3D;
+                new ConfiguratorActions.UpdatePriceSummary({
                   ...payload,
                   interactionState: {
                     currentGroup: container.groupIdFromPayload,
                   },
-                }
-              );
+                });
               return container.currentGroupId &#x3D;&#x3D;&#x3D; container.groupIdFromPayload
                 ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
                 : [
@@ -955,7 +954,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:190</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="189" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:189</a></div>
                         </td>
                     </tr>
 
@@ -1019,7 +1018,7 @@ as this is an illegal state</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:128</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1072,9 +1071,8 @@ export class ConfiguratorBasicEffects {
         .createConfiguration(action.payload)
         .pipe(
           switchMap((configuration: Configurator.Configuration) &#x3D;&gt; {
-            const currentGroup &#x3D; this.getGroupWithAttributesForConfiguration(
-              configuration
-            );
+            const currentGroup &#x3D;
+              this.getGroupWithAttributesForConfiguration(configuration);
             this.store.dispatch(
               new ConfiguratorActions.UpdatePriceSummary({
                 ...configuration,
@@ -1240,17 +1238,17 @@ export class ConfiguratorBasicEffects {
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
             map((currentGroupId) &#x3D;&gt; {
-              const groupIdFromPayload &#x3D; this.getGroupWithAttributesForConfiguration(
-                payload
-              );
-              const parentGroupFromPayload &#x3D; this.configuratorGroupUtilsService.getParentGroup(
-                payload.groups,
-                this.configuratorGroupUtilsService.getGroupById(
+              const groupIdFromPayload &#x3D;
+                this.getGroupWithAttributesForConfiguration(payload);
+              const parentGroupFromPayload &#x3D;
+                this.configuratorGroupUtilsService.getParentGroup(
                   payload.groups,
-                  groupIdFromPayload
-                ),
-                undefined
-              );
+                  this.configuratorGroupUtilsService.getGroupById(
+                    payload.groups,
+                    groupIdFromPayload
+                  ),
+                  undefined
+                );
               return {
                 currentGroupId,
                 groupIdFromPayload,
@@ -1260,17 +1258,17 @@ export class ConfiguratorBasicEffects {
             switchMap((container) &#x3D;&gt; {
               //changeGroup because in cases where a queue of updates exists with a group navigation in between,
               //we need to ensure that the last update determines the current group.
-              const updateFinalizeSuccessAction &#x3D; new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                payload
-              );
-              const updatePriceSummaryAction &#x3D; new ConfiguratorActions.UpdatePriceSummary(
-                {
+              const updateFinalizeSuccessAction &#x3D;
+                new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                  payload
+                );
+              const updatePriceSummaryAction &#x3D;
+                new ConfiguratorActions.UpdatePriceSummary({
                   ...payload,
                   interactionState: {
                     currentGroup: container.groupIdFromPayload,
                   },
-                }
-              );
+                });
               return container.currentGroupId &#x3D;&#x3D;&#x3D; container.groupIdFromPayload
                 ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
                 : [
@@ -1290,29 +1288,30 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  updateConfigurationFail$: Observable&lt;ConfiguratorActions.UpdateConfigurationFinalizeFail&gt; &#x3D; this.actions$.pipe(
-    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
-    map(
-      (action: ConfiguratorActions.UpdateConfigurationFail) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.store.pipe(
-        select(
-          ConfiguratorSelectors.hasPendingChanges(
-            payload.configuration.owner.key
-          )
-        ),
-        take(1),
-        filter((hasPendingChanges) &#x3D;&gt; hasPendingChanges &#x3D;&#x3D;&#x3D; false),
-        map(
-          () &#x3D;&gt;
-            new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-              payload.configuration
+  updateConfigurationFail$: Observable&lt;ConfiguratorActions.UpdateConfigurationFinalizeFail&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
+      map(
+        (action: ConfiguratorActions.UpdateConfigurationFail) &#x3D;&gt; action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.store.pipe(
+          select(
+            ConfiguratorSelectors.hasPendingChanges(
+              payload.configuration.owner.key
             )
-        )
-      );
-    })
-  );
+          ),
+          take(1),
+          filter((hasPendingChanges) &#x3D;&gt; hasPendingChanges &#x3D;&#x3D;&#x3D; false),
+          map(
+            () &#x3D;&gt;
+              new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                payload.configuration
+              )
+          )
+        );
+      })
+    );
 
   @Effect()
   handleErrorOnUpdate$: Observable&lt;ConfiguratorActions.ReadConfiguration&gt; &#x3D; this.actions$.pipe(

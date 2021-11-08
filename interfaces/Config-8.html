@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/personalization/root/config/personalization-config.ts</code>
+            <code>projects/storefrontlib/router/config/on-navigate-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/PersonalizationConfig.html" target="_self" >PersonalizationConfig</a></code>
+                        <code><a href="../injectables/OnNavigateConfig.html" target="_self" >OnNavigateConfig</a></code>
             </p>
 
 
@@ -90,22 +90,16 @@ import { Config } from &#x27;@spartacus/core&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class PersonalizationConfig {
-  personalization?: {
-    enabled?: boolean;
-    httpHeaderName?: {
-      id: string;
-      timestamp: string;
-    };
-    context?: {
-      slotPosition: string;
-      componentId: string;
-    };
+export abstract class OnNavigateConfig {
+  enableResetViewOnNavigate?: {
+    active?: boolean;
+    ignoreQueryString?: boolean;
+    ignoreRoutes?: string[];
   };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends PersonalizationConfig {}
+  interface Config extends OnNavigateConfig {}
 }
 </code></pre>
     </div>

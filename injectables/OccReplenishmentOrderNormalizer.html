@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-replenishment-order-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-replenishment-order-normalizer.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -178,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-replenishment-order-normalizer.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-replenishment-order-normalizer.ts:20</a></div>
                 </td>
             </tr>
 
@@ -256,7 +256,8 @@ import { OrderEntryPromotionsService } from &#x27;../../cart/converters/order-en
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccReplenishmentOrderNormalizer
-  implements Converter&lt;Occ.ReplenishmentOrder, ReplenishmentOrder&gt; {
+  implements Converter&lt;Occ.ReplenishmentOrder, ReplenishmentOrder&gt;
+{
   constructor(
     private converter: ConverterService,
     private entryPromotionService?: OrderEntryPromotionsService

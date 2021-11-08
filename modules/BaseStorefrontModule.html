@@ -56,13 +56,13 @@
 <title>cluster_BaseStorefrontModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1521,-230.8 1521,-32.8 8,-32.8"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_BaseStorefrontModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 1513,-92.8 1513,-40.8 16,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_BaseStorefrontModule_exports</title>
 <polygon fill="none" stroke="black" points="747,-170.8 747,-222.8 865,-222.8 865,-170.8 747,-170.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_BaseStorefrontModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 1513,-92.8 1513,-40.8 16,-40.8"/>
 </g>
 <!-- BaseCoreModule -->
 <g id="node1" class="node">
@@ -262,7 +262,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/base-storefront.module.ts</code>
+            <code>projects/storefrontlib/base-storefront.module.ts</code>
         </p>
 
 
@@ -339,6 +339,7 @@ import { BaseCoreModule } from &#x27;@spartacus/core&#x27;;
 import { GlobalMessageComponentModule } from &#x27;./cms-components/misc/global-message/global-message.module&#x27;;
 import { OutletRefModule } from &#x27;./cms-structure/outlet/outlet-ref/outlet-ref.module&#x27;;
 import { OutletModule } from &#x27;./cms-structure/outlet/outlet.module&#x27;;
+import { PageComponentModule } from &#x27;./cms-structure/page/component/page-component.module&#x27;;
 import { PageLayoutModule } from &#x27;./cms-structure/page/page-layout/page-layout.module&#x27;;
 import { PageSlotModule } from &#x27;./cms-structure/page/slot/page-slot.module&#x27;;
 import { PwaModule } from &#x27;./cms-structure/pwa/pwa.module&#x27;;
@@ -347,9 +348,8 @@ import { SeoModule } from &#x27;./cms-structure/seo/seo.module&#x27;;
 import { KeyboardFocusModule } from &#x27;./layout/a11y/keyboard-focus/keyboard-focus.module&#x27;;
 import { SkipLinkModule } from &#x27;./layout/a11y/skip-link/skip-link.module&#x27;;
 import { LayoutModule } from &#x27;./layout/layout.module&#x27;;
-import { MediaModule } from &#x27;./shared/components/media/media.module&#x27;;
 import { StorefrontComponentModule } from &#x27;./layout/main/storefront-component.module&#x27;;
-import { PageComponentModule } from &#x27;./cms-structure/page/component/page-component.module&#x27;;
+import { MediaModule } from &#x27;./shared/components/media/media.module&#x27;;
 
 @NgModule({
   imports: [

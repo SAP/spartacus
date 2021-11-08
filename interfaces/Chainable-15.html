@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/cart.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/storage.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,21 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#addToCart" 
+                                        <a href="#clearLocalStorageMemory" 
 >
-                                            addToCart
+                                            clearLocalStorageMemory
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#restoreLocalStorage" 
+>
+                                            restoreLocalStorage
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#saveLocalStorage" 
+>
+                                            saveLocalStorage
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +115,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="addToCart"></a>
-                                        <span class="name "><b>addToCart</b>
-                                            <a href="#addToCart">
+                                        <a name="clearLocalStorageMemory"></a>
+                                        <span class="name "><b>clearLocalStorageMemory</b>
+                                            <a href="#clearLocalStorageMemory">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +125,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>addToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>clearLocalStorageMemory:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,8 +144,86 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Creates a new cart and adds items to it</p>
-<div><pre class="line-numbers"><code class="language-none">cy.addToCart(productCode, quantity, accessToken)</code></pre></div></div>
+                                    <div class="io-description"><p>Reset the local storage memory.</p>
+<div><pre class="line-numbers"><code class="language-none">cy.resetLocalStorageMemory()</code></pre></div></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="restoreLocalStorage"></a>
+                                        <span class="name "><b>restoreLocalStorage</b>
+                                            <a href="#restoreLocalStorage">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>restoreLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Restore localStorage</p>
+<div><pre class="line-numbers"><code class="language-none">cy.restoreLocalStorage()</code></pre></div></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="saveLocalStorage"></a>
+                                        <span class="name "><b>saveLocalStorage</b>
+                                            <a href="#saveLocalStorage">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>saveLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Save localStorage as state in the command since cypress clears the local storage of the browser in between tests</p>
+<div><pre class="line-numbers"><code class="language-none">cy.saveLocalStorage()</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -143,48 +233,64 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { addToCart, createCart } from &#x27;./utils/cart&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">let LOCAL_STORAGE_MEMORY &#x3D; {};
 
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Creates a new cart and adds items to it
+       * Save localStorage as state in the command since cypress clears the local storage of the browser in between tests
+       *
        * @memberof Cypress.Chainable
+       *
        * @example
         &#x60;&#x60;&#x60;
-        cy.addToCart(productCode, quantity, accessToken)
+        cy.saveLocalStorage()
         &#x60;&#x60;&#x60;
        */
-    addToCart: (itemId: string, quantity: string, accessToken: string) &#x3D;&gt; void;
+    saveLocalStorage: () &#x3D;&gt; void;
+    /**
+       * Restore localStorage
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        &#x60;&#x60;&#x60;
+        cy.restoreLocalStorage()
+        &#x60;&#x60;&#x60;
+       */
+    restoreLocalStorage: () &#x3D;&gt; void;
+    /**
+       * Reset the local storage memory.
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        &#x60;&#x60;&#x60;
+        cy.resetLocalStorageMemory()
+        &#x60;&#x60;&#x60;
+       */
+    clearLocalStorageMemory: () &#x3D;&gt; void;
   }
 }
 
-Cypress.Commands.add(
-  &#x27;addToCart&#x27;,
-  (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
-    cy.server();
+Cypress.Commands.add(&#x27;saveLocalStorage&#x27;, () &#x3D;&gt; {
+  Object.keys(localStorage).forEach((key) &#x3D;&gt; {
+    LOCAL_STORAGE_MEMORY[key] &#x3D; localStorage[key];
+  });
+});
 
-    createCart(accessToken).then((response) &#x3D;&gt; {
-      const cartId &#x3D; response.body.code;
-      addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {
-        Cypress.log({
-          name: &#x27;addToCart&#x27;,
-          displayName: &#x27;Add to cart&#x27;,
-          message: [&#x60;🛒 Product(s) added to cart&#x60;],
-          consoleProps: () &#x3D;&gt; {
-            return {
-              &#x27;Cart ID&#x27;: cartId,
-              &#x27;Product code&#x27;: productCode,
-              Quantity: quantity,
-            };
-          },
-        });
+Cypress.Commands.add(&#x27;restoreLocalStorage&#x27;, () &#x3D;&gt; {
+  Object.keys(LOCAL_STORAGE_MEMORY).forEach((key) &#x3D;&gt; {
+    localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
+  });
+});
 
-        cy.wrap(cartId);
-      });
-    });
-  }
-);
+/**
+ * Clears the command local storage
+ */
+Cypress.Commands.add(&#x27;clearLocalStorageMemory&#x27;, () &#x3D;&gt; {
+  LOCAL_STORAGE_MEMORY &#x3D; {};
+});
 </code></pre>
     </div>
 </div>

@@ -73,14 +73,21 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from &#x27;@spartacus/core&#x27;;
+import {
+  CmsPageGuard,
+  PageLayoutComponent,
+  ORDER_ENTRIES_CONTEXT,
+} from &#x27;@spartacus/storefront&#x27;;
 import { defaultCheckoutConfig } from &#x27;./config/default-checkout-config&#x27;;
 import { defaultCheckoutRoutingConfig } from &#x27;./config/default-checkout-routing-config&#x27;;
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from &#x27;./feature-name&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
+import { OrderConfirmationOrderEntriesContext } from &#x27;./pages/order-confirmation-order-entries-context&#x27;;
 
 export function defaultCheckoutComponentsConfig() {
   const config &#x3D; {
@@ -119,7 +126,22 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [],
+  imports: [
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: &#x27;orderConfirmation&#x27;,
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContext,
+          },
+        },
+      },
+    ]),
+  ],
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultCheckoutRoutingConfig),

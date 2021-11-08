@@ -73,15 +73,23 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
 } from &#x27;@spartacus/core&#x27;;
 import {
+  CmsPageGuard,
+  ORDER_ENTRIES_CONTEXT,
+  PageLayoutComponent,
+} from &#x27;@spartacus/storefront&#x27;;
+import { defaultQuickOrderConfig } from &#x27;./config/default-quick-order.config&#x27;;
+import {
   CART_QUICK_ORDER_CORE_FEATURE,
   CART_QUICK_ORDER_FEATURE,
 } from &#x27;./feature-name&#x27;;
+import { QuickOrderOrderEntriesContext } from &#x27;./pages/quick-order-order-entries-context&#x27;;
 
 export function defaultQuickOrderComponentsConfig() {
   const config &#x3D; {
@@ -107,10 +115,26 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig &#x3D; {
 };
 
 @NgModule({
-  imports: [],
+  imports: [
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: &#x27;quickOrder&#x27;,
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: QuickOrderOrderEntriesContext,
+          },
+        },
+      },
+    ]),
+  ],
   providers: [
     provideDefaultConfigFactory(defaultQuickOrderComponentsConfig),
     provideDefaultConfig(defaultQuickOrderRoutingConfig),
+    provideDefaultConfig(defaultQuickOrderConfig),
   ],
 })
 export class QuickOrderRootModule {}

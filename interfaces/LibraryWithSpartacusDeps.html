@@ -371,7 +371,7 @@ function handleLibConfigs(
             (acc, entry) &#x3D;&gt; {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. &#x60;@spartacus/storefront&#x60;: [&#x27;dist/storefrontlib/src/public_api&#x27;]
+                // In tsconfig.lib.json files we reference built paths. eg. &#x60;@spartacus/storefront&#x60;: [&#x27;dist/storefrontlib/public_api&#x27;]
                 [entry.entryPoint]: [
                   joinPaths(&#x27;dist&#x27;, dependency.distDir, entry.directory),
                 ],
@@ -413,7 +413,7 @@ function handleRootConfigs(
     (acc, curr) &#x3D;&gt; {
       curr.entryPoints.forEach((entryPoint) &#x3D;&gt; {
         acc[entryPoint.entryPoint] &#x3D; [
-          // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/src/public_api&#x60;
+          // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/public_api&#x60;
           joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
         ];
       });

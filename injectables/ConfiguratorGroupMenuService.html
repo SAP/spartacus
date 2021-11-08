@@ -761,7 +761,7 @@ export class ConfiguratorGroupMenuService {
     if (groups) {
       const group &#x3D; groups.find(
         (group) &#x3D;&gt;
-          group?.nativeElement?.id &#x3D;&#x3D;&#x3D;
+          group.nativeElement?.id &#x3D;&#x3D;&#x3D;
           this.windowRef?.document?.activeElement?.id
       );
       if (group) {
@@ -810,10 +810,10 @@ export class ConfiguratorGroupMenuService {
     );
 
     if (groups) {
-      if (currentGroupIndex &#x3D;&#x3D;&#x3D; groups?.length - 1) {
-        groups?.first?.nativeElement?.focus();
+      if (currentGroupIndex &#x3D;&#x3D;&#x3D; groups.length - 1) {
+        groups.first?.nativeElement?.focus();
       } else {
-        groups?.toArray()[currentGroupIndex + 1]?.nativeElement.focus();
+        groups.toArray()[currentGroupIndex + 1]?.nativeElement.focus();
       }
     }
   }
@@ -837,9 +837,9 @@ export class ConfiguratorGroupMenuService {
 
     if (groups) {
       if (currentGroupIndex &#x3D;&#x3D;&#x3D; 0) {
-        groups?.last?.nativeElement?.focus();
+        groups.last?.nativeElement?.focus();
       } else {
-        groups?.toArray()[currentGroupIndex - 1]?.nativeElement?.focus();
+        groups.toArray()[currentGroupIndex - 1]?.nativeElement?.focus();
       }
     }
   }
@@ -875,10 +875,10 @@ export class ConfiguratorGroupMenuService {
   ): boolean | undefined {
     if (groups) {
       return (
-        groups?.first?.nativeElement?.classList?.value?.indexOf(
+        groups.first?.nativeElement?.classList?.value?.indexOf(
           &#x27;cx-menu-back&#x27;
         ) !&#x3D;&#x3D; -1 &amp;&amp;
-        this.windowRef?.document?.activeElement &#x3D;&#x3D;&#x3D; groups?.first?.nativeElement
+        this.windowRef?.document?.activeElement &#x3D;&#x3D;&#x3D; groups.first?.nativeElement
       );
     }
     return undefined;

@@ -418,7 +418,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:123</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -477,7 +477,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:150</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:149</a></div>
                         </td>
                     </tr>
 
@@ -504,26 +504,26 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
-    switchMap(() &#x3D;&gt; {
-      return this.store.pipe(
-        select(ConfiguratorSelectors.getConfigurationsState),
-        take(1),
-        map((configuratorState) &#x3D;&gt; {
-          const entities &#x3D; configuratorState.configurations.entities;
-          const ownerKeysToRemove: string[] &#x3D; [];
-          for (const ownerKey in entities) {
-            if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
-              ownerKeysToRemove.push(ownerKey);
+      ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
+      switchMap(() &#x3D;&gt; {
+        return this.store.pipe(
+          select(ConfiguratorSelectors.getConfigurationsState),
+          take(1),
+          map((configuratorState) &#x3D;&gt; {
+            const entities &#x3D; configuratorState.configurations.entities;
+            const ownerKeysToRemove: string[] &#x3D; [];
+            for (const ownerKey in entities) {
+              if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
+                ownerKeysToRemove.push(ownerKey);
+              }
             }
-          }
-          return new ConfiguratorActions.RemoveConfiguration({
-            ownerKey: ownerKeysToRemove,
-          });
-        })
-      );
-    })
-  )</code>
+            return new ConfiguratorActions.RemoveConfiguration({
+              ownerKey: ownerKeysToRemove,
+            });
+          })
+        );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -537,7 +537,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="175" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:175</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts:174</a></div>
                         </td>
                     </tr>
 
@@ -571,14 +571,13 @@
         return this.configuratorCommonsConnector
           .updateConfigurationForCartEntry(payload)
           .pipe(
-            switchMap((entry: CartModification) &#x3D;&gt; {
+            switchMap((cartModification: CartModification) &#x3D;&gt; {
               return [
                 new CartActions.CartUpdateEntrySuccess({
-                  ...entry,
                   userId: payload.userId,
                   cartId: payload.cartId,
                   entryNumber: payload.cartEntryNumber,
-                  quantity: entry?.quantity,
+                  quantity: cartModification.quantity,
                 }),
               ];
             }),
@@ -717,14 +716,13 @@ export class ConfiguratorCartEffects {
         return this.configuratorCommonsConnector
           .updateConfigurationForCartEntry(payload)
           .pipe(
-            switchMap((entry: CartModification) &#x3D;&gt; {
+            switchMap((cartModification: CartModification) &#x3D;&gt; {
               return [
                 new CartActions.CartUpdateEntrySuccess({
-                  ...entry,
                   userId: payload.userId,
                   cartId: payload.cartId,
                   entryNumber: payload.cartEntryNumber,
-                  quantity: entry?.quantity,
+                  quantity: cartModification.quantity,
                 }),
               ];
             }),
@@ -796,27 +794,28 @@ export class ConfiguratorCartEffects {
   );
 
   @Effect()
-  removeCartBoundConfigurations$: Observable&lt;ConfiguratorActions.RemoveConfiguration&gt; &#x3D; this.actions$.pipe(
-    ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
-    switchMap(() &#x3D;&gt; {
-      return this.store.pipe(
-        select(ConfiguratorSelectors.getConfigurationsState),
-        take(1),
-        map((configuratorState) &#x3D;&gt; {
-          const entities &#x3D; configuratorState.configurations.entities;
-          const ownerKeysToRemove: string[] &#x3D; [];
-          for (const ownerKey in entities) {
-            if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
-              ownerKeysToRemove.push(ownerKey);
+  removeCartBoundConfigurations$: Observable&lt;ConfiguratorActions.RemoveConfiguration&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
+      switchMap(() &#x3D;&gt; {
+        return this.store.pipe(
+          select(ConfiguratorSelectors.getConfigurationsState),
+          take(1),
+          map((configuratorState) &#x3D;&gt; {
+            const entities &#x3D; configuratorState.configurations.entities;
+            const ownerKeysToRemove: string[] &#x3D; [];
+            for (const ownerKey in entities) {
+              if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
+                ownerKeysToRemove.push(ownerKey);
+              }
             }
-          }
-          return new ConfiguratorActions.RemoveConfiguration({
-            ownerKey: ownerKeysToRemove,
-          });
-        })
-      );
-    })
-  );
+            return new ConfiguratorActions.RemoveConfiguration({
+              ownerKey: ownerKeysToRemove,
+            });
+          })
+        );
+      })
+    );
 
   @Effect()
   addOwner$: Observable&lt;

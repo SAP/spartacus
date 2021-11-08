@@ -14,13 +14,13 @@
 <title>cluster_ReplenishmentOrderHistoryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 647,-230.8 647,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ReplenishmentOrderHistoryModule_declarations</title>
-<polygon fill="none" stroke="black" points="383,-40.8 383,-92.8 639,-92.8 639,-40.8 383,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ReplenishmentOrderHistoryModule_exports</title>
 <polygon fill="none" stroke="black" points="128,-170.8 128,-222.8 388,-222.8 388,-170.8 128,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReplenishmentOrderHistoryModule_declarations</title>
+<polygon fill="none" stroke="black" points="383,-40.8 383,-92.8 639,-92.8 639,-40.8 383,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ReplenishmentOrderHistoryModule_imports</title>

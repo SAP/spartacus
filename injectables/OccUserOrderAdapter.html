@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >OccUserOrderAdapter</li>
+  <li 
+        class="deprecated-name"
+    >OccUserOrderAdapter</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,6 +62,12 @@
             <code>projects/core/src/occ/adapters/user/occ-user-order.adapter.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use OccOrderAdapter in 
+            </p>
 
 
 
@@ -132,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -221,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:102</a></div>
                 </td>
             </tr>
 
@@ -315,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:181</a></div>
                 </td>
             </tr>
 
@@ -409,8 +417,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:119</a></div>
                 </td>
             </tr>
 
@@ -491,8 +499,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:89</a></div>
                 </td>
             </tr>
 
@@ -593,8 +601,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:47</a></div>
                 </td>
             </tr>
 
@@ -675,8 +683,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:62</a></div>
                 </td>
             </tr>
 
@@ -781,8 +789,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:168</a></div>
                 </td>
             </tr>
 
@@ -863,8 +871,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:138</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:141</a></div>
                 </td>
             </tr>
 
@@ -988,6 +996,9 @@ import {
   OCC_USER_ID_CURRENT,
 } from &#x27;../../utils/occ-constants&#x27;;
 
+/**
+ * @deprecated since 4.2 - use OccOrderAdapter in @spartacus/order/occ instead
+ */
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(

@@ -84,7 +84,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/core/src/user/store/user-state.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">projects/core/src/user/store/user-state.ts:134</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -123,19 +123,46 @@ export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID &#x3D;
   &#x27;updateNotificationPreferences&#x27;;
 export const ADD_PRODUCT_INTEREST_PROCESS_ID &#x3D; &#x27;addProductInterests&#x27;;
 export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID &#x3D; &#x27;removeProductInterests&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_ORDER_PROCESS_ID &#x3D; &#x27;cancelOrder&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_RETURN_PROCESS_ID &#x3D; &#x27;cancelReturn&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID &#x3D; &#x27;cancelReplenishmentOrder&#x27;;
 
 export const USER_CONSENTS &#x3D; &#x27;[User] User Consents&#x27;;
 export const USER_PAYMENT_METHODS &#x3D; &#x27;[User] User Payment Methods&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_ORDERS &#x3D; &#x27;[User] User Orders&#x27;;
 export const USER_ADDRESSES &#x3D; &#x27;[User] User Addresses&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_RETURN_REQUESTS &#x3D; &#x27;[User] Order Return Requests&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_RETURN_REQUEST_DETAILS &#x3D; &#x27;[User] Return Request Details&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_ORDER_DETAILS &#x3D; &#x27;[User] User Order Details&#x27;;
 export const USER_COST_CENTERS &#x3D; &#x27;[User] User Cost Centers&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_REPLENISHMENT_ORDERS &#x3D; &#x27;[User] User Replenishment Orders&#x27;;
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const USER_REPLENISHMENT_ORDER_DETAILS &#x3D;
   &#x27;[User] User Replenishment Order Details&#x27;;
 export const REGIONS &#x3D; &#x27;[User] Regions&#x27;;
@@ -161,17 +188,38 @@ export interface UserState {
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState&lt;PaymentDetails[]&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   orders: StateUtils.LoaderState&lt;OrderHistoryList&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   order: StateUtils.LoaderState&lt;Order&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   replenishmentOrders: StateUtils.LoaderState&lt;ReplenishmentOrderList&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   orderReturn: StateUtils.LoaderState&lt;ReturnRequest&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   orderReturnList: StateUtils.LoaderState&lt;ReturnRequestList&gt;;
   regions: StateUtils.LoaderState&lt;RegionsState&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: StateUtils.LoaderState&lt;CustomerCouponSearchResult&gt;;
   notificationPreferences: StateUtils.LoaderState&lt;NotificationPreference[]&gt;;
   productInterests: StateUtils.LoaderState&lt;ProductInterestSearchResult&gt;;
   costCenters: StateUtils.LoaderState&lt;CostCenter[]&gt;;
+  /**
+   * @deprecated since 4.2 - use order lib instead
+   */
   replenishmentOrder: StateUtils.LoaderState&lt;ReplenishmentOrder&gt;;
 }
 
@@ -196,6 +244,9 @@ export interface DeliveryCountriesState {
   entities: DeliveryCountryEntities;
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export interface ConsignmentTrackingState {
   tracking?: ConsignmentTracking;
 }

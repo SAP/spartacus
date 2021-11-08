@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/occ/adapters/user/converters/anonymous-consents-normalizer.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/occ/adapters/user/converters/anonymous-consents-normalizer.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/anonymous-consents-normalizer.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/anonymous-consents-normalizer.ts:12</a></div>
                 </td>
             </tr>
 
@@ -227,7 +227,8 @@ import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class AnonymousConsentNormalizer
-  implements Converter&lt;string, AnonymousConsent[]&gt; {
+  implements Converter&lt;string, AnonymousConsent[]&gt;
+{
   constructor(protected anonymousConsentsService: AnonymousConsentsService) {}
 
   convert(source: string): AnonymousConsent[] {

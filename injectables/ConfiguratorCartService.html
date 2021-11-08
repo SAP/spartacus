@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:209</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:214</a></div>
                 </td>
             </tr>
 
@@ -294,8 +294,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:150</a></div>
                 </td>
             </tr>
 
@@ -407,8 +407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:246</a></div>
                 </td>
             </tr>
 
@@ -477,8 +477,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="234"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:234</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="239"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:239</a></div>
                 </td>
             </tr>
 
@@ -621,8 +621,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -697,8 +697,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="228"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:228</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:233</a></div>
                 </td>
             </tr>
 
@@ -736,8 +736,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -865,14 +865,15 @@ export class ConfiguratorCartService {
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) &#x3D;&gt; {
-                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters &#x3D; {
-                    userId: userId,
-                    cartId: this.commonConfigUtilsService.getCartId(
-                      cartState.value
-                    ),
-                    cartEntryNumber: owner.id,
-                    owner: owner,
-                  };
+                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters &#x3D;
+                    {
+                      userId: userId,
+                      cartId: this.commonConfigUtilsService.getCartId(
+                        cartState.value
+                      ),
+                      cartEntryNumber: owner.id,
+                      owner: owner,
+                    };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
                       readFromCartEntryParameters
@@ -914,12 +915,13 @@ export class ConfiguratorCartService {
           const ownerIdParts &#x3D; this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters &#x3D; {
-            userId: OCC_USER_ID_CURRENT,
-            orderId: ownerIdParts.documentId,
-            orderEntryNumber: ownerIdParts.entryNumber,
-            owner: owner,
-          };
+          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters &#x3D;
+            {
+              userId: OCC_USER_ID_CURRENT,
+              orderId: ownerIdParts.documentId,
+              orderEntryNumber: ownerIdParts.entryNumber,
+              owner: owner,
+            };
           this.store.dispatch(
             new ConfiguratorActions.ReadOrderEntryConfiguration(
               readFromOrderEntryParameters
@@ -992,12 +994,15 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) &#x3D;&gt; {
-            const parameters: Configurator.UpdateConfigurationForCartEntryParameters &#x3D; {
-              userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
-              cartEntryNumber: configuration.owner.id,
-              configuration: configuration,
-            };
+            const parameters: Configurator.UpdateConfigurationForCartEntryParameters &#x3D;
+              {
+                userId: userId,
+                cartId: this.commonConfigUtilsService.getCartId(
+                  cartState.value
+                ),
+                cartEntryNumber: configuration.owner.id,
+                configuration: configuration,
+              };
 
             this.store.dispatch(
               new ConfiguratorActions.UpdateCartEntry(parameters)
@@ -1037,8 +1042,8 @@ export class ConfiguratorCartService {
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {
-    const configId: String &#x3D; configuration?.configId;
-    return configId !&#x3D;&#x3D; undefined &amp;&amp; configId.length !&#x3D;&#x3D; 0;
+    const configId: String &#x3D; configuration.configId;
+    return configId.length !&#x3D;&#x3D; 0;
   }
 
   protected configurationNeedsReading(

@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/order/order-occ.module.ts</code>
+            <code>feature-libs/order/occ/order-occ.module.ts</code>
         </p>
 
 
@@ -74,22 +74,29 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { ORDER_NORMALIZER } from &#x27;../../../checkout/connectors/checkout/converters&#x27;;
-import { REPLENISHMENT_ORDER_NORMALIZER } from &#x27;../../../checkout/connectors/replenishment-order/converters&#x27;;
-import { OccOrderNormalizer } from &#x27;./converters/occ-order-normalizer&#x27;;
-import { OccReplenishmentOrderNormalizer } from &#x27;./converters/occ-replenishment-order-normalizer&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import {
+  OrderAdapter,
+  ORDER_RETURN_REQUEST_NORMALIZER,
+  ReplenishmentOrderAdapter,
+} from &#x27;@spartacus/order/core&#x27;;
+import { OccReturnRequestNormalizer } from &#x27;./adapters/converters/occ-return-request-normalizer&#x27;;
+import { OccOrderAdapter } from &#x27;./adapters/occ-order.adapter&#x27;;
+import { OccReplenishmentOrderAdapter } from &#x27;./adapters/occ-replenishment-order.adapter&#x27;;
+import { defaultOccOrderConfig } from &#x27;./config/default-occ-order-config&#x27;;
 
 @NgModule({
   imports: [CommonModule],
   providers: [
+    provideDefaultConfig(defaultOccOrderConfig),
+    { provide: OrderAdapter, useClass: OccOrderAdapter },
     {
-      provide: ORDER_NORMALIZER,
-      useExisting: OccOrderNormalizer,
-      multi: true,
+      provide: ReplenishmentOrderAdapter,
+      useClass: OccReplenishmentOrderAdapter,
     },
     {
-      provide: REPLENISHMENT_ORDER_NORMALIZER,
-      useExisting: OccReplenishmentOrderNormalizer,
+      provide: ORDER_RETURN_REQUEST_NORMALIZER,
+      useExisting: OccReturnRequestNormalizer,
       multi: true,
     },
   ],

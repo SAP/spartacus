@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:15</a></div>
                 </td>
             </tr>
 
@@ -196,20 +196,22 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
     Converter&lt;
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccConfigurator.UpdateConfigurationForCartEntryParameters
-    &gt; {
+    &gt;
+{
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccConfigurator.UpdateConfigurationForCartEntryParameters {
-    const resultTarget: OccConfigurator.UpdateConfigurationForCartEntryParameters &#x3D; {
-      ...target,
-      userId: source.userId,
-      cartId: source.cartId,
-      product: { code: source.configuration.productCode },
-      entryNumber: source.cartEntryNumber,
-      configId: source.configuration.configId,
-      configurationInfos: [{ configuratorType: ConfiguratorType.VARIANT }],
-    };
+    const resultTarget: OccConfigurator.UpdateConfigurationForCartEntryParameters &#x3D;
+      {
+        ...target,
+        userId: source.userId,
+        cartId: source.cartId,
+        product: { code: source.configuration.productCode },
+        entryNumber: source.cartEntryNumber,
+        configId: source.configuration.configId,
+        configurationInfos: [{ configuratorType: ConfiguratorType.VARIANT }],
+      };
 
     return resultTarget;
   }

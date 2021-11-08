@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >UserReplenishmentOrdersEffect</li>
+  <li 
+        class="deprecated-name"
+    >UserReplenishmentOrdersEffect</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,6 +62,12 @@
             <code>projects/core/src/user/store/effects/user-replenishment-orders.effect.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use order lib instead
+            </p>
 
 
 
@@ -103,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/user/store/effects/user-replenishment-orders.effect.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/user/store/effects/user-replenishment-orders.effect.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -172,37 +180,37 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UserReplenishmentOrdersAction" target="_self" >Observable&lt;UserActions.UserReplenishmentOrdersAction&gt;</a></code>
+                        <i>Type : </i>    <code>Observable&lt;UserActions.UserReplenishmentOrdersAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
-    map((action: UserActions.LoadUserReplenishmentOrders) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .loadHistory(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((orders: ReplenishmentOrderList) &#x3D;&gt; {
-            return new UserActions.LoadUserReplenishmentOrdersSuccess(orders);
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.LoadUserReplenishmentOrdersFail(
-                normalizeHttpError(error)
+      ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
+      map((action: UserActions.LoadUserReplenishmentOrders) &#x3D;&gt; action.payload),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .loadHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+          .pipe(
+            map((orders: ReplenishmentOrderList) &#x3D;&gt; {
+              return new UserActions.LoadUserReplenishmentOrdersSuccess(orders);
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new UserActions.LoadUserReplenishmentOrdersFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -216,7 +224,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/user/store/effects/user-replenishment-orders.effect.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/user/store/effects/user-replenishment-orders.effect.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -238,34 +246,38 @@ import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27
 import { UserReplenishmentOrderConnector } from &#x27;../../connectors/replenishment-order/user-replenishment-order.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable()
 export class UserReplenishmentOrdersEffect {
   @Effect()
-  loadUserReplenishmentOrders$: Observable&lt;UserActions.UserReplenishmentOrdersAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
-    map((action: UserActions.LoadUserReplenishmentOrders) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .loadHistory(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((orders: ReplenishmentOrderList) &#x3D;&gt; {
-            return new UserActions.LoadUserReplenishmentOrdersSuccess(orders);
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.LoadUserReplenishmentOrdersFail(
-                normalizeHttpError(error)
+  loadUserReplenishmentOrders$: Observable&lt;UserActions.UserReplenishmentOrdersAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
+      map((action: UserActions.LoadUserReplenishmentOrders) &#x3D;&gt; action.payload),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .loadHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+          .pipe(
+            map((orders: ReplenishmentOrderList) &#x3D;&gt; {
+              return new UserActions.LoadUserReplenishmentOrdersSuccess(orders);
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new UserActions.LoadUserReplenishmentOrdersFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

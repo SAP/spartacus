@@ -155,8 +155,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:154</a></div>
                 </td>
             </tr>
 
@@ -331,8 +331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:169</a></div>
                 </td>
             </tr>
 
@@ -401,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -471,8 +471,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:96</a></div>
                 </td>
             </tr>
 
@@ -553,8 +553,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -623,8 +623,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -779,13 +779,14 @@ export class ConfiguratorCartEntryBundleInfoService {
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] &#x3D; [];
-    if (entry?.configurationInfos) {
-      const configurationInfos: ConfigurationInfo[] &#x3D; entry.configurationInfos.filter(
-        (configurationInfo) &#x3D;&gt;
-          configurationInfo &amp;&amp;
-          (configurationInfo.configurationLabel ||
-            configurationInfo.configurationValue)
-      );
+    if (entry.configurationInfos) {
+      const configurationInfos: ConfigurationInfo[] &#x3D;
+        entry.configurationInfos.filter(
+          (configurationInfo) &#x3D;&gt;
+            configurationInfo &amp;&amp;
+            (configurationInfo.configurationLabel ||
+              configurationInfo.configurationValue)
+        );
       const firstLabel &#x3D; configurationInfos[0]?.configurationLabel;
       const firstValue &#x3D; configurationInfos[0]?.configurationValue;
 
@@ -856,15 +857,17 @@ export class ConfiguratorCartEntryBundleInfoService {
     configurationInfo: ConfigurationInfo
   ): void {
     if (configurationInfo.configurationLabel) {
-      const configurationInfoSplit: string[] &#x3D; configurationInfo.configurationLabel.split(
-        ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
-      );
+      const configurationInfoSplit: string[] &#x3D;
+        configurationInfo.configurationLabel.split(
+          ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
+        );
       if (
         configurationInfoSplit[0] &#x3D;&#x3D;&#x3D; ConfigurationInfoSpecialFields.LINE_ITEM
       ) {
-        const configurationInfoValue: string &#x3D; configurationInfo.configurationValue
-          ? configurationInfo.configurationValue
-          : &#x27;&#x27;;
+        const configurationInfoValue: string &#x3D;
+          configurationInfo.configurationValue
+            ? configurationInfo.configurationValue
+            : &#x27;&#x27;;
         this.addLineItemData(
           lineItemMap,
           configurationInfoSplit,

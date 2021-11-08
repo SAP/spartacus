@@ -220,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:108</a></div>
                 </td>
             </tr>
 
@@ -290,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:87</a></div>
                 </td>
             </tr>
 
@@ -546,8 +546,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:104</a></div>
                 </td>
             </tr>
 
@@ -671,9 +671,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   ): void {
     if (!isUserLoggedIn &amp;&amp; newRawConsents) {
       let newConsents: AnonymousConsent[] &#x3D; [];
-      newConsents &#x3D; this.anonymousConsentsService.decodeAndDeserialize(
-        newRawConsents
-      );
+      newConsents &#x3D;
+        this.anonymousConsentsService.decodeAndDeserialize(newRawConsents);
       newConsents &#x3D; this.giveRequiredConsents(newConsents);
 
       if (
@@ -695,9 +694,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       return request;
     }
 
-    const rawConsents &#x3D; this.anonymousConsentsService.serializeAndEncode(
-      consents
-    );
+    const rawConsents &#x3D;
+      this.anonymousConsentsService.serializeAndEncode(consents);
     return request.clone({
       setHeaders: {
         [ANONYMOUS_CONSENTS_HEADER]: rawConsents,

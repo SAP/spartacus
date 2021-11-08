@@ -482,11 +482,11 @@ export function verifyPaymentCard(cardLength: number) {
 
 export function visitPaymentDetailsPage() {
   const paymentDetailPage &#x3D; waitForPage(
-    &#x27;/my-account/payment-detail&#x27;,
+    &#x27;/my-account/payment-details&#x27;,
     &#x27;getPaymentDetail&#x27;
   );
   cy.selectUserMenuOption({ option: &#x27;Payment Details&#x27; });
-  cy.wait(&#x60;@${paymentDetailPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${paymentDetailPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 export function addPaymentMethod(paymentDetail: PaymentDetail) {

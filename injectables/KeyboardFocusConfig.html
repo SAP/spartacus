@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >KeyboardFocusConfig</li>
+  <li 
+        class="deprecated-name"
+    >KeyboardFocusConfig</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -57,9 +59,15 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts</code>
+            <code>projects/storefrontlib/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2, refer to spartacus issues (#13762)
+            </p>
 
 
 
@@ -120,7 +128,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -137,6 +145,9 @@
 import { Config } from &#x27;@spartacus/core&#x27;;
 import { BREAKPOINT } from &#x27;../../../config&#x27;;
 
+/**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,

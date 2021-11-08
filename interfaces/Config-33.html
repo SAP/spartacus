@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config.ts</code>
+            <code>projects/storefrontlib/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/PaginationConfig.html" target="_self" >PaginationConfig</a></code>
+                        <code><a href="../injectables/KeyboardFocusConfig.html" target="_self" >KeyboardFocusConfig</a></code>
             </p>
 
 
@@ -85,18 +85,31 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import { PaginationOptions } from &#x27;../pagination.model&#x27;;
+import { BREAKPOINT } from &#x27;../../../config&#x27;;
 
+/**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class PaginationConfig {
-  pagination?: PaginationOptions;
+export abstract class KeyboardFocusConfig {
+  keyboardFocus?: {
+    /**
+     * Resets the focus back to the root &#x60;&lt;cx-storefront&gt;&#x60; element when a navigation is started.
+     */
+    enableResetFocusOnNavigate?: boolean | BREAKPOINT[];
+
+    /**
+     * Resets the view back to the root &#x60;&lt;cx-storefront&gt;&#x60; element when a navigation is started. This can also be set to a BREAKPOINT value to only reset the view up to the provided value.
+     */
+    enableResetViewOnNavigate?: boolean | BREAKPOINT[];
+  };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends PaginationConfig {}
+  interface Config extends KeyboardFocusConfig {}
 }
 </code></pre>
     </div>

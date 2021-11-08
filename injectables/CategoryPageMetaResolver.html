@@ -164,7 +164,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -265,8 +265,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:113</a></div>
                 </td>
             </tr>
 
@@ -335,8 +335,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:87</a></div>
                 </td>
             </tr>
 
@@ -415,8 +415,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:74</a></div>
                 </td>
             </tr>
 
@@ -452,8 +452,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:134</a></div>
                 </td>
             </tr>
 
@@ -493,8 +493,8 @@ all query parameters are removed and https and www are added explicitly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:124</a></div>
                 </td>
             </tr>
 
@@ -530,8 +530,8 @@ all query parameters are removed and https and www are added explicitly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:60</a></div>
                 </td>
             </tr>
 
@@ -798,23 +798,25 @@ the page type and page template.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>this.cms.getCurrentPage().pipe(
-    filter((page) &#x3D;&gt; Boolean(page)),
-    switchMap((page: Page) &#x3D;&gt;
-      // only the existence of a plp component tells us if products
-      // are rendered or if this is an ordinary content page
-      this.hasProductListComponent(page)
-        ? this.productSearchService
-            .getResults()
-            .pipe(filter((result) &#x3D;&gt; Boolean(result)))
-        : of(page)
-    )
-  )</code>
+                        <i>Default value : </i><code>this.cms
+    .getCurrentPage()
+    .pipe(
+      filter((page) &#x3D;&gt; Boolean(page)),
+      switchMap((page: Page) &#x3D;&gt;
+        // only the existence of a plp component tells us if products
+        // are rendered or if this is an ordinary content page
+        this.hasProductListComponent(page)
+          ? this.productSearchService
+              .getResults()
+              .pipe(filter((result) &#x3D;&gt; Boolean(result)))
+          : of(page)
+      )
+    )</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -936,22 +938,23 @@ import { ProductSearchService } from &#x27;../facade/product-search.service&#x27
 })
 export class CategoryPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver
+{
   // reusable observable for search page data
-  protected searchPage$: Observable&lt;
-    ProductSearchPage | Page
-  &gt; &#x3D; this.cms.getCurrentPage().pipe(
-    filter((page) &#x3D;&gt; Boolean(page)),
-    switchMap((page: Page) &#x3D;&gt;
-      // only the existence of a plp component tells us if products
-      // are rendered or if this is an ordinary content page
-      this.hasProductListComponent(page)
-        ? this.productSearchService
-            .getResults()
-            .pipe(filter((result) &#x3D;&gt; Boolean(result)))
-        : of(page)
-    )
-  );
+  protected searchPage$: Observable&lt;ProductSearchPage | Page&gt; &#x3D; this.cms
+    .getCurrentPage()
+    .pipe(
+      filter((page) &#x3D;&gt; Boolean(page)),
+      switchMap((page: Page) &#x3D;&gt;
+        // only the existence of a plp component tells us if products
+        // are rendered or if this is an ordinary content page
+        this.hasProductListComponent(page)
+          ? this.productSearchService
+              .getResults()
+              .pipe(filter((result) &#x3D;&gt; Boolean(result)))
+          : of(page)
+      )
+    );
 
   constructor(
     protected productSearchService: ProductSearchService,

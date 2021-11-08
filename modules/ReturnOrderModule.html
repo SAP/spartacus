@@ -56,13 +56,13 @@
 <title>cluster_ReturnOrderModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 718,-230.8 718,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ReturnOrderModule_declarations</title>
-<polygon fill="none" stroke="black" points="542,-40.8 542,-92.8 710,-92.8 710,-40.8 542,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ReturnOrderModule_exports</title>
 <polygon fill="none" stroke="black" points="257,-170.8 257,-222.8 429,-222.8 429,-170.8 257,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReturnOrderModule_declarations</title>
+<polygon fill="none" stroke="black" points="542,-40.8 542,-92.8 710,-92.8 710,-40.8 542,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ReturnOrderModule_imports</title>
@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/amend-order/returns/return-order/return-order.module.ts</code>
+            <code>feature-libs/order/components/amend-order/returns/return-order/return-order.module.ts</code>
         </p>
 
 
@@ -216,11 +216,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { RouterModule } from &#x27;@angular/router&#x27;;
 import { AuthGuard, CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { CmsPageGuard } from &#x27;../../../../../../cms-structure/guards/cms-page.guard&#x27;;
-import { PageLayoutComponent } from &#x27;../../../../../../cms-structure/page/page-layout/page-layout.component&#x27;;
-import { FormErrorsModule } from &#x27;../../../../../../shared/index&#x27;;
+import { FormErrorsModule } from &#x27;@spartacus/storefront&#x27;;
 import { AmendOrderActionsModule } from &#x27;../../amend-order-actions/amend-order-actions.module&#x27;;
 import { AmendOrderItemsModule } from &#x27;../../amend-order-items/amend-order-items.module&#x27;;
 import { OrderAmendService } from &#x27;../../amend-order.service&#x27;;
@@ -230,16 +227,6 @@ import { ReturnOrderComponent } from &#x27;./return-order.component&#x27;;
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxRoute: &#x27;orderReturn&#x27;,
-        },
-      },
-    ]),
     AmendOrderItemsModule,
     AmendOrderActionsModule,
     FormErrorsModule,

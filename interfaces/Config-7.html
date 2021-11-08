@@ -64,93 +64,147 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/common/core/model/product-configurator.config.ts</code>
+            <code>projects/storefrontlib/layout/config/layout-config.ts</code>
         </p>
 
 
 
-
-        <section>
-            <h3 id="index">Index</h3>
-            <table class="table table-sm table-bordered index-table">
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Properties</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#productConfigurator" 
->
-                                            productConfigurator
-                                        </a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-
-
-            <section>
-                <h3 id="inputs">Properties</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="productConfigurator"></a>
-                                        <span class="name "><b>productConfigurator</b>
-                                            <a href="#productConfigurator">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>productConfigurator:         <code><a href="../injectables/Config.html" target="_self" >ProductConfiguratorConfig</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >ProductConfiguratorConfig</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../injectables/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
+            </p>
 
 
 
 
-                        </tbody>
-                    </table>
-            </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config, DeferLoadingStrategy } from &#x27;@spartacus/core&#x27;;
+import { LaunchConfig } from &#x27;../launch-dialog/index&#x27;;
 
-export interface ProductConfiguratorConfig {}
+/**
+ * The &#x60;BREAKPOINT&#x60; typing defaults to five default screen names:
+ * xs, sm, md, lg, xl.
+ *
+ * The type can be extended to allow for custom screens, such as XLL or &#x60;tablet&#x60;.
+ *
+ * While the screen names are fully configurable, other features might have
+ * pre-configured layout settings per screen. Page layouts or table configurations,
+ * for example, are driven by screen size. In case you change the screen size or
+ * introduce new screen names, you might loose out on these configurations.
+ */
+export enum BREAKPOINT {
+  xs &#x3D; &#x27;xs&#x27;,
+  sm &#x3D; &#x27;sm&#x27;,
+  md &#x3D; &#x27;md&#x27;,
+  lg &#x3D; &#x27;lg&#x27;,
+  xl &#x3D; &#x27;xl&#x27;,
+}
+
+export type LayoutSections &#x3D;
+  | &#x27;header&#x27;
+  | &#x27;footer&#x27;
+  | &#x27;LandingPage2Template&#x27;
+  | string;
+
+export type SlotConfig &#x3D; {
+  /** The cms page slots are mapped by the &#x60;slot.position&#x60;. */
+  slots?: string[];
+
+  /**
+   * The page fold identifies the last expected page slot above-the-fold.
+   * It&#x27;s perfectly fine to specify this by indication, but keep in mind that
+   * a more precise indication will gain a more positive impact on performance.
+   */
+  pageFold?: string;
+};
+
+export type SlotGroup &#x3D; {
+  /** The page slot configuration for large screens */
+  [BREAKPOINT.lg]?: SlotConfig;
+  /** The page slot configuration for medium screens */
+  [BREAKPOINT.md]?: SlotConfig;
+  /** The page slot configuration for small screens */
+  [BREAKPOINT.sm]?: SlotConfig;
+  /** The page slot configuration for extra small screens */
+  [BREAKPOINT.xs]?: SlotConfig;
+};
+
+export type LayoutSlotConfig &#x3D; {
+  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig;
+};
+
+export interface BreakPoint {
+  /**
+   * The minimum screen width.
+   */
+  min?: number;
+
+  /**
+   * The minimum screen width.
+   */
+  max?: number;
+}
+
+/**
+ * The &#x60;LayoutBreakPoints&#x60; can be used to configure the size of a specific screen. The screen
+ * are defined by breakpoints, with a min and/or max value. The breakpoint size is in pixels,
+ * hence a numeric value is expected.
+ */
+export type LayoutBreakPoints &#x3D; {
+  [t in BREAKPOINT]?: number | BreakPoint;
+};
+
+/**
+ * The LayoutConfig supports the configuration of page slots by page templates
+ * or page sections, such as headers and footers. The configuration also supports
+ * adaptive design per breakpoint (not per device type), so that the DOM is (re)rendered
+ * por a given breakpoint.
+ */
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+  useExisting: Config,
+})
+export abstract class LayoutConfig {
+  /**
+   * The breakpoint configuration is used to defined various screens. A specific screen name can
+   * be used to further configure certain features, such as the overall layout or specific
+   * component configurations.
+   */
+  breakpoints?: LayoutBreakPoints;
+
+  layoutSlots?: LayoutSlotConfig;
+
+  /**
+   * Deferred loading is a technique to hold of with the loading / creation
+   * of DOM elements which are not not in the initial view port.
+   * This technique wil increase performance.
+   */
+  deferredLoading?: {
+    /**
+     * The global strategy will be used as a fallback strategy for all DOM creation,
+     * but can be overridden by local configuration, i.e. for cms components.
+     */
+    strategy?: DeferLoadingStrategy;
+    /**
+     * The intersection margin contains the offset used by the Intersection Observer
+     * to observe elements outside the view port.
+     *
+     * See https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+     */
+    intersectionMargin?: string;
+  };
+
+  launch?: LaunchConfig;
+}
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config {
-    productConfigurator?: ProductConfiguratorConfig;
-  }
+  interface Config extends LayoutConfig {}
 }
 </code></pre>
     </div>

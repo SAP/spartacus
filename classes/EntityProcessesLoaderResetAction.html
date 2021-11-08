@@ -118,7 +118,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -218,7 +218,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -291,7 +291,8 @@ export function entityProcessesDecrementMeta(
 }
 
 export class EntityProcessesLoaderResetAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type &#x3D; ENTITY_PROCESSES_LOADER_RESET_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -300,7 +301,8 @@ export class EntityProcessesLoaderResetAction
 }
 
 export class EntityProcessesIncrementAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type &#x3D; ENTITY_PROCESSES_INCREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -309,7 +311,8 @@ export class EntityProcessesIncrementAction
 }
 
 export class EntityProcessesDecrementAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type &#x3D; ENTITY_PROCESSES_DECREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {

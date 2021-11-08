@@ -14,10 +14,6 @@
 <title>cluster_ConfiguratorAttributeCheckboxListModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1030,-230.8 1030,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAttributeCheckboxListModule_exports</title>
-<polygon fill="none" stroke="black" points="391,-170.8 391,-222.8 695,-222.8 695,-170.8 391,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeCheckboxListModule_imports</title>
 <polygon fill="none" stroke="black" points="326,-40.8 326,-92.8 1022,-92.8 1022,-40.8 326,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorAttributeCheckboxListModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 318,-92.8 318,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAttributeCheckboxListModule_exports</title>
+<polygon fill="none" stroke="black" points="391,-170.8 391,-222.8 695,-222.8 695,-170.8 391,-170.8"/>
 </g>
 <!-- ConfiguratorAttributeCheckBoxListComponent -->
 <g id="node1" class="node">

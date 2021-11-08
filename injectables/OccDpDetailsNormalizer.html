@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">integration-libs/digital-payments/src/checkout/adapters/occ-digital-payment-details.normalizer.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">integration-libs/digital-payments/src/checkout/adapters/occ-digital-payment-details.normalizer.ts:10</a></div>
                 </td>
             </tr>
 
@@ -191,7 +191,8 @@ import { Converter, Occ, PaymentDetails } from &#x27;@spartacus/core&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class OccDpDetailsNormalizer
-  implements Converter&lt;Occ.PaymentDetails, PaymentDetails&gt; {
+  implements Converter&lt;Occ.PaymentDetails, PaymentDetails&gt;
+{
   convert(source: Occ.PaymentDetails, target: PaymentDetails): PaymentDetails {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
       target &#x3D; { ...(source as any) };

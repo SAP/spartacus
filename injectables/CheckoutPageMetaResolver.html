@@ -155,7 +155,7 @@ the more generic <code>ContentPageMetaResolver</code> is overridden by this reso
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -242,8 +242,8 @@ the more generic <code>ContentPageMetaResolver</code> is overridden by this reso
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:60</a></div>
                 </td>
             </tr>
 
@@ -279,8 +279,8 @@ the more generic <code>ContentPageMetaResolver</code> is overridden by this reso
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:64</a></div>
                 </td>
             </tr>
 
@@ -316,8 +316,8 @@ the more generic <code>ContentPageMetaResolver</code> is overridden by this reso
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:50</a></div>
                 </td>
             </tr>
 
@@ -593,7 +593,7 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/checkout/core/services/checkout-page-meta.resolver.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -712,7 +712,8 @@ import { switchMap } from &#x27;rxjs/operators&#x27;;
 })
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver {
+  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver
+{
   protected cart$: Observable&lt;Cart&gt; &#x3D; this.activeCartService.getActive();
 
   constructor(

@@ -281,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="207"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:207</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:208</a></div>
                 </td>
             </tr>
 
@@ -351,8 +351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -652,8 +652,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:227</a></div>
                 </td>
             </tr>
 
@@ -727,8 +727,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="234"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:234</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:235</a></div>
                 </td>
             </tr>
 
@@ -960,8 +960,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:175</a></div>
                 </td>
             </tr>
 
@@ -1028,8 +1028,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:218</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:219</a></div>
                 </td>
             </tr>
 
@@ -1067,8 +1067,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:184</a></div>
                 </td>
             </tr>
 
@@ -1106,8 +1106,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -1145,8 +1145,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:159</a></div>
                 </td>
             </tr>
 
@@ -1378,31 +1378,32 @@ export class StoreFinderService implements OnDestroy {
   ) {
     if (useMyLocation &amp;&amp; this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
-      this.geolocationWatchId &#x3D; this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        (pos: GeolocationPosition) &#x3D;&gt; {
-          const position: GeoPoint &#x3D; {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-          };
+      this.geolocationWatchId &#x3D;
+        this.winRef.nativeWindow.navigator.geolocation.watchPosition(
+          (pos: GeolocationPosition) &#x3D;&gt; {
+            const position: GeoPoint &#x3D; {
+              longitude: pos.coords.longitude,
+              latitude: pos.coords.latitude,
+            };
 
-          this.clearWatchGeolocation(
-            new StoreFinderActions.FindStores({
-              queryText: queryText,
-              searchConfig: searchConfig,
-              longitudeLatitude: position,
-              countryIsoCode: countryIsoCode,
-              radius: radius,
-            })
-          );
-        },
-        () &#x3D;&gt; {
-          this.globalMessageService.add(
-            { key: &#x27;storeFinder.geolocationNotEnabled&#x27; },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.routingService.go([&#x27;/store-finder&#x27;]);
-        }
-      );
+            this.clearWatchGeolocation(
+              new StoreFinderActions.FindStores({
+                queryText: queryText,
+                searchConfig: searchConfig,
+                longitudeLatitude: position,
+                countryIsoCode: countryIsoCode,
+                radius: radius,
+              })
+            );
+          },
+          () &#x3D;&gt; {
+            this.globalMessageService.add(
+              { key: &#x27;storeFinder.geolocationNotEnabled&#x27; },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            this.routingService.go([&#x27;/store-finder&#x27;]);
+          }
+        );
     } else {
       this.clearWatchGeolocation(
         new StoreFinderActions.FindStores({

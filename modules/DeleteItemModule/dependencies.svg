@@ -14,13 +14,13 @@
 <title>cluster_DeleteItemModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 622,-230.8 622,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_DeleteItemModule_declarations</title>
-<polygon fill="none" stroke="black" points="454,-40.8 454,-92.8 614,-92.8 614,-40.8 454,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_DeleteItemModule_exports</title>
 <polygon fill="none" stroke="black" points="187,-170.8 187,-222.8 351,-222.8 351,-170.8 187,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DeleteItemModule_declarations</title>
+<polygon fill="none" stroke="black" points="454,-40.8 454,-92.8 614,-92.8 614,-40.8 454,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_DeleteItemModule_imports</title>

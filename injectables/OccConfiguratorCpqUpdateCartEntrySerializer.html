@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts:14</a></div>
                 </td>
             </tr>
 
@@ -195,18 +195,20 @@ export class OccConfiguratorCpqUpdateCartEntrySerializer
     Converter&lt;
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
-    &gt; {
+    &gt;
+{
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccCpqConfigurator.UpdateConfigurationForCartEntryParameters {
-    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters &#x3D; {
-      ...target,
-      userId: source.userId,
-      cartId: source.cartId,
-      entryNumber: source.cartEntryNumber,
-      configId: source.configuration.configId,
-    };
+    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters &#x3D;
+      {
+        ...target,
+        userId: source.userId,
+        cartId: source.cartId,
+        entryNumber: source.cartEntryNumber,
+        configId: source.configuration.configId,
+      };
 
     return resultTarget;
   }

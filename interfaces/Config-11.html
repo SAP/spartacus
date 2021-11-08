@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/cart/config/cart-config.ts</code>
+            <code>feature-libs/cart/quick-order/root/config/quick-order-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/CartConfig.html" target="_self" >CartConfig</a></code>
+                        <code><a href="../injectables/QuickOrderConfig.html" target="_self" >QuickOrderConfig</a></code>
             </p>
 
 
@@ -84,22 +84,24 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class CartConfig {
-  cart?: {
-    selectiveCart?: {
-      enabled?: boolean;
+export abstract class QuickOrderConfig {
+  quickOrder?: {
+    searchForm?: {
+      displayProductImages: boolean;
+      maxProducts: number;
+      minCharactersBeforeRequest: number;
     };
   };
 }
 
-declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends CartConfig {}
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends QuickOrderConfig {}
 }
 </code></pre>
     </div>

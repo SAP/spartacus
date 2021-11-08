@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/qualtrics/components/qualtrics-loader/config/qualtrics-config.ts</code>
+            <code>projects/storefrontlib/cms-structure/pwa/pwa.module-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/QualtricsConfig.html" target="_self" >QualtricsConfig</a></code>
+                        <code><a href="../injectables/PWAModuleConfig.html" target="_self" >PWAModuleConfig</a></code>
             </p>
 
 
@@ -86,30 +86,26 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
 
-/**
- * Configuration options for the Qualtrics integration, which allows you to
- * specify the qualtrics project and deployment script.
- */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class QualtricsConfig {
-  /**
-   * Holds the qualtrics integration options.
-   */
-  qualtrics?: {
-    /**
-     * Deployment script, loaded from a resource, to integrate the deployment of the qualtrics project.
-     * You would typically store the file in the local assets folder.
-     *
-     */
-    scriptSource?: string;
+export abstract class PWAModuleConfig {
+  pwa?: {
+    enabled?: boolean;
+    addToHomeScreen?: boolean;
   };
 }
 
+export const defaultPWAModuleConfig: PWAModuleConfig &#x3D; {
+  pwa: {
+    enabled: false,
+    addToHomeScreen: false,
+  },
+};
+
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends QualtricsConfig {}
+  interface Config extends PWAModuleConfig {}
 }
 </code></pre>
     </div>

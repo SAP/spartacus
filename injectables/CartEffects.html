@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="323" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:323</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:324</a></div>
                             </td>
                         </tr>
 
@@ -262,7 +262,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="256" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:256</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="257" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:257</a></div>
                         </td>
                     </tr>
 
@@ -440,7 +440,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="296" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:296</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="297" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:297</a></div>
                         </td>
                     </tr>
 
@@ -764,14 +764,14 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    mergeMap(() &#x3D;&gt; {
-      return [new CartActions.ResetCartDetails()];
-    })
-  )</code>
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      mergeMap(() &#x3D;&gt; {
+        return [new CartActions.ResetCartDetails()];
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -1042,15 +1042,16 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable&lt;CartActions.ResetCartDetails&gt; &#x3D; this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    mergeMap(() &#x3D;&gt; {
-      return [new CartActions.ResetCartDetails()];
-    })
-  );
+  resetCartDetailsOnSiteContextChange$: Observable&lt;CartActions.ResetCartDetails&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      mergeMap(() &#x3D;&gt; {
+        return [new CartActions.ResetCartDetails()];
+      })
+    );
 
   @Effect()
   addEmail$: Observable&lt;

@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/config/view-config.ts</code>
+            <code>projects/core/src/occ/config/occ-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/ViewConfig.html" target="_self" >ViewConfig</a></code>
+                        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfig</a></code>
             </p>
 
 
@@ -84,28 +84,44 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
+import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
+import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
+
+export interface BackendConfig {
+  occ?: {
+    baseUrl?: string;
+    prefix?: string;
+    /**
+     * Indicates whether or not cross-site Access-Control requests should be made
+     * using credentials such as cookies, authorization headers or TLS client certificates
+     */
+    useWithCredentials?: boolean;
+
+    endpoints?: OccEndpoints;
+  };
+  media?: {
+    /**
+     * Media URLs are typically relative, so that the host can be configured.
+     * Configurable media baseURLs are useful for SEO, multi-site,
+     * switching environments, etc.
+     */
+    baseUrl?: string;
+  };
+  loadingScopes?: LoadingScopes;
+}
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class ViewConfig {
-  view?: {
-    /**
-     * Configurations related to the view of the application
-     */
-    defaultPageSize?: number;
-    infiniteScroll?: {
-      active?: boolean;
-      productLimit?: number;
-      showMoreButton?: boolean;
-    };
-  };
+export abstract class OccConfig extends SiteContextConfig {
+  backend?: BackendConfig;
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends ViewConfig {}
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends OccConfig {}
 }
 </code></pre>
     </div>

@@ -209,8 +209,8 @@ fast loading pages and default cms structure for commodity commerce.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">projects/core/src/cms/services/cms-structure-config.service.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">projects/core/src/cms/services/cms-structure-config.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -1064,9 +1064,8 @@ export abstract class CmsStructureConfigService {
           this.cmsDataConfig.cmsStructure &amp;&amp;
           this.cmsDataConfig.cmsStructure.components
         ) {
-          const component &#x3D; this.cmsDataConfig.cmsStructure.components[
-            componentId
-          ];
+          const component &#x3D;
+            this.cmsDataConfig.cmsStructure.components[componentId];
           if (component) {
             components.push({ uid: componentId, ...component });
           }

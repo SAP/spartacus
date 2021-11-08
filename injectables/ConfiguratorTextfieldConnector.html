@@ -87,6 +87,9 @@
                                 <a href="#readConfigurationForCartEntry" >readConfigurationForCartEntry</a>
                             </li>
                             <li>
+                                <a href="#readConfigurationForOrderEntry" >readConfigurationForOrderEntry</a>
+                            </li>
+                            <li>
                                 <a href="#updateConfigurationForCartEntry" >updateConfigurationForCartEntry</a>
                             </li>
                         </ul>
@@ -175,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts:60</a></div>
                 </td>
             </tr>
 
@@ -403,6 +406,82 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="readConfigurationForOrderEntry"></a>
+                    <span class="name">
+                        <span ><b>readConfigurationForOrderEntry</b></span>
+                        <a href="#readConfigurationForOrderEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readConfigurationForOrderEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reads an existing configuration for an order entry</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Attributes needed to read a product configuration for an order entry</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable of product configurations</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateConfigurationForCartEntry"></a>
                     <span class="name">
                         <span ><b>updateConfigurationForCartEntry</b></span>
@@ -419,8 +498,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts:49</a></div>
                 </td>
             </tr>
 
@@ -513,6 +592,16 @@ export class ConfiguratorTextfieldConnector {
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable&lt;ConfiguratorTextfield.Configuration&gt; {
     return this.adapter.readConfigurationForCartEntry(parameters);
+  }
+  /**
+   * Reads an existing configuration for an order entry
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters Attributes needed to read a product configuration for an order entry
+   * @returns {Observable&lt;ConfiguratorTextfield.Configuration&gt;} Observable of product configurations
+   */
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable&lt;ConfiguratorTextfield.Configuration&gt; {
+    return this.adapter.readConfigurationForOrderEntry(parameters);
   }
   /**
    * Updates a configuration that is attached to a cart entry

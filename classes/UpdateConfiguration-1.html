@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -242,6 +242,12 @@ export const READ_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
   &#x27;[Configurator] Read cart entry configuration Textfield Fail&#x27;;
 export const READ_CART_ENTRY_CONFIGURATION_SUCCESS &#x3D;
   &#x27;[Configurator] Read cart entry configuration Textfield Success&#x27;;
+export const READ_ORDER_ENTRY_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Read order entry configuration textfield&#x27;;
+export const READ_ORDER_ENTRY_CONFIGURATION_FAIL &#x3D;
+  &#x27;[Configurator] Read order entry configuration textfield Fail&#x27;;
+export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS &#x3D;
+  &#x27;[Configurator] Read order entry configuration textfield Success&#x27;;
 export const UPDATE_CART_ENTRY_CONFIGURATION &#x3D;
   &#x27;[Configurator] Update cart entry configuration Textfield&#x27;;
 export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
@@ -331,6 +337,29 @@ export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction 
   }
 }
 
+export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION;
+  constructor(
+    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
 export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type &#x3D; REMOVE_CONFIGURATION;
   constructor() {
@@ -346,6 +375,9 @@ export type ConfiguratorActions &#x3D;
   | ReadCartEntryConfigurationFail
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfiguration
+  | ReadOrderEntryConfigurationFail
+  | ReadOrderEntryConfigurationSuccess
+  | ReadOrderEntryConfiguration
   | UpdateCartEntryConfiguration
   | RemoveConfiguration;
 </code></pre>

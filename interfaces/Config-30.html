@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/a11y/skip-link/config/skip-link.config.ts</code>
+            <code>projects/core/src/auth/user-auth/config/auth-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/SkipLinkConfig.html" target="_self" >SkipLinkConfig</a></code>
+                        <code><a href="../injectables/AuthConfig.html" target="_self" >AuthConfig</a></code>
             </p>
 
 
@@ -84,30 +84,77 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
+import { AuthConfig as LibConfig } from &#x27;angular-oauth2-oidc&#x27;;
+import { Config } from &#x27;../../../config/config-tokens&#x27;;
+
+// siletRefreshTimeout - omitted as it is deprecated of typo
+// clientId - we need it for client credentials flow
+// dummyClientSecret - we need it for client credentials flow
+// loginUrl - similarly like the rest of endpoints we want to have full control over that
+// logoutUrl - similarly like the rest of endpoints we want to have full control over that
+// tokenEndpoint - similarly like the rest of endpoints we want to have full control over that
+// revocationEndpoint - similarly like the rest of endpoints we want to have full control over that
+// userinfoEndpoint - similarly like the rest of endpoints we want to have full control over that
+//
+export type AuthLibConfig &#x3D; Omit&lt;
+  LibConfig,
+  | &#x27;clientId&#x27;
+  | &#x27;dummyClientSecret&#x27;
+  | &#x27;siletRefreshTimeout&#x27;
+  | &#x27;loginUrl&#x27;
+  | &#x27;logoutUrl&#x27;
+  | &#x27;tokenEndpoint&#x27;
+  | &#x27;revocationEndpoint&#x27;
+  | &#x27;userinfoEndpoint&#x27;
+&gt;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class SkipLinkConfig {
-  skipLinks?: SkipLink[];
+export abstract class AuthConfig {
+  authentication?: {
+    /**
+     * OAuth client id.
+     */
+    client_id?: string;
+    /**
+     * Secret for client required by Hybris OAuth.
+     */
+    client_secret?: string;
+    /**
+     * Base url for auth server (for login, token, revoke endpoints).
+     */
+    baseUrl?: string;
+    /**
+     * Endpoint for getting token.
+     */
+    tokenEndpoint?: string;
+    /**
+     * Endpoint url for revoking tokens.
+     */
+    revokeEndpoint?: string;
+    /**
+     * Url for login redirect for Implicit and Authorization Code Flow.
+     */
+    loginUrl?: string;
+    /**
+     * Redirect url after logout.
+     */
+    logoutUrl?: string;
+    /**
+     * Userinfo endpoint.
+     */
+    userinfoEndpoint?: string;
+    /**
+     * Config for angular-oauth-oidc library.
+     */
+    OAuthLibConfig?: AuthLibConfig;
+  };
 }
 
-export abstract class SkipLink {
-  key: string;
-  i18nKey: string;
-  target?: HTMLElement;
-  position?: SkipLinkScrollPosition;
-}
-
-export enum SkipLinkScrollPosition {
-  BEFORE &#x3D; &#x27;BEFORE&#x27;,
-  AFTER &#x3D; &#x27;AFTER&#x27;,
-}
-
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends SkipLinkConfig {}
+declare module &#x27;../../../config/config-tokens&#x27; {
+  interface Config extends AuthConfig {}
 }
 </code></pre>
     </div>

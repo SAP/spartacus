@@ -302,10 +302,10 @@ export class ConfiguratorPriceComponent {
    * @return {string} - value price formula
    */
   get price(): string {
-    if (this.formula?.priceTotal) {
+    if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      return &#x27;+ &#x27; + this.formula?.price?.formattedValue;
+      return &#x27;+ &#x27; + this.formula.price?.formattedValue;
     }
   }
 
@@ -315,7 +315,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    return &#x27;+ &#x27; + this.formula?.priceTotal?.formattedValue;
+    return &#x27;+ &#x27; + this.formula.priceTotal?.formattedValue;
   }
 
   /**
@@ -349,9 +349,9 @@ export class ConfiguratorPriceComponent {
    */
   displayFormula(): boolean {
     const displayFormula &#x3D;
-      (this.formula?.quantity &amp;&amp; this.formula?.quantity !&#x3D;&#x3D; 0) ||
-      (this.formula?.price &amp;&amp; this.formula?.price?.value !&#x3D;&#x3D; 0) ||
-      (this.formula?.priceTotal &amp;&amp; this.formula?.priceTotal?.value !&#x3D;&#x3D; 0);
+      (this.formula.quantity &amp;&amp; this.formula.quantity !&#x3D;&#x3D; 0) ||
+      (this.formula.price &amp;&amp; this.formula.price?.value !&#x3D;&#x3D; 0) ||
+      (this.formula.priceTotal &amp;&amp; this.formula.priceTotal?.value !&#x3D;&#x3D; 0);
     return displayFormula ?? false;
   }
 
@@ -362,7 +362,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - price formula
    */
   quantityWithPrice(formattedQuantity: string | null): string {
-    return formattedQuantity + &#x27;x(&#x27; + this.formula?.price?.formattedValue + &#x27;)&#x27;;
+    return formattedQuantity + &#x27;x(&#x27; + this.formula.price?.formattedValue + &#x27;)&#x27;;
   }
 
   /**

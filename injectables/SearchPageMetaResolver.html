@@ -158,7 +158,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -257,8 +257,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:79</a></div>
                 </td>
             </tr>
 
@@ -298,8 +298,8 @@ the all query parameters are removed and https and www are added explicitly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:69</a></div>
                 </td>
             </tr>
 
@@ -335,8 +335,8 @@ the all query parameters are removed and https and www are added explicitly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:51</a></div>
                 </td>
             </tr>
 
@@ -610,7 +610,7 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -637,15 +637,17 @@ the page type and page template.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>this.productSearchService.getResults().pipe(
-    filter((data) &#x3D;&gt; !!data?.pagination),
-    map((results) &#x3D;&gt; results.pagination?.totalResults)
-  )</code>
+                        <i>Default value : </i><code>this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) &#x3D;&gt; !!data?.pagination),
+      map((results) &#x3D;&gt; results.pagination?.totalResults)
+    )</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -762,13 +764,14 @@ import { ProductSearchService } from &#x27;../facade/product-search.service&#x27
 })
 export class SearchPageMetaResolver
   extends PageMetaResolver
-  implements PageMetaResolver, PageTitleResolver, PageRobotsResolver {
-  protected total$: Observable&lt;
-    number | undefined
-  &gt; &#x3D; this.productSearchService.getResults().pipe(
-    filter((data) &#x3D;&gt; !!data?.pagination),
-    map((results) &#x3D;&gt; results.pagination?.totalResults)
-  );
+  implements PageMetaResolver, PageTitleResolver, PageRobotsResolver
+{
+  protected total$: Observable&lt;number | undefined&gt; &#x3D; this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) &#x3D;&gt; !!data?.pagination),
+      map((results) &#x3D;&gt; results.pagination?.totalResults)
+    );
 
   protected query$: Observable&lt;string&gt; &#x3D; this.routingService
     .getRouterState()

@@ -875,9 +875,9 @@ to render the HTML elements.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject(({
+                        <i>Default value : </i><code>new BehaviorSubject({
     pageSize: 10,
-  } as any) as P)</code>
+  } as any as P)</code>
                     </td>
                 </tr>
                     <tr>
@@ -1058,9 +1058,9 @@ export abstract class ListService&lt;T, P &#x3D; PaginationModel&gt; {
    * The pagination size defaults to 10, but can be overridden by the
    * table configuration for each entity type.
    */
-  protected pagination$: BehaviorSubject&lt;P&gt; &#x3D; new BehaviorSubject(({
+  protected pagination$: BehaviorSubject&lt;P&gt; &#x3D; new BehaviorSubject({
     pageSize: 10,
-  } as any) as P);
+  } as any as P);
 
   constructor(protected tableService: TableService) {}
 

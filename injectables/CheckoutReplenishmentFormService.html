@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -161,8 +161,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -198,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -235,8 +235,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-replenishment-form-service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -354,9 +354,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(
-    this.defaultFormData
-  )</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(this.defaultFormData)</code>
                     </td>
                 </tr>
                     <tr>
@@ -398,9 +396,8 @@ export class CheckoutReplenishmentFormService {
     replenishmentStartDate: new Date().toISOString().split(&#x27;T&#x27;)[0],
   };
 
-  private scheduleReplenishmentFormData$: BehaviorSubject&lt;ScheduleReplenishmentForm&gt; &#x3D; new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(
-    this.defaultFormData
-  );
+  private scheduleReplenishmentFormData$: BehaviorSubject&lt;ScheduleReplenishmentForm&gt; &#x3D;
+    new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(this.defaultFormData);
 
   constructor() {}
 

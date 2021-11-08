@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:92</a></div>
                             </td>
                         </tr>
 
@@ -429,9 +429,11 @@ export class NavigationEntryItemEffects {
   );
 
   // We only consider 3 item types: cms page, cms component, and media.
-  getIdListByItemType(
-    itemList: any[]
-  ): { pageIds: string[]; componentIds: string[]; mediaIds: string[] } {
+  getIdListByItemType(itemList: any[]): {
+    pageIds: string[];
+    componentIds: string[];
+    mediaIds: string[];
+  } {
     const pageIds: string[] &#x3D; [];
     const componentIds: string[] &#x3D; [];
     const mediaIds: string[] &#x3D; [];

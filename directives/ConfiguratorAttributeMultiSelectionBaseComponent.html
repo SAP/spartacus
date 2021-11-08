@@ -321,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:109</a></div>
                 </td>
             </tr>
 
@@ -369,8 +369,8 @@ For the multi-selection attribute types only total price of the attribute should
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:71</a></div>
                 </td>
             </tr>
 
@@ -467,8 +467,8 @@ For the multi-selection attribute types only total price of the attribute should
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:128</a></div>
                 </td>
             </tr>
 
@@ -550,8 +550,8 @@ For the multi-selection attribute types the complete price formula should be dis
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:88</a></div>
                 </td>
             </tr>
 
@@ -791,7 +791,7 @@ can be derived from the attribute meta data</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:42</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -827,7 +827,7 @@ can be derived from the attribute meta data</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:56</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -883,8 +883,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantityOnAttributeLevel(): boolean {
     return (
-      this.quantityService?.withQuantityOnAttributeLevel(this.attribute) ??
-      false
+      this.quantityService.withQuantityOnAttributeLevel(this.attribute) ?? false
     );
   }
 
@@ -896,9 +895,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantity(): boolean {
     return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.quantityService.withQuantity(
+        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
       ) ?? false
     );
   }

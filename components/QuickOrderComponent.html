@@ -72,6 +72,7 @@
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -131,18 +132,18 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#cartErrors$" >cartErrors$</a>
                             </li>
                             <li>
                                 <a href="#cartId$" >cartId$</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#cartSuccesses$" >cartSuccesses$</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#cartWarnings$" >cartWarnings$</a>
                             </li>
                             <li>
@@ -155,7 +156,21 @@
                                 <a href="#isCartStable$" >isCartStable$</a>
                             </li>
                             <li>
+                                <a href="#listLimitReached$" >listLimitReached$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#nonPurchasableProductError$" >nonPurchasableProductError$</a>
+                            </li>
+                            <li>
+                                <a href="#quickOrderForm" >quickOrderForm</a>
+                            </li>
+                            <li>
                                 <a href="#quickOrderListLimit$" >quickOrderListLimit$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#showAddToCartInformation$" >showAddToCartInformation$</a>
                             </li>
                         </ul>
                     </td>
@@ -173,10 +188,22 @@
                                 <a href="#addToCart" >addToCart</a>
                             </li>
                             <li>
+                                <a href="#canAddProduct" >canAddProduct</a>
+                            </li>
+                            <li>
                                 <a href="#clear" >clear</a>
                             </li>
                             <li>
+                                <a href="#clearAddToCartInformation" >clearAddToCartInformation</a>
+                            </li>
+                            <li>
+                                <a href="#clearDeletion" >clearDeletion</a>
+                            </li>
+                            <li>
                                 <a href="#clearErrors" >clearErrors</a>
+                            </li>
+                            <li>
+                                <a href="#clearNonPurchasableError" >clearNonPurchasableError</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -201,6 +228,9 @@
                                 <a href="#extractWarnings" >extractWarnings</a>
                             </li>
                             <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
@@ -218,6 +248,9 @@
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#showAddedToCartSuccessMessage" >showAddedToCartSuccessMessage</a>
+                            </li>
+                            <li>
+                                <a href="#undoDeletion" >undoDeletion</a>
                             </li>
                         </ul>
                     </td>
@@ -244,6 +277,15 @@
                                 <li>
                                     <a href="#successes$" >successes$</a>
                                 </li>
+                                <li>
+                                    <a href="#nonPurchasableError$" >nonPurchasableError$</a>
+                                </li>
+                                <li>
+                                    <a href="#addToCartInformation$" >addToCartInformation$</a>
+                                </li>
+                                <li>
+                                    <a href="#softDeletedEntries$" >softDeletedEntries$</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -262,7 +304,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -377,8 +419,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:115</a></div>
                 </td>
             </tr>
 
@@ -429,6 +471,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="canAddProduct"></a>
+                    <span class="name">
+                        <span ><b>canAddProduct</b></span>
+                        <a href="#canAddProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>canAddProduct()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:178</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="clear"></a>
                     <span class="name">
                         <span ><b>clear</b></span>
@@ -445,8 +524,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:105</a></div>
                 </td>
             </tr>
 
@@ -457,6 +536,111 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearAddToCartInformation"></a>
+                    <span class="name">
+                        <span ><b>clearAddToCartInformation</b></span>
+                        <a href="#clearAddToCartInformation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearAddToCartInformation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearDeletion"></a>
+                    <span class="name">
+                        <span ><b>clearDeletion</b></span>
+                        <a href="#clearDeletion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearDeletion(entry: <a href="../interfaces/OrderEntry.html" target="_self">OrderEntry</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>entry</td>
+                                    <td>
+                                                <code><a href="../interfaces/OrderEntry.html" target="_self" >OrderEntry</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -482,8 +666,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:146</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearNonPurchasableError"></a>
+                    <span class="name">
+                        <span ><b>clearNonPurchasableError</b></span>
+                        <a href="#clearNonPurchasableError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearNonPurchasableError()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:174</a></div>
                 </td>
             </tr>
 
@@ -521,8 +742,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:212</a></div>
                 </td>
             </tr>
 
@@ -558,8 +779,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:154</a></div>
                 </td>
             </tr>
 
@@ -595,8 +816,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:150</a></div>
                 </td>
             </tr>
 
@@ -634,8 +855,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:182</a></div>
                 </td>
             </tr>
 
@@ -704,8 +925,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:194</a></div>
                 </td>
             </tr>
 
@@ -786,8 +1007,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:188</a></div>
                 </td>
             </tr>
 
@@ -838,6 +1059,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <span ><b>ngOnInit</b></span>
@@ -854,8 +1112,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:71</a></div>
                 </td>
             </tr>
 
@@ -893,8 +1151,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:227</a></div>
                 </td>
             </tr>
 
@@ -963,8 +1221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:235</a></div>
                 </td>
             </tr>
 
@@ -1033,8 +1291,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:231</a></div>
                 </td>
             </tr>
 
@@ -1103,8 +1361,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:218</a></div>
                 </td>
             </tr>
 
@@ -1115,6 +1373,74 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="undoDeletion"></a>
+                    <span class="name">
+                        <span ><b>undoDeletion</b></span>
+                        <a href="#undoDeletion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>undoDeletion(entry: <a href="../interfaces/OrderEntry.html" target="_self">OrderEntry</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:162</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>entry</td>
+                                    <td>
+                                                <code><a href="../interfaces/OrderEntry.html" target="_self" >OrderEntry</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1132,7 +1458,7 @@
                 <td class="col-md-4">
                     <a name="cartErrors$"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>cartErrors$</b></span>
                         <a href="#cartErrors$"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1145,7 +1471,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -1171,7 +1497,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -1184,7 +1510,7 @@
                 <td class="col-md-4">
                     <a name="cartSuccesses$"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>cartSuccesses$</b></span>
                         <a href="#cartSuccesses$"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1197,7 +1523,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1210,7 +1536,7 @@
                 <td class="col-md-4">
                     <a name="cartWarnings$"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>cartWarnings$</b></span>
                         <a href="#cartWarnings$"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1223,7 +1549,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1249,7 +1575,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1274,7 +1600,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1308,7 +1634,96 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listLimitReached$"></a>
+                    <span class="name">
+                        <span ><b>listLimitReached$</b></span>
+                        <a href="#listLimitReached$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nonPurchasableProductError$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>nonPurchasableProductError$</b></span>
+                        <a href="#nonPurchasableProductError$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Product | null&gt;(
+    null
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickOrderForm"></a>
+                    <span class="name">
+                        <span ><b>quickOrderForm</b></span>
+                        <a href="#quickOrderForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/QuickOrderFormComponent.html" target="_self" >QuickOrderFormComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;quickOrderForm&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1334,12 +1749,45 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>this.component.data$.pipe(map((data) &#x3D;&gt; data.quickOrderListLimit))</code>
+                        <i>Default value : </i><code>this.component.data$.pipe(
+      map((data) &#x3D;&gt; data.quickOrderListLimit),
+      tap((limit) &#x3D;&gt; {
+        if (!!limit) {
+          this.quickOrderService.setListLimit(limit);
+        }
+      })
+    )</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showAddToCartInformation$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>showAddToCartInformation$</b></span>
+                        <a href="#showAddToCartInformation$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;boolean&gt;(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -1368,7 +1816,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:81</a></div>
                                 </td>
                             </tr>
 
@@ -1390,7 +1838,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:85</a></div>
                                 </td>
                             </tr>
 
@@ -1412,7 +1860,73 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:89</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nonPurchasableError$"></a>
+                        <span class="name"><b>nonPurchasableError$</b><a href="#nonPurchasableError$"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>nonPurchasableError$()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:93</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addToCartInformation$"></a>
+                        <span class="name"><b>addToCartInformation$</b><a href="#addToCartInformation$"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>addToCartInformation$()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:97</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="softDeletedEntries$"></a>
+                        <span class="name"><b>softDeletedEntries$</b><a href="#softDeletedEntries$"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>softDeletedEntries$()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts:101</a></div>
                                 </td>
                             </tr>
 
@@ -1423,7 +1937,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, Component, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -1437,31 +1957,47 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
+  Product,
 } from &#x27;@spartacus/core&#x27;;
 import { CmsComponentData } from &#x27;@spartacus/storefront&#x27;;
 import { BehaviorSubject, combineLatest, Observable } from &#x27;rxjs&#x27;;
-import { first, map } from &#x27;rxjs/operators&#x27;;
+import { first, map, tap } from &#x27;rxjs/operators&#x27;;
+import { QuickOrderFormComponent } from &#x27;./form/quick-order-form.component&#x27;;
 
 @Component({
   selector: &#x27;cx-quick-order&#x27;,
   templateUrl: &#x27;./quick-order.component.html&#x27;,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent implements OnInit {
+export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable&lt;string&gt;;
   entries$: Observable&lt;OrderEntry[]&gt;;
-  quickOrderListLimit$: Observable&lt;
-    number | undefined
-  &gt; &#x3D; this.component.data$.pipe(map((data) &#x3D;&gt; data.quickOrderListLimit));
+  quickOrderListLimit$: Observable&lt;number | undefined&gt; &#x3D;
+    this.component.data$.pipe(
+      map((data) &#x3D;&gt; data.quickOrderListLimit),
+      tap((limit) &#x3D;&gt; {
+        if (!!limit) {
+          this.quickOrderService.setListLimit(limit);
+        }
+      })
+    );
   isCartStable$: Observable&lt;boolean&gt; &#x3D; combineLatest([
     this.activeCartService.getActiveCartId(),
     this.activeCartService.isStable(),
   ]).pipe(map(([activeCartId, isStable]) &#x3D;&gt; (!activeCartId ? true : isStable)));
   globalMessageType &#x3D; GlobalMessageType;
+  listLimitReached$: Observable&lt;boolean&gt;;
 
-  private cartErrors$ &#x3D; new BehaviorSubject&lt;QuickOrderAddEntryEvent[]&gt;([]);
-  private cartWarnings$ &#x3D; new BehaviorSubject&lt;QuickOrderAddEntryEvent[]&gt;([]);
-  private cartSuccesses$ &#x3D; new BehaviorSubject&lt;OrderEntry[]&gt;([]);
+  @ViewChild(&#x27;quickOrderForm&#x27;)
+  quickOrderForm: QuickOrderFormComponent;
+
+  protected cartErrors$ &#x3D; new BehaviorSubject&lt;QuickOrderAddEntryEvent[]&gt;([]);
+  protected cartWarnings$ &#x3D; new BehaviorSubject&lt;QuickOrderAddEntryEvent[]&gt;([]);
+  protected cartSuccesses$ &#x3D; new BehaviorSubject&lt;OrderEntry[]&gt;([]);
+  protected showAddToCartInformation$ &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
+  protected nonPurchasableProductError$ &#x3D; new BehaviorSubject&lt;Product | null&gt;(
+    null
+  );
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -1477,6 +2013,10 @@ export class QuickOrderComponent implements OnInit {
     this.quickOrderStatePersistenceService.initSync();
   }
 
+  ngOnDestroy(): void {
+    this.quickOrderService.clearDeletedEntries();
+  }
+
   get errors$(): Observable&lt;QuickOrderAddEntryEvent[]&gt; {
     return this.cartErrors$.asObservable();
   }
@@ -1487,6 +2027,18 @@ export class QuickOrderComponent implements OnInit {
 
   get successes$(): Observable&lt;OrderEntry[]&gt; {
     return this.cartSuccesses$.asObservable();
+  }
+
+  get nonPurchasableError$(): Observable&lt;Product | null&gt; {
+    return this.quickOrderService.getNonPurchasableProductError();
+  }
+
+  get addToCartInformation$(): Observable&lt;boolean&gt; {
+    return this.showAddToCartInformation$.asObservable();
+  }
+
+  get softDeletedEntries$(): Observable&lt;Record&lt;string, OrderEntry&gt;&gt; {
+    return this.quickOrderService.getSoftDeletedEntries();
   }
 
   clear(): void {
@@ -1500,6 +2052,11 @@ export class QuickOrderComponent implements OnInit {
   }
 
   addToCart(orderEntries: OrderEntry[]): void {
+    if (!orderEntries.length) {
+      this.showAddToCartInformation$.next(true);
+      return;
+    }
+
     this.clearStatuses();
 
     this.quickOrderService
@@ -1535,6 +2092,30 @@ export class QuickOrderComponent implements OnInit {
 
   clearSuccesses(): void {
     this.cartSuccesses$.next([]);
+  }
+
+  clearAddToCartInformation(): void {
+    this.showAddToCartInformation$.next(false);
+  }
+
+  undoDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.restoreSoftDeletedEntry(entry.product.code);
+    }
+  }
+
+  clearDeletion(entry: OrderEntry): void {
+    if (entry.product?.code) {
+      this.quickOrderService.hardDeleteEntry(entry.product.code);
+    }
+  }
+
+  clearNonPurchasableError(): void {
+    this.quickOrderService.clearNonPurchasableProductError();
+  }
+
+  canAddProduct(): Observable&lt;boolean&gt; {
+    return this.quickOrderService.canAdd();
   }
 
   protected extractErrors(errors: QuickOrderAddEntryEvent[]): void {
@@ -1598,12 +2179,72 @@ export class QuickOrderComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;errors$ | async as errors&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;entries$ | async as entries&quot;&gt;
+  &lt;ng-container *ngIf&#x3D;&quot;!(canAddProduct() | async)&quot;&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;quickOrderForm?.form?.get(&#x27;product&#x27;)?.dirty&quot;&gt;
+      &lt;cx-message
+        [text]&#x3D;&quot;
+          &#x27;quickOrderList.errors.listIsFull&#x27;
+            | cxTranslate: { count: entries.length }
+        &quot;
+        [isVisibleCloseButton]&#x3D;&quot;false&quot;
+        [type]&#x3D;&quot;globalMessageType.MSG_TYPE_ERROR&quot;
+        class&#x3D;&quot;quick-order-list-limit-message&quot;
+      &gt;
+      &lt;/cx-message&gt;
+    &lt;/ng-container&gt;
+  &lt;/ng-container&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-container *ngIf&#x3D;&quot;addToCartInformation$ | async&quot;&gt;
   &lt;cx-message
-    *ngIf&#x3D;&quot;errors.length &gt; 0&quot;
+    (closeMessage)&#x3D;&quot;clearAddToCartInformation()&quot;
+    [text]&#x3D;&quot;
+      &#x27;quickOrderList.informations.addProductBeforeAddingToCart&#x27; | cxTranslate
+    &quot;
+    [type]&#x3D;&quot;globalMessageType.MSG_TYPE_ERROR&quot;
+    class&#x3D;&quot;quick-order-add-to-cart-information-message&quot;
+  &gt;
+  &lt;/cx-message&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-container *ngIf&#x3D;&quot;nonPurchasableError$ | async as nonPurchasableError&quot;&gt;
+  &lt;cx-message
+    (closeMessage)&#x3D;&quot;clearNonPurchasableError()&quot;
+    [text]&#x3D;&quot;
+      &#x27;quickOrderList.errors.nonPurchasableError&#x27;
+        | cxTranslate: { name: nonPurchasableError.name }
+    &quot;
+    [type]&#x3D;&quot;globalMessageType.MSG_TYPE_ERROR&quot;
+    class&#x3D;&quot;quick-order-non-purchasable-product-error-message&quot;
+  &gt;
+  &lt;/cx-message&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-container *ngIf&#x3D;&quot;softDeletedEntries$ | async as deletedEntries&quot;&gt;
+  &lt;cx-message
+    *ngFor&#x3D;&quot;let deletedEntry of deletedEntries | keyvalue&quot;
+    (buttonAction)&#x3D;&quot;undoDeletion(deletedEntry.value)&quot;
+    (closeMessage)&#x3D;&quot;clearDeletion(deletedEntry.value)&quot;
+    [actionButtonText]&#x3D;&quot;&#x27;quickOrderList.undo&#x27; | cxTranslate&quot;
+    [text]&#x3D;&quot;
+      &#x27;quickOrderList.productWasDeleted&#x27;
+        | cxTranslate: { name: deletedEntry.value.product?.name }
+    &quot;
+    [type]&#x3D;&quot;globalMessageType.MSG_TYPE_CONFIRMATION&quot;
+    class&#x3D;&quot;quick-order-deletions-message&quot;
+  &gt;
+  &lt;/cx-message&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-container *ngIf&#x3D;&quot;errors$ | async as errors&quot;&gt;
+  &lt;cx-message
+    *ngIf&#x3D;&quot;errors.length&quot;
     (closeMessage)&#x3D;&quot;clearErrors()&quot;
+    [accordionText]&#x3D;&quot;&#x27;quickOrderList.errors.reviewErrors&#x27; | cxTranslate&quot;
     [text]&#x3D;&quot;&#x27;quickOrderList.errorProceedingToCart&#x27; | cxTranslate&quot;
     [type]&#x3D;&quot;globalMessageType.MSG_TYPE_ERROR&quot;
+    class&#x3D;&quot;quick-order-errors-message&quot;
   &gt;
     &lt;ul class&#x3D;&quot;quick-order-errors&quot;&gt;
       &lt;li *ngFor&#x3D;&quot;let error of errors&quot; class&#x3D;&quot;quick-order-error-item&quot;&gt;
@@ -1624,10 +2265,12 @@ export class QuickOrderComponent implements OnInit {
 
 &lt;ng-container *ngIf&#x3D;&quot;warnings$ | async as warnings&quot;&gt;
   &lt;cx-message
-    *ngIf&#x3D;&quot;warnings.length &gt; 0&quot;
+    *ngIf&#x3D;&quot;warnings.length&quot;
     (closeMessage)&#x3D;&quot;clearWarnings()&quot;
+    [accordionText]&#x3D;&quot;&#x27;quickOrderList.warnings.reviewWarnings&#x27; | cxTranslate&quot;
     [text]&#x3D;&quot;&#x27;quickOrderList.warningProceedingToCart&#x27; | cxTranslate&quot;
     [type]&#x3D;&quot;globalMessageType.MSG_TYPE_WARNING&quot;
+    class&#x3D;&quot;quick-order-warnings-message&quot;
   &gt;
     &lt;ul class&#x3D;&quot;quick-order-warnings&quot;&gt;
       &lt;li *ngFor&#x3D;&quot;let warning of warnings&quot; class&#x3D;&quot;quick-order-warning-item&quot;&gt;
@@ -1649,10 +2292,11 @@ export class QuickOrderComponent implements OnInit {
 
 &lt;ng-container *ngIf&#x3D;&quot;successes$ | async as successes&quot;&gt;
   &lt;cx-message
-    *ngIf&#x3D;&quot;successes.length &gt; 0&quot;
+    *ngIf&#x3D;&quot;successes.length&quot;
     (closeMessage)&#x3D;&quot;clearSuccesses()&quot;
     [text]&#x3D;&quot;&#x27;quickOrderList.successfullyAddedToCart&#x27; | cxTranslate&quot;
     [type]&#x3D;&quot;globalMessageType.MSG_TYPE_CONFIRMATION&quot;
+    class&#x3D;&quot;quick-order-successes-message&quot;
   &gt;
     &lt;ul class&#x3D;&quot;quick-order-successes&quot;&gt;
       &lt;li *ngFor&#x3D;&quot;let entry of successes&quot; class&#x3D;&quot;quick-order-success-item&quot;&gt;
@@ -1682,10 +2326,7 @@ export class QuickOrderComponent implements OnInit {
     &lt;/div&gt;
 
     &lt;div class&#x3D;&quot;quick-order-form-body&quot;&gt;
-      &lt;cx-quick-order-form
-        [isDisabled]&#x3D;&quot;entries.length &gt;&#x3D; quickOrderListLimit&quot;
-        [isLoading]&#x3D;&quot;!(isCartStable$ | async)&quot;
-      &gt;&lt;/cx-quick-order-form&gt;
+      &lt;cx-quick-order-form #quickOrderForm&gt; &lt;/cx-quick-order-form&gt;
     &lt;/div&gt;
 
     &lt;div class&#x3D;&quot;quick-order-table-body&quot;&gt;
@@ -1714,7 +2355,6 @@ export class QuickOrderComponent implements OnInit {
           (clikEvent)&#x3D;&quot;addToCart(entries)&quot;
           [ariaLabel]&#x3D;&quot;&#x27;quickOrderList.addToCart&#x27; | cxTranslate&quot;
           [class]&#x3D;&quot;&#x27;btn-block add-button&#x27;&quot;
-          [disabled]&#x3D;&quot;!entries.length&quot;
           [loading]&#x3D;&quot;!(isCartStable$ | async)&quot;
         &gt;
           {{ &#x27;quickOrderList.addToCart&#x27; | cxTranslate }}
@@ -1752,8 +2392,8 @@ export class QuickOrderComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="errors$ | async as errors">  <cx-message    *ngIf="errors.length > 0"    (closeMessage)="clearErrors()"    [text]="\'quickOrderList.errorProceedingToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_ERROR"  >    <ul class="quick-order-errors">      <li *ngFor="let error of errors" class="quick-order-error-item">        <span>          {{            \'quickOrderList.errors.productIsOutOfStock\'              | cxTranslate                : {                    name: error.entry.product.name,                    code: error.entry.product.code                  }          }}        </span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="warnings$ | async as warnings">  <cx-message    *ngIf="warnings.length > 0"    (closeMessage)="clearWarnings()"    [text]="\'quickOrderList.warningProceedingToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_WARNING"  >    <ul class="quick-order-warnings">      <li *ngFor="let warning of warnings" class="quick-order-warning-item">        <span>          {{            \'quickOrderList.warnings.productWasReduced\'              | cxTranslate                : {                    name: warning.entry.product.name,                    code: warning.entry.product.code,                    quantityAdded: warning.quantityAdded                  }          }}        </span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="successes$ | async as successes">  <cx-message    *ngIf="successes.length > 0"    (closeMessage)="clearSuccesses()"    [text]="\'quickOrderList.successfullyAddedToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"  >    <ul class="quick-order-successes">      <li *ngFor="let entry of successes" class="quick-order-success-item">        <span>{{          \'quickOrderList.successes.productAddedToCart\'            | cxTranslate              : {                  name: entry.product.name,                  code: entry.product.code                }        }}</span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">  <ng-container *ngIf="entries$ | async as entries">    <div class="quick-order-header">      <h3>{{ \'quickOrderList.header\' | cxTranslate }}</h3>      <p>        {{          \'quickOrderList.subHeader\'            | cxTranslate: { limit: quickOrderListLimit }        }}      </p>    </div>    <div class="quick-order-form-body">      <cx-quick-order-form        [isDisabled]="entries.length >= quickOrderListLimit"        [isLoading]="!(isCartStable$ | async)"      ></cx-quick-order-form>    </div>    <div class="quick-order-table-body">      <cx-quick-order-table        [entries]="entries"        [loading]="!(isCartStable$ | async)"      ></cx-quick-order-table>    </div>    <div class="quick-order-footer row">      <div class="col-xs-12 col-md-5 col-lg-4">        <button          *ngIf="entries.length"          (click)="clear()"          [attr.aria-label]="\'quickOrderList.emptyList\' | cxTranslate"          [disabled]="!(isCartStable$ | async)"          class="btn btn-block btn-action clear-button"          type="button"        >          {{ \'quickOrderList.emptyList\' | cxTranslate }}        </button>      </div>      <div class="col-xs-12 col-md-5 col-lg-4">        <cx-progress-button          (clikEvent)="addToCart(entries)"          [ariaLabel]="\'quickOrderList.addToCart\' | cxTranslate"          [class]="\'btn-block add-button\'"          [disabled]="!entries.length"          [loading]="!(isCartStable$ | async)"        >          {{ \'quickOrderList.addToCart\' | cxTranslate }}        </cx-progress-button>      </div>    </div>  </ng-container></ng-container></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartQuickOrderFormComponent', 'selector': 'cx-cart-quick-order-form'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'DpPaymentCallbackComponent', 'selector': 'cx-dp-payment-callback'},{'name': 'DpPaymentFormComponent', 'selector': 'cx-dp-payment-form'},{'name': 'DpPaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PageTitleComponent', 'selector': 'cx-page-title'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'ProgressButtonComponent', 'selector': 'cx-progress-button'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'QuickOrderComponent', 'selector': 'cx-quick-order'},{'name': 'QuickOrderFormComponent', 'selector': 'cx-quick-order-form'},{'name': 'QuickOrderItemComponent', 'selector': 'cx-quick-order-item'},{'name': 'QuickOrderTableComponent', 'selector': 'cx-quick-order-table'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="entries$ | async as entries">  <ng-container *ngIf="!(canAddProduct() | async)">    <ng-container *ngIf="quickOrderForm?.form?.get(\'product\')?.dirty">      <cx-message        [text]="          \'quickOrderList.errors.listIsFull\'            | cxTranslate: { count: entries.length }        "        [isVisibleCloseButton]="false"        [type]="globalMessageType.MSG_TYPE_ERROR"        class="quick-order-list-limit-message"      >      </cx-message>    </ng-container>  </ng-container></ng-container><ng-container *ngIf="addToCartInformation$ | async">  <cx-message    (closeMessage)="clearAddToCartInformation()"    [text]="      \'quickOrderList.informations.addProductBeforeAddingToCart\' | cxTranslate    "    [type]="globalMessageType.MSG_TYPE_ERROR"    class="quick-order-add-to-cart-information-message"  >  </cx-message></ng-container><ng-container *ngIf="nonPurchasableError$ | async as nonPurchasableError">  <cx-message    (closeMessage)="clearNonPurchasableError()"    [text]="      \'quickOrderList.errors.nonPurchasableError\'        | cxTranslate: { name: nonPurchasableError.name }    "    [type]="globalMessageType.MSG_TYPE_ERROR"    class="quick-order-non-purchasable-product-error-message"  >  </cx-message></ng-container><ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">  <cx-message    *ngFor="let deletedEntry of deletedEntries | keyvalue"    (buttonAction)="undoDeletion(deletedEntry.value)"    (closeMessage)="clearDeletion(deletedEntry.value)"    [actionButtonText]="\'quickOrderList.undo\' | cxTranslate"    [text]="      \'quickOrderList.productWasDeleted\'        | cxTranslate: { name: deletedEntry.value.product?.name }    "    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"    class="quick-order-deletions-message"  >  </cx-message></ng-container><ng-container *ngIf="errors$ | async as errors">  <cx-message    *ngIf="errors.length"    (closeMessage)="clearErrors()"    [accordionText]="\'quickOrderList.errors.reviewErrors\' | cxTranslate"    [text]="\'quickOrderList.errorProceedingToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_ERROR"    class="quick-order-errors-message"  >    <ul class="quick-order-errors">      <li *ngFor="let error of errors" class="quick-order-error-item">        <span>          {{            \'quickOrderList.errors.productIsOutOfStock\'              | cxTranslate                : {                    name: error.entry.product.name,                    code: error.entry.product.code                  }          }}        </span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="warnings$ | async as warnings">  <cx-message    *ngIf="warnings.length"    (closeMessage)="clearWarnings()"    [accordionText]="\'quickOrderList.warnings.reviewWarnings\' | cxTranslate"    [text]="\'quickOrderList.warningProceedingToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_WARNING"    class="quick-order-warnings-message"  >    <ul class="quick-order-warnings">      <li *ngFor="let warning of warnings" class="quick-order-warning-item">        <span>          {{            \'quickOrderList.warnings.productWasReduced\'              | cxTranslate                : {                    name: warning.entry.product.name,                    code: warning.entry.product.code,                    quantityAdded: warning.quantityAdded                  }          }}        </span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="successes$ | async as successes">  <cx-message    *ngIf="successes.length"    (closeMessage)="clearSuccesses()"    [text]="\'quickOrderList.successfullyAddedToCart\' | cxTranslate"    [type]="globalMessageType.MSG_TYPE_CONFIRMATION"    class="quick-order-successes-message"  >    <ul class="quick-order-successes">      <li *ngFor="let entry of successes" class="quick-order-success-item">        <span>{{          \'quickOrderList.successes.productAddedToCart\'            | cxTranslate              : {                  name: entry.product.name,                  code: entry.product.code                }        }}</span>      </li>    </ul>  </cx-message></ng-container><ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">  <ng-container *ngIf="entries$ | async as entries">    <div class="quick-order-header">      <h3>{{ \'quickOrderList.header\' | cxTranslate }}</h3>      <p>        {{          \'quickOrderList.subHeader\'            | cxTranslate: { limit: quickOrderListLimit }        }}      </p>    </div>    <div class="quick-order-form-body">      <cx-quick-order-form #quickOrderForm> </cx-quick-order-form>    </div>    <div class="quick-order-table-body">      <cx-quick-order-table        [entries]="entries"        [loading]="!(isCartStable$ | async)"      ></cx-quick-order-table>    </div>    <div class="quick-order-footer row">      <div class="col-xs-12 col-md-5 col-lg-4">        <button          *ngIf="entries.length"          (click)="clear()"          [attr.aria-label]="\'quickOrderList.emptyList\' | cxTranslate"          [disabled]="!(isCartStable$ | async)"          class="btn btn-block btn-action clear-button"          type="button"        >          {{ \'quickOrderList.emptyList\' | cxTranslate }}        </button>      </div>      <div class="col-xs-12 col-md-5 col-lg-4">        <cx-progress-button          (clikEvent)="addToCart(entries)"          [ariaLabel]="\'quickOrderList.addToCart\' | cxTranslate"          [class]="\'btn-block add-button\'"          [loading]="!(isCartStable$ | async)"        >          {{ \'quickOrderList.addToCart\' | cxTranslate }}        </cx-progress-button>      </div>    </div>  </ng-container></ng-container></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartItemValidationWarningComponent', 'selector': 'cx-cart-item-validation-warning'},{'name': 'CartQuickOrderFormComponent', 'selector': 'cx-cart-quick-order-form'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CartValidationWarningsComponent', 'selector': 'cx-cart-validation-warnings'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorExitButtonComponent', 'selector': 'cx-configurator-exit-button'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorTextfieldInputFieldReadonlyComponent', 'selector': 'cx-configurator-textfield-input-field-readonly'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'DpPaymentCallbackComponent', 'selector': 'cx-dp-payment-callback'},{'name': 'DpPaymentFormComponent', 'selector': 'cx-dp-payment-form'},{'name': 'DpPaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'ExportOrderEntriesComponent', 'selector': 'cx-export-order-entries'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FileUploadComponent', 'selector': 'cx-file-upload'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ImportEntriesDialogComponent', 'selector': 'cx-import-entries-dialog'},{'name': 'ImportEntriesFormComponent', 'selector': 'cx-import-entries-form'},{'name': 'ImportEntriesSummaryComponent', 'selector': 'cx-import-entries-summary'},{'name': 'ImportExportOrderEntriesComponent', 'selector': 'cx-import-export-order-entries'},{'name': 'ImportOrderEntriesComponent', 'selector': 'cx-import-order-entries'},{'name': 'ImportToNewSavedCartFormComponent', 'selector': 'cx-import-to-new-saved-cart-form'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PageTitleComponent', 'selector': 'cx-page-title'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomDialogComponent', 'selector': 'cx-product-image-zoom-dialog'},{'name': 'ProductImageZoomProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomThumbnailsComponent', 'selector': 'cx-product-image-zoom-thumbnails'},{'name': 'ProductImageZoomTriggerComponent', 'selector': 'cx-product-image-zoom-trigger'},{'name': 'ProductImageZoomViewComponent', 'selector': 'cx-product-image-zoom-view'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'ProgressButtonComponent', 'selector': 'cx-progress-button'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'QuickOrderComponent', 'selector': 'cx-quick-order'},{'name': 'QuickOrderFormComponent', 'selector': 'cx-quick-order-form'},{'name': 'QuickOrderItemComponent', 'selector': 'cx-quick-order-item'},{'name': 'QuickOrderTableComponent', 'selector': 'cx-quick-order-table'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AbstractStoreItemComponent', 'selector': ''},{'name': 'AddToHomeScreenComponent', 'selector': ''},{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': ''},{'name': 'BaseFocusDirective', 'selector': ''},{'name': 'BaseMessageComponent', 'selector': ''},{'name': 'BlockFocusDirective', 'selector': ''},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'ConfiguratorAttributeMultiSelectionBaseComponent', 'selector': ''},{'name': 'ConfiguratorAttributeSingleSelectionBaseComponent', 'selector': ''},{'name': 'EscapeFocusDirective', 'selector': ''},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'InnerComponentsHostDirective', 'selector': '[cxInnerComponentsHost]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'LockFocusDirective', 'selector': ''},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'PersistFocusDirective', 'selector': ''},{'name': 'PopoverDirective', 'selector': '[cxPopover]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'},{'name': 'TabFocusDirective', 'selector': ''},{'name': 'TrapFocusDirective', 'selector': ''},{'name': 'VisibleFocusDirective', 'selector': ''}];
     var ACTUAL_COMPONENT = {'name': 'QuickOrderComponent'};
 </script>

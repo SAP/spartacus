@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/state/config/state-config.ts</code>
+            <code>projects/core/src/cart/config/cart-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/StateConfig.html" target="_self" >StateConfig</a></code>
+                        <code><a href="../injectables/CartConfig.html" target="_self" >CartConfig</a></code>
             </p>
 
 
@@ -86,35 +86,23 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
 
-export enum StorageSyncType {
-  NO_STORAGE &#x3D; &#x27;NO_STORAGE&#x27;,
-  LOCAL_STORAGE &#x3D; &#x27;LOCAL_STORAGE&#x27;,
-  SESSION_STORAGE &#x3D; &#x27;SESSION_STORAGE&#x27;,
-}
-
-export enum StateTransferType {
-  TRANSFER_STATE &#x3D; &#x27;SSR&#x27;,
-}
-
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class StateConfig {
-  state?: {
-    ssrTransfer?: {
-      keys?: {
-        /**
-         * A set of state keys that should be transferred from server.
-         */
-        [key: string]: StateTransferType;
-      };
+export abstract class CartConfig {
+  cart?: {
+    selectiveCart?: {
+      enabled?: boolean;
+    };
+    validation?: {
+      enabled?: boolean;
     };
   };
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends StateConfig {}
+  interface Config extends CartConfig {}
 }
 </code></pre>
     </div>

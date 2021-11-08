@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >OccUserReplenishmentOrderAdapter</li>
+  <li 
+        class="deprecated-name"
+    >OccUserReplenishmentOrderAdapter</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,6 +62,12 @@
             <code>projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use OccReplenishmentOrderAdapter in 
+            </p>
 
 
 
@@ -116,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -205,8 +213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:68</a></div>
                 </td>
             </tr>
 
@@ -287,8 +295,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -369,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:85</a></div>
                 </td>
             </tr>
 
@@ -475,8 +483,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-replenishment-order.adapter.ts:39</a></div>
                 </td>
             </tr>
 
@@ -577,22 +585,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ReplenishmentOrderList } from &#x27;../../../model/replenishment-order.model&#x27;;
-import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from &#x27;../../../user/connectors/replenishment-order/converters&#x27;;
-import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { REPLENISHMENT_ORDER_NORMALIZER } from &#x27;../../../checkout/connectors/replenishment-order/converters&#x27;;
 import { OrderHistoryList, ReplenishmentOrder } from &#x27;../../../model/index&#x27;;
+import { ReplenishmentOrderList } from &#x27;../../../model/replenishment-order.model&#x27;;
 import { ORDER_HISTORY_NORMALIZER } from &#x27;../../../user/connectors/order/converters&#x27;;
+import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from &#x27;../../../user/connectors/replenishment-order/converters&#x27;;
 import { UserReplenishmentOrderAdapter } from &#x27;../../../user/connectors/replenishment-order/user-replenishment-order.adapter&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
 
+/**
+ * @deprecated since 4.2 - use OccReplenishmentOrderAdapter in @spartacus/order/occ instead
+ */
 @Injectable()
 export class OccUserReplenishmentOrderAdapter
-  implements UserReplenishmentOrderAdapter {
+  implements UserReplenishmentOrderAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/storefinder/core/config/store-finder-config.ts</code>
+            <code>feature-libs/smartedit/root/config/smart-edit-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/StoreFinderConfig.html" target="_self" >StoreFinderConfig</a></code>
+                        <code><a href="../injectables/SmartEditConfig.html" target="_self" >SmartEditConfig</a></code>
             </p>
 
 
@@ -90,18 +90,15 @@ import { Config } from &#x27;@spartacus/core&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class StoreFinderConfig {
-  googleMaps?: {
-    apiUrl?: string;
-    apiKey?: string;
-    scale?: number;
-    selectedMarkerScale?: number;
-    radius?: number;
+export abstract class SmartEditConfig {
+  smartEdit?: {
+    storefrontPreviewRoute?: string;
+    allowOrigin?: string;
   };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends StoreFinderConfig {}
+  interface Config extends SmartEditConfig {}
 }
 </code></pre>
     </div>

@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/my-interests/my-interests.component.ts</code>
+            <code>projects/storefrontlib/cms-components/myaccount/my-interests/my-interests.component.ts</code>
         </p>
 
 
@@ -235,7 +235,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         }))
       );
 
-    this.getInterestsloading$ &#x3D; this.productInterestService.getProdutInterestsLoading();
+    this.getInterestsloading$ &#x3D;
+      this.productInterestService.getProdutInterestsLoading();
     this.isRemoveDisabled$ &#x3D; combineLatest([
       this.getInterestsloading$,
       this.productInterestService.getRemoveProdutInterestLoading(),

@@ -199,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/core/src/cms/store/effects/components.effect.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/core/src/cms/store/effects/components.effect.ts:58</a></div>
                 </td>
             </tr>
 
@@ -317,26 +317,29 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>createEffect(
-    () &#x3D;&gt; ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
-      | CmsActions.LoadCmsComponentSuccess&lt;CmsComponent&gt;
-      | CmsActions.LoadCmsComponentFail
-    &gt; &#x3D;&gt;
-      this.actions$.pipe(
-        ofType&lt;CmsActions.LoadCmsComponent&gt;(CmsActions.LOAD_CMS_COMPONENT),
-        groupBy((actions) &#x3D;&gt; serializePageContext(actions.payload.pageContext)),
-        mergeMap((actionGroup) &#x3D;&gt;
-          actionGroup.pipe(
-            bufferDebounceTime(debounce, scheduler),
-            mergeMap((actions) &#x3D;&gt;
-              this.loadComponentsEffect(
-                actions.map((action) &#x3D;&gt; action.payload.uid),
-                actions[0].payload.pageContext
+    () &#x3D;&gt;
+      ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
+        | CmsActions.LoadCmsComponentSuccess&lt;CmsComponent&gt;
+        | CmsActions.LoadCmsComponentFail
+      &gt; &#x3D;&gt;
+        this.actions$.pipe(
+          ofType&lt;CmsActions.LoadCmsComponent&gt;(CmsActions.LOAD_CMS_COMPONENT),
+          groupBy((actions) &#x3D;&gt;
+            serializePageContext(actions.payload.pageContext)
+          ),
+          mergeMap((actionGroup) &#x3D;&gt;
+            actionGroup.pipe(
+              bufferDebounceTime(debounce, scheduler),
+              mergeMap((actions) &#x3D;&gt;
+                this.loadComponentsEffect(
+                  actions.map((action) &#x3D;&gt; action.payload.uid),
+                  actions[0].payload.pageContext
+                )
               )
             )
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   )</code>
                     </td>
                 </tr>
@@ -387,26 +390,29 @@ export class ComponentsEffects {
   );
 
   loadComponent$ &#x3D; createEffect(
-    () &#x3D;&gt; ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
-      | CmsActions.LoadCmsComponentSuccess&lt;CmsComponent&gt;
-      | CmsActions.LoadCmsComponentFail
-    &gt; &#x3D;&gt;
-      this.actions$.pipe(
-        ofType&lt;CmsActions.LoadCmsComponent&gt;(CmsActions.LOAD_CMS_COMPONENT),
-        groupBy((actions) &#x3D;&gt; serializePageContext(actions.payload.pageContext)),
-        mergeMap((actionGroup) &#x3D;&gt;
-          actionGroup.pipe(
-            bufferDebounceTime(debounce, scheduler),
-            mergeMap((actions) &#x3D;&gt;
-              this.loadComponentsEffect(
-                actions.map((action) &#x3D;&gt; action.payload.uid),
-                actions[0].payload.pageContext
+    () &#x3D;&gt;
+      ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
+        | CmsActions.LoadCmsComponentSuccess&lt;CmsComponent&gt;
+        | CmsActions.LoadCmsComponentFail
+      &gt; &#x3D;&gt;
+        this.actions$.pipe(
+          ofType&lt;CmsActions.LoadCmsComponent&gt;(CmsActions.LOAD_CMS_COMPONENT),
+          groupBy((actions) &#x3D;&gt;
+            serializePageContext(actions.payload.pageContext)
+          ),
+          mergeMap((actionGroup) &#x3D;&gt;
+            actionGroup.pipe(
+              bufferDebounceTime(debounce, scheduler),
+              mergeMap((actions) &#x3D;&gt;
+                this.loadComponentsEffect(
+                  actions.map((action) &#x3D;&gt; action.payload.uid),
+                  actions[0].payload.pageContext
+                )
               )
             )
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   );
 
   private loadComponentsEffect(

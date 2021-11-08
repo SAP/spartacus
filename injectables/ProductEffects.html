@@ -122,7 +122,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:72</a></div>
                             </td>
                         </tr>
 
@@ -199,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:49</a></div>
                 </td>
             </tr>
 
@@ -304,27 +304,28 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>createEffect(
-    () &#x3D;&gt; ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
-      ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
-    &gt; &#x3D;&gt;
-      this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT),
-        map((action: ProductActions.LoadProduct) &#x3D;&gt; ({
-          code: action.payload,
-          scope: action.meta.scope,
-        })),
-        // we are grouping all load actions that happens at the same time
-        // to optimize loading and pass them all to productConnector.getMany
-        bufferDebounceTime(debounce, scheduler),
-        mergeMap((products) &#x3D;&gt;
-          merge(
-            ...this.productConnector
-              .getMany(products)
-              .map(this.productLoadEffect)
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+    () &#x3D;&gt;
+      ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
+        ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
+      &gt; &#x3D;&gt;
+        this.actions$.pipe(
+          ofType(ProductActions.LOAD_PRODUCT),
+          map((action: ProductActions.LoadProduct) &#x3D;&gt; ({
+            code: action.payload,
+            scope: action.meta.scope,
+          })),
+          // we are grouping all load actions that happens at the same time
+          // to optimize loading and pass them all to productConnector.getMany
+          bufferDebounceTime(debounce, scheduler),
+          mergeMap((products) &#x3D;&gt;
+            merge(
+              ...this.productConnector
+                .getMany(products)
+                .map(this.productLoadEffect)
+            )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   )</code>
                     </td>
                 </tr>
@@ -367,27 +368,28 @@ export class ProductEffects {
   );
 
   loadProduct$ &#x3D; createEffect(
-    () &#x3D;&gt; ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
-      ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
-    &gt; &#x3D;&gt;
-      this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT),
-        map((action: ProductActions.LoadProduct) &#x3D;&gt; ({
-          code: action.payload,
-          scope: action.meta.scope,
-        })),
-        // we are grouping all load actions that happens at the same time
-        // to optimize loading and pass them all to productConnector.getMany
-        bufferDebounceTime(debounce, scheduler),
-        mergeMap((products) &#x3D;&gt;
-          merge(
-            ...this.productConnector
-              .getMany(products)
-              .map(this.productLoadEffect)
-          )
-        ),
-        withdrawOn(this.contextChange$)
-      )
+    () &#x3D;&gt;
+      ({ scheduler, debounce &#x3D; 0 } &#x3D; {}): Observable&lt;
+        ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
+      &gt; &#x3D;&gt;
+        this.actions$.pipe(
+          ofType(ProductActions.LOAD_PRODUCT),
+          map((action: ProductActions.LoadProduct) &#x3D;&gt; ({
+            code: action.payload,
+            scope: action.meta.scope,
+          })),
+          // we are grouping all load actions that happens at the same time
+          // to optimize loading and pass them all to productConnector.getMany
+          bufferDebounceTime(debounce, scheduler),
+          mergeMap((products) &#x3D;&gt;
+            merge(
+              ...this.productConnector
+                .getMany(products)
+                .map(this.productLoadEffect)
+            )
+          ),
+          withdrawOn(this.contextChange$)
+        )
   );
 
   private productLoadEffect(

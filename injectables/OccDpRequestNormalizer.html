@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">integration-libs/digital-payments/src/checkout/adapters/occ-digital-payment-request.normalizer.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">integration-libs/digital-payments/src/checkout/adapters/occ-digital-payment-request.normalizer.ts:12</a></div>
                 </td>
             </tr>
 
@@ -193,7 +193,8 @@ import { OccDpPaymentRequest } from &#x27;./occ.models&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class OccDpRequestNormalizer
-  implements Converter&lt;OccDpPaymentRequest, DpPaymentRequest&gt; {
+  implements Converter&lt;OccDpPaymentRequest, DpPaymentRequest&gt;
+{
   convert(
     source: OccDpPaymentRequest,
     target: DpPaymentRequest

@@ -307,9 +307,10 @@ export class CheckoutGuard implements CanActivate {
     ) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) &#x3D;&gt; {
-          const reviewOrderRoute &#x3D; this.checkoutStepService.getCheckoutStepRoute(
-            CheckoutStepType.REVIEW_ORDER
-          );
+          const reviewOrderRoute &#x3D;
+            this.checkoutStepService.getCheckoutStepRoute(
+              CheckoutStepType.REVIEW_ORDER
+            );
           return expressCheckoutPossible &amp;&amp; reviewOrderRoute
             ? of(
                 this.router.parseUrl(

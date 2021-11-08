@@ -253,8 +253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:178</a></div>
                 </td>
             </tr>
 
@@ -405,8 +405,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -623,8 +623,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:170</a></div>
                 </td>
             </tr>
 
@@ -705,8 +705,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -775,8 +775,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -843,8 +843,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:104</a></div>
                 </td>
             </tr>
 
@@ -923,8 +923,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/merchandising-carousel.component.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -1090,12 +1090,10 @@ export class MerchandisingCarouselComponentService {
           strategyProducts,
           componentData
         );
-        const items$ &#x3D; this.mapStrategyProductsToCarouselItems(
-          strategyProducts
-        );
-        const productIds &#x3D; this.mapStrategyProductsToProductIds(
-          strategyProducts
-        );
+        const items$ &#x3D;
+          this.mapStrategyProductsToCarouselItems(strategyProducts);
+        const productIds &#x3D;
+          this.mapStrategyProductsToProductIds(strategyProducts);
         const id &#x3D; this.getMerchandisingCarouselModelId(
           componentData,
           productIds
@@ -1121,9 +1119,8 @@ export class MerchandisingCarouselComponentService {
     return merchandisingCarouselModel$.pipe(
       filter((model) &#x3D;&gt; model.id !&#x3D;&#x3D; lastSendModelId),
       tap((merchandisingCarouselModel) &#x3D;&gt; {
-        const carouselEvent: CarouselEvent &#x3D; this.getCarouselEventFromCarouselModel(
-          merchandisingCarouselModel
-        );
+        const carouselEvent: CarouselEvent &#x3D;
+          this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
         this.profileTagEventService.notifyProfileTagOfEventOccurence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,

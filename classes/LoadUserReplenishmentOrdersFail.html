@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/actions/user-replenishment-orders.action.ts</code>
+            <code>feature-libs/order/core/store/actions/replenishment-orders.action.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/user/store/actions/user-replenishment-orders.action.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-orders.action.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/user/store/actions/user-replenishment-orders.action.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-orders.action.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/user/store/actions/user-replenishment-orders.action.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-orders.action.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -221,18 +221,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ReplenishmentOrderList } from &#x27;../../../model/replenishment-order.model&#x27;;
-import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { USER_REPLENISHMENT_ORDERS } from &#x27;../user-state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ReplenishmentOrderList, StateUtils } from &#x27;@spartacus/core&#x27;;
+import { REPLENISHMENT_ORDERS } from &#x27;../order-state&#x27;;
 
 export const LOAD_USER_REPLENISHMENT_ORDERS &#x3D;
-  &#x27;[User] Load User Replenishment Orders&#x27;;
+  &#x27;[Order] Load User Replenishment Orders&#x27;;
 export const LOAD_USER_REPLENISHMENT_ORDERS_FAIL &#x3D;
-  &#x27;[User] Load User Replenishment Orders Fail&#x27;;
+  &#x27;[Order] Load User Replenishment Orders Fail&#x27;;
 export const LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS &#x3D;
-  &#x27;[User] Load User Replenishment Orders Success&#x27;;
+  &#x27;[Order] Load User Replenishment Orders Success&#x27;;
 export const CLEAR_USER_REPLENISHMENT_ORDERS &#x3D;
-  &#x27;[User] Clear User Replenishment Orders&#x27;;
+  &#x27;[Order] Clear User Replenishment Orders&#x27;;
 
 export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_USER_REPLENISHMENT_ORDERS;
@@ -244,28 +243,28 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
       sort?: string;
     }
   ) {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 
 export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
   constructor(public payload: any) {
-    super(USER_REPLENISHMENT_ORDERS, payload);
+    super(REPLENISHMENT_ORDERS, payload);
   }
 }
 
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
   constructor(public payload: ReplenishmentOrderList) {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 
 export class ClearUserReplenishmentOrders extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CLEAR_USER_REPLENISHMENT_ORDERS;
   constructor() {
-    super(USER_REPLENISHMENT_ORDERS);
+    super(REPLENISHMENT_ORDERS);
   }
 }
 

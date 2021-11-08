@@ -126,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/util/command-query/query.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/util/command-query/query.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -194,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/util/command-query/query.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/util/command-query/query.service.ts:35</a></div>
                 </td>
             </tr>
 
@@ -263,7 +263,6 @@ import {
 import {
   catchError,
   distinctUntilChanged,
-  filter,
   pluck,
   share,
   switchMapTo,
@@ -273,7 +272,7 @@ import {
 import { EventService } from &#x27;../../event/event.service&#x27;;
 import { CxEvent } from &#x27;../../event/cx-event&#x27;;
 
-export type QueryNotifier &#x3D; Observable&lt;any&gt; | Type&lt;CxEvent&gt;;
+export type QueryNotifier &#x3D; Observable&lt;unknown&gt; | Type&lt;CxEvent&gt;;
 
 export interface QueryState&lt;T&gt; {
   loading: boolean;
@@ -281,7 +280,7 @@ export interface QueryState&lt;T&gt; {
   data: T | undefined;
 }
 
-export interface Query&lt;T, P extends any[] &#x3D; []&gt; {
+export interface Query&lt;T, P extends unknown[] &#x3D; []&gt; {
   get(...params: P): Observable&lt;T | undefined&gt;;
   getState(...params: P): Observable&lt;QueryState&lt;T&gt;&gt;;
 }
@@ -301,43 +300,54 @@ export class QueryService implements OnDestroy {
       resetOn?: QueryNotifier[];
     }
   ): Query&lt;T&gt; {
-    const state$ &#x3D; new BehaviorSubject&lt;QueryState&lt;T&gt;&gt;({
+    const initialState: QueryState&lt;T&gt; &#x3D; {
       data: undefined,
       error: false,
-      loading: false,
-    });
+      loading: true,
+    };
 
-    // if query will be unsubscribed when data is loaded, we will end up with loading flag set to true
+    const state$ &#x3D; new BehaviorSubject&lt;QueryState&lt;T&gt;&gt;(initialState);
+
+    // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
-    const retryInterruptedLoad$ &#x3D; iif(
-      () &#x3D;&gt; state$.value.loading,
-      of(undefined)
-    );
+    const onSubscribeLoad$ &#x3D; iif(() &#x3D;&gt; state$.value.loading, of(undefined));
 
     const loadTrigger$ &#x3D; this.getTriggersStream([
-      state$.pipe(
-        filter(
-          ({ data, loading, error }) &#x3D;&gt; data &#x3D;&#x3D;&#x3D; undefined &amp;&amp; !loading &amp;&amp; !error
-        )
-      ),
+      onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
       ...(options?.reloadOn ?? []),
-      retryInterruptedLoad$,
+      ...(options?.resetOn ?? []),
     ]);
 
     const resetTrigger$ &#x3D; this.getTriggersStream(options?.resetOn ?? []);
+    const reloadTrigger$ &#x3D; this.getTriggersStream(options?.reloadOn ?? []);
 
     const load$ &#x3D; loadTrigger$.pipe(
-      tap(() &#x3D;&gt; state$.next({ ...state$.value, loading: true })),
+      tap(() &#x3D;&gt; {
+        if (!state$.value.loading) {
+          state$.next({ ...state$.value, loading: true });
+        }
+      }),
       switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) &#x3D;&gt; {
         state$.next({ loading: false, error: false, data });
       }),
-      catchError((error) &#x3D;&gt; {
+      catchError((error, retryStream$) &#x3D;&gt; {
         state$.next({ loading: false, error, data: undefined });
-        return EMPTY;
+        return retryStream$;
       }),
       share()
     );
+
+    // reload logic
+    if (options?.reloadOn?.length) {
+      this.subscriptions.add(
+        reloadTrigger$.subscribe(() &#x3D;&gt; {
+          if (!state$.value.loading) {
+            state$.next({ ...state$.value, loading: true });
+          }
+        })
+      );
+    }
 
     // reset logic
     if (options?.resetOn?.length) {
@@ -348,11 +358,7 @@ export class QueryService implements OnDestroy {
             state$.value.error !&#x3D;&#x3D; false ||
             state$.value.loading !&#x3D;&#x3D; false
           ) {
-            state$.next({
-              data: undefined,
-              error: false,
-              loading: false,
-            });
+            state$.next(initialState);
           }
         })
       );
@@ -368,7 +374,7 @@ export class QueryService implements OnDestroy {
     return { get: () &#x3D;&gt; data$, getState: () &#x3D;&gt; query$ };
   }
 
-  protected getTriggersStream(triggers: QueryNotifier[]): Observable&lt;any&gt; {
+  protected getTriggersStream(triggers: QueryNotifier[]): Observable&lt;unknown&gt; {
     if (!triggers.length) {
       return EMPTY;
     }

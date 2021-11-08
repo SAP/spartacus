@@ -276,7 +276,7 @@
 import { login, register } from &#x27;./auth-forms&#x27;;
 import * as checkoutAsPersistentUser from &#x27;./checkout-as-persistent-user&#x27;;
 import * as checkout from &#x27;./checkout-flow&#x27;;
-import { waitForPage } from &#x27;./checkout-flow&#x27;;
+import { waitForPage, waitForProductPage } from &#x27;./checkout-flow&#x27;;
 import {
   AddressData,
   fillPaymentDetails,
@@ -329,18 +329,20 @@ function loginWishListUser() {
 }
 
 export function waitForGetWishList() {
-  cy.server();
-
-  cy.route(
-    &#x27;GET&#x27;,
-    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+  cy.intercept({
+    method: &#x27;GET&#x27;,
+    pathname: &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
-    )}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
-  ).as(&#x27;get_wish_list&#x27;);
+    )}/users/*/carts/*&#x60;,
+    query: {
+      lang: &#x27;en&#x27;,
+      curr: &#x27;USD&#x27;,
+    },
+  }).as(&#x27;get_wish_list&#x27;);
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
+  const productPage &#x3D; waitForProductPage(product.code, &#x27;productPage&#x27;);
 
   cy.visit(&#x60;/product/${product.code}&#x60;);
 
@@ -368,7 +370,7 @@ export function addToWishListFromPage() {
 }
 
 export function addToWishList(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
+  const productPage &#x3D; waitForProductPage(product.code, &#x27;productPage&#x27;);
 
   cy.visit(&#x60;/product/${product.code}&#x60;);
 
@@ -462,7 +464,7 @@ export function checkWishListPersisted(product: TestProduct) {
 }
 
 export function goToProductPage(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
+  const productPage &#x3D; waitForProductPage(product.code, &#x27;productPage&#x27;);
   getWishListItem(product.name).within(() &#x3D;&gt; {
     cy.get(&#x27;.cx-name&gt;.cx-link&#x27;).click({ force: true });
   });
@@ -503,7 +505,9 @@ function proceedToCheckout() {
     &#x27;getShippingAddressPage&#x27;
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(&#x60;@${shippingAddressPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${shippingAddressPage}&#x60;)
+    .its(&#x27;response.statusCode&#x27;)
+    .should(&#x27;eq&#x27;, 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData &#x3D; user) {
@@ -513,7 +517,7 @@ function fillAddressForm(shippingAddressData: AddressData &#x3D; user) {
     &#x27;getDeliveryPage&#x27;
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(&#x60;@${deliveryPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${deliveryPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function fillPaymentForm(
@@ -523,7 +527,7 @@ function fillPaymentForm(
   cy.get(&#x27;.cx-checkout-title&#x27;).should(&#x27;contain&#x27;, &#x27;Payment&#x27;);
   const reviewPage &#x3D; waitForPage(&#x27;/checkout/review-order&#x27;, &#x27;getReviewPage&#x27;);
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(&#x60;@${reviewPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${reviewPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -546,7 +550,9 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     &#x27;getOrderConfirmationPage&#x27;
   );
   cy.get(&#x27;cx-place-order button.btn-primary&#x27;).click();
-  cy.wait(&#x60;@${orderConfirmationPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${orderConfirmationPage}&#x60;)
+    .its(&#x27;response.statusCode&#x27;)
+    .should(&#x27;eq&#x27;, 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {

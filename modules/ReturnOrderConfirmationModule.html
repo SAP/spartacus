@@ -56,6 +56,10 @@
 <title>cluster_ReturnOrderConfirmationModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 755,-230.8 755,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_ReturnOrderConfirmationModule_exports</title>
+<polygon fill="none" stroke="black" points="180,-170.8 180,-222.8 428,-222.8 428,-170.8 180,-170.8"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_ReturnOrderConfirmationModule_declarations</title>
 <polygon fill="none" stroke="black" points="503,-40.8 503,-92.8 747,-92.8 747,-40.8 503,-40.8"/>
@@ -63,10 +67,6 @@
 <g id="clust4" class="cluster">
 <title>cluster_ReturnOrderConfirmationModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 495,-92.8 495,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_ReturnOrderConfirmationModule_exports</title>
-<polygon fill="none" stroke="black" points="180,-170.8 180,-222.8 428,-222.8 428,-170.8 180,-170.8"/>
 </g>
 <!-- ReturnOrderConfirmationComponent -->
 <g id="node1" class="node">
@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/amend-order/returns/return-order-confirmation/return-order-confirmation.module.ts</code>
+            <code>feature-libs/order/components/amend-order/returns/return-order-confirmation/return-order-confirmation.module.ts</code>
         </p>
 
 
@@ -217,15 +217,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
-import { RouterModule } from &#x27;@angular/router&#x27;;
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
 } from &#x27;@spartacus/core&#x27;;
-import { CmsPageGuard } from &#x27;../../../../../../cms-structure/guards/cms-page.guard&#x27;;
-import { PageLayoutComponent } from &#x27;../../../../../../cms-structure/page/page-layout/page-layout.component&#x27;;
 import { AmendOrderActionsModule } from &#x27;../../amend-order-actions/amend-order-actions.module&#x27;;
 import { AmendOrderItemsModule } from &#x27;../../amend-order-items/amend-order-items.module&#x27;;
 import { OrderAmendService } from &#x27;../../amend-order.service&#x27;;
@@ -236,16 +233,6 @@ import { ReturnOrderConfirmationComponent } from &#x27;./return-order-confirmati
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxRoute: &#x27;orderReturnConfirmation&#x27;,
-        },
-      },
-    ]),
     AmendOrderItemsModule,
     I18nModule,
     ReactiveFormsModule,

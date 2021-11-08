@@ -142,7 +142,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cart/event/cart.events.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/event/cart.events.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -181,7 +181,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CxEvent.html#source" target="_self" >CxEvent:49</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CxEvent.html#source" target="_self" >CxEvent:50</a></code>
 </div>
                         </td>
                     </tr>
@@ -348,6 +348,7 @@ export class CartAddEntryFailEvent extends CartEvent {
   static readonly type &#x3D; &#x27;CartAddEntryFailEvent&#x27;;
   productCode: string;
   quantity: number;
+  error?: unknown;
 }
 
 export class CartRemoveEntryFailEvent extends CartEvent {

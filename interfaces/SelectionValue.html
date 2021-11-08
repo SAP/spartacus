@@ -294,7 +294,8 @@ interface SelectionValue {
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   preventAction$ &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
   multipleSelectionValues: SelectionValue[] &#x3D; [];
 
@@ -311,7 +312,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
 
     if (
-      this.attribute?.required &amp;&amp;
+      this.attribute.required &amp;&amp;
       this.multipleSelectionValues.filter((value) &#x3D;&gt; value.selected).length &lt; 2
     ) {
       this.preventAction$.next(true);
@@ -362,11 +363,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: string;
     quantity: number;
   }): ConfigFormUpdateEvent | undefined {
-    const value:
-      | Configurator.Value
-      | undefined &#x3D; this.multipleSelectionValues.find(
-      (selectionValue) &#x3D;&gt; selectionValue?.valueCode &#x3D;&#x3D;&#x3D; eventValue.valueCode
-    );
+    const value: Configurator.Value | undefined &#x3D;
+      this.multipleSelectionValues.find(
+        (selectionValue) &#x3D;&gt; selectionValue.valueCode &#x3D;&#x3D;&#x3D; eventValue.valueCode
+      );
 
     if (!value) return;
 

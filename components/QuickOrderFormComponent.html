@@ -132,12 +132,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_disabled" >_disabled</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_loading" >_loading</a>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#config" >config</a>
                             </li>
                             <li>
                                 <a href="#form" >form</a>
@@ -147,6 +144,16 @@
                             </li>
                             <li>
                                 <a href="#isSearching" >isSearching</a>
+                            </li>
+                            <li>
+                                <a href="#noResults" >noResults</a>
+                            </li>
+                            <li>
+                                <a href="#results" >results</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#searchSubscription" >searchSubscription</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -165,11 +172,61 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#add" >add</a>
+                            </li>
+                            <li>
+                                <a href="#addProduct" >addProduct</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#blurSuggestionBox" >blurSuggestionBox</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#buildForm" >buildForm</a>
                             </li>
                             <li>
+                                <a href="#canAddProduct" >canAddProduct</a>
+                            </li>
+                            <li>
                                 <a href="#clear" >clear</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#clearResults" >clearResults</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#focusNextChild" >focusNextChild</a>
+                            </li>
+                            <li>
+                                <a href="#focusPreviousChild" >focusPreviousChild</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getFocusedElement" >getFocusedElement</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getFocusedIndex" >getFocusedIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getResultElements" >getResultElements</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isEmpty" >isEmpty</a>
+                            </li>
+                            <li>
+                                <a href="#isResultsBoxOpen" >isResultsBoxOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isSuggestionFocused" >isSuggestionFocused</a>
                             </li>
                             <li>
                                 <a href="#ngOnDestroy" >ngOnDestroy</a>
@@ -178,37 +235,30 @@
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#search" >search</a>
+                                <a href="#onBlur" >onBlur</a>
+                            </li>
+                            <li>
+                                <a href="#open" >open</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#searchProduct" >searchProduct</a>
+                                <a href="#resetSearchSubscription" >resetSearchSubscription</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#validateProductControl" >validateProductControl</a>
+                                <a href="#searchProducts" >searchProducts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#toggleBodyClass" >toggleBodyClass</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#watchProductAdd" >watchProductAdd</a>
                             </li>
-                        </ul>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Inputs</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
                             <li>
-                                <a href="#isDisabled" >isDisabled</a>
-                            </li>
-                            <li>
-                                <a href="#isLoading" >isLoading</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#watchQueryChange" >watchQueryChange</a>
                             </li>
                         </ul>
                     </td>
@@ -217,23 +267,7 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#isDisabled" >isDisabled</a>
-                                </li>
-                                <li>
-                                    <a href="#isLoading" >isLoading</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
+
         </tbody>
     </table>
 </section>
@@ -244,12 +278,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, quickOrderService: <a href="../injectables/QuickOrderFacade.html" target="_self">QuickOrderFacade</a>)</code>
+<code>constructor(globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, quickOrderService: <a href="../injectables/QuickOrderFacade.html" target="_self">QuickOrderFacade</a>, config?: <a href="../injectables/Config.html" target="_self">Config</a>, cd?: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, winRef?: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -290,6 +324,42 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cd</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>winRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -299,51 +369,7 @@
         </table>
 </section>
 
-    <section>
-    <h3 id="inputs">Inputs</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isDisabled"></a>
-                        <b>isDisabled</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:34</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isLoading"></a>
-                        <b>isLoading</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:43</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
 
 
 
@@ -352,6 +378,224 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="add"></a>
+                    <span class="name">
+                        <span ><b>add</b></span>
+                        <a href="#add"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>add(product: <a href="../interfaces/Product.html" target="_self">Product</a>, event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:92</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>product</td>
+                                    <td>
+                                                <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addProduct"></a>
+                    <span class="name">
+                        <span ><b>addProduct</b></span>
+                        <a href="#addProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addProduct(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="blurSuggestionBox"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>blurSuggestionBox</b></span>
+                        <a href="#blurSuggestionBox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>blurSuggestionBox(event: UIEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:196</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>UIEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -374,8 +618,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:232</a></div>
                 </td>
             </tr>
 
@@ -385,6 +629,43 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canAddProduct"></a>
+                    <span class="name">
+                        <span ><b>canAddProduct</b></span>
+                        <a href="#canAddProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>canAddProduct()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:175</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
                     </div>
                 </td>
@@ -411,8 +692,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:74</a></div>
                 </td>
             </tr>
 
@@ -463,6 +744,483 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="clearResults"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>clearResults</b></span>
+                        <a href="#clearResults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearResults()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:300</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="304"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:304</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusNextChild"></a>
+                    <span class="name">
+                        <span ><b>focusNextChild</b></span>
+                        <a href="#focusNextChild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusNextChild(event: UIEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:127</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>UIEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusPreviousChild"></a>
+                    <span class="name">
+                        <span ><b>focusPreviousChild</b></span>
+                        <a href="#focusPreviousChild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusPreviousChild(event: UIEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>UIEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFocusedElement"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getFocusedElement</b></span>
+                        <a href="#getFocusedElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFocusedElement()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:205</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>HTMLElement | any</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFocusedIndex"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getFocusedIndex</b></span>
+                        <a href="#getFocusedIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFocusedIndex()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getResultElements"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getResultElements</b></span>
+                        <a href="#getResultElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getResultElements()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:184</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>HTMLElement[]</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEmpty"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>isEmpty</b></span>
+                        <a href="#isEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isEmpty(string?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="239"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:239</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>string</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isResultsBoxOpen"></a>
+                    <span class="name">
+                        <span ><b>isResultsBoxOpen</b></span>
+                        <a href="#isResultsBoxOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isResultsBoxOpen()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:169</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSuggestionFocused"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>isSuggestionFocused</b></span>
+                        <a href="#isSuggestionFocused"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isSuggestionFocused()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:215</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
                         <span ><b>ngOnDestroy</b></span>
@@ -479,8 +1237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:321</a></div>
                 </td>
             </tr>
 
@@ -516,8 +1274,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:59</a></div>
                 </td>
             </tr>
 
@@ -537,24 +1295,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="search"></a>
+                    <a name="onBlur"></a>
                     <span class="name">
-                        <span ><b>search</b></span>
-                        <a href="#search"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onBlur</b></span>
+                        <a href="#onBlur"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+<code>onBlur(event: UIEvent)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:65</a></div>
                 </td>
             </tr>
 
@@ -576,11 +1334,11 @@
                                 <tr>
                                     <td>event</td>
                                     <td>
-                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            <code>UIEvent</code>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -605,26 +1363,102 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="searchProduct"></a>
+                    <a name="open"></a>
+                    <span class="name">
+                        <span ><b>open</b></span>
+                        <a href="#open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>open()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetSearchSubscription"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>searchProduct</b></span>
-                        <a href="#searchProduct"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>resetSearchSubscription</b></span>
+                        <a href="#resetSearchSubscription"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>searchProduct(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>resetSearchSubscription()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:310</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchProducts"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>searchProducts</b></span>
+                        <a href="#searchProducts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>searchProducts(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:271</a></div>
                 </td>
             </tr>
 
@@ -644,7 +1478,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>productCode</td>
+                                    <td>query</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -661,7 +1495,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Subscription</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -675,26 +1509,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="validateProductControl"></a>
+                    <a name="toggleBodyClass"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>validateProductControl</b></span>
-                        <a href="#validateProductControl"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>toggleBodyClass</b></span>
+                        <a href="#toggleBodyClass"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>validateProductControl(isDisabled: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>toggleBodyClass(className: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, add?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:219</a></div>
                 </td>
             </tr>
 
@@ -714,13 +1548,25 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>isDisabled</td>
+                                    <td>className</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>add</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -763,8 +1609,47 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:315</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subscription</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="watchQueryChange"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>watchQueryChange</b></span>
+                        <a href="#watchQueryChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>watchQueryChange()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:243</a></div>
                 </td>
             </tr>
 
@@ -790,60 +1675,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="_disabled"></a>
+                    <a name="config"></a>
                     <span class="name">
-                            <span class="modifier">Protected</span>
-                        <span ><b>_disabled</b></span>
-                        <a href="#_disabled"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>config</b></span>
+                        <a href="#config"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:49</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_loading"></a>
-                    <span class="name">
-                            <span class="modifier">Protected</span>
-                        <span ><b>_loading</b></span>
-                        <a href="#_loading"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -869,7 +1718,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -894,7 +1743,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -925,7 +1774,95 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noResults"></a>
+                    <span class="name">
+                        <span ><b>noResults</b></span>
+                        <a href="#noResults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="results"></a>
+                    <span class="name">
+                        <span ><b>results</b></span>
+                        <a href="#results"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Product[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchSubscription"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>searchSubscription</b></span>
+                        <a href="#searchSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -951,7 +1888,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -960,171 +1897,34 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="accessors">
-        Accessors
-    </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isDisabled"></a>
-                        <span class="name"><b>isDisabled</b><a href="#isDisabled"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>isDisabled()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:30</a></div>
-                                </td>
-                            </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>isDisabled(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:34</a></div>
-                                </td>
-                            </tr>
-                    <tr>
-                        <td class="col-md-4">
-
-                                <div class="io-description">
-                                        <b>Parameters :</b>
-                                        <table class="params">
-                                            <thead>
-                                                <tr>
-                                                    <td>Name</td>
-                                                        <td>Type</td>
-                                                    <td>Optional</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                    <tr>
-                                                            <td>value</td>
-                                                    
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                                            </td>
-                                                    
-                                                        <td>
-                                                                No
-                                                        </td>
-                                                        
-                                                    </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div>
-                                </div>
-                                <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                                </div>
-                        </td>
-                    </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isLoading"></a>
-                        <span class="name"><b>isLoading</b><a href="#isLoading"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>isLoading()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:39</a></div>
-                                </td>
-                            </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>isLoading(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.ts:43</a></div>
-                                </td>
-                            </tr>
-                    <tr>
-                        <td class="col-md-4">
-
-                                <div class="io-description">
-                                        <b>Parameters :</b>
-                                        <table class="params">
-                                            <thead>
-                                                <tr>
-                                                    <td>Name</td>
-                                                        <td>Type</td>
-                                                    <td>Optional</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                    <tr>
-                                                            <td>value</td>
-                                                    
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                                            </td>
-                                                    
-                                                        <td>
-                                                                No
-                                                        </td>
-                                                        
-                                                    </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div>
-                                </div>
-                                <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                                </div>
-                        </td>
-                    </tr>
-            </tbody>
-        </table>
-</section>
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
-import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
 } from &#x27;@angular/core&#x27;;
 import { FormControl, FormGroup } from &#x27;@angular/forms&#x27;;
 import { QuickOrderFacade } from &#x27;@spartacus/cart/quick-order/root&#x27;;
 import {
+  Config,
   GlobalMessageService,
-  GlobalMessageType,
   Product,
+  WindowRef,
 } from &#x27;@spartacus/core&#x27;;
 import { ICON_TYPE } from &#x27;@spartacus/storefront&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
-import { finalize } from &#x27;rxjs/operators&#x27;;
+import { Observable, Subscription } from &#x27;rxjs&#x27;;
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  take,
+} from &#x27;rxjs/operators&#x27;;
 
 @Component({
   selector: &#x27;cx-quick-order-form&#x27;,
@@ -1135,72 +1935,201 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes &#x3D; ICON_TYPE;
   isSearching: boolean &#x3D; false;
-
-  get isDisabled(): boolean {
-    return this._disabled;
-  }
-
-  @Input(&#x27;isDisabled&#x27;) set isDisabled(value: boolean) {
-    this._disabled &#x3D; value;
-    this.validateProductControl(value);
-  }
-
-  get isLoading(): boolean {
-    return this._loading;
-  }
-
-  @Input(&#x27;isLoading&#x27;) set isLoading(value: boolean) {
-    this._loading &#x3D; value;
-    this.validateProductControl(value);
-  }
+  noResults: boolean &#x3D; false;
+  results: Product[] &#x3D; [];
 
   protected subscription &#x3D; new Subscription();
-  protected _disabled: boolean &#x3D; false;
-  protected _loading: boolean &#x3D; false;
+  protected searchSubscription &#x3D; new Subscription();
+
+  /**
+   * @deprecated since version 4.2
+   * Use constructor(globalMessageService: GlobalMessageService, quickOrderService: QuickOrderFacade, config: Config, cd: ChangeDetectorRef, winRef: WindowRef); instead
+   */
+  // TODO(#14058): Remove deprecated constructor
+  constructor(
+    globalMessageService: GlobalMessageService,
+    quickOrderService: QuickOrderFacade
+  );
 
   constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected quickOrderService: QuickOrderFacade
+    protected globalMessageService: GlobalMessageService, // TODO(#14058): Remove it as it is not in use anymore
+    protected quickOrderService: QuickOrderFacade,
+    public config?: Config, // TODO(#14058): Make it required
+    protected cd?: ChangeDetectorRef, // TODO(#14058): Make it required
+    protected winRef?: WindowRef // TODO(#14058): Make it required
   ) {}
 
   ngOnInit(): void {
     this.buildForm();
     this.subscription.add(this.watchProductAdd());
+    this.subscription.add(this.watchQueryChange());
   }
 
-  search(event?: Event): void {
-    if (this.form.invalid) {
-      return;
-    }
-
-    event?.preventDefault();
-
-    const productCode &#x3D; this.form.get(&#x27;product&#x27;)?.value;
-
-    this.isSearching &#x3D; true;
-    this.subscription.add(this.searchProduct(productCode));
+  onBlur(event: UIEvent): void {
+    // Use timeout to detect changes
+    setTimeout(() &#x3D;&gt; {
+      if (!this.isSuggestionFocused()) {
+        this.blurSuggestionBox(event);
+      }
+    });
   }
 
   clear(event?: Event): void {
     event?.preventDefault();
-    this.form.reset();
+
+    if (this.isResultsBoxOpen()) {
+      this.toggleBodyClass(&#x27;quick-order-searchbox-is-active&#x27;, false);
+    }
+
+    let product &#x3D; this.form.get(&#x27;product&#x27;)?.value;
+
+    if (!!product) {
+      this.form.reset();
+    }
+
+    // We have to call &#x27;close&#x27; method every time to make sure results list is empty and call detectChanges to change icon type in form
+    this.close();
+    this.cd?.detectChanges();
   }
 
-  protected searchProduct(productCode: string): Subscription {
-    return this.quickOrderService
-      .search(productCode)
-      .pipe(finalize(() &#x3D;&gt; (this.isSearching &#x3D; false)))
-      .subscribe(
-        (product: Product) &#x3D;&gt; {
-          this.quickOrderService.addProduct(product);
-        },
-        (error: HttpErrorResponse) &#x3D;&gt; {
-          this.globalMessageService.add(
-            error.error.errors[0].message,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
+  add(product: Product, event: Event): void {
+    event?.preventDefault();
+
+    // TODO change to nonpurchasable flag once we will support multidimensional products in search and when the purchasable flag will be available in search product response
+
+    // Check if product is purchasable / non multidimensional
+    if (product.multidimensional) {
+      this.quickOrderService.setNonPurchasableProductError(product);
+      this.clear();
+      return;
+    } else {
+      this.quickOrderService.clearNonPurchasableProductError();
+    }
+
+    this.quickOrderService.addProduct(product);
+  }
+
+  addProduct(event: Event): void {
+    this.quickOrderService
+      .canAdd()
+      .pipe(take(1))
+      .subscribe((canAdd: boolean) &#x3D;&gt; {
+        if (canAdd) {
+          // Add product if there is only one in the result list
+          if (this.results.length &#x3D;&#x3D;&#x3D; 1) {
+            this.add(this.results[0], event);
+            // Add product if there is focus on it
+          } else if (this.getFocusedIndex() !&#x3D;&#x3D; -1) {
+            const product &#x3D; this.results[this.getFocusedIndex()];
+            this.add(product, event);
+          }
         }
+      });
+  }
+
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
+    if (!this.results.length) {
+      return;
+    }
+
+    const [results, focusedIndex] &#x3D; [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedIndex &gt;&#x3D; results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
+    }
+  }
+
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault(); // Negate normal keyscroll
+    if (!this.results.length) {
+      return;
+    }
+
+    const [results, focusedIndex] &#x3D; [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex &lt; 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
+    }
+  }
+
+  isResultsBoxOpen(): boolean {
+    return this.winRef
+      ? !!this.winRef.document.querySelector(&#x27;.quick-order-searchbox-is-active&#x27;)
+      : false;
+  }
+
+  canAddProduct(): Observable&lt;boolean&gt; {
+    return this.quickOrderService.canAdd();
+  }
+
+  open(): void {
+    this.toggleBodyClass(&#x27;quick-order-searchbox-is-active&#x27;, true);
+  }
+
+  // Return result list as HTMLElement array
+  protected getResultElements(): HTMLElement[] {
+    if (this.winRef) {
+      return Array.from(
+        this.winRef.document.querySelectorAll(
+          &#x27;.quick-order-results-products &gt; li button&#x27;
+        )
       );
+    } else {
+      return [];
+    }
+  }
+
+  protected blurSuggestionBox(event: UIEvent): void {
+    this.toggleBodyClass(&#x27;quick-order-searchbox-is-active&#x27;, false);
+
+    if (event &amp;&amp; event.target) {
+      (&lt;HTMLElement&gt;event.target).blur();
+    }
+  }
+
+  // Return focused element as HTMLElement
+  protected getFocusedElement(): HTMLElement | any {
+    if (this.winRef) {
+      return &lt;HTMLElement&gt;this.winRef.document.activeElement;
+    }
+  }
+
+  protected getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  protected isSuggestionFocused(): boolean {
+    return this.getResultElements().includes(this.getFocusedElement());
+  }
+
+  protected toggleBodyClass(className: string, add?: boolean) {
+    // TODO(#14058): Remove condition
+    if (this.winRef) {
+      if (add &#x3D;&#x3D;&#x3D; undefined) {
+        this.winRef.document.body.classList.toggle(className);
+      } else {
+        add
+          ? this.winRef.document.body.classList.add(className)
+          : this.winRef.document.body.classList.remove(className);
+      }
+    }
   }
 
   protected buildForm() {
@@ -1208,21 +2137,88 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     form.setControl(&#x27;product&#x27;, new FormControl(null));
 
     this.form &#x3D; form;
-    this.validateProductControl(this.isDisabled);
+  }
+
+  protected isEmpty(string?: string): boolean {
+    return string?.trim() &#x3D;&#x3D;&#x3D; &#x27;&#x27; || string &#x3D;&#x3D; null;
+  }
+
+  protected watchQueryChange(): Subscription {
+    return this.form.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(300),
+        filter((value) &#x3D;&gt; {
+          if (this.config?.quickOrder?.searchForm) {
+            //Check if input to quick order is an empty after deleting input manually
+            if (this.isEmpty(value.product)) {
+              //Clear recommendation results on empty string
+              this.clear();
+              return false;
+            }
+            return (
+              !!value.product &amp;&amp;
+              value.product.length &gt;&#x3D;
+                this.config.quickOrder?.searchForm?.minCharactersBeforeRequest
+            );
+          }
+
+          return value;
+        })
+      )
+      .subscribe((value) &#x3D;&gt; {
+        this.searchProducts(value.product);
+      });
+  }
+
+  protected searchProducts(query: string): void {
+    this.searchSubscription.add(
+      this.canAddProduct()
+        .pipe(
+          filter(Boolean),
+          switchMap(() &#x3D;&gt;
+            this.quickOrderService
+              .searchProducts(
+                query,
+                this.config?.quickOrder?.searchForm?.maxProducts
+              )
+              .pipe(take(1))
+          )
+        )
+        .subscribe((products) &#x3D;&gt; {
+          this.results &#x3D; products;
+
+          if (this.results.length) {
+            this.noResults &#x3D; false;
+            this.open();
+          } else {
+            this.noResults &#x3D; true;
+          }
+
+          this.cd?.detectChanges();
+        })
+    );
+  }
+
+  protected clearResults(): void {
+    this.results &#x3D; [];
+  }
+
+  protected close(): void {
+    this.resetSearchSubscription();
+    this.clearResults();
+    this.noResults &#x3D; false;
+  }
+
+  protected resetSearchSubscription(): void {
+    this.searchSubscription.unsubscribe();
+    this.searchSubscription &#x3D; new Subscription();
   }
 
   protected watchProductAdd(): Subscription {
     return this.quickOrderService
       .getProductAdded()
       .subscribe(() &#x3D;&gt; this.clear());
-  }
-
-  protected validateProductControl(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.form?.get(&#x27;product&#x27;)?.disable();
-    } else {
-      this.form?.get(&#x27;product&#x27;)?.enable();
-    }
   }
 
   ngOnDestroy(): void {
@@ -1233,13 +2229,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;form
-  (ngSubmit)&#x3D;&quot;search($event)&quot;
-  [formGroup]&#x3D;&quot;form&quot;
-  class&#x3D;&quot;quick-order-form-container&quot;
-&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;form [formGroup]&#x3D;&quot;form&quot; class&#x3D;&quot;quick-order-form-container&quot;&gt;
   &lt;div class&#x3D;&quot;quick-order-form-input&quot;&gt;
     &lt;input
+      (blur)&#x3D;&quot;onBlur($event)&quot;
+      (focus)&#x3D;&quot;open()&quot;
+      (keydown.arrowdown)&#x3D;&quot;focusNextChild($event)&quot;
+      (keydown.arrowup)&#x3D;&quot;focusPreviousChild($event)&quot;
+      (keydown.enter)&#x3D;&quot;addProduct($event)&quot;
+      (keydown.escape)&#x3D;&quot;clear($event)&quot;
       [attr.aria-label]&#x3D;&quot;&#x27;common.search&#x27; | cxTranslate&quot;
       class&#x3D;&quot;form-control&quot;
       formControlName&#x3D;&quot;product&quot;
@@ -1247,12 +2245,79 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       type&#x3D;&quot;text&quot;
     /&gt;
 
-    &lt;cx-icon [type]&#x3D;&quot;iconTypes.SEARCH&quot; class&#x3D;&quot;search&quot; tabindex&#x3D;&quot;-1&quot;&gt;&lt;/cx-icon&gt;
+    &lt;button
+      *ngIf&#x3D;&quot;form.get(&#x27;product&#x27;)?.value; else searchIcon&quot;
+      (click)&#x3D;&quot;clear($event)&quot;
+      (keydown.enter)&#x3D;&quot;clear($event)&quot;
+      [attr.aria-label]&#x3D;&quot;&#x27;common.reset&#x27; | cxTranslate&quot;
+      class&#x3D;&quot;quick-order-form-reset-icon&quot;
+    &gt;
+      &lt;cx-icon [type]&#x3D;&quot;iconTypes.RESET&quot;&gt;&lt;/cx-icon&gt;
+    &lt;/button&gt;
 
-    &lt;cx-form-errors [control]&#x3D;&quot;form.get(&#x27;product&#x27;)&quot;&gt;&lt;/cx-form-errors&gt;
+    &lt;ng-template #searchIcon&gt;
+      &lt;button
+        [attr.aria-label]&#x3D;&quot;&#x27;common.search&#x27; | cxTranslate&quot;
+        class&#x3D;&quot;quick-order-form-search-icon&quot;
+        tabindex&#x3D;&quot;-1&quot;
+      &gt;
+        &lt;cx-icon [type]&#x3D;&quot;iconTypes.SEARCH&quot;&gt;&lt;/cx-icon&gt;
+      &lt;/button&gt;
+    &lt;/ng-template&gt;
 
-    &lt;span *ngIf&#x3D;&quot;isDisabled&quot; class&#x3D;&quot;list-limit-reached-text&quot;&gt;
+    &lt;span
+      *ngIf&#x3D;&quot;!(canAddProduct() | async) &amp;&amp; form.get(&#x27;product&#x27;)?.dirty&quot;
+      class&#x3D;&quot;list-limit-reached-text&quot;
+    &gt;
       {{ &#x27;quickOrderForm.listLimitReached&#x27; | cxTranslate }}
+    &lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div *ngIf&#x3D;&quot;isResultsBoxOpen()&quot; role&#x3D;&quot;listbox&quot; class&#x3D;&quot;quick-order-results&quot;&gt;
+    &lt;ul *ngIf&#x3D;&quot;results.length&quot; class&#x3D;&quot;quick-order-results-products&quot;&gt;
+      &lt;li
+        *ngFor&#x3D;&quot;let product of results; let i &#x3D; index&quot;
+        class&#x3D;&quot;quick-order-results-product-container&quot;
+      &gt;
+        &lt;button
+          (blur)&#x3D;&quot;onBlur($event)&quot;
+          (click)&#x3D;&quot;add(product, $event)&quot;
+          (keydown.arrowdown)&#x3D;&quot;focusNextChild($event)&quot;
+          (keydown.arrowup)&#x3D;&quot;focusPreviousChild($event)&quot;
+          (keydown.enter)&#x3D;&quot;add(product, $event)&quot;
+          (keydown.escape)&#x3D;&quot;clear($event)&quot;
+          [attr.aria-label]&#x3D;&quot;
+            &#x27;quickOrderForm.addProduct&#x27; | cxTranslate: { product: product.name }
+          &quot;
+          [class.has-media]&#x3D;&quot;
+            config?.quickOrder?.searchForm?.displayProductImages
+          &quot;
+          class&#x3D;&quot;quick-order-results-product&quot;
+        &gt;
+          &lt;cx-media
+            *ngIf&#x3D;&quot;config?.quickOrder?.searchForm?.displayProductImages&quot;
+            [container]&#x3D;&quot;product.images?.PRIMARY&quot;
+            class&#x3D;&quot;media&quot;
+            format&#x3D;&quot;thumbnail&quot;
+            role&#x3D;&quot;presentation&quot;
+          &gt;&lt;/cx-media&gt;
+          &lt;div class&#x3D;&quot;name&quot; [innerHTML]&#x3D;&quot;product.name&quot;&gt;&lt;/div&gt;
+          &lt;span class&#x3D;&quot;id&quot;&gt;
+            {{
+              &#x27;quickOrderForm.id&#x27;
+                | cxTranslate
+                  : {
+                      id: product.code
+                    }
+            }}
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;price&quot;&gt;{{ product.price?.formattedValue }}&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;span *ngIf&#x3D;&quot;noResults&quot; class&#x3D;&quot;quick-order-no-results&quot;&gt;
+      {{ &#x27;quickOrderForm.noResults&#x27; | cxTranslate }}
     &lt;/span&gt;
   &lt;/div&gt;
 &lt;/form&gt;
@@ -1285,8 +2350,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><form  (ngSubmit)="search($event)"  [formGroup]="form"  class="quick-order-form-container">  <div class="quick-order-form-input">    <input      [attr.aria-label]="\'common.search\' | cxTranslate"      class="form-control"      formControlName="product"      placeholder="{{ \'quickOrderForm.placeholder\' | cxTranslate }}"      type="text"    />    <cx-icon [type]="iconTypes.SEARCH" class="search" tabindex="-1"></cx-icon>    <cx-form-errors [control]="form.get(\'product\')"></cx-form-errors>    <span *ngIf="isDisabled" class="list-limit-reached-text">      {{ \'quickOrderForm.listLimitReached\' | cxTranslate }}    </span>  </div></form></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartQuickOrderFormComponent', 'selector': 'cx-cart-quick-order-form'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'DpPaymentCallbackComponent', 'selector': 'cx-dp-payment-callback'},{'name': 'DpPaymentFormComponent', 'selector': 'cx-dp-payment-form'},{'name': 'DpPaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PageTitleComponent', 'selector': 'cx-page-title'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'ProgressButtonComponent', 'selector': 'cx-progress-button'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'QuickOrderComponent', 'selector': 'cx-quick-order'},{'name': 'QuickOrderFormComponent', 'selector': 'cx-quick-order-form'},{'name': 'QuickOrderItemComponent', 'selector': 'cx-quick-order-item'},{'name': 'QuickOrderTableComponent', 'selector': 'cx-quick-order-table'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><form [formGroup]="form" class="quick-order-form-container">  <div class="quick-order-form-input">    <input      (blur)="onBlur($event)"      (focus)="open()"      (keydown.arrowdown)="focusNextChild($event)"      (keydown.arrowup)="focusPreviousChild($event)"      (keydown.enter)="addProduct($event)"      (keydown.escape)="clear($event)"      [attr.aria-label]="\'common.search\' | cxTranslate"      class="form-control"      formControlName="product"      placeholder="{{ \'quickOrderForm.placeholder\' | cxTranslate }}"      type="text"    />    <button      *ngIf="form.get(\'product\')?.value; else searchIcon"      (click)="clear($event)"      (keydown.enter)="clear($event)"      [attr.aria-label]="\'common.reset\' | cxTranslate"      class="quick-order-form-reset-icon"    >      <cx-icon [type]="iconTypes.RESET"></cx-icon>    </button>    <ng-template #searchIcon>      <button        [attr.aria-label]="\'common.search\' | cxTranslate"        class="quick-order-form-search-icon"        tabindex="-1"      >        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>      </button>    </ng-template>    <span      *ngIf="!(canAddProduct() | async) && form.get(\'product\')?.dirty"      class="list-limit-reached-text"    >      {{ \'quickOrderForm.listLimitReached\' | cxTranslate }}    </span>  </div>  <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">    <ul *ngIf="results.length" class="quick-order-results-products">      <li        *ngFor="let product of results; let i = index"        class="quick-order-results-product-container"      >        <button          (blur)="onBlur($event)"          (click)="add(product, $event)"          (keydown.arrowdown)="focusNextChild($event)"          (keydown.arrowup)="focusPreviousChild($event)"          (keydown.enter)="add(product, $event)"          (keydown.escape)="clear($event)"          [attr.aria-label]="            \'quickOrderForm.addProduct\' | cxTranslate: { product: product.name }          "          [class.has-media]="            config?.quickOrder?.searchForm?.displayProductImages          "          class="quick-order-results-product"        >          <cx-media            *ngIf="config?.quickOrder?.searchForm?.displayProductImages"            [container]="product.images?.PRIMARY"            class="media"            format="thumbnail"            role="presentation"          ></cx-media>          <div class="name" [innerHTML]="product.name"></div>          <span class="id">            {{              \'quickOrderForm.id\'                | cxTranslate                  : {                      id: product.code                    }            }}          </span>          <span class="price">{{ product.price?.formattedValue }}</span>        </button>      </li>    </ul>    <span *ngIf="noResults" class="quick-order-no-results">      {{ \'quickOrderForm.noResults\' | cxTranslate }}    </span>  </div></form></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartItemValidationWarningComponent', 'selector': 'cx-cart-item-validation-warning'},{'name': 'CartQuickOrderFormComponent', 'selector': 'cx-cart-quick-order-form'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CartValidationWarningsComponent', 'selector': 'cx-cart-validation-warnings'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorExitButtonComponent', 'selector': 'cx-configurator-exit-button'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorTextfieldInputFieldReadonlyComponent', 'selector': 'cx-configurator-textfield-input-field-readonly'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'DpPaymentCallbackComponent', 'selector': 'cx-dp-payment-callback'},{'name': 'DpPaymentFormComponent', 'selector': 'cx-dp-payment-form'},{'name': 'DpPaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'ExportOrderEntriesComponent', 'selector': 'cx-export-order-entries'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FileUploadComponent', 'selector': 'cx-file-upload'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ImportEntriesDialogComponent', 'selector': 'cx-import-entries-dialog'},{'name': 'ImportEntriesFormComponent', 'selector': 'cx-import-entries-form'},{'name': 'ImportEntriesSummaryComponent', 'selector': 'cx-import-entries-summary'},{'name': 'ImportExportOrderEntriesComponent', 'selector': 'cx-import-export-order-entries'},{'name': 'ImportOrderEntriesComponent', 'selector': 'cx-import-order-entries'},{'name': 'ImportToNewSavedCartFormComponent', 'selector': 'cx-import-to-new-saved-cart-form'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PageTitleComponent', 'selector': 'cx-page-title'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomDialogComponent', 'selector': 'cx-product-image-zoom-dialog'},{'name': 'ProductImageZoomProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomThumbnailsComponent', 'selector': 'cx-product-image-zoom-thumbnails'},{'name': 'ProductImageZoomTriggerComponent', 'selector': 'cx-product-image-zoom-trigger'},{'name': 'ProductImageZoomViewComponent', 'selector': 'cx-product-image-zoom-view'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'ProgressButtonComponent', 'selector': 'cx-progress-button'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'QuickOrderComponent', 'selector': 'cx-quick-order'},{'name': 'QuickOrderFormComponent', 'selector': 'cx-quick-order-form'},{'name': 'QuickOrderItemComponent', 'selector': 'cx-quick-order-item'},{'name': 'QuickOrderTableComponent', 'selector': 'cx-quick-order-table'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AbstractStoreItemComponent', 'selector': ''},{'name': 'AddToHomeScreenComponent', 'selector': ''},{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': ''},{'name': 'BaseFocusDirective', 'selector': ''},{'name': 'BaseMessageComponent', 'selector': ''},{'name': 'BlockFocusDirective', 'selector': ''},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'ConfiguratorAttributeMultiSelectionBaseComponent', 'selector': ''},{'name': 'ConfiguratorAttributeSingleSelectionBaseComponent', 'selector': ''},{'name': 'EscapeFocusDirective', 'selector': ''},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'InnerComponentsHostDirective', 'selector': '[cxInnerComponentsHost]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'LockFocusDirective', 'selector': ''},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'PersistFocusDirective', 'selector': ''},{'name': 'PopoverDirective', 'selector': '[cxPopover]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'},{'name': 'TabFocusDirective', 'selector': ''},{'name': 'TrapFocusDirective', 'selector': ''},{'name': 'VisibleFocusDirective', 'selector': ''}];
     var ACTUAL_COMPONENT = {'name': 'QuickOrderFormComponent'};
 </script>

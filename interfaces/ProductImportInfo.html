@@ -46,7 +46,7 @@
   <li>Interfaces</li>
   <li
   >
-  HttpErrorModel</li>
+  ProductImportInfo</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/model/misc.model.ts</code>
+            <code>projects/storefrontlib/cms-components/cart/order-entries-context/import-to-cart.model.ts</code>
         </p>
 
 
@@ -83,38 +83,36 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#details" 
+                                        <a href="#productCode" 
 >
-                                            details
+                                            productCode
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#message" 
+                                        <a href="#productName" 
 >
-                                            message
+                                            productName
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#status" 
+                                        <a href="#quantity" 
 >
-                                            status
+                                            quantity
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#statusText" 
+                                        <a href="#quantityAdded" 
 >
-                                            statusText
+                                            quantityAdded
                                         </a>
                                 </li>
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#url" 
+                                        <a href="#statusCode" 
 >
-                                            url
+                                            statusCode
                                         </a>
                                 </li>
                             </ul>
@@ -132,9 +130,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="details"></a>
-                                        <span class="name "><b>details</b>
-                                            <a href="#details">
+                                        <a name="productCode"></a>
+                                        <span class="name "><b>productCode</b>
+                                            <a href="#productCode">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -142,7 +140,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>details:     <code>ErrorModel[]</code>
+                                        <code>productCode:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -150,16 +148,11 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>ErrorModel[]</code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -170,9 +163,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="message"></a>
-                                        <span class="name "><b>message</b>
-                                            <a href="#message">
+                                        <a name="productName"></a>
+                                        <span class="name "><b>productName</b>
+                                            <a href="#productName">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -180,7 +173,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>message:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>productName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -208,9 +201,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="status"></a>
-                                        <span class="name "><b>status</b>
-                                            <a href="#status">
+                                        <a name="quantity"></a>
+                                        <span class="name "><b>quantity</b>
+                                            <a href="#quantity">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -218,7 +211,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>status:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                        <code>quantity:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -246,9 +239,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="statusText"></a>
-                                        <span class="name "><b>statusText</b>
-                                            <a href="#statusText">
+                                        <a name="quantityAdded"></a>
+                                        <span class="name "><b>quantityAdded</b>
+                                            <a href="#quantityAdded">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -256,7 +249,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>statusText:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>quantityAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -264,7 +257,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                                         </td>
                                     </tr>
@@ -284,9 +277,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="url"></a>
-                                        <span class="name "><b>url</b>
-                                            <a href="#url">
+                                        <a name="statusCode"></a>
+                                        <span class="name "><b>statusCode</b>
+                                            <a href="#statusCode">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -294,7 +287,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>url:     <code>string | null</code>
+                                        <code>statusCode:         <code><a href="../miscellaneous/enumerations.html#ProductImportStatus" target="_self" >ProductImportStatus</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -302,16 +295,11 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>string | null</code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#ProductImportStatus" target="_self" >ProductImportStatus</a></code>
 
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -323,118 +311,36 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address } from &#x27;./address.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export type ProductData &#x3D; {
+  productCode: string;
+  quantity: number;
+};
 
-export interface Currency {
-  active?: boolean;
-  isocode?: string;
-  name?: string;
-  symbol?: string;
+export enum ProductImportStatus {
+  SUCCESS &#x3D; &#x27;success&#x27;,
+  LOW_STOCK &#x3D; &#x27;lowStock&#x27;,
+  NO_STOCK &#x3D; &#x27;noStock&#x27;,
+  UNKNOWN_IDENTIFIER &#x3D; &#x27;unknownIdentifier&#x27;,
+  UNKNOWN_ERROR &#x3D; &#x27;unknownError&#x27;,
+  LIMIT_EXCEEDED &#x3D; &#x27;limitExceeded&#x27;,
 }
 
-export interface Time {
-  formattedHour?: string;
-  hour?: number;
-  minute?: number;
+export interface ProductImportInfo {
+  productCode: string;
+  statusCode: ProductImportStatus;
+  productName?: string;
+  quantity?: number;
+  quantityAdded?: number;
 }
 
-export interface GeoPoint {
-  latitude?: number;
-  longitude?: number;
-}
-
-export interface Language {
-  active?: boolean;
-  isocode?: string;
-  name?: string;
-  nativeName?: string;
-}
-
-export interface User {
-  currency?: Currency;
-  customerId?: string;
-  deactivationDate?: Date;
-  defaultAddress?: Address;
-  displayUid?: string;
-  firstName?: string;
-  language?: Language;
-  lastName?: string;
-  name?: string;
-  title?: string;
-  titleCode?: string;
-  uid?: string;
-  roles?: string[];
-}
-
-export interface ListModel {
-  ids: string[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-// TODO(#8875): Do we need it here?
-export interface EntitiesModel&lt;T&gt; {
-  values: T[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-export interface PaginationModel {
-  currentPage?: number;
-  pageSize?: number;
-  sort?: string;
-  totalPages?: number;
-  totalResults?: number;
-}
-
-export interface SortModel {
-  code?: string;
-  name?: string;
-  selected?: boolean;
-}
-
-export interface Title {
-  code?: string;
-  name?: string;
-}
-
-export interface ErrorModel {
-  message?: string;
-  reason?: string;
-  subject?: string;
-  subjectType?: string;
-  type?: string;
-}
-
-export interface HttpErrorModel {
-  message?: string;
-  status?: number;
-  statusText?: string;
-  url?: string | null;
-  details?: ErrorModel[];
-}
-
-export interface BaseStore {
-  currencies?: Currency[];
-  defaultCurrency?: Currency;
-  languages?: Language[];
-  defaultLanguage?: Language;
-}
-
-export interface BaseSite {
-  channel?: string;
-  defaultLanguage?: Language;
-  defaultPreviewCatalogId?: string;
-  defaultPreviewCategoryCode?: string;
-  defaultPreviewProductCode?: string;
-  locale?: string;
-  name?: string;
-  theme?: string;
-  uid?: string;
-  stores?: BaseStore[];
-  urlPatterns?: string[];
-  urlEncodingAttributes?: string[];
-  baseStore?: BaseStore;
+export interface ProductImportSummary {
+  loading: boolean;
+  cartName: string | undefined;
+  count: number;
+  total: number;
+  successesCount: number;
+  warningMessages: ProductImportInfo[];
+  errorMessages: ProductImportInfo[];
 }
 </code></pre>
     </div>
@@ -463,7 +369,7 @@ export interface BaseSite {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'HttpErrorModel.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductImportInfo.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

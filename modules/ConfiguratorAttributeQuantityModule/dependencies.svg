@@ -14,13 +14,13 @@
 <title>cluster_ConfiguratorAttributeQuantityModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 718,-230.8 718,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ConfiguratorAttributeQuantityModule_imports</title>
-<polygon fill="none" stroke="black" points="294,-40.8 294,-92.8 710,-92.8 710,-40.8 294,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeQuantityModule_exports</title>
 <polygon fill="none" stroke="black" points="318,-170.8 318,-222.8 590,-222.8 590,-170.8 318,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ConfiguratorAttributeQuantityModule_imports</title>
+<polygon fill="none" stroke="black" points="294,-40.8 294,-92.8 710,-92.8 710,-40.8 294,-40.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorAttributeQuantityModule_declarations</title>

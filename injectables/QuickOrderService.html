@@ -78,11 +78,31 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#clearDeleteTimeouts" >clearDeleteTimeouts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#entries$" >entries$</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#hardDeleteTimeout" >hardDeleteTimeout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#nonPurchasableProductError$" >nonPurchasableProductError$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#productAdded$" >productAdded$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#quickOrderListLimit" >quickOrderListLimit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#softDeletedEntries$" >softDeletedEntries$</a>
                             </li>
                         </ul>
                     </td>
@@ -104,10 +124,27 @@
                                 <a href="#addProduct" >addProduct</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#addSoftEntryDeletion" >addSoftEntryDeletion</a>
+                            </li>
+                            <li>
                                 <a href="#addToCart" >addToCart</a>
                             </li>
                             <li>
+                                <a href="#canAdd" >canAdd</a>
+                            </li>
+                            <li>
+                                <a href="#clearDeletedEntries" >clearDeletedEntries</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#clearDeleteTimeout" >clearDeleteTimeout</a>
+                            </li>
+                            <li>
                                 <a href="#clearList" >clearList</a>
+                            </li>
+                            <li>
+                                <a href="#clearNonPurchasableProductError" >clearNonPurchasableProductError</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -121,7 +158,24 @@
                                 <a href="#getEntries" >getEntries</a>
                             </li>
                             <li>
+                                <a href="#getNonPurchasableProductError" >getNonPurchasableProductError</a>
+                            </li>
+                            <li>
                                 <a href="#getProductAdded" >getProductAdded</a>
+                            </li>
+                            <li>
+                                <a href="#getSoftDeletedEntries" >getSoftDeletedEntries</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getSoftDeletedEntry" >getSoftDeletedEntry</a>
+                            </li>
+                            <li>
+                                <a href="#hardDeleteEntry" >hardDeleteEntry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isLimitExceeded" >isLimitExceeded</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -131,13 +185,31 @@
                                 <a href="#loadEntries" >loadEntries</a>
                             </li>
                             <li>
-                                <a href="#removeEntry" >removeEntry</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
-                                <a href="#search" >search</a>
+                                <a href="#removeEntry" class="deprecated-name">removeEntry</a>
+                            </li>
+                            <li>
+                                <a href="#restoreSoftDeletedEntry" >restoreSoftDeletedEntry</a>
+                            </li>
+                            <li>
+                                <a href="#search" class="deprecated-name">search</a>
+                            </li>
+                            <li>
+                                <a href="#searchProducts" >searchProducts</a>
+                            </li>
+                            <li>
+                                <a href="#setListLimit" >setListLimit</a>
+                            </li>
+                            <li>
+                                <a href="#setNonPurchasableProductError" >setNonPurchasableProductError</a>
                             </li>
                             <li>
                                 <a href="#setProductAdded" >setProductAdded</a>
+                            </li>
+                            <li>
+                                <a href="#softDeleteEntry" >softDeleteEntry</a>
                             </li>
                             <li>
                                 <a href="#updateEntryQuantity" >updateEntryQuantity</a>
@@ -160,12 +232,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, productAdapter: <a href="../classes/ProductAdapter.html" target="_self">ProductAdapter</a>, eventService: <a href="../injectables/EventService.html" target="_self">EventService</a>)</code>
+<code>constructor(activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, productAdapter: <a href="../classes/ProductAdapter.html" target="_self">ProductAdapter</a>, eventService: <a href="../injectables/EventService.html" target="_self">EventService</a>, productSearchConnector?: <a href="../injectables/ProductSearchConnector.html" target="_self">ProductSearchConnector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -218,6 +290,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>productSearchConnector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProductSearchConnector.html" target="_self" >ProductSearchConnector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -254,8 +338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="345"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:345</a></div>
                 </td>
             </tr>
 
@@ -317,15 +401,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addProduct(product: <a href="../interfaces/Product.html" target="_self">Product</a>)</code>
+<code>addProduct(product: <a href="../interfaces/Product.html" target="_self">Product</a>, quantity: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:166</a></div>
                 </td>
             </tr>
 
@@ -343,6 +427,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -356,6 +441,113 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>quantity</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>1</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSoftEntryDeletion"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>addSoftEntryDeletion</b></span>
+                        <a href="#addSoftEntryDeletion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addSoftEntryDeletion(entry: <a href="../interfaces/OrderEntry.html" target="_self">OrderEntry</a>, clearTimeout: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:294</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add soft deleted entry to the cached list</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>entry</td>
+                                    <td>
+                                                <code><a href="../interfaces/OrderEntry.html" target="_self" >OrderEntry</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>clearTimeout</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -394,8 +586,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:188</a></div>
                 </td>
             </tr>
 
@@ -408,6 +600,185 @@
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;&gt;</code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canAdd"></a>
+                    <span class="name">
+                        <span ><b>canAdd</b></span>
+                        <a href="#canAdd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>canAdd(code?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get information about the possibility to add the next product</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>code</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearDeletedEntries"></a>
+                    <span class="name">
+                        <span ><b>clearDeletedEntries</b></span>
+                        <a href="#clearDeletedEntries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearDeletedEntries()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:261</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear all deleted entries and timeout subscriptions</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearDeleteTimeout"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>clearDeleteTimeout</b></span>
+                        <a href="#clearDeleteTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearDeleteTimeout(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="429"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:429</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -433,8 +804,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:105</a></div>
                 </td>
             </tr>
 
@@ -442,6 +813,45 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Clear a list of added entries</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearNonPurchasableProductError"></a>
+                    <span class="name">
+                        <span ><b>clearNonPurchasableProductError</b></span>
+                        <a href="#clearNonPurchasableProductError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearNonPurchasableProductError()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:287</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear not purchasable product error</p>
 </div>
 
                     <div class="io-description">
@@ -474,8 +884,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="401"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:401</a></div>
                 </td>
             </tr>
 
@@ -537,15 +947,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>generateOrderEntry(product: <a href="../interfaces/Product.html" target="_self">Product</a>)</code>
+                    <code>generateOrderEntry(product: <a href="../interfaces/Product.html" target="_self">Product</a>, quantity?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="330"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:330</a></div>
                 </td>
             </tr>
 
@@ -574,6 +984,18 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>quantity</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -614,8 +1036,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:69</a></div>
                 </td>
             </tr>
 
@@ -627,6 +1049,45 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>BehaviorSubject&lt;OrderEntry[]&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNonPurchasableProductError"></a>
+                    <span class="name">
+                        <span ><b>getNonPurchasableProductError</b></span>
+                        <a href="#getNonPurchasableProductError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getNonPurchasableProductError()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:273</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p> Return non purchasable product error</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Product | null&gt;</code>
 
                     </div>
                 </td>
@@ -653,8 +1114,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:174</a></div>
                 </td>
             </tr>
 
@@ -666,6 +1127,226 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Subject&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSoftDeletedEntries"></a>
+                    <span class="name">
+                        <span ><b>getSoftDeletedEntries</b></span>
+                        <a href="#getSoftDeletedEntries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSoftDeletedEntries()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="229"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:229</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Return soft deleted entries</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Record&lt;string, OrderEntry&gt;&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSoftDeletedEntry"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getSoftDeletedEntry</b></span>
+                        <a href="#getSoftDeletedEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSoftDeletedEntry(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:321</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get soft deletion entry</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/OrderEntry.html" target="_self" >OrderEntry</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hardDeleteEntry"></a>
+                    <span class="name">
+                        <span ><b>hardDeleteEntry</b></span>
+                        <a href="#hardDeleteEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hardDeleteEntry(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:246</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear deleted entry from the list</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLimitExceeded"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>isLimitExceeded</b></span>
+                        <a href="#isLimitExceeded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isLimitExceeded()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="395"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:395</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -694,8 +1375,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="387"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:387</a></div>
                 </td>
             </tr>
 
@@ -764,8 +1445,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -822,11 +1503,53 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="removeEntry"></a>
                     <span class="name">
-                        <span ><b>removeEntry</b></span>
+                        <span class="deprecated-name"><b>removeEntry</b></span>
                         <a href="#removeEntry"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 4.2 - use softDeleteEntry instead
                 </td>
             </tr>
             <tr>
@@ -838,16 +1561,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:159</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Remove single entry from the list</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -892,11 +1613,87 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="restoreSoftDeletedEntry"></a>
+                    <span class="name">
+                        <span ><b>restoreSoftDeletedEntry</b></span>
+                        <a href="#restoreSoftDeletedEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>restoreSoftDeletedEntry(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Restore soft deleted entry</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="search"></a>
                     <span class="name">
-                        <span ><b>search</b></span>
+                        <span class="deprecated-name"><b>search</b></span>
                         <a href="#search"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 4.2 - use searchProducts instead
+Search product using SKU
                 </td>
             </tr>
             <tr>
@@ -908,15 +1705,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:77</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Search product using sku</p>
+                    <div class="io-description"><p>Search product using SKU</p>
 </div>
 
                     <div class="io-description">
@@ -962,6 +1759,228 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="searchProducts"></a>
+                    <span class="name">
+                        <span ><b>searchProducts</b></span>
+                        <a href="#searchProducts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>searchProducts(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, maxProducts?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:84</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Search products using query</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>maxProducts</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Product[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setListLimit"></a>
+                    <span class="name">
+                        <span ><b>setListLimit</b></span>
+                        <a href="#setListLimit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setListLimit(limit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:123</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set quick order list limit property</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>limit</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setNonPurchasableProductError"></a>
+                    <span class="name">
+                        <span ><b>setNonPurchasableProductError</b></span>
+                        <a href="#setNonPurchasableProductError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setNonPurchasableProductError(product: <a href="../interfaces/Product.html" target="_self">Product</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:280</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set error that selected product is not purchasable</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>product</td>
+                                    <td>
+                                                <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="setProductAdded"></a>
                     <span class="name">
                         <span ><b>setProductAdded</b></span>
@@ -978,8 +1997,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:181</a></div>
                 </td>
             </tr>
 
@@ -1032,6 +2051,76 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="softDeleteEntry"></a>
+                    <span class="name">
+                        <span ><b>softDeleteEntry</b></span>
+                        <a href="#softDeleteEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>softDeleteEntry(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Delete single entry from the list</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateEntryQuantity"></a>
                     <span class="name">
                         <span ><b>updateEntryQuantity</b></span>
@@ -1048,8 +2137,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:137</a></div>
                 </td>
             </tr>
 
@@ -1120,6 +2209,38 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="clearDeleteTimeouts"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>clearDeleteTimeouts</b></span>
+                        <a href="#clearDeleteTimeouts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;string | Subscription&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="entries$"></a>
                     <span class="name">
                             <span class="modifier">Protected</span>
@@ -1143,7 +2264,71 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hardDeleteTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>hardDeleteTimeout</b></span>
+                        <a href="#hardDeleteTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5000</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nonPurchasableProductError$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>nonPurchasableProductError$</b></span>
+                        <a href="#nonPurchasableProductError$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;Product | null&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Product | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1175,7 +2360,71 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickOrderListLimit"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>quickOrderListLimit</b></span>
+                        <a href="#quickOrderListLimit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="softDeletedEntries$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>softDeletedEntries$</b></span>
+                        <a href="#softDeletedEntries$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;Record&lt;string, OrderEntry&gt;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Record&lt;string, OrderEntry&gt;&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">feature-libs/cart/quick-order/core/services/quick-order.service.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1188,37 +2437,70 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import {
+  defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from &#x27;@spartacus/cart/quick-order/root&#x27;;
 import {
   ActiveCartService,
+  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   EventService,
+  HttpErrorModel,
   OrderEntry,
   Product,
   ProductAdapter,
-  CartAddEntryFailEvent,
+  ProductSearchConnector,
+  ProductSearchPage,
+  SearchConfig,
 } from &#x27;@spartacus/core&#x27;;
-import { BehaviorSubject, Observable, Subject } from &#x27;rxjs&#x27;;
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  timer,
+} from &#x27;rxjs&#x27;;
 import { filter, first, map, switchMap, take, tap } from &#x27;rxjs/operators&#x27;;
 
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
-export class QuickOrderService implements QuickOrderFacade {
+@Injectable()
+export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected productAdded$: Subject&lt;string&gt; &#x3D; new Subject&lt;string&gt;();
   protected entries$: BehaviorSubject&lt;OrderEntry[]&gt; &#x3D; new BehaviorSubject&lt;
     OrderEntry[]
   &gt;([]);
+  protected softDeletedEntries$: BehaviorSubject&lt;Record&lt;string, OrderEntry&gt;&gt; &#x3D;
+    new BehaviorSubject&lt;Record&lt;string, OrderEntry&gt;&gt;({});
+  protected nonPurchasableProductError$: BehaviorSubject&lt;Product | null&gt; &#x3D;
+    new BehaviorSubject&lt;Product | null&gt;(null);
+  protected hardDeleteTimeout &#x3D; 5000;
+  protected quickOrderListLimit &#x3D; 0;
+  protected clearDeleteTimeouts: Record&lt;string, Subscription&gt; &#x3D; {};
+
+  /**
+   * @deprecated since version 4.2
+   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
+   */
+  // TODO(#14059): Remove deprecated constructor
+  constructor(
+    activeCartService: ActiveCartService,
+    productAdapter: ProductAdapter,
+    eventService: EventService
+  );
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter,
-    protected eventService: EventService
+    protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
+    protected eventService: EventService,
+    protected productSearchConnector?: ProductSearchConnector //TODO(#14059): Make it required
   ) {}
+
+  ngOnDestroy(): void {
+    this.clearDeletedEntries();
+  }
 
   /**
    * Get entries
@@ -1228,10 +2510,32 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Search product using sku
+   * @deprecated since 4.2 - use searchProducts instead
+   * Search product using SKU
    */
   search(productCode: string): Observable&lt;Product&gt; {
     return this.productAdapter.load(productCode);
+  }
+
+  /**
+   * Search products using query
+   */
+  searchProducts(query: string, maxProducts?: number): Observable&lt;Product[]&gt; {
+    // TODO(#14059): Remove condition
+    if (this.productSearchConnector) {
+      const searchConfig: SearchConfig &#x3D; {
+        pageSize:
+          maxProducts ||
+          defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
+      };
+      return this.productSearchConnector
+        .search(query, searchConfig)
+        .pipe(
+          map((searchPage: ProductSearchPage) &#x3D;&gt; searchPage.products || [])
+        );
+    } else {
+      return of([]);
+    }
   }
 
   /**
@@ -1239,6 +2543,24 @@ export class QuickOrderService implements QuickOrderFacade {
    */
   clearList(): void {
     this.entries$.next([]);
+  }
+
+  /**
+   * Get information about the possibility to add the next product
+   */
+  canAdd(code?: string): Observable&lt;boolean&gt; {
+    if (code) {
+      return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
+    } else {
+      return of(!this.isLimitExceeded());
+    }
+  }
+
+  /**
+   * Set quick order list limit property
+   */
+  setListLimit(limit: number): void {
+    this.quickOrderListLimit &#x3D; limit;
   }
 
   /**
@@ -1259,21 +2581,29 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
    */
-  removeEntry(index: number): void {
+  softDeleteEntry(index: number): void {
     this.entries$.pipe(take(1)).subscribe((entries: OrderEntry[]) &#x3D;&gt; {
       const entriesList &#x3D; entries;
+      this.addSoftEntryDeletion(entriesList[index], true);
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
   }
 
   /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
+   */
+  removeEntry(index: number): void {
+    this.softDeleteEntry(index);
+  }
+
+  /**
    * Add product to the quick order list
    */
-  addProduct(product: Product): void {
-    const entry &#x3D; this.generateOrderEntry(product);
+  addProduct(product: Product, quantity: number &#x3D; 1): void {
+    const entry &#x3D; this.generateOrderEntry(product, quantity);
     this.addEntry(entry);
   }
 
@@ -1333,13 +2663,117 @@ export class QuickOrderService implements QuickOrderFacade {
   }
 
   /**
+   * Return soft deleted entries
+   */
+  getSoftDeletedEntries(): Observable&lt;Record&lt;string, OrderEntry&gt;&gt; {
+    return this.softDeletedEntries$;
+  }
+
+  /**
+   * Restore soft deleted entry
+   */
+  restoreSoftDeletedEntry(productCode: string): void {
+    const entry &#x3D; this.getSoftDeletedEntry(productCode);
+
+    this.addEntry(entry);
+    this.hardDeleteEntry(productCode);
+  }
+
+  /**
+   * Clear deleted entry from the list
+   */
+  hardDeleteEntry(productCode: string): void {
+    const entry &#x3D; this.getSoftDeletedEntry(productCode);
+    const deletedEntries &#x3D; this.softDeletedEntries$.getValue();
+
+    if (entry) {
+      delete deletedEntries[productCode];
+      this.softDeletedEntries$.next(deletedEntries);
+    }
+
+    this.clearDeleteTimeout(productCode);
+  }
+
+  /**
+   * Clear all deleted entries and timeout subscriptions
+   */
+  clearDeletedEntries(): void {
+    Object.values(this.clearDeleteTimeouts).forEach(
+      (subscription: Subscription) &#x3D;&gt; subscription.unsubscribe()
+    );
+
+    this.softDeletedEntries$.next({});
+    this.clearDeleteTimeouts &#x3D; {};
+  }
+
+  /**
+   *  Return non purchasable product error
+   */
+  getNonPurchasableProductError(): Observable&lt;Product | null&gt; {
+    return this.nonPurchasableProductError$;
+  }
+
+  /**
+   * Set error that selected product is not purchasable
+   */
+  setNonPurchasableProductError(product: Product): void {
+    this.nonPurchasableProductError$.next(product);
+  }
+
+  /**
+   * Clear not purchasable product error
+   */
+  clearNonPurchasableProductError(): void {
+    this.nonPurchasableProductError$.next(null);
+  }
+
+  /**
+   * Add soft deleted entry to the cached list
+   */
+  protected addSoftEntryDeletion(
+    entry: OrderEntry,
+    clearTimeout: boolean &#x3D; true
+  ): void {
+    const deletedEntries &#x3D; this.softDeletedEntries$.getValue();
+    const productCode &#x3D; entry?.product?.code;
+
+    if (productCode) {
+      deletedEntries[productCode] &#x3D; entry;
+
+      this.softDeletedEntries$.next(deletedEntries);
+
+      if (clearTimeout) {
+        const subscription: Subscription &#x3D; timer(
+          this.hardDeleteTimeout
+        ).subscribe(() &#x3D;&gt; {
+          this.hardDeleteEntry(productCode);
+        });
+
+        this.clearDeleteTimeouts[productCode] &#x3D; subscription;
+      }
+    }
+  }
+
+  /**
+   * Get soft deletion entry
+   */
+  protected getSoftDeletedEntry(productCode: string): OrderEntry {
+    const deletedEntries &#x3D; this.softDeletedEntries$.getValue();
+
+    return deletedEntries[productCode];
+  }
+
+  /**
    * Generate Order Entry from Product
    */
-  protected generateOrderEntry(product: Product): OrderEntry {
+  protected generateOrderEntry(
+    product: Product,
+    quantity?: number
+  ): OrderEntry {
     return {
       basePrice: product.price,
-      product: product,
-      quantity: 1,
+      product,
+      quantity,
       totalPrice: product.price,
     } as OrderEntry;
   }
@@ -1348,19 +2782,37 @@ export class QuickOrderService implements QuickOrderFacade {
    * Add single entry to the list
    */
   protected addEntry(entry: OrderEntry): void {
+    if (
+      entry?.product?.code &amp;&amp;
+      !this.isProductOnTheList(entry.product.code) &amp;&amp;
+      this.isLimitExceeded()
+    ) {
+      return;
+    }
+
     const entries &#x3D; this.entries$.getValue() || [];
+    const entryStockLevel &#x3D; entry.product?.stock?.stockLevel;
+
+    if (entryStockLevel &amp;&amp; entry.quantity &amp;&amp; entry.quantity &gt; entryStockLevel) {
+      entry.quantity &#x3D; entryStockLevel;
+    }
 
     if (entry.product?.code &amp;&amp; this.isProductOnTheList(entry.product.code)) {
       const entryIndex &#x3D; entries.findIndex(
         (item: OrderEntry) &#x3D;&gt; item.product?.code &#x3D;&#x3D;&#x3D; entry.product?.code
       );
-      const quantity &#x3D; entries[entryIndex].quantity;
+      let quantity &#x3D; entries[entryIndex].quantity;
 
       if (quantity &amp;&amp; entry.quantity) {
         entries[entryIndex].quantity &#x3D; quantity + entry?.quantity;
-      }
+        let newQuantity &#x3D; entries[entryIndex].quantity;
 
-      this.entries$.next([...entries]);
+        if (newQuantity &amp;&amp; entryStockLevel &amp;&amp; newQuantity &gt; entryStockLevel) {
+          entries[entryIndex].quantity &#x3D; entryStockLevel;
+        }
+
+        this.entries$.next([...entries]);
+      }
     } else {
       this.entries$.next([...entries, ...[entry]]);
     }
@@ -1379,26 +2831,47 @@ export class QuickOrderService implements QuickOrderFacade {
     );
   }
 
+  protected isLimitExceeded(): boolean {
+    const entries &#x3D; this.entries$.getValue() || [];
+
+    return entries.length &gt;&#x3D; this.quickOrderListLimit;
+  }
+
   private createQuickOrderResultEvent(
     cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
   ): QuickOrderAddEntryEvent {
-    let evt: QuickOrderAddEntryEvent &#x3D; {
+    const evt: QuickOrderAddEntryEvent &#x3D; {
       productCode: cartEvent.productCode,
       quantity: cartEvent.quantity,
-      entry: (cartEvent as CartAddEntrySuccessEvent).entry || undefined,
-      quantityAdded: (cartEvent as CartAddEntrySuccessEvent).quantityAdded,
-      // @ts-ignore
-      error: cartEvent.error || undefined,
     };
 
+    if (&#x27;entry&#x27; in cartEvent) {
+      evt.entry &#x3D; cartEvent.entry;
+    }
+    if (&#x27;quantityAdded&#x27; in cartEvent) {
+      evt.quantityAdded &#x3D; cartEvent.quantityAdded;
+    }
+    if (&#x27;error&#x27; in cartEvent &amp;&amp; cartEvent.error instanceof HttpErrorModel) {
+      evt.error &#x3D; cartEvent.error;
+    }
+
     if (evt.error?.details?.length) {
-      let isOutOfStock &#x3D; evt.error?.details.some(
-        (e: any) &#x3D;&gt; e.type &#x3D;&#x3D;&#x3D; &#x27;InsufficientStockError&#x27;
+      const isOutOfStock &#x3D; evt.error?.details.some(
+        (e) &#x3D;&gt; e.type &#x3D;&#x3D;&#x3D; &#x27;InsufficientStockError&#x27;
       );
       evt.quantityAdded &#x3D; isOutOfStock ? 0 : evt.quantity;
     }
 
     return evt;
+  }
+
+  protected clearDeleteTimeout(productCode: string): void {
+    const clearMessageTimout &#x3D; this.clearDeleteTimeouts[productCode];
+
+    if (clearMessageTimout) {
+      clearMessageTimout.unsubscribe();
+      delete this.clearDeleteTimeouts[productCode];
+    }
   }
 }
 </code></pre>

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/effects/order-return-request.effect.ts</code>
+            <code>feature-libs/order/core/store/effects/order-return-request.effect.ts</code>
         </p>
 
 
@@ -107,12 +107,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/UserOrderConnector.html" target="_self">UserOrderConnector</a>)</code>
+<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/OrderConnector.html" target="_self">OrderConnector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:110</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">feature-libs/order/core/store/effects/order-return-request.effect.ts:113</a></div>
                             </td>
                         </tr>
 
@@ -145,7 +145,7 @@
                                                         <td>orderConnector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserOrderConnector.html" target="_self" >UserOrderConnector</a></code>
+                                                                        <code><a href="../injectables/OrderConnector.html" target="_self" >OrderConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -181,15 +181,15 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#OrderReturnRequestAction" target="_self" >Observable&lt;UserActions.OrderReturnRequestAction&gt;</a></code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.OrderReturnRequestAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
-    map((action: UserActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
+    ofType(OrderActions.CANCEL_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancelReturnRequest(
@@ -198,10 +198,10 @@
           payload.returnRequestModification
         )
         .pipe(
-          map(() &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
+          map(() &#x3D;&gt; new OrderActions.CancelOrderReturnRequestSuccess()),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.CancelOrderReturnRequestFail(
+              new OrderActions.CancelOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -222,7 +222,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">feature-libs/order/core/store/effects/order-return-request.effect.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -242,26 +242,26 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#OrderReturnRequestAction" target="_self" >Observable&lt;UserActions.OrderReturnRequestAction&gt;</a></code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.OrderReturnRequestAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
-    map((action: UserActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
+    ofType(OrderActions.CREATE_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
           map(
             (returnRequest: ReturnRequest) &#x3D;&gt;
-              new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
+              new OrderActions.CreateOrderReturnRequestSuccess(returnRequest)
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.CreateOrderReturnRequestFail(
+              new OrderActions.CreateOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -282,7 +282,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/order/core/store/effects/order-return-request.effect.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -302,26 +302,26 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#OrderReturnRequestAction" target="_self" >Observable&lt;UserActions.OrderReturnRequestAction&gt;</a></code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.OrderReturnRequestAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
-    map((action: UserActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
+    ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
         .pipe(
           map(
             (returnRequest: ReturnRequest) &#x3D;&gt;
-              new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
+              new OrderActions.LoadOrderReturnRequestSuccess(returnRequest)
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.LoadOrderReturnRequestFail(
+              new OrderActions.LoadOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -342,7 +342,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">feature-libs/order/core/store/effects/order-return-request.effect.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -362,15 +362,15 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#OrderReturnRequestAction" target="_self" >Observable&lt;UserActions.OrderReturnRequestAction&gt;</a></code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.OrderReturnRequestAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
-    map((action: UserActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
+    ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST),
+    map((action: OrderActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestList(
@@ -382,13 +382,13 @@
         .pipe(
           map(
             (returnRequestList: ReturnRequestList) &#x3D;&gt;
-              new UserActions.LoadOrderReturnRequestListSuccess(
+              new OrderActions.LoadOrderReturnRequestListSuccess(
                 returnRequestList
               )
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.LoadOrderReturnRequestListFail(
+              new OrderActions.LoadOrderReturnRequestListFail(
                 normalizeHttpError(error)
               )
             )
@@ -409,7 +409,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">feature-libs/order/core/store/effects/order-return-request.effect.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -424,30 +424,33 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
+import {
+  normalizeHttpError,
+  ReturnRequest,
+  ReturnRequestList,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { ReturnRequest, ReturnRequestList } from &#x27;../../../model/order.model&#x27;;
-import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
-import { UserOrderConnector } from &#x27;../../connectors/order/user-order.connector&#x27;;
-import { UserActions } from &#x27;../actions/index&#x27;;
+import { OrderConnector } from &#x27;../../connectors/order.connector&#x27;;
+import { OrderActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class OrderReturnRequestEffect {
   @Effect()
-  createReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
-    map((action: UserActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
+  createReturnRequest$: Observable&lt;OrderActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
+    ofType(OrderActions.CREATE_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
           map(
             (returnRequest: ReturnRequest) &#x3D;&gt;
-              new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
+              new OrderActions.CreateOrderReturnRequestSuccess(returnRequest)
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.CreateOrderReturnRequestFail(
+              new OrderActions.CreateOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -457,20 +460,20 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
-    map((action: UserActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
+  loadReturnRequest$: Observable&lt;OrderActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
+    ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
         .pipe(
           map(
             (returnRequest: ReturnRequest) &#x3D;&gt;
-              new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
+              new OrderActions.LoadOrderReturnRequestSuccess(returnRequest)
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.LoadOrderReturnRequestFail(
+              new OrderActions.LoadOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -480,9 +483,9 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  cancelReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
-    map((action: UserActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
+  cancelReturnRequest$: Observable&lt;OrderActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
+    ofType(OrderActions.CANCEL_ORDER_RETURN_REQUEST),
+    map((action: OrderActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancelReturnRequest(
@@ -491,10 +494,10 @@ export class OrderReturnRequestEffect {
           payload.returnRequestModification
         )
         .pipe(
-          map(() &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
+          map(() &#x3D;&gt; new OrderActions.CancelOrderReturnRequestSuccess()),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.CancelOrderReturnRequestFail(
+              new OrderActions.CancelOrderReturnRequestFail(
                 normalizeHttpError(error)
               )
             )
@@ -504,9 +507,9 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequestList$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
-    map((action: UserActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
+  loadReturnRequestList$: Observable&lt;OrderActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
+    ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST),
+    map((action: OrderActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestList(
@@ -518,13 +521,13 @@ export class OrderReturnRequestEffect {
         .pipe(
           map(
             (returnRequestList: ReturnRequestList) &#x3D;&gt;
-              new UserActions.LoadOrderReturnRequestListSuccess(
+              new OrderActions.LoadOrderReturnRequestListSuccess(
                 returnRequestList
               )
           ),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.LoadOrderReturnRequestListFail(
+              new OrderActions.LoadOrderReturnRequestListFail(
                 normalizeHttpError(error)
               )
             )
@@ -535,7 +538,7 @@ export class OrderReturnRequestEffect {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: UserOrderConnector
+    private orderConnector: OrderConnector
   ) {}
 }
 </code></pre>

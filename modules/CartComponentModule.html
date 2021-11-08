@@ -56,13 +56,13 @@
 <title>cluster_CartComponentModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1162,-230.8 1162,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_CartComponentModule_exports</title>
-<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 1154,-222.8 1154,-170.8 16,-170.8"/>
-</g>
 <g id="clust3" class="cluster">
 <title>cluster_CartComponentModule_imports</title>
 <polygon fill="none" stroke="black" points="289,-40.8 289,-92.8 860,-92.8 860,-40.8 289,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CartComponentModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 1154,-222.8 1154,-170.8 16,-170.8"/>
 </g>
 <!-- CartDetailsModule -->
 <g id="node1" class="node">
@@ -244,7 +244,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/cart/cart.module.ts</code>
+            <code>projects/storefrontlib/cms-components/cart/cart.module.ts</code>
         </p>
 
 
@@ -310,17 +310,29 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
 import { NgbModule } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
 import { CartModule } from &#x27;@spartacus/core&#x27;;
+import { CmsPageGuard } from &#x27;../../cms-structure/guards/cms-page.guard&#x27;;
 import { PAGE_LAYOUT_HANDLER } from &#x27;../../cms-structure/page/page-layout/page-layout-handler&#x27;;
+import { PageLayoutComponent } from &#x27;../../cms-structure/page/page-layout/page-layout.component&#x27;;
 import { AddToCartModule } from &#x27;./add-to-cart/add-to-cart.module&#x27;;
+import { AddToWishListModule } from &#x27;./add-to-wishlist/add-to-wish-list.module&#x27;;
 import { CartDetailsModule } from &#x27;./cart-details/cart-details.module&#x27;;
 import { CartPageLayoutHandler } from &#x27;./cart-page-layout-handler&#x27;;
+import { ActiveCartOrderEntriesContext } from &#x27;./cart-page/active-cart-order-entries-context&#x27;;
 import { CartSharedModule } from &#x27;./cart-shared/cart-shared.module&#x27;;
 import { CartTotalsModule } from &#x27;./cart-totals/cart-totals.module&#x27;;
 import { MiniCartModule } from &#x27;./mini-cart/mini-cart.module&#x27;;
-import { AddToWishListModule } from &#x27;./add-to-wishlist/add-to-wish-list.module&#x27;;
+import { AddOrderEntriesContext } from &#x27;./order-entries-context/add-order-entries.context&#x27;;
+import { GetOrderEntriesContext } from &#x27;./order-entries-context/get-order-entries.context&#x27;;
+import { ORDER_ENTRIES_CONTEXT } from &#x27;./order-entries-context/order-entires.context&#x27;;
 import { SaveForLaterModule } from &#x27;./save-for-later/save-for-later.module&#x27;;
+
+export type OrderEntriesContext &#x3D; Partial&lt;
+  AddOrderEntriesContext &amp; GetOrderEntriesContext
+&gt;;
+
 @NgModule({
   imports: [
     NgbModule,
@@ -328,6 +340,20 @@ import { SaveForLaterModule } from &#x27;./save-for-later/save-for-later.module&
     CartTotalsModule,
     CartSharedModule,
     SaveForLaterModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: &#x27;cart&#x27;,
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: ActiveCartOrderEntriesContext,
+          },
+        },
+      },
+    ]),
   ],
   exports: [
     AddToWishListModule,

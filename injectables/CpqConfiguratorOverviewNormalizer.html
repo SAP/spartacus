@@ -143,7 +143,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -220,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:183</a></div>
                 </td>
             </tr>
 
@@ -288,8 +288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:21</a></div>
                 </td>
             </tr>
 
@@ -710,8 +710,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:157</a></div>
                 </td>
             </tr>
 
@@ -802,7 +802,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-overview-normalizer.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -826,7 +826,8 @@ const INITIAL_OV_VALUE_ATTRIBUTE_NAME &#x3D; &#x27;&#x27;;
 
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
-  implements Converter&lt;Cpq.Configuration, Configurator.Overview&gt; {
+  implements Converter&lt;Cpq.Configuration, Configurator.Overview&gt;
+{
   protected readonly NO_OPTION_SELECTED &#x3D; 0;
 
   constructor(
@@ -842,9 +843,8 @@ export class CpqConfiguratorOverviewNormalizer
       ...target,
       configId: &#x27;&#x27;,
       productCode: source.productSystemId,
-      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        source
-      ),
+      priceSummary:
+        this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: source.tabs
         ?.flatMap((tab) &#x3D;&gt; this.convertTab(tab, source.currencyISOCode))
         .filter((tab) &#x3D;&gt; tab.attributes &amp;&amp; tab.attributes.length &gt; 0),
@@ -887,16 +887,16 @@ export class CpqConfiguratorOverviewNormalizer
         ? Configurator.AttributeOverviewType.BUNDLE
         : Configurator.AttributeOverviewType.GENERAL;
     const ovAttr: Configurator.AttributeOverview[] &#x3D; [];
-    this.convertAttributeValue(attr, currency).forEach((ovValue, index) &#x3D;&gt; {
+    this.convertAttributeValue(attr, currency).forEach((ovValue) &#x3D;&gt; {
       ovAttr.push({
         ...ovValue,
         type: attributeOverviewType,
+        attribute:
+          this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+            attr
+          ),
+        attributeId: attr.stdAttrCode.toString(),
       });
-      ovAttr[
-        index
-      ].attribute &#x3D; this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-        attr
-      );
     });
     return ovAttr;
   }
@@ -952,6 +952,7 @@ export class CpqConfiguratorOverviewNormalizer
     const ovValue: Configurator.AttributeOverview &#x3D; {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: valueSelected.valueDisplay ?? valueSelected.paV_ID.toString(),
+      valueId: valueSelected.paV_ID.toString(),
       productCode: valueSelected.productSystemId,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         valueSelected,
@@ -962,10 +963,11 @@ export class CpqConfiguratorOverviewNormalizer
         currency
       ),
     };
-    ovValue.valuePriceTotal &#x3D; this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      ovValue.quantity ?? 1,
-      ovValue.valuePrice
-    );
+    ovValue.valuePriceTotal &#x3D;
+      this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        ovValue.quantity ?? 1,
+        ovValue.valuePrice
+      );
     return ovValue;
   }
 
@@ -977,17 +979,20 @@ export class CpqConfiguratorOverviewNormalizer
     const ovValue: Configurator.AttributeOverview &#x3D; {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
       value: attr.userInput ?? attr.stdAttrCode.toString(),
+      valueId: value?.paV_ID.toString(),
       quantity: 1,
     };
     if (value) {
-      ovValue.valuePrice &#x3D; this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
-        value,
-        currency
-      );
-      ovValue.valuePriceTotal &#x3D; this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-        ovValue.quantity ?? 1,
-        ovValue.valuePrice
-      );
+      ovValue.valuePrice &#x3D;
+        this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
+          value,
+          currency
+        );
+      ovValue.valuePriceTotal &#x3D;
+        this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+          ovValue.quantity ?? 1,
+          ovValue.valuePrice
+        );
     }
     return ovValue;
   }

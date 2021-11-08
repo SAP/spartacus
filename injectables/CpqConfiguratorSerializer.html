@@ -134,8 +134,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:13</a></div>
                 </td>
             </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:41</a></div>
                 </td>
             </tr>
 
@@ -368,8 +368,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:92</a></div>
                 </td>
             </tr>
 
@@ -438,8 +438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-serializer.ts:83</a></div>
                 </td>
             </tr>
 
@@ -502,11 +502,11 @@ const VALUE_SEPARATOR &#x3D; &#x27;,&#x27;;
 
 @Injectable()
 export class CpqConfiguratorSerializer
-  implements Converter&lt;Configurator.Configuration, Cpq.UpdateAttribute&gt; {
+  implements Converter&lt;Configurator.Configuration, Cpq.UpdateAttribute&gt;
+{
   convert(source: Configurator.Configuration): Cpq.UpdateAttribute {
-    const attribute: Configurator.Attribute &#x3D; CpqConfiguratorUtils.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute &#x3D;
+      CpqConfiguratorUtils.findFirstChangedAttribute(source);
     let updateAttribute: Cpq.UpdateAttribute;
     if (source.updateType &#x3D;&#x3D;&#x3D; Configurator.UpdateType.ATTRIBUTE_QUANTITY) {
       updateAttribute &#x3D; this.convertQuantity(attribute, source.configId);
@@ -520,9 +520,8 @@ export class CpqConfiguratorSerializer
     attribute: Configurator.Attribute,
     configId: string
   ): Cpq.UpdateAttribute {
-    const updateInformation &#x3D; CpqConfiguratorUtils.getUpdateInformation(
-      attribute
-    );
+    const updateInformation &#x3D;
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
 
     const updateAttribute: Cpq.UpdateAttribute &#x3D; {
       configurationId: configId,
@@ -537,9 +536,8 @@ export class CpqConfiguratorSerializer
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateAttribute {
-    const updateInformation &#x3D; CpqConfiguratorUtils.getUpdateInformation(
-      attribute
-    );
+    const updateInformation &#x3D;
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
     const updateAttribute: Cpq.UpdateAttribute &#x3D; {
       configurationId: configurationId,
       standardAttributeCode: updateInformation.standardAttributeCode,
@@ -554,18 +552,16 @@ export class CpqConfiguratorSerializer
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.RADIOBUTTON_PRODUCT ||
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds &#x3D; this.processSelectedSingleValue(
-        attribute.selectedSingleValue
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds &#x3D;
+        this.processSelectedSingleValue(attribute.selectedSingleValue);
     } else if (
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.CHECKBOXLIST_PRODUCT ||
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.CHECKBOX ||
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds &#x3D; this.prepareValueIds(
-        attribute
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds &#x3D;
+        this.prepareValueIds(attribute);
     } else if (
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.STRING ||
       attribute.uiType &#x3D;&#x3D;&#x3D; Configurator.UiType.NUMERIC

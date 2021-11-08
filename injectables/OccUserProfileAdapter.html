@@ -214,8 +214,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:138</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:148</a></div>
                 </td>
             </tr>
 
@@ -387,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:56</a></div>
                 </td>
             </tr>
 
@@ -467,8 +467,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:73</a></div>
                 </td>
             </tr>
 
@@ -535,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:88</a></div>
                 </td>
             </tr>
 
@@ -695,8 +695,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:100</a></div>
                 </td>
             </tr>
 
@@ -787,8 +787,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:119</a></div>
                 </td>
             </tr>
 
@@ -914,12 +914,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     headers &#x3D; InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     user &#x3D; this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
-    return this.http
-      .post&lt;User&gt;(url, user, { headers })
-      .pipe(
-        catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
-        this.converter.pipeable(USER_PROFILE_NORMALIZER)
-      );
+    return this.http.post&lt;User&gt;(url, user, { headers }).pipe(
+      catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
+      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+    );
   }
 
   registerGuest(guid: string, password: string): Observable&lt;User&gt; {
@@ -933,12 +931,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .set(&#x27;guid&#x27;, guid)
       .set(&#x27;password&#x27;, password);
 
-    return this.http
-      .post&lt;User&gt;(url, httpParams, { headers })
-      .pipe(
-        catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
-        this.converter.pipeable(USER_PROFILE_NORMALIZER)
-      );
+    return this.http.post&lt;User&gt;(url, httpParams, { headers }).pipe(
+      catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
+      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+    );
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable&lt;unknown&gt; {

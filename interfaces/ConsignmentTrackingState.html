@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/user-state.ts</code>
+            <code>feature-libs/order/core/store/order-state.ts</code>
         </p>
 
 
@@ -83,7 +83,6 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
                                         <a href="#tracking" 
 >
                                             tracking
@@ -127,11 +126,6 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -143,109 +137,46 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address, Country, Region } from &#x27;../../model/address.model&#x27;;
-import { PaymentDetails } from &#x27;../../model/cart.model&#x27;;
-import { ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
-import { ConsignmentTracking } from &#x27;../../model/consignment-tracking.model&#x27;;
-import { CustomerCouponSearchResult } from &#x27;../../model/customer-coupon.model&#x27;;
-import { NotificationPreference } from &#x27;../../model/notification-preference.model&#x27;;
-import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Order,
   OrderHistoryList,
-  ReturnRequest,
-  ReturnRequestList,
-} from &#x27;../../model/order.model&#x27;;
-import { CostCenter } from &#x27;../../model/org-unit.model&#x27;;
-import { ProductInterestSearchResult } from &#x27;../../model/product-interest.model&#x27;;
-import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from &#x27;../../model/replenishment-order.model&#x27;;
-import { StateUtils } from &#x27;../../state/utils/index&#x27;;
+  ReturnRequest,
+  ReturnRequestList,
+  StateUtils,
+} from &#x27;@spartacus/core&#x27;;
+import { ConsignmentTracking } from &#x27;@spartacus/order/root&#x27;;
 
-export const USER_FEATURE &#x3D; &#x27;user&#x27;;
-export const REGISTER_USER_PROCESS_ID &#x3D; &#x27;registerUser&#x27;;
-export const GIVE_CONSENT_PROCESS_ID &#x3D; &#x27;giveConsent&#x27;;
-export const WITHDRAW_CONSENT_PROCESS_ID &#x3D; &#x27;withdrawConsent&#x27;;
-export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID &#x3D;
-  &#x27;updateNotificationPreferences&#x27;;
-export const ADD_PRODUCT_INTEREST_PROCESS_ID &#x3D; &#x27;addProductInterests&#x27;;
-export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID &#x3D; &#x27;removeProductInterests&#x27;;
+export const ORDER_FEATURE &#x3D; &#x27;order&#x27;;
+
 export const CANCEL_ORDER_PROCESS_ID &#x3D; &#x27;cancelOrder&#x27;;
 export const CANCEL_RETURN_PROCESS_ID &#x3D; &#x27;cancelReturn&#x27;;
 export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID &#x3D; &#x27;cancelReplenishmentOrder&#x27;;
+export const ORDERS &#x3D; &#x27;[Order] User Orders&#x27;;
+export const RETURN_REQUESTS &#x3D; &#x27;[Order] Order Return Requests&#x27;;
+export const RETURN_REQUEST_DETAILS &#x3D; &#x27;[Order] Return Request Details&#x27;;
+export const ORDER_DETAILS &#x3D; &#x27;[Order] User Order Details&#x27;;
+export const REPLENISHMENT_ORDERS &#x3D; &#x27;[Order] User Replenishment Orders&#x27;;
+export const REPLENISHMENT_ORDER_DETAILS &#x3D;
+  &#x27;[Order] User Replenishment Order Details&#x27;;
 
-export const USER_CONSENTS &#x3D; &#x27;[User] User Consents&#x27;;
-export const USER_PAYMENT_METHODS &#x3D; &#x27;[User] User Payment Methods&#x27;;
-export const USER_ORDERS &#x3D; &#x27;[User] User Orders&#x27;;
-export const USER_ADDRESSES &#x3D; &#x27;[User] User Addresses&#x27;;
-export const USER_RETURN_REQUESTS &#x3D; &#x27;[User] Order Return Requests&#x27;;
-export const USER_RETURN_REQUEST_DETAILS &#x3D; &#x27;[User] Return Request Details&#x27;;
-export const USER_ORDER_DETAILS &#x3D; &#x27;[User] User Order Details&#x27;;
-export const USER_COST_CENTERS &#x3D; &#x27;[User] User Cost Centers&#x27;;
-export const USER_REPLENISHMENT_ORDERS &#x3D; &#x27;[User] User Replenishment Orders&#x27;;
-export const USER_REPLENISHMENT_ORDER_DETAILS &#x3D;
-  &#x27;[User] User Replenishment Order Details&#x27;;
-export const REGIONS &#x3D; &#x27;[User] Regions&#x27;;
-
-export const CUSTOMER_COUPONS &#x3D; &#x27;[User] Customer Coupons&#x27;;
-export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID &#x3D; &#x27;subscribeCustomerCoupon&#x27;;
-export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID &#x3D;
-  &#x27;unsubscribeCustomerCoupon&#x27;;
-export const CLAIM_CUSTOMER_COUPON_PROCESS_ID &#x3D; &#x27;claimCustomerCoupon&#x27;;
-export const NOTIFICATION_PREFERENCES &#x3D; &#x27;[User] Notification Preferences&#x27;;
-export const PRODUCT_INTERESTS &#x3D; &#x27;[User] Product Interests&#x27;;
-
-export interface StateWithUser {
-  [USER_FEATURE]: UserState;
+export interface StateWithOrder {
+  [ORDER_FEATURE]: OrderState;
 }
 
-/**
- * @deprecated since 3.2, moved to the &#x60;@spartacus/user&#x60; package.
- */
-export interface UserState {
-  addresses: StateUtils.LoaderState&lt;Address[]&gt;;
-  consents: StateUtils.LoaderState&lt;ConsentTemplate[]&gt;;
-  billingCountries: BillingCountriesState;
-  countries: DeliveryCountriesState;
-  payments: StateUtils.LoaderState&lt;PaymentDetails[]&gt;;
+export interface OrderState {
   orders: StateUtils.LoaderState&lt;OrderHistoryList&gt;;
-  order: StateUtils.LoaderState&lt;Order&gt;;
+  orderDetail: StateUtils.LoaderState&lt;Order&gt;;
   replenishmentOrders: StateUtils.LoaderState&lt;ReplenishmentOrderList&gt;;
   orderReturn: StateUtils.LoaderState&lt;ReturnRequest&gt;;
   orderReturnList: StateUtils.LoaderState&lt;ReturnRequestList&gt;;
-  regions: StateUtils.LoaderState&lt;RegionsState&gt;;
   consignmentTracking: ConsignmentTrackingState;
-  customerCoupons: StateUtils.LoaderState&lt;CustomerCouponSearchResult&gt;;
-  notificationPreferences: StateUtils.LoaderState&lt;NotificationPreference[]&gt;;
-  productInterests: StateUtils.LoaderState&lt;ProductInterestSearchResult&gt;;
-  costCenters: StateUtils.LoaderState&lt;CostCenter[]&gt;;
   replenishmentOrder: StateUtils.LoaderState&lt;ReplenishmentOrder&gt;;
 }
 
-export interface RegionsState {
-  entities: Region[];
-  country: string;
-}
-
-export interface BillingCountryEntities {
-  [key: string]: Country;
-}
-
-export interface BillingCountriesState {
-  entities: BillingCountryEntities;
-}
-
-export interface DeliveryCountryEntities {
-  [key: string]: Country;
-}
-
-export interface DeliveryCountriesState {
-  entities: DeliveryCountryEntities;
-}
-
 export interface ConsignmentTrackingState {
-  tracking?: ConsignmentTracking;
+  tracking: ConsignmentTracking;
 }
 </code></pre>
     </div>

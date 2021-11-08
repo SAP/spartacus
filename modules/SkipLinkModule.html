@@ -176,7 +176,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/a11y/skip-link/skip-link.module.ts</code>
+            <code>projects/storefrontlib/layout/a11y/skip-link/skip-link.module.ts</code>
         </p>
 
 
@@ -276,9 +276,8 @@ export function skipLinkFactory(
   outletService: OutletService
 ) {
   const isReady &#x3D; () &#x3D;&gt; {
-    const factory &#x3D; componentFactoryResolver.resolveComponentFactory(
-      SkipLinkComponent
-    );
+    const factory &#x3D;
+      componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);
     outletService.add(&#x27;cx-storefront&#x27;, &lt;any&gt;factory, OutletPosition.BEFORE);
   };
   return isReady;

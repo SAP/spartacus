@@ -14,13 +14,13 @@
 <title>cluster_BannerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 430,-230.8 430,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_BannerModule_imports</title>
-<polygon fill="none" stroke="black" points="162,-40.8 162,-92.8 422,-92.8 422,-40.8 162,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_BannerModule_exports</title>
 <polygon fill="none" stroke="black" points="147,-170.8 147,-222.8 289,-222.8 289,-170.8 147,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_BannerModule_imports</title>
+<polygon fill="none" stroke="black" points="162,-40.8 162,-92.8 422,-92.8 422,-40.8 162,-40.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_BannerModule_declarations</title>

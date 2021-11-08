@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/tms/core/config/tms-config.ts</code>
+            <code>projects/storefrontlib/shared/config/view-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/TmsConfig.html" target="_self" >TmsConfig</a></code>
+                        <code><a href="../injectables/ViewConfig.html" target="_self" >ViewConfig</a></code>
             </p>
 
 
@@ -83,50 +83,29 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractType, Injectable, Type } from &#x27;@angular/core&#x27;;
-import { Config, CxEvent } from &#x27;@spartacus/core&#x27;;
-import { TmsCollector } from &#x27;../model/tms.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
 
-/**
- * Collector configuration
- */
-export interface TmsCollectorConfig {
-  /** Should be enabled in development mode only */
-  debug?: boolean;
-  /**
-   * The name for the data layer object.
-   */
-  dataLayerProperty?: string;
-  /**
-   * Events to send to the configured TMS.
-   */
-  events?: AbstractType&lt;CxEvent&gt;[];
-  /**
-   * The collector service implementation.
-   */
-  collector?: Type&lt;TmsCollector&gt;;
-}
-
-export interface TmsCollectors {
-  [tms: string]: TmsCollectorConfig | undefined;
-}
-
-/**
- * TMS configuration
- */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class TmsConfig {
-  /**
-   * Tag manager config
-   */
-  tagManager?: TmsCollectors;
+export abstract class ViewConfig {
+  view?: {
+    /**
+     * Configurations related to the view of the application
+     */
+    defaultPageSize?: number;
+    infiniteScroll?: {
+      active?: boolean;
+      productLimit?: number;
+      showMoreButton?: boolean;
+    };
+  };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends TmsConfig {}
+  interface Config extends ViewConfig {}
 }
 </code></pre>
     </div>

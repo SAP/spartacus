@@ -60,13 +60,13 @@
 <title>cluster_AmendOrderItemsModule_imports</title>
 <polygon fill="none" stroke="black" points="244,-40.8 244,-92.8 914,-92.8 914,-40.8 244,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_AmendOrderItemsModule_exports</title>
-<polygon fill="none" stroke="black" points="382,-170.8 382,-222.8 606,-222.8 606,-170.8 382,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_AmendOrderItemsModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 236,-92.8 236,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AmendOrderItemsModule_exports</title>
+<polygon fill="none" stroke="black" points="382,-170.8 382,-222.8 606,-222.8 606,-170.8 382,-170.8"/>
 </g>
 <!-- CancelOrReturnItemsComponent -->
 <g id="node1" class="node">
@@ -188,7 +188,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order-items/amend-order-items.module.ts</code>
+            <code>feature-libs/order/components/amend-order/amend-order-items/amend-order-items.module.ts</code>
         </p>
 
 
@@ -247,12 +247,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
-import { I18nModule, FeaturesConfigModule } from &#x27;@spartacus/core&#x27;;
+import { FeaturesConfigModule, I18nModule } from &#x27;@spartacus/core&#x27;;
 import {
   FormErrorsModule,
   ItemCounterModule,
   MediaModule,
-} from &#x27;../../../../../shared/index&#x27;;
+} from &#x27;@spartacus/storefront&#x27;;
 import { CancelOrReturnItemsComponent } from &#x27;./amend-order-items.component&#x27;;
 
 @NgModule({

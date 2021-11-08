@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts</code>
+            <code>projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts</code>
         </p>
 
 
@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -212,7 +212,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:57</a></div>
+                            class="link-to-prism">projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -297,7 +297,7 @@ page slot is prerendered, we would ignore the defer options altogether.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:24</a></div>
+                            class="link-to-prism">projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -336,7 +336,7 @@ page slot is prerendered, we would ignore the defer options altogether.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:45</a></div>
+                            class="link-to-prism">projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -414,7 +414,7 @@ to avoid unnecessary flickering.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/cms-structure/page/slot/page-slot.service.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -490,9 +490,8 @@ export class PageSlotService {
     if (this.shouldNotDefer(slot)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };
     }
-    const deferLoading &#x3D; this.cmsComponentsService.getDeferLoadingStrategy(
-      componentType
-    );
+    const deferLoading &#x3D;
+      this.cmsComponentsService.getDeferLoadingStrategy(componentType);
     return { deferLoading };
   }
 }

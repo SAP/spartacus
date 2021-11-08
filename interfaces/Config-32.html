@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/table/config/table.config.ts</code>
+            <code>projects/core/src/routing/configurable-routes/config/routing-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/TableConfig.html" target="_self" >TableConfig</a></code>
+                        <code><a href="../injectables/RoutingConfig.html" target="_self" >RoutingConfig</a></code>
             </p>
 
 
@@ -83,63 +83,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Type } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
-import { BREAKPOINT } from &#x27;../../../../layout/config/layout-config&#x27;;
-import { TableStructureConfiguration } from &#x27;../table.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;../../../config/config-tokens&#x27;;
+import { RoutesConfig } from &#x27;../routes-config&#x27;;
 
-/**
- * The &#x60;TableConfig&#x60; provides a table configurations for specific table types. You can define
- * an all-screen table structure as well as a breakpoint specific table structure. The various
- * table structures are merged from small to large screen configurations, depending on the users
- * screen size.
- *
- * The &#x60;table.type&#x60; is used as a key to distinguish the various table configurations in the application.
- */
+export const enum RouteLoadStrategy {
+  /**
+   * Don&#x27;t reload the data on navigation if it was loaded before
+   */
+  ONCE &#x3D; &#x27;once&#x27;,
+  /**
+   * Always reload the data on navigation
+   */
+  ALWAYS &#x3D; &#x27;always&#x27;,
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class TableConfig {
-  table?: {
-    [tableType: string]: ResponsiveTableConfiguration;
-  };
-  tableOptions?: {
-    /**
-     * Global component to render table header _content_ (&#x60;&lt;th&gt;...&lt;/th&gt;&#x60;). A specific component
-     * can be configured alternatively per table or table field.
-     */
-    headerComponent?: Type&lt;any&gt;;
-
-    /**
-     * Global component to render table cell _content_ (&#x60;&lt;td&gt;...&lt;/td&gt;&#x60;). A specific component per
-     * field can be configured alternatively.
-     *
-     * If no component is available, the table content will render as-is.
-     */
-    dataComponent?: Type&lt;any&gt;;
-  };
+export abstract class RoutingConfig {
+  routing?: RoutingConfigDefinition;
 }
 
-/**
- * Helper configuration to introduce breakpoint specific table configuration.
- */
-export interface ResponsiveTableConfiguration
-  extends TableStructureConfiguration {
-  /** The table configurations for all screens */
-  [BREAKPOINT.xl]?: TableStructureConfiguration;
-  /** The table configurations for large screens and smaller */
-  [BREAKPOINT.lg]?: TableStructureConfiguration;
-  /** The table configurations for medium screens and smaller */
-  [BREAKPOINT.md]?: TableStructureConfiguration;
-  /** The table configurations for small screens and smaller */
-  [BREAKPOINT.sm]?: TableStructureConfiguration;
-  /** The table configurations for extra small screens */
-  [BREAKPOINT.xs]?: TableStructureConfiguration;
+export interface RoutingConfigDefinition {
+  /**
+   * Configuration of semantic routes. Key is route&#x27;s name. Value is the config specific to this route.
+   */
+  routes?: RoutesConfig;
+
+  /**
+   * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag &#x60;protected: false&#x60;
+   */
+  protected?: boolean;
+
+  /**
+   * Global load strategy which is used as a fallback for loading data on each navigation
+   */
+  loadStrategy?: RouteLoadStrategy;
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends TableConfig {}
+declare module &#x27;../../../config/config-tokens&#x27; {
+  interface Config extends RoutingConfig {}
 }
 </code></pre>
     </div>

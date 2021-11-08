@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-history/replenishment-order-history.module.ts</code>
+            <code>feature-libs/order/components/replenishment-order-history/replenishment-order-history.module.ts</code>
         </p>
 
 
@@ -225,24 +225,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-
-import { ListNavigationModule } from &#x27;../../../../shared/components/list-navigation/list-navigation.module&#x27;;
-import { CmsPageGuard } from &#x27;../../../../cms-structure/guards/cms-page.guard&#x27;;
-import { PageLayoutComponent } from &#x27;../../../../cms-structure/page/page-layout/page-layout.component&#x27;;
-import { ReplenishmentOrderHistoryComponent } from &#x27;./replenishment-order-history.component&#x27;;
+import { ListNavigationModule } from &#x27;@spartacus/storefront&#x27;;
 import { defaultReplenishmentOrderCancellationLayoutConfig } from &#x27;../replenishment-order-details/default-replenishment-order-cancellation-layout.config&#x27;;
+import { ReplenishmentOrderHistoryComponent } from &#x27;./replenishment-order-history.component&#x27;;
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: &#x27;replenishmentOrders&#x27; },
-      },
-    ]),
     RouterModule,
     ListNavigationModule,
     UrlModule,

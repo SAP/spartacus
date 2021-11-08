@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/launch-dialog/services/inline-render.strategy.ts</code>
+            <code>projects/storefrontlib/layout/launch-dialog/services/inline-render.strategy.ts</code>
         </p>
 
 
@@ -170,7 +170,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/layout/launch-dialog/services/inline-render.strategy.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/layout/launch-dialog/services/inline-render.strategy.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -401,7 +401,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Component.html" target="_self" >Observable&lt;ComponentRef&lt;any&gt;&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable | void</code>
 
                     </div>
                     <div class="io-description">
@@ -1115,7 +1115,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
     config: LaunchInlineDialog,
     caller: LAUNCH_CALLER | string,
     vcr: ViewContainerRef
-  ): Observable&lt;ComponentRef&lt;any&gt;&gt; {
+  ): Observable&lt;ComponentRef&lt;any&gt;&gt; | void {
     // Only render if a ViewContainerRef is provided
     if (vcr &amp;&amp; this.shouldRender(caller, config)) {
       const template &#x3D; this.componentFactoryResolver.resolveComponentFactory(

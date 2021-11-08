@@ -35,7 +35,9 @@
 
 <ol class="breadcrumb">
     <li>Modules</li>
-    <li >UserTransitionalModule</li>
+    <li 
+        class="deprecated-name"
+    >UserTransitionalModule</li>
 </ol>
 
 <div class="text-center module-graph-container">
@@ -140,6 +142,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use UserTransitional_4_2_Module with order lib instead
+            </p>
 
 
 
@@ -196,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/user/user-transitional.module.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/user/user-transitional.module.ts:14</a></div>
                 </td>
             </tr>
 
@@ -223,6 +231,9 @@ import { UserEventBuilder } from &#x27;./events/user-event.builder&#x27;;
 import { UserEventModule } from &#x27;./events/user-event.module&#x27;;
 import { UserStoreTransitionalModule } from &#x27;./store/user-store-transitional.module&#x27;;
 
+/**
+ * @deprecated since 4.2 - use UserTransitional_4_2_Module with order lib instead
+ */
 @NgModule({
   imports: [UserStoreTransitionalModule, UserEventModule],
   providers: [UserEventBuilder],

@@ -14,10 +14,6 @@
 <title>cluster_FacetModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 626,-230.8 626,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_FacetModule_exports</title>
-<polygon fill="none" stroke="black" points="264,-170.8 264,-222.8 396,-222.8 396,-170.8 264,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_FacetModule_imports</title>
 <polygon fill="none" stroke="black" points="152,-40.8 152,-92.8 618,-92.8 618,-40.8 152,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_FacetModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 144,-92.8 144,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FacetModule_exports</title>
+<polygon fill="none" stroke="black" points="264,-170.8 264,-222.8 396,-222.8 396,-170.8 264,-170.8"/>
 </g>
 <!-- FacetComponent -->
 <g id="node1" class="node">

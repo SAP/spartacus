@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-user-interests-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-user-interests-normalizer.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-user-interests-normalizer.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-user-interests-normalizer.ts:17</a></div>
                 </td>
             </tr>
 
@@ -244,7 +244,8 @@ import { ProductInterestSearchResult } from &#x27;../../../../model/product-inte
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccUserInterestsNormalizer
   implements
-    Converter&lt;Occ.ProductInterestSearchResult, ProductInterestSearchResult&gt; {
+    Converter&lt;Occ.ProductInterestSearchResult, ProductInterestSearchResult&gt;
+{
   constructor(private converter: ConverterService) {}
 
   convert(

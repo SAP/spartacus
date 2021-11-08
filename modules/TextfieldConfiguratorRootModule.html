@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/root/textfield-configurator-root.module.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/root/textfield-configurator-root.module.ts:57</a></div>
                 </td>
             </tr>
 
@@ -239,12 +239,22 @@ import { TextfieldConfiguratorRoutingModule } from &#x27;./textfield-configurato
     TextfieldConfiguratorRoutingModule.forRoot(),
     RouterModule.forChild([
       {
-        // We can neither omit the patch nor set to undefined
+        // We can neither omit the path nor set to undefined
         // @ts-ignore
         path: null,
         component: PageLayoutComponent,
         data: {
           cxRoute: &#x27;configureTEXTFIELD&#x27;,
+        },
+        canActivate: [CmsPageGuard],
+      },
+      {
+        // We can neither omit the path nor set to undefined
+        // @ts-ignore
+        path: null,
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: &#x27;configureOverviewTEXTFIELD&#x27;,
         },
         canActivate: [CmsPageGuard],
       },

@@ -204,8 +204,8 @@ information for which user is the token (regular user or CS Agent).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:91</a></div>
                 </td>
             </tr>
 
@@ -244,8 +244,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -289,8 +289,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -334,8 +334,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -404,8 +404,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -474,8 +474,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -513,8 +513,8 @@ Only available solution is to drop session we could restore, to avoid account hi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -1101,9 +1101,7 @@ Only available solution is to drop session we could restore, to avoid account hi
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;TokenTarget&gt;(
-    TokenTarget.User
-  )</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;TokenTarget&gt;(TokenTarget.User)</code>
                     </td>
                 </tr>
                     <tr>
@@ -1136,7 +1134,7 @@ Only available solution is to drop session we could restore, to avoid account hi
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/asm/root/services/asm-auth-storage.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -1279,9 +1277,8 @@ export enum TokenTarget {
   providedIn: &#x27;root&#x27;,
 })
 export class AsmAuthStorageService extends AuthStorageService {
-  protected _tokenTarget$: Observable&lt;TokenTarget&gt; &#x3D; new BehaviorSubject&lt;TokenTarget&gt;(
-    TokenTarget.User
-  );
+  protected _tokenTarget$: Observable&lt;TokenTarget&gt; &#x3D;
+    new BehaviorSubject&lt;TokenTarget&gt;(TokenTarget.User);
 
   /**
    * When CS Agent logs in during regular user session we store the regular

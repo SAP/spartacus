@@ -1515,9 +1515,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return params;
   }
 
-  private extractPaymentDetailsFromHtml(
-    html: string
-  ): { [key: string]: string | boolean } {
+  private extractPaymentDetailsFromHtml(html: string): {
+    [key: string]: string | boolean;
+  } {
     const domdoc &#x3D; this.domparser.parseFromString(html, &#x27;text/xml&#x27;);
     const responseForm &#x3D; domdoc.getElementsByTagName(&#x27;form&#x27;)[0];
     const inputs &#x3D; responseForm.getElementsByTagName(&#x27;input&#x27;);
@@ -1535,9 +1535,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return values;
   }
 
-  private convertToMap(
-    paramList: { key: string; value: string }[]
-  ): { [key: string]: string | undefined } {
+  private convertToMap(paramList: { key: string; value: string }[]): {
+    [key: string]: string | undefined;
+  } {
     return paramList.reduce(function (
       result: { [key: string]: string | undefined },
       item

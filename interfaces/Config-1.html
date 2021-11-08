@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/smartedit/root/config/smart-edit-config.ts</code>
+            <code>feature-libs/checkout/root/config/checkout-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/SmartEditConfig.html" target="_self" >SmartEditConfig</a></code>
+                        <code><a href="../injectables/CheckoutConfig.html" target="_self" >CheckoutConfig</a></code>
             </p>
 
 
@@ -85,20 +85,41 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
+import { CheckoutStep } from &#x27;../model/checkout-step.model&#x27;;
+
+export enum DeliveryModePreferences {
+  FREE &#x3D; &#x27;FREE&#x27;,
+  LEAST_EXPENSIVE &#x3D; &#x27;LEAST_EXPENSIVE&#x27;, // but not free
+  MOST_EXPENSIVE &#x3D; &#x27;MOST_EXPENSIVE&#x27;,
+}
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class SmartEditConfig {
-  smartEdit?: {
-    storefrontPreviewRoute?: string;
-    allowOrigin?: string;
+export abstract class CheckoutConfig {
+  checkout?: {
+    /**
+     * Set checkout steps as ordered array of pages.
+     */
+    steps?: Array&lt;CheckoutStep&gt;;
+    /**
+     * Allow for express checkout when default shipping method and payment method are available.
+     */
+    express?: boolean;
+    /**
+     * Default delivery mode for i.a. express checkout. Set preferences in order with general preferences (eg. DeliveryModePreferences.LEAST_EXPENSIVE) or specific delivery codes.
+     */
+    defaultDeliveryMode?: Array&lt;DeliveryModePreferences | string&gt;;
+    /**
+     * Allow for guest checkout.
+     */
+    guest?: boolean;
   };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends SmartEditConfig {}
+  interface Config extends CheckoutConfig {}
 }
 </code></pre>
     </div>

@@ -126,7 +126,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -225,8 +225,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -262,8 +262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:81</a></div>
                 </td>
             </tr>
 
@@ -299,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -341,7 +341,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -367,7 +367,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -389,12 +389,13 @@ import {
 import {
   ActiveCartService,
   Address,
+  EMAIL_PATTERN,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
   PaymentDetails,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import {
-  distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -418,9 +419,13 @@ export class CheckoutDetailsService {
   ) {
     this.cartId$ &#x3D; this.activeCartService.getActive().pipe(
       map((cartData) &#x3D;&gt; {
+        const cartUser &#x3D; cartData.user;
+
         if (
-          (cartData.user &amp;&amp; cartData.user.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) ||
-          this.activeCartService.isGuestCart()
+          cartUser &amp;&amp;
+          (cartUser.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ||
+            cartUser.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_GUEST ||
+            !!cartUser.uid?.split(&#x27;|&#x27;).slice(1).join(&#x27;|&#x27;).match(EMAIL_PATTERN))
         ) {
           return cartData.guid as string;
         }
@@ -430,8 +435,11 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ &#x3D; this.cartId$.pipe(
-      distinctUntilChanged(),
-      tap((cartId) &#x3D;&gt; this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) &#x3D;&gt; {
+        if (cartId) {
+          this.checkoutService.loadCheckoutDetails(cartId);
+        }
+      }),
       shareReplay(1),
       switchMap(() &#x3D;&gt; this.checkoutService.getCheckoutDetailsLoaded()),
       skipWhile((loaded) &#x3D;&gt; !loaded)

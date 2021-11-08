@@ -327,7 +327,7 @@
   CURRENCY_USD,
   LANGUAGE_EN,
 } from &#x27;../../../helpers/site-context-selector&#x27;;
-import { waitForPage } from &#x27;../../checkout-flow&#x27;;
+import { waitForPage, waitForProductPage } from &#x27;../../checkout-flow&#x27;;
 
 interface StrategyRequestContext {
   language?: string;
@@ -504,7 +504,7 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(&#x60;@${requestAlias}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${requestAlias}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 
   cy.get&lt;Cypress.WaitXHR&gt;(&#x60;@${requestAlias}&#x60;).then((request) &#x3D;&gt; {
     expect(request.url).to.contain(&#x60;site&#x3D;${site}&#x60;);
@@ -647,9 +647,9 @@ export function clickOnCarouselItem(
     .parent()
     .within(() &#x3D;&gt; {
       cy.root().should(&#x27;be.visible&#x27;);
-      const productPage &#x3D; waitForPage(&#x27;ProductPage&#x27;, &#x27;getProductPage&#x27;);
+      const productPage &#x3D; waitForProductPage(productId, &#x27;getProductPage&#x27;);
       cy.get(&#x27;a&#x27;).click();
-      cy.wait(&#x60;@${productPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+      cy.wait(&#x60;@${productPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
     });
 
   if (checkForCarouselEvent) {
@@ -662,7 +662,7 @@ export function clickOnCarouselItem(
 export function navigateToHomepage(): void {
   const homePage &#x3D; waitForPage(&#x27;homepage&#x27;, &#x27;getHomePage&#x27;);
   cy.get(&#x27;cx-page-slot.SiteLogo&#x27;).click();
-  cy.wait(&#x60;@${homePage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${homePage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 export function navigateToCategory(categoryName: string): void {
@@ -670,7 +670,7 @@ export function navigateToCategory(categoryName: string): void {
   cy.get(&#x27;cx-category-navigation cx-generic-link a&#x27;)
     .contains(categoryName)
     .click({ force: true });
-  cy.wait(&#x60;@${categoryPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${categoryPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 export function waitForCarouselViewEvent(): void {

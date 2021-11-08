@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/a11y/keyboard-focus/config/keyboard-focus.config.ts</code>
+            <code>projects/core/src/cms/page/config/page-meta.config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/KeyboardFocusConfig.html" target="_self" >KeyboardFocusConfig</a></code>
+                        <code><a href="../injectables/PageMetaConfig.html" target="_self" >PageMetaConfig</a></code>
             </p>
 
 
@@ -84,29 +84,83 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
-import { BREAKPOINT } from &#x27;../../../config&#x27;;
+import { Config } from &#x27;../../../config/config-tokens&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class KeyboardFocusConfig {
-  keyboardFocus?: {
-    /**
-     * Resets the focus back to the root &#x60;&lt;cx-storefront&gt;&#x60; element when a navigation is started.
-     */
-    enableResetFocusOnNavigate?: boolean | BREAKPOINT[];
-
-    /**
-     * Resets the view back to the root &#x60;&lt;cx-storefront&gt;&#x60; element when a navigation is started. This can also be set to a BREAKPOINT value to only reset the view up to the provided value.
-     */
-    enableResetViewOnNavigate?: boolean | BREAKPOINT[];
-  };
+export abstract class PageMetaConfig {
+  pageMeta?: PageMetaResolversConfig;
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends KeyboardFocusConfig {}
+declare module &#x27;../../../config/config-tokens&#x27; {
+  interface Config extends PageMetaConfig {}
+}
+
+export interface PageMetaResolversConfig {
+  resolvers?: PageMetaResolverConfig[];
+
+  /**
+   * Specifies how the canonical url is created.
+   */
+  canonicalUrl?: CanonicalUrlOptions;
+
+  /**
+   * Enables resolvers in dev mode regardless of the CSR configuration. This
+   * flag will override the disabling in CSR, which can be useful during development
+   * and debugging.
+   */
+  enableInDevMode?: boolean;
+}
+
+export interface PageMetaResolverConfig {
+  /**
+   * PageMeta property
+   */
+  property: string;
+
+  /**
+   * The resolver method that must be provided on the resolver class.
+   */
+  method: string;
+
+  /**
+   * Disables specific resolvers in CSR mode. Some of the resolvers are
+   * not needed in CSR app, as they&#x27;re only used for crawlers who will
+   * be served from SSR rendered pages.
+   */
+  disabledInCsr?: boolean;
+}
+
+export interface CanonicalUrlOptions {
+  /**
+   * Forces a trailing slash to avoid both https://www.myshop.com and https://www.myshop.com/.
+   */
+  forceTrailingSlash?: boolean;
+
+  /**
+   * Forces the use of &#x60;https://&#x60; in the canonical URL.
+   */
+  forceHttps?: boolean;
+
+  /**
+   * Forces the &#x60;www&#x60; subdomain, so that canonical URLs are always prefixed with &#x60;www.&#x60;.
+   *
+   * Please be aware that the logic will not detect whether your domain includes a subdomain.
+   */
+  forceWww?: boolean;
+
+  /**
+   * Removes query parameters from the URL to avoid page duplicates.
+   *
+   * This is useful in case page urls have various query parameters that are added by
+   * integrations (i.e. generated links from social platform).
+   *
+   * The query parameter can either be removed completely, or an array of query parameter keys
+   * can be provided.
+   */
+  removeQueryParams?: boolean | string[];
 }
 </code></pre>
     </div>

@@ -302,8 +302,8 @@ the params&#39; values in the custom property of UrlTree: <code>siteContext</cod
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:120</a></div>
                 </td>
             </tr>
 
@@ -446,8 +446,8 @@ URL shortened by the recognized params.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:140</a></div>
                 </td>
             </tr>
 
@@ -528,8 +528,8 @@ URL shortened by the recognized params.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:131</a></div>
                 </td>
             </tr>
 
@@ -601,8 +601,8 @@ of the UrlTree: <code>siteContext</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-url-serializer.ts:109</a></div>
                 </td>
             </tr>
 
@@ -858,9 +858,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    * It returns the recognized site context params as well as the
    * URL shortened by the recognized params.
    */
-  urlExtractContextParameters(
-    url: string
-  ): { url: string; params: SiteContextUrlParams } {
+  urlExtractContextParameters(url: string): {
+    url: string;
+    params: SiteContextUrlParams;
+  } {
     const [, urlPart, queryPart] &#x3D; url.match(this.URL_SPLIT);
 
     const segments &#x3D; urlPart.split(&#x27;/&#x27;);

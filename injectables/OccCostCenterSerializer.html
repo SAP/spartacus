@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-serializer.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-serializer.ts:12</a></div>
                 </td>
             </tr>
 
@@ -193,7 +193,8 @@ import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class OccCostCenterSerializer
-  implements Converter&lt;CostCenter, Occ.CostCenter&gt; {
+  implements Converter&lt;CostCenter, Occ.CostCenter&gt;
+{
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
       target &#x3D; { ...(source as any) };

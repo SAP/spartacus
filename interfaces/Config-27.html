@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/direction/config/direction.config.ts</code>
+            <code>projects/storefrontlib/cms-structure/seo/config/seo.config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/DirectionConfig.html" target="_self" >DirectionConfig</a></code>
+                        <code><a href="../injectables/SeoConfig.html" target="_self" >SeoConfig</a></code>
             </p>
 
 
@@ -85,32 +85,25 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import { Direction } from &#x27;./direction.model&#x27;;
 
-/**
- * The direction config provides an easy way to configure &quot;ltr&quot; versus &quot;rtl&quot; direction
- * for the storefront. The direction can be configured to detect the direction by language.
- *
- * The following configuration detects rtl languages by isoCode for Arabic and Hebrew:
- *
- * &#x60;&#x60;&#x60;typescript
- * direction: {
- *   detect: true,
- *   default: DirectionMode.LTR,
- *   rtlLanguages: [&#x27;ar&#x27;, &#x27;he&#x27;]
- * }
- * &#x60;&#x60;&#x60;
- */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class DirectionConfig {
-  direction?: Direction;
+export abstract class SeoConfig {
+  seo?: SeoOptions;
+}
+
+export interface SeoOptions {
+  structuredData?: StructuredData;
+}
+
+export interface StructuredData {
+  disableInDevMode?: boolean;
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends DirectionConfig {}
+  interface Config extends SeoConfig {}
 }
 </code></pre>
     </div>

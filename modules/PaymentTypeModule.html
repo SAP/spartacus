@@ -217,7 +217,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsConfig, ConfigModule, I18nModule } from &#x27;@spartacus/core&#x27;;
-import { SpinnerModule } from &#x27;@spartacus/storefront&#x27;;
+import { SpinnerModule, CartValidationGuard } from &#x27;@spartacus/storefront&#x27;;
 import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
@@ -231,7 +231,7 @@ import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
       cmsComponents: {
         CheckoutPaymentType: {
           component: PaymentTypeComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),

@@ -126,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-value-serializer.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/converters/cpq-configurator-value-serializer.ts:11</a></div>
                 </td>
             </tr>
 
@@ -340,11 +340,11 @@ import { CpqConfiguratorUtils } from &#x27;./../cpq-configurator-utils&#x27;;
 
 @Injectable()
 export class CpqConfiguratorValueSerializer
-  implements Converter&lt;Configurator.Configuration, Cpq.UpdateValue&gt; {
+  implements Converter&lt;Configurator.Configuration, Cpq.UpdateValue&gt;
+{
   convert(source: Configurator.Configuration): Cpq.UpdateValue {
-    const attribute: Configurator.Attribute &#x3D; CpqConfiguratorUtils.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute &#x3D;
+      CpqConfiguratorUtils.findFirstChangedAttribute(source);
     const updateValue: Cpq.UpdateValue &#x3D; this.convertAttribute(
       attribute,
       source.configId

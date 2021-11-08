@@ -87,6 +87,9 @@
                                 <a href="#readConfigurationForCartEntry" >readConfigurationForCartEntry</a>
                             </li>
                             <li>
+                                <a href="#readConfigurationForOrderEntry" >readConfigurationForOrderEntry</a>
+                            </li>
+                            <li>
                                 <a href="#updateConfigurationForCartEntry" >updateConfigurationForCartEntry</a>
                             </li>
                         </ul>
@@ -112,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -199,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:54</a></div>
                 </td>
             </tr>
 
@@ -267,8 +270,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:31</a></div>
                 </td>
             </tr>
 
@@ -347,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:77</a></div>
                 </td>
             </tr>
 
@@ -399,6 +402,74 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="readConfigurationForOrderEntry"></a>
+                    <span class="name">
+                        <span ><b>readConfigurationForOrderEntry</b></span>
+                        <a href="#readConfigurationForOrderEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readConfigurationForOrderEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateConfigurationForCartEntry"></a>
                     <span class="name">
                         <span ><b>updateConfigurationForCartEntry</b></span>
@@ -415,8 +486,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts:129</a></div>
                 </td>
             </tr>
 
@@ -491,7 +562,8 @@ import { OccConfiguratorTextfield } from &#x27;./occ-configurator-textfield.mode
 
 @Injectable()
 export class OccConfiguratorTextfieldAdapter
-  implements ConfiguratorTextfieldAdapter {
+  implements ConfiguratorTextfieldAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -554,6 +626,32 @@ export class OccConfiguratorTextfieldAdapter
           userId: parameters.userId,
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get&lt;ConfiguratorTextfield.Configuration&gt;(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      map((resultConfiguration) &#x3D;&gt; {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
+        };
+      })
+    );
+  }
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable&lt;ConfiguratorTextfield.Configuration&gt; {
+    const url &#x3D; this.occEndpointsService.buildUrl(
+      &#x27;readTextfieldConfigurationForOrderEntry&#x27;,
+      {
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
         },
       }
     );

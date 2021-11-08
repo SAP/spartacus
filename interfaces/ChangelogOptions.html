@@ -407,6 +407,7 @@ export default async function run(
     &#x27;@spartacus/cdc&#x27;: &#x27;integration-libs/cdc&#x27;,
     &#x27;@spartacus/setup&#x27;: &#x27;core-libs/setup&#x27;,
     &#x27;@spartacus/cart&#x27;: &#x27;feature-libs/cart&#x27;,
+    &#x27;@spartacus/order&#x27;: &#x27;feature-libs/order&#x27;,
     &#x27;@spartacus/digital-payments&#x27;: &#x27;integration-libs/digital-payments&#x27;,
   };
 
@@ -676,6 +677,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;cart&#x27;:
     case &#x27;@spartacus/cart&#x27;:
       config.library &#x3D; &#x27;@spartacus/cart&#x27;;
+      break;
+    case &#x27;order&#x27;:
+    case &#x27;@spartacus/order&#x27;:
+      config.library &#x3D; &#x27;@spartacus/order&#x27;;
       break;
     case &#x27;digital-payments&#x27;:
     case &#x27;@spartacus/digital-payments&#x27;:

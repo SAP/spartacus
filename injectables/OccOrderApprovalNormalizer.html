@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-normalizer.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-normalizer.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-normalizer.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-normalizer.ts:18</a></div>
                 </td>
             </tr>
 
@@ -245,7 +245,8 @@ import { OrderApproval } from &#x27;../../core/model/order-approval.model&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class OccOrderApprovalNormalizer
-  implements Converter&lt;Occ.OrderApproval, OrderApproval&gt; {
+  implements Converter&lt;Occ.OrderApproval, OrderApproval&gt;
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {

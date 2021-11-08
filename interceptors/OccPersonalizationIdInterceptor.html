@@ -215,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">feature-libs/tracking/personalization/root/http-interceptors/occ-personalization-id.interceptor.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/tracking/personalization/root/http-interceptors/occ-personalization-id.interceptor.ts:49</a></div>
                 </td>
             </tr>
 
@@ -406,7 +406,8 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             &#x60;There is no httpHeaderName configured in Personalization&#x60;
           );
         }
-        this.requestHeader &#x3D; this.config.personalization?.httpHeaderName?.id.toLowerCase();
+        this.requestHeader &#x3D;
+          this.config.personalization?.httpHeaderName?.id.toLowerCase();
         this.personalizationId &#x3D; this.winRef.localStorage?.getItem(
           PERSONALIZATION_ID_KEY
         );

@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorAttributeNumericInputFieldModule_declarations</title>
 <polygon fill="none" stroke="black" points="292,-40.8 292,-92.8 620,-92.8 620,-40.8 292,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ConfiguratorAttributeNumericInputFieldModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 284,-92.8 284,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeNumericInputFieldModule_exports</title>
 <polygon fill="none" stroke="black" points="68,-170.8 68,-222.8 398,-222.8 398,-170.8 68,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ConfiguratorAttributeNumericInputFieldModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 284,-92.8 284,-40.8 16,-40.8"/>
 </g>
 <!-- ConfiguratorAttributeNumericInputFieldComponent -->
 <g id="node1" class="node">
