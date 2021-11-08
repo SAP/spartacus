@@ -6,7 +6,6 @@ import {
   asmTabbingOrderNotLoggedIn,
   asmTabbingOrderWithSelectedUser,
 } from '../../helpers/accessibility/tabbing-order/asm';
-import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
@@ -217,12 +216,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Add to cart', () => {
     it('should allow to navigate with tab key', () => {
       addToCartTabbingOrder(config.addToCart);
-    });
-  });
-
-  context('Cart', () => {
-    it('should allow to navigate with tab key', () => {
-      cartTabbingOrder(config.cart);
     });
   });
 

@@ -1,0 +1,58 @@
+[
+  {
+    "element": "<button cxautofocus=\"\" class=\"link cx-action-link\" tabindex=\"0\" ng-reflect-router-link=\"/,my-account,saved-carts\"><span>Saved carts</span></button>",
+    "child": "<span>Saved carts</span>"
+  },
+  {
+    "element": "<button cxautofocus=\"\" class=\"link cx-action-link\"><span>Save cart for later</span></button>",
+    "child": "<span>Save cart for later</span>"
+  },
+  {
+    "element": "<a cxmodal=\"dismiss\" class=\"cx-link\" ng-reflect-cx-modal=\"dismiss\" ng-reflect-router-link=\"/,product,300938,photosmart-e3\" href=\"/electronics-spa/en/USD/product/300938/photosmart-e317-digital-camera\"><h2>Photosmart E317 Digital Camera</h2></a>",
+    "child": "<h2>Photosmart E317 Digital Camera</h2>"
+  },
+  {
+    "element": "<button type=\"button\" tabindex=\"0\" aria-label=\"Remove one\"> -\n</button>",
+    "child": " -\n"
+  },
+  {
+    "element": "<input type=\"number\" ng-reflect-min=\"1\" ng-reflect-max=\"314\" step=\"1\" tabindex=\"0\" ng-reflect-form=\"[object Object]\" aria-label=\"Quantity\" min=\"1\" max=\"314\" class=\"ng-untouched ng-pristine ng-valid\">",
+    "child": ""
+  },
+  {
+    "element": "<button type=\"button\" tabindex=\"0\" aria-label=\"Add one more\"> +\n</button>",
+    "child": " +\n"
+  },
+  {
+    "element": "<button type=\"button\" class=\"link cx-action-link\"> Save For Later </button>",
+    "child": " Save For Later "
+  },
+  {
+    "element": "<button class=\"link cx-action-link\" aria-label=\"Remove Product from Cart\"> Remove </button>",
+    "child": " Remove "
+  },
+  {
+    "element": "<button type=\"button\" class=\"btn btn-primary btn-block\" tabindex=\"0\" ng-reflect-router-link=\"/,checkout\"> Proceed to Checkout </button>",
+    "child": " Proceed to Checkout "
+  },
+  {
+    "element": "<input type=\"text\" formcontrolname=\"couponCode\" class=\"form-control input-coupon-code ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"couponCode\" placeholder=\"Promo code\">",
+    "child": ""
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-block btn-action apply-coupon-button\"> Apply </button>",
+    "child": " Apply "
+  },
+  {
+    "element": "<input formcontrolname=\"productCode\" type=\"text\" class=\"form-control input-product-code ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"productCode\" placeholder=\"Enter ID\">",
+    "child": ""
+  },
+  {
+    "element": "<input formcontrolname=\"quantity\" type=\"number\" class=\"form-control input-quantity ng-untouched ng-pristine ng-valid\" ng-reflect-name=\"quantity\" ng-reflect-min=\"1\" min=\"1\">",
+    "child": ""
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-block btn-action apply-quick-order-button\"> Add </button>",
+    "child": " Add "
+  }
+]
