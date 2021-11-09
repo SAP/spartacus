@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -16,7 +16,7 @@ function testCategoryPage(
   categoryPagePath: string = merchandisingCarousel.filmCamerasCategoryPagePath,
   containsConsentReference?: boolean
 ): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+  const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
 
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`
@@ -106,7 +106,8 @@ context('Merchandising Carousel - Category page', () => {
 
     it('should ignore previous category page content when navigating to a different category page', () => {
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName
+        merchandisingCarousel.camcordersCategoryName,
+        merchandisingCarousel.camcordersCategoryCode
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(

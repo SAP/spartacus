@@ -77,7 +77,7 @@ context('B2B - Quick Order', () => {
       });
 
       it('should show info message to add product to the list before clicking add to cart', () => {
-        quickOrder.addToCart();
+        quickOrder.addToCartClick();
         quickOrder.verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart();
       });
 
