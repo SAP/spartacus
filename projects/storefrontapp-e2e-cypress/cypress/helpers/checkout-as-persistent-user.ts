@@ -1,11 +1,23 @@
 import { product } from '../sample-data/checkout-flow';
 
+export const username = 'test-user-with-orders@sap.cx.com';
+export const password = 'pw4all';
+export const firstName = 'Test';
+export const lastName = 'User';
+export const titleCode = 'mr';
+
+export function loginSuccessfully() {
+  cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
+
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
@@ -68,7 +80,7 @@ export function addPaymentMethod() {
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/users/test-user-with-orders@sap.cx.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
