@@ -85,5 +85,16 @@ export const configurator = {
       viewConflictDetails: 'Conflict Detected',
       viewConfigurationDetails: '',
     },
+    a11y: {
+      nameOfAttribute: 'Name of Attribute',
+      valueOfAttribute: 'Value of attribute {{ attribute }}',
+      valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      value: 'Value {{ value }}',
+      attribute: 'Attribute {{ attribute }}',
+      requiredAttribute: 'Attribute {{param}} is required',
+      listOfAttributesAndValues: 'List of attributes and their values:',
+      editAttributesAndValues: 'Edit values of attributes:',
+      group: '{{ group }} group of attributes',
+    },
   },
 };

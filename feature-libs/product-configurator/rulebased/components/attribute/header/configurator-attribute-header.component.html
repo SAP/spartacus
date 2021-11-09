@@ -4,8 +4,9 @@
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
   [attr.aria-label]="
     !attribute.required
-      ? attribute.label
-      : ('configurator.attribute.requiredAttribute'
+      ? ('configurator.a11y.attribute'
+        | cxTranslate: { attribute: attribute.label })
+      : ('configurator.a11y.requiredAttribute'
         | cxTranslate: { param: attribute.label })
   "
   >{{ attribute.label }}</label

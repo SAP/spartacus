@@ -26,11 +26,13 @@
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
           [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          attr.aria-labelledby="{{
-            createAriaLabelledBy('label', attribute.name, value.valueCode)
-          }}"
           [attr.aria-checked]="
             attributeRadioButtonForm.value === value.valueCode ? true : false
+          "
+          [attr.aria-label]="
+            'configurator.a11y.valueOfAttributeFull'
+              | cxTranslate
+                : { value: value.valueDisplay, attribute: attribute.label }
           "
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode
