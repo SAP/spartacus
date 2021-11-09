@@ -198,6 +198,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
+          cy.wait(1000);
           clickManage();
 
           cy.get('cx-org-sub-list cx-table tr td')
