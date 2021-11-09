@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import {
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
   OrderEntriesSource,
   OrderEntry,
   ProductData,
@@ -15,7 +17,9 @@ import { QuickOrderFacade } from '../facade/quick-order.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderOrderEntriesContext {
+export class QuickOrderOrderEntriesContext
+  implements AddOrderEntriesContext, GetOrderEntriesContext
+{
   readonly type = OrderEntriesSource.QUICK_ORDER;
 
   constructor(

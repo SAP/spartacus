@@ -4,8 +4,14 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { ContextService, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { OrderEntriesContext } from '@spartacus/cart/main/components';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import {
+  ContextService,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-import-order-entries',
@@ -20,4 +26,15 @@ export class ImportOrderEntriesComponent {
     protected launchDialogService: LaunchDialogService,
     protected contextService: ContextService
   ) {}
+
+  orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
+
+  openDialog(orderEntriesContext: OrderEntriesContext): void {
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.IMPORT_TO_CART,
+      this.element,
+      { orderEntriesContext }
+    );
+  }
 }

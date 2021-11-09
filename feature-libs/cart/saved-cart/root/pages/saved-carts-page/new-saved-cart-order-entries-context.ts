@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
+  AddOrderEntriesContext,
   Cart,
+  CartOrderEntriesContext,
   MultiCartFacade,
   OrderEntriesSource,
   ProductData,
+  ProductImportInfo,
 } from '@spartacus/cart/main/root';
 import { StateUtils, UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
@@ -14,6 +17,7 @@ import {
   map,
   observeOn,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 import { SavedCartFacade } from '../../facade/saved-cart.facade';
@@ -21,7 +25,10 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class NewSavedCartOrderEntriesContext {
+export class NewSavedCartOrderEntriesContext
+  extends CartOrderEntriesContext
+  implements AddOrderEntriesContext
+{
   readonly type = OrderEntriesSource.NEW_SAVED_CART;
 
   constructor(
@@ -29,7 +36,19 @@ export class NewSavedCartOrderEntriesContext {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade
-  ) {}
+  ) {
+    super(actionsSubject);
+  }
+
+  addEntries(
+    products: ProductData[],
+    savedCartInfo?: { name: string; description: string }
+  ): Observable<ProductImportInfo> {
+    return this.add(products, savedCartInfo).pipe(
+      switchMap((cartId: string) => this.getResults(cartId)),
+      take(products.length)
+    );
+  }
 
   protected add(
     products: ProductData[],

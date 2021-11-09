@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { OrderEntriesSource, OrderEntry } from '@spartacus/cart/main/root';
+import {
+  GetOrderEntriesContext,
+  OrderEntriesSource,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,7 +12,9 @@ import { CheckoutFacade } from '../facade/checkout.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderConfirmationOrderEntriesContext {
+export class OrderConfirmationOrderEntriesContext
+  implements GetOrderEntriesContext
+{
   readonly type = OrderEntriesSource.ORDER_CONFIRMATION;
 
   constructor(protected checkoutService: CheckoutFacade) {}
