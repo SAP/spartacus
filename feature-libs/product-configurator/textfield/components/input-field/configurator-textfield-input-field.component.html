@@ -10,8 +10,12 @@
     class="form-control"
     (change)="onInputChange()"
     [attr.aria-label]="
-      'configurator.a11y.valueOfAttribute'
-        | cxTranslate: { attribute: attribute.configurationLabel }
+      'configurator.a11y.valueOfAttributeFull'
+        | cxTranslate
+          : {
+              value: attribute.configurationValue,
+              attribute: attribute.configurationLabel
+            }
     "
   />
 </div>
