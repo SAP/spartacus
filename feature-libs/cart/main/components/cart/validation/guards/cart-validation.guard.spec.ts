@@ -1,19 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CartValidationService } from '@spartacus/cart/main/core';
 import {
-  ActiveCartService,
-  CartConfigService,
+  ActiveCartFacade,
   CartModification,
   CartModificationList,
-  CartValidationService,
+} from '@spartacus/cart/main/root';
+import {
   GlobalMessageService,
   GlobalMessageType,
   RouterState,
   SemanticPathService,
 } from '@spartacus/core';
-import { CartValidationGuard } from './cart-validation.guard';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { CartConfigService } from '../../../services/cart-config.service';
 import { CartValidationStateService } from '../cart-validation-state.service';
+import { CartValidationGuard } from './cart-validation.guard';
+
 import createSpy = jasmine.createSpy;
 
 const cartModificationSubject = new BehaviorSubject<CartModificationList>({
@@ -55,7 +58,7 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
 }
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId = () => of(mockCartId);
   reloadActiveCart = createSpy().and.stub();
   getEntries = () => mockEntriesSubject.asObservable();
@@ -84,7 +87,7 @@ class MockCartConfigService implements Partial<CartConfigService> {
 describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
   let globalMessageService: GlobalMessageService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,7 +96,7 @@ describe(`CartValidationGuard`, () => {
         { provide: CartValidationService, useClass: MockCartValidationService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
           provide: CartValidationStateService,
           useClass: MockCartValidationStateService,
@@ -108,7 +111,7 @@ describe(`CartValidationGuard`, () => {
 
     guard = TestBed.inject(CartValidationGuard);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
 
     cartModificationSubject.next({ cartModifications: [] });
   });

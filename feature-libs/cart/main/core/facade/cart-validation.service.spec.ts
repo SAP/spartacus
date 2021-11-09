@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
 import { CartValidationService } from './cart-validation.service';
@@ -16,7 +17,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId() {
     return of('current');
   }
@@ -42,8 +43,8 @@ describe('CartValidationService', () => {
           useClass: MockUserIdService,
         },
         {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
         },
       ],
     });
