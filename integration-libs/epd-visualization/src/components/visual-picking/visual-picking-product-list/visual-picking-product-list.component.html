@@ -25,7 +25,10 @@
   <div
     *ngIf="active"
     class="row no-gutters list-item"
+    tabindex="0"
     (click)="selectedProductCodes = [item.product.code]"
+    (keydown.enter)="selectedProductCodes = [item.product.code]"
+    (keydown.space)="selectedProductCodes = [item.product.code]"
     [class.selected]="item.highlighted"
   >
     <!-- Item Description -->
