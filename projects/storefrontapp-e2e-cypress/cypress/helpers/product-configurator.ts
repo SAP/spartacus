@@ -178,10 +178,7 @@ export function checkAttributeNotDisplayed(
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
-export function maskCharacter(
-  searchValue: string,
-  character: string
-): string {
+export function maskCharacter(searchValue: string, character: string): string {
   if (searchValue.indexOf(character) !== -1) {
     const replaceValue = '\\' + character;
     searchValue = searchValue.replaceAll(character, replaceValue);
