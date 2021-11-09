@@ -134,7 +134,7 @@
     align-items: center;
     margin-bottom: 0;
     @include forVersion(4.2) {
-      padding: 0;
+      padding-inline-start: 0;
     }
 
     @include media-breakpoint-down(sm) {
