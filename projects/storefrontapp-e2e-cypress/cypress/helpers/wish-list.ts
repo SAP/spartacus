@@ -100,7 +100,7 @@ export function addToWishList(product: TestProduct) {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${productPage}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
   waitForGetWishList();
 
