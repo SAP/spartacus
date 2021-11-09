@@ -44,7 +44,7 @@ import {
 
       ui5: {
         bootstrapUrl:
-          'https://sapui5.hana.ondemand.com/1.95.0/resources/sap-ui-core.js',
+          'https://sapui5.hana.ondemand.com/1.96.0/resources/sap-ui-core.js',
       },
 
       visualPicking: {
