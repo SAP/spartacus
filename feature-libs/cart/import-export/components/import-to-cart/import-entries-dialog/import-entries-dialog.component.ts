@@ -1,23 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import {
-  OrderEntriesSource,
-  ProductData,
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
 } from '@spartacus/cart/main/root';
-import {
-  AddOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-
-
-import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
+import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -43,54 +31,6 @@ export class ImportEntriesDialogComponent {
     warningMessages: [],
     errorMessages: [],
   });
-
-  context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
-
-  constructor(protected launchDialogService: LaunchDialogService) {}
-
-  isNewCartForm(context: AddOrderEntriesContext) {
-    return context.type === OrderEntriesSource.NEW_SAVED_CART;
-  }
-
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
-  }
-
-  importProducts(
-    context: AddOrderEntriesContext,
-    {
-      products,
-      savedCartInfo,
-    }: {
-      products: ProductData[];
-      savedCartInfo?: {
-        name: string;
-        description: string;
-      };
-    }
-  ): void {
-    this.formState = false;
-    this.summary$.next({
-      ...this.summary$.value,
-      loading: true,
-      total: products.length,
-      cartName: savedCartInfo?.name,
-    });
-    context
-      .addEntries(products, savedCartInfo)
-      .pipe(
-        finalize(() => {
-          this.summary$.next({
-            ...this.summary$.value,
-            loading: false,
-          });
-        })
-      )
-      .subscribe((action: ProductImportInfo) => {
-        this.populateSummary(action);
-      });
-  }
 
   protected populateSummary(action: ProductImportInfo): void {
     if (action.statusCode === ProductImportStatus.SUCCESS) {

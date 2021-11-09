@@ -1,10 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import {
-  AddOrderEntriesContext,
-  GetOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,
@@ -19,9 +15,7 @@ import { QuickOrderFacade } from '../facade/quick-order.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class QuickOrderOrderEntriesContext
-  implements AddOrderEntriesContext, GetOrderEntriesContext
-{
+export class QuickOrderOrderEntriesContext {
   readonly type = OrderEntriesSource.QUICK_ORDER;
 
   constructor(

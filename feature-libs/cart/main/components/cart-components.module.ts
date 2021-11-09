@@ -3,23 +3,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/main/root';
+import {
   CmsPageGuard,
   OutletModule,
   PageLayoutComponent,
   PAGE_LAYOUT_HANDLER,
 } from '@spartacus/storefront';
-import { ActiveCartOrderEntriesContext } from './cart/cart-page/active-cart-order-entries-context';
 import { AddToCartModule } from './cart/add-to-cart/add-to-cart.module';
 import { AddToWishListModule } from './cart/add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart/cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart/cart-page-layout-handler';
+import { ActiveCartOrderEntriesContext } from './cart/cart-page/active-cart-order-entries-context';
 import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart/cart-totals/cart-totals.module';
 import { MiniCartModule } from './cart/mini-cart/mini-cart.module';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
-import { AddOrderEntriesContext } from './cart/order-entries-context/add-order-entries.context';
-import { GetOrderEntriesContext } from './cart/order-entries-context/get-order-entries.context';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import { WishListModule } from './wish-list/wish-list.module';
 
 export type OrderEntriesContext = Partial<

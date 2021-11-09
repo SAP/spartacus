@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { OrderEntry } from '../models/cart.model';
-import { CartItemComponentOptions, PromotionLocation } from './cart.model';
+import {
+  CartItemComponentOptions,
+  OrderEntry,
+  PromotionLocation,
+} from '../models/cart.model';
 
 /**
  * Context for `CartItemComponent`.

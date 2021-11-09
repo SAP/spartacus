@@ -1,6 +1,7 @@
 export * from './cart-root.module';
 export * from './config/cart-config';
 export * from './constants/index';
+export * from './context/index';
 export * from './converters';
 export * from './events/cart.events';
 export * from './facade/index';

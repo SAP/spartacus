@@ -4,8 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,

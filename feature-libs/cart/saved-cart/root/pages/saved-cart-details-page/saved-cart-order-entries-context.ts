@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
-  AddOrderEntriesContext,
-  CartOrderEntriesContext,
-  GetOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-import {
   Cart,
   MultiCartFacade,
   OrderEntriesSource,
@@ -20,10 +15,7 @@ import { SavedCartFacade } from '../../facade/saved-cart.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class SavedCartOrderEntriesContext
-  extends CartOrderEntriesContext
-  implements AddOrderEntriesContext, GetOrderEntriesContext
-{
+export class SavedCartOrderEntriesContext {
   readonly type = OrderEntriesSource.SAVED_CART;
 
   constructor(
@@ -32,9 +24,7 @@ export class SavedCartOrderEntriesContext
     protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService
-  ) {
-    super(actionsSubject);
-  }
+  ) {}
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
