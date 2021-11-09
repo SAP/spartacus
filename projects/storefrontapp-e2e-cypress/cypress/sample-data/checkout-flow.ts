@@ -31,10 +31,6 @@ export interface SampleProduct {
   code: string;
 }
 
-export interface SampleNonPurchasableProduct extends SampleProduct {
-  multidimensional: boolean;
-}
-
 export interface SampleCartProduct {
   estimatedShipping: string;
   total: string;

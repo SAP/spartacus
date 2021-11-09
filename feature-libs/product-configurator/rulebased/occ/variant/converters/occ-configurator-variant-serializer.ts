@@ -8,8 +8,6 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
-  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
-
   convert(
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
@@ -57,31 +55,6 @@ export class OccConfiguratorVariantSerializer
     occGroups.push(group);
   }
 
-  protected isRetractValue(attribute: Configurator.Attribute): boolean {
-    return (
-      attribute.selectedSingleValue ===
-      OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
-    );
-  }
-
-  protected getRetractedValue(
-    attribute: Configurator.Attribute
-  ): string | undefined {
-    return attribute.values?.find((value) => value?.selected)?.valueCode;
-  }
-
-  protected retractValue(
-    attribute: Configurator.Attribute,
-    targetAttribute: OccConfigurator.Attribute
-  ) {
-    if (!this.isRetractValue(attribute)) {
-      targetAttribute.value = attribute.selectedSingleValue;
-    } else {
-      targetAttribute.value = this.getRetractedValue(attribute);
-      targetAttribute.retractTriggered = true;
-    }
-  }
-
   convertAttribute(
     attribute: Configurator.Attribute,
     occAttributes: OccConfigurator.Attribute[]
@@ -102,7 +75,7 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      this.retractValue(attribute, targetAttribute);
+      targetAttribute.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       targetAttribute.value = attribute.userInput;
     } else if (attribute.uiType === Configurator.UiType.NUMERIC) {

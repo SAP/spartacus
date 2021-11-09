@@ -1,4 +1,4 @@
-import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
+import { waitForPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -15,10 +15,7 @@ function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
   currency: string = merchandisingCarousel.DEFAULT_CURRENCY
 ): void {
-  const categoryPage = waitForCategoryPage(
-    merchandisingCarousel.canonBrandCode,
-    'getCategory'
-  );
+  const categoryPage = waitForPage('CategoryPage', 'getCategory');
 
   cy.visit(
     `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`

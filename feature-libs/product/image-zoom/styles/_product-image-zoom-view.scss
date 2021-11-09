@@ -14,7 +14,11 @@ cx-product-image-zoom-view {
     }
 
     .cx-navigate-image {
-      display: flex;
+      display: none;
+
+      @include media-breakpoint-up(sm) {
+        display: flex;
+      }
 
       button {
         align-self: center;

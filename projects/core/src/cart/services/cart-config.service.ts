@@ -10,8 +10,4 @@ export class CartConfigService {
   isSelectiveCartEnabled(): boolean {
     return Boolean(this.config?.cart?.selectiveCart?.enabled);
   }
-
-  isCartValidationEnabled(): boolean {
-    return Boolean(this.config?.cart?.validation?.enabled);
-  }
 }

@@ -10,7 +10,6 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
-  PromotionLocation,
   RoutingService,
   Translatable,
 } from '@spartacus/core';
@@ -54,8 +53,6 @@ class MockCartItemListComponent {
     optionalBtn: null,
   };
   @Input() cart: { cartId: string; userId: string };
-  @Input() cartId: string;
-  @Input() promotionLocation: PromotionLocation;
 }
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {

@@ -13,7 +13,7 @@ import {
   OrderEntry,
   Product,
   ProductAdapter,
-  ProductSearchConnector,
+  ProductSearchAdapter,
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
@@ -35,15 +35,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   >([]);
   protected softDeletedEntries$: BehaviorSubject<Record<string, OrderEntry>> =
     new BehaviorSubject<Record<string, OrderEntry>>({});
-  protected nonPurchasableProductError$: BehaviorSubject<Product | null> =
-    new BehaviorSubject<Product | null>(null);
   protected hardDeleteTimeout = 5000;
-  protected quickOrderListLimit = 0;
-  protected clearDeleteTimeouts: Record<string, Subscription> = {};
+
+  private clearDeleteTimeouts: Record<string, Subscription> = {};
 
   /**
    * @deprecated since version 4.2
-   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
+   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchAdapter: ProductSearchAdapter); instead
    */
   // TODO(#14059): Remove deprecated constructor
   constructor(
@@ -56,7 +54,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     protected activeCartService: ActiveCartService,
     protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
     protected eventService: EventService,
-    protected productSearchConnector?: ProductSearchConnector //TODO(#14059): Make it required
+    protected productSearchAdapter?: ProductSearchAdapter //TODO(#14059): Make it required
   ) {}
 
   ngOnDestroy(): void {
@@ -83,13 +81,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   searchProducts(query: string, maxProducts?: number): Observable<Product[]> {
     // TODO(#14059): Remove condition
-    if (this.productSearchConnector) {
+    if (this.productSearchAdapter) {
       const searchConfig: SearchConfig = {
         pageSize:
           maxProducts ||
           defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
       };
-      return this.productSearchConnector
+      return this.productSearchAdapter
         .search(query, searchConfig)
         .pipe(
           map((searchPage: ProductSearchPage) => searchPage.products || [])
@@ -104,24 +102,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   clearList(): void {
     this.entries$.next([]);
-  }
-
-  /**
-   * Get information about the possibility to add the next product
-   */
-  canAdd(code?: string): Observable<boolean> {
-    if (code) {
-      return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
-    } else {
-      return of(!this.isLimitExceeded());
-    }
-  }
-
-  /**
-   * Set quick order list limit property
-   */
-  setListLimit(limit: number): void {
-    this.quickOrderListLimit = limit;
   }
 
   /**
@@ -268,27 +248,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   }
 
   /**
-   *  Return non purchasable product error
-   */
-  getNonPurchasableProductError(): Observable<Product | null> {
-    return this.nonPurchasableProductError$;
-  }
-
-  /**
-   * Set error that selected product is not purchasable
-   */
-  setNonPurchasableProductError(product: Product): void {
-    this.nonPurchasableProductError$.next(product);
-  }
-
-  /**
-   * Clear not purchasable product error
-   */
-  clearNonPurchasableProductError(): void {
-    this.nonPurchasableProductError$.next(null);
-  }
-
-  /**
    * Add soft deleted entry to the cached list
    */
   protected addSoftEntryDeletion(
@@ -296,7 +255,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     clearTimeout: boolean = true
   ): void {
     const deletedEntries = this.softDeletedEntries$.getValue();
-    const productCode = entry?.product?.code;
+    const productCode = entry.product?.code;
 
     if (productCode) {
       deletedEntries[productCode] = entry;
@@ -333,7 +292,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ): OrderEntry {
     return {
       basePrice: product.price,
-      product,
+      product: product,
       quantity,
       totalPrice: product.price,
     } as OrderEntry;
@@ -343,14 +302,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Add single entry to the list
    */
   protected addEntry(entry: OrderEntry): void {
-    if (
-      entry?.product?.code &&
-      !this.isProductOnTheList(entry.product.code) &&
-      this.isLimitExceeded()
-    ) {
-      return;
-    }
-
     const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
@@ -390,12 +341,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
     );
-  }
-
-  protected isLimitExceeded(): boolean {
-    const entries = this.entries$.getValue() || [];
-
-    return entries.length >= this.quickOrderListLimit;
   }
 
   private createQuickOrderResultEvent(

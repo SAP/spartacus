@@ -37,7 +37,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   protected _entry: OrderEntry;
-  protected subscription = new Subscription();
+  private subscription = new Subscription();
 
   constructor(
     protected cd: ChangeDetectorRef,

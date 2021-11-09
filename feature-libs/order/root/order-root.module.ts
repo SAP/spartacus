@@ -6,12 +6,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
-import { OrderDetailsOrderEntriesContext } from './pages/order-details-order-entries-context';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 
@@ -64,12 +59,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderDetails',
-          cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContext,
-          },
-        },
+        data: { cxRoute: 'orderDetails' },
       },
       {
         // @ts-ignore

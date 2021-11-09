@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CartValidationStateService } from '../cart-validation-state.service';
 import { ICON_TYPE } from '../../../misc/icon/index';
+import { CartValidationStatusCode } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item-validation-warning',
@@ -19,7 +20,9 @@ export class CartItemValidationWarningComponent {
     this.cartValidationStateService.cartValidationResult$.pipe(
       map((modificationList) =>
         modificationList.find(
-          (modification) => modification.entry.product.code === this.code
+          (modification) =>
+            modification.statusCode === CartValidationStatusCode.LOW_STOCK &&
+            modification.entry.product.code === this.code
         )
       )
     );

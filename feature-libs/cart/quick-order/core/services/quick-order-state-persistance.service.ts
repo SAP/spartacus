@@ -43,6 +43,10 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
     );
   }
 
+  /**
+   * Function called on each browser storage read.
+   * Used to update state from browser -> state.
+   */
   protected onRead(state: OrderEntry[] | undefined): void {
     if (state) {
       this.quickOrderService.loadEntries(state);

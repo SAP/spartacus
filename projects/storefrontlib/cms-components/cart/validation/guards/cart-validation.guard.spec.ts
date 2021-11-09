@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
-  CartConfigService,
   CartModification,
   CartModificationList,
   CartValidationService,
@@ -75,11 +74,6 @@ class MockCartValidationStateService
     this.cartValidationResult$.next([]);
   }
 }
-class MockCartConfigService implements Partial<CartConfigService> {
-  isCartValidationEnabled() {
-    return true;
-  }
-}
 
 describe(`CartValidationGuard`, () => {
   let guard: CartValidationGuard;
@@ -97,10 +91,6 @@ describe(`CartValidationGuard`, () => {
         {
           provide: CartValidationStateService,
           useClass: MockCartValidationStateService,
-        },
-        {
-          provide: CartConfigService,
-          useClass: MockCartConfigService,
         },
       ],
       imports: [RouterTestingModule],
@@ -139,8 +129,7 @@ describe(`CartValidationGuard`, () => {
       {
         key: 'validation.cartEntriesChangeDuringCheckout',
       },
-      GlobalMessageType.MSG_TYPE_ERROR,
-      10000
+      GlobalMessageType.MSG_TYPE_ERROR
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');
@@ -170,8 +159,7 @@ describe(`CartValidationGuard`, () => {
           name: mockEntries[0].product.name,
         },
       },
-      GlobalMessageType.MSG_TYPE_ERROR,
-      10000
+      GlobalMessageType.MSG_TYPE_ERROR
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');

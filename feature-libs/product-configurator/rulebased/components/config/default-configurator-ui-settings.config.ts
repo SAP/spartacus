@@ -7,6 +7,5 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
         quantity: 750,
         input: 500,
       },
-      addRetractOption: false,
     },
   };

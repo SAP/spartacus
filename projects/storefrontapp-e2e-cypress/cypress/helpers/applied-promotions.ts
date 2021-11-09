@@ -5,7 +5,7 @@ import { waitForPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
-export const defaultAddress = {
+const defaultAddress = {
   defaultAddress: false,
   titleCode: 'mr',
   firstName: 'Cypress',

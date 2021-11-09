@@ -3,4 +3,3 @@ videos
 cypress.env.json
 
 cypress/fixtures/example.json
-cypress/downloads

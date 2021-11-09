@@ -93,13 +93,14 @@ export class ConfiguratorCartEffects {
         return this.configuratorCommonsConnector
           .updateConfigurationForCartEntry(payload)
           .pipe(
-            switchMap((cartModification: CartModification) => {
+            switchMap((entry: CartModification) => {
               return [
                 new CartActions.CartUpdateEntrySuccess({
+                  ...entry,
                   userId: payload.userId,
                   cartId: payload.cartId,
                   entryNumber: payload.cartEntryNumber,
-                  quantity: cartModification.quantity,
+                  quantity: entry?.quantity,
                 }),
               ];
             }),

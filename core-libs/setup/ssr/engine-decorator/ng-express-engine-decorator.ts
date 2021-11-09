@@ -82,11 +82,11 @@ export function getServerRequestProviders(): StaticProvider[] {
   ];
 }
 
-export function getRequestUrl(req: Request): string {
+function getRequestUrl(req: Request): string {
   return getRequestOrigin(req) + req.originalUrl;
 }
 
-export function getRequestOrigin(req: Request): string {
+function getRequestOrigin(req: Request): string {
   // If express is resolving and trusting X-Forwarded-Host, we want to take it
   // into an account to properly generate request origin.
   const trustProxyFn = req.app.get('trust proxy fn');

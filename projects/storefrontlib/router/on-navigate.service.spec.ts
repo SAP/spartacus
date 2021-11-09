@@ -108,15 +108,13 @@ describe('OnNavigateService', () => {
   });
 
   describe('setResetViewOnNavigate()', () => {
-    it('should scroll to the top on navigation when no position (forward navigation)', fakeAsync(() => {
+    it('should scroll to the top on navigation when no position (forward navigation)', () => {
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null);
 
-      tick(100);
-
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
-    }));
+    });
 
     it('should NOT scroll to the top on navigation when route has query strings', () => {
       config.enableResetViewOnNavigate.ignoreQueryString = true;
@@ -142,24 +140,21 @@ describe('OnNavigateService', () => {
       ]);
     });
 
-    it('should scroll to the top on navigation when route is not part of the ignored config routes', fakeAsync(() => {
+    it('should scroll to the top on navigation when route is not part of the ignored config routes', () => {
       config.enableResetViewOnNavigate.ignoreRoutes = ['test1', 'test2'];
 
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null, '/test3');
-
-      tick(100);
-
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
-    }));
+    });
 
     it('should scroll to a position on navigation when scroll contains position (backward navigation)', fakeAsync(() => {
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent([1000, 500]);
 
-      tick(100);
+      tick();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000, 500,

@@ -1,7 +1,6 @@
 import { AccountData } from '../support/require-logged-in.commands';
 import {
   SampleCartProduct,
-  SampleNonPurchasableProduct,
   SampleProduct,
   SampleUser,
   user,
@@ -25,12 +24,6 @@ export const b2bProduct: SampleProduct = {
 export const b2bProduct2: SampleProduct = {
   name: '6 Inch Nylon Cable Ties 100-Pack',
   code: '1128763',
-};
-
-export const b2bNonPurchasableProduct: SampleNonPurchasableProduct = {
-  name: 'Expertise Hiker Steel Toe',
-  code: '50500000',
-  multidimensional: true,
 };
 
 export const b2bProducts: SampleProduct[] = [

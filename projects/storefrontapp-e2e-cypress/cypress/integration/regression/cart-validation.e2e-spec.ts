@@ -1,29 +1,22 @@
-import { removeCartItem } from '../../helpers/cart';
-import * as cartValidation from '../../helpers/cart-validation';
-import { addProductToCart } from '../../helpers/save-for-later';
 import { viewportContext } from '../../helpers/viewport-context';
+import { standardUser } from '../../sample-data/shared-users';
+import { addProductToCart } from '../../helpers/save-for-later';
 import {
   lowStockResponse,
   outOfStockResponse,
   PRODUCT_1,
   PRODUCT_2,
 } from '../../sample-data/cart-validation';
-import { standardUser } from '../../sample-data/shared-users';
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import { removeCartItem } from '../../helpers/cart';
+import * as cartValidation from '../../helpers/cart-validation';
 
 context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      clearAllStorage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.window().then((win) => win.localStorage.clear());
+      cy.clearLocalStorageMemory();
       cy.requireLoggedIn(standardUser);
-
-      cy.cxConfig({
-        cart: {
-          validation: {
-            enabled: true,
-          },
-        },
-      });
     });
 
     describe('As logged in', () => {

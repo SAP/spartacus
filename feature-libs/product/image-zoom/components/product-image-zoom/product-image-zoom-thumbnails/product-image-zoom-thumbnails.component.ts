@@ -4,12 +4,10 @@ import {
   EventEmitter,
   Input,
   Output,
-  OnInit,
-  OnDestroy,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -17,32 +15,20 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './product-image-zoom-thumbnails.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
+export class ProductImageZoomThumbnailsComponent {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});
 
   @Output() productImage = new EventEmitter<{ image: any; index: number }>();
 
   @Input() thumbs$: Observable<ThumbnailsGroup[]>;
 
-  @Input() activeThumb: EventEmitter<ImageGroup>;
-
-  protected subscription = new Subscription();
-
   selectedIndex: number;
 
   constructor() {}
 
-  ngOnInit() {
-    this.subscription.add(
-      this.activeThumb.subscribe((image) => {
-        this.mainMediaContainer.next(image);
-      })
-    );
-  }
-
   openImage(image: ImageGroup): void {
     this.mainMediaContainer.next(image);
-    if (typeof image.zoom?.galleryIndex === 'number') {
+    if (image.zoom?.galleryIndex) {
       this.productImage.emit({ image, index: image.zoom.galleryIndex });
     }
   }
@@ -56,9 +42,5 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
           container.zoom.url === thumbnail.zoom.url) as boolean;
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

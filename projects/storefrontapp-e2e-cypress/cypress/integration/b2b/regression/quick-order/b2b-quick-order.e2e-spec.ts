@@ -1,13 +1,14 @@
 import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
-import * as alerts from '../../../../helpers/global-message';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-checkout';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as alerts from '../../../../helpers/global-message';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      clearAllStorage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.window().then((win) => win.localStorage.clear());
+      cy.clearLocalStorageMemory();
     });
 
     describe('Quick Order Page', () => {
@@ -71,26 +72,13 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been cleared`);
       });
 
-      it('should limit the list and show error message', () => {
+      it('should limit the list and block form for adding more products', () => {
         quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
-        quickOrder.verifyQuickOrderReachedListLimit();
-      });
-
-      it('should show info message to add product to the list before clicking add to cart', () => {
-        quickOrder.addToCartClick();
-        quickOrder.verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart();
+        quickOrder.verifyQuickOrderFormIsDisabled();
       });
 
       it('should hide "Empty List" button if list has no entries', () => {
         quickOrder.verifyEmptyListButtonIsHidden();
-      });
-
-      it('should show error message after trying to add non purchasable product to the list', () => {
-        quickOrder.addProductToTheList(
-          sampleData.b2bNonPurchasableProduct.code
-        );
-        quickOrder.verifyQuickOrderListQuantity(0);
-        quickOrder.verifyQuickOrderPageShowErrorMessageNonPurchasableProduct();
       });
 
       it('should show error message after adding to cart with out of stock information', () => {

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -14,12 +15,11 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  switchMap,
   take,
 } from 'rxjs/operators';
 
@@ -35,8 +35,28 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
+  get isDisabled(): boolean {
+    return this._disabled;
+  }
+
+  @Input('isDisabled') set isDisabled(value: boolean) {
+    this._disabled = value;
+    this.validateProductControl(value);
+  }
+
+  get isLoading(): boolean {
+    return this._loading;
+  }
+
+  @Input('isLoading') set isLoading(value: boolean) {
+    this._loading = value;
+    this.validateProductControl(value);
+  }
+
   protected subscription = new Subscription();
-  protected searchSubscription = new Subscription();
+  protected _disabled: boolean = false;
+  protected _loading: boolean = false;
+  protected _focusedElementIndex: number | null = null;
 
   /**
    * @deprecated since version 4.2
@@ -62,13 +82,17 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     this.subscription.add(this.watchQueryChange());
   }
 
-  onBlur(event: UIEvent): void {
-    // Use timeout to detect changes
-    setTimeout(() => {
-      if (!this.isSuggestionFocused()) {
-        this.blurSuggestionBox(event);
+  onBlur(element?: Element): void {
+    if (element) {
+      if (
+        (element.className || '').includes('quick-order-results-products') ||
+        (element.className || '').includes('quick-order-form-reset-icon')
+      ) {
+        return;
       }
-    });
+    }
+
+    this.close();
   }
 
   clear(event?: Event): void {
@@ -76,144 +100,90 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass('quick-order-searchbox-is-active', false);
+
+      let product = this.form.get('product')?.value;
+
+      if (!!product) {
+        this.form.reset();
+      }
+
+      // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
+      this.close();
+      this.cd?.detectChanges();
     }
-
-    let product = this.form.get('product')?.value;
-
-    if (!!product) {
-      this.form.reset();
-    }
-
-    // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
-    this.close();
-    this.cd?.detectChanges();
   }
 
   add(product: Product, event: Event): void {
     event?.preventDefault();
-
-    // TODO change to nonpurchasable flag once we will support multidimensional products in search and when the purchasable flag will be available in search product response
-
-    // Check if product is purchasable / non multidimensional
-    if (product.multidimensional) {
-      this.quickOrderService.setNonPurchasableProductError(product);
-      this.clear();
-      return;
-    } else {
-      this.quickOrderService.clearNonPurchasableProductError();
-    }
-
     this.quickOrderService.addProduct(product);
   }
 
   addProduct(event: Event): void {
-    this.quickOrderService
-      .canAdd()
-      .pipe(take(1))
-      .subscribe((canAdd: boolean) => {
-        if (canAdd) {
-          // Add product if there is only one in the result list
-          if (this.results.length === 1) {
-            this.add(this.results[0], event);
-            // Add product if there is focus on it
-          } else if (this.getFocusedIndex() !== -1) {
-            const product = this.results[this.getFocusedIndex()];
-            this.add(product, event);
-          }
-        }
-      });
+    const activeProductIndex = this.getFocusedElementIndex();
+
+    // Add product if there is focus on it
+    if (activeProductIndex !== null) {
+      const product = this.results[activeProductIndex];
+      this.add(product, event);
+      // Add product if there is only one in the result list
+    } else if (this.results.length === 1) {
+      this.add(this.results[0], event);
+    }
   }
 
-  focusNextChild(event: UIEvent): void {
-    event.preventDefault(); // Negate normal keyscroll
+  focusNextChild(): void {
     if (!this.results.length) {
       return;
     }
 
-    const [results, focusedIndex] = [
-      this.getResultElements(),
-      this.getFocusedIndex(),
-    ];
+    const activeFocusedElementIndex = this.getFocusedElementIndex();
 
-    // Focus on first index moving to last
-    if (results.length) {
-      if (focusedIndex >= results.length - 1) {
-        results[0].focus();
-      } else {
-        results[focusedIndex + 1].focus();
-      }
+    if (
+      activeFocusedElementIndex === null ||
+      this.results.length - 1 === activeFocusedElementIndex
+    ) {
+      this.setFocusedElementIndex(0);
+    } else {
+      this.setFocusedElementIndex(activeFocusedElementIndex + 1);
     }
   }
 
-  focusPreviousChild(event: UIEvent): void {
-    event.preventDefault(); // Negate normal keyscroll
+  focusPreviousChild(): void {
     if (!this.results.length) {
       return;
     }
 
-    const [results, focusedIndex] = [
-      this.getResultElements(),
-      this.getFocusedIndex(),
-    ];
+    const activeFocusedElementIndex = this.getFocusedElementIndex();
 
-    // Focus on last index moving to first
-    if (results.length) {
-      if (focusedIndex < 1) {
-        results[results.length - 1].focus();
-      } else {
-        results[focusedIndex - 1].focus();
-      }
+    if (activeFocusedElementIndex === null || activeFocusedElementIndex === 0) {
+      this.setFocusedElementIndex(this.results.length - 1);
+    } else {
+      this.setFocusedElementIndex(activeFocusedElementIndex - 1);
     }
+  }
+
+  getFocusedElementIndex(): number | null {
+    return this._focusedElementIndex;
   }
 
   isResultsBoxOpen(): boolean {
-    return this.winRef
-      ? !!this.winRef.document.querySelector('.quick-order-searchbox-is-active')
-      : false;
+    return !!(this.results.length || this.noResults);
   }
 
-  canAddProduct(): Observable<boolean> {
-    return this.quickOrderService.canAdd();
+  setResults(results: Product[]): void {
+    this.results = results;
   }
 
-  open(): void {
+  setFocusedElementIndex(value: number | null): void {
+    this._focusedElementIndex = value;
+  }
+
+  protected resetFocusedElementIndex(): void {
+    this._focusedElementIndex = null;
+  }
+
+  protected open(): void {
     this.toggleBodyClass('quick-order-searchbox-is-active', true);
-  }
-
-  // Return result list as HTMLElement array
-  protected getResultElements(): HTMLElement[] {
-    if (this.winRef) {
-      return Array.from(
-        this.winRef.document.querySelectorAll(
-          '.quick-order-results-products > li button'
-        )
-      );
-    } else {
-      return [];
-    }
-  }
-
-  protected blurSuggestionBox(event: UIEvent): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
-
-    if (event && event.target) {
-      (<HTMLElement>event.target).blur();
-    }
-  }
-
-  // Return focused element as HTMLElement
-  protected getFocusedElement(): HTMLElement | any {
-    if (this.winRef) {
-      return <HTMLElement>this.winRef.document.activeElement;
-    }
-  }
-
-  protected getFocusedIndex(): number {
-    return this.getResultElements().indexOf(this.getFocusedElement());
-  }
-
-  protected isSuggestionFocused(): boolean {
-    return this.getResultElements().includes(this.getFocusedElement());
   }
 
   protected toggleBodyClass(className: string, add?: boolean) {
@@ -234,6 +204,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     form.setControl('product', new FormControl(null));
 
     this.form = form;
+    this.validateProductControl(this.isDisabled);
   }
 
   protected isEmpty(string?: string): boolean {
@@ -269,32 +240,22 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchProducts(query: string): void {
-    this.searchSubscription.add(
-      this.canAddProduct()
-        .pipe(
-          filter(Boolean),
-          switchMap(() =>
-            this.quickOrderService
-              .searchProducts(
-                query,
-                this.config?.quickOrder?.searchForm?.maxProducts
-              )
-              .pipe(take(1))
-          )
-        )
-        .subscribe((products) => {
-          this.results = products;
+    this.quickOrderService
+      .searchProducts(query, this.config?.quickOrder?.searchForm?.maxProducts)
+      .pipe(take(1))
+      .subscribe((products) => {
+        this.results = products;
 
-          if (this.results.length) {
-            this.noResults = false;
-            this.open();
-          } else {
-            this.noResults = true;
-          }
+        if (this.results.length) {
+          this.noResults = false;
+        } else {
+          this.noResults = true;
+        }
 
-          this.cd?.detectChanges();
-        })
-    );
+        this.open();
+        this.resetFocusedElementIndex();
+        this.cd?.detectChanges();
+      });
   }
 
   protected clearResults(): void {
@@ -302,20 +263,23 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected close(): void {
-    this.resetSearchSubscription();
+    this.resetFocusedElementIndex();
     this.clearResults();
     this.noResults = false;
-  }
-
-  protected resetSearchSubscription(): void {
-    this.searchSubscription.unsubscribe();
-    this.searchSubscription = new Subscription();
   }
 
   protected watchProductAdd(): Subscription {
     return this.quickOrderService
       .getProductAdded()
       .subscribe(() => this.clear());
+  }
+
+  protected validateProductControl(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form?.get('product')?.disable();
+    } else {
+      this.form?.get('product')?.enable();
+    }
   }
 
   ngOnDestroy(): void {

@@ -62,8 +62,7 @@ context('Merchandising Carousel - events', () => {
       );
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
+        merchandisingCarousel.filmCamerasCategoryName
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -86,8 +85,7 @@ context('Merchandising Carousel - events', () => {
       );
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
+        merchandisingCarousel.filmCamerasCategoryName
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -101,8 +99,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.waitForCarouselViewEvent();
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName,
-        merchandisingCarousel.camcordersCategoryCode
+        merchandisingCarousel.camcordersCategoryName
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(

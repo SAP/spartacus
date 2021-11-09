@@ -53,7 +53,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   get allowZeroValueQuantity(): boolean {
-    return this.quantityService.allowZeroValueQuantity(this.attribute) ?? false;
+    return (
+      this.quantityService?.allowZeroValueQuantity(this.attribute) ?? false
+    );
   }
 
   onSelect(): void {

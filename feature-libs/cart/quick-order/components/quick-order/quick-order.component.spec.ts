@@ -37,10 +37,7 @@ const mockEntry2: OrderEntry = {
   product: mockProduct2,
 };
 const mockEmptyEntry: OrderEntry = {};
-const mockNonPurchasableProduct: Product = {
-  code: '123456789',
-  multidimensional: true,
-};
+
 const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
   entry: {
     product: {
@@ -59,10 +56,6 @@ const mockSoftDeletedEntries$ = new BehaviorSubject<Record<string, OrderEntry>>(
     mockProduct2: mockEntry2,
   }
 );
-const mockCanAdd$ = new BehaviorSubject<boolean>(true);
-const mockNonPurchasableProduct$ = new BehaviorSubject<Product | null>(
-  mockNonPurchasableProduct
-);
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
@@ -80,14 +73,6 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
     return mockSoftDeletedEntries$;
   }
   clearDeletedEntries(): void {}
-  setListLimit(_limit: number): void {}
-  canAdd(_code?: string): Observable<boolean> {
-    return mockCanAdd$.asObservable();
-  }
-  clearNonPurchasableProductError(): void {}
-  getNonPurchasableProductError(): Observable<Product | null> {
-    return mockNonPurchasableProduct$.asObservable();
-  }
 }
 
 class MockQuickOrderStatePersistenceService
@@ -130,6 +115,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   selector: 'cx-quick-order-form',
 })
 class MockQuickOrderFormComponent {
+  @Input() isDisabled: boolean;
   @Input() isLoading: boolean;
 }
 
@@ -231,7 +217,7 @@ describe('QuickOrderComponent', () => {
       );
       spyOn(globalMessageService, 'add').and.stub();
 
-      component.addToCart([mockEntry]);
+      component.addToCart([]);
 
       expect(quickOrderService.addToCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -247,23 +233,11 @@ describe('QuickOrderComponent', () => {
         of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
       );
 
-      component.addToCart([mockEntry, mockEntry2]);
+      component.addToCart([]);
       fixture.detectChanges();
 
       expect(quickOrderService.addToCart).toHaveBeenCalled();
       expect(el.query(By.css('.quick-order-warnings-message'))).toBeTruthy();
-    });
-
-    it('and get info message that list is empty', () => {
-      spyOn(quickOrderService, 'addToCart').and.returnValue(of([[], []]));
-
-      component.addToCart([]);
-      fixture.detectChanges();
-
-      expect(quickOrderService.addToCart).not.toHaveBeenCalled();
-      expect(
-        el.query(By.css('.quick-order-add-to-cart-information-message'))
-      ).toBeTruthy();
     });
   });
 
@@ -317,45 +291,5 @@ describe('QuickOrderComponent', () => {
       component.clearDeletion(mockEmptyEntry);
       expect(quickOrderService.hardDeleteEntry).not.toHaveBeenCalled();
     });
-  });
-
-  it('should get information if there is possible to add more products', () => {
-    spyOn(quickOrderService, 'canAdd').and.callThrough();
-
-    component.canAddProduct().subscribe((canAdd) => {
-      expect(canAdd).toBeTruthy();
-    });
-  });
-
-  describe('addToCartInformation$', () => {
-    it('should return true value for show add to cart information', () => {
-      component.addToCart([]);
-
-      component.addToCartInformation$.subscribe((value) => {
-        expect(value).toBeTruthy();
-      });
-    });
-
-    it('should emit false value to show add to cart information on clear method', () => {
-      component.addToCart([mockEntry]);
-      component.clearAddToCartInformation();
-
-      component.addToCartInformation$.subscribe((value) => {
-        expect(value).toBeFalsy();
-      });
-    });
-  });
-
-  it('should trigger clearNonPurchasableProductError on clearNonPurchasableError', () => {
-    spyOn(
-      quickOrderService,
-      'clearNonPurchasableProductError'
-    ).and.callThrough();
-
-    component.clearNonPurchasableError();
-
-    expect(
-      quickOrderService.clearNonPurchasableProductError
-    ).toHaveBeenCalled();
   });
 });

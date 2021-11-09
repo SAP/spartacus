@@ -2,11 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   OrderEntry,
-  Product,
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';
 
 class MockSiteContextParamsService {
@@ -17,26 +16,10 @@ class MockSiteContextParamsService {
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
-    return new BehaviorSubject<OrderEntry[]>([mockEntry]);
+    return new BehaviorSubject<OrderEntry[]>([]);
   }
   loadEntries(_entries: OrderEntry[]): void {}
 }
-const mockProduct: Product = {
-  code: 'testCode',
-  price: {
-    value: 1,
-  },
-};
-const mockEntry: OrderEntry = {
-  product: mockProduct,
-  quantity: 1,
-  basePrice: {
-    value: 1,
-  },
-  totalPrice: {
-    value: 1,
-  },
-};
 
 describe('QuickOrderStatePersistenceService', () => {
   let service: QuickOrderStatePersistenceService;
@@ -72,22 +55,8 @@ describe('QuickOrderStatePersistenceService', () => {
     expect(persistenceService.syncWithStorage).toHaveBeenCalled();
   });
 
-  describe('on read', () => {
-    it('with state should load entries', () => {
-      spyOn(quickOrderService, 'loadEntries');
-
-      service['onRead']([mockEntry]);
-
-      expect(quickOrderService.loadEntries).toHaveBeenCalled();
-    });
-
-    it('without state should not load entries', () => {
-      spyOn(quickOrderService, 'loadEntries');
-
-      service['onRead'](undefined);
-
-      expect(quickOrderService.loadEntries).not.toHaveBeenCalled();
-    });
+  it('state should be cleared on base site change', () => {
+    service['onRead']([]);
   });
 
   describe('getEntries()', () => {
@@ -101,11 +70,5 @@ describe('QuickOrderStatePersistenceService', () => {
         done();
       });
     });
-  });
-
-  it('should unsubscribe on ngOnDestroy', () => {
-    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
-    service.ngOnDestroy();
-    expect(spyUnsubscribe).toHaveBeenCalled();
   });
 });

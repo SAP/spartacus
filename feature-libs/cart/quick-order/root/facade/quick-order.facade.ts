@@ -12,8 +12,6 @@ export function quickOrderFacadeFactory() {
       'addProduct',
       'addToCart',
       'clearList',
-      'canAdd',
-      'setListLimit',
       'getEntries',
       'getProductAdded',
       'loadEntries',
@@ -26,9 +24,6 @@ export function quickOrderFacadeFactory() {
       'restoreSoftDeletedEntry',
       'hardDeleteEntry',
       'clearDeletedEntries',
-      'getNonPurchasableProductError',
-      'setNonPurchasableProductError',
-      'clearNonPurchasableProductError',
     ],
   });
 }
@@ -61,16 +56,6 @@ export abstract class QuickOrderFacade {
    * Clear a list of added entries
    */
   abstract clearList(): void;
-
-  /**
-   * Get information about the possibility to add the next product
-   */
-  abstract canAdd(code?: string): Observable<boolean>;
-
-  /**
-   * Set quick order list limit property
-   */
-  abstract setListLimit(limit: number): void;
 
   /**
    * Load a list of entries
@@ -131,19 +116,4 @@ export abstract class QuickOrderFacade {
    * Clear all deleted entries and timeout subscriptions
    */
   abstract clearDeletedEntries(): void;
-
-  /**
-   *  Return non purchasable product error
-   */
-  abstract getNonPurchasableProductError(): Observable<Product | null>;
-
-  /**
-   * Set error that selected product is not purchasable
-   */
-  abstract setNonPurchasableProductError(product: Product): void;
-
-  /**
-   * Clear not purchasable product error
-   */
-  abstract clearNonPurchasableProductError(): void;
 }
