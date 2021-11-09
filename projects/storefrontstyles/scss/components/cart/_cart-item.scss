@@ -140,7 +140,7 @@
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
       @include forVersion(4.2) {
-        padding-left: 15px;
+        padding-inline-start: 15px;
       }
     }
 
