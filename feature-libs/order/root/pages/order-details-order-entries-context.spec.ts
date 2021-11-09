@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import { of } from 'rxjs';
-import { OrderDetailsOrderEntriesContext } from './order-details-order-entries-context';
 import { OrderFacade } from '../facade/order.facade';
+import { OrderDetailsOrderEntriesContext } from './order-details-order-entries-context';
 import createSpy = jasmine.createSpy;
 
 const mockEntries: OrderEntry[] = [
