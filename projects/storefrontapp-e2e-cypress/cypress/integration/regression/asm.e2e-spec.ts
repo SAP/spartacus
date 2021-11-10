@@ -24,13 +24,13 @@ context('ASM e2e Test', () => {
     checkout.registerUser(false, customer);
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
+  // beforeEach(() => {
+  //   cy.restoreLocalStorage();
+  // });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  // afterEach(() => {
+  //   cy.saveLocalStorage();
+  // });
 
   describe('Customer Support Agent - Emulation', () => {
     it('should test customer emulation', () => {
