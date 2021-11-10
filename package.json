@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": ">=12 <17"
+    "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
   },
   "scripts": {
     "build:analyze": "yarn build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
