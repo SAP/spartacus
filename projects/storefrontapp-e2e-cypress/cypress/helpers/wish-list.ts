@@ -121,10 +121,12 @@ export function verifyProductInWishList(product: TestProduct) {
   cy.selectUserMenuOption({
     option: 'Wish List',
   });
-
-  getWishListItem(product.name).within(() => {
-    cy.get('.cx-code').should('contain', product.code);
-  });
+  waitForGetWishList();
+  cy.get('cx-wish-list')
+    .contains('cx-wish-list-item', product.name)
+    .within(() => {
+      cy.get('.cx-code').should('contain', product.code);
+    });
 }
 
 export function removeProductFromWishListPage(product: TestProduct) {
@@ -191,9 +193,12 @@ export function checkWishListPersisted(product: TestProduct) {
 
 export function goToProductPage(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
-  getWishListItem(product.name).within(() => {
-    cy.get('.cx-name>.cx-link').click({ force: true });
-  });
+  waitForGetWishList();
+  cy.get('cx-wish-list')
+    .contains('cx-wish-list-item', product.name)
+    .within(() => {
+      cy.get('.cx-name>.cx-link').click({ force: true });
+    });
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 }
 
