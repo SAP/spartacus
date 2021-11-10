@@ -133,9 +133,15 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 0;
+    @include forVersion(4.2) {
+      padding-inline-start: 0;
+    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
+      @include forVersion(4.2) {
+        padding-inline-start: 15px;
+      }
     }
 
     .cx-value {
