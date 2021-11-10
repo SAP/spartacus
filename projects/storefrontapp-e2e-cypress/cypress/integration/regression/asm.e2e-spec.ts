@@ -75,8 +75,8 @@ context('ASM e2e Test', () => {
       });
       consent.giveConsent();
 
-      // stop customer emulation
-      checkout.signOutUser();
+      cy.log('--> Stop customer emulation');
+      cy.get('cx-customer-emulation button').click();
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
