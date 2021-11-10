@@ -44,7 +44,7 @@ describe('StorageApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -61,7 +61,7 @@ describe('StorageApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?id=4&id=5'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?id=4&id=5'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -80,7 +80,7 @@ describe('StorageApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$expand=metadata,mesh'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$expand=metadata,mesh'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -102,7 +102,7 @@ describe('StorageApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$filter=meta.categoryNameValue.keyNameValue,name.nameValue'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$filter=meta.categoryNameValue.keyNameValue,name.nameValue'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -121,7 +121,7 @@ describe('StorageApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?contentType=Hotspot'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?contentType=Hotspot'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

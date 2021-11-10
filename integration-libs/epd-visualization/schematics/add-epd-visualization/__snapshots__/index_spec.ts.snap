@@ -39,7 +39,7 @@ import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTransla
     },
 
     apis: {
-      baseUrl: \\"https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com\\"
+      baseUrl: \\"https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com\\"
     }
   })
   ]
@@ -87,7 +87,7 @@ import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTransla
     },
 
     apis: {
-      baseUrl: \\"https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com\\"
+      baseUrl: \\"https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com\\"
     }
   })
   ]

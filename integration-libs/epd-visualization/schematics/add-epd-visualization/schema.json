@@ -19,7 +19,7 @@
     "baseUrl": {
       "type": "string",
       "description": "Enter the base URL (origin) of your EPD Fiori Launchpad",
-      "default": "https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com",
+      "default": "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com",
       "x-prompt": "[EPD Visualization] What is the base URL (origin) of your EPD Fiori Launchpad?"
     }
   },
