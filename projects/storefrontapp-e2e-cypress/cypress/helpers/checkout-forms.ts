@@ -32,7 +32,7 @@ export function fillShippingAddress(
   submitForm: boolean = true
 ) {
   cy.wait(1000);
-  cy.get('cx-shipping-address').then((body) => {
+  cy.get('cx-page-layout').then((body) => {
     if (!body.find('cx-address-form').length) {
       cy.get('button.btn-primary').click({ force: true });
     } else {

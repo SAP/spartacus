@@ -194,10 +194,11 @@ export function checkWishListPersisted(product: TestProduct) {
 export function goToProductPage(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
   waitForGetWishList();
+  cy.wait(1000);
   cy.get('cx-wish-list')
     .contains('cx-wish-list-item', product.name)
     .within(() => {
-      cy.get('.cx-name>.cx-link').click({ force: true });
+      cy.get('.cx-name>.cx-link').click();
     });
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 }
@@ -247,6 +248,9 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
+  fillShippingAddress(shippingAddressData);
+  cy.get('cx-mini-cart').click();
+  cy.findByText(/proceed to checkout/i).click();
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
