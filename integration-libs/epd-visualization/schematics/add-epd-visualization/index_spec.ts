@@ -57,7 +57,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     lazy: true,
     features: [],
     baseUrl:
-      'https://epd-dev-eu20-consumer.epddev.cfapps.eu20.hana.ondemand.com',
+      'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
   };
 
   const visualizationFeatureOptions: SpartacusEpdVisualizationOptions = {
