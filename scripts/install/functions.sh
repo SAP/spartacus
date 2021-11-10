@@ -142,27 +142,27 @@ function add_spartacus_ssr_pwa {
 }
 
 function create_apps {
-    # if [ -z "${CSR_PORT}" ]; then
-    #     echo "Skipping csr app install (no port defined)"
-    # else
+    if [ -z "${CSR_PORT}" ]; then
+        echo "Skipping csr app install (no port defined)"
+    else
         printh "Installing csr app yeeeeeeeeeeeeeeee"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME}
-    # fi
-    # if [ -z "${SSR_PORT}" ]; then
-    #     echo "Skipping ssr app install (no port defined)"
-    # else
-    #     printh "Installing ssr app"
-    #     create_shell_app ${SSR_APP_NAME}
-    #     add_spartacus_ssr ${SSR_APP_NAME}
-    # fi
-    # if [ -z "${SSR_PWA_PORT}" ]; then
-    #     echo "Skipping ssr with pwa app install (no port defined)"
-    # else
-    #     printh "Installing ssr app (with pwa support)"
-    #     create_shell_app ${SSR_PWA_APP_NAME}
-    #     add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
-    # fi
+    fi
+    if [ -z "${SSR_PORT}" ]; then
+        echo "Skipping ssr app install (no port defined)"
+    else
+        printh "Installing ssr app"
+        create_shell_app ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME}
+    fi
+    if [ -z "${SSR_PWA_PORT}" ]; then
+        echo "Skipping ssr with pwa app install (no port defined)"
+    else
+        printh "Installing ssr app (with pwa support)"
+        create_shell_app ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+    fi
 }
 
 function publish_dist_package {
@@ -260,15 +260,15 @@ function install_from_sources {
 
     create_apps
 
-    # sleep 5
+    sleep 5
 
-    # (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
+    (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
-    # npm set @spartacus:registry https://registry.npmjs.org/
+    npm set @spartacus:registry https://registry.npmjs.org/
 
-    # restore_clone
+    restore_clone
 
-    # echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+    echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
 function install_from_npm {
