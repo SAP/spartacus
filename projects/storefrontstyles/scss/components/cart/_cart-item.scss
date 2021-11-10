@@ -110,7 +110,9 @@
     align-items: center;
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      @include forVersion(4.1) {
+        justify-content: flex-start;
+      }
     }
 
     @include forVersion(4.2) {
