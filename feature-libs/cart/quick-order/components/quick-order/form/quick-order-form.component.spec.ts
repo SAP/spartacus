@@ -192,13 +192,6 @@ describe('QuickOrderFormComponent', () => {
       });
     });
 
-    it('on product added', () => {
-      quickOrderService.setProductAdded(mockProductCode);
-
-      expect(component.form.get('product')?.value).toBeNull();
-      expect(component.isResultsBoxOpen()).toBeFalsy();
-    });
-
     it('and trigger prevent default', () => {
       const ev = {
         preventDefault() {},
