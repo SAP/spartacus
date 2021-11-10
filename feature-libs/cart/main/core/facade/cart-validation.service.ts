@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActiveCartFacade,
   CartModificationList,
+  CartValidationFacade,
 } from '@spartacus/cart/main/root';
 import {
   Command,
@@ -16,7 +17,7 @@ import { CartValidationConnector } from '../connectors/validation/cart-validatio
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationService {
+export class CartValidationService implements CartValidationFacade {
   protected validateCartCommand: Command<void, CartModificationList> =
     this.command.create(
       () =>
