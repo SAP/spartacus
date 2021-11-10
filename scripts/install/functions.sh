@@ -145,7 +145,7 @@ function create_apps {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
-        printh "Installing csr app yeeeeeeeeeeeeeeee"
+        printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME}
     fi
