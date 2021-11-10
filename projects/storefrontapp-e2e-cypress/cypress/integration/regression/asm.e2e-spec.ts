@@ -20,6 +20,7 @@ context('ASM e2e Test', () => {
     cy.visit('/');
 
     customer = getSampleUser();
+    // cy.requireLoggedIn(customer);
     checkout.registerUser(false, customer);
   });
 
@@ -31,31 +32,22 @@ context('ASM e2e Test', () => {
     cy.saveLocalStorage();
   });
 
-  describe('UI display.', () => {
-    it('storefront should have ASM UI disabled by default', () => {
+  describe('Customer Support Agent - Emulation', () => {
+    it('should test customer emulation', () => {
+      // storefront should have ASM UI disabled by default
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
-    });
-  });
 
-  describe('Customer Support Agent - Start Emulation', () => {
-    it('agent should see the asm UI when ?asm=true is passed to the url', () => {
+      // Agent login
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-    });
 
-    it('agent should authenticate.', () => {
       agentLogin();
-    });
 
-    it('agent should start customer emulation.', () => {
       startCustomerEmulation();
-    });
-  });
 
-  describe('Customer Emulation - My Account', () => {
-    it('agent should update personal details.', () => {
+      // Update personal details
       cy.selectUserMenuOption({
         option: 'Personal Details',
         isMobile,
@@ -65,9 +57,8 @@ context('ASM e2e Test', () => {
       customer.lastName = profile.newLastName;
       customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
       customer.titleCode = profile.newTitle;
-    });
 
-    it('agent should create new address', () => {
+      // create new address
       cy.selectUserMenuOption({
         option: 'Address Book',
         isMobile,
@@ -76,39 +67,30 @@ context('ASM e2e Test', () => {
       fillShippingAddress(addressBook.newAddress);
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
-    });
 
-    it('agent should add a consent', () => {
+      // add a consent
       cy.selectUserMenuOption({
         option: 'Consent Management',
         isMobile,
       });
       consent.giveConsent();
-    });
-  });
 
-  describe('Customer Support Agent - End', () => {
-    it('agent should stop customer emulation using My Account -> Sign Out.', () => {
+      // stop customer emulation
       checkout.signOutUser();
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
-    });
 
-    it('agent session should be intact and should be able to start another customer emulation', () => {
+      // start another session
       startCustomerEmulation();
-    });
 
-    it('agent should stop customer emulation using the end session button in the ASM UI', () => {
+      // stop customer emulation using the end session button in the ASM UI
       cy.get('cx-customer-emulation button').click();
       cy.get('cx-customer-emulation').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
-    });
 
-    it('agent should sign out.', () => {
+      // sign out and close ASM UI
       agentSignOut();
-    });
 
-    it('agent should close the ASM UI.', () => {
       cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('not.be.visible');
@@ -116,38 +98,34 @@ context('ASM e2e Test', () => {
   });
 
   describe('Customer Self Verification', () => {
-    it('customer should sign in.', () => {
+    it('checks data changes made by the agent', () => {
+      // customer sign in
       cy.visit('/login');
       loginCustomerInStorefront();
       assertCustomerIsSignedIn(isMobile);
-    });
 
-    it('customer should see personal details updated by the agent.', () => {
+      // check personal details updated by the agent
       cy.selectUserMenuOption({
         option: 'Personal Details',
         isMobile,
       });
       profile.verifyUpdatedProfile();
-    });
 
-    it('customer should see the address created by the agent.', () => {
+      // check address created by the agent
       cy.selectUserMenuOption({
         option: 'Address Book',
         isMobile,
       });
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
-    });
 
-    it('customer should see the consent given by agent', () => {
+      // check consent given by agent
       cy.selectUserMenuOption({
         option: 'Consent Management',
         isMobile,
       });
       cy.get('input[type="checkbox"]').first().should('be.checked');
-    });
 
-    it('customer should sign out.', () => {
       checkout.signOutUser();
     });
   });
