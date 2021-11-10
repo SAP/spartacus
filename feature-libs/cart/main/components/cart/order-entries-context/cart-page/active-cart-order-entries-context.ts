@@ -7,9 +7,9 @@ import {
   ProductData,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { AddOrderEntriesContext } from '../order-entries-context/add-order-entries.context';
-import { CartOrderEntriesContext } from '../order-entries-context/cart-order-entries.context';
-import { GetOrderEntriesContext } from '../order-entries-context/get-order-entries.context';
+import { AddOrderEntriesContext } from '../add-order-entries.context';
+import { CartOrderEntriesContext } from '../cart-order-entries.context';
+import { GetOrderEntriesContext } from '../get-order-entries.context';
 
 @Injectable({
   providedIn: 'root',

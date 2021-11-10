@@ -1,7 +1,6 @@
-import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ActivatedRoutesService } from '@spartacus/core';
+import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
 import { RoutingContextService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -43,7 +42,7 @@ describe('RoutingContextService', () => {
             routes$: mockActivatedRoutes$,
           } as Partial<ActivatedRoutesService>,
         },
-        { provide: Injector, useValue: mockInjector },
+        { provide: UnifiedInjector, useValue: mockInjector },
       ],
     });
     service = TestBed.inject(RoutingContextService);

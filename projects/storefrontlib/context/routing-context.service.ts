@@ -48,14 +48,12 @@ export class RoutingContextService {
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
     return this.contextTokenMapping$.pipe(
       switchMap((contextMapping) => {
-        console.log('contextMapping: ', contextMapping);
         const providerToken =
           contextMapping?.[
             // TODO: remove 'as any' after upgrading TypeScript to v4.4
             // See: https://github.com/Microsoft/TypeScript/issues/24587
             contextToken as any
           ];
-        console.log('providerToken', providerToken);
         return this.injector.get(providerToken, undefined);
       })
     );
