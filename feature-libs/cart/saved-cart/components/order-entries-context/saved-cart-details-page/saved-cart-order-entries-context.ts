@@ -12,10 +12,10 @@ import {
   OrderEntry,
   ProductData,
 } from '@spartacus/cart/main/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { SavedCartFacade } from '../../facade/saved-cart.facade';
 
 @Injectable({
   providedIn: 'root',

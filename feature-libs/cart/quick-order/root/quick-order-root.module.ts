@@ -12,7 +12,7 @@ import {
   CART_QUICK_ORDER_CORE_FEATURE,
   CART_QUICK_ORDER_FEATURE,
 } from './feature-name';
-import { QuickOrderOrderEntriesContext } from './pages/quick-order-order-entries-context';
+import { QuickOrderOrderEntriesContextToken } from './tokens/context';
 
 export function defaultQuickOrderComponentsConfig() {
   const config = {
@@ -48,7 +48,7 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig = {
         data: {
           cxRoute: 'quickOrder',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: QuickOrderOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: QuickOrderOrderEntriesContextToken,
           },
         },
       },

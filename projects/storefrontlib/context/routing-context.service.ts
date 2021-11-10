@@ -1,8 +1,8 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ActivatedRoutesService } from '@spartacus/core';
+import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ContextToken } from './context.model';
 
 /**
@@ -13,7 +13,7 @@ import { ContextToken } from './context.model';
 export class RoutingContextService {
   constructor(
     protected activatedRoutesService: ActivatedRoutesService,
-    protected injector: Injector
+    protected injector: UnifiedInjector
   ) {}
 
   /**
@@ -47,13 +47,15 @@ export class RoutingContextService {
    */
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
     return this.contextTokenMapping$.pipe(
-      map((contextMapping) => {
+      switchMap((contextMapping) => {
+        console.log('contextMapping: ', contextMapping);
         const providerToken =
           contextMapping?.[
             // TODO: remove 'as any' after upgrading TypeScript to v4.4
             // See: https://github.com/Microsoft/TypeScript/issues/24587
             contextToken as any
           ];
+        console.log('providerToken', providerToken);
         return this.injector.get(providerToken, undefined);
       })
     );

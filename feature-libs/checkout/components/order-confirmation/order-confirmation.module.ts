@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import {
+  CheckoutFacade,
+  OrderConfirmationOrderEntriesContextToken,
+} from '@spartacus/checkout/root';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -25,6 +28,7 @@ import { OrderConfirmationItemsComponent } from './components/order-confirmation
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
+import { OrderConfirmationOrderEntriesContext } from './order-entries-context/order-confirmation-order-entries-context';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
@@ -72,6 +76,10 @@ const orderConfirmationComponents = [
         },
       },
     }),
+    {
+      provide: OrderConfirmationOrderEntriesContextToken,
+      useExisting: OrderConfirmationOrderEntriesContext,
+    },
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],

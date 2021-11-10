@@ -11,6 +11,7 @@ import {
   ProductData,
   ProductImportInfo,
 } from '@spartacus/cart/main/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { StateUtils, UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
@@ -22,7 +23,6 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { SavedCartFacade } from '../../facade/saved-cart.facade';
 
 @Injectable({
   providedIn: 'root',

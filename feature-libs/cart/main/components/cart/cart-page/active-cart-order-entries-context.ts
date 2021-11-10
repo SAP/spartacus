@@ -22,18 +22,18 @@ export class ActiveCartOrderEntriesContext
 
   constructor(
     protected actionsSubject: ActionsSubject,
-    protected ActiveCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade
   ) {
     super(actionsSubject);
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.ActiveCartFacade.getEntries();
+    return this.activeCartFacade.getEntries();
   }
 
   protected add(products: ProductData[]): Observable<string> {
-    this.ActiveCartFacade.addEntries(this.mapProductsToOrderEntries(products));
-    return this.ActiveCartFacade.getActiveCartId();
+    this.activeCartFacade.addEntries(this.mapProductsToOrderEntries(products));
+    return this.activeCartFacade.getActiveCartId();
   }
 
   protected mapProductsToOrderEntries(products: ProductData[]): OrderEntry[] {
