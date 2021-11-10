@@ -2,14 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/core",
   "lib": {
-    "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@ngrx/effects": "effects",
-      "@ngrx/router-store": "fromNgrxRouter",
-      "@ngrx/store": "store",
-      "i18next": "i18next",
-      "i18next-http-backend": "i18nextHttpBackend",
-      "angular-oauth2-oidc": "angularOAuth2Oidc"
-    }
+    "entryFile": "./public_api.ts"
   }
 }
