@@ -249,9 +249,6 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.get('cx-mini-cart').click();
-  cy.findByText(/proceed to checkout/i).click();
-  fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
