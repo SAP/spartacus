@@ -3,6 +3,8 @@
   class="cx-card"
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
+  [role]="content.label ? 'region' : null"
+  [attr.aria-label]="content.label"
 >
   <!-- Card Header -->
   <div *ngIf="content.header && !editMode" class="card-header">
@@ -68,45 +70,50 @@
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
         <div [ngSwitch]="action.event">
-          <a
+          <button
             *ngSwitchCase="'delete'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="delete()"
             (keydown.enter)="delete()"
             tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
             *ngSwitchCase="'default'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="setDefault()"
             (keydown.enter)="setDefault()"
             tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
             *ngSwitchCase="'send'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="send()"
             (keydown.enter)="send()"
             tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
             *ngSwitchCase="'edit'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="edit()"
             (keydown.enter)="edit()"
             tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
             *ngSwitchDefault
             href="{{ action.link }}"
             class="card-link btn-link cx-action-link"
             tabindex="0"
-            >{{ action.name }}</a
           >
+            {{ action.name }}
+          </button>
         </div>
       </div>
     </div>

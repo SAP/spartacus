@@ -35,6 +35,8 @@ export const payment = {
     setAsDefault: 'Set as default',
     expires: 'Expires: {{ month }}/{{ year }}',
     defaultPaymentMethod: '✓ DEFAULT',
+    defaultPaymentLabel: 'Default payment method',
+    additionalPaymentLabel: 'Additional payment method',
     selected: 'Selected',
   },
   paymentTypes: {
