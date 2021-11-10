@@ -89,6 +89,8 @@ export const configurator = {
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      readOnlyValueOfAttributeFull:
+        'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
       value: 'Value {{ value }}',
       attribute: 'Attribute {{ attribute }}',
