@@ -183,7 +183,7 @@ export function maskCharacter(searchValue: string, character: string): string {
     const replaceValue = '\\' + character;
     searchValue = searchValue.replaceAll(character, replaceValue);
   }
-  cy.log('search value: ' + searchValue);
+  cy.log('searched value: ' + searchValue);
   return searchValue;
 }
 

@@ -297,18 +297,18 @@ context('Retract mode for Product Configuration', () => {
       },
     };
     cy.cxConfig(configUISettings);
+    //Go to the configuration
+    configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+    // Verify whether attribute is displayed
+    configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
   });
 
   afterEach(() => {
     configUISettings.productConfigurator.addRetractOption = false; // disable retract triggered
   });
 
-  describe.only('Enable retract mode', () => {
+  describe('Enable retract mode', () => {
     it('should lead to additional retract value displayed', () => {
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-
-      // Verify whether attribute is displayed
-      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       // Verify whether all values are displayed including 'No option selected' / a retract value
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,
@@ -318,18 +318,23 @@ context('Retract mode for Product Configuration', () => {
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
 
-      //Verify whether a retract value is selected
+      //Verify whether a retract value is selected as a default value
       configuration.checkValueSelected(
         radioGroup,
         CAMERA_MODE,
         '###RETRACT_VALUE_CODE###'
       );
+    });
+  });
 
+  describe('Selecting retract mode', () => {
+    it('should de-select the currently selected value', () => {
       //Select another value and verify whether a corresponding value is selected
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'P');
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'P');
+      // Select a retract value and verify whether it is selected
       configuration.selectAttribute(
         CAMERA_MODE,
         radioGroup,
