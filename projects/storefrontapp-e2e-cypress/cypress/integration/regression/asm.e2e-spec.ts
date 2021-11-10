@@ -38,7 +38,7 @@ context('ASM e2e Test', () => {
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
 
-      // Agent login
+      cy.log('--> Agent login');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
@@ -47,7 +47,7 @@ context('ASM e2e Test', () => {
 
       startCustomerEmulation();
 
-      // Update personal details
+      cy.log('--> Update personal details');
       cy.selectUserMenuOption({
         option: 'Personal Details',
         isMobile,
@@ -58,7 +58,7 @@ context('ASM e2e Test', () => {
       customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
       customer.titleCode = profile.newTitle;
 
-      // create new address
+      cy.log('--> Create new address');
       cy.selectUserMenuOption({
         option: 'Address Book',
         isMobile,
@@ -68,7 +68,7 @@ context('ASM e2e Test', () => {
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
 
-      // add a consent
+      cy.log('--> Add a consent');
       cy.selectUserMenuOption({
         option: 'Consent Management',
         isMobile,
@@ -80,15 +80,17 @@ context('ASM e2e Test', () => {
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
-      // start another session
+      cy.log('--> Start another emulation session');
       startCustomerEmulation();
 
-      // stop customer emulation using the end session button in the ASM UI
+      cy.log(
+        '--> Stop customer emulation using the end session button in the ASM UI'
+      );
       cy.get('cx-customer-emulation button').click();
       cy.get('cx-customer-emulation').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
-      // sign out and close ASM UI
+      cy.log('--> sign out and close ASM UI');
       agentSignOut();
 
       cy.get('button[title="Close ASM"]').click();
@@ -99,19 +101,19 @@ context('ASM e2e Test', () => {
 
   describe('Customer Self Verification', () => {
     it('checks data changes made by the agent', () => {
-      // customer sign in
+      cy.log('--> customer sign in');
       cy.visit('/login');
       loginCustomerInStorefront();
       assertCustomerIsSignedIn(isMobile);
 
-      // check personal details updated by the agent
+      cy.log('Check personal details updated by the agent');
       cy.selectUserMenuOption({
         option: 'Personal Details',
         isMobile,
       });
       profile.verifyUpdatedProfile();
 
-      // check address created by the agent
+      cy.log('--> check address created by the agent');
       cy.selectUserMenuOption({
         option: 'Address Book',
         isMobile,
@@ -119,7 +121,7 @@ context('ASM e2e Test', () => {
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
 
-      // check consent given by agent
+      cy.log('--> Check consent given by agent');
       cy.selectUserMenuOption({
         option: 'Consent Management',
         isMobile,
