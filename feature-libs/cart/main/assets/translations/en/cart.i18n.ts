@@ -61,5 +61,6 @@ export const cart = {
       '{{name}} has been removed from the cart due to insufficient stock.',
     productQuantityLowStock:
       '{{name}} quantity has reduced to {{quantity}} due to insufficient stock.',
+    inProgress: 'Cart validation is running',
   },
 };
