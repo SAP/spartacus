@@ -14,13 +14,13 @@
 <title>cluster_DatePickerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 436,-230.8 436,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_DatePickerModule_declarations</title>
-<polygon fill="none" stroke="black" points="268,-40.8 268,-92.8 428,-92.8 428,-40.8 268,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_DatePickerModule_exports</title>
 <polygon fill="none" stroke="black" points="108,-170.8 108,-222.8 272,-222.8 272,-170.8 108,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DatePickerModule_declarations</title>
+<polygon fill="none" stroke="black" points="268,-40.8 268,-92.8 428,-92.8 428,-40.8 268,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_DatePickerModule_imports</title>

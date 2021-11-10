@@ -14,10 +14,6 @@
 <title>cluster_AmendOrderActionsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 444,-230.8 444,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_AmendOrderActionsModule_exports</title>
-<polygon fill="none" stroke="black" points="54,-170.8 54,-222.8 272,-222.8 272,-170.8 54,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_AmendOrderActionsModule_declarations</title>
 <polygon fill="none" stroke="black" points="222,-40.8 222,-92.8 436,-92.8 436,-40.8 222,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust4" class="cluster">
 <title>cluster_AmendOrderActionsModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 214,-92.8 214,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AmendOrderActionsModule_exports</title>
+<polygon fill="none" stroke="black" points="54,-170.8 54,-222.8 272,-222.8 272,-170.8 54,-170.8"/>
 </g>
 <!-- AmendOrderActionsComponent -->
 <g id="node1" class="node">

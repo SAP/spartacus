@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorProductTitleModule_declarations</title>
 <polygon fill="none" stroke="black" points="506,-40.8 506,-92.8 746,-92.8 746,-40.8 506,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorProductTitleModule_exports</title>
-<polygon fill="none" stroke="black" points="161,-170.8 161,-222.8 405,-222.8 405,-170.8 161,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorProductTitleModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 498,-92.8 498,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorProductTitleModule_exports</title>
+<polygon fill="none" stroke="black" points="161,-170.8 161,-222.8 405,-222.8 405,-170.8 161,-170.8"/>
 </g>
 <!-- ConfiguratorProductTitleComponent -->
 <g id="node1" class="node">

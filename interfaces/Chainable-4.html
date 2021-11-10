@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/cart.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#ngSelect" 
+                                        <a href="#addToCart" 
 >
-                                            ngSelect
+                                            addToCart
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="ngSelect"></a>
-                                        <span class="name "><b>ngSelect</b>
-                                            <a href="#ngSelect">
+                                        <a name="addToCart"></a>
+                                        <span class="name "><b>addToCart</b>
+                                            <a href="#addToCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>addToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,8 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Selects in ng select</p>
-<div><pre class="line-numbers"><code class="language-none">cy.get(&#39;[name=&quot;title&quot;]&#39;).ngSelect(&#39;Mr.&#39;)</code></pre></div></div>
+                                    <div class="io-description"><p>Creates a new cart and adds items to it</p>
+<div><pre class="line-numbers"><code class="language-none">cy.addToCart(productCode, quantity, accessToken)</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -143,30 +143,44 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { addToCart, createCart } from &#x27;./utils/cart&#x27;;
+
+declare namespace Cypress {
   interface Chainable {
     /**
-       * Selects in ng select
-       *
+       * Creates a new cart and adds items to it
        * @memberof Cypress.Chainable
-       *
        * @example
         &#x60;&#x60;&#x60;
-        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
+        cy.addToCart(productCode, quantity, accessToken)
         &#x60;&#x60;&#x60;
        */
-    ngSelect: (option: string) &#x3D;&gt; void;
+    addToCart: (itemId: string, quantity: string, accessToken: string) &#x3D;&gt; void;
   }
 }
 
 Cypress.Commands.add(
-  &#x27;ngSelect&#x27;,
-  {
-    prevSubject: &#x27;element&#x27;,
-  },
-  (element, option) &#x3D;&gt; {
-    cy.wrap(element).click();
-    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
+  &#x27;addToCart&#x27;,
+  (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
+    createCart(accessToken).then((response) &#x3D;&gt; {
+      const cartId &#x3D; response.body.code;
+      addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {
+        Cypress.log({
+          name: &#x27;addToCart&#x27;,
+          displayName: &#x27;Add to cart&#x27;,
+          message: [&#x60;🛒 Product(s) added to cart&#x60;],
+          consoleProps: () &#x3D;&gt; {
+            return {
+              &#x27;Cart ID&#x27;: cartId,
+              &#x27;Product code&#x27;: productCode,
+              Quantity: quantity,
+            };
+          },
+        });
+
+        cy.wrap(cartId);
+      });
+    });
   }
 );
 </code></pre>

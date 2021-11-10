@@ -18,13 +18,13 @@
 <title>cluster_BulkPricingTableModule_declarations</title>
 <polygon fill="none" stroke="black" points="363,-40.8 363,-92.8 559,-92.8 559,-40.8 363,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_BulkPricingTableModule_exports</title>
-<polygon fill="none" stroke="black" points="143,-170.8 143,-222.8 343,-222.8 343,-170.8 143,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_BulkPricingTableModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 355,-92.8 355,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_BulkPricingTableModule_exports</title>
+<polygon fill="none" stroke="black" points="143,-170.8 143,-222.8 343,-222.8 343,-170.8 143,-170.8"/>
 </g>
 <!-- BulkPricingTableComponent -->
 <g id="node1" class="node">

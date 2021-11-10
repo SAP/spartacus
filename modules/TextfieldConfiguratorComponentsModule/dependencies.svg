@@ -14,13 +14,13 @@
 <title>cluster_TextfieldConfiguratorComponentsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1421,-230.8 1421,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_TextfieldConfiguratorComponentsModule_declarations</title>
-<polygon fill="none" stroke="black" points="222,-40.8 222,-92.8 1413,-92.8 1413,-40.8 222,-40.8"/>
-</g>
 <g id="clust8" class="cluster">
 <title>cluster_TextfieldConfiguratorComponentsModule_exports</title>
 <polygon fill="none" stroke="black" points="111,-170.8 111,-222.8 1318,-222.8 1318,-170.8 111,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TextfieldConfiguratorComponentsModule_declarations</title>
+<polygon fill="none" stroke="black" points="222,-40.8 222,-92.8 1413,-92.8 1413,-40.8 222,-40.8"/>
 </g>
 <g id="clust7" class="cluster">
 <title>cluster_TextfieldConfiguratorComponentsModule_imports</title>

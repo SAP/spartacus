@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/config/occ-config.ts</code>
+            <code>projects/core/src/i18n/config/i18n-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfig</a></code>
+                        <code><a href="../injectables/I18nConfig.html" target="_self" >I18nConfig</a></code>
             </p>
 
 
@@ -85,43 +85,59 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
-import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
-import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
-import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
-
-export interface BackendConfig {
-  occ?: {
-    baseUrl?: string;
-    prefix?: string;
-    /**
-     * Indicates whether or not cross-site Access-Control requests should be made
-     * using credentials such as cookies, authorization headers or TLS client certificates
-     */
-    useWithCredentials?: boolean;
-
-    endpoints?: OccEndpoints;
-  };
-  media?: {
-    /**
-     * Media URLs are typically relative, so that the host can be configured.
-     * Configurable media baseURLs are useful for SEO, multi-site,
-     * switching environments, etc.
-     */
-    baseUrl?: string;
-  };
-  loadingScopes?: LoadingScopes;
-}
+import { TranslationResources } from &#x27;../translation-resources&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class OccConfig extends SiteContextConfig {
-  backend?: BackendConfig;
+export abstract class I18nConfig {
+  i18n?: {
+    /**
+     * When there are missing translation resources for the active language, the fallback language will be used.
+     */
+    fallbackLang?: string | false;
+
+    /**
+     * Configuration for lazy loading of translation files.
+     * For eager loading of translations please use config option &#x60;i18n.resources&#x60;
+     */
+
+    backend?: {
+      /**
+       * The path to JSON translations. It should contain placeholders:
+       * - &#x60;{{lng}}&#x60; for language
+       * - &#x60;{{ns}}&#x60; for the name of chunk.
+       *
+       * Example:
+       * &#x60;assets/i18n-assets/{{lng}}/{{ns}}.json&#x60;
+       */
+
+      loadPath?: string;
+    };
+
+    /**
+     * Reference to translation resources that are eagerly bundled with JS app.
+     * For lazy loading of translations please use config option &#x60;i18n.backend&#x60; instead.
+     */
+    resources?: TranslationResources;
+
+    /**
+     * Logs i18n events (like loading translation resources) to the console. Don&#x27;t use in production!
+     */
+    debug?: boolean;
+
+    /**
+     * Mapping that assigns keys&#x27; namespaces to specific chunks. The main purpose of chunks is to lazy load them.
+     */
+    chunks?: {
+      [chunk: string]: string[];
+    };
+  };
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends OccConfig {}
+  interface Config extends I18nConfig {}
 }
 </code></pre>
     </div>
