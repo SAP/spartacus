@@ -130,11 +130,11 @@ context('ASM e2e Test', () => {
     });
   });
 
-  describe('When a regular customer session and an asm agent session are both active', () => {
+  describe('When a customer session and an asm agent session are both active', () => {
     it('Customer should not be able to login when there is an active CS agent session.', () => {
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${loginPage}`);
 
       agentLogin();
       login(customer.email, customer.password);
@@ -180,12 +180,14 @@ function listenForUserDetailsRequest(): string {
 export function agentLogin(): void {
   const authRequest = listenForAuthenticationRequest();
 
-  cy.get('cx-csagent-login-form').should('exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-csagent-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').type('asagent');
-    cy.get('[formcontrolname="password"]').type('pw4all');
-    cy.get('button[type="submit"]').click();
+  cy.get('cx-storefront').within(() => {
+    cy.get('cx-csagent-login-form').should('exist');
+    cy.get('cx-customer-selection').should('not.exist');
+    cy.get('cx-csagent-login-form form').within(() => {
+      cy.get('[formcontrolname="userId"]').type('asagent');
+      cy.get('[formcontrolname="password"]').type('pw4all');
+      cy.get('button[type="submit"]').click();
+    });
   });
 
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
