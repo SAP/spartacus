@@ -14,9 +14,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CartValidationService implements CartValidationFacade {
   protected validateCartCommand: Command<void, CartModificationList> =
     this.command.create(

@@ -17,9 +17,7 @@ import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
   protected customerId: string;
   protected userId: string;
