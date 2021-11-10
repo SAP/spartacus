@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CartModificationList } from '@spartacus/cart/main/root';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
+import { CartModificationList } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
