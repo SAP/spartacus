@@ -39,9 +39,7 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
