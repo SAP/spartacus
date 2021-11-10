@@ -183,7 +183,7 @@ export function maskCharacter(searchValue: string, character: string): string {
     const replaceValue = '\\' + character;
     searchValue = searchValue.replaceAll(character, replaceValue);
   }
-  console.log('search value: ' + searchValue);
+  cy.log('search value: ' + searchValue);
   return searchValue;
 }
 
@@ -207,7 +207,7 @@ export function checkAttrValueDisplayed(
     valueName = this.maskCharacter(valueName, '#');
     valueLocator = `#${attributeId}--${valueName}`;
   }
-  console.log('value locator: ' + valueLocator);
+  cy.log('value locator: ' + valueLocator);
   cy.get(`${valueLocator}`).should('be.visible');
 }
 

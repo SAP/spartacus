@@ -303,8 +303,8 @@ context('Retract mode for Product Configuration', () => {
     configUISettings.productConfigurator.addRetractOption = false; // disable retract triggered
   });
 
-  describe('Enable retract mode', () => {
-    it('should retract a value', () => {
+  describe.only('Enable retract mode', () => {
+    it('should lead to additional retract value displayed', () => {
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
       // Verify whether attribute is displayed
