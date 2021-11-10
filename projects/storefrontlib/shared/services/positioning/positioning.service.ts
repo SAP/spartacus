@@ -5,6 +5,16 @@ import {
   PopoverPositionArray,
 } from '../../components/popover/popover.model';
 
+// replacement for the `ClientRect` from TypeScript 4.2, which was removed in 4.4
+export interface UIPositionRectangle {
+  bottom: number;
+  height: number;
+  left: number;
+  right: number;
+  top: number;
+  width: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -71,9 +81,9 @@ export class PositioningService {
     return offsetParentEl || this.document.documentElement;
   }
 
-  protected position(element: HTMLElement, round = true): ClientRect {
-    let elPosition: ClientRect;
-    let parentOffset: ClientRect = {
+  protected position(element: HTMLElement, round = true): UIPositionRectangle {
+    let elPosition: UIPositionRectangle;
+    let parentOffset: UIPositionRectangle = {
       width: 0,
       height: 0,
       top: 0,
@@ -120,7 +130,7 @@ export class PositioningService {
     return elPosition;
   }
 
-  protected offset(element: HTMLElement, round = true): ClientRect {
+  protected offset(element: HTMLElement, round = true): UIPositionRectangle {
     const elBcr = element.getBoundingClientRect();
     const viewportOffset = {
       top:
